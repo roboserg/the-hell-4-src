@@ -1,0 +1,33 @@
+
+Diablo: 62,5% effective resistance
+Defiler: 68,75% resistance
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007084B5(C)
+|
+
+* Possible Reference to Dialog: DialogID_006E 
+                                  |
+:00708540 3D6E000000              cmp eax, 0000006E	<
+:00708545 750A                    jne 00708551
+:00708547 50                      push eax
+:00708548 8BC7                    mov eax, edi
+:0070854A C1F802                  sar eax, 02
+:0070854D 2BF8                    sub edi, eax
+:0070854F EB84                    jmp 007084D5
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708545(C)
+|
+:00708551 3D3A000000              cmp eax, 0000003A
+:00708556 0F857AEDFFFF            jne 007072D6
+:0070855C 50                      push eax
+:0070855D 8BC7                    mov eax, edi
+:0070855F C1F802                  sar eax, 02
+:00708562 2BF8                    sub edi, eax
+:00708564 D1F8                    sar eax, 1
+:00708566 2BF8                    sub edi, eax
+:00708568 58                      pop eax
+:00708569 E968EDFFFF              jmp 007072D6
+:0070856E 90                      nop

@@ -1,0 +1,158 @@
+
+after AP, mAC is randomized to (75-100)%
+
+bosses are harder to hit: -(0-20)%
+
+
+
+
+
+
+
+mov eax, ebx // AC left from AP mod moved to eax
+add eax, 08
+shr eax, 02
+sub ebx, eax
+mov edx, eax
+push ecx
+CALL 00419F5A
+pop ecx
+add ebx, eax // mAC is now randomized: from X*0,75 to X
+
+//	now boss checks:
+8B45FC                  mov eax, dword ptr [ebp-04]
+83B8A0DC690000          cmp dword ptr [eax+0069DCA0], 00000000
+je "AA"
+push 14
+pop edx
+push ecx
+CALL 00419F5A
+pop ecx
+add ebx, eax
+// "AA"
+jump back
+
+:0040589E 83B8A0DC690000          cmp dword ptr [eax+0069DCA0], 00000000
+
+:00707675 8B45FC                  mov eax, dword ptr [ebp-04]
+:00707678 8B8064DD6900            mov eax, dword ptr [eax+0069DD64]
+
+===============
+
+Doing:
+
+:0045B965 E916402B00              jmp 0070F980
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045B965(U)
+|
+:0070F980 8BC3                    mov eax, ebx
+:0070F982 83C008                  add eax, 00000008
+:0070F985 C1E802                  shr eax, 02
+:0070F988 2BD8                    sub ebx, eax
+:0070F98A 8BD0                    mov edx, eax
+:0070F98C 51                      push ecx
+:0070F98D E8C8A5D0FF              call 00419F5A
+:0070F992 59                      pop ecx
+:0070F993 03D8                    add ebx, eax
+:0070F995 8B45FC                  mov eax, dword ptr [ebp-04]
+:0070F998 83B8A0DC690000          cmp dword ptr [eax+0069DCA0], 00000000
+:0070F99F 740C                    je 0070F9AD
+:0070F9A1 6A15                    push 00000015
+:0070F9A3 5A                      pop edx
+:0070F9A4 51                      push ecx
+:0070F9A5 E8B0A5D0FF              call 00419F5A
+:0070F9AA 59                      pop ecx
+:0070F9AB 03D8                    add ebx, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070F99F(C)
+|
+:0070F9AD E9B8BFD4FF              jmp 0045B96A
+:0070F9B2 90                      nop
+:0070F9B3 90                      nop
+:0070F9B4 90                      nop
+:0070F9B5 90                      nop
+
+=============================================
+=============================================
+
+PvM Missile:
+
+
+algorythm:
+ToHit items + CLVL - mAC - (distance*distance)/2  -  curDEX + 30 + classBonus (20 scout, 40 pal\glad)
+
+
+
+
+
+	mod:
+:0042F3B7 E994062E00              jmp 0070FA50
+
+
+	ex:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F3B7(U)
+|
+:0070FA50 833DC070600001          cmp dword ptr [006070C0], 00000001
+:0070FA57 742E                    je 0070FA87
+:0070FA59 833DC070600002          cmp dword ptr [006070C0], 00000002
+:0070FA60 743A                    je 0070FA9C
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070FA9A(U)
+|
+:0070FA62 2BD1                    sub edx, ecx
+:0070FA64 83BEA0DC690000          cmp dword ptr [esi+0069DCA0], 00000000
+:0070FA6B 7412                    je 0070FA7F
+:0070FA6D 50                      push eax
+:0070FA6E 52                      push edx
+:0070FA6F 6A15                    push 00000015
+:0070FA71 5A                      pop edx
+:0070FA72 51                      push ecx
+:0070FA73 E8E2A4D0FF              call 00419F5A
+:0070FA78 59                      pop ecx
+:0070FA79 8BC8                    mov ecx, eax
+:0070FA7B 5A                      pop edx
+:0070FA7C 58                      pop eax
+:0070FA7D 2BD1                    sub edx, ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070FA6B(C)
+|
+:0070FA7F 8B4D10                  mov ecx, dword ptr [ebp+10]
+:0070FA82 E935F9D1FF              jmp 0042F3BC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070FA57(C)
+|
+:0070FA87 83E932                  sub ecx, 00000032
+:0070FA8A 50                      push eax
+:0070FA8B 52                      push edx
+:0070FA8C 6A33                    push 00000033
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070FAA3(U)
+|
+:0070FA8E 5A                      pop edx
+:0070FA8F 51                      push ecx
+:0070FA90 E8C5A4D0FF              call 00419F5A
+:0070FA95 59                      pop ecx
+:0070FA96 5A                      pop edx
+:0070FA97 03C8                    add ecx, eax
+:0070FA99 58                      pop eax
+:0070FA9A EBC6                    jmp 0070FA62
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070FA60(C)
+|
+:0070FA9C 83E964                  sub ecx, 00000064
+:0070FA9F 50                      push eax
+:0070FAA0 52                      push edx
+:0070FAA1 6A65                    push 00000065
+:0070FAA3 EBE9                    jmp 0070FA8E
+:0070FAA5 90                      nop
+:0070FAA6 90                      nop

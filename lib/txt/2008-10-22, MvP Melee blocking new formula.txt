@@ -1,0 +1,100 @@
+MvP Melee, Blocking formula updated to: (baseSTR-mAC+baseDEX)/2 + Bonus
+
+New code:
+
+:0043E28F A114AE6E00              mov eax, dword ptr [006EAE14]
+:0043E294 8B943068010000          mov edx, dword ptr [eax+esi+00000168]
+:0043E29B 8D0C30                  lea ecx, dword ptr [eax+esi]
+:0043E29E 0FB68752DD6900          movzx eax, byte ptr [edi+0069DD52]
+:0043E2A5 2BD0                    sub edx, eax
+:0043E2A7 0FB68178010000          movzx eax, byte ptr [ecx+00000178]
+:0043E2AE 03D0                    add edx, eax
+:0043E2B0 C1FA01                  sar edx, 01
+:0043E2B3 03918C010000            add edx, dword ptr [ecx+0000018C]
+:0043E2B9 7902                    jns 0043E2BD
+:0043E2BB 33D2                    xor edx, edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043E2B9(C)
+|
+:0043E2BD 83FA50                  cmp edx, 00000050
+:0043E2C0 7E03                    jle 0043E2C5
+:0043E2C2 6A50                    push 00000050
+:0043E2C4 5A                      pop edx
+
+================================================
+18:11 26.04.2011
+Glad's maxchance is 25%
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043E2BD(U)
+|
+:0070FF80 50                      push eax
+:0070FF81 0FBE8160010000          movsx eax, byte ptr [ecx+00000160]
+:0070FF88 83F805                  cmp eax, 00000005
+:0070FF8B 740E                    je 0070FF9B
+:0070FF8D 58                      pop eax
+:0070FF8E 83FA4B                  cmp edx, 0000004B
+:0070FF91 7E03                    jle 0070FF96
+:0070FF93 6A4B                    push 0000004B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070FFA3(U)
+|
+:0070FF95 5A                      pop edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070FF91(C)
+|
+:0070FF96 E92AE3D2FF              jmp 0043E2C5
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070FF8B(C)
+|
+:0070FF9B 58                      pop eax
+:0070FF9C 83FA19                  cmp edx, 00000019
+:0070FF9F 7E03                    jle 0070FFA4
+:0070FFA1 6A19                    push 00000019
+:0070FFA3 EBF0                    jmp 0070FF95
+
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+
+Old code:
+
+:0043E28F A114AE6E00              mov eax, dword ptr [006EAE14]				eax=local char
+:0043E294 8B943078010000          mov edx, dword ptr [eax+esi+00000178]		edx=baseDEX
+:0043E29B 8D0C30                  lea ecx, dword ptr [eax+esi]				ecx=local char
+:0043E29E 0FB68752DD6900          movzx eax, byte ptr [edi+0069DD52]			eax=MLVL, change to mAC
+:0043E2A5 D1F8                    sar eax, 01							MLVL*2, change to mAC/2
+:0043E2A7 2BD0                    sub edx, eax							edx = baseDEX - mAC/2
+:0043E2A9 0FBE81B8010000          movsx eax, byte ptr [ecx+000001B8]			eax = clvl
+:0043E2B0 8D1442                  lea edx, dword ptr [edx+2*eax]			edx = (baseDEX - mAC/2) + 2*CLVL (-> 03D0)
+:0043E2B3 03918C010000            add edx, dword ptr [ecx+0000018C]			edx + block bonus
+:0043E2B9 7902                    jns 0043E2BD							
+:0043E2BB 33D2                    xor edx, edx							
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043E2B9(C)
+|
+:0043E2BD 83FA50                  cmp edx, 00000050
+:0043E2C0 7E03                    jle 0043E2C5
+:0043E2C2 6A50                    push 00000050
+:0043E2C4 5A                      pop edx
+
+__
+
+
+mov eax, dword ptr [006EAE14]	
+mov edx, dword ptr [eax+esi+00000168]
+lea ecx, dword ptr [eax+esi]
+movzx eax, byte ptr [edi+0069DD52]
+sub edx, eax
+movzx eax, byte ptr [ecx+00000188]
+add edx, eax
+sar edx, 01
+
+
+__
+
+
+

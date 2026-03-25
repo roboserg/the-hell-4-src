@@ -1,0 +1,707 @@
+﻿1. Исправить найденный косяк с опытом. 
+
+;.text:0043D143 loc_43D143:                             ; CODE XREF: sub_43D109+2Cj
+;.text:0043D143                 cmp     ebp, 4 ; playerIndex
+;.text:0043D146                 jge     short loc_43D167
+;.text:0043D148                 cmp     edi, 4 ; monsterIndex
+;.text:0043D14B                 jle     short loc_43D167
+;.text:0043D14D                 mov     al, Monsters.Attackers[esi]
+
+
+0043D143 >>>
+>>>
+cmp     ebp, 4
+jge     short loc_43D167
+cmp ebp, 0
+jl short loc_43D167 ; во избежании дачи опыта хз кому при самоубийстве монстра
+cmp     edi, 3 ; monsterIndex  ; правильная проверка на голема
+jle     short loc_43D167
+jmp 0043D14D ; дать опыт
+
+=========================================================
+2. Исправить баг с мультидропом у самоубийц. Всё
+
+00710093 >>>
+>>>
+cmp     al, 4
+jz      short loc_0071009B
+jmp 7100E7
+
+ chekk:
+ * Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D143(U)
+|
+:00719600 83FD04                  cmp ebp, 00000004
+:00719603 0F8D5E3BD2FF            jnl 0043D167
+:00719609 83FD00                  cmp ebp, 00000000
+:0071960C 0F8C553BD2FF            jl 0043D167
+:00719612 83FF03                  cmp edi, 00000003
+:00719615 0F8E4C3BD2FF            jle 0043D167
+:0071961B E92D3BD2FF              jmp 0043D14D
+
+
+=========================================================
+3. Морф квестовых предметов (не квестовых уников)
+
+.text:00427CBA C7 86 B4 62 68 00 01 00+                mov     dword ptr [esi+6862B4h], 1
+
+mov     word ptr [esi+686284h], 0 ; между ними
+
+.text:00427CC4 85 C0                                   test    eax, eax
+
+  chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00427CBA(U)
+|
+:00719630 C786B462680001000000    mov dword ptr [esi+006862B4], 00000001
+:0071963A 66C786846268000000      mov word ptr [esi+00686284], 0000
+:00719643 90                      nop
+...
+:0071964A 90                      nop
+:0071964B E974E6D0FF              jmp 00427CC4
+
+
+===============================================================
+4. Теперь квестовые уники
+
+.text:004271D5 89 87 80 62 68 00                       mov     (ItemsOnGround.guid+174h)[edi], eax
+.text:004271DB
+.text:004271DB                         loc_4271DB: 
+
+004271D5 >>>
+>>>
+mov  dword ptr   [edi+686280h], eax ; guid
+mov  word ptr   [edi+686284h], 3Fh ; withDlvl
+jmp 004271DB
+
+    chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004271D5(U)
+|
+:00719650 898780626800            mov dword ptr [edi+00686280], eax
+:00719656 66C787846268003F00      mov word ptr [edi+00686284], 003F
+:0071965F 90                      nop
+:00719660 90                      nop
+:00719661 90                      nop
+:00719662 90                      nop
+:00719663 E973DBD0FF              jmp 004271DB
+
+=================================================================
+
+5. Добавление типа монстра вместо резистов
+
+004444EA >>> E62B0
+>>>
+@printMonsterTypeLine:
+movzx ecx, word ptr [edi + 933362h] ; monsterType
+cmp ecx, 1
+jl @undead
+jz @demon
+
+@beast:
+mov ecx,"Monster type: Beast" // A36641
+jmp @printType
+
+@demon:
+mov ecx,"Monster type: Demon" // A36666
+jmp @printType
+
+@undead:
+mov ecx, "Monster type: Undead" // A36681
+
+@printType:
+push ecx
+push    esi             ; Dest
+call    00479D30 ;_strcpy
+add     esp, 8
+mov ecx, esi
+push    1
+pop     edx
+call  0040454A ;  InfoPanel_AddLine
+
+@printImmuneLine:
+and     ebx, 38h
+jz    004444EF ; тут строку поменять на "No magic immunities"
+mov     edi, 4B399Ch
+mov     ebp, 4B3994h
+jmp  444563
+
+;.text:004444EA 83 E3 3F                                and     ebx, 111111b
+;.text:004444ED 75 12                                   jnz     short loc_444501
+;.text:004444EF 68 A4 39 4B 00                          push    offset aNoMagicResista ; "No magic resistance"
+
+     chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004444EA(U)
+|
+:007196B0 0FB78F62339300          movzx ecx, word ptr [edi+00933362]
+:007196B7 83F901                  cmp ecx, 00000001
+:007196BA 7C10                    jl 007196CC
+:007196BC 7407                    je 007196C5
+:007196BE B94166A300              mov ecx, 00A36641
+:007196C3 EB0C                    jmp 007196D1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007196BC(C)
+|
+:007196C5 B96666A300              mov ecx, 00A36666
+:007196CA EB05                    jmp 007196D1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007196BA(C)
+|
+:007196CC B98166A300              mov ecx, 00A36681
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007196C3(U), :007196CA(U)
+|
+:007196D1 EB1E                    jmp 007196F1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719706(U)
+|
+:007196D3 5A                      pop edx
+:007196D4 E871AECEFF              call 0040454A
+:007196D9 83E338                  and ebx, 00000038
+:007196DC 0F840DAED2FF            je 004444EF
+
+* Possible StringData Ref from Data Obj ->"Magic "
+                                  |
+:007196E2 BF9C394B00              mov edi, 004B399C
+
+* Possible StringData Ref from Data Obj ->"Fire "
+                                  |
+:007196E7 BD94394B00              mov ebp, 004B3994
+:007196EC E972AED2FF              jmp 00444563
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007196D1(U)
+|
+:007196F1 51                      push ecx
+:007196F2 56                      push esi
+:007196F3 E83806D6FF              call 00479D30
+:007196F8 90                      nop
+:007196F9 90                      nop
+:007196FA 83C408                  add esp, 00000008
+:007196FD 90                      nop
+:007196FE 90                      nop
+:007196FF 90                      nop
+:00719700 89F1                    mov ecx, esi
+:00719702 6A01                    push 00000001
+:00719704 90                      nop
+:00719705 90                      nop
+:00719706 EBCB                    jmp 007196D3
+
+===========================================================
+6. Магический камень, сволоч этакую
+
+;.text:00427DB7 C7 86 A0 62 68 00 0B 00 00 00                 mov     dword_6862A0[esi], 11
+;.text:00427DC1
+;.text:00427DC1                               loc_427DC1:                             ; CODE XREF: sub_427CEE+42j
+;.text:00427DC1 5F                                            pop     edi
+
+00427DB7 >>>
+>>>
+C7 86 A0 62 68 00 0B 00 00 00                 mov     dword_6862A0[esi], 11
+xor eax, eax
+mov dword ptr [686288], eax
+jmp 00427DC1
+
+        chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00427DB7(U)
+|
+:00719B00 C786A06268000B000000    mov dword ptr [esi+006862A0], 0000000B
+:00719B0A 31C0                    xor eax, eax
+:00719B0C A388626800              mov dword ptr [00686288], eax
+:00719B11 90                      nop
+...
+:00719B1A 90                      nop
+:00719B1B E9A1E2D0FF              jmp 00427DC1
+
+============================================================
+7. Запрет кидания бумажек в склепе
+
+.text:004238F9 72 09                                         jb      short loc_423904
+>>>
+jmp
+
+============================================================
+8. Котлы в бездне
+
+.data:004B4D4A                 db  0Dh       9d
+.data:004B4D4B                 db  10h
+
+Значить грузить анимацию не только в аду, но и в пещерах (бездна считается как пещера)
+
+;.text:0044C4C1                 call    sub_44CB96
+;.text:0044C4C6                 call    sub_44CA98
+
+0044C4C1 >>>
+call    sub_44CB96
+cmp byte ptr [0060B1D8], 17; DungeonLevel
+jl @F
+push 80 ; котел
+xor ecx, ecx ; от 0ля
+mov edx, 2 ; до 1го объекта (почему то макс - не включает самого числа)
+add edx, dword ptr [006070С0]; Difficult
+call 0044BEDC
+@@:
+jmp 0044C4C6
+
+
+         chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0044C4C1(U)
+|
+:00719B30 E86130D3FF              call 0044CB96
+:00719B35 803DD8B1600011          cmp byte ptr [0060B1D8], 11
+:00719B3C 7C12                    jl 00719B50
+:00719B3E 6A50                    push 00000050
+:00719B40 31C9                    xor ecx, ecx
+:00719B42 6A02                    push 00000002
+:00719B44 5A                      pop edx
+:00719B45 0315C0706000            add edx, dword ptr [006070C0]
+:00719B4B E88C23D3FF              call 0044BEDC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719B3C(C)
+|
+:00719B50 E97129D3FF              jmp 0044C4C6
+
+==================================================
+
+Добавление поддержки в ПвМ Рейнж урона против андедов и демонов
+
+Увеличивать аффикс должен полный дамаг
+
+.mod:0070FEA4 E9 00 76 FF FF                          jmp     loc_7074A9
+
+0070FEA4 >>>
+>>>
+imul    eax, 21960 ;size Player
+add     ecx, eax ; ecx - playerOffset
+mov ecx, dword ptr [ecx + 21827 ] ; itemAffixFlag + 3
+
+mov     eax, dword ptr [ebp-8] ;monsterIndex
+imul eax, 228 ; size Monster
+mov     eax, [eax+69DD68h] ; baseMonsterPtr
+movzx     eax, byte ptr [eax+72h] ; monsterClass
+
+test ecx, 4 ; AF_27_BONUS_DAMAGE_VS_UNDEAD
+jz @F
+cmp eax, 0 ; MC_0_UNDEAD
+jnz @F
+mov edx, edi
+sar edx, 1
+add edi, edx
+
+@@:
+test ecx, 40h ; AF_31_BONUS_DAMAGE_VS_DEMONS
+jz @F
+cmp eax, 1 ; MC_1_DEMON
+jnz @F
+mov edx, edi
+sar edx, 1
+add edi, edx
+
+@return:
+.mod:0070FE9B 8B 45 FC                                mov     eax, [ebp+playerIndex]
+.mod:0070FE9E 8B 0D 14 AE 6E 00                       mov     ecx, Players
+jmp 7074A9
+
+
+ chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070FEA4(U)
+|
+:00719B60 69C0C8550000            imul eax, 000055C8
+:00719B66 01C1                    add ecx, eax
+:00719B68 8B8943550000            mov ecx, dword ptr [ecx+00005543]
+:00719B6E 8B45F8                  mov eax, dword ptr [ebp-08]
+:00719B71 69C0E4000000            imul eax, 000000E4
+:00719B77 8B8068DD6900            mov eax, dword ptr [eax+0069DD68]
+:00719B7D 0FB64072                movzx eax, byte ptr [eax+72]
+:00719B81 F7C104000000            test ecx, 00000004
+:00719B87 7417                    je 00719BA0
+:00719B89 83F800                  cmp eax, 00000000
+:00719B8C 7512                    jne 00719BA0
+:00719B8E 89FA                    mov edx, edi
+:00719B90 D1FA                    sar edx, 1
+:00719B92 01D7                    add edi, edx
+:00719B94 90                      nop
+...
+:00719B9F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00719B87(C), :00719B8C(C)
+|
+:00719BA0 F7C140000000            test ecx, 00000040
+:00719BA6 7418                    je 00719BC0
+:00719BA8 83F801                  cmp eax, 00000001
+:00719BAB 7513                    jne 00719BC0
+:00719BAD 89FA                    mov edx, edi
+:00719BAF D1FA                    sar edx, 1
+:00719BB1 01D7                    add edi, edx
+:00719BB3 90                      nop
+..
+:00719BBF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00719BA6(C), :00719BAB(C)
+|
+:00719BC0 8B45FC                  mov eax, dword ptr [ebp-04]
+:00719BC3 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:00719BC9 E9DBD8FEFF              jmp 007074A9
+:00719BCE 90                      nop
+:00719BCF 90                      nop
+
+===========================================================
+Стоун курс в мвм мисл
+
+42F1A2 >>>
+>>>
+push 15
+pop ebx
+cmp   dword ptr  [esi+69DC8Ch], ebx ; curAction == Stone cursed
+jz @return0 ; если под СК то никогда не попадаем. Либо можно сделать return1 тогда монстр под СК будет универсальной антимисл стеной
+
+.text:0042F1A2 39 7D F0                                cmp     [ebp+missChance], edi
+jl 42F1B2
+@return0:
+jmp 0042F1C9
+
+     chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F1A2(U)
+|
+:00719C00 6A0F                    push 0000000F
+:00719C02 5B                      pop ebx
+:00719C03 399E8CDC6900            cmp dword ptr [esi+0069DC8C], ebx
+:00719C09 7415                    je 00719C20
+:00719C0B 90                      nop
+:00719C0C 90                      nop
+:00719C0D 90                      nop
+:00719C0E 90                      nop
+:00719C0F 90                      nop
+:00719C10 397DF0                  cmp dword ptr [ebp-10], edi
+:00719C13 0F8C9955D1FF            jl 0042F1B2
+:00719C19 90                      nop
+:00719C1A 90                      nop
+:00719C1B 90                      nop
+:00719C1C 90                      nop
+:00719C1D 90                      nop
+:00719C1E 90                      nop
+:00719C1F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719C09(C)
+|
+:00719C20 E9A455D1FF              jmp 0042F1C9
+
+===========================================
+
+HF 1.01 forced mnstr support, compare
+
+:0043A9E7 6A02                    push 00000002
+:0043A9E9 5E                      pop esi // esi = 2
+:0043A9EA 6A6D                    push 0000006D // golem
+:0043A9EC 8BD6                    mov edx, esi
+:0043A9EE 59                      pop ecx
+:0043A9EF E86AFFFFFF              call 0043A95E
+:0043A9F4 A0D8B16000              mov al, byte ptr [0060B1D8]
+:0043A9F9 3C10                    cmp al, 10
+:0043A9FB 6A01                    push 00000001
+:0043A9FD 751D                    jne 0043AA1C
+:0043A9FF 5A                      pop edx
+:0043AA00 6A6C                    push 0000006C
+:0043AA02 59                      pop ecx
+:0043AA03 E856FFFFFF              call 0043A95E
+:0043AA08 6A01                    push 00000001
+:0043AA0A 5A                      pop edx
+:0043AA0B 6A60                    push 00000060
+:0043AA0D 59                      pop ecx
+:0043AA0E E84BFFFFFF              call 0043A95E
+:0043AA13 8BD6                    mov edx, esi
+:0043AA15 6A6E                    push 0000006E
+:0043AA17 E912030000              jmp 0043AD2E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043A9FD(C)
+|
+:0043AA1C 3C12                    cmp al, 12
+:0043AA1E 5B                      pop ebx
+:0043AA1F 750A                    jne 0043AA2B
+:0043AA21 6A75                    push 00000075
+:0043AA23 8BD3                    mov edx, ebx
+:0043AA25 59                      pop ecx
+:0043AA26 E833FFFFFF              call 0043A95E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043AA1F(C)
+|
+:0043AA2B 803DD8B1600013          cmp byte ptr [0060B1D8], 13
+:0043AA32 6A04                    push 00000004
+:0043AA34 5F                      pop edi
+:0043AA35 7514                    jne 0043AA4B
+:0043AA37 6A75                    push 00000075
+:0043AA39 8BD3                    mov edx, ebx
+:0043AA3B 59                      pop ecx
+:0043AA3C E81DFFFFFF              call 0043A95E
+:0043AA41 8BD7                    mov edx, edi
+:0043AA43 6A7B                    push 0000007B
+:0043AA45 59                      pop ecx
+:0043AA46 E813FFFFFF              call 0043A95E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043AA35(C)
+|
+:0043AA4B 803DD8B1600014          cmp byte ptr [0060B1D8], 14
+:0043AA52 750A                    jne 0043AA5E
+:0043AA54 6A7C                    push 0000007C
+:0043AA56 8BD7                    mov edx, edi
+:0043AA58 59                      pop ecx
+:0043AA59 E800FFFFFF              call 0043A95E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043AA52(C)
+|
+:0043AA5E 803DD8B1600018          cmp byte ptr [0060B1D8], 18
+:0043AA65 7518                    jne 0043AA7F
+:0043AA67 8BD3                    mov edx, ebx
+:0043AA69 B985000000              mov ecx, 00000085
+:0043AA6E E8EBFEFFFF              call 0043A95E
+:0043AA73 8BD6                    mov edx, esi
+:0043AA75 B989000000              mov ecx, 00000089
+:0043AA7A E8DFFEFFFF              call 0043A95E
+
+
+===============================================================
+
+
+        switch ( DungeonLevel ) {
+                case 1:// пинки уже не тут
+                        if ( MaxCountOfPlayersInGame != 1 && Difficulty == 2 ) {
+                                AddMonsterTypeToDungeon(BM_205_PINKY, 2);
+                                AddMonsterTypeToDungeon(BM_206_ACID_SPITTER, 2);
+                        }
+                        break;
+                case 2:
+                        if ( MaxCountOfPlayersInGame != 1 && Difficulty == 2 ) {
+                                AddMonsterTypeToDungeon(BM_207_DREGBEZ, 2);
+                                AddMonsterTypeToDungeon(BM_208_WARPED_ONE, 2);
+                        }
+                        break;
+                case 3:
+                        if ( MaxCountOfPlayersInGame != 1 && Difficulty == 2 ) {
+                                AddMonsterTypeToDungeon(BM_216_ZEALOT, 2);
+                        }
+                        break;
+                case 4:
+                        AddMonsterTypeToDungeon(BM_1_OBLIVION_KNIGHT, 2);
+                        AddMonsterTypeToDungeon(BM_170_LICH, 2);
+                        AddMonsterTypeToDungeon(BM_175_TERROR_CLAN, 2);
+                        if ( Difficulty == 2 && MaxCountOfPlayersInGame != 1 ) {
+                                AddMonsterTypeToDungeon(BM_195_UBER_BUTCHER, 2);
+                                AddMonsterTypeToDungeon(BM_196_EVIL_ONE, 2);
+                        }
+                        break;
+                case 5:
+                        AddMonsterTypeToDungeon(BM_190_WINGED_DEMON, 2);
+                        break;
+                case 6:
+                        AddMonsterTypeToDungeon(BM_57_HELL_CLAN, 2);
+                        AddMonsterTypeToDungeon(BM_154_DEATH_MINION, 2);
+                        AddMonsterTypeToDungeon(BM_166_GOATLORD_BOSS, 2);
+                        AddMonsterTypeToDungeon(BM_191_DARK_MISTRESS, 2);
+                        if ( MaxCountOfPlayersInGame != 1 && Difficulty == 2 ) {
+                                AddMonsterTypeToDungeon(BM_205_PINKY, 2);
+                                AddMonsterTypeToDungeon(BM_206_ACID_SPITTER, 2);
+                        }
+                        break;
+                case 7:
+                        AddMonsterTypeToDungeon(BM_99_OVERLORD, 2);
+                        break;
+                case 8:
+                        AddMonsterTypeToDungeon(BM_148_TURBAK_THE_DEUCE, 2);
+                        if ( MaxCountOfPlayersInGame != 1 && Difficulty == 2 ) {
+                                AddMonsterTypeToDungeon(BM_197_CEROMORTH, 2);
+                                AddMonsterTypeToDungeon(BM_198_HORN_CLAN, 2);
+                        }
+                        break;
+                case 11:
+                        AddMonsterTypeToDungeon(BM_105_IMP_ROGUE, 2);
+                        break;
+                case 12:
+                        AddMonsterTypeToDungeon(BM_105_IMP_ROGUE, 2);
+                        if ( Difficulty == 2 && MaxCountOfPlayersInGame != 1 ) {
+                                AddMonsterTypeToDungeon(BM_193_DLVL12_UBERBOSS, 2);
+                                AddMonsterTypeToDungeon(BM_194_BLOODIED_HIDDEN, 2);
+                        }
+                        break;
+                case 13:
+                        AddMonsterTypeToDungeon(BM_146_CORRUPT_ORDER, 2);
+                        break;
+                case 16:
+                        AddMonsterTypeToDungeon(BM_110_GREATER_DEMON, 2);
+                        AddMonsterTypeToDungeon(BM_162_CORRUPT_PALADIN, 2);
+                        AddMonsterTypeToDungeon(BM_188_HELL_CLAN, 2);
+                        break;
+                case 18:
+                        AddMonsterTypeToDungeon(BM_166_GOATLORD_BOSS, 2);
+                        break;
+                case 19:
+                        AddMonsterTypeToDungeon(BM_163_STINGER_LORD, 2);
+                        AddMonsterTypeToDungeon(BM_166_GOATLORD_BOSS, 2);
+                        if ( MaxCountOfPlayersInGame == 1 ) {
+                                AddMonsterTypeToDungeon(BM_75_BLOOD_HULK, 1);
+                        }
+                        break;
+                case 20:
+                        AddMonsterTypeToDungeon(BM_117_STINGER, 1);
+                        AddMonsterTypeToDungeon(BM_58_ABYSS_GUARDIAN, 4);
+                        break;
+                case 21:
+                        AddMonsterTypeToDungeon(BM_154_DEATH_MINION, 2);
+                        AddMonsterTypeToDungeon(BM_64_DEATH_GUARDIAN, 2);
+                        AddMonsterTypeToDungeon(BM_158_DEATH_RETINUE, 2);
+                        if ( MaxCountOfPlayersInGame != 1 ) {
+                                AddMonsterTypeToDungeon(BM_50_SKELETON_LORD, 2);
+                        }
+                        break;
+                case 22:
+                        AddMonsterTypeToDungeon(BM_143_DOOM_TAIL, 2);
+                        AddMonsterTypeToDungeon(BM_154_DEATH_MINION, 2);
+                        break;
+                case 23:
+                        AddMonsterTypeToDungeon(BM_143_DOOM_TAIL, 2);
+                        AddMonsterTypeToDungeon(BM_154_DEATH_MINION, 2);
+                        break;
+                case 24:
+                        AddMonsterTypeToDungeon(BM_143_DOOM_TAIL, 2);
+                        AddMonsterTypeToDungeon(BM_154_DEATH_MINION, 2);
+                        AddMonsterTypeToDungeon(BM_166_GOATLORD_BOSS, 2);
+                        AddMonsterTypeToDungeon(BM_191_DARK_MISTRESS, 2);
+                        if ( MaxCountOfPlayersInGame != 1 && Difficulty == 2 ) {
+                                AddMonsterTypeToDungeon(BM_205_PINKY, 2);
+                                AddMonsterTypeToDungeon(BM_206_ACID_SPITTER, 2);
+                        }
+                        AddMonsterTypeToDungeon(BM_137_UBER_DIABLO, 2);
+                        break;
+        }
+
+================================================================
+Понижение дропа мяса и леорика
+
+;.text:0042750E                         loc_42750E:                             ; CODE XREF: sub_42742E+DCj
+;.text:0042750E                                                                 ; .mod:loc_708703j
+;.text:0042750E 8B 86 68 DD 69 00                       mov     eax, dword_69DD68[esi]
+;.text:00427514 0F BE 40 56                             movsx   eax, byte ptr [eax+86]
+;.text:00427518
+;.text:00427518                         loc_427518:       
+
+0042750E >>>
+>>>
+cmp dword ptr [006070С0], 0; Difficulty == Horror
+jz @F
+@notWeakBoss:
+8B 86 68 DD 69 00                       mov     eax, dword_69DD68[esi]
+jmp 00427514
+@@:
+mov eax, dword ptr [esi+69DCA0h]
+cmp eax, 9
+jz @bucher
+cmp eax, 1
+jnz @notWeakBoss
+@leoric:
+cmp byte ptr [006DDFC8], 1 ; MaxCountOfPlayersInGame
+jnz @notWeakBoss
+mov eax, @spHorrorLeoricDropLevel
+jmp 00427518
+@bucher:
+mov eax, @spHorrorBucherDropLevel
+jmp 00427518
+
+  chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042750E(U)
+|
+:00719C60 833DC070600000          cmp dword ptr [006070C0], 00000000
+:00719C67 740B                    je 00719C74
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00719C82(C), :00719C97(C)
+|
+:00719C69 8B8668DD6900            mov eax, dword ptr [esi+0069DD68]
+:00719C6F E9A0D8D0FF              jmp 00427514
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719C67(C)
+|
+:00719C74 8B86A0DC6900            mov eax, dword ptr [esi+0069DCA0]
+:00719C7A 83F809                  cmp eax, 00000009
+:00719C7D 7425                    je 00719CA4
+:00719C7F 83F801                  cmp eax, 00000001
+:00719C82 75E5                    jne 00719C69
+:00719C84 90                      nop
+....
+:00719C8F 90                      nop
+:00719C90 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00719C97 75D0                    jne 00719C69
+:00719C99 6A18                    push 00000018
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719CA6(U)
+|
+:00719C9B 58                      pop eax
+:00719C9C E977D8D0FF              jmp 00427518
+:00719CA1 90                      nop
+:00719CA2 90                      nop
+:00719CA3 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719C7D(C)
+|
+:00719CA4 6A10                    push 00000010
+:00719CA6 EBF3                    jmp 00719C9B
+
+=======================================================
+
+
+:007074CB F6818855000008          test byte ptr [ecx+00005588], 08
+:007074D2 EB2C                    jmp 00707500
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707508(U)
+|
+:007074D4 BAC9000000              mov edx, 000000C9
+:007074D9 51                      push ecx
+:007074DA E87B2AD1FF              call 00419F5A
+:007074DF 59                      pop ecx
+:007074E0 83F864                  cmp eax, 00000064
+:007074E3 7C06                    jl 007074EB
+:007074E5 83C0B0                  add eax, FFFFFFB0
+:007074E8 8D0440                  lea eax, dword ptr [eax+2*eax]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007074E3(C)
+|
+:007074EB 0FAFC7                  imul eax, edi
+:007074EE 6A64                    push 00000064
+:007074F0 99                      cdq
+:007074F1 59                      pop ecx
+:007074F2 F7F9                    idiv ecx
+:007074F4 8BF8                    mov edi, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00707500(C), :00707506(C)
+|
+:007074FB E9BF7FD2FF              jmp 0042F4BF
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007074D2(U)
+|
+:00707500 74F9                    je 007074FB
+:00707502 807D1300                cmp byte ptr [ebp+13], 00
+:00707506 75F3                    jne 007074FB \ если не ноль, то пропустить
+:00707508 EBCA                    jmp 007074D4 \ для нуля (стрелы..) пустить урон по дрэду

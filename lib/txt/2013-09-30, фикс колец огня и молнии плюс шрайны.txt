@@ -1,0 +1,192 @@
+﻿FireRingFix
+
+;.text:00438D65                 mov     ecx, SpellCasts.CasterType[esi]
+;.text:00438D6B                 inc     eax
+;.text:00438D6C                 mov     [ebp+casterType], ecx
+;.text:00438D6F                 test    ecx, ecx
+;.text:00438D71                 mov     [ebp+circleOffset], eax
+
+00438D65 >>> / e9040
+>>>
+inc     eax
+mov ecx, dword ptr [esi+697ACCh]; casterIndex
+mov dword  tr [ebp-18h], ecx 
+push ecx
+mov ecx, dword ptr [esi+697AD0h]; casterType
+test    ecx, ecx
+pop ecx
+jmp 00438D71
+
+     check:
+     
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00438D65(U)
+|
+:0071C440 40                      inc eax
+:0071C441 8B8ECC7A6900            mov ecx, dword ptr [esi+00697ACC]
+:0071C447 894DE8                  mov dword ptr [ebp-18], ecx
+:0071C44E 51                      push ecx
+:0071C44F 8B8ED07A6900            mov ecx, dword ptr [esi+00697AD0]
+:0071C457 85C9                    test ecx, ecx
+:0071C459 59                      pop ecx
+:0071C45A E912C9D1FF              jmp 00438D71
+
+===================================================
+LigtningRing
+
+;.text:00438EB5                 mov     ecx, SpellCasts.CasterType[esi]
+;.text:00438EBB                 inc     eax
+;.text:00438EBC                 mov     [ebp-18h], ecx
+;.text:00438EBF                 test    ecx, ecx
+;.text:00438EC1                 mov     [ebp-0Ch], eax
+
+00438EB5 >>> / e9060
+>>>
+inc     eax
+mov ecx, dword ptr [esi+697ACCh]; casterIndex
+mov dword  tr [ebp-18h], ecx 
+push ecx
+mov ecx, dword ptr [esi+697AD0h]; casterType
+test    ecx, ecx
+pop ecx
+jmp 00438EC1
+
+     chek:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00438EB5(U)
+|
+:0071C460 40                      inc eax
+:0071C461 8B8ECC7A6900            mov ecx, dword ptr [esi+00697ACC]
+:0071C467 894DE8                  mov dword ptr [ebp-18], ecx
+:0071C46E 51                      push ecx
+:0071C46F 8B8ED07A6900            mov ecx, dword ptr [esi+00697AD0]
+:0071C477 85C9                    test ecx, ecx
+:0071C479 59                      pop ecx
+:0071C47A E942CAD1FF              jmp 00438EC1
+
+===============================================================
+
+                * шрайны: *
+
+есть 2 шрайна которые фейлят:
++1 к урону оружия
++1 к АС армора, шлема и щита
+
+ надо:
+заменить эффекты так чтобы эффект длился до тех пор пока персонаж на уровне подземелья продолжает находиться.
+
+шрайн урона:
++5 урон на хорроре
++15 пург.
++25 дум
+
+шрайн АС:
++3 хорр
++9 пург.
++15 дум
+
+
+player + 228   4 и 5 биты
+
+1. Обнуление при переходе между уровнями
+
+.text:0042FD1E                 and     byte ptr [eax+ecx+Player.MayBeImmortalFlag], 0FEh 0E6h
+
+====================================================
+2. Эффект алтарям
+
+2.1. броня
+.text:00451AA3                 jmp     loc_707EAC.text:00451AA3                 jmp     loc_707EAC
+
+00451AA3 >>>
+>>>
+or byte ptr [eax + ecx + 228], 8 ; установить флаг брони
+jmp 451BD2 ; дать сообщение
+
+2.2. оружие
+
+00451BFD >>>
+>>>
+or byte ptr [eax + ecx + 228], 16 ; установить флаг оружия
+jmp 451C84
+
+================================================
+
+3. Сообщение справа
+
+http://titanpad.com/6a50QFsipC 46, 63
+
+==================================================
+
+4. Непосредственно эффект
+
+ж.mod:00718868                 jmp     loc_71C030
+
+00718868 >>>
+>>>
+push esi
+
+add esi, dword ptr [006EAE14] ;Players
+mov eax, dword ptr [esi + 228]
+test al, 8
+jz @weaponBlessCheck
+@armorBlessEffect:
+
+mov eax, dword ptr [006070С0]; difficulty
+test eax, eax
+jz @horror
+dec eax
+jz @purgatory
+@doom:
+movzx eax, 15
+jmp @ACApply
+@purgatory:
+movzx eax, 9
+jmp @ACApply
+@horror:
+movzx eax, 3
+
+@ACApply:
+add dword ptr [ebp - 40h], eax
+
+@weaponBlessCheck:
+mov eax, dword ptr [esi + 228]
+test al, 16
+jz @nextCheck
+@weaponBlessEffect:
+
+mov eax, dword ptr [006070С0]; difficulty
+test eax, eax
+jz @horror
+dec eax
+jz @purgatory
+@doom:
+movzx eax, 25
+jmp @DamageApply
+@purgatory:
+movzx eax, 15
+jmp @DamageApply
+@horror:
+movzx eax, 5
+
+@DamageApply:
+add dword ptr [ebp - 54h], eax
+
+@nextCheck:
+; тут ещё место на другие подобные эффекты
+; просто оставить место хотя бы на прыжок
+
+pop esi
+jmp     loc_71C030
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,40 @@
+* Possible StringData Ref from Data Obj ->"Total slain : %i"
+                                  |
+:00444425 68CE394B00              push 004B39CE
+:0044442A 56                      push esi
+:0044442B E890560300              call 00479AC0
+:00444430 83C40C                  add esp, 0000000C
+:00444433 8BCE                    mov ecx, esi
+:00444435 6A01                    push 00000001
+:00444437 5D                      pop ebp
+:00444438 8BD5                    mov edx, ebp
+:0044443A E80B01FCFF              call 0040454A
+:0044443F 833B05                  cmp dword ptr [ebx], 00000005
+:00444442 7C7E                    jl 004444C2
+:00444444 A12C164D00              mov eax, dword ptr [004D162C]
+:00444449 69C0E4000000            imul eax, 000000E4
+:0044444F 8B9018DD6900            mov edx, dword ptr [eax+0069DD18]
+:00444455 8B881CDD6900            mov ecx, dword ptr [eax+0069DD1C]
+:0044445B C1E906                  shr ecx, 06
+:0044445E C1EA06                  shr edx, 06
+:00444461 EB45                    jmp 004444A8
+:00444463 90                      nop
+...
+:004444A7 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00444461(U)
+|
+:004444A8 52                      push edx
+:004444A9 51                      push ecx
+
+* Possible StringData Ref from Data Obj ->"Hit Points : %i of %i"
+                                  |
+:004444AA 68B8394B00              push 004B39B8
+:004444AF 56                      push esi
+:004444B0 E80B560300              call 00479AC0
+:004444B5 83C410                  add esp, 00000010
+:004444B8 8BCE                    mov ecx, esi
+:004444BA 6A01                    push 00000001
+:004444BC 5A                      pop edx
+:004444BD E88800FCFF              call 0040454A

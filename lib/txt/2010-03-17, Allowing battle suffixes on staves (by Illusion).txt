@@ -1,0 +1,143 @@
+Allowing battle suffixes on staves
+by Illusion
+
+
+ Illusion (10:41:52 17/03/2010)
+значит вот функция которая генерит шмот волшебный
+PutMagicItemOnMap
+её адрес 00426B32
+если 5 аргумент EnableSpellCastAbility == 1
+и ItemCode == 12 или 13 то посох обязательно сгенерится с зарядами
+
+ Illusion (10:42:23 17/03/2010)
+а вот функция которая вызывает первую
+//----- (004272CE) --------------------------------------------------------
+void DropNewItem(int itemOnMapIndex, int baseItemIndex, int uniqueItemIndex, int monsterLevelParam, int chanceInProcent, int IsMagicItem, int allowDup, int a8)
+
+
+ Illusion (10:42:45 17/03/2010)
+она то как раз похоже и бросает шмот из монстра
+
+ Illusion (10:43:05 17/03/2010)
+в ней есть вызов:
+PutMagicItemOnMap(itemOnMapIndex, monsterLevel >> 1, monsterLevel, IsMagicItem, 1); // Magic item ?
+
+ Illusion (10:44:15 17/03/2010)
+сдесь 5 аргумент всегда 1
+поэтому всегда если выпадает посох то с зарядами
+тебе надо вместо 1 передавать (RangeRND(3) == 0 ? 1 : 0)
+
+ Illusion (10:45:08 17/03/2010)
+теперь долго думай и изучай исходники,
+когда попровишь код надо будет долго тестировать
+
+ Illusion (10:45:38 17/03/2010)
+и учти....возможно будет морфинг существующих посохов
+
+==============
+==============
+==============
+attempt 1:
+suffix on staves has 33% to be a spell, and 66% to be a magic suffix
+
+
+	old:
+:004273D2 6A01                    push 00000001
+:004273D4 8B55F8                  mov edx, dword ptr [ebp-08]
+:004273D7 FF7514                  push [ebp+14]
+
+
+
+	new:
+:004273D2 E959482E00              jmp 0070BC30
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070BC48(U)
+|
+:004273D7 FF7514                  push [ebp+14]
+
+
+	and:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004273D2(U)
+|
+:0070BC30 6A03                    push 00000003
+:0070BC32 5A                      pop edx
+:0070BC33 51                      push ecx
+:0070BC34 E821E3D0FF              call 00419F5A
+:0070BC39 59                      pop ecx
+:0070BC3A 83F801                  cmp eax, 00000001
+:0070BC3D 7404                    je 0070BC43
+:0070BC3F 6A00                    push 00000000
+:0070BC41 EB02                    jmp 0070BC45
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070BC3D(C)
+|
+:0070BC43 6A01                    push 00000001
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070BC41(U)
+|
+:0070BC45 8B55F8                  mov edx, dword ptr [ebp-08]
+:0070BC48 E98AB7D1FF              jmp 004273D7
+:0070BC4D 90                      nop
+:0070BC4E 90                      nop
+
+====================================================================================
+
+
+Revision 2:
+19:12 18.03.2010
+!this revision cancels previous one!
+
+	mod:
+:004273D2 6A01                    push 00000001
+	>>
+:004273D2 6A02                    push 00000002
+
+
+	mod:
+:00426BB2 807D1400                cmp byte ptr [ebp+14], 00
+:00426BB6 FF7510                  push [ebp+10]
+:00426BB9 740A                    je 00426BC5
+	>>
+:00426BB2 E949502E00              jmp 0070BC00
+:00426BB7 90                      nop
+:00426BB8 90                      nop
+:00426BB9 90                      nop
+:00426BBA 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070BC11(C), :0070BC26(C)
+|
+:00426BBB 8B550C                  mov edx, dword ptr [ebp+0C]
+
+
+	and:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00426BB2(U)
+|
+:0070BC00 FF7510                  push [ebp+10]
+:0070BC03 807D1400                cmp byte ptr [ebp+14], 00
+:0070BC07 0F84B8AFD1FF            je 00426BC5
+:0070BC0D 807D1402                cmp byte ptr [ebp+14], 02
+:0070BC11 0F85A4AFD1FF            jne 00426BBB
+:0070BC17 52                      push edx
+:0070BC18 6A03                    push 00000003
+:0070BC1A 5A                      pop edx
+:0070BC1B 51                      push ecx
+:0070BC1C E839E3D0FF              call 00419F5A
+:0070BC21 59                      pop ecx
+:0070BC22 5A                      pop edx
+:0070BC23 83F801                  cmp eax, 00000001
+:0070BC26 0F848FAFD1FF            je 00426BBB
+:0070BC2C E994AFD1FF              jmp 00426BC5
+:0070BC31 90                      nop
+:0070BC32 90                      nop
+:0070BC33 90                      nop
+:0070BC34 90                      nop
+:0070BC35 90                      nop
+:0070BC36 90                      nop
+:0070BC37 90                      nop
+:0070BC38 90                      nop

@@ -1,0 +1,208 @@
+When using (cross)bows, Scouts deal +300% damage (Critical Hit) with a chance of (1+(CLVL/2))%:
+
+:0042F4AB E9CEA0FDFF              jmp 0040957E
+:0042F4B0 90                      nop
+:0042F4B1 90                      nop
+:0042F4B2 90                      nop
+:0042F4B3 90                      nop
+:0042F4B4 90                      nop
+:0042F4B5 90                      nop
+:0042F4B6 90                      nop
+:0042F4B7 90                      nop
+:0042F4B8 90                      nop
+:0042F4B9 90                      nop
+:0042F4BA 90                      nop
+:0042F4BB 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00409587(U)
+|
+:0042F4BC 8B8188010000            mov eax, dword ptr [ecx+00000188]
+:0042F4C2 D1F8                    sar eax, 1
+:0042F4C4 03F8                    add edi, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004095AE(U), :0042F481(C)
+|
+:0042F4C6 807D1800                cmp byte ptr [ebp+18], 00
+:0042F4CA 7503                    jne 0042F4CF
+:0042F4CC C1E706                  shl edi, 06
+
+>>
+New code:
+
+:0040957E 80B96001000001          cmp byte ptr [ecx+00000160], 01
+:00409585 7405                    je 0040958C
+:00409587 E9305F0200              jmp 0042F4BC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00409585(C)
+|
+:0040958C 03B988010000            add edi, dword ptr [ecx+00000188]
+:00409592 0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]
+:00409599 6A64                    push 00000064
+:0040959B B106                    mov cl, 06
+:0040959D 5A                      pop edx
+:0040959E E8B7090100              call 00419F5A
+:004095A3 C1EB02                  shr ebx, 02
+:004095A6 43                      inc ebx
+:004095A7 3BC3                    cmp eax, ebx
+:004095A9 7D03                    jge 004095AE
+:004095AB C1E702                  shl edi, 02
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004095A9(C)
+|
+:004095AE E9135F0200              jmp 0042F4C6
+
+_____________________
+
+THE FOLLOWING UPDATED CODE GIVES GLADS (5 + (CLVL/4))% CHANCE FOR CRITICAL (+200% DAMAGE) WITH (CROSS)BOW:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F4AB(U)
+|
+:0040957E 80B96001000001          cmp byte ptr [ecx+00000160], 01
+:00409585 7405                    je 0040958C
+:00409587 E927000000              jmp 004095B3
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00409585(C)
+|
+:0040958C 03B988010000            add edi, dword ptr [ecx+00000188]
+:00409592 0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]
+:00409599 6A64                    push 00000064
+:0040959B B106                    mov cl, 06
+:0040959D 5A                      pop edx
+:0040959E E8B7090100              call 00419F5A
+:004095A3 C1EB01                  shr ebx, 01
+:004095A6 43                      inc ebx
+:004095A7 3BC3                    cmp eax, ebx
+:004095A9 7D03                    jge 004095AE
+:004095AB C1E702                  shl edi, 02
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004095A9(C), :004095E9(U)
+|
+:004095AE E9135F0200              jmp 0042F4C6
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00409587(U)
+|
+:004095B3 80B96001000005          cmp byte ptr [ecx+00000160], 05
+:004095BA 7405                    je 004095C1
+:004095BC E9FB5E0200              jmp 0042F4BC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004095BA(C)
+|
+:004095C1 8B8188010000            mov eax, dword ptr [ecx+00000188]
+:004095C7 D1F8                    sar eax, 1
+:004095C9 03F8                    add edi, eax
+:004095CB 0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]
+:004095D2 6A64                    push 00000064
+:004095D4 B106                    mov cl, 06
+:004095D6 5A                      pop edx
+:004095D7 E87E090100              call 00419F5A
+:004095DC C1EB02                  shr ebx, 02
+:004095DF 83C305                  add ebx, 00000005
+:004095E2 3BC3                    cmp eax, ebx
+:004095E4 7D03                    jge 004095E9
+:004095E6 8D3C7F                  lea edi, dword ptr [edi+2*edi]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004095E4(C)
+|
+:004095E9 EBC3                    jmp 004095AE
+:004095EB 90                      nop
+=
+========================================================
+
+Below is full routine for criticals, it also gives ((CLVL / 8) + 10)% chance for +100% damage critical to Assassins
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F4AB(U)
+|
+:0040957E 80B96001000001          cmp byte ptr [ecx+00000160], 01
+:00409585 7405                    je 0040958C
+:00409587 E927000000              jmp 004095B3
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00409585(C)
+|
+:0040958C 03B988010000            add edi, dword ptr [ecx+00000188]
+:00409592 0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]
+:00409599 6A64                    push 00000064
+:0040959B B106                    mov cl, 06
+:0040959D 5A                      pop edx
+:0040959E E8B7090100              call 00419F5A
+:004095A3 C1EB01                  shr ebx, 01
+:004095A6 43                      inc ebx
+:004095A7 3BC3                    cmp eax, ebx
+:004095A9 7D03                    jge 004095AE
+:004095AB C1E702                  shl edi, 02
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004095A9(C), :004095E9(U)
+|
+:004095AE E9135F0200              jmp 0042F4C6
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00409587(U)
+|
+:004095B3 80B96001000005          cmp byte ptr [ecx+00000160], 05
+:004095BA 7405                    je 004095C1
+:004095BC E9EFC32F00              jmp 007059B0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004095BA(C)
+|
+:004095C1 8B8188010000            mov eax, dword ptr [ecx+00000188]
+:004095C7 D1F8                    sar eax, 1
+:004095C9 03F8                    add edi, eax
+:004095CB 0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]
+:004095D2 6A64                    push 00000064
+:004095D4 B106                    mov cl, 06
+:004095D6 5A                      pop edx
+:004095D7 E87E090100              call 00419F5A
+:004095DC C1EB02                  shr ebx, 02
+:004095DF 83C305                  add ebx, 00000005
+:004095E2 3BC3                    cmp eax, ebx
+:004095E4 7D03                    jge 004095E9
+:004095E6 8D3C7F                  lea edi, dword ptr [edi+2*edi]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004095E4(C)
+|
+:004095E9 EBC3                    jmp 004095AE
+
+
+Extra: Assy handled here...
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004095BC(U)
+|
+:007059B0 80B96001000004          cmp byte ptr [ecx+00000160], 04
+:007059B7 0F85FF9AD2FF            jne 0042F4BC
+:007059BD 8B8188010000            mov eax, dword ptr [ecx+00000188]
+:007059C3 D1F8                    sar eax, 1
+:007059C5 03F8                    add edi, eax
+:007059C7 0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]
+:007059CE 6A64                    push 00000064
+:007059D0 B106                    mov cl, 06
+:007059D2 5A                      pop edx
+:007059D3 E88245D1FF              call 00419F5A
+:007059D8 C1EB03                  shr ebx, 03
+:007059DB 83C30A                  add ebx, 0000000A
+:007059DE 3BC3                    cmp eax, ebx
+:007059E0 7D03                    jge 007059E5
+:007059E2 C1E701                  shl edi, 01
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007059E0(C)
+|
+:007059E5 E9DC9AD2FF              jmp 0042F4C6
+
+
+

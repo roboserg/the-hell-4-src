@@ -1,0 +1,85 @@
+Church skeletons, all small monsters (bats, scavengers, stingers, etc.) are stunned at mAC*3 (instead of mAC*4):
+Moon Clan & Hell Clan are stunned at mAC*5
+
+Expanded monster stun function:
+
+:00705416 EB3F                    jmp 00705457
+:00705418 90                      nop
+:00705419 90                      nop
+:0070541A 90                      nop
+
+
+extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705416(U)
+|
+:00705457 83F803                  cmp eax, 00000003
+:0070545A 7475                    je 007054D1
+:0070545C 83F807                  cmp eax, 00000007
+:0070545F 7470                    je 007054D1
+:00705461 83F809                  cmp eax, 00000009
+:00705464 746B                    je 007054D1
+:00705466 83F80A                  cmp eax, 0000000A
+:00705469 7466                    je 007054D1
+:0070546B 83F811                  cmp eax, 00000011
+:0070546E 7461                    je 007054D1
+:00705470 83F813                  cmp eax, 00000013
+:00705473 745C                    je 007054D1
+:00705475 83F814                  cmp eax, 00000014
+:00705478 7457                    je 007054D1
+:0070547A 83F815                  cmp eax, 00000015
+:0070547D 7452                    je 007054D1
+:0070547F 83F816                  cmp eax, 00000016
+:00705482 744D                    je 007054D1
+:00705484 83F817                  cmp eax, 00000017
+:00705487 7448                    je 007054D1
+:00705489 83F818                  cmp eax, 00000018
+:0070548C 7443                    je 007054D1
+:0070548E 83F819                  cmp eax, 00000019
+:00705491 743E                    je 007054D1
+:00705493 83F81A                  cmp eax, 0000001A
+:00705496 7439                    je 007054D1
+:00705498 83F821                  cmp eax, 00000021
+:0070549B 7440                    je 007054DD
+:0070549D 83F828                  cmp eax, 00000028
+:007054A0 742F                    je 007054D1
+:007054A2 83F829                  cmp eax, 00000029
+:007054A5 742A                    je 007054D1
+:007054A7 83F830                  cmp eax, 00000030
+:007054AA 7425                    je 007054D1
+:007054AC 83F839                  cmp eax, 00000039
+:007054AF 742C                    je 007054DD
+:007054B1 83F865                  cmp eax, 00000065
+:007054B4 741B                    je 007054D1
+:007054B6 83F866                  cmp eax, 00000066
+:007054B9 7416                    je 007054D1
+:007054BB 83F875                  cmp eax, 00000075
+:007054BE 7411                    je 007054D1
+:007054C0 83F877                  cmp eax, 00000077
+:007054C3 740C                    je 007054D1
+:007054C5 3D83000000              cmp eax, 00000083
+:007054CA 7405                    je 007054D1
+:007054CC E9557AD3FF              jmp 0043CF26
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070545A(C), :0070545F(C), :00705464(C), :00705469(C), :0070546E(C)
+|:00705473(C), :00705478(C), :0070547D(C), :00705482(C), :00705487(C)
+|:0070548C(C), :00705491(C), :00705496(C), :007054A0(C), :007054A5(C)
+|:007054AA(C), :007054B4(C), :007054B9(C), :007054BE(C), :007054C3(C)
+|:007054CA(C)
+|
+:007054D1 0FB68652DD6900          movzx eax, byte ptr [esi+0069DD52]
+:007054D8 8D0440                  lea eax, dword ptr [eax+2*eax]
+:007054DB EB0A                    jmp 007054E7
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070549B(C), :007054AF(C)
+|
+:007054DD 0FB68652DD6900          movzx eax, byte ptr [esi+0069DD52]
+:007054E4 8D0480                  lea eax, dword ptr [eax+4*eax]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007054DB(U)
+|
+:007054E7 E966FFFFFF              jmp 00705452

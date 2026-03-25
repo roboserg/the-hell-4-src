@@ -1,0 +1,8 @@
+Bosspack activation and boss support from minions got broken after boss table relocation, in version 1.90
+
+this should fix it:
+
+
+:0043F892 0F8499000000            je 0043F931
+into
+:0043F892 0F8400000000      

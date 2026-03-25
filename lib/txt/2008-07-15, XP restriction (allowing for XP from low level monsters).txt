@@ -1,0 +1,241 @@
+Current XP restriction formula, according to JG:
+
+base · (1.0 + 0.1·(mlvl - clvl))
+
+should be:
+
+base · (1.0 + 0.05·(mlvl - clvl))
+____________________________________________
+
+The following function definetely has something to do with character's experience
+
+|:00452D8E   , :00452DE7   , :00458637   
+|
+:00458492 55                      push ebp
+:00458493 8BEC                    mov ebp, esp
+:00458495 83EC0C                  sub esp, 0000000C
+:00458498 53                      push ebx
+:00458499 56                      push esi
+:0045849A 8BF1                    mov esi, ecx
+:0045849C 57                      push edi
+:0045849D 8B0DE8AD6E00            mov ecx, dword ptr [006EADE8]
+:004584A3 8955F8                  mov dword ptr [ebp-08], edx
+:004584A6 3BF1                    cmp esi, ecx
+:004584A8 8975F4                  mov dword ptr [ebp-0C], esi
+:004584AB 0F8546010000            jne 004585F7
+:004584B1 83F904                  cmp ecx, 00000004
+:004584B4 7213                    jb 004584C9
+:004584B6 51                      push ecx
+
+* Possible StringData Ref from Data Obj ->"AddPlrExperience: illegal player "
+                                        ->"%d"
+                                  |
+:004584B7 68C8604B00              push 004B60C8
+:004584BC E8A494FAFF              call 00401965
+:004584C1 59                      pop ecx
+:004584C2 59                      pop ecx
+:004584C3 8B0DE8AD6E00            mov ecx, dword ptr [006EADE8]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004584B4(C)
+|
+:004584C9 69C9C8550000            imul ecx, 000055C8
+:004584CF A114AE6E00              mov eax, dword ptr [006EAE14]
+:004584D4 83BC019801000000        cmp dword ptr [ecx+eax+00000198], 00000000		check if alive
+:004584DC 0F8E15010000            jle 004585F7
+:004584E2 69F6C8550000            imul esi, 000055C8
+:004584E8 DB45F8                  fild dword ptr [ebp-08]
+:004584EB 8A9C30B8010000          mov bl, byte ptr [eax+esi+000001B8]			bl = clvl
+:004584F2 8D3C30                  lea edi, dword ptr [eax+esi]
+:004584F5 0FBEC3                  movsx eax, bl						eax = clvl
+:004584F8 8945FC                  mov dword ptr [ebp-04], eax				ebp-04 = clvl ??
+:004584FB DA65FC                  fisub dword ptr [ebp-04]				??
+:004584FE DC0DC8034900            fmul qword ptr [004903C8]				?
+:00458504 DC25D0034900            fsub qword ptr [004903D0]				?
+:0045850A DA4D08                  fimul dword ptr [ebp+08]				?
+:0045850D E85E200200              call 0047A570
+:00458512 8BD0                    mov edx, eax
+:00458514 85D2                    test edx, edx
+:00458516 895508                  mov dword ptr [ebp+08], edx
+:00458519 7D05                    jge 00458520
+:0045851B 33D2                    xor edx, edx
+:0045851D 895508                  mov dword ptr [ebp+08], edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00458519(C)
+|
+:00458520 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00458527 7635                    jbe 0045855E
+:00458529 84DB                    test bl, bl
+:0045852B 7D04                    jge 00458531
+:0045852D 33C9                    xor ecx, ecx
+:0045852F EB03                    jmp 00458534
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045852B(C)
+|
+:00458531 8B4DFC                  mov ecx, dword ptr [ebp-04]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045852F(U)
+|
+:00458534 83F932                  cmp ecx, 00000032
+:00458537 7C03                    jl 0045853C
+:00458539 6A32                    push 00000032
+:0045853B 59                      pop ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00458537(C)
+|
+:0045853C 8B048D305E4B00          mov eax, dword ptr [4*ecx+004B5E30]
+:00458543 6A14                    push 00000014
+:00458545 99                      cdq
+:00458546 5B                      pop ebx
+:00458547 F7FB                    idiv ebx
+:00458549 8B5508                  mov edx, dword ptr [ebp+08]
+:0045854C 3BD0                    cmp edx, eax
+:0045854E 7C02                    jl 00458552
+:00458550 8BD0                    mov edx, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045854E(C)
+|
+:00458552 69C9F4010000            imul ecx, 000001F4
+:00458558 3BD1                    cmp edx, ecx
+:0045855A 7C02                    jl 0045855E
+:0045855C 8BD1                    mov edx, ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00458527(C), :0045855A(C)
+|
+:0045855E 0197BC010000            add dword ptr [edi+000001BC], edx
+:00458564 A114AE6E00              mov eax, dword ptr [006EAE14]
+:00458569 B900943577              mov ecx, 77359400
+:0045856E 398C30BC010000          cmp dword ptr [eax+esi+000001BC], ecx
+:00458575 8D8430BC010000          lea eax, dword ptr [eax+esi+000001BC]
+:0045857C 7602                    jbe 00458580
+:0045857E 8908                    mov dword ptr [eax], ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045857C(C)
+|
+:00458580 A114AE6E00              mov eax, dword ptr [006EAE14]
+:00458585 03F0                    add esi, eax
+:00458587 8B86BC010000            mov eax, dword ptr [esi+000001BC]
+:0045858D 3B05F45E4B00            cmp eax, dword ptr [004B5EF4]
+:00458593 7C09                    jl 0045859E
+:00458595 C686B801000032          mov byte ptr [esi+000001B8], 32
+:0045859C EB59                    jmp 004585F7
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00458593(C)
+|
+:0045859E 33C9                    xor ecx, ecx
+:004585A0 3B05305E4B00            cmp eax, dword ptr [004B5E30]
+:004585A6 7C0D                    jl 004585B5
+:004585A8 BA305E4B00              mov edx, 004B5E30
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004585B3(C)
+|
+:004585AD 83C204                  add edx, 00000004
+:004585B0 41                      inc ecx
+:004585B1 3B02                    cmp eax, dword ptr [edx]
+:004585B3 7DF8                    jge 004585AD
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004585A6(C)
+|
+:004585B5 0FBE86B8010000          movsx eax, byte ptr [esi+000001B8]
+:004585BC 3BC8                    cmp ecx, eax
+:004585BE 7413                    je 004585D3
+:004585C0 2BC8                    sub ecx, eax
+:004585C2 85C9                    test ecx, ecx
+:004585C4 7E0D                    jle 004585D3
+:004585C6 8BF1                    mov esi, ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004585D1(C)
+|
+:004585C8 8B4DF4                  mov ecx, dword ptr [ebp-0C]
+:004585CB E817FDFFFF              call 004582E7
+:004585D0 4E                      dec esi
+:004585D1 75F5                    jne 004585C8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004585BE(C), :004585C4(C)
+|
+:004585D3 A1E8AD6E00              mov eax, dword ptr [006EADE8]
+:004585D8 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:004585DE 69C0C8550000            imul eax, 000055C8
+:004585E4 B233                    mov dl, 33
+:004585E6 660FBE8408B8010000      movsx ax, byte ptr [eax+ecx+000001B8]
+:004585EF 50                      push eax
+:004585F0 33C9                    xor ecx, ecx
+:004585F2 E8BFE8FEFF              call 00446EB6
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004584AB(C), :004584DC(C), :0045859C(U)
+|
+:004585F7 5F                      pop edi
+:004585F8 5E                      pop esi
+:004585F9 5B                      pop ebx
+:004585FA C9                      leave
+:004585FB C20400                  ret 0004
+
+
+
+=====================================================================================================================================
+
+
+probably, this one:
+
+* Referenced by a CALL at Addresses:
+|:0043D162   , :0043DE24   
+|
+:004585FE 53                      push ebx
+:004585FF 56                      push esi
+:00458600 0FBE74240C              movsx esi, byte ptr [esp+0C]
+:00458605 57                      push edi
+:00458606 8BD9                    mov ebx, ecx
+:00458608 33FF                    xor edi, edi							edi = 0
+:0045860A 8BC2                    mov eax, edx
+:0045860C 33C9                    xor ecx, ecx							ecx = 0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045861C(C)
+|
+:0045860E 6A01                    push 00000001
+:00458610 5A                      pop edx								edx = 1
+:00458611 D3E2                    shl edx, cl							multiply edx by 2, cl times
+:00458613 85D6                    test esi, edx							cmp esi, 0
+:00458615 7401                    je 00458618							if equal...
+:00458617 47                      inc edi								edi + 1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00458615(C)
+|
+:00458618 41                      inc ecx
+:00458619 83F904                  cmp ecx, 00000004
+:0045861C 7CF0                    jl 0045860E
+:0045861E 85FF                    test edi, edi
+:00458620 741A                    je 0045863C
+:00458622 8B0DE8AD6E00            mov ecx, dword ptr [006EADE8]		ecx = local character
+:00458628 6A01                    push 00000001						push 1
+:0045862A 99                      cdq								convert dword to qword
+:0045862B F7FF                    idiv edi							divide/edi
+:0045862D 5A                      pop edx								save as edx ???
+:0045862E D3E2                    shl edx, cl							multiply edx by 2, cl times
+:00458630 85D6                    test esi, edx							
+:00458632 7408                    je 0045863C
+:00458634 50                      push eax
+:00458635 8BD3                    mov edx, ebx
+:00458637 E856FEFFFF              call 00458492						add XP ???
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00458620(C), :00458632(C)
+|
+:0045863C 5F                      pop edi								XP not added ???
+:0045863D 5E                      pop esi
+:0045863E 5B                      pop ebx
+:0045863F C20400                  ret 0004

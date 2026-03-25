@@ -1,0 +1,102 @@
+Devastation (..of Crushing) now also works for arrows and spells
+
+
+
+	Modified:
+
+:0042F476 8A9B78794A00            mov bl, byte ptr [ebx+004A7978]
+:0042F47C 84DB                    test bl, bl
+:0042F47E 885D13                  mov byte ptr [ebp+13], bl
+:0042F481 7532                    jne 0042F4B5
+:0042F483 8B45FC                  mov eax, dword ptr [ebp-04]
+:0042F486 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0042F48C 69C0C8550000            imul eax, 000055C8
+:0042F492 03C8                    add ecx, eax
+:0042F494 6A64                    push 00000064
+:0042F496 5B                      pop ebx
+:0042F497 8B8124550000            mov eax, dword ptr [ecx+00005524]
+:0042F49D 0FAFC7                  imul eax, edi
+:0042F4A0 99                      cdq
+:0042F4A1 F7FB                    idiv ebx
+:0042F4A3 038130550000            add eax, dword ptr [ecx+00005530]
+:0042F4A9 03F8                    add edi, eax
+:0042F4AB E9CEA0FDFF              jmp 0040957E
+:0042F4B0 90                      nop
+:0042F4B1 90                      nop
+:0042F4B2 90                      nop
+:0042F4B3 90                      nop
+:0042F4B4 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F481(C)
+|
+:0042F4B5 E9567E2D00              jmp 00707310
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007072E2(U), :0070732E(U)
+|
+:0042F4BA E9C17F2D00              jmp 00707480
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007074FB(U)
+|
+:0042F4BF 90                      nop
+:0042F4C0 90                      nop
+:0042F4C1 90                      nop
+:0042F4C2 90                      nop
+:0042F4C3 90                      nop
+:0042F4C4 90                      nop
+:0042F4C5 90                      nop
+:0042F4C6 807D1800                cmp byte ptr [ebp+18], 00
+:0042F4CA 7503                    jne 0042F4CF
+:0042F4CC C1E706                  shl edi, 06
+
+
+	extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F4BA(U)
+|
+:00707480 EB1E                    jmp 007074A0
+:00707482 90                      nop
+:00707483 90                      nop
+:00707484 90                      nop
+:00707485 90                      nop
+:00707486 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007074B8(U)
+|
+:00707487 7472                    je 007074FB
+:00707489 6A64                    push 00000064
+:0070748B B106                    mov cl, 06
+:0070748D 5A                      pop edx
+:0070748E E8C72AD1FF              call 00419F5A
+:00707493 83F80A                  cmp eax, 0000000A				<- 10% chance of...
+:00707496 7D63                    jge 007074FB
+:00707498 8D3C7F                  lea edi, dword ptr [edi+2*edi]		<- ...triple damage
+:0070749B EB5E                    jmp 007074FB
+:0070749D 90                      nop
+:0070749E 90                      nop
+:0070749F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707480(U)
+|
+:007074A0 8B45FC                  mov eax, dword ptr [ebp-04]
+:007074A3 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:007074A9 69C0C8550000            imul eax, 000055C8
+:007074AF 03C8                    add ecx, eax					<- ecx = needed data about character
+:007074B1 F6818855000001          test byte ptr [ecx+00005588], 01		<- check for Crushing
+:007074B8 EBCD                    jmp 00707487
+:007074BA 90                      nop
+..................reserved....................
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00707487(C), :00707496(C), :0070749B(U)
+|
+:007074FB E9BF7FD2FF              jmp 0042F4BF
+
+-----------------------------OVER-----------------------

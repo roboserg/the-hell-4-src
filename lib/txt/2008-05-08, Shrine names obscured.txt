@@ -1,0 +1,36 @@
+obscuring shrine names
+
+WAS:
+:004547A0 8B8718E66D00            mov eax, dword ptr [edi+006DE618]
+:004547A6 FF348570014900          push dword ptr [4*eax+00490170]
+
+* Possible StringData Ref from Data Obj ->"%s Shrine"
+                                  |
+:004547AD 6824594B00              push 004B5924
+:004547B2 53                      push ebx
+:004547B3 E808530200              call 00479AC0
+:004547B8 83C40C                  add esp, 0000000C
+:004547BB 53                      push ebx
+:004547BC E98E000000              jmp 0045484F
+
+NOW:
+:004547A0 6827594B00              push 004B5927
+:004547A5 EB1F                    jmp 004547C6
+:004547A7 90                      nop
+...........................
+:004547C0 90                      nop
+
+4547A7 - 4547C1 = Free Space
+
+---------------
+
+this is not implemented but could be useful for future
+
+Fixing Divine Shrine to work correctly in MP:
+
+file offset 00051811
+
+:00452411 3B1DE8AD6E00            cmp ebx, dword ptr [006EADE8]
+:00452417 0F854F0C0000            jne 0045306C
+changed into
+:00452411 12*90                   12*nop

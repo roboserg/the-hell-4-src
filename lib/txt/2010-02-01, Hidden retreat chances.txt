@@ -1,0 +1,96 @@
+
+New feature:
+
+Hidden AI:
+monsters with Hidden AI are set to retreat mode if they make a successful check
+Horror mode: 1/30 chance to be set into retreat after being stunned
+Purgatory: 1/55 chance
+Doom: 1/80 chance
+*checks are made each turn until monster attacks or moves again, that's why they're so tight
+
+
+====================================================================================
+
+PLAN:
+
+horror = Rnd[3]
+purgat = Rnd[7]
+doom   = Rnd[12]
+
+
+check Purg.mode
+JNE Doom.mode check
+push 07
+jump 'A'
+check Doom.mode
+JNE 'begg'
+push 0C
+jump 'A'
+push 03			<- begg
+pop edx			<- A
+push ecx
+call 419F5A
+pop ecx
+
+====================================================================================
+
+The CODE:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004408E3(U)
+|
+:0070B740 8B86DC000000            mov eax, dword ptr [esi+000000DC]
+:0070B746 8B00                    mov eax, dword ptr [eax]
+:0070B748 83F834                  cmp eax, 00000034
+:0070B74B 7411                    je 0070B75E
+:0070B74D 83F871                  cmp eax, 00000071
+:0070B750 740C                    je 0070B75E
+:0070B752 3D7D000000              cmp eax, 0000007D
+:0070B757 7405                    je 0070B75E
+:0070B759 83F81C                  cmp eax, 0000001C
+:0070B75C 7508                    jne 0070B766
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070B74B(C), :0070B750(C), :0070B757(C), :0070B78C(C)
+|
+:0070B75E E9B851D3FF              jmp 0044091B
+:0070B763 90                      nop
+:0070B764 90                      nop
+:0070B765 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B75C(C)
+|
+:0070B766 833DC070600001          cmp dword ptr [006070C0], 00000001
+:0070B76D 7504                    jne 0070B773
+:0070B76F 6A37                    push 00000037
+:0070B771 EB0F                    jmp 0070B782
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B76D(C)
+|
+:0070B773 833DC070600002          cmp dword ptr [006070C0], 00000002
+:0070B77A 7504                    jne 0070B780
+:0070B77C 6A50                    push 00000050
+:0070B77E EB02                    jmp 0070B782
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B77A(C)
+|
+:0070B780 6A1E                    push 0000001E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070B771(U), :0070B77E(U)
+|
+:0070B782 5A                      pop edx
+:0070B783 51                      push ecx
+:0070B784 E8D1E7D0FF              call 00419F5A
+:0070B789 59                      pop ecx
+:0070B78A 85C0                    test eax, eax
+:0070B78C 75D0                    jne 0070B75E
+:0070B78E 83660C00                and dword ptr [esi+0C], 00000000
+:0070B792 C6460802                mov [esi+08], 02
+:0070B796 E95251D3FF              jmp 004408ED
+:0070B79B 90                      nop
+:0070B79C 90                      nop
+:0070B79D 90                      nop

@@ -1,0 +1,21 @@
+Golem and Uber Diablo are given resistance to arrow damage from players, which lowers damage by 75%:
+
+:0042F363 837D1435                cmp dword ptr [ebp+14], 00000035
+:0042F367 7510                    jne 0042F379
+:0042F369 83FF6E                  cmp edi, 0000006E
+:0042F36C 7408                    je 0042F376
+:0042F36E 81FF84000000            cmp edi, 00000084
+:0042F374 7503                    jne 0042F379
+
+into >>>
+
+:0042F363 837D1435                cmp dword ptr [ebp+14], 00000035
+:0042F367 7500                    jne 0042F369
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F367(C)
+|
+:0042F369 83FF6D                  cmp edi, 0000006D
+:0042F36C 7408                    je 0042F376
+:0042F36E 81FF89000000            cmp edi, 00000089
+:0042F374 7503                    jne 0042F379

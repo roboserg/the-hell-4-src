@@ -1,0 +1,67 @@
+Blood legion now also received warping ability on stun:
+
+Previous code (v1.57x RC3)
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043CF3F(C)
+|
+:0043CF7A 8B8664DD6900            mov eax, dword ptr [esi+0069DD64]
+:0043CF80 8B00                    mov eax, dword ptr [eax]
+:0043CF82 83F827                  cmp eax, 00000027
+:0043CF85 7509                    jne 0043CF90
+:0043CF87 8BCB                    mov ecx, ebx
+:0043CF89 E8721D0000              call 0043ED00
+:0043CF8E EB22                    jmp 0043CFB2
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043CF85(C)
+|
+:0043CF90 83BE20DD690004          cmp dword ptr [esi+0069DD20], 00000004
+:0043CF97 90                      nop
+:0043CF98 90                      nop
+:0043CF99 90                      nop
+:0043CF9A 90                      nop
+:0043CF9B 90                      nop
+:0043CF9C 90                      nop
+:0043CF9D 7513                    jne 0043CFB2
+:0043CF9F C68690DC690001          mov byte ptr [esi+0069DC90], 01
+:0043CFA6 89AE94DC6900            mov dword ptr [esi+0069DC94], ebp
+:0043CFAC 89AE98DC6900            mov dword ptr [esi+0069DC98], ebp
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043CF8E(U), :0043CF9D(C)
+|
+:0043CFB2 83BE8CDC69000F          cmp dword ptr [esi+0069DC8C], 0000000F
+
+         INTO >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> v1.57x RC4
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043CF3F(C)
+|
+:0043CF7A 8B8664DD6900            mov eax, dword ptr [esi+0069DD64]
+:0043CF80 8B00                    mov eax, dword ptr [eax]
+:0043CF82 83F81C                  cmp eax, 0000001C				< check blood legion
+:0043CF85 7406                    je 0043CF8D
+:0043CF87 83F827                  cmp eax, 00000027				< check  warping demons
+:0043CF8A 750A                    jne 0043CF96
+:0043CF8C 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043CF85(C)
+|
+:0043CF8D 8BCB                    mov ecx, ebx
+:0043CF8F E86C1D0000              call 0043ED00
+:0043CF94 EB1C                    jmp 0043CFB2
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043CF8A(C)
+|
+:0043CF96 83BE20DD690004          cmp dword ptr [esi+0069DD20], 00000004
+:0043CF9D 7513                    jne 0043CFB2
+:0043CF9F C68690DC690001          mov byte ptr [esi+0069DC90], 01
+:0043CFA6 89AE94DC6900            mov dword ptr [esi+0069DC94], ebp
+:0043CFAC 89AE98DC6900            mov dword ptr [esi+0069DC98], ebp
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043CF94(U), :0043CF9D(C)
+|
+:0043CFB2 83BE8CDC69000F          cmp dword ptr [esi+0069DC8C], 0000000F

@@ -1,0 +1,39 @@
+Burned Corpse has  special stun threshold on DLVL-2 of Horror mode: 14
+
+
+
+	Mod:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007054CC(U)
+|
+:0070779E 83F805                  cmp eax, 00000005
+:007077A1 7407                    je 007077AA
+:007077A3 EB3B                    jmp 007077E0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007077B1(C), :007077CE(U), :007078B3(C), :007078C0(C), :007078CD(C)
+|
+:007077A5 E97C57D3FF              jmp 0043CF26
+
+
+	Extra:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007077A3(U)
+|
+:007077E0 E9CB000000              jmp 007078B0
+
+
+	Extra2:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007077E0(U)
+|
+:007078B0 83F801                  cmp eax, 00000001			Check for Oblivion Knight slot (1)
+:007078B3 0F83ECFEFFFF            jnb 007077A5				exit if not below (in other words, jump if not zero)
+:007078B9 833DC070600001          cmp dword ptr [006070C0], 00000001	check if mode = purgatory
+:007078C0 0F83DFFEFFFF            jnb 007077A5				jump if not horror
+:007078C6 803DD8B1600002          cmp byte ptr [0060B1D8], 02		check if DLVL = 2
+:007078CD 0F85D2FEFFFF            jne 007077A5				exit if DLVL !=2
+:007078D3 6A0F                    push 0000000F				push 15
+:007078D5 58                      pop eax				store as EAX
+:007078D6 E95556D3FF              jmp 0043CF30				continue 'check for stun' function
+:007078DB 90                      nop

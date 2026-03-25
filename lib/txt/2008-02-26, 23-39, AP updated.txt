@@ -1,0 +1,75 @@
+Armor Piercing effects work differently:
+Piercing > ignore 12,5% AC, Puncturing > 18,75% AC, Bashing > 25%. Gladiators receive their +6,25% AP bonus on top of that;
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045B8F3(C)
+|
+:0045B902 6A64                    push 00000064
+:0045B904 B104                    mov cl, 04
+:0045B906 5A                      pop edx
+:0045B907 895DE0                  mov dword ptr [ebp-20], ebx
+:0045B90A E84BE6FBFF              call 00419F5A
+:0045B90F 83BE8CDC69000F          cmp dword ptr [esi+0069DC8C], 0000000F
+:0045B916 8945E8                  mov dword ptr [ebp-18], eax
+:0045B919 7503                    jne 0045B91E
+:0045B91B 895DE8                  mov dword ptr [ebp-18], ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045B919(C)
+|
+:0045B91E 0FB68652DD6900          movzx eax, byte ptr [esi+0069DD52]
+:0045B925 8BF7                    mov esi, edi
+:0045B927 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0045B92D 69F6C8550000            imul esi, 000055C8
+:0045B933 8BD8                    mov ebx, eax
+:0045B935 8D3C31                  lea edi, dword ptr [ecx+esi]
+:0045B938 8B8C3150550000          mov ecx, dword ptr [ecx+esi+00005550]
+:0045B93F 80BF6001000005          cmp byte ptr [edi+00000160], 05
+:0045B946 7407                    je 0045B94F
+:0045B948 85C9                    test ecx, ecx
+:0045B94A 7E1E                    jle 0045B96A
+:0045B94C 41                      inc ecx
+:0045B94D EB06                    jmp 0045B955
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045B946(C)
+|
+:0045B94F 85C9                    test ecx, ecx
+:0045B951 7E01                    jle 0045B954
+:0045B953 41                      inc ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045B951(C)
+|
+:0045B954 41                      inc ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045B94D(U)
+|
+:0045B955 C1F804                  sar eax, 04
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045B95D(C)
+|
+:0045B958 2BD8                    sub ebx, eax
+:0045B95A 49                      dec ecx
+:0045B95B 85C9                    test ecx, ecx
+:0045B95D 75F9                    jne 0045B958
+:0045B95F 90                      nop
+:0045B960 90                      nop
+:0045B961 90                      nop
+:0045B962 90                      nop
+:0045B963 90                      nop
+:0045B964 85DB                    test ebx, ebx
+:0045B966 7D02                    jge 0045B96A
+:0045B968 33DB                    xor ebx, ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045B94A(C), :0045B966(C)
+|
+:0045B96A 0FBE87B8010000          movsx eax, byte ptr [edi+000001B8]
+:0045B971 8B8F74010000            mov ecx, dword ptr [edi+00000174]
+:0045B977 90                      nop
+:0045B978 90                      nop
+:0045B979 03C1                    add eax, ecx

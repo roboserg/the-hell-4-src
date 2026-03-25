@@ -1,0 +1,74 @@
+NOW IT'S HERE:
+:007237B2 8B8164DD6900            mov eax, dword ptr [ecx+0069DD64]
+
+=================================================================================
+
+
+Imp Rogues no longer have mage-specific phase immunity
+
+
+
+
+Modified:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004450CB(C), :004450DB(C)
+|
+:004450F2 8B8164DD6900            mov eax, dword ptr [ecx+0069DD64]
+:004450F8 8B00                    mov eax, dword ptr [eax]
+:004450FA 83F86B                  cmp eax, 0000006B
+:004450FD 7405                    je 00445104
+:004450FF 83F86C                  cmp eax, 0000006C
+:00445102 7510                    jne 00445114
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004450FD(C)
+|
+:00445104 6A01                    push 00000001
+:00445106 58                      pop eax
+:00445107 388190DC6900            cmp byte ptr [ecx+0069DC90], al
+:0044510D 7405                    je 00445114
+:0044510F 832200                  and dword ptr [edx], 00000000
+:00445112 5E                      pop esi
+:00445113 C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004450BC(C), :00445102(C), :0044510D(C)
+|
+:00445114 33C0                    xor eax, eax
+:00445116 5E                      pop esi
+:00445117 C3                      ret
+
+
+
+=============================================================================================
+
+Old:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004450CB(C), :004450DB(C)
+|
+:004450F2 8B8164DD6900            mov eax, dword ptr [ecx+0069DD64]
+:004450F8 8B00                    mov eax, dword ptr [eax]
+:004450FA 83F869                  cmp eax, 00000069
+:004450FD 7C15                    jl 00445114
+:004450FF 83F86C                  cmp eax, 0000006C
+:00445102 7F10                    jg 00445114
+:00445104 6A01                    push 00000001
+:00445106 58                      pop eax
+:00445107 388190DC6900            cmp byte ptr [ecx+0069DC90], al
+:0044510D 7405                    je 00445114
+:0044510F 832200                  and dword ptr [edx], 00000000
+:00445112 5E                      pop esi
+:00445113 C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004450BC(C), :004450FD(C), :00445102(C), :0044510D(C)
+|
+:00445114 33C0                    xor eax, eax
+:00445116 5E                      pop esi
+:00445117 C3                      ret

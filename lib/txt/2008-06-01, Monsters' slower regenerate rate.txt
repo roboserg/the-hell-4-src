@@ -1,0 +1,35 @@
+-50% monster regenerate rate
+
+:00443846 E9B51C2C00              jmp 00705500
+
+
+Extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00443846(U)
+|
+:00705500 83BE8CDC69000F          cmp dword ptr [esi+0069DC8C], 0000000F		<- check if monster state = SC'ed
+:00705507 743A                    je 00705543						<- if so, skip regeneration
+:00705509 8B861CDD6900            mov eax, dword ptr [esi+0069DD1C]			<- eax = monster's current life
+:0070550F 3B8618DD6900            cmp eax, dword ptr [esi+0069DD18]			<- cmp current life to max life
+:00705515 7D2C                    jge 00705543						<- if greater or equal, exit
+:00705517 A9C0FFFFFF              test eax, FFFFFFC0					<- compare curLife to -64 (if monster dead)
+:0070551C 7E25                    jle 00705543						<- if equal or below, exit
+:0070551E 8A8E48DD6900            mov cl, byte ptr [esi+0069DD48]			<- cl = mlvl
+:00705524 83FB03                  cmp ebx, 00000003					<- compare ebx to 3 ???, not sure why it's checked
+:00705527 0FBEC9                  movsx ecx, cl						<- ecx = mlvl ?
+:0070552A 7E17                    jle 00705543						<- ??
+:0070552C 50                      push eax							
+:0070552D 8BC1                    mov eax, ecx						<- eax = ecx
+:0070552F 8A0DC0706000            mov cl, byte ptr [006070C0]				<- cl = difficulty mode
+:00705535 D3E0                    shl eax, cl							<- mlvl * difficulty mode
+:00705537 59                      pop ecx							<- store ecx
+:00705538 C1F801                  sar eax, 01						<- eax / 2 (divide regeneration rate by 2)
+:0070553B 03C1                    add eax, ecx						<- add eax to ecx ? what gives ???
+:0070553D 89861CDD6900            mov dword ptr [esi+0069DD1C], eax			<- current life = eax ?
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00705507(C), :00705515(C), :0070551C(C), :0070552A(C)
+|
+:00705543 E93EE3D3FF              jmp 00443886						<- continue... (jump back)
+

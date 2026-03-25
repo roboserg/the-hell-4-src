@@ -1,0 +1,26 @@
+Adria's refund prices go down: 1/4 -> 1/32:
+
+:0046DF00 C1BA2C406F0002          sar dword ptr [edx+006F402C], 02
+into >>
+:0046DF00 C1BA2C406F0004          sar dword ptr [edx+006F402C], 05
+
+and
+
+:0046DFF0 C1BA2C406F0002          sar dword ptr [edx+006F402C], 02
+into >>
+:0046DFF0 C1BA2C406F0004          sar dword ptr [edx+006F402C], 05
+
+
+Lower return prices at Grizwold: 1/4 -> 1/32:
+
+File Offset 0006CA0A
+
+:0046D60A C1BA2C406F0002          sar dword ptr [edx+006F402C], 02
+wordt
+:0046D60A C1BA2C406F0005          sar dword ptr [edx+006F402C], 05
+
+File Offset 0006CAE4
+
+:0046D6E4 C1BA2C406F0002          sar dword ptr [edx+006F402C], 02
+wordt
+:0046D6E4 C1BA2C406F0005          sar dword ptr [edx+006F402C], 05

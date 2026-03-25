@@ -1,0 +1,90 @@
+SEE 2008-05-30, Healing spell tuning.txt !!!!
+
+below is obsolete code
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Manacost code taken directly from HEALING ))
+this code needs revision...
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0046BF99(U)
+|
+:00712F42 0FBE8EB8010000          movsx ecx, byte ptr [esi+000001B8]	// ecx = clvl
+:00712F49 D1E1                    shl ecx, 1				// ecx = clvl*2
+:00712F4B 0FB6E8                  movzx ebp, al
+:00712F4E 2BCF                    sub ecx, edi
+:00712F50 03CD                    add ecx, ebp
+:00712F52 8B86B0010000            mov eax, dword ptr [esi+000001B0]	// eax = maxBluMana (800 for instance)
+:00712F58 83F928                  cmp ecx, 00000028			// cmp manacost ?
+:00712F5B 7F0B                    jg 00712F68
+:00712F5D EB1C                    jmp 00712F7B
+:00712F5F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00712F71(U), :00712F77(C)
+|
+:00712F60 C1E106                  shl ecx, 06
+:00712F63 E94490D5FF              jmp 0046BFAC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00712F5B(C)
+|
+:00712F68 C1F808                  sar eax, 08				// cur_blue_mana / 4
+:00712F6B 3BC8                    cmp ecx, eax				// cmp manacost to mana / 4
+:00712F6D 7E04                    jle 00712F73				// 
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00712F79(U)
+|
+:00712F6F 8BC8                    mov ecx, eax				// if manacost is higher than 200, set it to 200
+:00712F71 EBED                    jmp 00712F60
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00712F6D(C)
+|
+:00712F73 D1F8                    sar eax, 1				// / 2 again, now 100
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00712F81(U)
+|
+:00712F75 3BC8                    cmp ecx, eax				// cmp cost to 100 // or... cmp 40 to 200
+:00712F77 7FE7                    jg 00712F60				// skip if more
+:00712F79 EBF4                    jmp 00712F6F				// if manacost less than 100, set to 100
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00712F5D(U)
+|
+:00712F7B 6A28                    push 00000028
+:00712F7D 59                      pop ecx
+:00712F7E C1F808                  sar eax, 08
+:00712F81 EBF2                    jmp 00712F75				// next check, cmp 40 to 200 at 712F75.....
+:00712F83 90                      nop

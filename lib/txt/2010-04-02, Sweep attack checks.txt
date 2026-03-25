@@ -1,0 +1,190 @@
+Sweep attack character checks:
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045C329(C)
+|
+:0045C339 A114AE6E00              mov eax, dword ptr [006EAE14]
+:0045C33E 8B4DF8                  mov ecx, dword ptr [ebp-08]
+:0045C341 03C8                    add ecx, eax
+:0045C343 8A8160010000            mov al, byte ptr [ecx+00000160]
+:0045C349 3C03                    cmp al, 03
+:0045C34B 751A                    jne 0045C367
+:0045C34D 83B9640900000A          cmp dword ptr [ecx+00000964], 0000000A
+:0045C354 0F8493000000            je 0045C3ED
+:0045C35A 83B9D80A00000A          cmp dword ptr [ecx+00000AD8], 0000000A
+:0045C361 0F8486000000            je 0045C3ED
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045C34B(C)
+|
+:0045C367 3C04                    cmp al, 04
+:0045C369 7512                    jne 0045C37D
+:0045C36B 83B96409000001          cmp dword ptr [ecx+00000964], 00000001
+:0045C372 7509                    jne 0045C37D
+:0045C374 83B9D80A000001          cmp dword ptr [ecx+00000AD8], 00000001
+:0045C37B 7470                    je 0045C3ED
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045C369(C), :0045C372(C)
+|
+:0045C37D 3C05                    cmp al, 05
+:0045C37F 0F8560010000            jne 0045C4E5
+:0045C385 8B9164090000            mov edx, dword ptr [ecx+00000964]
+:0045C38B 83FA02                  cmp edx, 00000002
+:0045C38E 745D                    je 0045C3ED
+:0045C390 8B81D80A0000            mov eax, dword ptr [ecx+00000AD8]
+:0045C396 83F802                  cmp eax, 00000002
+:0045C399 7452                    je 0045C3ED
+:0045C39B 83FA04                  cmp edx, 00000004
+:0045C39E 7509                    jne 0045C3A9
+:0045C3A0 80B9190A000002          cmp byte ptr [ecx+00000A19], 02
+:0045C3A7 7432                    je 0045C3DB
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045C39E(C)
+|
+:0045C3A9 83F804                  cmp eax, 00000004
+:0045C3AC 7509                    jne 0045C3B7
+:0045C3AE 80B98D0B000002          cmp byte ptr [ecx+00000B8D], 02
+:0045C3B5 7424                    je 0045C3DB
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045C3AC(C)
+|
+:0045C3B7 83FA01                  cmp edx, 00000001
+:0045C3BA 7509                    jne 0045C3C5
+:0045C3BC 80B9190A000002          cmp byte ptr [ecx+00000A19], 02
+:0045C3C3 7416                    je 0045C3DB
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045C3BA(C)
+|
+:0045C3C5 83F801                  cmp eax, 00000001
+:0045C3C8 0F8517010000            jne 0045C4E5
+:0045C3CE 80B98D0B000002          cmp byte ptr [ecx+00000B8D], 02
+:0045C3D5 0F850A010000            jne 0045C4E5
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045C3A7(C), :0045C3B5(C), :0045C3C3(C)
+|
+:0045C3DB 83FA05                  cmp edx, 00000005
+:0045C3DE 0F8401010000            je 0045C4E5
+:0045C3E4 83F805                  cmp eax, 00000005
+:0045C3E7 0F84F8000000            je 0045C4E5
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045C354(C), :0045C361(C), :0045C37B(C), :0045C38E(C), :0045C399(C)
+|
+:0045C3ED 8B4170                  mov eax, dword ptr [ecx+70]
+:0045C3F0 6A08                    push 00000008
+:0045C3F2 40                      inc eax
+:0045C3F3 5E                      pop esi
+:0045C3F4 99                      cdq
+:0045C3F5 F7FE                    idiv esi
+:0045C3F7 C1E202                  shl edx, 02
+:0045C3FA 8BB240374B00            mov esi, dword ptr [edx+004B3740]
+:0045C400 8BBA60374B00            mov edi, dword ptr [edx+004B3760]
+:0045C406 037138                  add esi, dword ptr [ecx+38]
+:0045C409 03793C                  add edi, dword ptr [ecx+3C]
+:0045C40C 8BC6                    mov eax, esi
+:0045C40E 6BC070                  imul eax, 00000070
+:0045C411 03C7                    add eax, edi
+:0045C413 8B0485E0D15700          mov eax, dword ptr [4*eax+0057D1E0]
+:0045C41A 85C0                    test eax, eax
+:0045C41C 8BC8                    mov ecx, eax
+:0045C41E 7F02                    jg 0045C422
+:0045C420 F7D9                    neg ecx
+
+================================================
+
+update: 20:55 11.05.2012
+
+Gladiator does sweep attack with sharps, blunts and axes. no shield checks involved...
+
+
+
+:0045C339 A114AE6E00              mov eax, dword ptr [006EAE14]
+:0045C33E 8B4DF8                  mov ecx, dword ptr [ebp-08]
+:0045C341 03C8                    add ecx, eax
+:0045C343 8A8160010000            mov al, byte ptr [ecx+00000160]
+:0045C349 3C03                    cmp al, 03
+:0045C34B 751A                    jne 0045C367
+:0045C34D 83B9640900000A          cmp dword ptr [ecx+00000964], 0000000A
+:0045C354 0F8493000000            je 0045C3ED
+:0045C35A 83B9D80A00000A          cmp dword ptr [ecx+00000AD8], 0000000A
+:0045C361 0F8486000000            je 0045C3ED
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045C34B(C)
+|
+:0045C367 EB14                    jmp 0045C37D
+:0045C369 90                      nop
+:0045C36A 90                      nop
+:0045C36B 90                      nop
+:0045C36C 90                      nop
+:0045C36D 90                      nop
+:0045C36E 90                      nop
+:0045C36F 90                      nop
+:0045C370 90                      nop
+:0045C371 90                      nop
+:0045C372 90                      nop
+:0045C373 90                      nop
+:0045C374 90                      nop
+:0045C375 90                      nop
+:0045C376 90                      nop
+:0045C377 90                      nop
+:0045C378 90                      nop
+:0045C379 90                      nop
+:0045C37A 90                      nop
+:0045C37B 90                      nop
+:0045C37C 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045C367(U)
+|
+:0045C37D 3C05                    cmp al, 05
+:0045C37F 0F8560010000            jne 0045C4E5
+:0045C385 8B9164090000            mov edx, dword ptr [ecx+00000964]
+:0045C38B 83FA02                  cmp edx, 00000002
+:0045C38E 745D                    je 0045C3ED
+:0045C390 8B81D80A0000            mov eax, dword ptr [ecx+00000AD8]
+:0045C396 83F802                  cmp eax, 00000002
+:0045C399 7452                    je 0045C3ED
+:0045C39B 83FA01                  cmp edx, 00000001
+:0045C39E 744D                    je 0045C3ED
+:0045C3A0 83FA04                  cmp edx, 00000004
+:0045C3A3 7448                    je 0045C3ED
+:0045C3A5 83F801                  cmp eax, 00000001
+:0045C3A8 7443                    je 0045C3ED
+:0045C3AA 83F804                  cmp eax, 00000004
+:0045C3AD 743E                    je 0045C3ED
+:0045C3AF E931010000              jmp 0045C4E5
+
+============================================================================
+
+update for gladiator
+2013-05-16
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045C3B4(U)
+|
+:0071C580 90                      nop
+:0071C581 90                      nop
+:0071C582 90                      nop
+:0071C583 90                      nop
+:0071C584 90                      nop
+:0071C585 52                      push edx
+:0071C586 6A05                    push 00000005
+:0071C588 5A                      pop edx
+:0071C589 51                      push ecx
+:0071C58A E8CBD9CFFF              call 00419F5A
+:0071C58F 59                      pop ecx
+:0071C590 5A                      pop edx
+:0071C591 83F801                  cmp eax, 00000001
+:0071C594 0F8453FED3FF            je 0045C3ED
+:0071C59A 90                      nop
+:0071C59B E945FFD3FF              jmp 0045C4E5
+:0071C5A0 90                      nop

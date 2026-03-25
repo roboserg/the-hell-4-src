@@ -1,0 +1,119 @@
+
+
+
+:00424429 A114AE6E00              mov eax, dword ptr [006EAE14]
+:0042442E 03C6                    add eax, esi
+:00424430 8B904C0C0000            mov edx, dword ptr [eax+00000C4C]			armor type
+:00424436 83FA09                  cmp edx, 00000009					check if plate
+:00424439 752E                    jne 00424469
+:0042443B 39B8A80D0000            cmp dword ptr [eax+00000DA8], edi
+:00424441 7426                    je 00424469
+:00424443 80B86001000003          cmp byte ptr [eax+00000160], 03			check if Monk
+:0042444A 7518                    jne 00424464
+:0042444C 80B8800C000002          cmp byte ptr [eax+00000C80], 02			check if unique armor
+:00424453 750F                    jne 00424464						
+:00424455 0FBE90B8010000          movsx edx, byte ptr [eax+000001B8]
+:0042445C D1FA                    sar edx, 1						edx = clvl/2
+:0042445E 019020550000            add dword ptr [eax+00005520], edx			AC from class + clvl/2
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0042444A(C), :00424453(C)
+|
+:00424464 83C120                  add ecx, 00000020
+:00424467 EB4F                    jmp 004244B8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00424439(C), :00424441(C)
+|
+:00424469 83FA08                  cmp edx, 00000008					check if mail
+:0042446C 7532                    jne 004244A0
+:0042446E 39B8A80D0000            cmp dword ptr [eax+00000DA8], edi
+:00424474 742A                    je 004244A0
+:00424476 80B86001000003          cmp byte ptr [eax+00000160], 03
+:0042447D 751C                    jne 0042449B
+:0042447F 80B8800C000002          cmp byte ptr [eax+00000C80], 02
+:00424486 0FBE90B8010000          movsx edx, byte ptr [eax+000001B8]
+:0042448D 7504                    jne 00424493
+:0042448F 90                      nop
+:00424490 90                      nop
+:00424491 EB02                    jmp 00424495
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042448D(C)
+|
+:00424493 D1FA                    sar edx, 1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00424491(U)
+|
+:00424495 019020550000            add dword ptr [eax+00005520], edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042447D(C)
+|
+:0042449B 83C110                  add ecx, 00000010
+:0042449E EB18                    jmp 004244B8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0042446C(C), :00424474(C)
+|
+:004244A0 80B86001000003          cmp byte ptr [eax+00000160], 03
+:004244A7 750F                    jne 004244B8
+:004244A9 0FBE90B8010000          movsx edx, byte ptr [eax+000001B8]
+:004244B0 90                      nop
+:004244B1 90                      nop
+:004244B2 019020550000            add dword ptr [eax+00005520], edx
+
+===================================================================================
+
+Gladiators suffer Clvl/4 penalty to their natural AC when wearing Plate class armor:
+
+
+	mod:
+:00424443 80B86001000003          cmp byte ptr [eax+00000160], 03
+:0042444A 7409                    je 00424455
+:0042444C E93F3E2E00              jmp 00708290
+:00424451 90                      nop
+:00424452 90                      nop
+:00424453 90                      nop
+:00424454 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042444A(C)
+|
+:00424455 0FBE90B8010000          movsx edx, byte ptr [eax+000001B8]
+:0042445C D1FA                    sar edx, 1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007082A9(U)
+|
+:0042445E 019020550000            add dword ptr [eax+00005520], edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708297(C)
+|
+:00424464 83C120                  add ecx, 00000020
+:00424467 EB4F                    jmp 004244B8
+
+
+	and:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042444C(U)
+|
+:00708290 80B86001000005          cmp byte ptr [eax+00000160], 05
+:00708297 0F85C7C1D1FF            jne 00424464
+:0070829D 0FBE90B8010000          movsx edx, byte ptr [eax+000001B8]
+:007082A4 C1FA02                  sar edx, 02
+:007082A7 F7DA                    neg edx
+:007082A9 E9B0C1D1FF              jmp 0042445E
+
+
+=========================================================================================
+Gladiators receive Clvl/4 bonus to their natural AC when wearing Plate class armor:
+
+:007082A4 C1FA02                  sar edx, 02
+:007082A7 F7DA                    neg edx
+:007082A9 E9B0C1D1FF              jmp 0042445E
+	into
+:007082A4 C1FA02                  sar edx, 02
+:007082A7 E9B2C1D1FF              jmp 0042445E

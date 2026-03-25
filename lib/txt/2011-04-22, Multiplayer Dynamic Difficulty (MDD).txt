@@ -1,0 +1,261 @@
+Introducing dynamic difficulty increase in multiplayer, depending on amount of players in a game:
+
+for 1 player - 0%
+for 2 playrs - 25%
+for 3 playrs - 37,5%
+for 4 playrs - 50%
+
+
+	PvM MELEE:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BB67(U)
+|
+:0070FE00 803D90CF6D0002          cmp byte ptr [006DCF90], 02
+:0070FE07 7427                    je 0070FE30
+:0070FE09 803D90CF6D0003          cmp byte ptr [006DCF90], 03
+:0070FE10 742E                    je 0070FE40
+:0070FE12 803D90CF6D0004          cmp byte ptr [006DCF90], 04
+:0070FE19 7435                    je 0070FE50
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070FE39(U), :0070FE52(U)
+|
+:0070FE1B A114AE6E00              mov eax, dword ptr [006EAE14]
+:0070FE20 E947BDD4FF              jmp 0045BB6C
+:0070FE25 90                      nop
+:0070FE26 90                      nop
+:0070FE27 90                      nop
+:0070FE28 90                      nop
+:0070FE29 90                      nop
+:0070FE2A 90                      nop
+:0070FE2B 90                      nop
+:0070FE2C 90                      nop
+:0070FE2D 90                      nop
+:0070FE2E 90                      nop
+:0070FE2F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070FE07(C)
+|
+:0070FE30 50                      push eax
+:0070FE31 8BC7                    mov eax, edi
+:0070FE33 C1E802                  shr eax, 02
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070FE4A(U)
+|
+:0070FE36 2BF8                    sub edi, eax
+:0070FE38 58                      pop eax
+:0070FE39 EBE0                    jmp 0070FE1B
+:0070FE3B 90                      nop
+:0070FE3C 90                      nop
+:0070FE3D 90                      nop
+:0070FE3E 90                      nop
+:0070FE3F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070FE10(C)
+|
+:0070FE40 50                      push eax
+:0070FE41 8BC7                    mov eax, edi
+:0070FE43 C1E802                  shr eax, 02
+:0070FE46 2BF8                    sub edi, eax
+:0070FE48 D1E8                    shr eax, 1
+:0070FE4A EBEA                    jmp 0070FE36
+:0070FE4C 90                      nop
+:0070FE4D 90                      nop
+:0070FE4E 90                      nop
+:0070FE4F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070FE19(C)
+|
+:0070FE50 D1EF                    shr edi, 1
+:0070FE52 EBC7                    jmp 0070FE1B
+:0070FE54 90                      nop
+:0070FE55 90                      nop
+:0070FE56 90                      nop
+
+16:19 22.05.2011
+update:
+MP 1 player damage modifier is now: Rnd[2] for -25% damage
+
+============================================================================
+
+	PvM MISSILE:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007074A0(U)
+|
+:0070FE80 803D90CF6D0002          cmp byte ptr [006DCF90], 02
+:0070FE87 7427                    je 0070FEB0
+:0070FE89 803D90CF6D0003          cmp byte ptr [006DCF90], 03
+:0070FE90 742E                    je 0070FEC0
+:0070FE92 803D90CF6D0004          cmp byte ptr [006DCF90], 04
+:0070FE99 7435                    je 0070FED0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070FEB9(U), :0070FED2(U)
+|
+:0070FE9B 8B45FC                  mov eax, dword ptr [ebp-04]
+:0070FE9E 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0070FEA4 E90076FFFF              jmp 007074A9
+:0070FEA9 90                      nop
+:0070FEAA 90                      nop
+:0070FEAB 90                      nop
+:0070FEAC 90                      nop
+:0070FEAD 90                      nop
+:0070FEAE 90                      nop
+:0070FEAF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070FE87(C)
+|
+:0070FEB0 50                      push eax
+:0070FEB1 8BC7                    mov eax, edi
+:0070FEB3 C1E802                  shr eax, 02
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070FECA(U)
+|
+:0070FEB6 2BF8                    sub edi, eax
+:0070FEB8 58                      pop eax
+:0070FEB9 EBE0                    jmp 0070FE9B
+:0070FEBB 90                      nop
+:0070FEBC 90                      nop
+:0070FEBD 90                      nop
+:0070FEBE 90                      nop
+:0070FEBF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070FE90(C)
+|
+:0070FEC0 50                      push eax
+:0070FEC1 8BC7                    mov eax, edi
+:0070FEC3 C1E802                  shr eax, 02
+:0070FEC6 2BF8                    sub edi, eax
+:0070FEC8 D1E8                    shr eax, 1
+:0070FECA EBEA                    jmp 0070FEB6
+:0070FECC 90                      nop
+:0070FECD 90                      nop
+:0070FECE 90                      nop
+:0070FECF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070FE99(C)
+|
+:0070FED0 D1EF                    shr edi, 1
+:0070FED2 EBC7                    jmp 0070FE9B
+:0070FED4 90                      nop
+:0070FED5 90                      nop
+
+16:19 22.05.2011
+update:
+MP 1 player damage modifier is now: Rnd[2] for -25% damage
+
+=======================================================================
+=======================================================================
+
+ничё не понял из нежеописанного
+просто сохранено тут, до востребования
+
+ [dev] DesertDragon (09:54:36 19/08/2011) 
+надо там же проверить данжеон всех игроков 
+mov cl, byte ptr [006DCF90h] 	// cl = player amount
+mov ch, cl			// ch = cl
+mov eax, [006EAE14h]		// eax = player ptr
+towncheck:
+cmp [eax+34h], 0		// 
+jne notown
+dec ch
+town:
+add eax, 55C8h
+dec cl
+jne chektown
+
+после этого цикла в ch количество игроков не в городе
+ [dev] DesertDragon (09:55:59 19/08/2011) 
+примерный код естесствено, регистры можно другие
+
+========================================================
+
+2013-04-22
+Gold amount dropped in MP now increased depending on amount of players in game:
+	1 player:  100%,
+	2 players: 150%,
+	3 players: 200%,
+	4 players: 250%;
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00425A38(U)
+|
+:0071C170 803D90CF6D0002          cmp byte ptr [006DCF90], 02
+:0071C177 7427                    je 0071C1A0
+:0071C179 803D90CF6D0003          cmp byte ptr [006DCF90], 03
+:0071C180 742E                    je 0071C1B0
+:0071C182 803D90CF6D0004          cmp byte ptr [006DCF90], 04
+:0071C189 7435                    je 0071C1C0
+:0071C18B 90                      nop
+:0071C18C 90                      nop
+:0071C18D 90                      nop
+:0071C18E 90                      nop
+:0071C18F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071C1A6(U), :0071C1B2(U), :0071C1C8(U)
+|
+:0071C190 B988130000              mov ecx, 00001388
+:0071C195 E9A398D0FF              jmp 00425A3D
+:0071C19A 90                      nop
+:0071C19B 90                      nop
+:0071C19C 90                      nop
+:0071C19D 90                      nop
+:0071C19E 90                      nop
+:0071C19F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071C177(C)
+|
+:0071C1A0 8BC8                    mov ecx, eax
+:0071C1A2 D1F9                    sar ecx, 1
+:0071C1A4 03C1                    add eax, ecx
+:0071C1A6 EBE8                    jmp 0071C190
+:0071C1A8 90                      nop
+:0071C1A9 90                      nop
+:0071C1AA 90                      nop
+:0071C1AB 90                      nop
+:0071C1AC 90                      nop
+:0071C1AD 90                      nop
+:0071C1AE 90                      nop
+:0071C1AF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071C180(C)
+|
+:0071C1B0 D1E0                    shl eax, 1
+:0071C1B2 EBDC                    jmp 0071C190
+:0071C1B4 90                      nop
+:0071C1B5 90                      nop
+:0071C1B6 90                      nop
+:0071C1B7 90                      nop
+:0071C1B8 90                      nop
+:0071C1B9 90                      nop
+:0071C1BA 90                      nop
+:0071C1BB 90                      nop
+:0071C1BC 90                      nop
+:0071C1BD 90                      nop
+:0071C1BE 90                      nop
+:0071C1BF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071C189(C)
+|
+:0071C1C0 8BC8                    mov ecx, eax
+:0071C1C2 D1F9                    sar ecx, 1
+:0071C1C4 D1E0                    shl eax, 1
+:0071C1C6 03C1                    add eax, ecx
+:0071C1C8 EBC6                    jmp 0071C190
+:0071C1CA 90                      nop

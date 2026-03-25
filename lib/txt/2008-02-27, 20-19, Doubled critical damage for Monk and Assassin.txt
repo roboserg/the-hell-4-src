@@ -1,0 +1,46 @@
+Monks and Assassins do 4x critical damage (instead of standard 2x):
+
+:0045BA6D E8E0DAFAFF              call 00409552				< call from here
+:0045BA72 90                      nop
+:0045BA73 90                      nop
+:0045BA74 90                      nop
+:0045BA75 90                      nop
+:0045BA76 90                      nop
+:0045BA77 90                      nop
+:0045BA78 90                      nop
+:0045BA79 90                      nop
+:0045BA7A 90                      nop
+:0045BA7B 0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]
+
+
+at free space >>>
+* Referenced by a CALL at Address:
+|:0045BA6D   
+|
+:00409552 8A8160010000            mov al, byte ptr [ecx+00000160]
+:00409558 3C03                    cmp al, 03
+:0040955A 7404                    je 00409560
+:0040955C 3C04                    cmp al, 04
+:0040955E 751D                    jne 0040957D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0040955A(C)
+|
+:00409560 0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]
+:00409567 6A64                    push 00000064
+:00409569 B106                    mov cl, 06
+:0040956B 5A                      pop edx
+:0040956C E8E9090100              call 00419F5A
+:00409571 3BC3                    cmp eax, ebx
+:00409573 7D03                    jge 00409578
+:00409575 C1E702                  shl edi, 02
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00409573(C)
+|
+:00409578 E915250500              jmp 0045BA92
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0040955E(C)
+|
+:0040957D C3                      ret

@@ -1,0 +1,127 @@
+! - This is applied _after_ Rotting Carcass resistance (expanded function)
+
++	Necromorphs resist 25% arrow damage on Horror mode, Multiplayer (boss resistance = 62,5%);
++	Necromorphs resist 50% arrow damage on Horror mode, Multiplayer (boss resistance = 75%);
++	Necromorphs resist 75% arrow damage on Horror mode, Multiplayer (boss resistance = 87,5%);
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004095AE(U)
+|
+:007072C0 8B8664DD6900            mov eax, dword ptr [esi+0069DD64]
+:007072C6 8B00                    mov eax, dword ptr [eax]
+:007072C8 3D89000000              cmp eax, 00000089
+:007072CD 7413                    je 007072E2
+:007072CF 83F86D                  cmp eax, 0000006D
+:007072D2 740E                    je 007072E2
+:007072D4 EB11                    jmp 007072E7
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007072F3(C), :007072FF(C), :0070753A(U), :00707547(C), :00707571(U)
+|
+:007072D6 80BE44DD690000          cmp byte ptr [esi+0069DD44], 00
+:007072DD 7403                    je 007072E2
+:007072DF C1FF01                  sar edi, 01
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007072CD(C), :007072D2(C), :007072DD(C)
+|
+:007072E2 E9D381D2FF              jmp 0042F4BA
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007072D4(U)
+|
+:007072E7 83F802                  cmp eax, 00000002
+:007072EA 750E                    jne 007072FA
+:007072EC 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:007072F3 74E1                    je 007072D6
+:007072F5 E916020000              jmp 00707510
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007072EA(C)
+|
+:007072FA 3D78000000              cmp eax, 00000078
+:007072FF 75D5                    jne 007072D6
+:00707301 E93A020000              jmp 00707540
+:00707306 90                      nop
+
+..........................OTHER STUFF............................
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707301(U)
+|
+:00707540 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00707547 0F8489FDFFFF            je 007072D6
+:0070754D 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00707554 7414                    je 0070756A
+:00707556 833DC070600002          cmp dword ptr [006070C0], 00000002
+:0070755D 740F                    je 0070756E
+:0070755F 50                      push eax
+:00707560 8BC7                    mov eax, edi
+:00707562 C1F802                  sar eax, 02
+:00707565 2BF8                    sub edi, eax
+:00707567 58                      pop eax
+:00707568 EB07                    jmp 00707571
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707554(C)
+|
+:0070756A D1FF                    sar edi, 1
+:0070756C EB03                    jmp 00707571
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070755D(C)
+|
+:0070756E C1FF02                  sar edi, 02
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00707568(U), :0070756C(U)
+|
+:00707571 E960FDFFFF              jmp 007072D6
+:00707576 90                      nop
+:00707577 90                      nop
+:00707578 90                      nop
+---------------------------------------------------------------------
+Revision 2:
+Doom resistance is 56,25%
+Grotesque is afected by this change also
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00707301(U), :007073B4(U)
+|
+:00707540 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00707547 0F8489FDFFFF            je 007072D6
+:0070754D 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00707554 7413                    je 00707569
+:00707556 833DC070600002          cmp dword ptr [006070C0], 00000002
+:0070755D 740E                    je 0070756D
+:0070755F 50                      push eax
+:00707560 8BC7                    mov eax, edi
+:00707562 C1F802                  sar eax, 02
+:00707565 2BF8                    sub edi, eax
+:00707567 EB0E                    jmp 00707577
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707554(C)
+|
+:00707569 D1FF                    sar edi, 1
+:0070756B EB0B                    jmp 00707578
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070755D(C)
+|
+:0070756D 50                      push eax
+:0070756E D1FF                    sar edi, 1
+:00707570 8BC7                    mov eax, edi
+:00707572 C1F803                  sar eax, 03
+:00707575 2BF8                    sub edi, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707567(U)
+|
+:00707577 58                      pop eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070756B(U)
+|
+:00707578 E959FDFFFF              jmp 007072D6

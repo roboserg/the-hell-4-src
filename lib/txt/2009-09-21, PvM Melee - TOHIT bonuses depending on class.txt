@@ -1,0 +1,63 @@
+PvM Melee:
+Tohit bonuses, depending on class:
+Pal: +5%,
+Scout, Mage, Assa: +0%,
+Monk: +20% (implemented in this change),
+Glad: +15%;
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707669(C)
+|
+:00707640 80BF6001000003          cmp byte ptr [edi+00000160], 03
+:00707647 7525                    jne 0070766E
+:00707649 83C314                  add ebx, 00000014
+:0070764C EB20                    jmp 0070766E
+:0070764E 90                      nop
+:0070764F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045B980(U)
+|
+:00707650 80BF6001000000          cmp byte ptr [edi+00000160], 00
+:00707657 8D5C011E                lea ebx, dword ptr [ecx+eax+1E]
+:0070765B 7505                    jne 00707662
+:0070765D 83C305                  add ebx, 00000005
+:00707660 EB0C                    jmp 0070766E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070765B(C)
+|
+:00707662 80BF6001000005          cmp byte ptr [edi+00000160], 05
+:00707669 75D5                    jne 00707640
+:0070766B 83C30F                  add ebx, 0000000F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00707647(C), :0070764C(U), :00707660(U)
+|
+:0070766E 039F28550000            add ebx, dword ptr [edi+00005528]
+
+
+=====================================================
+
+	old:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045B980(U)
+|
+:00707650 80BF6001000000          cmp byte ptr [edi+00000160], 00
+:00707657 8D5C011E                lea ebx, dword ptr [ecx+eax+1E]
+:0070765B 7505                    jne 00707662
+:0070765D 83C305                  add ebx, 00000005
+:00707660 EB0C                    jmp 0070766E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070765B(C)
+|
+:00707662 80BF6001000005          cmp byte ptr [edi+00000160], 05
+:00707669 7503                    jne 0070766E
+:0070766B 83C30F                  add ebx, 0000000F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00707660(U), :00707669(C)
+|
+:0070766E 039F28550000            add ebx, dword ptr [edi+00005528]

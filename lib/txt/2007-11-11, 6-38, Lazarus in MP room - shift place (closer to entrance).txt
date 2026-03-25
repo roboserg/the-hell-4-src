@@ -1,0 +1,25 @@
+Altered locations for Lazarus, Red Vex and Blackjade (in MP):
+
+file offset 0003B043
+
+:0043BC43 8D7C0013                lea edi, dword ptr [eax+eax+13]
+:0043BC47 8D5C0916                lea ebx, dword ptr [ecx+ecx+16]
+changed into
+:0043BC43 8D7C0015                lea edi, dword ptr [eax+eax+15]		set to 16 for now
+:0043BC47 8D5C0916                lea ebx, dword ptr [ecx+ecx+16]
+
+file offset 0003B050
+
+:0043BC50 8D7C0015                lea edi, dword ptr [eax+eax+15]
+:0043BC54 8D5C0913                lea ebx, dword ptr [ecx+ecx+13]
+changed into
+:0043BC50 8D7C001A                lea edi, dword ptr [eax+eax+1A]
+:0043BC54 8D5C0915                lea ebx, dword ptr [ecx+ecx+15]
+
+file offset 0003B05D
+
+:0043BC5D 8D7C0015                lea edi, dword ptr [eax+eax+15]
+:0043BC61 8D5C0919                lea ebx, dword ptr [ecx+ecx+19]
+changed into
+:0043BC5D 8D7C001A                lea edi, dword ptr [eax+eax+1A]
+:0043BC61 8D5C0917                lea ebx, dword ptr [ecx+ecx+17]

@@ -1,0 +1,21 @@
+dead town respawn because of -HP items fixed:
+
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004241BC(U)
+|
+:00711D40 F7843098010000C0FFFFFF  test dword ptr [eax+esi+00000198], FFFFFFC0
+:00711D4B 7F0A                    jg 00711D57
+:00711D4D 33D2                    xor edx, edx
+:00711D4F 6A40                    push 00000040
+:00711D51 5A                      pop edx
+:00711D52 E97424D1FF              jmp 004241CB
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00711D4B(C)
+|
+:00711D57 E97424D1FF              jmp 004241D0
+:00711D5C 90                      nop
+:00711D5D 90                      nop

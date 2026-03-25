@@ -1,0 +1,26 @@
+Everything regarding Black Mushroom quest...
+
+
+
+	Black Mushroom dropped:
+:004510C6 6A11                    push 00000011
+:004510C8 59                      pop ecx
+:004510C9 E8006BFDFF              call 00427BCE
+
+
+	Fungal tome?
+:0046078F 6A00                    push 00000000
+:00460791 6A13                    push 00000013
+:00460793 33D2                    xor edx, edx
+:00460795 59                      pop ecx
+:00460796 E83374FCFF              call 00427BCE
+
+	Adria's check on mushroom in player's inventory:
+:00476FDD 6A11                    push 00000011
+:00476FDF 5A                      pop edx
+:00476FE0 E878F8FFFF              call 0047685D
+:00476FE5 85C0                    test eax, eax
+
+
+	Spectral by pepin?
+:004772E1 6A14                    push 00000014

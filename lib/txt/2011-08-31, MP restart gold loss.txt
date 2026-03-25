@@ -1,0 +1,58 @@
+Restarting in MP now causes character to lose gold:
+ Horror: no loss,
+ Purgatory: 1/64 gold,
+ Doom: 1/32 gold
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045B000(U)
+|
+:00710200 A114AE6E00              mov eax, dword ptr [006EAE14]
+:00710205 8B8C30CC010000          mov ecx, dword ptr [eax+esi+000001CC]
+:0071020C 85C9                    test ecx, ecx
+:0071020E 7440                    je 00710250
+:00710210 50                      push eax
+:00710211 53                      push ebx
+:00710212 52                      push edx
+:00710213 90                      nop
+:00710214 833DC070600001          cmp dword ptr [006070C0], 00000001
+:0071021B 7C19                    jl 00710236
+:0071021D 741C                    je 0071023B
+:0071021F 83F920                  cmp ecx, 00000020
+:00710222 7C12                    jl 00710236
+:00710224 C1E905                  shr ecx, 05
+:00710227 E801F7D5FF              call 0046F92D
+:0071022C B92087A000              mov ecx, 00A08720
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071024D(U)
+|
+:00710231 E8EB1FD1FF              call 00422221
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071021B(C), :00710222(C), :0071023E(C)
+|
+:00710236 5A                      pop edx
+:00710237 5B                      pop ebx
+:00710238 58                      pop eax
+:00710239 EB15                    jmp 00710250
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071021D(C)
+|
+:0071023B 83F940                  cmp ecx, 00000040
+:0071023E 7CF6                    jl 00710236
+:00710240 C1E906                  shr ecx, 06
+:00710243 E8E5F6D5FF              call 0046F92D
+:00710248 B95087A000              mov ecx, 00A08750
+:0071024D EBE2                    jmp 00710231
+:0071024F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071020E(C), :00710239(U)
+|
+:00710250 E9B0ADD4FF              jmp 0045B005
+:00710255 90                      nop
+:00710256 90                      nop
+:00710257 90                      nop

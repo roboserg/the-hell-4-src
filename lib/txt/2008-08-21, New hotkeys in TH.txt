@@ -1,0 +1,640 @@
+New hotkeys:
+
+
+Q - Teleport
+W - Firewall
+E - Litewall
+--------------
+R - F.Nova
+T - L.Nova
+Y - A.Nova
+U - H.Nova
+--------------
+O - Town portal
+--------------
+A - F.blast
+S - L.ball
+D - Arc.star
+F - Elemental
+--------------
+G - Golem
+H - Holybolt
+J - Flash
+K - Inferno
+L - Lightning
+--------------
+X - Hellfire
+C - Stone Curse
+--------------
+B - Bone Spirit
+N - Fire ring
+M - Lightning ring
+________________________
+
+Known problems:
+[fixed] Q is also used for quest panel, makes teleport quick key useless until fixed
+
+:0040ADDC 0F85CBFEFFFF            jne 0040ACAD
+	>>>
+:0040ADDC 90                      nop
+:0040ADDD E9CBFEFFFF              jmp 0040ACAD
+_______________________
+
+F is used to reduce gamma
+
+:0040AC41 83EB03                  sub ebx, 00000003
+:0040AC44 7567                    jne 0040ACAD
+:0040AC46 E8F7A90400              call 00455642				'f' 'F'
+:0040AC4B EB60                    jmp 0040ACAD
+changed into
+:0040AC41 EB6A                    jmp 0040ACAD
+:0040AC43 90909090909090909090    10*nop
+_______________________
+
+G is used to increase gamma
+
+:0040AC23 0F84E6000000            je 0040AD0F
+	>>>
+nopped
+
+:0040ABA7 0F8462010000            je 0040AD0F
+	>>>
+nopped
+
+==================================================================
+Notes:
+
+Forcing jump here disables character menu: 'C'
+:0040AC53 7558                    jne 0040ACAD
+
+This disables 'B' if forced jump:
+:0040ACB7 75F4                    jne 0040ACAD
+
+
+
+
+=========================================================================
+
+Doing:
+
+:0040A5E6 E98A000000              jmp 0040A675
+	>>>
+:0040A5E6 E9A5C02F00              jmp 00706690
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0040A5E6(U)
+|
+:00706690 83FE57                  cmp esi, 00000057
+:00706693 0F8517000000            jne 007066B0
+:00706699 50                      push eax
+:0070669A 51                      push ecx
+:0070669B 6A06                    push 00000006
+:0070669D 59                      pop ecx
+:0070669E E9563FD0FF              jmp 0040A5F9
+:007066A3 90                      nop
+:007066A4 90                      nop
+:007066A5 90                      nop
+:007066A6 90                      nop
+:007066A7 90                      nop
+:007066A8 90                      nop
+:007066A9 90                      nop
+:007066AA 90                      nop
+:007066AB 90                      nop
+:007066AC 90                      nop
+:007066AD 90                      nop
+:007066AE 90                      nop
+:007066AF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706693(C)
+|
+:007066B0 83FE51                  cmp esi, 00000051
+:007066B3 0F8517000000            jne 007066D0
+:007066B9 50                      push eax
+:007066BA 51                      push ecx
+:007066BB 6A17                    push 00000017
+:007066BD 59                      pop ecx
+:007066BE E9363FD0FF              jmp 0040A5F9
+:007066C3 90                      nop
+:007066C4 90                      nop
+:007066C5 90                      nop
+:007066C6 90                      nop
+:007066C7 90                      nop
+:007066C8 90                      nop
+:007066C9 90                      nop
+:007066CA 90                      nop
+:007066CB 90                      nop
+:007066CC 90                      nop
+:007066CD 90                      nop
+:007066CE 90                      nop
+:007066CF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007066B3(C)
+|
+:007066D0 83FE45                  cmp esi, 00000045
+:007066D3 0F8517000000            jne 007066F0
+:007066D9 50                      push eax
+:007066DA 51                      push ecx
+:007066DB 6A28                    push 00000028
+:007066DD 59                      pop ecx
+:007066DE E9163FD0FF              jmp 0040A5F9
+:007066E3 90                      nop
+:007066E4 90                      nop
+:007066E5 90                      nop
+:007066E6 90                      nop
+:007066E7 90                      nop
+:007066E8 90                      nop
+:007066E9 90                      nop
+:007066EA 90                      nop
+:007066EB 90                      nop
+:007066EC 90                      nop
+:007066ED 90                      nop
+:007066EE 90                      nop
+:007066EF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007066D3(C)
+|
+:007066F0 83FE4F                  cmp esi, 0000004F
+:007066F3 0F8517000000            jne 00706710
+:007066F9 50                      push eax
+:007066FA 51                      push ecx
+:007066FB 6A07                    push 00000007
+:007066FD 59                      pop ecx
+:007066FE E9F63ED0FF              jmp 0040A5F9
+:00706703 90                      nop
+:00706704 90                      nop
+:00706705 90                      nop
+:00706706 90                      nop
+:00706707 90                      nop
+:00706708 90                      nop
+:00706709 90                      nop
+:0070670A 90                      nop
+:0070670B 90                      nop
+:0070670C 90                      nop
+:0070670D 90                      nop
+:0070670E 90                      nop
+:0070670F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007066F3(C)
+|
+:00706710 83FE52                  cmp esi, 00000052
+:00706713 0F8517000000            jne 00706730
+:00706719 50                      push eax
+:0070671A 51                      push ecx
+:0070671B 6A29                    push 00000029
+:0070671D 59                      pop ecx
+:0070671E E9D63ED0FF              jmp 0040A5F9
+:00706723 90                      nop
+:00706724 90                      nop
+:00706725 90                      nop
+:00706726 90                      nop
+:00706727 90                      nop
+:00706728 90                      nop
+:00706729 90                      nop
+:0070672A 90                      nop
+:0070672B 90                      nop
+:0070672C 90                      nop
+:0070672D 90                      nop
+:0070672E 90                      nop
+:0070672F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706713(C)
+|
+:00706730 83FE54                  cmp esi, 00000054
+:00706733 0F8517000000            jne 00706750
+:00706739 50                      push eax
+:0070673A 51                      push ecx
+:0070673B 6A12                    push 00000012
+:0070673D 59                      pop ecx
+:0070673E E9B63ED0FF              jmp 0040A5F9
+:00706743 90                      nop
+:00706744 90                      nop
+:00706745 90                      nop
+:00706746 90                      nop
+:00706747 90                      nop
+:00706748 90                      nop
+:00706749 90                      nop
+:0070674A 90                      nop
+:0070674B 90                      nop
+:0070674C 90                      nop
+:0070674D 90                      nop
+:0070674E 90                      nop
+:0070674F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706733(C)
+|
+:00706750 83FE59                  cmp esi, 00000059
+:00706753 0F8517000000            jne 00706770
+:00706759 50                      push eax
+:0070675A 51                      push ecx
+:0070675B 6A2B                    push 0000002B
+:0070675D 59                      pop ecx
+:0070675E E9963ED0FF              jmp 0040A5F9
+:00706763 90                      nop
+:00706764 90                      nop
+:00706765 90                      nop
+:00706766 90                      nop
+:00706767 90                      nop
+:00706768 90                      nop
+:00706769 90                      nop
+:0070676A 90                      nop
+:0070676B 90                      nop
+:0070676C 90                      nop
+:0070676D 90                      nop
+:0070676E 90                      nop
+:0070676F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706753(C)
+|
+:00706770 83FE55                  cmp esi, 00000055
+:00706773 0F8517000000            jne 00706790
+:00706779 50                      push eax
+:0070677A 51                      push ecx
+:0070677B 6A27                    push 00000027
+:0070677D 59                      pop ecx
+:0070677E E9763ED0FF              jmp 0040A5F9
+:00706783 90                      nop
+:00706784 90                      nop
+:00706785 90                      nop
+:00706786 90                      nop
+:00706787 90                      nop
+:00706788 90                      nop
+:00706789 90                      nop
+:0070678A 90                      nop
+:0070678B 90                      nop
+:0070678C 90                      nop
+:0070678D 90                      nop
+:0070678E 90                      nop
+:0070678F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706773(C)
+|
+:00706790 83FE41                  cmp esi, 00000041
+:00706793 0F8517000000            jne 007067B0
+:00706799 50                      push eax
+:0070679A 51                      push ecx
+:0070679B 6A0C                    push 0000000C
+:0070679D 59                      pop ecx
+:0070679E E9563ED0FF              jmp 0040A5F9
+:007067A3 90                      nop
+:007067A4 90                      nop
+:007067A5 90                      nop
+:007067A6 90                      nop
+:007067A7 90                      nop
+:007067A8 90                      nop
+:007067A9 90                      nop
+:007067AA 90                      nop
+:007067AB 90                      nop
+:007067AC 90                      nop
+:007067AD 90                      nop
+:007067AE 90                      nop
+:007067AF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706793(C)
+|
+:007067B0 83FE44                  cmp esi, 00000044
+:007067B3 0F8517000000            jne 007067D0
+:007067B9 50                      push eax
+:007067BA 51                      push ecx
+:007067BB 6A0E                    push 0000000E
+:007067BD 59                      pop ecx
+:007067BE E9363ED0FF              jmp 0040A5F9
+:007067C3 90                      nop
+:007067C4 90                      nop
+:007067C5 90                      nop
+:007067C6 90                      nop
+:007067C7 90                      nop
+:007067C8 90                      nop
+:007067C9 90                      nop
+:007067CA 90                      nop
+:007067CB 90                      nop
+:007067CC 90                      nop
+:007067CD 90                      nop
+:007067CE 90                      nop
+:007067CF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007067B3(C)
+|
+:007067D0 83FE46                  cmp esi, 00000046
+:007067D3 0F8517000000            jne 007067F0
+:007067D9 50                      push eax
+:007067DA 51                      push ecx
+:007067DB 6A23                    push 00000023
+:007067DD 59                      pop ecx
+:007067DE E9163ED0FF              jmp 0040A5F9
+:007067E3 90                      nop
+:007067E4 90                      nop
+:007067E5 90                      nop
+:007067E6 90                      nop
+:007067E7 90                      nop
+:007067E8 90                      nop
+:007067E9 90                      nop
+:007067EA 90                      nop
+:007067EB 90                      nop
+:007067EC 90                      nop
+:007067ED 90                      nop
+:007067EE 90                      nop
+:007067EF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007067D3(C)
+|
+:007067F0 83FE47                  cmp esi, 00000047
+:007067F3 0F8517000000            jne 00706810
+:007067F9 50                      push eax
+:007067FA 51                      push ecx
+:007067FB 6A15                    push 00000015
+:007067FD 59                      pop ecx
+:007067FE E9F63DD0FF              jmp 0040A5F9
+:00706803 90                      nop
+:00706804 90                      nop
+:00706805 90                      nop
+:00706806 90                      nop
+:00706807 90                      nop
+:00706808 90                      nop
+:00706809 90                      nop
+:0070680A 90                      nop
+:0070680B 90                      nop
+:0070680C 90                      nop
+:0070680D 90                      nop
+:0070680E 90                      nop
+:0070680F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007067F3(C)
+|
+:00706810 83FE48                  cmp esi, 00000048
+:00706813 0F8517000000            jne 00706830
+:00706819 50                      push eax
+:0070681A 51                      push ecx
+:0070681B 6A1F                    push 0000001F
+:0070681D 59                      pop ecx
+:0070681E E9D63DD0FF              jmp 0040A5F9
+:00706823 90                      nop
+:00706824 90                      nop
+:00706825 90                      nop
+:00706826 90                      nop
+:00706827 90                      nop
+:00706828 90                      nop
+:00706829 90                      nop
+:0070682A 90                      nop
+:0070682B 90                      nop
+:0070682C 90                      nop
+:0070682D 90                      nop
+:0070682E 90                      nop
+:0070682F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706813(C)
+|
+:00706830 83FE4A                  cmp esi, 0000004A
+:00706833 0F8517000000            jne 00706850
+:00706839 50                      push eax
+:0070683A 51                      push ecx
+:0070683B 6A08                    push 00000008
+:0070683D 59                      pop ecx
+:0070683E E9B63DD0FF              jmp 0040A5F9
+:00706843 90                      nop
+:00706844 90                      nop
+:00706845 90                      nop
+:00706846 90                      nop
+:00706847 90                      nop
+:00706848 90                      nop
+:00706849 90                      nop
+:0070684A 90                      nop
+:0070684B 90                      nop
+:0070684C 90                      nop
+:0070684D 90                      nop
+:0070684E 90                      nop
+:0070684F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706833(C)
+|
+:00706850 83FE4B                  cmp esi, 0000004B
+:00706853 0F8517000000            jne 00706870
+:00706859 50                      push eax
+:0070685A 51                      push ecx
+:0070685B 6A14                    push 00000014
+:0070685D 59                      pop ecx
+:0070685E E9963DD0FF              jmp 0040A5F9
+:00706863 90                      nop
+:00706864 90                      nop
+:00706865 90                      nop
+:00706866 90                      nop
+:00706867 90                      nop
+:00706868 90                      nop
+:00706869 90                      nop
+:0070686A 90                      nop
+:0070686B 90                      nop
+:0070686C 90                      nop
+:0070686D 90                      nop
+:0070686E 90                      nop
+:0070686F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706853(C)
+|
+:00706870 83FE4C                  cmp esi, 0000004C
+:00706873 0F8517000000            jne 00706890
+:00706879 50                      push eax
+:0070687A 51                      push ecx
+:0070687B 6A03                    push 00000003
+:0070687D 59                      pop ecx
+:0070687E E9763DD0FF              jmp 0040A5F9
+:00706883 90                      nop
+:00706884 90                      nop
+:00706885 90                      nop
+:00706886 90                      nop
+:00706887 90                      nop
+:00706888 90                      nop
+:00706889 90                      nop
+:0070688A 90                      nop
+:0070688B 90                      nop
+:0070688C 90                      nop
+:0070688D 90                      nop
+:0070688E 90                      nop
+:0070688F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706873(C)
+|
+:00706890 83FE58                  cmp esi, 00000058
+:00706893 0F8517000000            jne 007068B0
+:00706899 50                      push eax
+:0070689A 51                      push ecx
+:0070689B 6A0F                    push 0000000F
+:0070689D 59                      pop ecx
+:0070689E E9563DD0FF              jmp 0040A5F9
+:007068A3 90                      nop
+:007068A4 90                      nop
+:007068A5 90                      nop
+:007068A6 90                      nop
+:007068A7 90                      nop
+:007068A8 90                      nop
+:007068A9 90                      nop
+:007068AA 90                      nop
+:007068AB 90                      nop
+:007068AC 90                      nop
+:007068AD 90                      nop
+:007068AE 90                      nop
+:007068AF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706893(C)
+|
+:007068B0 83FE4E                  cmp esi, 0000004E
+:007068B3 0F8517000000            jne 007068D0
+:007068B9 50                      push eax
+:007068BA 51                      push ecx
+:007068BB 6A13                    push 00000013
+:007068BD 59                      pop ecx
+:007068BE E9363DD0FF              jmp 0040A5F9
+:007068C3 90                      nop
+:007068C4 90                      nop
+:007068C5 90                      nop
+:007068C6 90                      nop
+:007068C7 90                      nop
+:007068C8 90                      nop
+:007068C9 90                      nop
+:007068CA 90                      nop
+:007068CB 90                      nop
+:007068CC 90                      nop
+:007068CD 90                      nop
+:007068CE 90                      nop
+:007068CF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007068B3(C)
+|
+:007068D0 83FE4D                  cmp esi, 0000004D
+:007068D3 0F8517000000            jne 007068F0
+:007068D9 50                      push eax
+:007068DA 51                      push ecx
+:007068DB 6A11                    push 00000011
+:007068DD 59                      pop ecx
+:007068DE E9163DD0FF              jmp 0040A5F9
+:007068E3 90                      nop
+:007068E4 90                      nop
+:007068E5 90                      nop
+:007068E6 90                      nop
+:007068E7 90                      nop
+:007068E8 90                      nop
+:007068E9 90                      nop
+:007068EA 90                      nop
+:007068EB 90                      nop
+:007068EC 90                      nop
+:007068ED 90                      nop
+:007068EE 90                      nop
+:007068EF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007068D3(C)
+|
+:007068F0 83FE42                  cmp esi, 00000042
+:007068F3 0F8517000000            jne 00706910
+:007068F9 50                      push eax
+:007068FA 51                      push ecx
+:007068FB 6A24                    push 00000024
+:007068FD 59                      pop ecx
+:007068FE E9F63CD0FF              jmp 0040A5F9
+:00706903 90                      nop
+:00706904 90                      nop
+:00706905 90                      nop
+:00706906 90                      nop
+:00706907 90                      nop
+:00706908 90                      nop
+:00706909 90                      nop
+:0070690A 90                      nop
+:0070690B 90                      nop
+:0070690C 90                      nop
+:0070690D 90                      nop
+:0070690E 90                      nop
+:0070690F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007068F3(C)
+|
+:00706910 83FE43                  cmp esi, 00000043
+:00706913 0F8517000000            jne 00706930
+:00706919 50                      push eax
+:0070691A 51                      push ecx
+:0070691B 6A08                    push 00000008
+:0070691D 59                      pop ecx
+:0070691E E9D63CD0FF              jmp 0040A5F9
+:00706923 90                      nop
+:00706924 90                      nop
+:00706925 90                      nop
+:00706926 90                      nop
+:00706927 90                      nop
+:00706928 90                      nop
+:00706929 90                      nop
+:0070692A 90                      nop
+:0070692B 90                      nop
+:0070692C 90                      nop
+:0070692D 90                      nop
+:0070692E 90                      nop
+:0070692F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706913(C)
+|
+:00706930 83FE53                  cmp esi, 00000053
+:00706933 0F8517000000            jne 00706950
+:00706939 50                      push eax
+:0070693A 51                      push ecx
+:0070693B 6A0E                    push 0000000E
+:0070693D 59                      pop ecx
+:0070693E E9B63CD0FF              jmp 0040A5F9
+:00706943 90                      nop
+:00706944 90                      nop
+:00706945 90                      nop
+:00706946 90                      nop
+:00706947 90                      nop
+:00706948 90                      nop
+:00706949 90                      nop
+:0070694A 90                      nop
+:0070694B 90                      nop
+:0070694C 90                      nop
+:0070694D 90                      nop
+:0070694E 90                      nop
+:0070694F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706933(C)
+|
+:00706950 EB5E                    jmp 007069B0
+:00706952 90                      nop
+....
+:007069AF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706950(U)
+|
+:007069B0 E9C03CD0FF              jmp 0040A675
+
+
+
+===============================================================================
+
+Inserted a check to prevent hotkeys from reacting when talk panel is opened
+23:50 04.02.2010
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0040A5E6(U)
+|
+:0070B870 833DD4124D0000          cmp dword ptr [004D12D4], 00000000
+:0070B877 0F8533B1FFFF            jne 007069B0
+:0070B87D E90EAEFFFF              jmp 00706690

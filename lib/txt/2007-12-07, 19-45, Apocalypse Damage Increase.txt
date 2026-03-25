@@ -1,0 +1,45 @@
+
+Change Apocalypse (Hellfire)
+
+00434F5B - 434F7E
+
+Was:
+:00434F42 8B7C2424                mov edi, dword ptr [esp+24]
+:00434F46 A114AE6E00              mov eax, dword ptr [006EAE14]
+:00434F4B 69FFC8550000            imul edi, 000055C8
+:00434F51 80BC38B801000000        cmp byte ptr [eax+edi+000001B8], 00
+:00434F59 7E00                    jle 00434F5B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00434F59(C)
+|
+:00434F5B 6A06                    push 00000006					6a06 > 6a3c for TH
+:00434F5D B143                    mov cl, 43
+:00434F5F 5A                      pop edx
+:00434F60 E8F54FFEFF              call 00419F5A
+:00434F65 40                      inc eax
+:00434F66 0186D47A6900            add dword ptr [esi+00697AD4], eax
+:00434F6C A114AE6E00              mov eax, dword ptr [006EAE14]
+:00434F71 43                      inc ebx
+:00434F72 0FBE8438B8010000        movsx eax, byte ptr [eax+edi+000001B8]
+:00434F7A 3BD8                    cmp ebx, eax
+:00434F7C 7CDD                    jl 00434F5B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00434F59(C)
+|
+:00434F7E 8B4C2424                mov ecx, dword ptr [esp+24]
+:00434F82 6A18                    push 00000018
+:00434F84 C786C87A6900FF000000    mov dword ptr [esi+00697AC8], 000000FF
+:00434F8E 83A68C7A690000          and dword ptr [esi+00697A8C], 00000000
+:00434F95 5A                      pop edx
+:00434F96 E861700300              call 0046BFFC
+:00434F9B 5F                      pop edi
+:00434F9C 5E                      pop esi
+:00434F9D 5B                      pop ebx
+:00434F9E C21C00                  ret 001C
+
+
+In Book:
+
+42ec7a   830006   ->   83003e  (max damage in book)

@@ -1,0 +1,38 @@
+00A13400
+offset 3E0000
+
+004B0880
+
+562B80 (difference)
+
+
+change from 004B0880 to 004B3220
+
+
+
+
+
+
+
+
+Lich boss hovering gave crash
+and this report:
+
+Exception code: C0000005 ACCESS_VIOLATION
+Fault address:	00479DCB 01:00078DCB D:\Games\_D I A B L O_\zTHv187_x3testLi4.exe
+
+Registers:
+EAX:00003900
+EBX:00000000
+ECX:00000000
+EDX:7EFEFEFF
+ESI:004D12F0
+EDI:004D12F0
+CS:EIP:001B:00479DCB
+SS:ESP:0023:0012FD74	EBP:00000001
+DS:0023	ES:0023	FS:003B	GS:0000
+Flags:00210246
+
+Call stack:
+Address	Frame	 Logical addr	Module
+00479DCB	00000001	0001:00078DCB D:\Games\_D I A B L O_\zTHv187_x3testLi4.exe

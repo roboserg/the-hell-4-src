@@ -1,0 +1,187 @@
+﻿============================================================
+
+
+@ArdDamageReduction: ; опять таки нопами разбавить щедро. На случай смены 
+формулы // e5690 (00718A90)
+; ecx - playerIndex
+; edx - damage
+imul ecx, 55C8h
+add ecx, dword ptr [006EAE14]
+
+test    byte ptr [ecx+5543h], 10h
+jz @withoutAffix
+@withAffix:
+sar edx, 1; 50%
+jmp @F
+@withoutAffix:
+mov eax, edx
+sar eax, 2
+sub edx, eax; 75%
+@@:
+
+mov al, byte ptr [ecx+160h]; playerClass
+cmp al, 1
+jz @scoutAndMonk
+cmp al, 3
+jz @scoutAndMonk
+cmp al, 4
+jnz @return
+
+@assa:
+mov eax, edx
+sar eax, 4
+sub edx, eax
+jmp @return
+
+@scoutAndMonk
+mov eax, edx
+sar eax, 3
+sub edx, eax
+
+@return:
+mov eax, edx
+retn
+
+chek:
+* Referenced by a CALL at Address:
+|:00706A03   
+|
+:00718A90 69C9C8550000            imul ecx, 000055C8
+:00718A96 030D14AE6E00            add ecx, dword ptr [006EAE14]
+:00718A9C F6814355000010          test byte ptr [ecx+00005543], 10
+:00718AA3 90                      nop
+....
+:00718AA5 90                      nop
+:00718AA6 740A                    je 00718AB2
+:00718AA8 D1FA                    sar edx, 1
+:00718AAA 90                      nop
+...
+:00718AAF 90                      nop
+:00718AB0 EB0B                    jmp 00718ABD
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718AA6(C)
+|
+:00718AB2 89D0                    mov eax, edx
+:00718AB4 C1F802                  sar eax, 02
+:00718AB7 90                      nop
+:00718AB8 90                      nop
+:00718AB9 29C2                    sub edx, eax
+:00718ABB 90                      nop
+:00718ABC 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718AB0(U)
+|
+:00718ABD 8A8160010000            mov al, byte ptr [ecx+00000160]
+:00718AC3 3C01                    cmp al, 01
+:00718AC5 7421                    je 00718AE8
+:00718AC7 3C03                    cmp al, 03
+:00718AC9 741D                    je 00718AE8
+:00718ACB 3C04                    cmp al, 04
+:00718ACD 7511                    jne 00718AE0
+:00718ACF 89D0                    mov eax, edx
+:00718AD1 C1F804                  sar eax, 04
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718AED(U)
+|
+:00718AD4 29C2                    sub edx, eax
+:00718AD6 90                      nop
+...
+:00718ADF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718ACD(C)
+|
+:00718AE0 89D0                    mov eax, edx
+:00718AE2 C3                      ret
+
+
+:00718AE3 90                      nop
+...
+:00718AE7 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00718AC5(C), :00718AC9(C)
+|
+:00718AE8 89D0                    mov eax, edx
+:00718AEA C1F803                  sar eax, 03
+:00718AED EBE5                    jmp 00718AD4
+:00718AEF 90                      nop
+
+===========================================================
+
+ветка непокадровых снарядов
+
+706A00 >>>
+>>>
+@nonPerFrame:
+mov ecx, dword ptr [ebp - 10h] ; playerIndex
+; в edx повреждения уже
+call @ArdDamageReduction
+mov edx, eax
+mov esi, dword ptr [006EAE14]
+lea     ecx, [esi+edi]
+jmp 42F884 ; прибавка dfe без проверок
+
+         chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F86F(U)
+|
+:00706A00 8B4DF0                  mov ecx, dword ptr [ebp-10]
+:00706A03 E888200100              call 00718A90
+:00706A08 89C2                    mov edx, eax
+:00706A0A 8B3514AE6E00            mov esi, dword ptr [006EAE14]
+:00706A10 8D0C3E                  lea ecx, dword ptr [esi+edi]
+:00706A13 E96C8ED2FF              jmp 0042F884
+=====================================================
+
+ветка покадровых снарядов
+
+0042F8A7 >>>
+>>>
+jmp @nonPerFrame ; если dfe точно будет сниматься умноженное на 64 то можно 
+просто прыгнуть выше. если планируется различие в дфе то лучше сделать копию 
+которую сейчас зачеркнул
+
+mov ecx, dword ptr [ebp - 10h] ; playerIndex
+; в edx повреждения уже
+call @ArdDamageReduction
+mov edx, eax
+lea     ecx, [esi+edi]
+jmp 42F8B6 42F884; прибавка dfe без проверок
+
+===========================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

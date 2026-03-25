@@ -1,0 +1,159 @@
+﻿bool IsChest (int objectIndex)
+{
+        ObjectOnMap& object = ObjectsOnMap[objectIndex];
+        int baseObjectIndex = object.BaseObjectIndex;
+        return IsAutomapEnabled 
+                && (baseObjectIndex >= BO_5_SMALL_CHEST && baseObjectIndex <= BO_7_LARGE_CHEST 
+                || baseObjectIndex >= BO_68_TRAPED_SMALL_CHEST && baseObjectIndex <= BO_70_TRAPED_LARGE_CHEST);
+}
+
+
+@IsChest: // e6320
+; ecx - objectIndex
+cmp dword ptr [004D07A8], 0 ; IsAutomapEnabled
+jz @returnFalse ; если не включена, то и не паримся
+imul ecx, 120
+add ecx, 006DE5C0 ; ObjectsOnMap
+
+cmp byte ptr [ecx + 64], 0
+jz @returnFalse ; если невыделяем, пропускаем
+
+mov ecx, dword ptr [ecx] ; BaseObjectIndex
+cmp ecx, 5 ; BO_5_SMALL_CHEST 
+jl @trappenChestsCheck ; не на выход? поставлю на выход не на выход. исправил метку
+cmp ecx, 7 ; BO_7_LARGE_CHEST 
+jle @returnTrue
+@trappenChestsCheck:
+cmp ecx, 68 ; BO_68_TRAPED_SMALL_CHEST  
+jl @returnFalse
+cmp ecx, 70 ; BO_70_TRAPED_LARGE_CHEST
+jg @returnFalse
+@returnTrue:
+mov eax, 1
+retn
+@returnFalse:
+xor eax, eax
+retn
+
+       chek:
+* Referenced by a CALL at Address:
+|:00719772   
+|
+:00719720 833DA8074D0000          cmp dword ptr [004D07A8], 00000000
+:00719727 7429                    je 00719752
+:00719729 6BC978                  imul ecx, 00000078
+:0071972C 81C1C0E56D00            add ecx, 006DE5C0
+:00719732 80794000                cmp byte ptr [ecx+40], 00
+:00719736 741A                    je 00719752
+:00719738 8B09                    mov ecx, dword ptr [ecx]
+:0071973A 83F905                  cmp ecx, 00000005
+:0071973D 7C05                    jl 00719744
+:0071973F 83F907                  cmp ecx, 00000007
+:00719742 7E0A                    jle 0071974E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071973D(C)
+|
+:00719744 83F944                  cmp ecx, 00000044
+:00719747 7C09                    jl 00719752
+:00719749 83F946                  cmp ecx, 00000046
+:0071974C 7F04                    jg 00719752
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719742(C)
+|
+:0071974E 6A01                    push 00000001
+:00719750 58                      pop eax
+:00719751 C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00719727(C), :00719736(C), :00719747(C), :0071974C(C)
+|
+:00719752 31C0                    xor eax, eax
+:00719754 C3                      ret
+============================================================
+
+;.text:0046895F 3A 15 48 16 4D 00                       cmp     dl, byte ptr ObjectUnderCursor.ObjectIndex
+;.text:00468965 75 18                                   jnz     short loc_46897F
+;.text:00468967 FF 75 18                                push    [ebp+arg_10]
+
+0046895F >>> // e6390
+>>>
+3A 15 48 16 4D 00                       cmp     dl, byte ptr ObjectUnderCursor.ObjectIndex
+jz 00468967
+push ecx
+movzx ecx, dl
+push edx
+push eax
+call @IsChest
+test eax, eax
+pop eax
+pop edx
+pop ecx
+jnz 00468967
+jmp 46897F
+
+       chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0046895F(U)
+|
+:00719790 3A1548164D00            cmp dl, byte ptr [004D1648]
+:00719796 0F84CBF1D4FF            je 00468967
+:0071979C 51                      push ecx
+:0071979D 0FB6CA                  movzx ecx, dl
+:007197A0 52                      push edx
+:007197A1 50                      push eax
+:007197A2 E879FFFFFF              call 00719720
+:007197A7 85C0                    test eax, eax
+:007197A9 58                      pop eax
+:007197AA 5A                      pop edx
+:007197AB 59                      pop ecx
+:007197AC 0F85B5F1D4FF            jne 00468967
+:007197B2 E9C8F1D4FF              jmp 0046897F
+==========================================================
+
+;.text:0046A3CA 3A 15 48 16 4D 00                       cmp     dl, byte ptr ObjectUnderCursor.ObjectIndex
+;.text:0046A3D0 75 18                                   jnz     short loc_46A3EA
+;.text:0046A3D2 FF 75 18                                push    [ebp+arg_10]
+
+0046A3CA >>>
+>>>
+3A 15 48 16 4D 00                       cmp     dl, byte ptr ObjectUnderCursor.ObjectIndex
+jz 0046A3D2
+push ecx
+movzx ecx, dl
+push edx
+push eax
+call @IsChest
+test eax, eax
+pop eax
+pop edx
+pop ecx
+jnz 0046A3D2
+jmp 46A3EA
+
+    chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0046A3CA(U)
+|
+:00719760 3A1548164D00            cmp dl, byte ptr [004D1648]
+:00719766 0F84660CD5FF            je 0046A3D2
+:0071976C 51                      push ecx
+:0071976D 0FB6CA                  movzx ecx, dl
+:00719770 52                      push edx
+:00719771 50                      push eax
+:00719772 E8A9FFFFFF              call 00719720
+:00719777 85C0                    test eax, eax
+:00719779 58                      pop eax
+:0071977A 5A                      pop edx
+:0071977B 59                      pop ecx
+:0071977C 0F85500CD5FF            jne 0046A3D2
+:00719782 E9630CD5FF              jmp 0046A3EA
+:00719787 90                      nop
+
+
+
+
+

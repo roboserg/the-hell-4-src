@@ -1,0 +1,13 @@
+Unique items seem to be handled in these 2 functions:
+
+
+4270ae
+
+
+429154
+
+
+=
+
+Note: uniques are places in .rdata, address modifier is +401000
+

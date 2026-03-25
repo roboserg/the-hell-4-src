@@ -1,0 +1,43 @@
+Quests:
+
+01. Magic Rock, DLVL 5			05
+02. Black Mushroom, DLVL 12		10
+03. Gharbad the Weak, DLVL 11		11
+04. Zhar the Mad, DLVL 8		08
+05. Lachdanan, DLVL 14			14
+06. Diablo, DLVL 16			16
+07. The Butcher, DLVL 1			01
+08. Ogden's Sign, DLVL 4		04
+09. Halls of the Blind, DLVL 7		07
+10. Valor, DLVL 5			05
+11. Anvil of Fury, DLVL 10		09
+12. Warlord of Blood, DLVL 13		13
+13. The Curse of King Leoric, DLVL 3	03
+14. Poisoned Water Supply, DLVL 2	02
+15. The Chamber of Bone, DLVL 6		06
+16. Archibishop Lazarus, DLVL 15	15
+17. Grave Matters			??
+18. Farmer's Orchard			??
+19. Little Girl				??
+20. Wandering Trader			??
+21. The Defiler				20
+22. Na-Krul (Yber)			24
+23. Cornerstone of the World		21
+24. The Jersey's Jersey			??
+
+____________________________________________________________________
+
+call 00427544
+follows push, and push determines slot number for unique item that will be dropped
+almost 10 uniques are dropped this way: optic ammy, ring of truth, empyrean band, veil of steel, etc.
+
+changed Grizwold's reward for Magic Rock quest: from Empyrean Axe to Warrior's Band
+6A02 -> 6A5C
+
+	Here:
+
+:00476E07 6A02                    push 00000002				<- unique item slot number
+:00476E09 59                      pop ecx
+:00476E0A E83507FBFF              call 00427544
+
+Note: quest unique drops can be easily found by searching for this CALL in W32DASM.

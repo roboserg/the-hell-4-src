@@ -1,0 +1,19 @@
+starts at: d1c00
+size: c3500
+
+23f2b
+
+
+offsets:
+
+code:
+d1c00-1d1c00
+
+rdata:
+1d1c00-2d1c00
+
+data:
+2d1c00-3d1c00
+
+
+offset mod is +633400 for all three segments

@@ -1,0 +1,444 @@
+:004275F1 E800C0FFFF              call 004235F6 // my insert, modifies drop quality for diffs
+
+
+00426D8B тут с боссов и квестовых сундуков
+[3:29:51] Ярик: 0426EA0 // 2nd routine that handles drops from dungeon objects (not sure though)
+
+
+=============================================
+
+Full function in 1.129, +comments
+
+* Referenced by a CALL at Addresses:
+|:00450F1B   , :00450F50   , :004514FD   , :004532C3   , :004540D4   
+|:0047268B   , :00472946   
+|
+:004275E4 55                      push ebp
+:004275E5 8BEC                    mov ebp, esp
+:004275E7 51                      push ecx
+:004275E8 51                      push ecx
+:004275E9 53                      push ebx
+:004275EA 56                      push esi
+:004275EB 57                      push edi
+:004275EC 8BDA                    mov ebx, edx; сохранили col в ebx
+:004275EE 894DF8                  mov dword ptr [ebp-08], ecx; сохранили row в локальную переменную
+:004275F1 E800C0FFFF              call 004235F6                                // magic quality modifier, according to diff and dlvl    ItemLevelByDungeonLevel
+:004275F6 837D0800                cmp dword ptr [ebp+08], 00000000                        // check for cursed flag (?)  [ebp+08]  isGoodMagicItem (1 in quest chests and bosses)
+:004275FA 8BF8                    mov edi, eax ; levelParam в edi сохранён
+:004275FC 740A                    je 00427608                                        // if cursed...
+:004275FE 83C9FF                  or ecx, FFFFFFFF
+:00427601 E885F7FFFF              call 00426D8B  ;baseItemIndex = SelectDropFromObjectOrBossOrQuestMonster(-1)
+:00427606 EB05                    jmp 0042760D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004275FC(C)
+|
+:00427608 E893F8FFFF              call 00426EA0 ; baseItemIndex = SelectDropFromBoxAndDeadBody() // pick simple (non-quest) items
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00427606(U)
+|
+:0042760D 833DDC2069007F          cmp dword ptr [006920DC], 0000007F ; CountItemsOnMap >= 127 если больше то нельзя бросить 
+:00427614 8945FC                  mov dword ptr [ebp-04], eax ; в ebp-04 выбранный baseItemIndex
+:00427617 7D6D                    jge 00427686
+:00427619 8B3518576800            mov esi, dword ptr [00685718]; в esi itemIndex. ItemsOnMapIndexesInvers[0]
+:0042761F 8B4DF8                  mov ecx, dword ptr [ebp-08]; восстанавливаем row из локальной переменной
+:00427622 56                      push esi ; кидаем itemIndex на стэк
+:00427623 8BD3                    mov edx, ebx ; восстанавливаем col из ebx
+:00427625 E85ADBFFFF              call 00425184 ; FindFreeCell (row, col, index)
+:0042762A A1DC206900              mov eax, dword ptr [006920DC] ; в eax CountItemsOnMap
+:0042762F 33DB                    xor ebx, ebx ; ebx 0
+:00427631 FF7510                  push [ebp+10]; a5
+:00427634 B910596800              mov ecx, 00685910 ; в ecx ItemsOnMapIndexesInvers[126]
+:00427639 C1E002                  shl eax, 02; умножаем CountItemsOnMap на 4 поскольку ItemsOnMapIndexesInvers это dword массив
+:0042763C 53                      push ebx ; на стэк 0
+:0042763D 2BC8                    sub ecx, eax ; в ecx ItemsOnMapIndexesInvers[126-CountItemsOnMap]
+:0042763F FF7508                  push [ebp+08] ; isGoodMagicItem
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007234DF(U)
+|
+:00427642 89B018556800            mov dword ptr [eax+00685518], esi ; MapItemsFreeIndexes[CountItemsOnMap + 1] = itemIndex;
+:00427648 8B09                    mov ecx, dword ptr [ecx]; получаем значение по поинтеру itemIndex2. Тот же или какой то другой не могу понять
+:0042764A 8D043F                  lea eax, dword ptr [edi+edi]; в eax levelParam *2
+:0042764D 6A01                    push 00000001
+:0042764F 50                      push eax
+:00427650 890D18576800            mov dword ptr [00685718], ecx; ItemsOnMapIndexesInvers[0]  itemIndex2
+:00427656 E8E028FFFF              call 00419F3B ; Rand() в eax guid
+:0042765B 8B55FC                  mov edx, dword ptr [ebp-04] ; в edx перемещаем baseItemIndex 
+:0042765E 8BCE                    mov ecx, esi; itemIndex
+:00427660 50                      push eax; guid
+:00427661 E868FCFFFF              call 004272CE ;DropNewItem (itemIndex, baseItemIndex, guid, 2 * levelParam, 1, isGoodMagicItem, 0, a5)
+:00427666 395D0C                  cmp dword ptr [ebp+0C], ebx; a4 и 0
+:00427669 7409                    je 00427674
+:0042766B 8BD6                    mov edx, esi; itemIndex
+:0042766D 33C9                    xor ecx, ecx; 0
+:0042766F E88FFD0100              call 00447403 ; SC_16_DropItem_NC_52(0, itemIndex)
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00427669(C)
+|
+:00427674 395D10                  cmp dword ptr [ebp+10], ebx; a5 0
+:00427677 7407                    je 00427680
+:00427679 8BCE                    mov ecx, esi; itemIndex
+:0042767B E839F00100              call 004466B9 ; SendInternalCommand_Item(itemIndex)
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00427677(C)
+|
+:00427680 FF05DC206900            inc dword ptr [006920DC]: увеличили CountItemsOnMap 
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00427617(C)
+|
+:00427686 5F                      pop edi
+:00427687 5E                      pop esi
+:00427688 5B                      pop ebx
+:00427689 C9                      leave
+:0042768A C20C00                  ret 000C
+
+============================================================================================================
+
+Function of magic stat generation on items (?):
+// Она используется для генерации вещей вирта адрии, магических вещей кузнеца, вещей из бочек и ещё из 3х неизвестных мест // Yarik
+
+
+* Referenced by a CALL at Addresses:
+|:004273E1   , :0042A661   , :0042AB8E   , :0042ADD1   , :0042B3FE   
+|:0042B469   , :0042B57B   
+|
+:00426B32 55                      push ebp
+:00426B33 8BEC                    mov ebp, esp
+:00426B35 8BC1                    mov eax, ecx
+:00426B37 69C074010000            imul eax, 00000174
+:00426B3D 80B83E63680004          cmp byte ptr [eax+0068633E], 04
+:00426B44 0F8492000000            je 00426BDC
+:00426B4A 8B5508                  mov edx, dword ptr [ebp+08]
+:00426B4D 83FA19                  cmp edx, 00000019
+:00426B50 7E03                    jle 00426B55
+:00426B52 6A19                    push 00000019
+:00426B54 5A                      pop edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00426B50(C)
+|
+:00426B55 8B8088626800            mov eax, dword ptr [eax+00686288]
+:00426B5B 83F805                  cmp eax, 00000005
+:00426B5E 7F32                    jg 00426B92
+:00426B60 7426                    je 00426B88
+:00426B62 85C0                    test eax, eax
+:00426B64 7E76                    jle 00426BDC
+:00426B66 83F802                  cmp eax, 00000002
+:00426B69 7E13                    jle 00426B7E
+:00426B6B 83F803                  cmp eax, 00000003
+:00426B6E 7407                    je 00426B77
+:00426B70 83F804                  cmp eax, 00000004
+:00426B73 7409                    je 00426B7E
+:00426B75 EB65                    jmp 00426BDC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00426B6E(C)
+|
+:00426B77 FF7510                  push [ebp+10]
+:00426B7A 6A10                    push 00000010
+:00426B7C EB56                    jmp 00426BD4
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00426B69(C), :00426B73(C)
+|
+:00426B7E FF7510                  push [ebp+10]
+:00426B81 6800100000              push 00001000
+:00426B86 EB4C                    jmp 00426BD4
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00426B60(C)
+|
+:00426B88 FF7510                  push [ebp+10]
+:00426B8B 6800000100              push 00010000
+:00426B90 EB42                    jmp 00426BD4
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00426B5E(C)
+|
+:00426B92 83F806                  cmp eax, 00000006
+:00426B95 7C45                    jl 00426BDC
+:00426B97 83F809                  cmp eax, 00000009
+:00426B9A 7E30                    jle 00426BCC
+:00426B9C 83F80A                  cmp eax, 0000000A
+:00426B9F 7411                    je 00426BB2
+:00426BA1 83F80B                  cmp eax, 0000000B
+:00426BA4 7E36                    jle 00426BDC
+:00426BA6 83F80D                  cmp eax, 0000000D
+:00426BA9 7F31                    jg 00426BDC
+:00426BAB FF7510                  push [ebp+10]
+:00426BAE 6A01                    push 00000001
+:00426BB0 EB22                    jmp 00426BD4
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00426B9F(C)
+|
+:00426BB2 E949502E00              jmp 0070BC00			// fix from Illusion to staves with battle affixes
+:00426BB7 90                      nop
+:00426BB8 90                      nop
+:00426BB9 90                      nop
+:00426BBA 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070BC11(C), :0070BC26(C)
+|
+:00426BBB 8B550C                  mov edx, dword ptr [ebp+0C]
+:00426BBE E8F1E9FFFF              call 004255B4
+:00426BC3 EB17                    jmp 00426BDC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070BC07(C), :0070BC2C(U)
+|
+:00426BC5 6800010000              push 00000100
+:00426BCA EB08                    jmp 00426BD4
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00426B9A(C)
+|
+:00426BCC FF7510                  push [ebp+10]
+:00426BCF 6800001000              push 00100000
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00426B7C(U), :00426B86(U), :00426B90(U), :00426BB0(U), :00426BCA(U)
+|
+:00426BD4 FF750C                  push [ebp+0C]
+:00426BD7 E814FCFFFF              call 004267F0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00426B44(C), :00426B64(C), :00426B75(U), :00426B95(C), :00426BA4(C)
+|:00426BA9(C), :00426BC3(U)
+|
+:00426BDC 5D                      pop ebp
+:00426BDD C21000                  ret 0010
+
+=======================================================
+
+00426EA0
+[2:36:58] Ярик: Вот. Выборка базовых вещей для простых (неквестовых) объектов
+[2:37:24] Ярик: Формула 
+2*levelParam >= baseItem.QualityLevel
+[2:38:23] Mordor: там старт с того что 25% шанс на золото
+[2:38:29] Ярик: Чтобы порезать базу надо этот 2*levelParam заменять хитрожопой формулой
+[2:38:29] Ярик: Да
+[2:38:38] Ярик: Старт с этого
+[2:38:55] Ярик: Я тебе и предлагал её проименовать
+[2:41:32] Ярик: в [ebp-4] хранится levelParam
+[2:41:52] Ярик: .text:00426EE5                 mov     eax, [ebp+var_4]
+.text:00426EE8                 movsx   edi, byte ptr [ecx-24h]
+.text:00426EEC                 add     eax, eax
+.text:00426EEE                 cmp     eax, edi
+[2:41:58] Ярик: Тут непосредственно проверка
+[2:42:22] Ярик: Удваиваем levelParam в eax
+[2:42:49] Ярик: А в edi помещаем qulityLevel текущей просматриваемой базовой шмотки
+[2:43:13] Ярик: Можешь перепрыгнуть на новое место и сделать другую формулу в eax
+
+
+Эта функция = это выбор базовых предметов для дропа с этих объектов (dungeon objex and decapitated)
+
+* Referenced by a CALL at Address:
+|:00427608   
+|
+:00426EA0 55                      push ebp
+:00426EA1 8BEC                    mov ebp, esp
+:00426EA3 81EC04080000            sub esp, 00000804
+:00426EA9 6A64                    push 00000064
+:00426EAB B11A                    mov cl, 1A
+:00426EAD 5A                      pop edx
+:00426EAE E8A730FFFF              call 00419F5A
+:00426EB3 83F819                  cmp eax, 00000019
+:00426EB6 7E04                    jle 00426EBC
+:00426EB8 33C0                    xor eax, eax
+:00426EBA C9                      leave
+:00426EBB C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00426EB6(C)
+|
+:00426EBC 53                      push ebx
+:00426EBD E834C7FFFF              call 004235F6		// dlvl and diff modifier for qlvl
+:00426EC2 33D2                    xor edx, edx
+:00426EC4 33DB                    xor ebx, ebx
+:00426EC6 803D05509000FF          cmp byte ptr [00905005], FF	// ?
+:00426ECD 8945FC                  mov dword ptr [ebp-04], eax
+:00426ED0 7460                    je 00426F32
+:00426ED2 57                      push edi
+:00426ED3 56                      push esi
+:00426ED4 B93C509000              mov ecx, 0090503C
+:00426ED9 8DB5FCF7FFFF            lea esi, dword ptr [ebp+FFFFF7FC]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00426F2E(C)
+|
+:00426EDF 8379C400                cmp dword ptr [ecx-3C], 00000000		// check for base item byte 0 (if findable)
+:00426EE3 741B                    je 00426F00
+:00426EE5 8B45FC                  mov eax, dword ptr [ebp-04]		// eax = qlvl
+:00426EE8 0FBE79DC                movsx edi, byte ptr [ecx-24]		// 
+:00426EEC 03C0                    add eax, eax				// level*2
+:00426EEE 3BC7                    cmp eax, edi				// cmp eax to item level ?
+:00426EF0 7C0E                    jl 00426F00
+:00426EF2 81FA00020000            cmp edx, 00000200 // 512 base items
+:00426EF8 7D06                    jge 00426F00
+:00426EFA 891E                    mov dword ptr [esi], ebx
+:00426EFC 42                      inc edx
+:00426EFD 83C604                  add esi, 00000004
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00426EE3(C), :00426EF0(C), :00426EF8(C)
+|
+:00426F00 8B39                    mov edi, dword ptr [ecx]
+:00426F02 83FF20                  cmp edi, 00000020
+:00426F05 750D                    jne 00426F14
+:00426F07 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00426F0E 7504                    jne 00426F14
+:00426F10 4A                      dec edx
+:00426F11 83EE04                  sub esi, 00000004
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00426F05(C), :00426F0E(C)
+|
+:00426F14 83FF22                  cmp edi, 00000022
+:00426F17 750D                    jne 00426F26
+:00426F19 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00426F20 7504                    jne 00426F26
+:00426F22 4A                      dec edx
+:00426F23 83EE04                  sub esi, 00000004
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00426F17(C), :00426F20(C)
+|
+:00426F26 83C14C                  add ecx, 0000004C
+:00426F29 43                      inc ebx
+:00426F2A 8079C9FF                cmp byte ptr [ecx-37], FF
+:00426F2E 75AF                    jne 00426EDF
+:00426F30 5E                      pop esi
+:00426F31 5F                      pop edi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00426ED0(C)
+|
+:00426F32 B11A                    mov cl, 1A
+:00426F34 E82130FFFF              call 00419F5A
+:00426F39 8B8485FCF7FFFF          mov eax, dword ptr [ebp+4*eax-00000804]
+:00426F40 5B                      pop ebx
+:00426F41 C9                      leave
+:00426F42 C3                      ret
+
+	comments:
+
+[3:33:41] Ярик: Запрет - прыжок на 426F00, перепрыгивание добавления в список подходящих базовых предметов
+
+
+yes = continue and jmp to 426F00
+no = skip to jmp to 426F00
+
+======
+
+writing the code: (needs testing!)
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00712A04(U), :00712A0E(U), :00712A18(U), :00712A22(U)
+|
+:007129BC 5B                      pop ebx
+:007129BD 58                      pop eax
+:007129BE EB08                    jmp 007129C8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:		// starting point !
+|:00426EFA(U)
+|
+:007129C0 EB16                    jmp 007129D8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007129DF(C), :00712A26(U)
+|
+:007129C2 891E                    mov dword ptr [esi], ebx
+:007129C4 42                      inc edx
+:007129C5 83C604                  add esi, 00000004
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007129BE(U), :007129D1(C)
+|
+:007129C8 E93345D1FF              jmp 00426F00
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00426EEC(U)
+|
+:007129CD 03C0                    add eax, eax
+:007129CF 3BC7                    cmp eax, edi
+:007129D1 7CF5                    jl 007129C8
+:007129D3 E91A45D1FF              jmp 00426EF2
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007129C0(U)
+|
+:007129D8 833DC070600002          cmp dword ptr [006070C0], 00000002
+:007129DF 74E1                    je 007129C2
+:007129E1 50                      push eax
+:007129E2 53                      push ebx
+:007129E3 0FB605D8B16000          movzx eax, byte ptr [0060B1D8]
+:007129EA 6BC004                  imul eax, 00000004
+:007129ED 83C02C                  add eax, 0000002C
+:007129F0 833DC070600001          cmp dword ptr [006070C0], 00000001
+:007129F7 7503                    jne 007129FC
+:007129F9 83C064                  add eax, 00000064
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007129F7(C)
+|
+:007129FC 0FB659F4                movzx ebx, byte ptr [ecx-0C]
+:00712A00 3BC3                    cmp eax, ebx
+:00712A02 7D02                    jge 00712A06
+:00712A04 EBB6                    jmp 007129BC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00712A02(C)
+|
+:00712A06 0FB659F5                movzx ebx, byte ptr [ecx-0B]
+:00712A0A 3BC3                    cmp eax, ebx
+:00712A0C 7D02                    jge 00712A10
+:00712A0E EBAC                    jmp 007129BC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00712A0C(C)
+|
+:00712A10 0FB659F6                movzx ebx, byte ptr [ecx-0A]
+:00712A14 3BC3                    cmp eax, ebx
+:00712A16 7D02                    jge 00712A1A
+:00712A18 EBA2                    jmp 007129BC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00712A16(C)
+|
+:00712A1A 0FB659F7                movzx ebx, byte ptr [ecx-09]
+:00712A1E 3BC3                    cmp eax, ebx
+:00712A20 7D02                    jge 00712A24
+:00712A22 EB98                    jmp 007129BC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00712A20(C)
+|
+:00712A24 5B                      pop ebx
+:00712A25 58                      pop eax
+:00712A26 EB9A                    jmp 007129C2
+:00712A28 90                      nop
+:00712A29 90                      nop
+
+
+
+
+
+
+
+
+
+
+
+
+
+2C03

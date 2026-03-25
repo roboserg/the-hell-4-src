@@ -1,0 +1,14 @@
+00458470 jmp @newLoc
+
+@newLoc
+cmp     edi, sword ptr [006EADE8] ;CurrentPlayerIndex
+jnz @noSound
+@hasSound
+mov ecx, 3FEh ; 1022 звук
+call 0041850D
+jmp 00458478
+@noSound:
+jmp 45848D
+[22:37:05] Ярик: Всё
+
+

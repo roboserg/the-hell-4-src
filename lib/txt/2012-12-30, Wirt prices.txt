@@ -1,0 +1,19 @@
+
+.text:0046E755                 mov     edx, dword_6EE970
+.text:0046E75B                 mov     eax, edx
+.text:0046E75D                 push    0Ah
+.text:0046E75F                 sar     eax, 2
+.text:0046E762                 sub     edx, eax
+[1:56:58] Ярик: в edx цена
+[1:57:04] Ярик: отображаемая
+
+.text:00470A98                 mov     edx, eax
+.text:00470A9A                 mov     dword_6EEA1C, 13
+.text:00470AA4                 sar     edx, 2
+.text:00470AA7                 sub     eax, edx
+[2:05:27] Ярик: Та же хуйня
+[2:05:39] Ярик: Это проверка достаточно ли у нас бабла
+[2:06:19] Ярик: .text:00470AF3                 sar     edx, 2
+.text:00470AF6                 sub     eax, edx
+[2:06:23] Ярик: Это третье место
+[2:06:29] Ярик: Непосредственно отнятие бабла

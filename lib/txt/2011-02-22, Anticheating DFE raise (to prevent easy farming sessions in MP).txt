@@ -1,0 +1,272 @@
+In MvP Melee:
+
+
+		1st PART:
+
+	mod:
+:0043E34F E99BF42C00              jmp 0070D7EF
+
+
+	ex:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043E34F(U)
+|
+:0070D7EF 56                      push esi
+:0070D7F0 8BF0                    mov esi, eax
+:0070D7F2 D1EE                    shr esi, 1
+:0070D7F4 03C1                    add eax, ecx
+:0070D7F6 8BCE                    mov ecx, esi
+:0070D7F8 5E                      pop esi
+:0070D7F9 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:0070D800 50                      push eax
+:0070D801 A114AE6E00              mov eax, dword ptr [006EAE14]
+:0070D806 0FBE8430B8010000        movsx eax, byte ptr [eax+esi+000001B8]
+:0070D80E 740B                    je 0070D81B
+:0070D810 833DC070600001          cmp dword ptr [006070C0], 00000001
+:0070D817 7208                    jb 0070D821
+:0070D819 7412                    je 0070D82D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070D80E(C), :0070D826(U), :0070D82B(U), :0070D832(U), :0070D837(U)
+|
+:0070D81B 58                      pop eax
+:0070D81C E9330BD3FF              jmp 0043E354
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070D817(C)
+|
+:0070D821 83F820                  cmp eax, 00000020
+:0070D824 7302                    jnb 0070D828
+:0070D826 EBF3                    jmp 0070D81B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070D824(C)
+|
+:0070D828 C1E105                  shl ecx, 05
+:0070D82B EBEE                    jmp 0070D81B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070D819(C)
+|
+:0070D82D 83F82E                  cmp eax, 0000002E
+:0070D830 7302                    jnb 0070D834
+:0070D832 EBE7                    jmp 0070D81B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070D830(C)
+|
+:0070D834 C1E105                  shl ecx, 05
+:0070D837 EBE2                    jmp 0070D81B
+:0070D839 90                      nop
+:0070D83A 90                      nop
+:0070D83B 90                      nop
+:0070D83C 90                      nop
+:0070D83D 90                      nop
+
+
+
+
+
+
+
+
+
+
+:00433F43 0FBE8430B8010000        movsx eax, byte ptr [eax+esi+000001B8]
+
+		2nd PART:
+
+	mod:
+:0043E4E6 E954F32C00              jmp 0070D83F
+
+
+
+	ex:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043E4E6(U)
+|
+:0070D83F 50                      push eax
+:0070D840 56                      push esi
+:0070D841 8BF3                    mov esi, ebx
+:0070D843 03D9                    add ebx, ecx
+:0070D845 D1EE                    shr esi, 1
+:0070D847 3BDE                    cmp ebx, esi
+:0070D849 7D02                    jge 0070D84D
+:0070D84B 8BDE                    mov ebx, esi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070D849(C)
+|
+:0070D84D 5E                      pop esi
+:0070D84E A114AE6E00              mov eax, dword ptr [006EAE14]
+:0070D853 0FBE8430B8010000        movsx eax, byte ptr [eax+esi+000001B8]
+:0070D85B 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:0070D862 740B                    je 0070D86F
+:0070D864 833DC070600001          cmp dword ptr [006070C0], 00000001
+:0070D86B 7208                    jb 0070D875
+:0070D86D 7410                    je 0070D87F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070D862(C), :0070D878(C), :0070D87D(U), :0070D882(C)
+|
+:0070D86F 58                      pop eax
+:0070D870 E97E0CD3FF              jmp 0043E4F3
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070D86B(C)
+|
+:0070D875 83F820                  cmp eax, 00000020
+:0070D878 72F5                    jb 0070D86F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070D884(U)
+|
+:0070D87A C1E305                  shl ebx, 05
+:0070D87D EBF0                    jmp 0070D86F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070D86D(C)
+|
+:0070D87F 83F82E                  cmp eax, 0000002E
+:0070D882 72EB                    jb 0070D86F
+:0070D884 EBF4                    jmp 0070D87A
+:0070D886 90                      nop
+:0070D887 90                      nop
+:0070D888 90                      nop
+:0070D889 90                      nop
+
+================================================================
+
+MvP Missile, Arrows (physical):
+
+	mod:
+:0070CEC1 EB59                    jmp 0070CF1C
+
+	ex:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070CEC1(U)
+|
+:0070CF1C 0FBE81B8010000          movsx eax, byte ptr [ecx+000001B8]
+:0070CF23 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:0070CF2A 7507                    jne 0070CF33
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070CF3E(U), :0070F005(U)
+|
+:0070CF2C A1D8B16000              mov eax, dword ptr [0060B1D8]
+:0070CF31 EB93                    jmp 0070CEC6
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070CF2A(C)
+|
+:0070CF33 833DC070600001          cmp dword ptr [006070C0], 00000001
+:0070CF3A 7204                    jb 0070CF40
+:0070CF3C 7407                    je 0070CF45
+:0070CF3E EBEC                    jmp 0070CF2C
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070CF3A(C)
+|
+:0070CF40 E9BB200000              jmp 0070F000
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070CF3C(C)
+|
+:0070CF45 E9DB200000              jmp 0070F025
+:0070CF4A 90                      nop
+:0070CF4B 90                      nop
+
+	ex2:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070CF40(U)
+|
+:0070F000 83F820                  cmp eax, 00000020
+:0070F003 7305                    jnb 0070F00A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070F02A(U)
+|
+:0070F005 E922DFFFFF              jmp 0070CF2C
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070F003(C), :0070F028(C)
+|
+:0070F00A BA2C010000              mov edx, 0000012C
+:0070F00F C1E206                  shl edx, 06
+:0070F012 E9D8DEFFFF              jmp 0070CEEF
+:0070F017 90                      nop
+:0070F018 90                      nop
+:0070F019 90                      nop
+:0070F01A 90                      nop
+:0070F01B 90                      nop
+:0070F01C 90                      nop
+:0070F01D 90                      nop
+:0070F01E 90                      nop
+:0070F01F 90                      nop
+:0070F020 90                      nop
+:0070F021 90                      nop
+:0070F022 90                      nop
+:0070F023 90                      nop
+:0070F024 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070CF45(U)
+|
+:0070F025 83F82E                  cmp eax, 0000002E
+:0070F028 73E0                    jnb 0070F00A
+:0070F02A EBD9                    jmp 0070F005
+:0070F02C 90                      nop
+:0070F02D 90                      nop
+:0070F02E 90                      nop
+:0070F02F 90                      nop
+
+
+
+	MvP Missile, Magical:
+each attack does 300 damage (after DFE check)
+if mode = MP Horror, and CLVL > 31,
+if mode = MP Purgatory
+
+	mod:
+:0070CEAC E98F210000              jmp 0070F040
+
+	ex:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070CEAC(U)
+|
+:0070F040 0FBE81B8010000          movsx eax, byte ptr [ecx+000001B8]
+:0070F047 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:0070F04E 7505                    jne 0070F055
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070F060(U), :0070F067(U), :0070F070(U)
+|
+:0070F050 E9A3DEFFFF              jmp 0070CEF8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070F04E(C)
+|
+:0070F055 833DC070600001          cmp dword ptr [006070C0], 00000001
+:0070F05C 7204                    jb 0070F062
+:0070F05E 740B                    je 0070F06B
+:0070F060 EBEE                    jmp 0070F050
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070F05C(C)
+|
+:0070F062 83F820                  cmp eax, 00000020
+:0070F065 7302                    jnb 0070F069
+:0070F067 EBE7                    jmp 0070F050
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070F065(C)
+|
+:0070F069 EB9F                    jmp 0070F00A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070F05E(C)
+|
+:0070F06B 83F82E                  cmp eax, 0000002E
+:0070F06E 739A                    jnb 0070F00A
+:0070F070 EBDE                    jmp 0070F050
+:0070F072 90                      nop

@@ -1,0 +1,47 @@
+This fix makes Multiplayer characters no longer dependant on computer network name.
+
+There is a converter exe used for this.
+
+44712:
+18F7DE1BF683E6063BC675056A0158EB085657FF15AC9048005F5EC3
+into
+0CF7DE1BF683E6063BC66A01585F5EC3909090909090909090909090
+
+44E30:
+E8BDF8FFFF85C00F8481010000
+into
+909090909085C0909090909090
+
+44E7A:
+06
+into
+00
+
+
+
+555CC:
+76 -> EB (forcing jump)
+
+5592F:
+same
+
+55A95:
+same
+
+56046:
+same
+
+56178:
+same
+
+________________________
+
+About converter:
+
+at offsets:
+5592F:
+55A95:
+56178:
+
+there are 76's left (instead of forced jumps - 'EB')
+

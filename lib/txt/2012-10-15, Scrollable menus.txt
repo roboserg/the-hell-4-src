@@ -1,0 +1,153 @@
+Dialog menus are now scrollable:
+
+
+
+
+* Referenced by a CALL at Address:
+|:0071470B   
+|
+:007146B0 C1F910                  sar ecx, 10
+:007146B3 83F900                  cmp ecx, 00000000
+:007146B6 7F08                    jg 007146C0
+:007146B8 7C1B                    jl 007146D5
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007146C7(C), :007146CE(U), :007146DC(C), :007146E3(U)
+|
+:007146BA C3                      ret
+:007146BB 90                      nop
+:007146BC 90                      nop
+:007146BD 90                      nop
+:007146BE 90                      nop
+:007146BF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007146B6(C)
+|
+:007146C0 803DC4EC6F0000          cmp byte ptr [006FECC4], 00
+:007146C7 74F1                    je 007146BA
+:007146C9 E862AFD5FF              call 0046F630
+:007146CE EBEA                    jmp 007146BA
+:007146D0 90                      nop
+:007146D1 90                      nop
+:007146D2 90                      nop
+:007146D3 90                      nop
+:007146D4 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007146B8(C)
+|
+:007146D5 803DC4EC6F0000          cmp byte ptr [006FECC4], 00
+:007146DC 74DC                    je 007146BA
+:007146DE E8F5AFD5FF              call 0046F6D8
+:007146E3 EBD5                    jmp 007146BA
+:007146E5 90                      nop
+:007146E6 90                      nop
+:007146E7 90                      nop
+:007146E8 90                      nop
+:007146E9 90                      nop
+:007146EA 90                      nop
+:007146EB 90                      nop
+:007146EC 90                      nop
+:007146ED 90                      nop
+:007146EE 90                      nop
+:007146EF 90                      nop
+:007146F0 90                      nop
+:007146F1 90                      nop
+:007146F2 90                      nop
+:007146F3 90                      nop
+:007146F4 90                      nop
+:007146F5 90                      nop
+:007146F6 90                      nop
+:007146F7 90                      nop
+:007146F8 90                      nop
+:007146F9 90                      nop
+:007146FA 90                      nop
+:007146FB 90                      nop
+:007146FC 90                      nop
+:007146FD 90                      nop
+:007146FE 90                      nop
+:007146FF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00409AA5(U)
+|
+:00714700 81FE0A020000            cmp esi, 0000020A
+:00714706 7518                    jne 00714720
+:00714708 8B4D10                  mov ecx, dword ptr [ebp+10]
+:0071470B E8A0FFFFFF              call 007146B0
+:00714710 E97655CFFF              jmp 00409C8B
+:00714715 90                      nop
+:00714716 90                      nop
+:00714717 90                      nop
+:00714718 90                      nop
+:00714719 90                      nop
+:0071471A 90                      nop
+:0071471B 90                      nop
+:0071471C 90                      nop
+:0071471D 90                      nop
+:0071471E 90                      nop
+:0071471F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714706(C)
+|
+:00714720 B815020000              mov eax, 00000215
+:00714725 3BF0                    cmp esi, eax
+:00714727 0F87DA54CFFF            ja 00409C07
+:0071472D E98053CFFF              jmp 00409AB2
+:00714732 90                      nop
+:00714733 90                      nop
+
+======================
+
+
+обработка скрола
+
+1) функция обработки
+@OnMouseWhell:
+; в ecx wParam
+sar ecx, 10h ; short wheelDelta = (uint)wParam >> 16;
+cmp ecx, 0
+jg @shiftUp
+jl @shiftDown
+jmp @return
+
+@shiftUp:
+; оставить место под использование скрола для других целей
+cmp byte ptr [006FECC4], 0; CurrentDialogIndex
+jz @return
+call 0046F630 ; ShiftDialogUp
+jmp @return
+
+@shiftDown:
+; оставить место под использование скрола для других целей
+cmp byte ptr [006FECC4], 0; CurrentDialogIndex
+jz @return
+call 0046F6D8 ; ShiftDialogDown
+jmp @return
+
+@return:
+retn
+
+2) вызов её
+
+.text:00409AA5 loc_409AA5:                             ; CODE XREF: sub_409A1A+12j
+.text:00409AA5                 mov     eax, 215h
+.text:00409AAA                 cmp     esi, eax
+.text:00409AAC                 ja      loc_409C07
+.text:00409AB2                 jz      loc_409BE1
+
+00409AA5 jmp @newLoc
+>>>>>>>>>>
+@newLoc:
+cmp esi, 020Ah ; WM_MOUSEWHEEL
+jnz @next
+mov ecx, dword ptr [ebp+10h];[ebp+wParam]
+call @OnMouseWhell
+jmp 409C8B
+@next:
+mov     eax, 215h
+cmp     esi, eax
+ja      loc_409C07
+jmp 00409AB2

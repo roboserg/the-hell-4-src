@@ -1,0 +1,69 @@
+Gladiators now tend to use weapons of the same type if the go dual-weidling: using sharp and blunt at the same time causes them to lose base character damage.
+Now Glads are better off with sharp + sharp or blunt + blunt combinations
+Character base damage is (CLVL * STR) / 16000 if using sword and club, or club + sword
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00423E25(C)
+|
+:00423E8D E9DD172E00              jmp 0070566F
+
+
+Extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00423E8D(U)
+|
+:0070566F 3C05                    cmp al, 05
+:00705671 0F8527E9D1FF            jne 00423F9E
+:00705677 8B9164090000            mov edx, dword ptr [ecx+00000964]
+:0070567D 8B81D80A0000            mov eax, dword ptr [ecx+00000AD8]
+:00705683 83FA01                  cmp edx, 00000001
+:00705686 740C                    je 00705694
+:00705688 83FA04                  cmp edx, 00000004
+:0070568B 740E                    je 0070569B
+:0070568D 83FA03                  cmp edx, 00000003
+:00705690 742E                    je 007056C0
+:00705692 EB47                    jmp 007056DB
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705686(C)
+|
+:00705694 83F804                  cmp eax, 00000004
+:00705697 7542                    jne 007056DB
+:00705699 EB0A                    jmp 007056A5
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070568B(C)
+|
+:0070569B 83F801                  cmp eax, 00000001
+:0070569E 753B                    jne 007056DB
+:007056A0 90                      nop
+:007056A1 90                      nop
+:007056A2 90                      nop
+:007056A3 90                      nop
+:007056A4 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705699(U)
+|
+:007056A5 0FBE91B8010000          movsx edx, byte ptr [ecx+000001B8]
+:007056AC 8B8164010000            mov eax, dword ptr [ecx+00000164]
+:007056B2 68803E0000              push 00003E80
+:007056B7 0FAFC2                  imul eax, edx
+:007056BA 99                      cdq
+:007056BB E93FE8D1FF              jmp 00423EFF
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705690(C)
+|
+:007056C0 0FBE91B8010000          movsx edx, byte ptr [ecx+000001B8]
+:007056C7 8B8164010000            mov eax, dword ptr [ecx+00000164]
+:007056CD BF3E000000              mov edi, 0000003E
+:007056D2 0FAFC2                  imul eax, edx
+:007056D5 99                      cdq
+:007056D6 E925E8D1FF              jmp 00423F00
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00705692(U), :00705697(C), :0070569E(C)
+|
+:007056DB E90CE8D1FF              jmp 00423EEC

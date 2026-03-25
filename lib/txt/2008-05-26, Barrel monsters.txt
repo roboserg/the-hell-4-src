@@ -1,0 +1,103 @@
+﻿These monsters should be able to appear in barrels:
+
+V 7 - 13, (12 & 13 are Imps) >>>> 07 - 0d
+
+V 15 - soul hunter	>>>> 0f <<< move to slot 14, swapping with tomb slave!!!
+
+V 20 - 32 <- skeletons + hidden >>>> 14 - 20
+----
+V 92 - illusion weaver >>>> 5c
+
+N 94 - lurker (dlvl 2-3) >>>> 5e
+
+N 105 - imp rogue >>>> 69
+
+V 114 - doom acher >>>> 72
+
+N 117 - stinger >>>> 75
+
+Was:
+
+* Referenced by a CALL at Addresses:
+|:0043AB64   , :0043C0AB   , :00444C19   , :00444C58   , :00444E14   
+|:00444E53   , :00471D58   
+|
+:00444BB8 83F908                  cmp ecx, 00000008
+:00444BBB 7C05                    jl 00444BC2
+:00444BBD 83F90B                  cmp ecx, 0000000B
+:00444BC0 7E14                    jle 00444BD6
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00444BBB(C)
+|
+:00444BC2 83F914                  cmp ecx, 00000014
+:00444BC5 7C05                    jl 00444BCC
+:00444BC7 83F917                  cmp ecx, 00000017
+:00444BCA 7E0A                    jle 00444BD6
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00444BC5(C)
+|
+:00444BCC 83F918                  cmp ecx, 00000018
+:00444BCF 7C09                    jl 00444BDA
+:00444BD1 83F920                  cmp ecx, 00000020
+:00444BD4 7F04                    jg 00444BDA
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00444BC0(C), :00444BCA(C)
+|
+:00444BD6 6A01                    push 00000001
+:00444BD8 58                      pop eax
+:00444BD9 C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00444BCF(C), :00444BD4(C)
+|
+:00444BDA 33C0                    xor eax, eax
+:00444BDC C3                      ret
+
+>>>>>>>>>>>>>>>>>
+
+Now:
+
+* Referenced by a CALL at Addresses:
+|:0043AB64   , :0043C0AB   , :00444C19   , :00444C58   , :00444E14   
+|:00444E53   , :00471D58   
+|
+:00444BB8 83F907                  cmp ecx, 00000007
+:00444BBB 7C05                    jl 00444BC2
+:00444BBD 83F90E                  cmp ecx, 0000000E
+:00444BC0 7E14                    jle 00444BD6
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00444BBB(C)
+|
+:00444BC2 83F914                  cmp ecx, 00000014
+:00444BC5 7C05                    jl 00444BCC
+:00444BC7 83F920                  cmp ecx, 00000020
+:00444BCA 7E0A                    jle 00444BD6
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00444BC5(C)
+|
+:00444BCC 83F95C                  cmp ecx, 0000005C
+:00444BCF 7405                    je 00444BD6
+:00444BD1 83F972                  cmp ecx, 00000072
+:00444BD4 7504                    jne 00444BDA
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00444BC0(C), :00444BCA(C), :00444BCF(C)
+|
+:00444BD6 6A01                    push 00000001
+:00444BD8 58                      pop eax
+:00444BD9 C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00444BD4(C)
+|
+:00444BDA 33C0                    xor eax, eax
+:00444BDC C3                      ret

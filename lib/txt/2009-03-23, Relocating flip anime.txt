@@ -1,0 +1,135 @@
+1D8018 (80B418) - width
+1D84C8 (80b8c8) - height
+
+1D8968 (80BD68) - flip
+
+
+
+
+==============================================================
+
+changes for Hellfire
+
+Calculation offset used for  .text (code) = 400C00
+                             .rdata = 401000
+                             .data = 401600
+                            
+Copying the data tables, do this the way as Dr.Zed described above
+Cel width table starts at 88628 and is 3C0 long, becomes F0 long
+Cel width table starts at 889E8 and is 3C0 long, becomes F0 long
+After both tables 1C bytes are to be used for the new images tto make the total length 10C bytes
+
+
+Code changes:
+
+Change 
+File offset: 00006E96
+:00407A96 C1E102                  shl ecx, 02
+:00407A99 56                      push esi
+:00407A9A 6A1C                    push 0000001C
+:00407A9C 8B8128964800            mov eax, dword ptr [ecx+00489628]
+:00407AA2 5E                      pop esi
+:00407AA3 A340164D00              mov dword ptr [004D1640], eax
+:00407AA8 8B89E8994800            mov ecx, dword ptr [ecx+004899E8]
+To
+:00407A96 56                      push esi
+:00407A97 6A1C                    push 0000001C
+:00407A99 90                      nop
+:00407A9A 0FB68128964800          movzx eax, byte ptr [ecx+00489628]	88628, wide
+:00407AA1 5E                      pop esi
+:00407AA2 A340164D00              mov dword ptr [004D1640], eax
+:00407AA7 0FB689E8994800          movzx ecx, byte ptr [ecx+004899E8]	889e8, high
+
+File offset: 00006ECA
+:00407ACA 8B048D28964800          mov eax, dword ptr [4*ecx+00489628]
+To
+:00407ACA 0FB68128964800          movzx eax, byte ptr [ecx+00489628]
+
+File offset: 00006EDC
+:00407ADC 8B048DE8994800          mov eax, dword ptr [4*ecx+004899E8]
+To
+:00407ADC 0FB681E8994800          movzx eax, byte ptr [ecx+004899E8]
+
+File offset: 0001DACA
+:0041E6CA 8B2CB528964800          mov ebp, dword ptr [4*esi+00489628]
+To
+:0041E6CA 0FB6AE28964800          movzx ebp, byte ptr [esi+00489628]
+
+File offset: 0001DBF1
+:0041E7F1 8B0CBD28964800          mov ecx, dword ptr [4*edi+00489628]
+To
+:0041E7F1 0FB68F28964800          movzx ecx, byte ptr [edi+00489628]
+
+File offset: 0001DD15
+:0041E915 8B2CBD28964800          mov ebp, dword ptr [4*edi+00489628]
+To
+:0041E915 0FB6AF28964800          movzx ebp, byte ptr [edi+00489628]
+
+File offset: 0001DE3C
+:0041EA3C 8B0CB528964800          mov ecx, dword ptr [4*esi+00489628]
+To
+:0041EA3C 0FB68E28964800          movzx ecx, byte ptr [esi+00489628]
+
+File offset: 0001DF60
+:0041EB60 8B3CB528964800          mov edi, dword ptr [4*esi+00489628]
+To
+:0041EB60 0FB6BE28964800          movzx edi, byte ptr [esi+00489628]
+
+File offset: 0001E145
+:0041ED45 8B3CB528964800          mov edi, dword ptr [4*esi+00489628]
+To
+:0041ED45 0FB6BE28964800          movzx edi, byte ptr [esi+00489628]
+
+File offset: 0001E29C
+:0041EE9C 8B3CB528964800          mov edi, dword ptr [4*esi+00489628]
+To
+:0041EE9C 0FB6BE28964800          movzx edi, byte ptr [esi+00489628]
+
+File offset: 0001DF75
+:0041EB75 833CB5E899480054        cmp dword ptr [4*esi+004899E8], 00000054
+To
+:0041EB75 90                      nop
+:0041EB76 80BEE899480054          cmp byte ptr [esi+004899E8], 54
+
+File offset: 0001E160
+:0041ED60 833CB5E899480054        cmp dword ptr [4*esi+004899E8], 00000054
+To
+:0041ED60 90                      nop
+:0041ED61 80BEE899480054          cmp byte ptr [esi+004899E8], 54
+
+File offset: 0001E42B
+:0041F02B 8B0CBD58964800          mov ecx, dword ptr [4*edi+00489658]
+to
+:0041F02B 0FB68F34964800          movzx ecx, byte ptr [edi+00489634] 
+
+File offset: 0001E5E9
+:0041F1E9 8B1CBD58964800          mov ebx, dword ptr [4*edi+00489658]
+to
+:0041F1E9 0FB69F34964800          movzx ebx, byte ptr [edi+00489634]
+
+
+Flip Table
+
+Starts at A41A0 and is E8 long, copy to 88CA8
+Total length of the new table will be 100h, so 18h bytes are for the new items
+
+File   Memory
+   Offset
+
+1F22F:0041FE2F 0FB680A0574A00          movzx eax, byte ptr [eax+004A57A0]
+to   :0041FE2F 0FB680A89C4800          movzx eax, byte ptr [eax+00489CA8]
+
+22363:00422F63 0FB689A0574A00          movzx ecx, byte ptr [ecx+004A57A0]
+to   :00422F63 0FB689A89C4800          movzx ecx, byte ptr [ecx+00489CA8]
+
+25FF3:00426BF3 0FB680A0574A00          movzx eax, byte ptr [eax+004A57A0]
+to   :00426BF3 0FB680A89C4800          movzx eax, byte ptr [eax+00489CA8]
+
+2729B:00427E9B 0FB680A0574A00          movzx eax, byte ptr [eax+004A57A0]
+to   :00427E9B 0FB680A89C4800          movzx eax, byte ptr [eax+00489CA8]
+
+2747F:0042807F 0FB680A0574A00          movzx eax, byte ptr [eax+004A57A0]
+to   :0042807F 0FB680A89C4800          movzx eax, byte ptr [eax+00489CA8]
+
+27502:00428102 0FB680A0574A00          movzx eax, byte ptr [eax+004A57A0]
+to   :00428102 0FB680A89C4800          movzx eax, byte ptr [eax+00489CA8]

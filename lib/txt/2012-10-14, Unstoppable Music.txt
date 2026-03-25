@@ -1,0 +1,168 @@
+---------------------------------------------------------------------------------------------------------------
+непрерывный звук dungeonTheme
+1)
+//----- (00408EE9) -------------------------------------------------------- land
+void __cdecl FreeDungeonResources()
+
+.text:00408EEA                 call    sub_46BE0E занопить
+
+:00408EE9 56                      push esi
+:00408EEA E81F2F0600              call 0046BE0E
+занопить обе строки?
+Нет. push esi это не аргумент для call 0046BE0E
+ок
+
+2)
+;        if (DungeonType != LastDungeonType || loadFromIngameMenu) {
+;                StopDungeonTheme();
+;        }
+
+.text:0040B175                 call    sub_46BE0E
+.text:0040B17A                 push    1
+
+ код тут:
+0040B175 jmp @newLoc
+>>>>>>>>>
+@newLoc:
+cmp ebx, 0; loadFromIngameMenu
+jz @returnWithoutStop
+
+mov     al, byte ptr dword_60B1D8
+cmp     al, 11h; 17
+jb      @originalDiablo
+mov     cl, 14h
+cmp     cl, al
+sbb     ecx, ecx
+add     ecx, 6
+jmp     @F
+@originalDiablo:
+movzx   ecx, byte ptr [60B1D4]
+@@:
+cmp byte ptr [@LastDungeonType], cl ; тут адрес новых данных инициированных -1 // 46be3a ?? нет это ты должен сам выделить новый байт
+jz @returnWithoutStop
+@returnWithStop:
+call    sub_46BE0E
+@returnWithoutStop:
+jmp 0040B17A ; обратно //done
+
+3) .text:0040B6C0                 call    sub_46BE3A
+.text:0040B6C5
+.text:0040B6C5 loc_40B6C5:                             ; CODE XREF: sub_40B151+57Bj
+.text:0040B6C5                 call    sub_41DE9D
+
+0040B6C0 jmp @newLoc
+>>>>>>>>>
+@newLoc:
+cmp dword ptr    [esp+10h], 0; loadFromIngameMenu
+jz @returnWithoutPlay
+cmp byte ptr [@LastDungeonType], cl ; тут адрес новых данных инициированных -1
+jz @returnWithoutPlay
+@returnWithPlay:
+call   46BE3A
+@returnWithoutPlay:
+jmp 40B6C5; обратно
+
+==============================
+==============================
+==============================
+1]
+
+.text:00408EEA                 call    sub_46BE0E занопить
+
+
+2] & 3] 
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0040B175(U)
+|
+:00714600 83FB00                  cmp ebx, 00000000
+:00714603 7527                    jne 0071462C
+:00714605 90                      nop
+:00714606 90                      nop
+:00714607 90                      nop
+:00714608 90                      nop
+:00714609 A0D8B16000              mov al, byte ptr [0060B1D8]
+:0071460E 3C11                    cmp al, 11
+:00714610 720B                    jb 0071461D
+:00714612 B114                    mov cl, 14
+:00714614 3AC8                    cmp cl, al
+:00714616 1BC9                    sbb ecx, ecx
+:00714618 83C106                  add ecx, 00000006
+:0071461B EB07                    jmp 00714624
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714610(C)
+|
+:0071461D 0FB60DD4B16000          movzx ecx, byte ptr [0060B1D4]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071461B(U)
+|
+:00714624 380DA033A100            cmp byte ptr [00A133A0], cl
+:0071462A 7405                    je 00714631
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714603(C)
+|
+:0071462C E8DD77D5FF              call 0046BE0E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071462A(C)
+|
+:00714631 E9446BCFFF              jmp 0040B17A
+:00714636 90                      nop
+:00714637 90                      nop
+:00714638 90                      nop
+:00714639 90                      nop
+:0071463A 90                      nop
+:0071463B 90                      nop
+:0071463C 90                      nop
+:0071463D 90                      nop
+:0071463E 90                      nop
+:0071463F 90                      nop
+:00714640 90                      nop
+:00714641 90                      nop
+:00714642 90                      nop
+:00714643 90                      nop
+:00714644 90                      nop
+:00714645 90                      nop
+:00714646 90                      nop
+:00714647 90                      nop
+:00714648 90                      nop
+:00714649 90                      nop
+:0071464A 90                      nop
+:0071464B 90                      nop
+:0071464C 90                      nop
+:0071464D 90                      nop
+:0071464E 90                      nop
+:0071464F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0040B6C0(U)
+|
+:00714650 837C241000              cmp dword ptr [esp+10], 00000000
+:00714655 51                      push ecx
+:00714656 7508                    jne 00714660
+:00714658 380DA033A100            cmp byte ptr [00A133A0], cl
+:0071465E 7405                    je 00714665
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714656(C)
+|
+:00714660 E8D577D5FF              call 0046BE3A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071465E(C)
+|
+:00714665 59                      pop ecx
+:00714666 880DA033A100            mov byte ptr [00A133A0], cl
+:0071466C E95470CFFF              jmp 0040B6C5
+:00714671 90                      nop
+
+
+
+4]
+
+
+:00409C3A E8CF210600              call 0046BE0E // nopped

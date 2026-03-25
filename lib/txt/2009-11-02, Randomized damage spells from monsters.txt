@@ -1,0 +1,156 @@
+
+
+Spell effects to give random damage to:
+
+01	Firebolt
+06	Fireball	
+09	Magma Ball < needed?
+15	Magball
+18	Blood Star
+34	Charged Bolt
+39	Acid Breath
+3A	Acid Splash > no
+3B	Acid Puddle
+63	Ms_blb Psychorb attack
+64	Ms_red Red Spark attack
+65	Ms_yeb Archlich attack
+66	Ms_blb Psychorb attack (for Bonelord)
+
+
+===========================================================
+
+Doing:
+
+:0042F82D 8945F4                  mov dword ptr [ebp-0C], eax
+into
+:0042F82D EB4F                    jmp 0042F87E
+:0042F82F 90                      nop
+
+
+:0042F87E 90                      nop
+:0042F87F 90                      nop
+:0042F880 90                      nop
+:0042F881 90                      nop
+:0042F882 90                      nop
+into
+:0042F87E E97DB82D00              jmp 0070B100
+
+
+	and exp:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F87E(U)
+|
+:0070B100 837D1401                cmp dword ptr [ebp+14], 00000001
+:0070B104 745A                    je 0070B160
+:0070B106 837D1406                cmp dword ptr [ebp+14], 00000006
+:0070B10A 7454                    je 0070B160
+:0070B10C 837D1415                cmp dword ptr [ebp+14], 00000015
+:0070B110 744E                    je 0070B160
+:0070B112 837D1418                cmp dword ptr [ebp+14], 00000018
+:0070B116 7448                    je 0070B160
+:0070B118 837D1434                cmp dword ptr [ebp+14], 00000034
+:0070B11C 7442                    je 0070B160
+:0070B11E 837D1439                cmp dword ptr [ebp+14], 00000039
+:0070B122 743C                    je 0070B160
+:0070B124 837D143B                cmp dword ptr [ebp+14], 0000003B
+:0070B128 7436                    je 0070B160
+:0070B12A 837D1463                cmp dword ptr [ebp+14], 00000063
+:0070B12E 7430                    je 0070B160
+:0070B130 837D1464                cmp dword ptr [ebp+14], 00000064
+:0070B134 742A                    je 0070B160
+:0070B136 837D1465                cmp dword ptr [ebp+14], 00000065
+:0070B13A 7424                    je 0070B160
+:0070B13C 837D1466                cmp dword ptr [ebp+14], 00000066
+:0070B140 741E                    je 0070B160
+:0070B142 8945F4                  mov dword ptr [ebp-0C], eax
+:0070B145 E9E646D2FF              jmp 0042F830
+:0070B14A 90                      nop
+...
+:0070B15F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070B104(C), :0070B10A(C), :0070B110(C), :0070B116(C), :0070B11C(C)
+|:0070B122(C), :0070B128(C), :0070B12E(C), :0070B134(C), :0070B13A(C)
+|:0070B140(C)
+|
+:0070B160 395DEC                  cmp dword ptr [ebp-14], ebx
+:0070B163 0F8D1449D2FF            jnl 0042FA7D
+:0070B169 8BD0                    mov edx, eax
+:0070B16B 42                      inc edx
+:0070B16C 51                      push ecx
+:0070B16D E8E8EDD0FF              call 00419F5A
+:0070B172 59                      pop ecx
+:0070B173 8945F4                  mov dword ptr [ebp-0C], eax
+:0070B176 E9D446D2FF              jmp 0042F84F
+:0070B17B 90                      nop
+:0070B17C 90                      nop
+:0070B17D 90                      nop
+:0070B17E 90                      nop
+:0070B17F 90                      nop
+
+
+==================================================================
+Rev2:
+17:23 17.12.2009
+Randomize formula changed to:
+(Rnd[resist + 10] + 1)%
+for ex.,
+for resistance of 10% effective resist will be 1-20%
+for resistance of 85% it will be 1-95%
+
+:0070B160 395DEC                  cmp dword ptr [ebp-14], ebx
+:0070B163 0F8D1449D2FF            jnl 0042FA7D
+:0070B169 8BD0                    mov edx, eax
+:0070B16B 83C20A                  add edx, 0000000A
+:0070B16E 51                      push ecx
+:0070B16F E8E6EDD0FF              call 00419F5A
+:0070B174 59                      pop ecx
+:0070B175 40                      inc eax
+:0070B176 8945F4                  mov dword ptr [ebp-0C], eax
+:0070B179 E9D146D2FF              jmp 0042F84F
+
+====================================================================
+
+Rev3:
+15:05 20.05.2010
+Randomize formula changed to:
+(Rnd[resist + 5] + 10)%
+for ex.,
+for resistance of 10% effective resist will be 10-25%
+for resistance of 85% it will be 10-100%
+
+
+:0070B160 395DEC                  cmp dword ptr [ebp-14], ebx
+:0070B163 0F8D1449D2FF            jnl 0042FA7D
+:0070B169 8BD0                    mov edx, eax
+:0070B16B 83C205                  add edx, 00000005
+:0070B16E 51                      push ecx
+:0070B16F E8E6EDD0FF              call 00419F5A
+:0070B174 59                      pop ecx
+:0070B175 83C00A                  add eax, 0000000A
+:0070B178 8945F4                  mov dword ptr [ebp-0C], eax
+:0070B17B E9CF46D2FF              jmp 0042F84F
+
+======================================================================
+
+Rev4:
+15:22 29.08.2012
+Formula changed to:
+{(Resist/2)+1} + {(Rnd[Resist/2])+1}
+
+
+:0070B160 395DEC                  cmp dword ptr [ebp-14], ebx
+:0070B163 0F8D1449D2FF            jnl 0042FA7D
+:0070B169 8BD0                    mov edx, eax
+:0070B16B D1EA                    shr edx, 1
+:0070B16D 42                      inc edx
+:0070B16E 53                      push ebx
+:0070B16F 8BDA                    mov ebx, edx
+:0070B171 51                      push ecx
+:0070B172 E8E3EDD0FF              call 00419F5A
+:0070B177 59                      pop ecx
+:0070B178 03C3                    add eax, ebx
+:0070B17A 5B                      pop ebx
+:0070B17B 8945F4                  mov dword ptr [ebp-0C], eax
+:0070B17E E9CC46D2FF              jmp 0042F84F
+

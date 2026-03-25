@@ -1,0 +1,77 @@
+Reductions to mana cost no longer exist for character classes.
+This will require rebalancing mana cost for all spells though....
+
+Modded:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0046BF97(C)
+|
+:0046BFAC 8A8660010000            mov al, byte ptr [esi+00000160]
+:0046BFB2 3C02                    cmp al, 02
+:0046BFB4 EB17                    jmp 0046BFCD				<- forced jmp
+:0046BFB6 D1F9                    sar ecx, 1
+:0046BFB8 EB13                    jmp 0046BFCD
+:0046BFBA 3C01                    cmp al, 01
+:0046BFBC 7408                    je 0046BFC6
+:0046BFBE 3C03                    cmp al, 03
+:0046BFC0 7404                    je 0046BFC6
+:0046BFC2 3C04                    cmp al, 04
+:0046BFC4 7507                    jne 0046BFCD
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0046BFBC(C), :0046BFC0(C)
+|
+:0046BFC6 8BC1                    mov eax, ecx
+:0046BFC8 C1F802                  sar eax, 02
+:0046BFCB 2BC8                    sub ecx, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0046BFB4(U), :0046BFB8(U), :0046BFC4(C)
+|
+:0046BFCD 0FB6830D764B00          movzx eax, byte ptr [ebx+004B760D]
+:0046BFD4 8BD1                    mov edx, ecx
+:0046BFD6 C1FA06                  sar edx, 06
+:0046BFD9 3BC2                    cmp eax, edx
+:0046BFDB 7E05                    jle 0046BFE2
+:0046BFDD C1E006                  shl eax, 06
+:0046BFE0 8BC8                    mov ecx, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0046BFDB(C)
+|
+:0046BFE2 0FBE9649550000          movsx edx, byte ptr [esi+00005549]
+
+
+==================
+Original:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0046BF97(C)
+|
+:0046BFAC 8A8660010000            mov al, byte ptr [esi+00000160]
+:0046BFB2 3C02                    cmp al, 02
+:0046BFB4 7504                    jne 0046BFBA
+:0046BFB6 D1F9                    sar ecx, 1
+:0046BFB8 EB13                    jmp 0046BFCD
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0046BFB4(C)
+|
+:0046BFBA 3C01                    cmp al, 01
+:0046BFBC 7408                    je 0046BFC6
+:0046BFBE 3C03                    cmp al, 03
+:0046BFC0 7404                    je 0046BFC6
+:0046BFC2 3C04                    cmp al, 04
+:0046BFC4 7507                    jne 0046BFCD
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0046BFBC(C), :0046BFC0(C)
+|
+:0046BFC6 8BC1                    mov eax, ecx
+:0046BFC8 C1F802                  sar eax, 02
+:0046BFCB 2BC8                    sub ecx, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0046BFB8(U), :0046BFC4(C)
+|
+:0046BFCD 0FB6830D764B00          movzx eax, byte ptr [ebx+004B760D]

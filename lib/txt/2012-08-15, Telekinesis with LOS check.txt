@@ -1,0 +1,28 @@
+Telekinesis LOS check
+
+try 1: (fail)
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004230CD(U)
+|
+:00711D70 A1E8AD6E00              mov eax, dword ptr [006EADE8]
+:00711D75 69C0C8550000            imul eax, 000055C8
+:00711D7B 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:00711D81 03C1                    add eax, ecx
+:00711D83 8B1550164D00            mov edx, dword ptr [004D1650]
+:00711D89 8B0D54164D00            mov ecx, dword ptr [004D1654]
+:00711D8F FF7038                  push [eax+38]
+:00711D92 FF703C                  push [eax+3C]
+:00711D95 E82D22D3FF              call 00443FC7
+:00711D9A 85C0                    test eax, eax
+:00711D9C 0F849513D1FF            je 00423137
+:00711DA2 A048164D00              mov al, byte ptr [004D1648]
+:00711DA7 E92613D1FF              jmp 004230D2
+:00711DAC 90                      nop
+:00711DAD 90                      nop
+
+
+====================================
+====================================
+
+try 2: 

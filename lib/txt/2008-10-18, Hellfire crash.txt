@@ -1,0 +1,21 @@
+Hellfire spell crashes the game when attacking other players in PvP, creates following error report:
+
+
+Exception code: C0000005 ACCESS_VIOLATION
+Fault address:	0042BE17 01:0002AE17 D:\Games\_D I A B L O_\TH.exe
+
+Registers:
+EAX:00001500
+EBX:0000002F
+ECX:21D3B700
+EDX:00000003
+ESI:00693B20
+EDI:00000000
+CS:EIP:001B:0042BE17
+SS:ESP:0023:0012FD30	EBP:0012FD7C
+DS:0023	ES:0023	FS:003B	GS:0000
+Flags:00210206
+
+Call stack:
+Address	Frame	 Logical addr	Module
+0042BE17	0012FD7C	0001:0002AE17 D:\Games\_D I A B L O_\TH.exe

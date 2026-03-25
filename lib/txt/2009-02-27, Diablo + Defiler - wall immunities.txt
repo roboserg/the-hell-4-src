@@ -1,0 +1,102 @@
+Diablo will not be stopped by Fire wall/ring in Multiplayer mode
+Defiler will not be stopped by Lightning wall/ring in Multiplayer mode
+
+-------------
+
+only changes are documented
+previous data in >>> '2009-01-06, Special resistance to Fire & Lightning walls.txt'
+
+--------------
+
+
+doing:
+diablo
+
+
+:00707365 EB69                    jmp 007073D0
+----
+:007073D0 EB18                    jmp 007073EA
+-----
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007073D0(U)
+|
+:007073EA 83386E                  cmp dword ptr [eax], 0000006E
+:007073ED 7402                    je 007073F1
+:007073EF EBEA                    jmp 007073DB
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007073ED(C)
+|
+:007073F1 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:007073F8 75D8                    jne 007073D2
+:007073FA EBDF                    jmp 007073DB
+
+----------------------------------------------------
+----------------------------------------------------
+-----------------------------------------------------
+
+doing:
+defiler
+
+
+:007073E5 EB15                    jmp 007073FC
+--
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007073E5(U)
+|
+:007073FC 83383A                  cmp dword ptr [eax], 0000003A
+:007073FF 7402                    je 00707403
+:00707401 EB58                    jmp 0070745B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007073FF(C)
+|
+:00707403 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:0070740A 7546                    jne 00707452
+:0070740C EB4D                    jmp 0070745B
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

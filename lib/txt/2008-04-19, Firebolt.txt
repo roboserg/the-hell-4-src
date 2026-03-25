@@ -1,0 +1,53 @@
+Firebolt speed lowered: SLVL+10, max=20
+
+:004318AA 8D440010                lea eax, dword ptr [eax+eax+10]
+into
+:004318AA 8D440008                lea eax, dword ptr [eax+eax+08]
+into
+:004318AA 83C00A                  add eax, 0000000A
+:004318AD 90                      nop
+:004318AE 83F814                  cmp eax, 00000014
+:004318B1 7C0B                    jl 004318BE
+:004318B3 6A14                    push 00000014
+
+________________________________________________________
+
+Damage set to Rnd[20] + SLVL + MAG + 1
+
+:004361EA 6A0A                    push 0000000A
+:004361EC B14B                    mov cl, 4B
+:004361EE 5A                      pop edx
+:004361EF E8663DFEFF              call 00419F5A
+:004361F4 69FFC8550000            imul edi, 000055C8
+:004361FA 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:00436200 0386887A6900            add eax, dword ptr [esi+00697A88]
+:00436206 8B8C0F6C010000          mov ecx, dword ptr [edi+ecx+0000016C]
+:0043620D C1F901                  sar ecx, 01
+:00436210 8D440801                lea eax, dword ptr [eax+ecx+01]
+:00436214 EB49                    jmp 0043625F
+
+into >>
+
+:004361EA 6A14                    push 00000014
+:004361EC B14B                    mov cl, 4B
+:004361EE 5A                      pop edx
+:004361EF E8663DFEFF              call 00419F5A
+:004361F4 69FFC8550000            imul edi, 000055C8
+:004361FA 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:00436200 0386887A6900            add eax, dword ptr [esi+00697A88]
+:00436206 8B8C0F6C010000          mov ecx, dword ptr [edi+ecx+0000016C]
+:0043620D 90                      nop
+:0043620E 90                      nop
+:0043620F 90                      nop
+:00436210 8D440801                lea eax, dword ptr [eax+ecx+01]
+:00436214 EB49                    jmp 0043625F
+________________________________________________________
+
+Spellbook damages are corrected at these addreses:
+
+:0042E8A2 C1F803                  sar eax, 03
+wordt (min. damage in spellbook)
+
+
+:0042E8C3 C1F803                  sar eax, 03
+wordt (max. damage in spellbook)

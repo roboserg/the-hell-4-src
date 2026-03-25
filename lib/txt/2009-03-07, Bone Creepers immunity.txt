@@ -1,0 +1,88 @@
+Bone creepers are immune to missile attacks when retreating:
+
+	OLD:
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0042F2CB(C), :0042F2D1(C)
+|
+:0042F2D8 8B8664DD6900            mov eax, dword ptr [esi+0069DD64]
+:0042F2DE 8B38                    mov edi, dword ptr [eax]
+:0042F2E0 83FF5C                  cmp edi, 0000005C
+:0042F2E3 750D                    jne 0042F2F2
+:0042F2E5 80BE90DC690002          cmp byte ptr [esi+0069DC90], 02
+:0042F2EC 0F84D9020000            je 0042F5CB
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F2E3(C)
+|
+:0042F2F2 83BE8CDC69000E          cmp dword ptr [esi+0069DC8C], 0000000E
+
+
+
+	NEW:
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0042F2CB(C), :0042F2D1(C)
+|
+:0042F2D8 8B8664DD6900            mov eax, dword ptr [esi+0069DD64]
+:0042F2DE 8B38                    mov edi, dword ptr [eax]
+:0042F2E0 E94A912D00              jmp 0070842F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708439(U)
+|
+:0042F2E5 80BE90DC690002          cmp byte ptr [esi+0069DC90], 02
+:0042F2EC 0F84D9020000            je 0042F5CB
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070843E(U)
+|
+:0042F2F2 83BE8CDC69000E          cmp dword ptr [esi+0069DC8C], 0000000E
+
+
+	ADDITIONAL:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F2E0(U)
+|
+:0070842F 83FF5C                  cmp edi, 0000005C
+:00708432 7405                    je 00708439
+:00708434 83FF08                  cmp edi, 00000008
+:00708437 7505                    jne 0070843E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708432(C)
+|
+:00708439 E9A76ED2FF              jmp 0042F2E5
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708437(C)
+|
+:0070843E E9AF6ED2FF              jmp 0042F2F2
+
+================================================================================
+Revision 2:
+bone creepers aren't immune to missile damage if encountered outside of crypts
+btw, weavers go the same way, but they aren't faced below dlvl-15 so it's no big deal
+
+	mod:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F2E0(U)
+|
+:0070842F 83FF5C                  cmp edi, 0000005C
+:00708432 740A                    je 0070843E
+:00708434 83FF08                  cmp edi, 00000008
+:00708437 7405                    je 0070843E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070844B(U)
+|
+:00708439 E9B46ED2FF              jmp 0042F2F2
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00708432(C), :00708437(C)
+|
+:0070843E 803DD8B1600015          cmp byte ptr [0060B1D8], 15
+:00708445 0F839A6ED2FF            jnb 0042F2E5
+:0070844B EBEC                    jmp 00708439
+:0070844D 90                      nop
+:0070844E 90                      nop
+:0070844F 90                      nop
+

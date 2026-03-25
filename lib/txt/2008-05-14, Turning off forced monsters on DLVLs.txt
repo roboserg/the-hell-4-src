@@ -1,0 +1,103 @@
+dlvl 16 is populated with random mnstrs now
+next check for forced monster is only on dlvl 24, for Uber
+the latter could cause problems, check if arise
+also, this code might need optimizing in future
+
+* Referenced by a CALL at Addresses:
+|:0040B270   , :0040B4EA   
+|
+:0043A9DB 55                      push ebp
+:0043A9DC 8BEC                    mov ebp, esp
+:0043A9DE 81EC30030000            sub esp, 00000330
+:0043A9E4 53                      push ebx
+:0043A9E5 56                      push esi
+:0043A9E6 57                      push edi
+:0043A9E7 6A02                    push 00000002
+:0043A9E9 5E                      pop esi
+:0043A9EA 6A6D                    push 0000006D
+:0043A9EC 8BD6                    mov edx, esi
+:0043A9EE 59                      pop ecx
+:0043A9EF E86AFFFFFF              call 0043A95E
+:0043A9F4 A0D8B16000              mov al, byte ptr [0060B1D8]
+:0043A9F9 3C10                    cmp al, 10
+:0043A9FB 6A01                    push 00000001
+:0043A9FD 755F                    jne 0043AA5E
+:0043A9FF 90                      nop
+:0043AA00 90                      nop
+:0043AA01 90                      nop
+:0043AA02 90                      nop
+:0043AA03 90                      nop
+:0043AA04 90                      nop
+:0043AA05 90                      nop
+:0043AA06 90                      nop
+:0043AA07 90                      nop
+:0043AA08 90                      nop
+:0043AA09 8BD6                    mov edx, esi
+
+* Possible Reference to Dialog: DialogID_006E 
+                                  |
+:0043AA0B 6A6E                    push 0000006E
+:0043AA0D 59                      pop ecx
+:0043AA0E E84BFFFFFF              call 0043A95E
+:0043AA13 90                      nop
+:0043AA14 90                      nop
+:0043AA15 90                      nop
+:0043AA16 90                      nop
+:0043AA17 90                      nop
+:0043AA18 90                      nop
+:0043AA19 90                      nop
+:0043AA1A 90                      nop
+:0043AA1B 90                      nop
+:0043AA1C 3C12                    cmp al, 12
+:0043AA1E 5B                      pop ebx
+:0043AA1F 750A                    jne 0043AA2B
+:0043AA21 6A75                    push 00000075
+:0043AA23 8BD3                    mov edx, ebx
+:0043AA25 59                      pop ecx
+:0043AA26 E833FFFFFF              call 0043A95E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043AA1F(C)
+|
+:0043AA2B 803DD8B1600013          cmp byte ptr [0060B1D8], 13
+:0043AA32 6A04                    push 00000004
+:0043AA34 5F                      pop edi
+:0043AA35 7514                    jne 0043AA4B
+:0043AA37 6A75                    push 00000075
+:0043AA39 8BD3                    mov edx, ebx
+:0043AA3B 59                      pop ecx
+:0043AA3C E81DFFFFFF              call 0043A95E
+:0043AA41 8BD7                    mov edx, edi
+:0043AA43 6A7B                    push 0000007B
+:0043AA45 59                      pop ecx
+:0043AA46 E813FFFFFF              call 0043A95E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043AA35(C)
+|
+:0043AA4B 803DD8B1600014          cmp byte ptr [0060B1D8], 14
+:0043AA52 750A                    jne 0043AA5E
+:0043AA54 6A7C                    push 0000007C
+:0043AA56 8BD7                    mov edx, edi
+:0043AA58 59                      pop ecx
+:0043AA59 E800FFFFFF              call 0043A95E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043A9FD(C), :0043AA52(C)
+|
+:0043AA5E 803DD8B1600018          cmp byte ptr [0060B1D8], 18
+:0043AA65 7518                    jne 0043AA7F
+:0043AA67 8BD3                    mov edx, ebx
+:0043AA69 90                      nop
+:0043AA6A 90                      nop
+:0043AA6B 90                      nop
+:0043AA6C 90                      nop
+:0043AA6D 90                      nop
+:0043AA6E 90                      nop
+:0043AA6F 90                      nop
+:0043AA70 90                      nop
+:0043AA71 90                      nop
+:0043AA72 90                      nop
+:0043AA73 8BD6                    mov edx, esi
+:0043AA75 B989000000              mov ecx, 00000089
+:0043AA7A E8DFFEFFFF              call 0043A95E

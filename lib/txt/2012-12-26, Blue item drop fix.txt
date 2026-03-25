@@ -1,0 +1,252 @@
+фикс синьки
+
+Новая функция. Для преобразования qlvl в qlvl для маг шмотки (((MLVL / 3) + (DIFF * 20)) + 3):
+@QlvlForMagicItem:
+; ecx входной qlvl
+mov eax, ecx
+push edx
+push ebx
+push 3
+cdq
+pop ebx
+idiv ebx
+pop ebx
+movzx edx, byte ptr [006070C0h]
+imul edx, 14h
+; now EAX = QLVL / 3, and EDX = diff * 20
+add eax, edx
+pop edx
+add eax, 3
+cmp eax, 3Fh
+jle @F
+push 3Fh
+pop eax
+@@
+; eax вычисленный qlvl
+retn
+
+
+================================================================
+void DropValidMonsterItem (int itemOnMapIndex, int baseItemIndex, int guidOrQuestUniqIndex, int levelParam, int chanceInProcent, int IsGoodMagicItem, int allowDup, int a8) // e5040
+
+@DropValidMonsterItem: 
+; так как принимаем дохрена всего надо организовать приём через стек
+push    ebp
+mov     ebp, esp
+; нужно 4 аргумента
+push ecx; один аргумент на стеке
+push edi
+push esi
+push ebx
+
+mov edi, ecx ; эти регистры часто затираются, а мне они нужны постоянно
+mov esi, edx
+
+imul ecx, 372d
+add ecx, 006862BCh
+mov ebx, ecx ; в ebx адрес MagicLevel бросаемой вещи
+
+mov ecx, dword ptr [ebp + 0Ch]; levelParam
+call @QlvlForMagicItem ; см функциию выше
+mov dword ptr [ebp - 4], eax ; сохраняем на стек
+
+@loop: ; устроили бесконечный цикл<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+; пробуем кинуть немагическую шмотку
+push dword ptr [ebp + 28d]
+push dword ptr [ebp + 24d]
+push dword ptr [ebp + 20d]
+push dword ptr [ebp + 16d]
+push dword ptr [ebp + 12d]
+push dword ptr [ebp + 8d]
+mov ecx, edi
+mov edx, esi
+call 004272CE
+
+cmp byte ptr [ebx], 1 ; ML_1_MAGIC
+jnz @return ; шмотка немагическая, всё заибись>>>>>
+
+; пробуем кинуть магическую (либо белую) вещь
+push dword ptr [ebp + 28d]
+push dword ptr [ebp + 24d]
+push dword ptr [ebp + 20d]
+push dword ptr [ebp + 16d]
+push dword ptr [ebp - 4] ; новый qlvl
+push dword ptr [ebp + 8d]
+mov ecx, edi
+mov edx, esi
+call 004272CE
+
+cmp byte ptr [ebx], 1 ; ML_1_MAGIC
+jz @return ; шмотка магическая, всё заибись>>>>>>>>>
+
+cmp byte ptr [ebx], 0 ; ML_0_USUAL
+jz @return ; шмотка белая, всё заибись>>>>>>>>>>>>>
+
+; Двойной облом, меняем seed
+
+call 00419F3B ; rng
+mov dword ptr [ebp + 8d], eax
+
+jmp @loop >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+@return:<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+pop ebx
+pop esi
+pop edi
+leave ; автоматом уберёт переменные на стеке
+retn    18h ; == 6*4 т.е. шесть аргументов на стеке освобождаем
+
+===============================================================
+
+.text:00427524                 call    sub_4272CE
+00427524 call @DropValidMonsterItem ; см выше
+
+При этом чанк с заменой qlvl который выше вызова функции убираем, восстанавливаем как было
+
+                    chekk:
+* Referenced by a CALL at Address:
+|:00427524   
+|
+:00718440 55                      push ebp
+:00718441 89E5                    mov ebp, esp
+:00718443 51                      push ecx
+:00718444 57                      push edi
+:00718445 56                      push esi
+:00718446 53                      push ebx
+:00718447 89CF                    mov edi, ecx
+:00718449 89D6                    mov esi, edx
+:0071844B 69C974010000            imul ecx, 00000174
+:00718451 81C1BC626800            add ecx, 006862BC
+:00718457 89CB                    mov ebx, ecx
+:00718459 90                      nop
+:0071845A 90                      nop
+:0071845B 90                      nop
+:0071845C 8B4D0C                  mov ecx, dword ptr [ebp+0C]
+:0071845F E802000000              call 00718466
+:00718464 EB3A                    jmp 007184A0
+
+* Referenced by a CALL at Address:
+|:0071845F   
+|
+:00718466 89C8                    mov eax, ecx
+:00718468 52                      push edx // store EDX
+:00718469 53                      push ebx // ebx in
+:0071846A 6A03                    push 00000003
+:0071846C 99                      cdq
+:0071846D 5B                      pop ebx // ebx = 3
+:0071846E F7FB                    idiv ebx // eax / 3
+:00718470 5B                      pop ebx / ebx out
+:00718471 0FB615C0706000          movzx edx, byte ptr [006070C0] // edx = diff (0 / 1 / 2)
+:00718478 6BD214                  imul edx, 00000014 // diff * 20
+:0071847B 01D0                    add eax, edx // EAX = ( mlvl / 3 ) + ( diff * 20 )
+:0071847D 90                      nop
+:0071847E 90                      nop
+:0071847F 90                      nop
+:00718480 5A                      pop edx // restore EDX
+:00718481 40                      inc eax
+:00718482 40                      inc eax
+:00718483 40                      inc eax // EAX = eax + 3
+:00718484 90                      nop
+:00718485 90                      nop
+:00718486 83F83F                  cmp eax, 0000003F
+:00718489 7E03                    jle 0071848E
+:0071848B 6A3F                    push 0000003F
+:0071848D 58                      pop eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718489(C)
+|
+:0071848E C3                      ret
+:0071848F 90                      nop
+:00718490 90                      nop
+:00718491 90                      nop
+:00718492 90                      nop
+:00718493 90                      nop
+:00718494 90                      nop
+:00718495 90                      nop
+:00718496 90                      nop
+:00718497 90                      nop
+:00718498 90                      nop
+:00718499 90                      nop
+:0071849A 90                      nop
+:0071849B 90                      nop
+:0071849C 90                      nop
+:0071849D 90                      nop
+:0071849E 90                      nop
+:0071849F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718464(U)
+|
+:007184A0 8945FC                  mov dword ptr [ebp-04], eax
+:007184A3 90                      nop
+:007184A4 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071850A(U)
+|
+:007184A5 FF751C                  push [ebp+1C]
+:007184A8 FF7518                  push [ebp+18]
+:007184AB FF7514                  push [ebp+14]
+:007184AE FF7510                  push [ebp+10]
+:007184B1 FF750C                  push [ebp+0C]
+:007184B4 FF7508                  push [ebp+08]
+:007184B7 89F9                    mov ecx, edi
+:007184B9 89F2                    mov edx, esi
+:007184BB 90                      nop
+:007184BC 90                      nop
+:007184BD 90                      nop
+:007184BE 90                      nop
+:007184BF E80AEED0FF              call 004272CE
+:007184C4 90                      nop
+:007184C5 90                      nop
+:007184C6 803B01                  cmp byte ptr [ebx], 01
+:007184C9 7545                    jne 00718510
+:007184CB 90                      nop
+:007184CC 90                      nop
+:007184CD 90                      nop
+:007184CE 90                      nop
+:007184CF 90                      nop
+:007184D0 FF751C                  push [ebp+1C]
+:007184D3 FF7518                  push [ebp+18]
+:007184D6 FF7514                  push [ebp+14]
+:007184D9 FF7510                  push [ebp+10]
+:007184DC FF75FC                  push [ebp-04]
+:007184DF FF7508                  push [ebp+08]
+:007184E2 89F9                    mov ecx, edi
+:007184E4 89F2                    mov edx, esi
+:007184E6 90                      nop
+:007184E7 90                      nop
+:007184E8 90                      nop
+:007184E9 90                      nop
+:007184EA E8DFEDD0FF              call 004272CE
+:007184EF 90                      nop
+:007184F0 90                      nop
+:007184F1 803B01                  cmp byte ptr [ebx], 01
+:007184F4 741A                    je 00718510
+:007184F6 90                      nop
+:007184F7 90                      nop
+:007184F8 90                      nop
+:007184F9 90                      nop
+:007184FA 803B00                  cmp byte ptr [ebx], 00
+:007184FD 7411                    je 00718510
+:007184FF 90                      nop
+:00718500 E8361AD0FF              call 00419F3B
+:00718505 894508                  mov dword ptr [ebp+08], eax
+:00718508 90                      nop
+:00718509 90                      nop
+:0071850A EB99                    jmp 007184A5
+:0071850C 90                      nop
+:0071850D 90                      nop
+:0071850E 90                      nop
+:0071850F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007184C9(C), :007184F4(C), :007184FD(C)
+|
+:00718510 5B                      pop ebx
+:00718511 5E                      pop esi
+:00718512 5F                      pop edi
+:00718513 C9                      leave
+:00718514 C21800                  ret 0018

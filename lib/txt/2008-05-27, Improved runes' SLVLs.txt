@@ -1,0 +1,42 @@
+Using CLVL/4 as replacement for SLVL in 'rune' spells (SLVL would always be 0). Extra (or less) spell levels from items or character class are still added. This affects Fire/Lite nova runes.
+
+
+:0042F06A 03D6                    add edx, esi
+:0042F06C 0FBE840AC1000000        movsx eax, byte ptr [edx+ecx+000000C1]
+:0042F074 0FBE8C0E48550000        movsx ecx, byte ptr [esi+ecx+00005548]
+
+into >>>
+
+:0042F06A 8BC2                    mov eax, edx
+:0042F06C 03D6                    add edx, esi
+:0042F06E E98D5F2D00              jmp 00705000
+:0042F073 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070501A(U)
+|
+:0042F074 0FBE8C0E48550000        movsx ecx, byte ptr [esi+ecx+00005548]
+
+
+
+
+At free space:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F06E(U)
+|
+:00705000 83F82F                  cmp eax, 0000002F
+:00705003 7D0A                    jge 0070500F
+:00705005 0FBE840AC1000000        movsx eax, byte ptr [edx+ecx+000000C1]
+:0070500D EB0B                    jmp 0070501A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705003(C)
+|
+:0070500F 0FBE8431B8010000        movsx eax, byte ptr [ecx+esi+000001B8]
+:00705017 C1E802                  shr eax, 02
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070500D(U)
+|
+:0070501A E955A0D2FF              jmp 0042F074

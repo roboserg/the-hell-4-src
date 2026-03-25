@@ -1,0 +1,1001 @@
+﻿чек на боссов делается 69dca0, 0
+[15:56:18] Mordor: а как сделать чек на чемпионов ?
+[15:57:46] Ярик: [13:05] Ярик: 
+
+<<< В eax слишком мелкое значение
+не добавлено начало таблицы монстров
+0069DC88 начало таблицы монстров
++ 9 = 0069DC91
+[15:57:59] Ярик: Байт
+[15:58:09] Mordor: ок
+[15:58:22] Mordor: 01 == чемп?
+[15:58:28] Ярик: Нет
+[15:58:35] Ярик: не 0 чемп
+[15:58:52] Ярик: 1 - деф 2 - фанатик 3 - берсерк и т.п.
+[15:59:13] Mordor: ааа, ок, ок
+так даже удобнее!
+можно разным видам свое погощение прописать
+[15:59:20] Ярик: Да
+[15:59:25] Mordor: вообще супер
+
+=================================================================
+Появление чемпионов.
+
+Чемпионами не рождаются чемпионами становятся =) :))
+после того как добавлены все монстры на карту выбираем случайные координаты на карте и проверяем сколько там монстров 
+таких точек зачемпионивания будет сколько угодно в зависимости от требований баланса. скорее всего надо будет делать от min до max таких областей.
+Если нашли область в которой как минимум 2 монстра подходящих (не боссы и не прислужники), то всех их делаем чемпионами. 
+Для этого в генерал монстер флаг устанавливаем какой то свободный флаг в 1, удваиваем хп и броню (с бронёй мор разберётся)
+возможно, будет полезно добавить им урона: +(10-20)%
+двойной обычный дроп. при наведении надпись чемпион *имя* синим
+В общем функция сделать чемпионом состоит только из удвоения хп и установки флага
+
+Необходимые функции:
+
+СделатьЧемпионов(минКуч, максКуч)// основная делалка
+// внутри получаем случайное количество между мин и макс и столько куч чемпионов делаем. изнутри получаем случайные координаты и вызываем с ними функцию делания чемпионов. Если получилось то она вернёт 1 если нет то пробуем ещё. Результат прибавляется к счётчику.
+
+ОбратитьКучу(row, col)
+// вначале проверить 4 клетки кучи на наличие подходящих для обращения монстров
+// если меньше 2х подходящих монстров то возвращаем 0, маловато монстров
+// если 2 и более то проходим по всем 4м и если там подходящих для обращения монстр, то обращаем его
+
+ПроверитьМонстра(row, col)
+// проверяет есть ли монстр в клетке, не является ли он боссом и не является ли он бандой босса и не является ли чемпионом. если всё соблюдается то возвращает 1 иначе 0
+
+ОбратитьМонстра(row, col)
+// вначале проверяем вышеописанной функцией. Если она вернула 0 то выходим.
+// Иначе устанавливаем флаг монстра-чемпиона и удваиваем хп
+
+Добавление в конце 0043B798 в этот момент все монстры по уровню уже расставлены
+
+=========================================================
+
+@champNamePtrTable // 407040 // va: A3A440
+таблица указателей на имена чемпионов
+имена должны быть вида
+"%s fanatic"
+
+@makeChampFunctTable // 406F00 // va: A3A3A3
+таблица адресов функций для создания чемпионов
+
+=========================================================
+
+@isPotencialChamp: // ECB00  // 71FF00
+// проверяет есть ли монстр в клетке
+imul    ecx, 70h
+mov eax, ecx
+add eax, edx ; в eax cell
+shl eax, 2
+mov eax, dword ptr [eax+57D1E0h] ; получили значение карты монстров. если положительно то есть монстр и eax это monsterNumber
+cmp eax, 0
+jle @return0 ; нет монстра
+
+//не является ли он боссом
+dec eax; monsterIndex
+imul    eax, 0E4h ; monsterOffset
+add eax, 0069DC88 ; начало таблицы монстров. в eax теперь начало нужного монстра
+mov ecx, dword ptr [eax+018h];
+cmp ecx, 0
+jne @return0
+// и не является ли он бандой босса
+mov cl, byte ptr [eax+0D4h]; char   IndexOfBossOfThisMonster;                // 212
+cmp cl, 0
+jne @return0
+// и не является ли чемпионом
+mov  cl, byte ptr [eax+9];  uchar  ChampionIndex;                // 9
+cmp cl, 0
+jnz @return0 ; это чемпион
+
+@return1:
+push 1
+pop eax
+jmp @return
+
+@return0:
+xor eax, eax
+
+@return:
+retn
+
+      asm: >>>>>>>>>>>>>
+
+:0071FF00 6BC970                  imul ecx, 00000070
+:0071FF03 89C8                    mov eax, ecx
+:0071FF05 01D0                    add eax, edx
+:0071FF07 C1E002                  shl eax, 02
+:0071FF0A 8B80E0D15700            mov eax, dword ptr [eax+0057D1E0]
+:0071FF10 90                      nop
+:0071FF11 90                      nop
+:0071FF12 90                      nop
+:0071FF13 83F800                  cmp eax, 00000000
+:0071FF16 7E2D                    jle 0071FF45
+:0071FF18 90                      nop
+:0071FF19 48                      dec eax
+:0071FF1A 69C0E4000000            imul eax, 000000E4
+:0071FF20 0588DC6900              add eax, 0069DC88
+:0071FF25 8B4818                  mov ecx, dword ptr [eax+18]
+:0071FF28 83F900                  cmp ecx, 00000000
+:0071FF2B 7518                    jne 0071FF45
+:0071FF2D 8A88D4000000            mov cl, byte ptr [eax+000000D4]
+:0071FF33 80F900                  cmp cl, 00
+:0071FF36 750D                    jne 0071FF45
+:0071FF38 8A4809                  mov cl, byte ptr [eax+09]
+:0071FF3B 80F900                  cmp cl, 00
+:0071FF3E 7505                    jne 0071FF45
+:0071FF40 6A01                    push 00000001
+:0071FF42 58                      pop eax
+:0071FF43 EB02                    jmp 0071FF47
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071FF16(C), :0071FF2B(C), :0071FF36(C), :0071FF3E(C)
+|
+:0071FF45 31C0                    xor eax, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071FF43(U)
+|
+:0071FF47 C3                      ret
+=========================================================
+
+@RecrutMonster: // ECC00 // va: 720000
+push ebx
+push edi
+push esi
+
+mov edi, ecx
+mov esi, edx
+
+// вначале проверяем вышеописанной функцией. Если она вернула 0 то выходим.
+call @isPotencialChamp
+cmp eax, 0
+jz @return
+// Иначе устанавливаем флаг монстра-чемпиона и удваиваем хп
+
+imul    edi, 70h
+mov ebx, edi
+add ebx, esi; в eax cell
+shl ebx, 2
+mov ebx, dword ptr [ebx+57D1E0h] ; получили значение карты монстров. если положительно то есть монстр и ebx это monsterNumber
+cmp ebx, 0
+jle @return ; нет монстра
+dec ebx; monsterIndex
+imul    ebx, 0E4h ; monsterOffset
+add ebx, 0069DC88 ; начало таблицы монстров. в ebx теперь начало нужного монстра
+
+mov edx, 3 ; количество видов чемпионов
+call 00419F5A ; rng
+inc eax
+mov  byte ptr [ebx+9], al;  uchar  ChampionIndex;                // 9
+inc byte ptr[ ebx + 192d] //uchar  MonsterLevel 192
+
+dec eax
+mov ecx, ebx
+shl eax, 2; умножить на 4
+add eax, @makeChampFunctTable
+call [eax]
+@return:
+pop esi
+pop edi
+pop ebx
+retn
+
+  asm: >>>>>>>>>>>>
+
+:00720000 53                      push ebx
+:00720001 57                      push edi
+:00720002 56                      push esi
+:00720003 89CF                    mov edi, ecx
+:00720005 89D6                    mov esi, edx
+:00720007 90                      nop
+:00720008 90                      nop
+:00720009 E8F2FEFFFF              call 0071FF00
+:0072000E 90                      nop
+:0072000F 90                      nop
+:00720010 83F800                  cmp eax, 00000000
+:00720013 745B                    je 00720070
+:00720015 6BFF70                  imul edi, 00000070
+:00720018 90                      nop
+.....
+:00720024 90                      nop
+:00720025 89FB                    mov ebx, edi
+:00720027 01F3                    add ebx, esi
+:00720029 C1E302                  shl ebx, 02
+:0072002C 8B9BE0D15700            mov ebx, dword ptr [ebx+0057D1E0]
+:00720032 90                      nop
+:00720033 90                      nop
+:00720034 83FB00                  cmp ebx, 00000000
+:00720037 7E37                    jle 00720070
+:00720039 4B                      dec ebx
+:0072003A 69DBE4000000            imul ebx, 000000E4
+:00720040 90                      nop
+:00720041 90                      nop
+:00720042 81C388DC6900            add ebx, 0069DC88
+:00720048 90                      nop
+:00720049 90                      nop
+:0072004A 6A03                    push 00000003
+:0072004C 5A                      pop edx
+:0072004D 51                      push ecx
+:0072004E E8079FCFFF              call 00419F5A
+:00720053 59                      pop ecx
+:00720054 40                      inc eax
+:00720055 884309                  mov byte ptr [ebx+09], al
+:00720058 FE83C0000000            inc byte ptr [ebx+000000C0]
+:0072005E 90                      nop
+:0072005F 48                      dec eax
+:00720060 89D9                    mov ecx, ebx
+:00720062 C1E002                  shl eax, 02
+:00720065 05A3A3A300              add eax, 00A3A3A3
+:0072006A FF10                    call dword ptr [eax]
+:0072006C 90                      nop
+.....
+:0072006F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00720013(C), :00720037(C)
+|
+:00720070 5E                      pop esi
+:00720071 5F                      pop edi
+:00720072 5B                      pop ebx
+:00720073 C3                      ret
+=========================================================
+@RecruitPack // ECC90 // 720090
+push ebx
+push edi
+push esi
+
+mov edi, ecx
+mov esi, edx
+
+@packCheck:
+// вначале проверить 4 клетки кучи на наличие подходящих для обращения монстров
+xor ebx, ebx
+call @isPotencialChamp
+add ebx, eax
+
+mov ecx, edi
+mov edx, esi
+dec ecx
+call @isPotencialChamp (row-1, col)
+add ebx, eax
+
+mov ecx, edi
+mov edx, esi
+dec ecx
+dec edx
+call @isPotencialChamp (row-1, col-1)
+add ebx, eax
+
+mov ecx, edi
+mov edx, esi
+dec edx
+call @isPotencialChamp (row, col-1)
+add ebx, eax
+     
+cmp ebx, 2
+jl @return0// если меньше 2х подходящих монстров то возвращаем 0, маловато монстров
+// если 2 и более то проходим по всем 4м и если там подходящих для обращения монстр, то обращаем его
+
+mov ecx, edi
+mov edx, esi
+call @RecrutMonster
+
+mov ecx, edi
+mov edx, esi
+dec ecx
+call @RecrutMonster  (row-1, col)
+
+mov ecx, edi
+mov edx, esi
+dec ecx
+dec edx
+call @RecrutMonster   (row-1, col-1)
+
+mov ecx, edi
+mov edx, esi
+dec edx
+call @RecrutMonster   (row, col-1)
+
+@return1
+push 1
+pop eax
+jmp @return
+
+@return0
+xor eax, eax
+
+@return:
+pop esi
+pop edi
+pop ebx
+retn
+
+   asm:  >>>>>>>>>>
+
+:00720090 53                      push ebx
+:00720091 57                      push edi
+:00720092 56                      push esi
+:00720093 89CF                    mov edi, ecx
+:00720095 89D6                    mov esi, edx
+:00720097 31DB                    xor ebx, ebx
+:00720099 90                      nop
+................
+:0072009C 90                      nop
+:0072009D E85EFEFFFF              call 0071FF00
+:007200A2 90                      nop
+:007200A3 90                      nop
+:007200A4 01C3                    add ebx, eax
+:007200A6 89F9                    mov ecx, edi
+:007200A8 89F2                    mov edx, esi
+:007200AA 49                      dec ecx
+:007200AB 90                      nop
+:007200AC 90                      nop
+:007200AD E84EFEFFFF              call 0071FF00
+:007200B2 90                      nop
+:007200B3 90                      nop
+:007200B4 01C3                    add ebx, eax
+:007200B6 89F9                    mov ecx, edi
+:007200B8 89F2                    mov edx, esi
+:007200BA 49                      dec ecx
+:007200BB 4A                      dec edx
+:007200BC 90                      nop
+:007200BD E83EFEFFFF              call 0071FF00
+:007200C2 90                      nop
+:007200C3 90                      nop
+:007200C4 01C3                    add ebx, eax
+:007200C6 89F9                    mov ecx, edi
+:007200C8 89F2                    mov edx, esi
+:007200CA 4A                      dec edx
+:007200CB 90                      nop
+:007200CC 90                      nop
+:007200CD E82EFEFFFF              call 0071FF00
+:007200D2 90                      nop
+:007200D3 90                      nop
+:007200D4 01C3                    add ebx, eax
+:007200D6 90                      nop
+:007200D7 90                      nop
+:007200D8 83FB02                  cmp ebx, 00000002
+:007200DB 0F8C54000000            jl 00720135
+:007200E1 90                      nop
+...........
+:007200E5 90                      nop
+:007200E6 89F9                    mov ecx, edi
+:007200E8 89F2                    mov edx, esi
+:007200EA 90                      nop
+:007200EB 90                      nop
+:007200EC 90                      nop
+:007200ED E80EFFFFFF              call 00720000
+:007200F2 90                      nop
+......
+:007200F5 90                      nop
+:007200F6 89F9                    mov ecx, edi
+:007200F8 89F2                    mov edx, esi
+:007200FA 49                      dec ecx
+:007200FB 90                      nop
+:007200FC 90                      nop
+:007200FD E8FEFEFFFF              call 00720000
+:00720102 90                      nop
+.........
+:00720105 90                      nop
+:00720106 89F9                    mov ecx, edi
+:00720108 89F2                    mov edx, esi
+:0072010A 49                      dec ecx
+:0072010B 4A                      dec edx
+:0072010C 90                      nop
+:0072010D E8EEFEFFFF              call 00720000
+:00720112 90                      nop
+.............
+:00720115 90                      nop
+:00720116 89F9                    mov ecx, edi
+:00720118 89F2                    mov edx, esi
+:0072011A 4A                      dec edx
+:0072011B 90                      nop
+:0072011C 90                      nop
+:0072011D E8DEFEFFFF              call 00720000
+:00720122 90                      nop
+....
+:0072012F 90                      nop
+:00720130 6A01                    push 00000001
+:00720132 58                      pop eax
+:00720133 EB02                    jmp 00720137
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007200DB(C)
+|
+:00720135 31C0                    xor eax, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00720133(U)
+|
+:00720137 5E                      pop esi
+:00720138 5F                      pop edi
+:00720139 5B                      pop ebx
+:0072013A C3                      ret
+
+=======================================================
+@MakeChampions: // ECDA0 // 7201A0
+push esi
+push edi
+
+push ebx
+mov ebx, FFFh; попыток
+
+call 00425A76 ; функция randFromRange возвращает случайное число между максимумом и минимумом
+mov esi, eax; реальное количество добавляемых паков
+
+@loop:// основной цикл добавления
+mov ecx, 0
+mov edx, 6Eh
+call 00425A76 
+mov edi, eax;  row
+mov ecx, 0
+mov edx, 6E
+call 00425A76
+mov ecx, edi;  row
+mov edx, eax;  col
+call @RecruitPack
+sub esi, eax; если удачно то вычитается 1, иначе ещё попытка
+
+dec ebx
+cmp ebx, 0
+jle @return
+
+cmp esi, 0
+jg @loop
+
+@return:
+pop ebx
+
+pop edi
+pop esi
+retn
+
+       asm: >>>>>>>>>>>
+       
+:007201A0 56                      push esi
+:007201A1 57                      push edi
+:007201A2 53                      push ebx
+:007201A3 BBFF000000              mov ebx, 000000FF
+:007201A8 E8C958D0FF              call 00425A76
+:007201AD 90                      nop
+:007201AE 90                      nop
+:007201AF 90                      nop
+:007201B0 89C6                    mov esi, eax
+:007201B2 90                      nop
+......
+:007201B7 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007201F8(C)
+|
+:007201B8 6A01                    push 00000001
+:007201BA 59                      pop ecx
+:007201BB 49                      dec ecx
+:007201BC 6A6E                    push 0000006E
+:007201BE 5A                      pop edx
+:007201BF 90                      nop
+:007201C0 90                      nop
+:007201C1 E8B058D0FF              call 00425A76
+:007201C6 90                      nop
+:007201C7 90                      nop
+:007201C8 89C7                    mov edi, eax
+:007201CA 6A01                    push 00000001
+:007201CC 59                      pop ecx
+:007201CD 49                      dec ecx
+:007201CE 6A6E                    push 0000006E
+:007201D0 5A                      pop edx
+:007201D1 E8A058D0FF              call 00425A76
+:007201D6 90                      nop
+.......
+:007201D9 90                      nop
+:007201DA 89F9                    mov ecx, edi
+:007201DC 89C2                    mov edx, eax
+:007201DE 90                      nop
+:007201DF 90                      nop
+:007201E0 90                      nop
+:007201E1 E8AAFEFFFF              call 00720090
+:007201E6 90                      nop
+:007201E7 90                      nop
+:007201E8 29C6                    sub esi, eax
+:007201EA 4B                      dec ebx
+:007201EB 90                      nop
+......
+:007201EF 90                      nop
+:007201F0 83FB00                  cmp ebx, 00000000
+:007201F3 7E05                    jle 007201FA
+:007201F5 83FE00                  cmp esi, 00000000
+:007201F8 7FBE                    jg 007201B8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007201F3(C)
+|
+:007201FA 5B                      pop ebx
+:007201FB 5F                      pop edi
+:007201FC 5E                      pop esi
+:007201FD C3                      ret
+====================================================
+43B9A5 jmp newLoc
+
+@newLoc // ECE10 // va: 720210
+mov ecx, MIN_CHAMP_PACKS_COUNT
+mov edx, MAX_CHAMP_PACKS_COUNT; сюда статично или по хитрожопой формуле числа
+call @MakeChampions
+; затёртое
+pop     edi
+pop     esi
+pop     ebp
+pop     ebx
+add     esp, 230h
+retn
+
+  asm: >>>>>>>>>>>>>>>>>>>
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043B9A5(U)
+|
+:00720210 6A02                    push 00000002
+:00720212 59                      pop ecx
+:00720213 90                      nop
+............
+:0072021F 90                      nop
+:00720220 6A04                    push 00000004
+:00720222 5A                      pop edx
+:00720223 90                      nop
+.................................
+:0072022F 90                      nop
+:00720230 E86BFFFFFF              call 007201A0
+:00720235 90                      nop
+...........................
+:0072023F 90                      nop
+:00720240 5F                      pop edi
+:00720241 5E                      pop esi
+:00720242 5D                      pop ebp
+:00720243 5B                      pop ebx
+:00720244 81C430020000            add esp, 00000230
+:0072024A C3                      ret
+
+=========================================================
+@defender: ;defender: 3x HP, -25% damage // ED000 // 720400
+c уроном какая-то мегаебля. эти -25% нихрена не решают. так что в топку их!!
+просто оставлю места прилично на апдейты
+
+push esi
+mov esi, ecx
+; x4 HP
+mov     ecx, dword ptr [esi+90h];  int  BaseLife;                        // 144
+mov edx, ecx
+shl ecx, 1
+add ecx, edx
+mov dword ptr [esi+90h], ecx; int  BaseLife;
+mov dword ptr [esi+94h], ecx; int  CurrentLife;                        // 148
+
+;-25% damage
+MIN_DAM ; любое число - нижняя планка для дамага после понижения
+movzx     ecx, byte ptr [esi+0C5h]; uchar  MinDamage;         // 197
+mov edx, ecx
+shr edx, 2; 25% от дамага
+sub ecx , edx ; 75% от дамага
+cmp ecx, MIN_DAM 
+jge @F
+mov ecx, MIN_DAM
+@@
+mov byte ptr [esi+0C5h ], cl
+
+movzx   ecx , byte ptr [esi+0C6h]; uchar  MaxDamage;                        // 198
+mov edx, ecx
+shr edx, 2; 25% от дамага
+sub ecx , edx ; 75% от дамага
+cmp ecx, MIN_DAM 
+jge @F
+mov ecx, MIN_DAM
+@@
+mov byte ptr [esi+0C6h ], cl
+
+movzx   ecx , byte ptr [esi+0C8h]; uchar  SecondMinDamage;        // 200
+mov edx, ecx
+shr edx, 2; 25% от дамага
+sub ecx , edx ; 75% от дамага
+cmp ecx, MIN_DAM 
+jge @F
+mov ecx, MIN_DAM
+@@
+mov byte ptr [esi+0C8h ], cl
+
+movzx   ecx , byte ptr [esi+0C9h]; uchar  SecondMaxDamage;        // 201
+mov edx, ecx
+shr edx, 2; 25% от дамага
+sub ecx , edx ; 75% от дамага
+cmp ecx, MIN_DAM 
+jge @F
+mov ecx, MIN_DAM
+@@
+mov byte ptr [esi+0C9h ], cl
+
+pop esi
+retn
+
+ asm:
+
+:00720400 56                      push esi
+:00720401 89CE                    mov esi, ecx
+:00720403 8B8E90000000            mov ecx, dword ptr [esi+00000090]
+:00720409 90                      nop
+:0072040A 90                      nop
+:0072040B 89CA                    mov edx, ecx
+:0072040D D1E1                    shl ecx, 1
+:0072040F 01D1                    add ecx, edx
+:00720411 90                      nop
+.....
+:00720415 90                      nop
+:00720416 898E90000000            mov dword ptr [esi+00000090], ecx
+:0072041C 898E94000000            mov dword ptr [esi+00000094], ecx
+:00720422 90                      nop
+......
+:00720425 90                      nop
+:00720426 5E                      pop esi
+:00720427 C3                      ret
+
+=========================================================
+@fanatic: ;+((Diff*24)+dlvl+5)% Tohit, -25% HP // ED100 // 720500
+push esi
+mov esi, ecx
+
+mov edx, dlvl
+mov ecx, diff
+push eax
+imul ecx, 24
+pop eax
+add edx, ecx
+add edx, 5
+
+;+% Tohit
+movzx   ecx , byte ptr [esi+0C4h]; uchar  ToHit;                                // 196
+add ecx , edx ; + ту хит
+cmp ecx, FFh
+jl @F
+mov ecx, FF
+@@
+mov byte ptr [esi+0C4h ], cl
+
+movzx   ecx , byte ptr [esi+0C7h]; uchar  SecondToHit;                // 199
+add ecx , edx ; + ту хит
+cmp ecx, FF
+jl @F
+mov ecx, FF
+@@
+mov byte ptr [esi+0C7h ], cl
+
+;-25% HP // not applied
+MIN_HP ; любое число - нижняя планка для hp после понижения
+mov     ecx, dword ptr [esi+90h];  int  BaseLife;                        // 144
+mov edx, ecx
+shr edx, 2; 25% hp
+sub ecx, edx; 75% hp
+cmp ecx, MIN_HP
+jg @F
+mov ecx, MIN_HP
+@@
+mov dword ptr [esi+90h], ecx; int  BaseLife;
+mov dword ptr [esi+94h], ecx; int  CurrentLife;                        // 148
+
+pop esi
+retn
+
+asm:
+
+:00720500 56                      push esi
+:00720501 89CE                    mov esi, ecx
+:00720503 90                      nop
+:00720504 90                      nop
+:00720505 90                      nop
+:00720506 90                      nop
+:00720507 90                      nop
+:00720508 0FBE15D8B16000          movsx edx, byte ptr [0060B1D8]
+:0072050F 90                      nop
+:00720510 90                      nop
+:00720511 8B0DC0706000            mov ecx, dword ptr [006070C0]
+:00720517 90                      nop
+:00720518 90                      nop
+:00720519 6BC918                  imul ecx, 00000018
+:0072051C 90                      nop
+:0072051D 90                      nop
+:0072051E 90                      nop
+:0072051F 90                      nop
+:00720520 01CA                    add edx, ecx
+:00720522 83C205                  add edx, 00000005
+:00720525 90                      nop
+:00720526 90                      nop
+:00720527 90                      nop
+:00720528 0FB68EC4000000          movzx ecx, byte ptr [esi+000000C4]
+:0072052F 90                      nop
+:00720530 90                      nop
+:00720531 01D1                    add ecx, edx
+:00720533 81F9FF000000            cmp ecx, 000000FF
+:00720539 7C05                    jl 00720540
+:0072053B B9FF000000              mov ecx, 000000FF
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00720539(C)
+|
+:00720540 888EC4000000            mov byte ptr [esi+000000C4], cl
+:00720546 90                      nop
+:00720547 90                      nop
+:00720548 0FB68EC7000000          movzx ecx, byte ptr [esi+000000C7]
+:0072054F 90                      nop
+:00720550 90                      nop
+:00720551 01D1                    add ecx, edx
+:00720553 81F9FF000000            cmp ecx, 000000FF
+:00720559 7C05                    jl 00720560
+:0072055B B9FF000000              mov ecx, 000000FF
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00720559(C)
+|
+:00720560 888EC7000000            mov byte ptr [esi+000000C7], cl
+:00720566 90                      nop
+:00720567 90                      nop
+:00720568 90                      nop
+:00720569 90                      nop
+:0072056A 90                      nop
+:0072056B 90                      nop
+:0072056C 5E                      pop esi
+:0072056D C3                      ret
+=========================================================
+@berserker: ;+2+(dlvl/4)+(diff*7) to damage, -50% AC // ED200 // 720600
+push esi
+mov esi, ecx
+
+mov edx, dlvl
+shr edx, 2
+mov ecx, diff
+imul ecx, 7
+add edx, ecx
+add edx, 2
+
+;+ damage
+movzx     ecx, byte ptr [esi+0C5h]; uchar  MinDamage;         // 197
+add ecx, edx
+cmp ecx, FF
+jle @F
+mov ecx, FF
+@@
+mov byte ptr [esi+0C5h ], cl
+
+movzx   ecx , byte ptr [esi+0C6h]; uchar  MaxDamage;                        // 198
+add ecx, edx
+cmp ecx, FF
+jle @F
+mov ecx, FF
+@@
+mov byte ptr [esi+0C6h ], cl
+
+movzx   ecx , byte ptr [esi+0C8h]; uchar  SecondMinDamage;        // 200
+add ecx, edx
+cmp ecx, FF
+jle @F
+mov ecx, FF
+@@
+mov byte ptr [esi+0C8h ], cl
+
+movzx   ecx , byte ptr [esi+0C9h]; uchar  SecondMaxDamage;        // 201
+add ecx, edx
+cmp ecx, FF
+jle @F
+mov ecx, FF
+@@
+mov byte ptr [esi+0C9h ], cl
+
+;-50% AC // not applied
+MIN_AC ; любое число - нижняя планка для AC после понижения
+movzx     ecx, byte ptr [esi+0CAh]; uchar  ArmorClass;                // 202
+shr ecx, 1; 50% ac
+cmp ecx, MIN_AC 
+jg @F
+mov ecx, MIN_AC 
+@@:
+mov byte ptr [esi+0CAh] , cl;
+
+pop esi
+retn
+
+asm:
+
+:00720600 56                      push esi
+:00720601 89CE                    mov esi, ecx
+:00720603 0FBE15D8B16000          movsx edx, byte ptr [0060B1D8]
+:0072060A C1EA02                  shr edx, 02
+:0072060D 8B0DC0706000            mov ecx, dword ptr [006070C0]
+:00720613 6BC907                  imul ecx, 00000007
+:00720616 01CA                    add edx, ecx
+:00720618 42                      inc edx
+:00720619 42                      inc edx
+:0072061A 90                      nop
+.....
+:0072061F 90                      nop
+:00720620 0FB68EC5000000          movzx ecx, byte ptr [esi+000000C5]
+:00720627 01D1                    add ecx, edx
+:00720629 81F9FF000000            cmp ecx, 000000FF
+:0072062F 7E05                    jle 00720636
+:00720631 B9FF000000              mov ecx, 000000FF
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0072062F(C)
+|
+:00720636 888EC5000000            mov byte ptr [esi+000000C5], cl
+:0072063C 90                      nop
+:0072063D 90                      nop
+:0072063E 90                      nop
+:0072063F 90                      nop
+:00720640 0FB68EC6000000          movzx ecx, byte ptr [esi+000000C6]
+:00720647 01D1                    add ecx, edx
+:00720649 81F9FF000000            cmp ecx, 000000FF
+:0072064F 7E05                    jle 00720656
+:00720651 B9FF000000              mov ecx, 000000FF
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0072064F(C)
+|
+:00720656 888EC6000000            mov byte ptr [esi+000000C6], cl
+:0072065C 90                      nop
+:0072065D 90                      nop
+:0072065E 90                      nop
+:0072065F 90                      nop
+:00720660 0FB68EC8000000          movzx ecx, byte ptr [esi+000000C8]
+:00720667 01D1                    add ecx, edx
+:00720669 81F9FF000000            cmp ecx, 000000FF
+:0072066F 7E05                    jle 00720676
+:00720671 B9FF000000              mov ecx, 000000FF
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0072066F(C)
+|
+:00720676 888EC8000000            mov byte ptr [esi+000000C8], cl
+:0072067C 90                      nop
+:0072067D 90                      nop
+:0072067E 90                      nop
+:0072067F 90                      nop
+:00720680 0FB68EC9000000          movzx ecx, byte ptr [esi+000000C9]
+:00720687 01D1                    add ecx, edx
+:00720689 81F9FF000000            cmp ecx, 000000FF
+:0072068F 7E05                    jle 00720696
+:00720691 B9FF000000              mov ecx, 000000FF
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0072068F(C)
+|
+:00720696 888EC9000000            mov byte ptr [esi+000000C9], cl
+:0072069C 90                      nop
+.....
+:007206A1 90                      nop
+:007206A2 5E                      pop esi
+:007206A3 C3                      ret
+=========================================================
+;.mod:00712AFB                 jmp     loc_405879
+00712AFB jmp @newLoc
+
+@newLoc: // eceb0 
+movzx ecx, byte ptr [eax+0069DC91];   uchar  ChampionIndex;                // 9
+cmp  cl, 00;
+jz 00405879 ; обычный монстр
+@champion:
+mov     [4D11AC], 1 ; синий цвет инфопанели
+
+push    dword ptr [eax+69DD60h]; monsterName  0069DC88 + 0D8h
+dec ecx
+shl ecx, 2; *= 4
+add ecx, @champNamePtrTable
+mov ecx, dword ptr [ecx]
+push ecx
+push    esi             ; Dest
+call    00479AC0; _sprintf
+add     esp, 0Ch
+jmp 0040588E
+
+asm:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00712AFB(U)
+|
+:007202B0 90                      nop
+:007202B1 90                      nop
+:007202B2 90                      nop
+:007202B3 90                      nop
+:007202B4 90                      nop
+:007202B5 0FB68891DC6900          movzx ecx, byte ptr [eax+0069DC91]
+:007202BC 90                      nop
+:007202BD 90                      nop
+:007202BE 90                      nop
+:007202BF 90                      nop
+:007202C0 80F900                  cmp cl, 00
+:007202C3 0F84B055CEFF            je 00405879
+:007202C9 90                      nop
+:007202CA 90                      nop
+:007202CB C605AC114D0001          mov byte ptr [004D11AC], 01
+:007202D2 90                      nop
+:007202D3 90                      nop
+:007202D4 FFB060DD6900            push dword ptr [eax+0069DD60]
+:007202DA 90                      nop
+:007202DB 90                      nop
+:007202DC 49                      dec ecx
+:007202DD C1E102                  shl ecx, 02
+:007202E0 90                      nop
+:007202E1 90                      nop
+:007202E2 81C140A4A300            add ecx, 00A3A440
+:007202E8 90                      nop
+:007202E9 90                      nop
+:007202EA 8B09                    mov ecx, dword ptr [ecx]
+:007202EC 51                      push ecx
+:007202ED 56                      push esi
+:007202EE 90                      nop
+:007202EF 90                      nop
+:007202F0 E8CB97D5FF              call 00479AC0
+:007202F5 90                      nop
+:007202F6 90                      nop
+:007202F7 83C40C                  add esp, 0000000C
+:007202FA E98F55CEFF              jmp 0040588E
+=========================================================
+
+.text:0043B389 66 89 86 54 DD 69 00                    mov     Monsters.ResistImmunity[esi], ax
+
+вставить между            
+and byte ptr [esi + 0069DC91h], 0; ChampionIndex              
+
+.text:0043B390 80 A6 5C DD 69 00 00                    and     Monsters.IndexOfBossOfThisMonster[esi], 0
+.text:0043B397 80 A6 5D DD 69 00 00                    and     Monsters.isBossPack[esi], 0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043B390(U)
+|
+:00720280 90                      nop
+.........
+:00720287 90                      nop
+:00720288 80A691DC690000          and byte ptr [esi+0069DC91], 00
+:0072028F 90                      nop
+:00720290 90                      nop
+:00720291 90                      nop
+:00720292 90                      nop
+:00720293 80A65CDD690000          and byte ptr [esi+0069DD5C], 00
+:0072029A 90                      nop
+........
+:007202A8 90                      nop
+:007202A9 E9E9B0D1FF              jmp 0043B397
+=========================================================
+
+.mod:00710068                 nop
+.mod:00710069                 nop
+.mod:0071006A                 push    eax
+.mod:000BCh71006B                 mov     eax, edi
+.mod:0071006D                 nop
+.mod:0071006E                 nop
+.mod:0071006F                 nop
+.mod:00710070                 imul    eax, 0E4h
+.mod:00710076                 cmp     dword ptr [eax+69DCA0h], 0
+.mod:0071007D                 pop     eax
+.mod:0071007E                 jz      short loc_7100D4
+
+eax не используется и за счет его убирания можно освободить место
+
+mov     eax, edi
+imul    eax, 0E4h
+cmp     dword ptr [eax+69DCA0h], 0
+jnz      00710080 ; спец дроп с боссов
+cmp  byte ptr [eax+09h], 00;  uchar  ChampionIndex;                // 9
+jz 7100D4 ; одна шмотка
+@champion:
+jmp 7100C1 ; две шмотки
+
+если поместится там, то ок. не поместится, можно будет сместить вперёд следующий кусок. Ну или на новое место прыгнуть ради проверки.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

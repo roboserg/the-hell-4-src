@@ -1,0 +1,4 @@
+
+
+003D69D0:	00A09DD0:	SFX table	was at: 95FB0 (23EE bytes long), 4975B0 - 49999E
+001F0000:	00823400:	speech table	was at: 

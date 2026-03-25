@@ -1,0 +1,304 @@
+Plan 1:
+
+Sword+Sword gives 150% dmg to Beasts, 50% to Undead and 100% to others
+Sword+mace gives 100% dmg to all
+Mace+Sword gives 100% dmg to all
+Mace+Mace gives 150% dmg to Undead, 50% dmg to Beasts and 100% dmg to others
+Axe, Unarmed and Staff damage are always 100% against all
+___________________________
+
+Plan 2:
+
+check if primary = Sword
+je 'A'
+check if Primary = Mace
+je 'B'
+check if offhand = Sword
+je Sword dmg
+check if offhand = Mace
+je Mace dmg
+jmp Neutral
+
+A
+check if offhand = Mace
+je Neutral dmg
+jmp Sword dmg
+
+B
+check if offhand = Sword
+je Neutral dmg
+jmp Mace dmg
+
+>>>
+
+mov eax, dword ptr [006EAE14]
+or edx, FFFFFFFF
+add eax, esi
+mov ecx, dword ptr [eax+00000964]
+cmp ecx, 00000001
+je A
+cmp ecx, 00000004
+je B
+cmp dword ptr [eax+00000AD8], 00000001
+je Sword dmg
+cmp dword ptr [eax+00000AD8], 00000004
+je Mace dmg
+jmp Neutral
+
+A
+cmp dword ptr [eax+00000AD8], 00000004
+je Neutral dmg
+jmp Sword dmg
+
+B
+cmp dword ptr [eax+00000AD8], 00000001
+je Neutral dmg
+jmp Mace dmg
+
+
+"SwDmg"
+6a01
+5a
+jmp next
+
+"McDmg"
+6a04
+5a
+jmp next
+
+
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+Implementation:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045BA8E(C), :00705A26(U)
+|
+:0045BA92 E9B9A92A00              jmp 00706450
+:0045BA97 90                      nop
+.....
+:0045BAFD 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007064D8(U)
+|
+:0045BAFE F6804355000040          test byte ptr [eax+00005543], 40
+
+
+
+	Extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BA92(U)
+|
+:00706450 A114AE6E00              mov eax, dword ptr [006EAE14]
+:00706455 83CAFF                  or edx, FFFFFFFF
+:00706458 03C6                    add eax, esi
+:0070645A 8B8864090000            mov ecx, dword ptr [eax+00000964]
+:00706460 83F901                  cmp ecx, 00000001
+:00706463 7419                    je 0070647E
+:00706465 83F904                  cmp ecx, 00000004
+:00706468 741F                    je 00706489
+:0070646A 83B8D80A000001          cmp dword ptr [eax+00000AD8], 00000001
+:00706471 7421                    je 00706494
+:00706473 83B8D80A000004          cmp dword ptr [eax+00000AD8], 00000004
+:0070647A 741D                    je 00706499
+:0070647C EB5A                    jmp 007064D8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706463(C)
+|
+:0070647E 83B8D80A000004          cmp dword ptr [eax+00000AD8], 00000004
+:00706485 7451                    je 007064D8
+:00706487 EB0B                    jmp 00706494
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706468(C)
+|
+:00706489 83B8D80A000001          cmp dword ptr [eax+00000AD8], 00000001
+:00706490 7446                    je 007064D8
+:00706492 EB05                    jmp 00706499
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00706471(C), :00706487(U)
+|
+:00706494 6A01                    push 00000001
+:00706496 5A                      pop edx
+:00706497 EB05                    jmp 0070649E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070647A(C), :00706492(U)
+|
+:00706499 6A04                    push 00000004
+:0070649B 5A                      pop edx
+:0070649C EB00                    jmp 0070649E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00706497(U), :0070649C(U)
+|
+:0070649E 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:007064A1 8B8968DD6900            mov ecx, dword ptr [ecx+0069DD68]
+:007064A7 8A5972                  mov bl, byte ptr [ecx+72]
+:007064AA 0FBECB                  movsx ecx, bl
+:007064AD 83E900                  sub ecx, 00000000
+:007064B0 740E                    je 007064C0
+:007064B2 49                      dec ecx
+:007064B3 49                      dec ecx
+:007064B4 7522                    jne 007064D8
+:007064B6 83FA04                  cmp edx, 00000004
+:007064B9 740A                    je 007064C5
+:007064BB 83FA01                  cmp edx, 00000001
+:007064BE EB10                    jmp 007064D0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007064B0(C)
+|
+:007064C0 83FA01                  cmp edx, 00000001
+:007064C3 7508                    jne 007064CD
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007064B9(C)
+|
+:007064C5 8BCF                    mov ecx, edi
+:007064C7 D1F9                    sar ecx, 1
+:007064C9 2BF9                    sub edi, ecx
+:007064CB EB0B                    jmp 007064D8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007064C3(C)
+|
+:007064CD 83FA04                  cmp edx, 00000004
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007064BE(U)
+|
+:007064D0 7506                    jne 007064D8
+:007064D2 8BCF                    mov ecx, edi
+:007064D4 D1F9                    sar ecx, 1
+:007064D6 03F9                    add edi, ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070647C(U), :00706485(C), :00706490(C), :007064B4(C), :007064CB(U)
+|:007064D0(C)
+|
+:007064D8 E92156D5FF              jmp 0045BAFE
+
+
+
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+Paladin receives innate bonus damage to undead ( +25% ):
+
+1:29 24.07.2012
+
+	code:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007064AD(U)
+|
+:00711460 83E900                  sub ecx, 00000000
+:00711463 7405                    je 0071146A
+:00711465 E94850FFFF              jmp 007064B2
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00711463(C)
+|
+:0071146A 50                      push eax
+:0071146B E8608DFFFF              call 0070A1D0
+:00711470 80B86001000000          cmp byte ptr [eax+00000160], 00
+:00711477 750D                    jne 00711486
+:00711479 58                      pop eax
+:0071147A 8BCF                    mov ecx, edi
+:0071147C C1F902                  sar ecx, 02
+:0071147F 03F9                    add edi, ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00711487(U)
+|
+:00711481 E93A50FFFF              jmp 007064C0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00711477(C)
+|
+:00711486 58                      pop eax
+:00711487 EBF8                    jmp 00711481
+
+
+==================================================================================================================
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045BA79(C), :0045BA8E(C)
+|
+:0045BA92 A114AE6E00              mov eax, dword ptr [006EAE14]			eax = character
+:0045BA97 83CAFF                  or edx, FFFFFFFF
+:0045BA9A 03C6                    add eax, esi
+:0045BA9C 8B8864090000            mov ecx, dword ptr [eax+00000964]			ecx = primary hand slot
+:0045BAA2 83F901                  cmp ecx, 00000001					check if it has sword in it
+:0045BAA5 7409                    je 0045BAB0						if so, go to....
+:0045BAA7 83B8D80A000001          cmp dword ptr [eax+00000AD8], 00000001		check if sword is in offhand slot
+:0045BAAE 7503                    jne 0045BAB3						if not, go to...
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:			
+|:0045BAA5(C)
+|
+:0045BAB0 6A01                    push 00000001						
+:0045BAB2 5A                      pop edx							edx = 1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BAAE(C)
+|
+:0045BAB3 83F904                  cmp ecx, 00000004					check if primary weapon is blunt
+:0045BAB6 7409                    je 0045BAC1						if so, go...
+:0045BAB8 83B8D80A000004          cmp dword ptr [eax+00000AD8], 00000004		if not compare if offhand weapon is blunt
+:0045BABF 7503                    jne 0045BAC4						if not skip to...
+
+
+		below is executed if primary weapon is blunt OR if primary is not a blunt but offhand is blunt (= if any weapon slot has blunt)
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:			
+|:0045BAB6(C)
+|
+:0045BAC1 6A04                    push 00000004
+:0045BAC3 5A                      pop edx							edx = 4
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BABF(C)
+|
+:0045BAC4 8B4DFC                  mov ecx, dword ptr [ebp-04]				ecx = monster data ?
+:0045BAC7 8B8968DD6900            mov ecx, dword ptr [ecx+0069DD68]			ecx = full monster data
+:0045BACD 8A5972                  mov bl, byte ptr [ecx+72]					bl = monster type
+:0045BAD0 0FBECB                  movsx ecx, bl						???
+:0045BAD3 83E900                  sub ecx, 00000000
+:0045BAD6 740E                    je 0045BAE6						if beast
+:0045BAD8 49                      dec ecx
+:0045BAD9 49                      dec ecx
+:0045BADA 7522                    jne 0045BAFE						if demon type, skip damage modifier and go...
+:0045BADC 83FA04                  cmp edx, 00000004					this is undead, check if blunt used
+:0045BADF 740A                    je 0045BAEB						if so, go...
+:0045BAE1 83FA01                  cmp edx, 00000001					check if sword used
+:0045BAE4 EB10                    jmp 0045BAF6						jump to...
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BAD6(C)
+|
+:0045BAE6 83FA01                  cmp edx, 00000001
+:0045BAE9 7508                    jne 0045BAF3
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:			-50% damage
+|:0045BADF(C)
+|
+:0045BAEB 8BCF                    mov ecx, edi
+:0045BAED D1F9                    sar ecx, 1
+:0045BAEF 2BF9                    sub edi, ecx
+:0045BAF1 EB0B                    jmp 0045BAFE
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BAE9(C)
+|
+:0045BAF3 83FA04                  cmp edx, 00000004
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:			+50% damage
+|:0045BAE4(U)
+|
+:0045BAF6 7506                    jne 0045BAFE					if not equal set weapon type as neutral and skip damage halving
+:0045BAF8 8BCF                    mov ecx, edi
+:0045BAFA D1F9                    sar ecx, 1
+:0045BAFC 03F9                    add edi, ecx

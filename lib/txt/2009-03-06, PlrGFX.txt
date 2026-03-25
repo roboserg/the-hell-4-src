@@ -1,0 +1,4 @@
+* Possible StringData Ref from Data Obj ->"LoadPlrGFX: illegal player %d"
+                                  |
+:00456E13 68985F4B00              push 004B5F98
+:00456E18 E848ABFAFF              call 00401965

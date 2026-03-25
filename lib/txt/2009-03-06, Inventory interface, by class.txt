@@ -1,0 +1,78 @@
+* Referenced by a CALL at Address:
+|:0040B1AD   
+|
+:0041E596 A1E8AD6E00              mov eax, dword ptr [006EADE8]
+:0041E59B 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0041E5A1 69C0C8550000            imul eax, 000055C8
+:0041E5A7 8A840860010000          mov al, byte ptr [eax+ecx+00000160]
+:0041E5AE 84C0                    test al, al
+:0041E5B0 7426                    je 0041E5D8
+:0041E5B2 3C01                    cmp al, 01
+:0041E5B4 7415                    je 0041E5CB
+:0041E5B6 3C02                    cmp al, 02
+:0041E5B8 7404                    je 0041E5BE
+:0041E5BA 3C03                    cmp al, 03
+:0041E5BC 7509                    jne 0041E5C7
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0041E5B8(C)
+|
+:0041E5BE 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"Data\Inv\Inv_Sor.CEL"
+                                  |
+:0041E5C0 B93C0E4A00              mov ecx, 004A0E3C
+:0041E5C5 EB18                    jmp 0041E5DF
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0041E5BC(C)
+|
+:0041E5C7 3C04                    cmp al, 04
+:0041E5C9 7509                    jne 0041E5D4
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0041E5B4(C)
+|
+:0041E5CB 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"Data\Inv\Inv_rog.CEL"
+                                  |
+:0041E5CD B9240E4A00              mov ecx, 004A0E24
+:0041E5D2 EB0B                    jmp 0041E5DF
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0041E5C9(C)
+|
+:0041E5D4 3C05                    cmp al, 05
+:0041E5D6 7511                    jne 0041E5E9
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0041E5B0(C)
+|
+:0041E5D8 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"Data\Inv\Inv.CEL"
+                                  |
+:0041E5DA B9100E4A00              mov ecx, 004A0E10
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0041E5C5(U), :0041E5D2(U)
+|
+:0041E5DF E84BBAFFFF              call 0041A02F
+:0041E5E4 A308556800              mov dword ptr [00685508], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0041E5D6(C)
+|
+:0041E5E9 83250455680000          and dword ptr [00685504], 00000000
+:0041E5F0 83250C55680000          and dword ptr [0068550C], 00000000
+:0041E5F7 C3                      ret
+
+=================================================
+
+Monk inv:
+00A07EF1
+
+Mage inv:
+004A0E3C
+

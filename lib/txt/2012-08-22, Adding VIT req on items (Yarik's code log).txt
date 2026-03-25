@@ -1,0 +1,219 @@
+==============================================================
+;53A4 - itemOnCursor
+53A4 + 163h = 5507h RequiredVitality
+53A4 + BFh   = 5463h RequiredLevel
+53A4 + DCh   = 5480h  MagicCode
+Player
+         int    CurStrength;   // 356                                               164h
+         int    BaseStrength;   // 360                                             168h
+         int    CurMagic;    // 364                                                   16Сh
+         int    BaseMagic;    // 368                                                  170h
+         int    CurDexterity;   // 372                                                174h
+         int    BaseDexterity;   // 376                                              178h
+         int    CurVitality;   // 380                                                    17Сh
+         int    BaseVitality;   // 384                                                  180h
+        int                                CharLevel;                                // 1B8h
+        
+Item
+        unsigned char        RequiredStrength;        // 160h
+        unsigned char        RequiredMagic;                // 161h
+        unsigned char        RequiredDexterity;        //162h
+        unsigned char        RequiredVitality;        // 163h
+        unsigned char        RequiredLevel;                        //  BFh
+        int                                MagicCode;                        // DCh
+        MC_24_BOOKS   18h
+        int                                IsReqMet;                        // +356   164h
+        int                                Spell_ID;                        // +224     E0h
+        A095B3  // pointer to %s %i VIT
+        A095C3  // pointer to %s %i LVL
+        A095D3  // pointer to "Spell is maxed"
+
+==============================================================
+
+Правим  отображение предметов с витой у Гризволда:(не только. у требование уровня у книг тут же)
+
+функция 46СЕВ0
+
+Первое отличие
+[14:52:13] Ярик: Вместо ebp используется esi
+[14:56:12] Ярик: movzx   eax, byte ptr [esi+162h] ; Move with Zero-Extend
+
+; начинам так же как другой код с проверки, а не клига ли наша вещь 
+xor eax, eax // eax = 0
+cmp dword ptr [esi +000000DC], 00000018 // if not book
+jne @notBook // jmp...
+cmp byte ptr [esi +000000BF], FF // if unreadable
+jne @book// dont jump
+push 00A095D3 // text "spell is maxed"
+jmp  @printLine ; выводим на экран содержимое буфера
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00712066(C)
+|@book:
+:00712087 0FB68DBF000000          movzx ecx, byte ptr [esi +000000BF] // lvl req
+:0071208E 03C1                    add eax, ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00712059(C)
+|@notBook:
+:00712090 0FB68D61010000          movzx ecx, byte ptr [esi +00000161] // mag req
+:00712097 03C1                    add eax, ecx
+:00712099 0FB68D62010000          movzx ecx, byte ptr [esi +00000162] // dex req
+:007120A0 03C1                    add eax, ecx
+:007120A2 0FB68D60010000          movzx ecx, byte ptr [esi +00000160] // str req
+:007120A9 03C1                    add eax, ecx
+:007120AB 0FB68D63010000          movzx ecx, byte ptr [esi +00000163] // vit req
+:007120B2 03C1                    add eax, ecx
+jnz     short @putReqsTobuffer ; Jump if Not Zero (ZF=0)
+push    offset aNoRequiredAttr ; "No required attributes"
+jmp     @printLine  ; Jump
+ ; ---------------------------------------------------------------------------
+@putReqsTobuffer:
+6848684A00              push 004A6848     ; "Req:"
+push    edi             ; Dest
+E8557CD6FF              call 00479D30         ; Call Procedure    // adres ?
+
+pop     ecx
+pop     ecx
+cmp dword ptr [esi  +000000DC], 00000018 ; это книга?
+jne @checkStr
+@checkLvl:
+mov     al, [esi+BFh]
+test    al, al          ; Logical Compare
+jz      short @checkStr ; Jump if Zero (ZF=1)
+movzx   eax, al         ; Move with Zero-Extend
+push    eax
+push    edi
+push    00A095C3     ; "%s %i lvl"
+push    edi             ; Dest
+E80379D6FF              call 00479AC0       ; Call Procedure    /// adres?
+add     esp, 10h        ; Add
+@checkStr:
+mov     al, [esi+160h]
+test    al, al          ; Logical Compare
+jz      short @checkMag; Jump if Zero (ZF=1)
+movzx   eax, al         ; Move with Zero-Extend
+push    eax
+push    edi
+683C684A00              push 004A683C   ; "%s %i Str"
+push    edi             ; Dest
+E80379D6FF              call 00479AC0        ; Call Procedure // adres?
+add     esp, 10h        ; Add
+@checkMag:                             ; ...
+mov     al, [esi+161h]
+test    al, al          ; Logical Compare
+jz      short @checkDex; Jump if Zero (ZF=1)
+movzx   eax, al         ; Move with Zero-Extend
+push    eax
+push    edi
+6830684A00              push 004A6830   ; "%s %i Mag"
+push    edi             ; Dest
+E80379D6FF              call 00479AC0       ; Call Procedure  // adres?
+add     esp, 10h        ; Add
+@checkDex:                             ; ...
+mov     al, [esi+162h]
+test    al, al          ; Logical Compare
+jz      short @checkVit ; Jump if Zero (ZF=1)
+movzx   eax, al         ; Move with Zero-Extend
+push    eax
+push    edi
+6824684A00              push 004A6824   ; "%s %i Dex"
+push    edi             ; Dest
+E80379D6FF              call 00479AC0       ; Call Procedure
+add     esp, 10h        ; Add
+@checkVit:   ;
+mov     al, [esi+163h]
+test    al, al          ; Logical Compare
+jz      short @completeBuffer ; Jump if Zero (ZF=1)
+movzx   eax, al         ; Move with Zero-Extend
+push    eax
+push    edi
+push    A095B3    ; "%s %i Vit"
+push    edi             ; Dest
+E80379D6FF              call 00479AC0       ; Call Procedure
+add     esp, 10h        ; Add
+@completeBuffer:                             ; ...
+push    edi             ; Source   положить указатель на собранный буфер в стэк для последующего отображения
+jmp     @printLine  ; Jump
+
+
+@printLine - это 
+    loc_46D0D6:             ; Load Effective Address
+098 lea     eax, [ebp+buffer]
+098 push    eax             ; Dest
+09C call    _strcat         ; Call Procedure
+
+
+=========================================================
+ограничение уровней заклинаний
+
+51 push ecx
+50 push eax
+52 push edx
+56 push esi
+B933000000    mov ecx, 33h ; 51d максимальный индекс заклинания. Могу ошибаться, надо будет     поправить
+E85384FFFF   call 0070A1D0 ; в eax оффсет текущего игрока
+0FB690B8010000    movzx edx  , byte ptr [eax+000001B8]; в eax уровень игрока
+c1ea02    shr edx , 02h ; делим на 4
+83c203    add edx , 03h ; добавляем 3; в edx максимально возможный уровень спела
+    @loop:
+0fb6b408c1000000        movzx esi, byte ptr [eax+ecx+000000C1]
+39d6        cmp esi, edx ; сравниваем с максимальным уровнем
+7607      jbe @continue
+889408c1000000            mov byte ptr [eax+ecx+000000C1], dl  ; режем до максимального
+        @continue:
+49        dec ecx ; уменьшаем счётчик
+75EA    jne @loop  ; если не ноль, то повторяем
+5e pop esi
+5a pop edx
+58 pop eax
+59 pop ecx
+c3 retn
+
+вставить кол этой функции где нибудь в рекалк плеер. наверняка там нопы остались
+==========================================================
+
+показ требования виталити у неидентифицированных вещей
+
+==========================инжект раз=============================
+.text:00429810 010                 movzx   eax, byte ptr [esi+160h] ; Move with Zero-Extend
+[1:46:09] Ярик: Отсюда прыгаем на маленькое свободное место
+[1:47:29] Ярик: первой строкой  movzx   eax, byte ptr [esi+160h] ;
+дальше 
+movzx ecx, byte ptr [esi +00000163]; vit
+add eax, ecx
+jmp 00429817; обратно
+==========================инжект два=============================
+
+.text:0042988F 010                 mov     edx, ebp
+.text:00429891 010                 mov     ecx, edi        ; Source
+.text:00429893 010                 call    ShowLineInInfoPanel ; Call Procedure
+
+отсюда прыгаем на свободное место попросторней
+
+mov     al, [esi+163h]; vit
+test    al, al          ; Logical Compare
+jz      short @print  ; Jump if Zero (ZF=1)
+movzx   eax, al         ; Move with Zero-Extend
+push    eax
+push    edi
+push    A095B3   ; "%s %i vit"
+push    edi             ; Dest
+E80379D6FF              call 00479AC0       ; Call Procedure
+add     esp, 10h        ; Add
+@print:
+mov     edx, ebp
+mov     ecx, edi        ; Source
+call    ShowLineInInfoPanel ; Call Procedure
+jmp 00429898; обратно
+
+
+===========================================================
+mov     edi, [ecx+180h]; base vit 
+movzx   ebx, byte ptr [eax+3] ; need vit
+add     edi, [ebp-10h] ; summ of adds vit
+cmp     edi, ebx        ; Compare Two Operands
+jge     short loc_424885 ; at now long jmp
+ xor     edi, edi        ; Logical Exclusive OR
+mov     [ebp-4], edi ; itemReqMet
+ jmp     short loc_424887 ; at now long jmp

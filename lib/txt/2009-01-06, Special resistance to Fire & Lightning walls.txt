@@ -1,0 +1,217 @@
+Werewolves resist fire & lightning (not immune), but they will not be stopped by fire/lite walls/rings, even though they will take damage from them
+These restriction can be expanded in future, I left a lot of free space for that
+
+Implemented in version 1.69d RC46x2, works without problems so far.
+
+
+	Modified: (pasting from W32DASM v10, watch out for oddities)
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004449D3(U), :004449D8(C), :004449DE(U), :004449EA(C)
+|
+:00444A30 807D0B00                cmp byte ptr [ebp+0B], 00
+:00444A34 742E                    je 00444A64
+:00444A36 8BC3                    mov eax, ebx
+:00444A38 69C0E4000000            imul eax, 000000E4
+:00444A3E 8B8064DD6900            mov eax, dword ptr [eax+0069DD64]
+:00444A44 E917292C00              jmp 00707360
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007073DB(U)
+|
+:00444A49 807D0B00                cmp byte ptr [ebp+0B], 00
+:00444A4D 7415                    je 00444A64
+:00444A4F 8BC3                    mov eax, ebx
+:00444A51 69C0E4000000            imul eax, 000000E4
+:00444A57 F68054DD690010          test byte ptr [eax+0069DD54], 10
+:00444A5E 7504                    jne 00444A64
+:00444A60 8065FE00                and byte ptr [ebp-02], 00
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00444A34(C), :00444A4D(C), :00444A5E(C), :007073D6(U)
+|
+:00444A64 807DFF00                cmp byte ptr [ebp-01], 00
+:00444A68 742C                    je 00444A96
+:00444A6A E9F1292C00              jmp 00707460
+:00444A6F 90                      nop
+:00444A70 90                      nop
+:00444A71 90                      nop
+:00444A72 90                      nop
+:00444A73 90                      nop
+:00444A74 90                      nop
+:00444A75 90                      nop
+:00444A76 90                      nop
+:00444A77 90                      nop
+:00444A78 90                      nop
+:00444A79 90                      nop
+:00444A7A 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070745B(U)
+|
+:00444A7B 807DFF00                cmp byte ptr [ebp-01], 00
+:00444A7F 7415                    je 00444A96
+:00444A81 8BC3                    mov eax, ebx
+:00444A83 69C0E4000000            imul eax, 000000E4
+:00444A89 F68054DD690020          test byte ptr [eax+0069DD54], 20
+:00444A90 7504                    jne 00444A96
+:00444A92 8065FE00                and byte ptr [ebp-02], 00
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004449A4(C), :004449AC(C), :00444A68(C), :00444A7F(C), :00444A90(C)
+|:00707456(U)
+|
+:00444A96 8A45FE                  mov al, byte ptr [ebp-02]
+:00444A99 5F                      pop edi
+:00444A9A 5E                      pop esi
+:00444A9B 5B                      pop ebx
+:00444A9C C9                      leave
+:00444A9D C20400                  ret 0004
+
+
+	Extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00444A44(U)
+|
+:00707360 833826                  cmp dword ptr [eax], 00000026
+:00707363 746D                    je 007073D2
+:00707365 EB74                    jmp 007073DB
+:00707367 90                      nop
+.................reserved................
+:007073D1 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707363(C)
+|
+:007073D2 8065FE01                and byte ptr [ebp-02], 01
+:007073D6 E989D6D3FF              jmp 00444A64
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707365(U)
+|
+:007073DB E969D6D3FF              jmp 00444A49
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070746E(U)
+|
+:007073E0 833826                  cmp dword ptr [eax], 00000026
+:007073E3 746D                    je 00707452
+:007073E5 EB74                    jmp 0070745B
+:007073E7 90                      nop
+..................reserved..............
+:00707451 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007073E3(C)
+|
+:00707452 8065FE01                and byte ptr [ebp-02], 01
+:00707456 E93BD6D3FF              jmp 00444A96
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007073E5(U)
+|
+:0070745B E91BD6D3FF              jmp 00444A7B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00444A6A(U)
+|
+:00707460 8BC3                    mov eax, ebx
+:00707462 69C0E4000000            imul eax, 000000E4
+:00707468 8B8064DD6900            mov eax, dword ptr [eax+0069DD64]
+:0070746E E96DFFFFFF              jmp 007073E0
+:00707473 90                      nop
+----------------OVER--------------------
+
+
+=================================================================================================
+
+Old function chunk:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004449D3(U), :004449D8(C), :004449DE(U), :004449EA(C)
+|
+:00444A30 807D0B00                cmp byte ptr [ebp+0B], 00
+:00444A34 742E                    je 00444A64					
+:00444A36 8BC3                    mov eax, ebx
+:00444A38 69C0E4000000            imul eax, 000000E4
+:00444A3E F68054DD690010          test byte ptr [eax+0069DD54], 10
+:00444A45 7419                    je 00444A60
+:00444A47 807D0B00                cmp byte ptr [ebp+0B], 00
+:00444A4B 7417                    je 00444A64
+:00444A4D 8BC3                    mov eax, ebx
+:00444A4F 69C0E4000000            imul eax, 000000E4
+:00444A55 8B8064DD6900            mov eax, dword ptr [eax+0069DD64]
+:00444A5B 83386E                  cmp dword ptr [eax], 0000006E
+:00444A5E EB04                    jmp 00444A64
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00444A45(C)
+|
+:00444A60 8065FE00                and byte ptr [ebp-02], 00
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00444A34(C), :00444A4B(C), :00444A5E(U)
+|
+:00444A64 807DFF00                cmp byte ptr [ebp-01], 00
+:00444A68 742C                    je 00444A96
+:00444A6A 8BC3                    mov eax, ebx
+:00444A6C 69C0E4000000            imul eax, 000000E4
+:00444A72 F68054DD690020          test byte ptr [eax+0069DD54], 20
+:00444A79 7417                    je 00444A92
+:00444A7B 807DFF00                cmp byte ptr [ebp-01], 00
+:00444A7F 7415                    je 00444A96
+:00444A81 69DBE4000000            imul ebx, 000000E4
+:00444A87 8B8364DD6900            mov eax, dword ptr [ebx+0069DD64]
+:00444A8D 83386E                  cmp dword ptr [eax], 0000006E
+:00444A90 7504                    jne 00444A96
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00444A79(C)
+|
+:00444A92 8065FE00                and byte ptr [ebp-02], 00
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004449A4(C), :004449AC(C), :00444A68(C), :00444A7F(C), :00444A90(C)
+|
+:00444A96 8A45FE                  mov al, byte ptr [ebp-02]
+:00444A99 5F                      pop edi
+:00444A9A 5E                      pop esi
+:00444A9B 5B                      pop ebx
+:00444A9C C9                      leave
+:00444A9D C20400                  ret 0004
+
+====================================================================
+
+DMN:
+
+The following code prevents non-immune monsters to walk into Fire or Lightning Walls. Note that, originally, Diablo is kept from entering either wall, regardless immunities. Changes are made so that the Defiler, summoned Golems and Fallen Rogues (and one other possible monster) will ignore Fire and Lightning Walls, regardless their resistances or immunities.
+
+File offset 00043E30
+
+:00444A30 807D0B00                cmp byte ptr [ebp+0B], 00
+:00444A34 742E                    je 00444A64					jump if not Fire Wall
+:00444A36 8BC3                    mov eax, ebx
+:00444A38 69C0E4000000            imul eax, 000000E4
+:00444A3E F68054DD690010          test byte ptr [eax+0069DD54], 10
+:00444A45 7419                    je 00444A60					jump if not Fire immune
+:00444A47 807D0B00                cmp byte ptr [ebp+0B], 00
+:00444A4B 7417                    je 00444A64					jump if not Fire Wall
+:00444A4D 8BC3                    mov eax, ebx
+:00444A4F 69C0E4000000            imul eax, 000000E4
+:00444A55 8B8064DD6900            mov eax, dword ptr [eax+0069DD64]
+:00444A5B 83386E                  cmp dword ptr [eax], 0000006E
+:00444A5E 7504                    jne 00444A64					jump if not Diablo
+:00444A60 8065FE00                and byte ptr [ebp-02], 00			clear flag so that monster will stop
+:00444A64 807DFF00                cmp byte ptr [ebp-01], 00
+:00444A68 742C                    je 00444A96					jump if not Lightning Wall
+:00444A6A 8BC3                    mov eax, ebx
+:00444A6C 69C0E4000000            imul eax, 000000E4
+:00444A72 F68054DD690020          test byte ptr [eax+0069DD54], 20
+:00444A79 7417                    je 00444A92					jump if not Lightning immune
+:00444A7B 807DFF00                cmp byte ptr [ebp-01], 00
+:00444A7F 7415                    je 00444A96					jump if not Lightning Wall
+:00444A81 69DBE4000000            imul ebx, 000000E4
+:00444A87 8B8364DD6900            mov eax, dword ptr [ebx+0069DD64]
+:00444A8D 83386E                  cmp dword ptr [eax], 0000006E
+:00444A90 7504                    jne 00444A96					jump if not Diablo

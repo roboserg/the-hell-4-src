@@ -1,0 +1,56 @@
+-50% ARD modified
+now characters have 25% RD absorbtion by default
+wearing ARD items increases RD absorption to 50% total
+thus, -50% ARD is now renamed to -33% ARD
+
+Doing:
+
+:0042F86F 8B3514AE6E00            mov esi, dword ptr [006EAE14]
+:0042F875 F6843E4355000010        test byte ptr [esi+edi+00005543], 10
+:0042F87D 8D0C3E                  lea ecx, dword ptr [esi+edi]
+:0042F880 7402                    je 0042F884
+:0042F882 D1FA                    sar edx, 1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F880(C)
+|
+:0042F884 8B8144550000            mov eax, dword ptr [ecx+00005544]
+
+	into >>>
+
+:0042F86F E98C712D00              jmp 00706A00
+:0042F874 90                      nop
+.....
+:0042F883 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706A20(U)
+|
+:0042F884 8B8144550000            mov eax, dword ptr [ecx+00005544]
+
+
+Extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F86F(U)
+|
+:00706A00 8B3514AE6E00            mov esi, dword ptr [006EAE14]
+:00706A06 F6843E4355000010        test byte ptr [esi+edi+00005543], 10
+:00706A0E 8D0C3E                  lea ecx, dword ptr [esi+edi]
+:00706A11 7404                    je 00706A17
+:00706A13 D1FA                    sar edx, 1
+:00706A15 EB09                    jmp 00706A20
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706A11(C)
+|
+:00706A17 51                      push ecx
+:00706A18 8BCA                    mov ecx, edx
+:00706A1A C1F902                  sar ecx, 02
+:00706A1D 2BD1                    sub edx, ecx
+:00706A1F 59                      pop ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706A15(U)
+|
+:00706A20 E95F8ED2FF              jmp 0042F884

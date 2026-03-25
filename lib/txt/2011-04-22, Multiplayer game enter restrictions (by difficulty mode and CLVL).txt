@@ -1,0 +1,143 @@
+
+
+
+
+:2000200B 8B44242C                mov eax, dword ptr [esp+2C]		<< eax = clvl
+:2000200F 80FB00                  cmp bl, 00				<< cmp difficulty to 0 (horror)
+:20002012 7520                    jne 20002034
+:20002014 663D1D00                cmp ax, 001D
+:20002018 7E1A                    jle 20002034
+:2000201A 85ED                    test ebp, ebp
+:2000201C 746D                    je 2000208B
+:2000201E 8B942460040000          mov edx, dword ptr [esp+00000460]
+:20002025 A1C4630220              mov eax, dword ptr [200263C4]
+:2000202A 52                      push edx
+:2000202B 55                      push ebp
+
+* Possible Reference to String Resource ID=01041: "Your character may not enter multiplayer games of Horror Dif"
+                                  |
+:2000202C 6811040000              push 00000411
+:20002031 50                      push eax
+:20002032 EB51                    jmp 20002085
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:20002012(C), :20002018(C)
+|
+:20002034 80FB01                  cmp bl, 01
+:20002037 7521                    jne 2000205A
+:20002039 663D2C00                cmp ax, 002C
+:2000203D 7E1B                    jle 2000205A
+:2000203F 85ED                    test ebp, ebp
+:20002041 7448                    je 2000208B
+:20002043 8B8C2460040000          mov ecx, dword ptr [esp+00000460]
+:2000204A 8B15C4630220            mov edx, dword ptr [200263C4]
+:20002050 51                      push ecx
+:20002051 55                      push ebp
+
+* Possible Reference to String Resource ID=01042: "Your character may not enter multiplayer games of Purgatory "
+                                  |
+:20002052 6812040000              push 00000412
+:20002057 52                      push edx
+:20002058 EB2B                    jmp 20002085
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:20001E24(C), :20002037(C), :2000203D(C)
+|
+:2000205A B801000000              mov eax, 00000001
+:2000205F 5F                      pop edi
+:20002060 5E                      pop esi
+:20002061 5D                      pop ebp
+:20002062 5B                      pop ebx
+:20002063 81C434040000            add esp, 00000434
+:20002069 C21C00                  ret 001C
+
+
+========================================================
+
+cmp diff, 0
+jne "PurgChek"
+cmp clvl, 29
+ja "can't"
+jmp "can"
+	"PurgChek"
+cmp diff, 1
+jne "DoomChek"
+cmp clvl, 25
+jb "can't"
+cmp clvl, 44
+ja "can't"
+jmp "can"
+	"DoomChek"
+cmp clvl, 40
+jb "can't"
+	"Can"
+
+============================
+============================
+
+DOING:
+this works!
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:20001FD7(C), :20001FED(C), :20002000(C), :20002005(U)
+|
+:2000200B 8B44242C                mov eax, dword ptr [esp+2C]
+:2000200F 80FB00                  cmp bl, 00
+:20002012 7508                    jne 2000201C
+:20002014 663D1D00                cmp ax, 001D
+:20002018 7725                    ja 2000203F
+:2000201A EB3E                    jmp 2000205A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:20002012(C)
+|
+:2000201C 80FB01                  cmp bl, 01
+:2000201F 750E                    jne 2000202F
+:20002021 663D1900                cmp ax, 0019
+:20002025 7218                    jb 2000203F
+:20002027 663D2C00                cmp ax, 002C
+:2000202B 7712                    ja 2000203F
+:2000202D EB2B                    jmp 2000205A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:2000201F(C)
+|
+:2000202F 663D2800                cmp ax, 0028
+:20002033 720A                    jb 2000203F
+:20002035 EB23                    jmp 2000205A
+:20002037 90                      nop
+:20002038 90                      nop
+:20002039 90                      nop
+:2000203A 90                      nop
+:2000203B 90                      nop
+:2000203C 90                      nop
+:2000203D 90                      nop
+:2000203E 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:20002018(C), :20002025(C), :2000202B(C), :20002033(C)
+|
+:2000203F 85ED                    test ebp, ebp
+:20002041 7448                    je 2000208B
+:20002043 8B8C2460040000          mov ecx, dword ptr [esp+00000460]
+:2000204A 8B15C4630220            mov edx, dword ptr [200263C4]
+:20002050 51                      push ecx
+:20002051 55                      push ebp
+
+* Possible Reference to String Resource ID=01041: "Your character may not enter multiplayer games of this Diffi"
+                                  |
+:20002052 6811040000              push 00000411
+:20002057 52                      push edx
+:20002058 EB2B                    jmp 20002085
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:20001E24(C), :2000201A(U), :2000202D(U), :20002035(U)
+|
+:2000205A B801000000              mov eax, 00000001
+:2000205F 5F                      pop edi
+:20002060 5E                      pop esi
+:20002061 5D                      pop ebp
+:20002062 5B                      pop ebx
+:20002063 81C434040000            add esp, 00000434
+:20002069 C21C00                  ret 001C

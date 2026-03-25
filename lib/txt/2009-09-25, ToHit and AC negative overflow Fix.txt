@@ -1,0 +1,36 @@
+Сравнение файлов TH.183n.exe и TH.183N.TOHITANDACSIGNED.EXE
+	00047693: B6 BE
+000476AC: B7 BF
+	00047A23: B6 BE
+00047A3C: B7 BF
+	00047B82: B6 BE
+00047B9D: B7 BF
+	00047D57: B6 BE
+00047D72: B7 BF
+	00047E68: B6 BE
+00047E81: B7 BF
+
+
+====================
+
+
+
+these affect AC:
+00047693: B6 BE
+00047A23: B6 BE
+00047B82: B6 BE
+00047D57: B6 BE
+00047E68: B6 BE
+
+above pointers changed to BF to change signed byte to signed word
+testing launched, awaiting results...
+
+====================
+
+17:27 21.03.2010
+this hould fix occasional -%ToHit values overlapping
+and it also makes one of the 6 AC pointers to signed byte
+(the expected patch which should make AC values signed word, is promised to arrive later)
+
+00045FB0    B7 BF
+00045FE8    B6 BE

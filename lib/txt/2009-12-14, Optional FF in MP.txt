@@ -1,0 +1,34 @@
+
+Inserting FF check into PvP Missile routine
+this should make FF optional in MP
+
+
+
+
+:00432487 80B83D01000000          cmp byte ptr [eax+0000013D], 00
+:0043248E 0F85DF020000            jne 00432773
+into:
+:00432487 E9148E2D00              jmp 0070B2A0
+:0043248C 90                      nop
+:0043248D 90                      nop
+:0043248E 90                      nop
+:0043248F 90                      nop
+:00432490 90                      nop
+:00432491 90                      nop
+:00432492 90                      nop
+:00432493 90                      nop
+
+and:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00432487(U)
+|
+:0070B2A0 833D5C53490001          cmp dword ptr [0049535C], 00000001		01 = friendly mode
+:0070B2A7 740E                    je 0070B2B7
+:0070B2A9 80B83D01000000          cmp byte ptr [eax+0000013D], 00
+:0070B2B0 7505                    jne 0070B2B7
+:0070B2B2 E9DD71D2FF              jmp 00432494
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070B2A7(C), :0070B2B0(C)
+|
+:0070B2B7 E9B774D2FF              jmp 00432773

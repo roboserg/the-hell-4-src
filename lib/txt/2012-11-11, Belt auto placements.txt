@@ -1,0 +1,166 @@
+
+Вторая попытка
+
+
+
+
+
+
+
+.text:00421B05                 cmp     ds:dword_905040[eax], edx
+.text:00421B0B                 jz      short loc_421B65
+
+-------------
+00421B05  jmp @newLoc
+>>>
+@newLoc:
+Копируем чанк 00715680  и в копии меняем
+
+
+--------------
+:007156A6 E9A674D5FF              jmp 0046CB51
+на:
+jmp loc_421B65
+
+--------------
+:007156AC 39AE40509000            cmp dword ptr [esi+00905040], ebp
+:007156B2 E95074D5FF              jmp 0046CB07
+на:
+cmp dword ptr [eax+00905040], edx
+ jmp 00421B0B
+--------------
+:00715681 8B8638509000            mov eax, dword ptr [esi+00905038]
+на
+mov eax, dword ptr [eax+00905038]
+
+
+
+
+
+
+
+
+==============================================
+
+.text:0046CB01 39 AE 40 50 90 00                     cmp     BaseItemsPtr.UseOnceFlag[esi], ebp
+.text:0046CB07 74 48                                   jz      short loc_46CB51
+
+0046CB01 jmp @newLoc
+>>>
+@newLoc:
+; лень разбираться в регистрах
+push eax
+mov eax, dword ptr [esi+905038h]; magicCode
+cmp eax, 2 ;MC_2_POTION_OF_FULL_HEALING
+jz @tryPutOnBelt
+cmp eax, 3 ;MC_3_POTION_OF_HEALING
+jz @tryPutOnBelt
+cmp eax, 6 ;MC_6_POTION_OF_MANA
+jz @tryPutOnBelt
+cmp eax, 7 ;MC_7_POTION_OF_FULL_MANA
+jz @tryPutOnBelt
+cmp eax, 12h ;MC_18_POTION_OF_REJUVENATION
+jz @tryPutOnBelt
+cmp eax, 13h ;MC_19_POTION_OF_FULL_REJUVENTAION
+jz @tryPutOnBelt
+
+@NotTryPutOnBelt:
+pop eax
+jmp      short loc_46CB51
+
+@tryPutOnBelt:
+pop eax
+.text:0046CB01 39 AE 40 50 90 00                     cmp     BaseItemsPtr.UseOnceFlag[esi], ebp
+jmp 0046CB07 ; восстановили затёртое и прыгаем обратно
+
+
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0046CB01(U)
+|
+:00715680 50                      push eax
+:00715681 8B8638509000            mov eax, dword ptr [esi+00905038]
+:00715687 83F802                  cmp eax, 00000002
+:0071568A 741F                    je 007156AB
+:0071568C 83F803                  cmp eax, 00000003
+:0071568F 741A                    je 007156AB
+:00715691 83F806                  cmp eax, 00000006
+:00715694 7415                    je 007156AB
+:00715696 83F807                  cmp eax, 00000007
+:00715699 7410                    je 007156AB
+:0071569B 83F818                  cmp eax, 00000018
+:0071569E 740B                    je 007156AB
+:007156A0 83F819                  cmp eax, 00000019
+:007156A3 7406                    je 007156AB
+:007156A5 58                      pop eax
+:007156A6 E9A674D5FF              jmp 0046CB51
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071568A(C), :0071568F(C), :00715694(C), :00715699(C), :0071569E(C)
+|:007156A3(C)
+|
+:007156AB 58                      pop eax
+:007156AC 39AE40509000            cmp dword ptr [esi+00905040], ebp
+:007156B2 E95074D5FF              jmp 0046CB07
+:007156B7 90                      nop
+:007156B8 90                      nop
+:007156B9 90                      nop
+
+==============================================================
+
+upd 3:22 30.12.2012
+
+Фикс автоустановки на пояс. По идее не в тему, но лень новый создавать
+
+.mod:007156A0                 cmp     eax, 19d
+.mod:007156A3                 jz      short loc_7156AB
+
+cmp eax, 21d ; два кода реликтов
+jz @spellCheck
+cmp eax, 22d
+jz @spellCheck
+
+@notAllowToPut:
+.mod:007156A5                 pop     eax
+.mod:007156A6                 jmp     loc_46CB51
+
+@spellCheck:
+mov eax, dword ptr [esi + 90503Ch]; spellNumber
+cmp eax, 2 ; PS_2_HEALING
+jz 7156AB
+cmp eax, 37d ;PS_37_MANA_RECHARGE
+jz 7156AB
+jmp @notAllowToPut
+
+
+          chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007156A0(U)
+|
+:007188C0 83F813                  cmp eax, 00000013
+:007188C3 0F84E2CDFFFF            je 007156AB
+:007188C9 83F815                  cmp eax, 00000015
+:007188CC 7432                    je 00718900
+:007188CE 83F816                  cmp eax, 00000016
+:007188D1 742D                    je 00718900
+:007188D3 90                      nop
+......
+:007188FA 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718918(U)
+|
+:007188FB E9A5CDFFFF              jmp 007156A5
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007188CC(C), :007188D1(C)
+|
+:00718900 8B863C509000            mov eax, dword ptr [esi+0090503C]
+:00718906 83F802                  cmp eax, 00000002
+:00718909 0F849CCDFFFF            je 007156AB
+:0071890F 83F825                  cmp eax, 00000025
+:00718912 0F8493CDFFFF            je 007156AB
+:00718918 EBE1                    jmp 007188FB
+:0071891A 90                      nop

@@ -1,0 +1,19 @@
+Uber Diablo now drops:
+SP horror: no item (game ends)
+SP Purg/Doom: 2 items
+MP Horror/Pur: 2 items
+MP Doom: 10 items
+
+
+
+:0043D5D3 833DC070600002          cmp dword ptr [006070C0], 00000002
+:0043D5DA 7429                    je 0043D605
+:0043D5DC EB4D                    jmp 0043D62B
+
+into:
+
+:0043D5D3 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:0043D5DA 744F                    je 0043D62B
+:0043D5DC 833DC070600002          cmp dword ptr [006070C0], 00000002
+:0043D5E3 0F84A3C32C00            je 0070998C
+:0043D5E9 EB40                    jmp 0043D62B

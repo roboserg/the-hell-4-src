@@ -1,0 +1,33 @@
+This flag check effectively allows making Detect Trpas feature optional.
+
+
+:00454857 A1E8AD6E00              mov eax, dword ptr [006EADE8]
+:0045485C 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:00454862 69C0C8550000            imul eax, 000055C8
+:00454868 F6814155000010          test byte ptr [ecx+00005541], 10			
+:0045486F 7429                    je 0045489A
+:00454871 90                      nop
+:00454872 83BF08E66D0000          cmp dword ptr [edi+006DE608], 00000000
+:00454879 741F                    je 0045489A
+:0045487B 56                      push esi
+
+* Possible StringData Ref from Data Obj ->"Trapped %s"
+                                  |
+:0045487C 6810584B00              push 004B5810
+:00454881 53                      push ebx
+:00454882 E839520200              call 00479AC0
+:00454887 83C40C                  add esp, 0000000C
+:0045488A 53                      push ebx
+:0045488B 56                      push esi
+:0045488C E89F540200              call 00479D30
+:00454891 59                      pop ecx
+:00454892 C605AC114D0002          mov byte ptr [004D11AC], 02
+:00454899 59                      pop ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045486F(C), :00454879(C)
+|
+:0045489A 5F                      pop edi
+:0045489B 5E                      pop esi
+:0045489C 5B                      pop ebx
+:0045489D C3                      ret

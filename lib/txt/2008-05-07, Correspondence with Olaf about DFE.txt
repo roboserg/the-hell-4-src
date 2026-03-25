@@ -1,0 +1,229 @@
+correspondence with Olaf concerning DFE
+
+[00:29:48] >>	wanna play?
+[00:30:08] >>	btw steel has took my ring and quite game..
+[00:30:19] >>	just wanted to report u this
+[00:30:42] >>	he will probobly give it back but he will have a duped copy
+[00:31:56] <<	indeed it's doubtful )
+[00:32:17] <<	anyway, I think there are not much 'clean' players
+[00:32:29] <<	people like Koven, I think, donr cheat
+[00:32:42] <<	knowing they steal pleasure from themselves
+[00:32:49] >>	oh well nvm it was merculir ring anyway
+[00:32:52] <<	I don't cheat too
+[00:33:03] <<	for same reason
+[00:33:11] >>	yes i agree
+[00:33:15] <<	I'm dying to find demon hunter's ankh :)
+[00:33:18] <<	still
+[00:33:23] >>	and this is why i am probobly still playng mod
+[00:33:47] >>	cheater get bored quickly
+[00:33:53] <<	yea ;)
+[00:33:59] <<	btw
+[00:34:00] >>	u dont have demon hunter ?
+[00:34:08] <<	I think it wold be nice to...
+[00:34:31] <<	...make balance so that even with the best possible items a chance for survival would be not too high
+[00:34:44] <<	like you couldn't be sure you won't get chopped
+[00:34:51] <<	to keep players in tention
+[00:35:05] >>	huh?
+[00:35:11] >>	dont think its a good idea
+[00:35:19] >>	my glad is very old char
+[00:35:24] <<	it's so nice when you can't relax and expect something to pop up right behind you, 
+gives you creeps
+[00:35:24] >>	and almost maxed
+[00:35:37] >>	with best armor... 2 nethers etc
+[00:35:46] <<	aha?
+[00:35:47] >>	and still
+[00:35:53] >>	crypts are so damn hard
+[00:35:54] <<	and still? :)
+[00:36:00] >>	even hell
+[00:36:09] >>	corrupted order stuns me
+[00:36:11] <<	right
+[00:36:26] >>	with almost-60dfe
+[00:36:27] <<	so you think difficulty is alright?
+[00:36:37] >>	yes i think doom is well balanced
+[00:36:52] <<	don't you know that gladiators can have dfe of -110
+[00:36:54] <<	?
+[00:37:03] >>	lol
+[00:37:07] >>	but how:P
+[00:37:20] <<	wofcourse at the cost of some other feats
+[00:37:21] >>	tell me just it
+[00:37:24] <<	and maxed vitality
+[00:37:29] <<	220 points basic
+[00:37:38] >>	yes that is just theory
+[00:37:52] >>	but in practic its almost immpossible
+[00:38:01] <<	not really, you see before I start balancing things I create a plan
+[00:38:08] <<	want an example?
+[00:38:39] >>	armor -27, nethers 2x-5, amu around -4
+[00:38:55] >>	and helm
+[00:39:06] >>	but i have crappy one cuz of morphing
+[00:39:59] >>	and its like i told you
+[00:40:06] >>	create something that only glad can wear
+[00:40:10] >>	with vita req
+[00:40:19] >>	and high -dfe
+[00:40:29] >>	to give him chance to have that high dfe
+[00:40:44] >>	pals have higher ac and dfe cuz of shields
+[00:40:50] >>	and with less max vita
+[00:40:58] >>	even with less max vita*
+[00:41:25] <<	1. helmet: can give dfe 30
+2. armor can give 30 or 50 if t's grace of death
+3. amulet: 6
+4. bangs: 2x by 6
+5. shield 35, or 40 if it's deathshelter
+6. immortal king 3 dfe
+[00:42:03] <<	unfortunately, VIT is not properly checked by game code for purpose of equipping. I'd really LOVE to do what you're talking about
+[00:42:17] >>	1.helm ok can have -30dfe
+[00:42:41] >>	2. armor ,.. you mean this corrupted one?
+[00:42:47] >>	with lose reses and low ac
+[00:42:48] <<	2. yes
+[00:43:00] >>	try wear it on doom:P
+[00:43:05] <<	:D
+[00:43:26] >>	5. glad with shield :P?
+[00:43:38] <<	yea, for maxed dfe
+[00:43:40] >>	u see shield have the most -dfe
+[00:43:46] <<	right
+[00:43:54] <<	oh!
+[00:43:55] >>	armor should have
+[00:43:57] <<	I got it
+[00:44:12] <<	you mean like armors should have more but shields less?
+[00:44:14] >>	it a huge adventage for pals
+[00:44:22] >>	yea
+[00:44:31] <<	very practical
+[00:45:04] >>	espacilly some armor for glad
+[00:45:12] >>	i would make bovie plate for him
+[00:45:22] >>	with -str so only he can wear it
+[00:45:29] >>	and -5 spell lvl
+[00:45:46] >>	high ac, reses, -dfe
+[00:45:49] <<	wait, what would stop a paladin from wearing it?
+[00:45:58] >>	hmm
+[00:46:04] >>	they have same max str right ?
+[00:46:08] <<	right
+[00:46:11] >>	hmm
+[00:46:44] >>	this really sucks u cant put vita reqs:(
+[00:46:48] <<	))
+[00:46:49] >>	hat they warp
+[00:46:54] >>	that*
+[00:47:06] <<	I could see the code again though
+[00:47:11] >>	if potio has mag req why armor should have vita :P
+[00:47:17] <<	items can check for vitality
+[00:47:21] >>	shouldnt*
+[00:47:26] <<	but in-game tests show it doesn't work
+[00:47:27] >>	ok
+[00:47:37] >>	ah
+[00:47:55] <<	with any VIT requirement, item still can be equipped by char who has very low VIT
+[00:48:09] >>	strange
+[00:48:26] <<	but ne point.. you're right about AC on shields vs AC on armors
+[00:48:38] >>	and dfe
+[00:48:48] <<	I'll see what I can do with that WITHOUT causing morphing
+[00:48:51] >>	pal how much max vita has?
+[00:48:57] <<	pal?  180
+[00:49:02] <<	max dfe = 90
+[00:49:05] >>	yea
+[00:49:18] >>	its not a big difference betwen 180 and 220..
+[00:49:30] <<	not really
+[00:49:30] >>	and pal has more mag, and dex
+[00:49:44] <<	let me explain, it;s important
+[00:49:51] <<	take gloom clan archer
+[00:49:59] <<	on doom does 255 damage
+[00:50:07] <<	with ARD it becomes 127
+[00:50:19] <<	substract 90
+[00:50:24] <<	you got 37
+[00:50:31] <<	substract 110
+[00:50:40] <<	you got 17
+[00:50:42] >>	:D
+[00:50:49] <<	one arrow
+[00:50:52] >>	but still glad is hitted more often
+[00:51:02] <<	usually these guys walk aroung in groups
+[00:51:09] >>	less envion and cant block
+[00:51:18] <<	envion?
+[00:51:22] >>	envasion
+[00:51:25] <<	ah
+[00:51:30] >>	sorry my typing sucks
+[00:51:32] <<	I got it
+[00:51:52] <<	I see a problem here
+[00:51:58] >>	:)
+[00:52:25] <<	Pal benefits from shields' high DFE, but has lower built-in max DFE limit due to VIT
+[00:52:31] <<	on the other hand
+[00:52:51] >>	if glad dont use shiled and has low envasion he could at least have high ac armors with highet -dfe
+[00:52:57] <<	Glad has higher max DFE due to high VIT, but cannot effectively reach high DFE because of...
+???
+[00:53:06] >>	yes
+[00:53:15] >>	so that deosnt make sens
+[00:53:26] <<	man, armor class is balanced so well here that I won't dare touching it :p
+[00:53:29] >>	glad cant use his max -dfe
+[00:53:41] <<	gotta do something with it
+[00:53:46] <<	really
+[00:53:56] <<	move some dfe from shiels to armors and helms?
+[00:54:03] >>	so in practical his high vita is useless
+[00:54:19] <<	apart from bonus to axe damage and extra HPs.................
+[00:54:28] >>	dual welding :P
+[00:54:32] >>	hehe
+[00:54:50] >>	moving dfe from shields to armors ?
+[00:54:52] >>	hmm
+[00:54:59] <<	some of it
+[00:55:03] <<	at the moment
+[00:55:12] <<	shields can have maximum 35 points
+[00:55:12] >>	but still pal will use armors with high -dfe
+[00:55:16] <<	armors - 30 points
+[00:55:33] <<	but this same pal's shields will have less dfe
+[00:55:56] >>	so he will have more -dfe than he can maximalli have..
+[00:56:05] >>	and anothe plus with this
+[00:56:11] >>	he can use items with +dfe
+[00:56:21] >>	and still probobly will have max -dfe
+[00:56:25] <<	probably, then he will have more chance to have maximum dfe for his VIT status
+[00:56:37] <<	ah, right....
+[00:56:54] >>	you see..
+[00:57:05] >>	on doom glad with +dfe items...
+[00:57:08] >>	it really sucks
+[00:57:14] >>	while pal uses them 
+[00:57:15] <<	I guess :\
+[00:57:22] <<	he could, yea
+[00:57:40] >>	this -dfe system need rebiulding
+[00:57:55] <<	but his damage is lower, remember?
+[00:58:04] >>	yes i remember this...
+[00:58:41] <<	btw I need to take my Gladiator to Doom mode and see for myself how it's going
+[00:58:48] >>	but still dmg is limited to clvl * 128:P
+[00:58:55] <<	with decent stats and EQ
+[00:59:13] >>	so anyway pal will have his max dmg
+[00:59:19] <<	for a glad of level 40 that is over 5000 oints!
+[00:59:21] <<	points
+[00:59:37] >>	so what pal cant have that 5k points?
+[00:59:52] <<	my paladin does around 300-500 damage
+[00:59:53] >>	he can use wrath sword
+[01:00:03] <<	vs demons it's 600-1000
+[01:00:13] <<	with critical it's 1200-2000
+[01:00:18] <<	no more than that!
+[01:00:28] >>	+20% from items
+[01:00:36] <<	which one?
+[01:00:41] <<	devastation?
+[01:00:44] >>	yea
+[01:00:47] <<	he got none
+[01:00:52] >>	but he can:P
+[01:01:12] <<	yea, that would raise damage to 2400-4000
+[01:01:12] >>	also swords do more dmg on beasts
+[01:01:18] <<	but not 5000 ;)
+[01:01:27] <<	but beasts are not demons
+[01:01:44] <<	+100% vs demons, +50% vs beasts
+[01:01:59] >>	hmm
+[01:02:05] >>	what if u made a chated glad?
+[01:02:07] >>	for tests
+[01:02:12] <<	err no go
+[01:02:14] >>	on doom
+[01:02:18] <<	for singleplayer it's an option
+[01:02:30] <<	for clean MP testing difficulty it's stupid
+[01:02:39] <<	what will I test? how well I hacked?
+[01:02:48] >>	hm right :D
+[01:03:15] <<	no no, no hacks and no dupes
+[01:03:18] >>	well i could give u my saves.. but again wont work on different computer name
+[01:03:25] <<	no need
+[01:03:34] <<	I also HAVE to know HOW I got there
+[01:03:41] >>	yes i know no hacks... that was only for testing purpose
+[01:04:10] >>	so play more as glad than other chars now:P
+[01:04:19] <<	I'm already doing so
+[01:04:34] >>	what about this whole iron man :D
+[01:04:38] <<	do you feel like going for some elixir runs now?
+[01:04:58] <<	IronMan is damn hard
+if there was a regeneration like in TH I would have made it :D
+[01:05:09] >>	hehe
+[01:05:24] >>	yea i can play a bit
+[01:05:36] <<	you host this time, Purgatory
+[01:05:39] >>	k
+

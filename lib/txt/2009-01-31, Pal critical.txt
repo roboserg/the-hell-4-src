@@ -1,0 +1,54 @@
+Paladin does +150% damage in PvM Melee
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BA6D(U)
+|
+:00705A00 8A8160010000            mov al, byte ptr [ecx+00000160]
+:00705A06 3C03                    cmp al, 03
+:00705A08 7404                    je 00705A0E
+:00705A0A 3C04                    cmp al, 04
+:00705A0C 751D                    jne 00705A2B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705A08(C)
+|
+:00705A0E 0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]
+:00705A15 6A64                    push 00000064
+:00705A17 B106                    mov cl, 06
+:00705A19 5A                      pop edx
+:00705A1A E83B45D1FF              call 00419F5A
+:00705A1F 3BC3                    cmp eax, ebx
+:00705A21 7D03                    jge 00705A26
+:00705A23 8D3C7F                  lea edi, dword ptr [edi+2*edi]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00705A21(C), :00705A49(U)
+|
+:00705A26 E96760D5FF              jmp 0045BA92
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705A0C(C)
+|
+:00705A2B 84C0                    test al, al
+:00705A2D 751C                    jne 00705A4B
+:00705A2F 0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]
+:00705A36 6A64                    push 00000064
+:00705A38 B106                    mov cl, 06
+:00705A3A 5A                      pop edx
+:00705A3B E81A45D1FF              call 00419F5A
+:00705A40 3BC3                    cmp eax, ebx
+:00705A42 7D05                    jge 00705A49
+:00705A44 8D3CBF                  lea edi, dword ptr [edi+4*edi]
+:00705A47 D1FF                    sar edi, 1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705A42(C)
+|
+:00705A49 EBDB                    jmp 00705A26
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705A2D(C)
+|
+:00705A4B E92B60D5FF              jmp 0045BA7B

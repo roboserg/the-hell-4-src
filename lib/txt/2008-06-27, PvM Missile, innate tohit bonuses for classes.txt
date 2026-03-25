@@ -1,0 +1,27 @@
+Innate THC bonus for Paladin and Gladiator in PvM Missile is +70% now.
+Assassin no longer has this bonus. Now it's Glad who has it.
+
+
+:0042F3D8 8A8060010000            mov al, byte ptr [eax+00000160]
+:0042F3DE 3C01                    cmp al, 01
+:0042F3E0 8D7C0A19                lea edi, dword ptr [edx+ecx+19]
+:0042F3E4 7503                    jne 0042F3E9
+:0042F3E6 83C714                  add edi, 00000014
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F3E4(C)
+|
+:0042F3E9 84C0                    test al, al
+:0042F3EB 7404                    je 0042F3F1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F601(C)
+|
+:0042F3ED 3C05                    cmp al, 05
+:0042F3EF 751C                    jne 0042F40D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F3EB(C)
+|
+:0042F3F1 83C746                  add edi, 00000046
+:0042F3F4 EB17                    jmp 0042F40D

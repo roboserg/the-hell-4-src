@@ -1,0 +1,382 @@
+Uber drops two items, Defiler too, along with the map :D
++ free space made, see later..
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043D500(C), :0043D50E(C)
+|
+:0043D52D 8B86D8000000            mov eax, dword ptr [esi+000000D8]
+:0043D533 3B05E4094B00            cmp eax, dword ptr [004B09E4]		<- check for Defiler slot (boss)
+:0043D539 7561                    jne 0043D59C
+:0043D53B B9DD030000              mov ecx, 000003DD
+:0043D540 E806ADFDFF              call 0041824B
+:0043D545 85C0                    test eax, eax
+:0043D547 7405                    je 0043D54E
+:0043D549 E82AADFDFF              call 00418278
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D547(C)
+|
+:0043D54E 8325A0B56E0000          and dword ptr [006EB5A0], 00000000
+:0043D555 8B5624                  mov edx, dword ptr [esi+24]
+:0043D558 8B4E20                  mov ecx, dword ptr [esi+20]
+:0043D55B E801A9FEFF              call 00427E61					<- drop crypt map ?
+:0043D560 E9C6000000              jmp 0043D62B					<- jump reset to point to double rewards
+--------------------
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D539(C)
+|
+:0043D59C 8B86DC000000            mov eax, dword ptr [esi+000000DC]
+:0043D5A2 8B00                    mov eax, dword ptr [eax]
+:0043D5A4 3D89000000              cmp eax, 00000089
+:0043D5A9 0F858F000000            jne 0043D63E
+:0043D5AF 57                      push edi
+:0043D5B0 50                      push eax
+:0043D5B1 52                      push edx
+:0043D5B2 33DB                    xor ebx, ebx
+:0043D5B4 53                      push ebx
+:0043D5B5 B9BC030000              mov ecx, 000003BC
+:0043D5BA E84EAFFDFF              call 0041850D
+:0043D5BF 5B                      pop ebx
+:0043D5C0 5A                      pop edx
+:0043D5C1 58                      pop eax
+:0043D5C2 EB21                    jmp 0043D5E5
+:0043D5C4 90                      nop
+.........
+:0043D5E4 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D5C2(U)
+|
+:0043D5E5 6A01                    push 00000001
+:0043D5E7 891DBCB56E00            mov dword ptr [006EB5BC], ebx
+:0043D5ED 5F                      pop edi
+:0043D5EE C7057C735700FEFFFFFF    mov dword ptr [0057737C], FFFFFFFE
+:0043D5F8 5F                      pop edi
+:0043D5F9 EB30                    jmp 0043D62B					<- changed to jump to double drop
+:0043D5FB 90                      nop
+....
+:0043D62A 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:	<- this is placed ahead and works, gives one extra item drop
+|:0043D560(U), :0043D5F9(U)
+|
+:0043D62B 83FF03                  cmp edi, 00000003
+:0043D62E 7E0E                    jle 0043D63E
+:0043D630 8B5620                  mov edx, dword ptr [esi+20]
+:0043D633 53                      push ebx
+:0043D634 FF7624                  push [esi+24]
+:0043D637 8BCF                    mov ecx, edi
+:0043D639 E8F09DFEFF              call 0042742E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043D5A9(C), :0043D62E(C)
+|
+:0043D63E 83FF03                  cmp edi, 00000003
+:0043D641 7E0E                    jle 0043D651
+:0043D643 8B5620                  mov edx, dword ptr [esi+20]
+:0043D646 53                      push ebx
+:0043D647 FF7624                  push [esi+24]
+:0043D64A 8BCF                    mov ecx, edi
+:0043D64C E8DD9DFEFF              call 0042742E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043D528(U), :0043D641(C)
+|
+:0043D651 5F                      pop edi
+:0043D652 5E                      pop esi
+:0043D653 5B                      pop ebx
+:0043D654 C3                      ret
+
+=========== END ============
+
+
+Update1: 
+Defiler no longer drops the mao in MP mode
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043D500(C), :0043D50E(C)
+|
+:0043D52D 8B86D8000000            mov eax, dword ptr [esi+000000D8]
+:0043D533 3B05E4094B00            cmp eax, dword ptr [004B09E4]
+:0043D539 7561                    jne 0043D59C
+:0043D53B B9DD030000              mov ecx, 000003DD
+:0043D540 E806ADFDFF              call 0041824B
+:0043D545 85C0                    test eax, eax
+:0043D547 7405                    je 0043D54E
+:0043D549 E82AADFDFF              call 00418278
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D547(C)
+|
+:0043D54E 8325A0B56E0000          and dword ptr [006EB5A0], 00000000
+:0043D555 8B5624                  mov edx, dword ptr [esi+24]
+:0043D558 8B4E20                  mov ecx, dword ptr [esi+20]
+:0043D55B 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:0043D562 7505                    jne 0043D569
+:0043D564 E8F8A8FEFF              call 00427E61
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D562(C)
+|
+:0043D569 E9BD000000              jmp 0043D62B
+
+=======================END=========================
+----------------
+
+thats Defiler check for sure:
+..in TH
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043D500(C), :0043D50E(C)
+|
+:0043D52D 8B86D8000000            mov eax, dword ptr [esi+000000D8]
+:0043D533 3B05E4094B00            cmp eax, dword ptr [004B09E4]
+
+-------------------
+Step 3: fixing Uber's drop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D539(C)
+|
+:0043D59C 8B86DC000000            mov eax, dword ptr [esi+000000DC]
+:0043D5A2 8B00                    mov eax, dword ptr [eax]
+:0043D5A4 3D89000000              cmp eax, 00000089
+:0043D5A9 0F858F000000            jne 0043D63E
+:0043D5AF 53                      push ebx
+:0043D5B0 50                      push eax
+:0043D5B1 52                      push edx
+:0043D5B2 33DB                    xor ebx, ebx
+:0043D5B4 53                      push ebx
+:0043D5B5 B9BC030000              mov ecx, 000003BC
+:0043D5BA E84EAFFDFF              call 0041850D
+:0043D5BF 5B                      pop ebx
+:0043D5C0 5A                      pop edx
+:0043D5C1 58                      pop eax
+:0043D5C2 891DBCB56E00            mov dword ptr [006EB5BC], ebx
+:0043D5C8 5B                      pop ebx
+:0043D5C9 C7057C735700FEFFFFFF    mov dword ptr [0057737C], FFFFFFFE
+:0043D5D3 EB43                    jmp 0043D618
+:0043D5D5 90                      nop
+..............................
+:0043D617 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D5D3(U)
+|
+:0043D618 83FF03                  cmp edi, 00000003
+:0043D61B 7E0E                    jle 0043D62B
+:0043D61D 8B5620                  mov edx, dword ptr [esi+20]
+:0043D620 53                      push ebx
+:0043D621 FF7624                  push [esi+24]
+:0043D624 8BCF                    mov ecx, edi
+:0043D626 E8039EFEFF              call 0042742E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043D569(U), :0043D61B(C)
+|
+:0043D62B 83FF03                  cmp edi, 00000003
+:0043D62E 7E0E                    jle 0043D63E
+:0043D630 8B5620                  mov edx, dword ptr [esi+20]
+:0043D633 53                      push ebx
+:0043D634 FF7624                  push [esi+24]
+:0043D637 8BCF                    mov ecx, edi
+:0043D639 E8F09DFEFF              call 0042742E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043D5A9(C), :0043D62E(C)
+|
+:0043D63E 83FF03                  cmp edi, 00000003
+:0043D641 7E0E                    jle 0043D651
+:0043D643 8B5620                  mov edx, dword ptr [esi+20]
+:0043D646 53                      push ebx
+:0043D647 FF7624                  push [esi+24]
+:0043D64A 8BCF                    mov ecx, edi
+:0043D64C E8DD9DFEFF              call 0042742E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043D528(U), :0043D641(C)
+|
+:0043D651 5F                      pop edi
+:0043D652 5E                      pop esi
+:0043D653 5B                      pop ebx
+:0043D654 C3                      ret
+
+-------------------END---------------------
+___________
+
+td53 code relating double rewards from rulers:
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D539(C)
+|
+:0043D59C 8B86DC000000            mov eax, dword ptr [esi+000000DC]
+:0043D5A2 8B00                    mov eax, dword ptr [eax]
+:0043D5A4 3D89000000              cmp eax, 00000089
+:0043D5A9 0F854B2FFFFF            jne 004304FA
+:0043D5AF 53                      push ebx
+:0043D5B0 50                      push eax
+:0043D5B1 52                      push edx
+:0043D5B2 33DB                    xor ebx, ebx
+:0043D5B4 53                      push ebx
+:0043D5B5 B9BC030000              mov ecx, 000003BC
+:0043D5BA E84EAFFDFF              call 0041850D
+:0043D5BF 5B                      pop ebx
+:0043D5C0 5A                      pop edx
+:0043D5C1 58                      pop eax
+:0043D5C2 EB1D                    jmp 0043D5E1
+__________
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D5C2(U)
+|
+:0043D5E1 B125                    mov cl, 25
+:0043D5E3 E8B9D4FDFF              call 0041AAA1
+:0043D5E8 891DBCB56E00            mov dword ptr [006EB5BC], ebx
+:0043D5EE 5B                      pop ebx
+:0043D5EF C7057C735700FEFFFFFF    mov dword ptr [0057737C], FFFFFFFE
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00452862(U)
+|
+:0043D5F9 83FF03                  cmp edi, 00000003
+:0043D5FC EB2F                    jmp 0043D62D
+__________
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D5FC(U)
+|
+:0043D62D 7E22                    jle 0043D651
+:0043D62F 8B5620                  mov edx, dword ptr [esi+20]
+:0043D632 53                      push ebx
+:0043D633 FF7624                  push [esi+24]
+:0043D636 8BCF                    mov ecx, edi
+:0043D638 E8F19DFEFF              call 0042742E
+:0043D63D 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045285C(C)
+|
+:0043D63E 83FF03                  cmp edi, 00000003
+:0043D641 7E0E                    jle 0043D651
+:0043D643 8B5620                  mov edx, dword ptr [esi+20]
+:0043D646 53                      push ebx
+:0043D647 FF7624                  push [esi+24]
+:0043D64A 8BCF                    mov ecx, edi
+:0043D64C E8DD9DFEFF              call 0042742E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00430503(U), :0043D528(U), :0043D560(U), :0043D62D(C), :0043D641(C)
+|
+:0043D651 5F                      pop edi
+:0043D652 5E                      pop esi
+:0043D653 5B                      pop ebx
+:0043D654 C3                      ret
+__________
+__________
+__________
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D5A9(C)
+|
+:004304FA 83F860                  cmp eax, 00000060
+:004304FD 0F85011F0200            jne 00452404
+:00430503 E949D10000              jmp 0043D651
+________
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004304FD(C)
+|
+:00452404 0FB686BC000000          movzx eax, byte ptr [esi+000000BC]
+:0045240B E94A1AFDFF              jmp 00423E5A
+____
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045240B(U)
+|
+:00423E5A 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00423E61 0F85E3E90200            jne 0045284A
+:00423E67 E9E6E90200              jmp 00452852
+______
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00423E61(C)
+|
+:0045284A 3C02                    cmp al, 02
+:0045284C 7414                    je 00452862
+:0045284E 3C0A                    cmp al, 0A
+:00452850 7410                    je 00452862
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00423E67(U)
+|
+:00452852 3C01                    cmp al, 01
+:00452854 740C                    je 00452862
+:00452856 3C62                    cmp al, 62
+:00452858 7408                    je 00452862
+:0045285A 3C37                    cmp al, 37
+:0045285C 0F85DCADFEFF            jne 0043D63E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045284C(C), :00452850(C), :00452854(C), :00452858(C)
+|
+:00452862 E992ADFEFF              jmp 0043D5F9
+:00452867 85C0                    test eax, eax
+:00452869 0F85FD070000            jne 0045306C
+:0045286F E8B7ABFEFF              call 0043D42B
+:00452874 6A01                    push 00000001
+:00452876 5A                      pop edx
+:00452877 E8A6BF0000              call 0045E822
+:0045287C 8BCE                    mov ecx, esi
+:0045287E E8FBBC0000              call 0045E57E
+:00452883 B120                    mov cl, 20
+:00452885 E9D7020000              jmp 00452B61
+____
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00451907(U), :00451A78(U), :00451BD4(U), :00451C86(U), :00451D8B(U)
+|:00451E27(U), :00451F52(U), :00451FD6(U), :0045210A(U), :004522DB(U)
+|:004523FF(U), :004524D2(U), :0045251C(U), :004526CC(U), :004527D4(U)
+|:00452885(U), :004528FB(U), :0045294B(U), :00452A4D(U), :00452A7F(U)
+|
+:00452B61 E83B7FFCFF              call 0041AAA1
+:00452B66 E9D5040000              jmp 00453040
+___
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045186D(C), :00451FCE(C), :00452829(U), :00452929(C), :00452B66(U)
+|:00452E88(U), :00452EDC(U), :00452F89(U), :00453019(C)
+|
+:00453040 8B75FC                  mov esi, dword ptr [ebp-04]
+:00453043 6A01                    push 00000001
+:00453045 5A                      pop edx
+:00453046 8BCE                    mov ecx, esi
+:00453048 E8721AFDFF              call 00424ABF
+:0045304D 3B35E8AD6E00            cmp esi, dword ptr [006EADE8]
+:00453053 C705AC535700FF000000    mov dword ptr [005753AC], 000000FF
+:0045305D 750D                    jne 0045306C
+:0045305F FF75E4                  push [ebp-1C]
+:00453062 B22E                    mov dl, 2E
+:00453064 33C9                    xor ecx, ecx
+:00453066 56                      push esi
+:00453067 E8723EFFFF              call 00446EDE
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045180B(C), :0045187C(C), :00451910(C), :0045191F(C), :00451A7F(C)
+|:00451BDB(C), :00451C8D(C), :00451CCE(C), :00451CDD(C), :00451D92(C)
+|:00451E2E(C), :00451FBF(C), :00451FDD(C), :00452187(C), :004523D7(C)
+|:004524E6(U), :0045259F(C), :004526D3(C), :004527DB(C), :00452869(C)
+|:004528A4(C), :004528DF(C), :0045291A(C), :00452952(C), :004529EF(C)
+|:00452B4E(C), :00452BEE(C), :00452CB8(C), :00452CC7(C), :00452D45(C)
+|:00452D54(C), :00452EE3(C), :00452EF2(C), :00452F90(C), :00452F9F(C)
+|:0045305D(C)
+|
+:0045306C 5F                      pop edi
+:0045306D 5E                      pop esi
+:0045306E 5B                      pop ebx
+:0045306F C9                      leave
+:00453070 C20400                  ret 0004
+

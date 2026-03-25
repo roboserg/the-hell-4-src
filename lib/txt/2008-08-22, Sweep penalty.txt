@@ -1,0 +1,9 @@
+
+
+Increased ToHit penalty for Sweep attacks: 30+2*(mlvl-clvl) is now 40+2*(mlvl-clvl), with 40 as minimum
+
+file offset 0005ACE7
+
+:0045B8E7 8D44091E                lea eax, dword ptr [ecx+ecx+1E]
+changed into
+:0045B8E7 8D440928                lea eax, dword ptr [ecx+ecx+28]

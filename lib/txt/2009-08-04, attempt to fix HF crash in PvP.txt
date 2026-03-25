@@ -1,0 +1,43 @@
+Attempting to avoid damage in PvP for HF spell:
+it's likely to be bugged or not working
+this info should be used to revert changes if needed
+
+
+:00432615 837D143F                cmp dword ptr [ebp+14], 0000003F
+:00432619 7510                    jne 0043262B
+:0043261B E910322D00              jmp 00705830
+:00432620 90                      nop
+:00432621 90                      nop
+:00432622 90                      nop
+:00432623 90                      nop
+:00432624 90                      nop
+:00432625 90                      nop
+:00432626 90                      nop
+:00432627 90                      nop
+:00432628 90                      nop
+:00432629 90                      nop
+:0043262A 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00432619(C)
+|
+:0043262B 8B550C                  mov edx, dword ptr [ebp+0C]
+
+	into
+
+:00432615 837D143F                cmp dword ptr [ebp+14], 0000003F
+:00432619 7505                    jne 00432620
+:0043261B E910322D00              jmp 00705830
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00432619(C)
+|
+:00432620 837D1429                cmp dword ptr [ebp+14], 00000029
+:00432624 0F8449010000            je 00432773
+:0043262A 90                      nop
+:0043262B 8B550C                  mov edx, dword ptr [ebp+0C]
+
+=========================================================================
+
+at B6344 there's a flag check for FWave blockability ;)
+should work...

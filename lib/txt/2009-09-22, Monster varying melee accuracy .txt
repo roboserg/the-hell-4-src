@@ -1,0 +1,132 @@
+Monsters now have varying accuracy in melee:
+-10% tohit,
+and +random [0-20]% tohit
+
+
+	modified:
+:0043E219 8D441214                lea eax, dword ptr [edx+edx+14]
+
+	modified:
+:0043E234 6A15                    push 00000015
+:0043E236 5A                      pop edx
+:0043E237 51                      push ecx
+:0043E238 E81DBDFDFF              call 00419F5A
+:0043E23D 59                      pop ecx
+:0043E23E 03D8                    add ebx, eax
+:0043E240 A114AE6E00              mov eax, dword ptr [006EAE14]
+:0043E245 8D0C30                  lea ecx, dword ptr [eax+esi]
+:0043E248 8B8178010000            mov eax, dword ptr [ecx+00000178]
+:0043E24E C1E803                  shr eax, 03
+:0043E251 6A64                    push 00000064
+:0043E253 5A                      pop edx
+:0043E254 2BD0                    sub edx, eax
+:0043E256 3BD3                    cmp edx, ebx
+:0043E258 7D02                    jge 0043E25C
+:0043E25A 8BDA                    mov ebx, edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043E258(C)
+|
+:0043E25C 6A17                    push 00000017
+:0043E25E 58                      pop eax
+:0043E25F 3BD8                    cmp ebx, eax
+:0043E261 7D02                    jge 0043E265
+:0043E263 8BD8                    mov ebx, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043E261(C)
+|
+:0043E265 8B01                    mov eax, dword ptr [ecx]
+
+
+=================================================================
+
+More accuracy variations on Purgatory and Doom modes:
+Horror: -10, +Rnd[21]
+Purgat: -75, +Rnd[106]
+Doom:   -160, +Rnd[201]
+
+
+
+	mod:
+:0043E206 0FBE81B8010000          movsx eax, byte ptr [ecx+000001B8]
+:0043E20D 0FBE9748DD6900          movsx edx, byte ptr [edi+0069DD48]
+:0043E214 2BD0                    sub edx, eax
+:0043E216 6A05                    push 00000005
+:0043E218 5B                      pop ebx
+:0043E219 8D441214                lea eax, dword ptr [edx+edx+14]
+:0043E21D 8945F0                  mov dword ptr [ebp-10], eax
+:0043E220 8B8174010000            mov eax, dword ptr [ecx+00000174]
+:0043E226 99                      cdq
+:0043E227 F7FB                    idiv ebx
+:0043E229 8B5DF0                  mov ebx, dword ptr [ebp-10]
+:0043E22C 2BD8                    sub ebx, eax
+:0043E22E 035D08                  add ebx, dword ptr [ebp+08]
+:0043E231 2B5DF4                  sub ebx, dword ptr [ebp-0C]
+:0043E234 E9F7122D00              jmp 0070F530
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070F544(U)
+|
+:0043E239 5A                      pop edx
+:0043E23A 51                      push ecx
+:0043E23B E81ABDFDFF              call 00419F5A
+:0043E240 59                      pop ecx
+:0043E241 03D8                    add ebx, eax
+:0043E243 A114AE6E00              mov eax, dword ptr [006EAE14]
+:0043E248 8D0C30                  lea ecx, dword ptr [eax+esi]
+:0043E24B 90                      nop
+:0043E24C 90                      nop
+:0043E24D 90                      nop
+:0043E24E 90                      nop
+:0043E24F 90                      nop
+:0043E250 90                      nop
+:0043E251 90                      nop
+:0043E252 90                      nop
+:0043E253 90                      nop
+:0043E254 90                      nop
+:0043E255 90                      nop
+:0043E256 90                      nop
+:0043E257 90                      nop
+:0043E258 90                      nop
+:0043E259 90                      nop
+:0043E25A 90                      nop
+:0043E25B 90                      nop
+:0043E25C 6A14                    push 00000014
+:0043E25E 58                      pop eax
+:0043E25F E97CCF2C00              jmp 0070B1E0
+:0043E264 90                      nop
+
+
+	ex:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043E234(U)
+|
+:0070F530 833DC070600001          cmp dword ptr [006070C0], 00000001
+:0070F537 7410                    je 0070F549
+:0070F539 833DC070600002          cmp dword ptr [006070C0], 00000002
+:0070F540 740E                    je 0070F550
+:0070F542 6A15                    push 00000015
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070F54E(U), :0070F55B(U)
+|
+:0070F544 E9F0ECD2FF              jmp 0043E239
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070F537(C)
+|
+:0070F549 83EB64                  sub ebx, 00000064
+:0070F54C 6A79                    push 00000079
+:0070F54E EBF4                    jmp 0070F544
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070F540(C)
+|
+:0070F550 81EBC8000000            sub ebx, 000000C8
+:0070F556 68DD000000              push 000000DD
+:0070F55B EBE7                    jmp 0070F544
+:0070F55D 90                      nop
+:0070F55E 90                      nop
+
+============================================================================

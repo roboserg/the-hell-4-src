@@ -1,0 +1,62 @@
+
+ DesertDragon (16:12:40 10/02/2010)
+ну вот например функция в которой монстр пускает стрелу
+в ecx, edx передаются начальные координаты стрелы
+и по еденичке прибаваляется что бы со следующей клетки появлялось
+
+.text:0043E775 020                 mov     edx, ds:OrientationYArray[eax]	<- xor edx, edx
+
+тут прибавляем смещение по одной координате
+.text:0043E77B 020                 add     edx, MonstersArray.YPos[esi] ; aPlrY
+
+.text:0043E781 020                 push    ecx             ; a6
+.text:0043E782 024                 movzx   ecx, MonstersArray.TargetYPos[esi] ; Move with Zero-Extend
+.text:0043E789 024                 push    ecx             ; a5
+.text:0043E78A 028                 movzx   ecx, MonstersArray.TargetXPos[esi] ; Move with Zero-Extend
+.text:0043E791 028                 push    ecx             ; a4
+.text:0043E792 02C                 mov     ecx, ds:OrientationXArray[eax]	<- xor ecx, ecx
+
+тут по другой
+.text:0043E798 02C                 add     ecx, MonstersArray.XPos[esi] ; aPlrX
+
+.text:0043E79E 02C                 call    CastSpellEffect ; Call Procedure
+
+
+===================
+
+
+еще одна похожая функция, что именно кастует пока не знаю
+но смещение также прибавляется
+
+.text:0043E831 01C                 mov     edx, ds:OrientationYArray[eax]	<- xor edx, edx
+.text:0043E837 01C                 add     edx, MonstersArray.YPos[esi] ; aPlrY
+.text:0043E83D 01C                 push    ecx             ; a6
+.text:0043E83E 020                 movzx   ecx, MonstersArray.TargetYPos[esi] ; Move with Zero-Extend
+.text:0043E845 020                 push    ecx             ; a5
+.text:0043E846 024                 movzx   ecx, MonstersArray.TargetXPos[esi] ; Move with Zero-Extend
+.text:0043E84D 024                 push    ecx             ; a4
+.text:0043E84E 028                 mov     ecx, ds:OrientationXArray[eax]	<- xor ecx, ecx
+.text:0043E854 028                 add     ecx, MonstersArray.XPos[esi] ; aPlrX
+.text:0043E85A 028                 call    CastSpellEffect ; Call Procedure
+
+
+--------------------------------       <<<<<<<<< this wasn't changed. yet, maybe.....
+
+esertDragon (16:26:11 10/02/2010)
+есть правда еще одно место где смещение прибавлятся. но там ничего не кастуется. а какие то проверки
+
+ Mordor (16:26:23 10/02/2010)
+давай
+на всякий
+
+ Mordor (16:26:37 10/02/2010)
+раз уж делать фикс. то все проверять...
+
+ DesertDragon (16:27:38 10/02/2010)
+.text:00442BBE 028                 mov     ecx, ds:OrientationYArray[eax]
+.text:00442BC4 028                 mov     edx, ds:OrientationXArray[eax]
+.text:00442BCA 028                 add     ecx, [esi+24h]  ; Add
+.text:00442BCD 028                 add     edx, [esi+20h]  ; a2
+.text:00442BD0 028                 push    ecx             ; a3
+.text:00442BD1 02C                 mov     ecx, [ebp+a1]   ; a1
+.text:00442BD4 02C                 call    sub_444901      ; Call Procedure

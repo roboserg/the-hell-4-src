@@ -1,0 +1,224 @@
+1. [19:10:46] Mordor: - synergy bonus needed for wearing full sets
+
+
+
+
+
+
+
+
+=========================================================
+2.. Починка рефлекта
+
+;00710BC1 sub     dword_69DD1C[edi], eax
+
+00710BC1 
+>>>
+mov ecx,  dword ptr [69DD1C + edi]; curLife
+cmp ecx, eax
+jle @killMonster
+@damageMonster:
+sub     dword_69DD1C[edi], eax
+jmp @return
+
+@killMonster:
+xor ecx, ecx
+mov dword ptr [69DD1C + edi], ecx
+
+@return:
+jmp 00710BC7
+
+            chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00710BC1(U)
+|
+:00718260 8B8F1CDD6900            mov ecx, dword ptr [edi+0069DD1C]
+:00718266 39C1                    cmp ecx, eax
+:00718268 7E0B                    jle 00718275
+:0071826A 29871CDD6900            sub dword ptr [edi+0069DD1C], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071827D(U)
+|
+:00718270 E95289FFFF              jmp 00710BC7
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718268(C)
+|
+:00718275 31C9                    xor ecx, ecx
+:00718277 898F1CDD6900            mov dword ptr [edi+0069DD1C], ecx
+:0071827D EBF1                    jmp 00718270
+
+=====================================================
+
+00710BF1 sub     dword_69DD1C[edi], eax
+; этот по образцу сам
+
+                 chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00710BF1(U)
+|
+:00718280 8B8F1CDD6900            mov ecx, dword ptr [edi+0069DD1C]
+:00718286 39C1                    cmp ecx, eax
+:00718288 7E0B                    jle 00718295
+:0071828A 29871CDD6900            sub dword ptr [edi+0069DD1C], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071829D(U)
+|
+:00718290 E96289FFFF              jmp 00710BF7
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718288(C)
+|
+:00718295 31C9                    xor ecx, ecx
+:00718297 898F1CDD6900            mov dword ptr [edi+0069DD1C], ecx
+:0071829D EBF1                    jmp 00718290
+
+=====================================================
+
+         MS bug fix:
+.text:0043E643 call    sub_45ABD7
+.text:0043E648 mov     edx, dword_69DCD0[edi]
+.text:0043E64E mov     ecx, [ebp+var_8]
+.text:0043E651 call    sub_43CBFD
+test eax, eax
+jz 43E65B
+.text:0043E656 jmp     loc_4
+
+
+
+================================================================
+Глобальный апдейт данных
+3. 
+//----- (00454CBF) --------------------------------------------------------
+void __fastcall SaveItem(ItemInfo* itemInfo, Item* item)
+//----- (00454FD6) --------------------------------------------------------
+void __fastcall LoadItem(ItemInfo* itemInfo, Item* item)
+
+@UpdateOneItem: // E4EB0
+; ecx - Item& item
+push esi
+mov esi, ecx
+
+mov ecx, @19byteBuffer
+mov edx, esi
+call 00454CBF ; сохранили шмотку в буфер, как при новой игре
+
+mov ecx, @19byteBuffer
+mov edx, esi
+call 00454FD6 ; загрузили уже на основе новых данных
+pop esi
+retn
+
+         chek:
+* Referenced by a CALL at Address:
+|:007182E8   
+|
+:007182B0 56                      push esi
+:007182B1 89CE                    mov esi, ecx
+:007182B3 B9B060A300              mov ecx, 00A360B0
+:007182B8 E802CAD3FF              call 00454CBF
+:007182BD B9B060A300              mov ecx, 00A360B0
+:007182C2 E80FCDD3FF              call 00454FD6
+:007182C7 5E                      pop esi
+:007182C8 C3                      ret
+==================================
+
+@UpdateAllItems: // E4ED0
+push edi
+push ebx
+call 70A1D0; @getCurPlayerOffset
+mov ebx, dword ptr [eax + 18392d] ; InvItemCount
+add ebx, 7 ; нательные вещи
+mov edi, eax
+add edi, 908d ; оффсет первой вещи
+@loop:
+
+mov ecx, edi
+call @UpdateOneItem
+
+@continue:
+add edi, 372d ; размер одной шмотки
+dec ebx
+jnz @loop
+
+pop ebx
+pop edi
+retn
+
+            chek:
+* Referenced by a CALL at Address:
+|:00718316   
+|
+:007182D0 57                      push edi
+:007182D1 53                      push ebx
+:007182D2 E8F91EFFFF              call 0070A1D0
+:007182D7 8B98D8470000            mov ebx, dword ptr [eax+000047D8]
+:007182DD 83C307                  add ebx, 00000007
+:007182E0 89C7                    mov edi, eax
+:007182E2 81C78C030000            add edi, 0000038C
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007182F6(C)
+|
+:007182E8 89F9                    mov ecx, edi
+:007182EA E8C1FFFFFF              call 007182B0
+:007182EF 81C774010000            add edi, 00000174
+:007182F5 4B                      dec ebx
+:007182F6 75F0                    jne 007182E8
+:007182F8 5B                      pop ebx
+:007182F9 5F                      pop edi
+:007182FA C3                      ret
+==========================================
+
+Завести байт под счётчик @updateItemsTimer . начальное значение 00h
+
+.mod:007124BB                 jmp     loc_45DAD0
+
+007124BB >>>
+>>>
+inc byte ptr [@updateItemsTimer]
+cmp byte ptr [@updateItemsTimer], 10d ; сколько фреймов ждать перед обновлением
+jl @return
+mov byte ptr [@updateItemsTimer], 00h
+call @UpdateAllItems
+mov ecx, dword ptr [006EADE8] ; CurrentPlayerIndex
+xor edx, edx
+call 00424ABF
+@return:
+jmp     loc_45DAD0
+
+             chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007124BB(U)
+|
+:00718300 FE050061A300            inc byte ptr [00A36100]
+:00718306 803D0061A30064          cmp byte ptr [00A36100], 64
+:0071830D 7C0C                    jl 0071831B
+:0071830F C6050061A30000          mov byte ptr [00A36100], 00
+:00718316 E8B5FFFFFF              call 007182D0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071830D(C)
+|
+:0071831B 8B0DE8AD6E00            mov ecx, dword ptr [006EADE8]
+:00718321 31D2                    xor edx, edx
+:00718323 E897C7D0FF              call 00424ABF
+:00718328 90                      nop
+:00718329 90                      nop
+:0071832A 90                      nop
+:0071832B E9A057D4FF              jmp 0045DAD0
+
+
+
+
+
+
+
+
+
+
+
+
+

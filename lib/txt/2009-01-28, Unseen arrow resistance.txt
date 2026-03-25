@@ -1,0 +1,45 @@
+Unseen gain arrow resistance in multiplayer levels 9 and 10:
+25% resistance on DLVL 9, and 37,5% resistance on DLVL 10
+
+	Modified:
+:00707309 75CB                    jne 007072D6
+to
+:00707309 753D                    jne 00707348
+
+	Extra:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707309(C)
+|
+:00707348 83F81F                  cmp eax, 0000001F
+:0070734B 90                      nop
+:0070734C 7588                    jne 007072D6
+:0070734E 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00707355 0F847BFFFFFF            je 007072D6
+:0070735B EB13                    jmp 00707370
+
+..OTHER STUFF....
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070735B(U)
+|
+:00707370 803DD8B1600009          cmp byte ptr [0060B1D8], 09
+:00707377 741D                    je 00707396
+:00707379 803DD8B160000A          cmp byte ptr [0060B1D8], 0A
+:00707380 0F8550FFFFFF            jne 007072D6
+:00707386 D1FF                    sar edi, 1
+:00707388 50                      push eax
+:00707389 8BC7                    mov eax, edi
+:0070738B C1F802                  sar eax, 02
+:0070738E 03F8                    add edi, eax
+:00707390 58                      pop eax
+:00707391 E940FFFFFF              jmp 007072D6
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707377(C)
+|
+:00707396 50                      push eax
+:00707397 8BC7                    mov eax, edi
+:00707399 C1F802                  sar eax, 02
+:0070739C 2BF8                    sub edi, eax
+:0070739E 58                      pop eax
+:0070739F E932FFFFFF              jmp 007072D6

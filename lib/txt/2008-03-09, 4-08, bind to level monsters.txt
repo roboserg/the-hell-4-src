@@ -1,0 +1,6 @@
+Monsters that always appear on levels and bound by packs:
+
+
+Hell Clan	dlvl 6		succubi, goats	slot 57
+Soul Burner	dlvl 24		horned death	slot 133
+Overlord	dlvl 7		nitemare, ...	slot 99

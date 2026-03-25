@@ -1,0 +1,38 @@
+Bone Spirit now damages players for 1/5 of their current life in PvP:
+Applied in 1.64 SV2
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00432610(C)
+|
+:00432615 837D143F                cmp dword ptr [ebp+14], 0000003F
+:00432619 7510                    jne 0043262B
+:0043261B 8B8098010000            mov eax, dword ptr [eax+00000198]
+:00432621 6A02                    push 00000002
+:00432623 99                      cdq
+:00432624 5B                      pop ebx
+:00432625 F7FB                    idiv ebx
+:00432627 8BD8                    mov ebx, eax
+:00432629 EB54                    jmp 0043267F
+
+into >>>
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00432610(C)
+|
+:00432615 837D143F                cmp dword ptr [ebp+14], 0000003F
+:00432619 7510                    jne 0043262B
+:0043261B E910322D00              jmp 00705830
+
+
+Extra:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043261B(U)
+|
+:00705830 8B8098010000            mov eax, dword ptr [eax+00000198]
+:00705836 6A05                    push 00000005
+:00705838 99                      cdq
+:00705839 5B                      pop ebx
+:0070583A F7FB                    idiv ebx
+:0070583C 8BD8                    mov ebx, eax
+:0070583E 8B45EC                  mov eax, dword ptr [ebp-14]
+:00705841 E947CED2FF              jmp 0043268D

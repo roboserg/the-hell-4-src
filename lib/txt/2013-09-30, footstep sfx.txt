@@ -1,0 +1,85 @@
+﻿"Топот копыт"
+
+Если уровень квестовой локи = 14 или 15, то юзаем вместо обычногозвука шагов этот: SFX\ambience\MedSand1.WAV (sfx 1026)
+
+Если уровень = 0 (город), то играть звук 1030 (sfx\ambience\medDirt4.wav)
+
+e9220:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00723955(U)
+|
+:0071C630 803D14F3610000          cmp byte ptr [0061F314], 00
+:0071C637 7447                    je 0071C680
+:0071C63D 803D00CB61000E          cmp byte ptr [0061CB00], 0E
+:0071C644 7409                    je 0071C64F
+:0071C646 803D00CB61000F          cmp byte ptr [0061CB00], 0F
+:0071C64D 7531                    jne 0071C680
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071C644(C)
+|
+:0071C654 B905040000              mov ecx, 00000405
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071C677(U), :0071C68E(U), :0071C6B1(U), :0071C6D0(U), :0071C6F8(U)
+|:0071C71E(U), :0071C732(U)
+|
+:0071C659 8B543038                mov edx, dword ptr [eax+esi+38]
+:0071C663 E9F3720000              jmp 0072395B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071C6A5(C), :0071C709(C)
+|
+:0071C670 31C9                    xor ecx, ecx
+:0071C677 EBE0                    jmp 0071C659
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071C637(C), :0071C64D(C)
+|
+:0071C680 803DD8B1600000          cmp byte ptr [0060B1D8], 00
+:0071C687 750C                    jne 0071C695
+:0071C689 B906040000              mov ecx, 00000406
+:0071C68E EBC9                    jmp 0071C659
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071C687(C)
+|
+:0071C695 803DD4B1600001          cmp byte ptr [0060B1D4], 01
+:0071C69C 751A                    jne 0071C6B8
+:0071C69E 803DD8B1600011          cmp byte ptr [0060B1D8], 11
+:0071C6A5 7DC9                    jge 0071C670
+:0071C6AC B907040000              mov ecx, 00000407
+:0071C6B1 EBA6                    jmp 0071C659
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071C69C(C)
+|
+:0071C6B8 803DD4B1600002          cmp byte ptr [0060B1D4], 02
+:0071C6BF 7516                    jne 0071C6D7
+:0071C6C6 B908040000              mov ecx, 00000408
+:0071C6D0 EB87                    jmp 0071C659
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071C6BF(C)
+|
+:0071C6D7 803DD4B1600003          cmp byte ptr [0060B1D4], 03
+:0071C6DE 7522                    jne 0071C702
+:0071C6E0 803DD8B1600011          cmp byte ptr [0060B1D8], 11
+:0071C6E7 7D3F                    jge 0071C728
+:0071C6EE B909040000              mov ecx, 00000409
+:0071C6F8 E95CFFFFFF              jmp 0071C659
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071C6DE(C)
+|
+:0071C702 803DD4B1600004          cmp byte ptr [0060B1D4], 04
+:0071C709 0F8561FFFFFF            jne 0071C670
+:0071C714 B90A040000              mov ecx, 0000040A
+:0071C71E E936FFFFFF              jmp 0071C659
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071C6E7(C)
+|
+:0071C728 B90B040000              mov ecx, 0000040B
+:0071C732 E922FFFFFF              jmp 0071C659

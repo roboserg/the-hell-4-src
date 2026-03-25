@@ -1,0 +1,62 @@
+applied this:
+
+()Bashing
+
+Normal effect is 2/8, 3/8 en 4/8, Barbarian altijd AC/8 bonus.
+Barbarian zonder Bashing dus 12.5%, met Bashing 37.5%, 50% en 62.5%
+Anderen 25%, 37.5% en 50%
+
+:0045B93F 85C9                    test ecx, ecx
+:0045B941 7E27                    jle 0045B96A			jmp if no Bashing
+:0045B943 49                      dec ecx
+:0045B944 85C9                    test ecx, ecx
+:0045B946 7E04                    jle 0045B94C
+:0045B948 D3FB                    sar ebx, cl
+:0045B94A EB07                    jmp 0045B953
+:0045B94C 8BCB                    mov ecx, ebx
+:0045B94E C1F902                  sar ecx, 02
+:0045B951 2BD9                    sub ebx, ecx
+:0045B953 80BF6001000005          cmp byte ptr [edi+00000160], 05
+:0045B95A 7508                    jne 0045B964
+:0045B95C 6AF8                    push FFFFFFF8
+:0045B95E 99                      cdq
+:0045B95F 59                      pop ecx
+:0045B960 F7F9                    idiv ecx
+:0045B962 03D8                    add ebx, eax
+wordt
+:0045B93F 80BF6001000005          cmp byte ptr [edi+00000160], 05
+:0045B946 7407                    je 0045B94F
+:0045B948 85C9                    test ecx, ecx
+:0045B94A 7E1E                    jle 0045B96A				jmp if no Bashing or Barbarian
+:0045B94C 41                      inc ecx
+:0045B94D EB06                    jmp 0045B955
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045B946(C)
+|
+:0045B94F 85C9                    test ecx, ecx
+:0045B951 7E01                    jle 0045B954
+:0045B953 41                      inc ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045B951(C)
+|
+:0045B954 41                      inc ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045B94D(U)
+|
+:0045B955 C1F803                  sar eax, 03				eax := AC/8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045B95D(C)
+|
+:0045B958 2BD8                    sub ebx, eax
+:0045B95A 49                      dec ecx
+:0045B95B 85C9                    test ecx, ecx
+:0045B95D 75F9                    jne 0045B958
+:0045B95F 90                      nop
+:0045B960 90                      nop
+:0045B961 90                      nop
+:0045B962 90                      nop
+:0045B963 90                      nop

@@ -1,0 +1,625 @@
+at the end of unique item data table the following is found: 98034D00FF
+
+this seems to be the identifier for the table end.
+
+
+AA968 <- 2 bytes, first: Unique #, second always 80. this lets quick check unique in game, burned corpse drop...
+AACE8 <- Gravedigger
+
+
+=================
+
+#111 (6Eh)		
+offset	1D4018
+
+Amulet of the dead, item 79 (level 34 amulet), level 5
+
+1) ac vs undead
+2) ard
+3) + all [10-12]
+4) 50% mana -> to health
+5) faster HR
+6) unique pic: 301
+
+=================
+
+#112 (6Fh)
+offset	1D406C
+
+Viper Soul, item 79 (lv 34 ammy), level 16
+
+1) tohit +[40-50]
+2) ac [11-15]
+3) atkspd 3
+4) -% damage [30-50]
+5) dfe +[3-4]
+6) unipic: 303
+
+=================
+
+#113 (70h)
+offset	1D40C0
+
+Amulet of Seeing, it 79, lev 27
+
+1) +1 slvl
+2) infra
+3) reg mana
+4) steal mana 1%
+5) -25% mana cost
+6) unipic: 309
+
+================
+
+#114 (71h)
+offset	1D4114
+
+Civerb's Icon, it 79, lev 46
+
+1) faster attack
+2) fastest HR
+3) +%tohit: [20-25]
+4) -dfe [3-5]
+5) +hp [40-60]
+6) uni pic: 327
+
+===============
+
+#115 (72h)
+offset	1D4168
+
+Torn Flesh of Souls, it 80 (level 1, rags), lev 3
+
+1) indestructible
+2) AC: 0
+3) -DFE [5-10]
+4) +VIT [20-30]
+5) -MAG [2-5]
+6) unipic: 308
+
+===============
+
+#116 (73h)
+offset	1D41BC
+
+Dragon Heart, it 79, lev 63
+
+1) life reg
+2) mana reg
+3) ard
+4) + all [5-7]
+5) res fire 85%
+6) uni pic: 311
+
+===============
+
+#117 (74h)
+offset	1D4210
+
+The Executioner's Mask, it 78 (level 33 mask), lev 7
+
+1) +100% tohit, +100% damage
+2) -[50-75]% AC
+3) +damage [30-50]
+4) -DFE [20-25]
+5) +str [20-25]
+6) unipic: 312
+
+===============
+
+#118 (75h)
+offset	1D4264
+
+Ring of Truth, it 82 (lev 40 bang), lev 8
+
+1) + life [90-110]
+2) -DFE [3-6]
+3) +res all [25-35]
+4) unipic: 304
+
+===============
+
+#119 (76h)
+
+offset	1D42B8
+
+Constricting Ring, it 82 (lev 40 bang), lev 19
+
+1) +85% resist all
+2) no regeneration
+3) -STR [10-20]
+4) -DEX [10-20]
+5) unipic: 318
+
+===============
+
+#120 (77h)
+
+offset	1D430C
+
+Xorine's Ring, it 82, lev 40
+
+1) +mana [300-400]
+2) faster mana regen
+3) -5 SLVL
+4) -MAG [30-40]
+5) unipic: 300
+
+================
+
+#121 (78h)
+
+offset	1D4360
+
+Soulcage, it 82, lev 61
+
+1) +all [18-24]
+2) -3 slvl
+3) move 50% mana to life
+4) -30% LR
+5) unipic: 302
+
+================
+
+#122 (79h)
+
+offset	1d43b4
+
+Ring of the Essence, it 82, lev 63
+
+1) increased life stealing
+2) reg life
+3) +vit [15-25]
+4) +life [50-70]
+5) +mana [10-20]
+6) unipic: 319
+
+================
+
+#123 (7Ah)
+
+offset	1d4408
+
+Overlord's helm, it 90 (lev 55), lev 25
+
+1) ard
+2) -dfe [15-20]
+3) +slvl [2-4]
+4) -25% manacost
+5) -mag [20-30]
+6) unipic: 328
+
+================
+
+#124 (7Bh)
+
+offset	1d445c
+
+Blood visor, it 78, lev 23
+
+1) -dfe [10-15]
+2) +str [15-20]
+3) +dex [15-20]
+4) +vit [20-25]
+5)-mag [10-15]
+6) unipic: 313
+
+================
+
+#125 (7Ch)
+
+offset	1d44b0
+
+Wizardspike, it 84, lev 30
+
+1) dam: 6-48
+2) dur: 12
+3) +mag [14-16]
+4) +mana [30-40]
+5) +res all [10-15]
+6) unipic: 321
+
+================
+
+#126 (7Dh)
+
+offset	1d4504
+
+Crackrust, it 85 (lev 15 club), lev 1
+
+1) +all [2-4]
+2) -DFE [2-3]
+3) +%dmg [150-200]
+4) +res all [5-10]
+5) -1 slvl
+6) unipic: 322
+
+================
+
+#127 (7Eh)
+
+offset 1D4558
+
+Shield of Mirrors, it 52 (lev 44 shld), lev 63
+
+1) -DFE [14-16]
+2) thorns
+3) ard
+4) +res all [20-30]
+5) -50% dur
+6) unipic: 323
+
+================
+
+#128 (7Fh)
+
+offset	1d45ac
+
+Crown of Spirits, it 86 (lev 6), lev 1
+
+1) AC: 5
+2) faster life regen
+3) steal life: 2%
+4) VIT: + 20
+5) HP: -20
+6) unipic: 324
+
+=================
+=================
+the following cut off because it produces problems, different lockups, crashes and weird item behaviour. probably, could be solved by letting unique item number go over 128  :\
+=================
+=================
+
+#129 (80h)	<- this one is probably troublesome, because it goes over "movsx byte ptr" somewhere (I think so), gotta check if it's so really.. the following uniques could cause trouble, too
+forced drop from burned corpse caused weird behaviour on gold's part with slot 129
+when forced for slot 130 the axe didn't even drop, it was dropped in the air and froze there. also, gold drops from monsters seemed doubled (duped?)
+
+offset	1d4600
+
+The Mangler, it 87 (lev 5), lev 6
+
+1) +%dmg [500-700]
+2) -5 str
+3) -5 mag
+4) -10 mana
+5) unipic: 315
+
+==================
+
+#130 (81h)
+
+offset 1d4654
+
+Clawhand (needs better name), it 88 (lev 50), lev 18
+
+1) damage: 25-35
+2) -dfe [1-5]
+3) ???
+4) ac: [4-8]
+5) AP: 2
+6) unipic: 307
+
+=================
+
+#131 (82h)			
+
+offset	1d46a8
+
+Wicked Axe, it 87 (l 5), lev 21
+
+1) +dex [5-10]
+2) fast attack
+3) -dfe [12-14]
+4) unipic: 297
+
+=================
+
+#132 (83h)			
+
+offset	1d46fc
+
+Civerb's Club, it 89 (lev24), lev 1
+
+1) damage: 12-30
+2) +%damage [350-425]
+3) unipic: 133
+
+=================
+
+#133 (84h)
+offset	1D4750	
+
+Demonspike Coat, it 81 (lev 12, hard leather), lev 1
+
+1) AC: [65-75]
+2) Extra AC vs demons
+3) -DFE [10-16]
+4) unipic: 208
+
+===============
+
+#134 (85h)
+
+offset	1d47a4	
+
+Deadly hunter, it 83, lev 1
+
+1) no str req
+2) dam: 8-12
+3) ap: 1
+4) ard
+5) -str [4-8]
+6) unipic: 320
+
+===============
+
+#135 (86h)
+
+offset	1d47f8		
+
+Harlequin's Crest, it 91 (lev 7), lev 1
+
+1) -AC: [9-11]		<- this effect might get wrapped around, watch it!
+2) no str req
+3) -dfe: [1-4]
+4) +17 hp
+5) +17 mana
+6) unipic: 329
+
+===============
+
+#136 (87h)
+
+offset	1d484c		
+
+Bonespan, it 92 (lev 1) lev 1
+
+1) dam: 8-20
+2) decaying +800% dam
+3) -dex [3-7]
+4) unipic: 330
+
+===============
+
+#137 (88h)
+
+offset	1d48a0			
+
+Desert Dragon, it 93 (25), 1
+
+1) noSTR
+2) +%AC: [45-65]
+3) -[10-12] dfe
+4) Fastest HR
+5) +[24-48] vit
+6) unipic: 331
+
+===============
+
+#138 (89h)
+
+offset	1d48f4			
+
+Stoneskin, it 93 (25), 22
+
+1) AC: [80-90]
+2) -dfe: [31-35]
+3) +res fire [30-40]
+4) +res lite [30-40]
+5) -res magic [10-20]
+6) unipic: 332
+
+===============
+
+#139 (8Ah)
+
+offset 1d4948
+
+Ring of Lore, it 97 (56), 25
+
+1) +4 SLVL
+2) UP: 230h
+
+===============
+
+#140 (8Bh)
+
+offset ?
+
+Leviathan's Soul, it 97 (56), 40
+
+1) +[180-240] life
+2) UP: 1E7h
+
+===============
+
+#141 (8Ch)
+
+offset ?
+
+Trollbite, it 97 (56), 55
+
+1) -[8-10] DFE
+2) UP: 1EBh
+
+===============
+
+#142 (8Dh)
+
+offset ?
+
+Dodgecat, it 97 (56), 60
+1) +[20-25] AC
+2) UP: 1E9h
+
+===============
+
+#143 (8Eh)
+
+ofs ?
+
+Ring of Aut, it 97 (56), 62
+1) +100% fury duration
+2) +[35-75]% damage
+3) +[10-30] STR
+4) -[10-20] DEX
+5) UP: 1E8h
+
+===============
+
+#144 (8Fh)
+
+ofs ?
+
+Boneflesh, it 98 (25), 5
+     based on Acolyte's Mail
+1) +10 AC vs undead
+2) +[1-2] SLVL
+3) -[10-20] DFE
+4) no STR requirements
+5) -25% manacost
+6) up: 24Dh
+
+================
+
+#145 (90h)
+
+ofs ?
+
+Vizjerei Outfit, it 98 (25), 25
+1) +[20-30]% AC
+2) +1 SLVL
+3) faster mana regeneration
+4) -33% ARD
+5) -[10-15] DFE
+6) UP: 29Ah
+
+================
+
+#146 (91h)
+
+offset 1D4B94
+
+Token of Terror, it 99 (56), 1
+1) -30% light radius
+2) lose all regeneration
+3) lose all resistance
+4) -[10-20] STR
+5) -[10-20] DEX
+6) up: 29Bh
+
+=================
+
+#147 (92h)
+
+offset 001D4BE8
+
+Amulet of the Cat, it 99 (56), 15
+1) +[35-40] DEX
+2) UP: 29Ch
+
+=================
+
+#148 (93h)
+
+offset ?
+
+Amulet of the Bull, it 99 (56), 30
+1) +[35-40] STR
+2) UP: 29Dh
+
+==================
+
+#149 (94h)
+
+offset ?
+
+Inquisitor Zeal, it 99 (56), 41
+1) +50% dam vs undead
+2) +[20-40]% damage
+3) +[15-25] damage
+4) extra AC vs undead
+5) +[20-30] mana
+6) up: 29Eh
+
+====================
+
+#150 (95h)	- unfindable, quest unique
+
+offset 1D4CE4
+
+Ring of Purity (weak)
+1) +15 HP
+2) -1 DFE
+3) +10% resist all
+4) +10% LR
+
+===================
+
+#151 (96h)	- unfindable, quest unique
+
+offset ???
+
+Ring of Purity (standard)
+1) +40 life
+2) +20 mana
+3) -3 DFE
+4) +20% resist all
+5) +10% LR
+
+===================
+
+#152 (97h)	- unfindable, quest unique
+
+offset ???
+
+Ring of Purity (strong)
+1) +60 life
+2) +30 mana
+3) -5 DFE
+4) +30% resist all
+5) +10 AC
+6) +10% LR
+
+======================
+
+#153 (98h)	- unfindable, quest unique
+
+offset ???
+
+Empyrean Band (weak)
+1) ARD
+2) +2 all
+3) HR: 1
+4) +10% LR
+5) up: 2A4h
+
+===================
+
+#154 (99h)	- unfindable, quest unique
+
+offset ???
+
+Empyrean Band (standard)
+1) ARD
+2) +5 all
+3) HR: 2
+4) +10% LR
+5) up: 2A4h
+
+===================
+
+#155 (9Ah)	- unfindable, quest unique
+
+offset ???
+
+Empyrean Band (strong)
+1) ARD
+2) +8 all
+3) HR: 3
+4) +10% resist all
+5) +10% LR
+6) up: 2A4h
+
+======================
+

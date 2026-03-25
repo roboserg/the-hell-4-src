@@ -1,0 +1,49 @@
+
+into>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045BB16(C), :0045BB25(C)
+|
+:0045BB2A A114AE6E00              mov eax, dword ptr [006EAE14]
+:0045BB2F 8B5DFC                  mov ebx, dword ptr [ebp-04]
+:0045BB32 F684308855000010        test byte ptr [eax+esi+00005588], 10   <<< wtf? dplgngr effect free???
+:0045BB3A 7400                    je 0045BB3C
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BB3A(C)
+|
+:0045BB3C 8B8364DD6900            mov eax, dword ptr [ebx+0069DD64]
+:0045BB42 813889000000            cmp dword ptr [eax], 00000089
+:0045BB48 740B                    je 0045BB55
+:0045BB4A 80BB44DD690000          cmp byte ptr [ebx+0069DD44], 00
+:0045BB51 7414                    je 0045BB67
+:0045BB53 EB05                    jmp 0045BB5A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BB48(C)
+|
+:0045BB55 C1EF02                  shr edi, 02
+:0045BB58 EB0D                    jmp 0045BB67
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BB53(U)
+|
+:0045BB5A D1EF                    shr edi, 1
+:0045BB5C EB09                    jmp 0045BB67
+
+
+===
+fixing boss damage resistance:
+goal is to give all booses 50% arrow and magic resistance, and make uber D & golem have 75% resistance to both
+
+mov eax, edi
+sar eax, 02
+
+52			push edx
+69D2E4000000            imul edx, 000000E4
+
+80BA44DD690000          cmp byte ptr [edx+0069DD44], 00
+74??                    je 00??????
+
+
+pop edx, exit

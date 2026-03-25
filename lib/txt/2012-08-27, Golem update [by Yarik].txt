@@ -1,0 +1,839 @@
+=============================================================
+отображение жизней голема
+=============================================================
+В данных базовых монстров у 109 монстра поставить по 7A оффсету поставить 0700 (расшифровываю - 7. там битовая маска из 3х значений. Означает может ли выделяться монстр в одном из 3х состояний соответственно 0111 может выделяться всегда, конкретные значения за какое выделение отвечают без понятия)
+
+0040834C  jmp 40836B
+перепрыгнуть проверку
+
+00408640 jmp 408721
+и ещё одну
+
+00408B9E jmp      408BC8
+и еще одну
+
+В результате голем станет обводиться красным и у него будет написано
+GOLEM
+TOTAL SLAIN: 0
+не совсем то что нужно. И возможно его бить можно будет.
+Позже допишу как изменить цвет обводки и писать нормальную информацию типа голем YARIK'S GOLEM HIT POINTS: 1000/2000 ну ещё може какую инфу
+Ну и если он будет биться, поищу как запретить это делать. Игроков то пока не поставить пвп режим тоже нельзя бить.
+
+В скором времени напишу как добавить проверку голему на битьё сородичей. И монстрам на перевыбор игрока после смерти.
+
+Идею с битьём чужих големов и чужих игроков если у игрока включён пвп пока откладываю в долгий ящик. Хотя в принципе если реализовывать то сразу. У меня сомнения по поводу того умеют ли големы бить игроков, а игроки големов. Надо будет проверить.
+============================================================
+смена цвета обводки голема
+
+00469ECE jmp @newPlace
+00469ED6 @return
+
+в eax у нас индекс монстра
+
+@newPlace
+push    dword ptr [ecx+130h]
+cmp eax, 04
+jge @enemy
+mov     cl, A5h
+jmp @return2
+@enemy:
+mov     cl, E9
+@return2:
+jmp @return
+=========== это одно место. сейчас будет второе. Один в один=========
+
+0046A08C jmp @newPlace
+0046A094 @return
+
+в eax у нас индекс монстра
+
+@newPlace
+push    dword ptr [ecx+130h]
+cmp eax, 04
+jge @enemy
+mov     cl, A5h
+jmp @return2
+@enemy:
+mov     cl, E9
+@return2:
+jmp @return
+
+===============всё. после введения этих двух проверок голем при наведении обводится оранжевым, а остальные монстры как и раньше розовым=============
+
+по отображению адекватной инфы надо будет чуть постараться. добавить проверку на голема и голему от и до собрать инфу. Первое что приходит в голову написать принадлежность голема и количество жизней. Но можно и дамаг и AC писать. Места навалом
+
+итак, по порядку:
+1. перенаправление на свой код
+2. Пишем золотым цветом как игроков и боссов
+3. первая строка это "%s's %s" где первое это имя игрока, а второе - имя монстра
+4. вторая строка - Hit points: %d of %d 
+
+--------------------------------------------------------------1----------------------------------------------------------
+
+00405873 jmp @newPlace
+00405879 @notGolem
+
+004058D5 @return
+
+---------------------------------------
+@newPlace:
+cmp eax, 04
+jl @Golem
+imul    eax, 0E4h; восстановили затёртое
+jmp @notGolem
+@Golem:
+
+; тут наш код
+mov byte ptr [004D11AC], 03 ; (2) устанавливаем золотой цвет инфо панели
+
+: в eax индекс монстра
+сборка первой строки
+
+mov     esi, 004D12F0;offset StringBuffer
+imul    eax, 0E4h
+push    dword ptr [eax+69DD60h]; monsterName secondArg
+
+mov eax, dword ptr [004D162C] ; monsterIndexUnderCursor
+imul    eax, 55C8h
+add eax, 006EAE14; в eax оффсет игрока - хозяина голема
+lea     eax, [eax+140h]
+push eax; firstArg
+
+push    offset golemHeaderString ; "%s's %s"  когда добавится строка
+push    esi             ; Dest  есть
+call    _sprintf        ; Call Procedure
+add     esp, 10h
+
+; сборка второй строки
+call 0040457C ; очистка тела инфопанели
+
+mov esi, 004D11C0 ; some string2
+mov eax, dword ptr [004D162C] ; monsterIndexUnderCursor
+imul    eax, 0E4h
+add eax, 0069DC88 ; теперь в eax оффсет текущего голема
+
+mov     ecx, [eax+90h]; monster.BaseLife
+mov     eax, [eax+94h]; monster.CurLife
+sar     ecx, 6
+sar     eax, 6
+push    ecx; secondArg
+push    eax; firstArg
+push    004950FC ; offset aHitPointsIOfI ; "Hit Points %i of %i"
+push    esi             ; Dest
+call    _sprintf        ; Call Procedure
+add     esp, 10h        ; Add
+
+mov     ecx, esi        ; Source
+push    1
+pop     edx
+call    0040454A;ShowLineInInfoPanel
+
+jmp @return
+
+--------------------------------------------------------
+
+
+
+1:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00469ECE(U)
+|
+:00712AA0 FFB130010000            push dword ptr [ecx+00000130]
+:00712AA6 83F804                  cmp eax, 00000004
+:00712AA9 7D04                    jge 00712AAF
+:00712AAB B1A5                    mov cl, A5
+:00712AAD EB02                    jmp 00712AB1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00712AA9(C)
+|
+:00712AAF B1E9                    mov cl, E9
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00712AAD(U)
+|
+:00712AB1 E92074D5FF              jmp 00469ED6
+:00712AB6 90                      nop
+
+
+2:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0046A08C(U)
+|
+:00712AC0 FFB130010000            push dword ptr [ecx+00000130]
+:00712AC6 83F804                  cmp eax, 00000004
+:00712AC9 7D04                    jge 00712ACF
+:00712ACB B1A5                    mov cl, A5
+:00712ACD EB02                    jmp 00712AD1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00712AC9(C)
+|
+:00712ACF B1E9                    mov cl, E9
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00712ACD(U)
+|
+:00712AD1 E9BE75D5FF              jmp 0046A094
+
+
+
+
+
+
+
+
+display:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00405873(U)
+|
+:00712AF0 83F804                  cmp eax, 00000004
+:00712AF3 7213                    jb 00712B08
+:00712AF5 69C0E4000000            imul eax, 000000E4
+:00712AFB E9792DCFFF              jmp 00405879
+:00712B00 90                      nop
+:00712B01 90                      nop
+:00712B02 90                      nop
+:00712B03 90                      nop
+:00712B04 90                      nop
+:00712B05 90                      nop
+:00712B06 90                      nop
+:00712B07 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00712AF3(C)
+|
+:00712B08 BEF0124D00              mov esi, 004D12F0
+:00712B0D 69C0E4000000            imul eax, 000000E4
+:00712B13 FFB060DD6900            push dword ptr [eax+0069DD60]
+:00712B19 A12C164D00              mov eax, dword ptr [004D162C]
+:00712B1E 69C0C8550000            imul eax, 000055C8
+:00712B24 0514AE6E00              add eax, 006EAE14
+:00712B29 90                      nop
+:00712B2A 90                      nop
+:00712B2B 90                      nop
+:00712B2C 90                      nop
+:00712B2D 90                      nop
+:00712B2E 90                      nop
+:00712B2F 90                      nop
+:00712B30 8D8040010000            lea eax, dword ptr [eax+00000140]
+:00712B36 50                      push eax
+:00712B37 90                      nop
+:00712B38 90                      nop
+:00712B39 90                      nop
+:00712B3A 90                      nop
+:00712B3B 681696A000              push 00A09616
+:00712B40 56                      push esi
+:00712B41 E87A6FD6FF              call 00479AC0
+:00712B46 83C410                  add esp, 00000010
+:00712B49 90                      nop
+:00712B4A 90                      nop
+:00712B4B 90                      nop
+:00712B4C 90                      nop
+:00712B4D 90                      nop
+:00712B4E 90                      nop
+:00712B4F 90                      nop
+:00712B50 E8271ACFFF              call 0040457C
+:00712B55 BEC0114D00              mov esi, 004D11C0
+:00712B5A A12C164D00              mov eax, dword ptr [004D162C]
+:00712B5F 90                      nop
+:00712B60 69C0E4000000            imul eax, 000000E4
+:00712B66 0588DC6900              add eax, 0069DC88
+:00712B6B 90                      nop
+:00712B6C 90                      nop
+:00712B6D 90                      nop
+:00712B6E 90                      nop
+:00712B6F 90                      nop
+:00712B70 8B8890000000            mov ecx, dword ptr [eax+00000090]
+:00712B76 8B8094000000            mov eax, dword ptr [eax+00000094]
+:00712B7C C1F906                  sar ecx, 06
+:00712B7F C1F806                  sar eax, 06
+:00712B82 51                      push ecx
+:00712B83 50                      push eax
+:00712B84 90                      nop
+:00712B85 90                      nop
+:00712B86 90                      nop
+:00712B87 90                      nop
+
+* Possible StringData Ref from Data Obj ->"Hit Points %i of %i"
+                                  |
+:00712B88 68FC504900              push 004950FC
+:00712B8D 56                      push esi
+:00712B8E E82D6FD6FF              call 00479AC0
+:00712B93 83C410                  add esp, 00000010
+:00712B96 90                      nop
+:00712B97 90                      nop
+:00712B98 8BCE                    mov ecx, esi
+:00712B9A 6A01                    push 00000001
+:00712B9C 5A                      pop edx
+:00712B9D E8A819CFFF              call 0040454A
+:00712BA2 E9F82DCFFF              jmp 0040599F
+
+
+===========================================================
+Lots of AI's set to attack Golem on sight, with no need for him to be in melee range
+
+
+* Referenced by a CALL at Address:
+|:0043CACF   
+|
+:00712EA0 69C9E4000000            imul ecx, 000000E4
+:00712EA6 8A8920DD6900            mov cl, byte ptr [ecx+0069DD20]
+:00712EAC 80F903                  cmp cl, 03
+:00712EAF 743A                    je 00712EEB
+:00712EB1 80F907                  cmp cl, 07
+:00712EB4 7435                    je 00712EEB
+:00712EB6 80F90E                  cmp cl, 0E
+:00712EB9 7430                    je 00712EEB
+:00712EBB 80F914                  cmp cl, 14
+:00712EBE 742B                    je 00712EEB
+:00712EC0 80F919                  cmp cl, 19
+:00712EC3 7426                    je 00712EEB
+:00712EC5 80F91D                  cmp cl, 1D
+:00712EC8 7421                    je 00712EEB
+:00712ECA 80F920                  cmp cl, 20
+:00712ECD 741C                    je 00712EEB
+:00712ECF 80F921                  cmp cl, 21
+:00712ED2 7417                    je 00712EEB
+:00712ED4 80F923                  cmp cl, 23
+:00712ED7 7412                    je 00712EEB
+:00712ED9 80F924                  cmp cl, 24
+:00712EDC 740D                    je 00712EEB
+:00712EDE 80F925                  cmp cl, 25
+:00712EE1 7408                    je 00712EEB
+:00712EE3 80F926                  cmp cl, 26
+:00712EE6 7403                    je 00712EEB
+:00712EE8 33C0                    xor eax, eax
+:00712EEA C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00712EAF(C), :00712EB4(C), :00712EB9(C), :00712EBE(C), :00712EC3(C)
+|:00712EC8(C), :00712ECD(C), :00712ED2(C), :00712ED7(C), :00712EDC(C)
+|:00712EE1(C), :00712EE6(C)
+|
+:00712EEB 6A01                    push 00000001
+:00712EED 58                      pop eax
+:00712EEE C3                      ret
+
+
+=============================================
+MvM Missile: damage dealing is allowed again (after DD's insuccessful changes)
+
+
+	code:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00432212(U)
+|
+:00712E80 57                      push edi
+:00712E81 8BC7                    mov eax, edi
+:00712E83 6BC070                  imul eax, 00000070
+:00712E86 03C3                    add eax, ebx
+:00712E88 8BF8                    mov edi, eax
+:00712E8A E98AF3D1FF              jmp 00432219
+
+	more:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00712E8A(U)
+|
+:00432219 E801122F00              call 0072341F
+:0043221E 5F                      pop edi
+
+==============================================
+
+============================================================
+=================adds golem harakiry============================
+============================================================
+
+0045A0EF jmp @newPlace
+
+
+mov     eax, ebx ; в ebx- индекс игрока
+imul    eax, 0E4h       ; умножаем на размер монстра
+cmp     dword ptr [eax+69DCA8h], 1 ; golem.Row - 1
+jnz     short @killGolem
+cmp     dword ptr [eax+69DCACh], 0 ; golem.Col - 0
+jz      short @NEXT ; Jump if Zero (ZF=1) // where is @next ?
+
+@killGolem:
+mov     edx, ebx 
+mov     ecx, ebx 
+call    KillMonsterByPlayer ; Call Procedure
+@NEXT:   ; ------------------------------ТУТ------------------------------------- good i think so
+; затёртое
+jmp обратно
+
+
+golem destroyed if its master is killed
+	
+	code:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045A0EF(U)
+|
+:00712FA0 8BC3                    mov eax, ebx
+:00712FA2 69C0E4000000            imul eax, 000000E4
+:00712FA8 83B8A8DC690001          cmp dword ptr [eax+0069DCA8], 00000001
+:00712FAF 7509                    jne 00712FBA
+:00712FB1 83B8ACDC690000          cmp dword ptr [eax+0069DCAC], 00000000
+:00712FB8 740B                    je 00712FC5
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00712FAF(C)
+|
+:00712FBA 8BD3                    mov edx, ebx
+:00712FBC 8BCB                    mov ecx, ebx
+:00712FBE 90                      nop
+:00712FBF 90                      nop
+:00712FC0 E8C7A0D2FF              call 0043D08C
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00712FB8(C)
+|
+:00712FC5 52                      push edx
+:00712FC6 6A01                    push 00000001
+:00712FC8 B226                    mov dl, 26
+:00712FCA 59                      pop ecx
+:00712FCB E92571D4FF              jmp 0045A0F5
+
+=======================================
+
+2:38 24.09.2012
+
+
+0040A0A0 jmp  @newLoc:
+
+@newLoc:
+cmp dl, 12h ; NET_CMD_18_MILY_ATTACK_TO_MONSTER
+jz @golemCheck
+cmp dl, 14h ; NET_CMD_20_RANGE_ATTACK_TO_MONSTER
+jnz @call
+
+@golemCheck:
+cmp ax, 4
+jl @return
+
+@call: ; тут всё верно
+mov     ecx, ebx
+call    sub_446EB6
+jmp @return2
+
+@return:
+pop eax
+
+@return2:
+jmp 0040A0A7 ; всё таки в одно и то же место
+
+
+
+
+	WORKING CODE:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0040A0A0(U)
+|
+:00713C00 80FA12                  cmp dl, 12
+:00713C03 7405                    je 00713C0A
+:00713C05 80FA14                  cmp dl, 14
+:00713C08 7506                    jne 00713C10
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00713C03(C)
+|
+:00713C0A 663D0400                cmp ax, 0004
+:00713C0E 7C09                    jl 00713C19
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00713C08(C)
+|
+:00713C10 8BCB                    mov ecx, ebx
+:00713C12 E89F32D3FF              call 00446EB6
+:00713C17 EB01                    jmp 00713C1A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00713C0E(C)
+|
+:00713C19 58                      pop eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00713C17(U)
+|
+:00713C1A 90                      nop
+:00713C1B 90                      nop
+:00713C1C 90                      nop
+:00713C1D 90                      nop
+:00713C1E 90                      nop
+:00713C1F 90                      nop
+:00713C20 90                      nop
+:00713C21 90                      nop
+:00713C22 90                      nop
+:00713C23 90                      nop
+:00713C24 90                      nop
+:00713C25 90                      nop
+:00713C26 90                      nop
+:00713C27 E97B64CFFF              jmp 0040A0A7
+:00713C2C 90                      nop
+:00713C2D 90                      nop
+:00713C2E 90                      nop
+
+==================================================
+
+23:03 01.10.2012
+
+
+1. Функния подзыва голема к хозяину
+2. Способ вызова
+
+
+1.=======================================
+@comeHereMrGolem:
+; в ecx playerIndex он же голем индекс
+push ebx
+push esi
+push edi
+mov     ebx, ecx
+mov     eax, ecx
+imul    eax, 0E4h       ; умножаем на размер монстра
+cmp     dword ptr [eax+69DCA8h], 1 ; golem.Row - 1
+jnz     short @callGolem
+cmp     dword ptr [eax+69DCACh], 0 ; golem.Col - 0
+jz      short @return // ok
+
+@callGolem:
+mov esi, ebx
+imul esi, 55C8h
+add esi, dword ptr [006EAE14]; playerOffset
+mov edi, ebx
+imul    edi, 0E4h ; golemOffset // ok
+
+@cmpRows: //
+mov     eax, dword ptr [edi+69DCA8h]
+sub     eax, dword ptr [esi+38h]
+push    eax
+call    0047ABD0  ;_abs
+pop     ecx
+mov edx, eax // ok
+
+
+@cmpCols:
+mov     eax, dword ptr [edi+69DCACh]
+sub     eax, dword ptr [esi+3Ch]
+push    eax
+call    0047ABD0  ;_abs
+pop     ecx
+
+@maxOfDeltas:
+cmp edx, eax
+jge @F
+mov edx, eax
+@@:
+; в edx максимальная дельта голема относительно игрока
+cmp edx, 7
+jg @warpToPlayer
+cmp edx, 5
+jg @walkToPlayer
+cmp edx, 2
+jle @return
+
+@walkIfNoTarget:; так только ставится последняя позиция цели. Если не будет видеть цель, то пойдёт к игроку, если будет видеть, то будет мочиться
+mov     eax, dword ptr [esi+38h]
+mov dword ptr [edi+69DD30h], eax
+mov     eax, dword ptr [esi+3Ch]
+mov dword ptr [edi+69DD34h], eax
+jmp @return
+
+@walkToPlayer:; так голем насрав на другие цели попрётся к игроку
+mov     eax, dword ptr [esi+38h]
+mov byte [edi+69DCD8h], al
+mov     eax, dword ptr [esi+3Ch]
+mov byte ptr [edi+69DCD9], al
+jmp @return
+
+@warpToPlayer: ; так голем блинканётся к хозяину
+mov     eax, dword ptr [esi+38h]
+mov byte [edi+69DCD8h], al
+mov     eax, dword ptr [esi+3Ch]
+mov byte ptr [edi+69DCD9], al
+mov ecx, ebx
+call 0043ED00; MonsterJumpAroundTarget
+mov     eax, dword ptr [edi+69DCB8h]
+mov dword ptr [edi+69DCA8h], eax
+mov     eax, dword ptr [edi+69DCBCh]
+mov dword ptr [edi+69DCACh], eax
+@return:
+pop edi
+pop esi
+pop ebx
+retn
+
+; 0069DC88 Monsters
+; LastTargetPositionRow A8h 69DD30
+; LastTargetPositionCol ACh 69DD34
+; 0069DC88 Monsters
+; targetRow 50h 69DCD8
+; targetCol 51h 69DCD9
+
+
+2.=======================================
+.text:00443AC5 01C                 call    sub_43F735      ; Call Procedure
+.text:00443ACA 01C                 cmp     [ebp+var_4], 0  ; Compare Two Operands
+
+00443AC5 jmp @newLoc
+>>>>>>>>>>>>>>
+@newLoc:
+call    sub_43F735 ;затёртое
+cmp ebx, 4
+jge @return
+mov ecx, ebx
+call @comeHereMrGolem
+@return:
+jmp 00443ACA
+
+
+
+
+
+
+
+--------------------------------------------------------------
+
+Code:
+
+
+
+
+* Referenced by a CALL at Address:
+|:007142CD   
+|
+:007141C0 53                      push ebx
+:007141C1 56                      push esi
+:007141C2 57                      push edi
+:007141C3 90                      nop
+:007141C4 90                      nop
+:007141C5 90                      nop
+:007141C6 8BD9                    mov ebx, ecx
+:007141C8 8BC1                    mov eax, ecx
+:007141CA 69C0E4000000            imul eax, 000000E4
+:007141D0 90                      nop
+:007141D1 90                      nop
+:007141D2 83B8A8DC690001          cmp dword ptr [eax+0069DCA8], 00000001
+:007141D9 7515                    jne 007141F0
+:007141DB 90                      nop
+:007141DC 90                      nop
+:007141DD 90                      nop
+:007141DE 90                      nop
+:007141DF 90                      nop
+:007141E0 83B8ACDC690000          cmp dword ptr [eax+0069DCAC], 00000000
+:007141E7 0F8491000000            je 0071427E
+:007141ED 90                      nop
+:007141EE 90                      nop
+:007141EF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007141D9(C)
+|
+:007141F0 8BF3                    mov esi, ebx
+:007141F2 69F6C8550000            imul esi, 000055C8
+:007141F8 033514AE6E00            add esi, dword ptr [006EAE14]
+:007141FE 8BFB                    mov edi, ebx
+:00714200 90                      nop
+:00714201 90                      nop
+:00714202 69FFE4000000            imul edi, 000000E4
+:00714208 90                      nop
+:00714209 90                      nop
+:0071420A 90                      nop
+:0071420B 90                      nop
+:0071420C 90                      nop
+:0071420D 90                      nop
+:0071420E 90                      nop
+:0071420F 90                      nop
+:00714210 8B87A8DC6900            mov eax, dword ptr [edi+0069DCA8]
+:00714216 2B4638                  sub eax, dword ptr [esi+38]
+:00714219 90                      nop
+:0071421A 90                      nop
+:0071421B 90                      nop
+:0071421C 50                      push eax
+:0071421D E8AE69D6FF              call 0047ABD0
+:00714222 59                      pop ecx
+:00714223 8BD0                    mov edx, eax
+:00714225 EB69                    jmp 00714290
+:00714227 90                      nop
+:00714228 90                      nop
+:00714229 90                      nop
+:0071422A 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007142AE(U)
+|
+:0071422B 83FA0E                  cmp edx, 0000000E
+:0071422E 7F35                    jg 00714265
+:00714230 83FA09                  cmp edx, 00000009
+:00714233 7F1C                    jg 00714251
+:00714235 83FA02                  cmp edx, 00000002
+:00714238 7E44                    jle 0071427E
+:0071423A 8B4638                  mov eax, dword ptr [esi+38]
+:0071423D 898730DD6900            mov dword ptr [edi+0069DD30], eax
+:00714243 8B463C                  mov eax, dword ptr [esi+3C]
+:00714246 898734DD6900            mov dword ptr [edi+0069DD34], eax
+:0071424C EB30                    jmp 0071427E
+:0071424E 90                      nop
+:0071424F 90                      nop
+:00714250 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714233(C)
+|
+:00714251 8B4638                  mov eax, dword ptr [esi+38]
+:00714254 8887D8DC6900            mov byte ptr [edi+0069DCD8], al
+:0071425A 8B463C                  mov eax, dword ptr [esi+3C]
+:0071425D 8887D9DC6900            mov byte ptr [edi+0069DCD9], al
+:00714263 EB19                    jmp 0071427E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071422E(C)
+|
+:00714265 8B4638                  mov eax, dword ptr [esi+38]
+:00714268 8887D8DC6900            mov byte ptr [edi+0069DCD8], al
+:0071426E 8B463C                  mov eax, dword ptr [esi+3C]
+:00714271 8887D9DC6900            mov byte ptr [edi+0069DCD9], al
+:00714277 8BCB                    mov ecx, ebx
+:00714279 EB6E                    jmp 007142E9
+:0071427B 90                      nop
+:0071427C 90                      nop
+:0071427D 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007141E7(C), :00714238(C), :0071424C(U), :00714263(U), :00714311(U)
+|
+:0071427E 5F                      pop edi
+:0071427F 5E                      pop esi
+:00714280 5B                      pop ebx
+:00714281 C3                      ret
+
+
+:00714282 90                      nop
+:00714283 90                      nop
+:00714284 90                      nop
+:00714285 90                      nop
+:00714286 90                      nop
+:00714287 90                      nop
+:00714288 90                      nop
+:00714289 90                      nop
+:0071428A 90                      nop
+:0071428B 90                      nop
+:0071428C 90                      nop
+:0071428D 90                      nop
+:0071428E 90                      nop
+:0071428F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714225(U)
+|
+:00714290 8B87ACDC6900            mov eax, dword ptr [edi+0069DCAC]
+:00714296 2B463C                  sub eax, dword ptr [esi+3C]
+:00714299 90                      nop
+:0071429A 90                      nop
+:0071429B 90                      nop
+:0071429C 50                      push eax
+:0071429D E82E69D6FF              call 0047ABD0
+:007142A2 59                      pop ecx
+:007142A3 90                      nop
+:007142A4 90                      nop
+:007142A5 90                      nop
+:007142A6 90                      nop
+:007142A7 90                      nop
+:007142A8 3BD0                    cmp edx, eax
+:007142AA 7D02                    jge 007142AE
+:007142AC 8BD0                    mov edx, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007142AA(C)
+|
+:007142AE E978FFFFFF              jmp 0071422B
+:007142B3 90                      nop
+:007142B4 90                      nop
+:007142B5 90                      nop
+:007142B6 90                      nop
+:007142B7 90                      nop
+:007142B8 90                      nop
+:007142B9 90                      nop
+:007142BA 90                      nop
+:007142BB 90                      nop
+:007142BC 90                      nop
+:007142BD 90                      nop
+:007142BE 90                      nop
+:007142BF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00443AC5(U)
+|
+:007142C0 E870B4D2FF              call 0043F735
+:007142C5 90                      nop
+:007142C6 83FB04                  cmp ebx, 00000004
+:007142C9 7D09                    jge 007142D4
+:007142CB 8BCB                    mov ecx, ebx
+:007142CD E8EEFEFFFF              call 007141C0
+:007142D2 90                      nop
+:007142D3 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007142C9(C)
+|
+:007142D4 E9F1F7D2FF              jmp 00443ACA
+:007142D9 90                      nop
+:007142DA 90                      nop
+:007142DB 90                      nop
+:007142DC 90                      nop
+:007142DD 90                      nop
+:007142DE 90                      nop
+:007142DF 90                      nop
+:007142E0 90                      nop
+:007142E1 90                      nop
+:007142E2 90                      nop
+:007142E3 90                      nop
+:007142E4 90                      nop
+:007142E5 90                      nop
+:007142E6 90                      nop
+:007142E7 90                      nop
+:007142E8 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714279(U)
+|
+:007142E9 E812AAD2FF              call 0043ED00
+:007142EE 90                      nop
+:007142EF 90                      nop
+:007142F0 8B87B8DC6900            mov eax, dword ptr [edi+0069DCB8]
+:007142F6 8987A8DC6900            mov dword ptr [edi+0069DCA8], eax
+:007142FC 90                      nop
+:007142FD 90                      nop
+:007142FE 90                      nop
+:007142FF 90                      nop
+:00714300 8B87BCDC6900            mov eax, dword ptr [edi+0069DCBC]
+:00714306 8987ACDC6900            mov dword ptr [edi+0069DCAC], eax
+:0071430C 90                      nop
+:0071430D 90                      nop
+:0071430E 90                      nop
+:0071430F 90                      nop
+:00714310 90                      nop
+:00714311 E968FFFFFF              jmp 0071427E
+:00714316 90                      nop
+:00714317 90                      nop
+:00714318 90                      nop
+:00714319 90                      nop
+:0071431A 90                      nop
+
+
+
+
+
+
+
+
+
+
+

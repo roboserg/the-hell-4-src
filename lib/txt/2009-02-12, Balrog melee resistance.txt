@@ -1,0 +1,24 @@
+37,5% melee damage resistance for Balrogs in Multiplayer DLVL 16:
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707BF6(C)
+|
+:00707C4A 81381E000000            cmp dword ptr [eax], 0000001E
+:00707C50 0F850E000000            jne 00707C64				< redirected previous check on Shadows
+:00707C56 80BE90DC690002          cmp byte ptr [esi+0069DC90], 02
+:00707C5D 75C1                    jne 00707C20
+:00707C5F C1FF01                  sar edi, 01
+:00707C62 EBBC                    jmp 00707C20
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707C50(C)
+|
+:00707C64 813858000000            cmp dword ptr [eax], 00000058		< Balrogs
+:00707C6A 0F85D3F5FFFF            jne 00707243
+:00707C70 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00707C77 74A7                    je 00707C20
+:00707C79 803DD8B1600010          cmp byte ptr [0060B1D8], 10
+:00707C80 759E                    jne 00707C20
+:00707C82 EBB7                    jmp 00707C3B				< jump to previously written resistance code for Lurkers

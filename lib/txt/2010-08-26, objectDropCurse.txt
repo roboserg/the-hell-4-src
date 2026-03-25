@@ -1,0 +1,120 @@
+This difference file is created by The Interactive Disassembler
+
+zTHv1101yx04.exe
+000267D4: 8B E9
+000267D5: 55 0F
+000267D6: F8 C1
+000267D7: FF 2F
+000267D8: 75 00
+000267D9: 14 90
+00026A3D: 2B E9
+00026A3E: C8 8E
+00026A3F: FF BE
+00026A40: 75 2F
+00026A41: 08 00
+000F00D0: 90 29
+000F00D1: 90 C1
+000F00D2: 90 83
+000F00D3: 90 7D
+000F00D4: 90 08
+000F00D5: 90 00
+000F00D6: 90 74
+000F00D7: 90 04
+000F00D8: 90 6A
+000F00D9: 90 7B
+000F00DA: 90 EB
+000F00DB: 90 03
+000F00DC: 90 FF
+000F00DD: 90 75
+000F00DE: 90 08
+000F00DF: 90 E9
+000F00E0: 90 5E
+000F00E1: 90 41
+000F00E2: 90 D0
+000F00E3: 90 FF
+000F00E8: 90 8B
+000F00E9: 90 55
+000F00EA: 90 F8
+000F00EB: 90 83
+000F00EC: 90 7D
+000F00ED: 90 14
+000F00EE: 90 7B
+000F00EF: 90 75
+000F00F0: 90 04
+000F00F1: 90 6A
+000F00F2: 90 00
+000F00F3: 90 EB
+000F00F4: 90 03
+000F00F5: 90 FF
+000F00F6: 90 75
+000F00F7: 90 14
+000F00F8: 90 E9
+000F00F9: 90 DD
+000F00FA: 90 3E
+000F00FB: 90 D0
+000F00FC: 90 FF
+
+
+=====================================
+	Part 1:
+
+:004273D4 8B55F8                  mov edx, dword ptr [ebp-08]
+:004273D7 FF7514                  push [ebp+14]
+	to:
+:004273D4 E90FC12F00              jmp 007234E8
+:004273D9 90                      nop
+
+
+	Extra code:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004273D4(U)
+|
+:007234E8 8B55F8                  mov edx, dword ptr [ebp-08]
+:007234EB 837D147B                cmp dword ptr [ebp+14], 0000007B
+:007234EF 7504                    jne 007234F5
+:007234F1 6A00                    push 00000000
+:007234F3 EB03                    jmp 007234F8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007234EF(C)
+|
+:007234F5 FF7514                  push [ebp+14]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007234F3(U)
+|
+:007234F8 E9DD3ED0FF              jmp 004273DA
+
+
+- - - - - - - - -
+
+
+
+	Part 2:
+
+:0042763D 2BC8                    sub ecx, eax
+:0042763F FF7508                  push [ebp+08]
+	to:
+:0042763D E98EBE2F00              jmp 007234D0
+
+
+	Extra code:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042763D(U)
+|
+:007234D0 29C1                    sub ecx, eax
+:007234D2 837D0800                cmp dword ptr [ebp+08], 00000000
+:007234D6 7404                    je 007234DC
+:007234D8 6A7B                    push 0000007B
+:007234DA EB03                    jmp 007234DF
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007234D6(C)
+|
+:007234DC FF7508                  push [ebp+08]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007234DA(U)
+|
+:007234DF E95E41D0FF              jmp 00427642
+:007234E4 90                      nop

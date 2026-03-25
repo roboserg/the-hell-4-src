@@ -1,0 +1,125 @@
+
+
+0043E815 << jmp from here to new place:
+
+
+
+	at new place:
+cmp dword ptr [esi+69DCF8h], 34h // spell index, cmp to 34 //83BEF8DC690034          cmp dword ptr [esi+0069DCF8], 00000034
+jz @isChargedBolt // if equal goto @CB
+mov reg1, 1 // reg1 = 1
+jmp short @startLoop // goto @startLoop 
+@isCB // CB routine...
+mov reg1, 3h //  reg1 = 3
+@startLoop // startLoop routine...
+dec reg1 // reg1 minus 1
+jnz short @startLoop // if not ?, goto @startLoop routine
+jmp long @return // return
+
+
+
+	yar:
+cmp dword ptr [esi+69DCF8h], 34h // spell index, cmp to 34; spellIndex == SC_52_CHARGED_BOLT
+jz @isChargedBolt // if equal goto @CB
+mov reg1, 1 // reg1 = 1 ; если не чарджед болт, кастуем 1 раз
+jmp short @startLoop // goto @startLoop 
+@isCB // CB routine...
+mov reg1, 3h //  reg1 = 3 ; если чарджед болт, 3 раза
+@startLoop // startLoop routine...
+push 0
+:0043E817 8B8ED0DC6900            mov ecx, dword ptr [esi+0069DCD0]
+:0043E81D FFB600DD6900            push dword ptr [esi+0069DD00]
+:0043E823 8BC1                    mov eax, ecx
+:0043E825 C1E002                  shl eax, 02
+:0043E828 53                      push ebx
+:0043E829 6A01                    push 00000001
+:0043E82B FFB6F8DC6900            push dword ptr [esi+0069DCF8]
+:0043E831 33D2                    xor edx, edx
+:0043E833 90                      nop
+:0043E834 90                      nop
+:0043E835 90                      nop
+:0043E836 90                      nop
+:0043E837 0396ACDC6900            add edx, dword ptr [esi+0069DCAC]
+:0043E83D 51                      push ecx
+:0043E83E 0FB68ED9DC6900          movzx ecx, byte ptr [esi+0069DCD9]
+:0043E845 51                      push ecx
+:0043E846 0FB68ED8DC6900          movzx ecx, byte ptr [esi+0069DCD8]
+:0043E84D 51                      push ecx
+:0043E84E 33C9                    xor ecx, ecx
+:0043E850 90                      nop
+:0043E851 90                      nop
+:0043E852 90                      nop
+:0043E853 90                      nop
+:0043E854 038EA8DC6900            add ecx, dword ptr [esi+0069DCA8]
+:0043E85A E8D06EFFFF              call 0043572F
+dec reg1
+jnz short @startLoop // if not ?, goto @startLoop routine
+jmp long @return // return
+
+
+::::
+@startLoop
+==================
+===================
+=======================
+===================
+=============
+
+doing:
+
+
+
+:0043E815 E926302D00              jmp 00711840
+
+
+
+
+
+and:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043E815(U)
+|
+:00711840 90                      nop
+:00711841 90                      nop
+:00711842 83BEF8DC690034          cmp dword ptr [esi+0069DCF8], 00000034
+:00711849 7405                    je 00711850
+:0071184B 6A01                    push 00000001
+:0071184D 5F                      pop edi
+:0071184E EB03                    jmp 00711853
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00711849(C)
+|
+:00711850 6A06                    push 00000006
+:00711852 5F                      pop edi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071184E(U), :0071189A(C)
+|
+:00711853 57                      push edi
+:00711854 6A00                    push 00000000
+:00711856 8B8ED0DC6900            mov ecx, dword ptr [esi+0069DCD0]
+:0071185C FFB600DD6900            push dword ptr [esi+0069DD00]
+:00711862 8BC1                    mov eax, ecx
+:00711864 C1E002                  shl eax, 02
+:00711867 53                      push ebx
+:00711868 6A01                    push 00000001
+:0071186A FFB6F8DC6900            push dword ptr [esi+0069DCF8]
+:00711870 33D2                    xor edx, edx
+:00711872 0396ACDC6900            add edx, dword ptr [esi+0069DCAC]
+:00711878 51                      push ecx
+:00711879 0FB68ED9DC6900          movzx ecx, byte ptr [esi+0069DCD9]
+:00711880 51                      push ecx
+:00711881 0FB68ED8DC6900          movzx ecx, byte ptr [esi+0069DCD8]
+:00711888 51                      push ecx
+:00711889 33C9                    xor ecx, ecx
+:0071188B 038EA8DC6900            add ecx, dword ptr [esi+0069DCA8]
+:00711891 E8993ED2FF              call 0043572F
+:00711896 5F                      pop edi
+:00711897 4F                      dec edi
+:00711898 85FF                    test edi, edi
+:0071189A 75B7                    jne 00711853
+:0071189C E9BECFD2FF              jmp 0043E85F
+:007118A1 90                      nop
+:007118A2 90                      nop
+:007118A3 90                      nop

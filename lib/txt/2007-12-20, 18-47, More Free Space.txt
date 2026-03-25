@@ -1,0 +1,34 @@
+8 free bytes now at my disposal:
+
+:00423F30 754E                    jne 00423F80
+:00423F32 90                      nop
+:00423F33 90                      nop
+:00423F34 90                      nop
+:00423F35 90                      nop
+:00423F36 90                      nop
+:00423F37 90                      nop
+:00423F38 90                      nop
+:00423F39 90                      nop
+:00423F3A 90                      nop
+:00423F3B 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00423F2B(C)
+|
+:00423F3C 0FBE91B8010000          movsx edx, byte ptr [ecx+000001B8]
+into:
+:00423F30 754E                    jne 00423F80
+:00423F32 EB08                    jmp 00423F3C
+:00423F34 90                      nop
+:00423F35 90                      nop
+:00423F36 90                      nop
+:00423F37 90                      nop
+:00423F38 90                      nop
+:00423F39 90                      nop
+:00423F3A 90                      nop
+:00423F3B 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00423F2B(C), :00423F32(U)
+|
+:00423F3C 0FBE91B8010000          movsx edx, byte ptr [ecx+000001B8]

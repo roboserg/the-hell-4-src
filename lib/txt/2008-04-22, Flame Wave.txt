@@ -1,0 +1,102 @@
+Flame Wave Spellbook damage corrected:
+
+by JG:
+
+Type: fire
+Min. Damage: 6 + 6·clvl
+Max. Damage: 60 + 6·clvl
+Real Damage: Rnd[10] + clvl + 1
+Speed: 16
+Number of flames: 5 + [slvl/2]
+Blockable: Yes
+
+Implementing so that spellbook damage displayed is correct and shows: CLVL + 1 + Rnd[10]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042EB07(C)
+|
+:0042EAFB 8BCF                    mov ecx, edi
+:0042EAFD 8BD1                    mov edx, ecx
+:0042EAFF C1FA03                  sar edx, 03
+:0042EB02 03D1                    add edx, ecx
+:0042EB04 4E                      dec esi
+:0042EB05 8BFA                    mov edi, edx
+:0042EB07 75F2                    jne 0042EAFB
+:0042EB09 E9EE010000              jmp 0042ECFC
+:0042EB0E C70204000000            mov dword ptr [edx], 00000004
+:0042EB14 A1E8AD6E00              mov eax, dword ptr [006EADE8]
+:0042EB19 69C0C8550000            imul eax, 000055C8
+:0042EB1F 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0042EB25 0FBE8408B8010000        movsx eax, byte ptr [eax+ecx+000001B8]		
+:0042EB2D 8D440004                lea eax, dword ptr [eax+eax+04]
+:0042EB31 E919020000              jmp 0042ED4F
+:0042EB36 0FBE80B8010000          movsx eax, byte ptr [eax+000001B8]			EAX = CLVL
+:0042EB3D 40                      inc eax							CLVL + 1
+:0042EB3E 8D0440                  lea eax, dword ptr [eax+2*eax]				multiply by 3
+:0042EB41 D1E0                    shl eax, 1							multiply by 2 (total 6x)
+:0042EB43 8902                    mov dword ptr [edx], eax
+:0042EB45 A1E8AD6E00              mov eax, dword ptr [006EADE8]
+:0042EB4A 69C0C8550000            imul eax, 000055C8
+:0042EB50 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0042EB56 0FBE8408B8010000        movsx eax, byte ptr [eax+ecx+000001B8]		eax = clvl
+:0042EB5E 83C00A                  add eax, 0000000A					+10
+:0042EB61 8D0440                  lea eax, dword ptr [eax+2*eax]				x3
+:0042EB64 D1E0                    shl eax, 1							x6
+:0042EB66 E9E4010000              jmp 0042ED4F
+:0042EB6B 0FBE80B8010000          movsx eax, byte ptr [eax+000001B8]			< number of flames handled here???  , eax = clvl
+:0042EB72 83C005                  add eax, 00000005					< clvl + 5
+:0042EB75 D1F8                    sar eax, 1							< (clvl + 5) / 2
+:0042EB77 85F6                    test esi, esi
+:0042EB79 8902                    mov dword ptr [edx], eax
+:0042EB7B 7E10                    jle 0042EB8D
+:0042EB7D 8BCE                    mov ecx, esi
+
+INTO >>>
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042EB07(C)
+|
+:0042EAFB 8BCF                    mov ecx, edi
+:0042EAFD 8BD1                    mov edx, ecx
+:0042EAFF C1FA03                  sar edx, 03
+:0042EB02 03D1                    add edx, ecx
+:0042EB04 4E                      dec esi
+:0042EB05 8BFA                    mov edi, edx
+:0042EB07 75F2                    jne 0042EAFB
+:0042EB09 E9EE010000              jmp 0042ECFC
+:0042EB0E C70204000000            mov dword ptr [edx], 00000004
+:0042EB14 A1E8AD6E00              mov eax, dword ptr [006EADE8]
+:0042EB19 69C0C8550000            imul eax, 000055C8
+:0042EB1F 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0042EB25 0FBE8408B8010000        movsx eax, byte ptr [eax+ecx+000001B8]
+:0042EB2D 8D440004                lea eax, dword ptr [eax+eax+04]
+:0042EB31 E919020000              jmp 0042ED4F
+:0042EB36 0FBE80B8010000          movsx eax, byte ptr [eax+000001B8]
+:0042EB3D 40                      inc eax
+:0042EB3E 90                      nop
+:0042EB3F 90                      nop
+:0042EB40 90                      nop
+:0042EB41 90                      nop
+:0042EB42 90                      nop
+:0042EB43 8902                    mov dword ptr [edx], eax
+:0042EB45 A1E8AD6E00              mov eax, dword ptr [006EADE8]
+:0042EB4A 69C0C8550000            imul eax, 000055C8
+:0042EB50 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0042EB56 0FBE8408B8010000        movsx eax, byte ptr [eax+ecx+000001B8]
+:0042EB5E 83C00A                  add eax, 0000000A
+:0042EB61 90                      nop
+:0042EB62 90                      nop
+:0042EB63 90                      nop
+:0042EB64 90                      nop
+:0042EB65 90                      nop
+:0042EB66 E9E4010000              jmp 0042ED4F
+:0042EB6B 0FBE80B8010000          movsx eax, byte ptr [eax+000001B8]
+:0042EB72 83C005                  add eax, 00000005
+:0042EB75 D1F8                    sar eax, 1
+:0042EB77 85F6                    test esi, esi
+:0042EB79 8902                    mov dword ptr [edx], eax
+:0042EB7B 7E10                    jle 0042EB8D
+:0042EB7D 8BCE                    mov ecx, esi
+_________________
+
+testing showed that spellbook shows correct damage now. this was implemented in 1.59q_02

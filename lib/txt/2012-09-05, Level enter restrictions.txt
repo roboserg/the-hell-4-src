@@ -1,0 +1,891 @@
+План и код по введению требований для входа в подземелья МП
+1. расширить таблицу сообщений алтарей, добавить туда новые сообщения - done 
+2. Создать byte или dword таблицы для требований уровня и для индекса выводимого сообщения
+3. Внедрить указанные уровни и показывать нужные сообщения при попытке входа
+4. Отображать вход в склеп и в бездну сразу открытыми.
+5. отобрать у игроков рунные бомбы и карты в мп и прекратить их давать. (убивать попробовавших их использовать игроков)) )
+
+
+2. -----------------------------------------------------------------------------------------------------------------------------------
+тут всё довольно просто. Находишь свободное место. размером (36)18 * 2 байт
+и последовательно заполняешь значениями
+первые 18 байт это требование уровня для входа в собор - церковь всех сложностей последовательно
+Последние 18 байт это индексы отображаемых сообщений при запрете входа
+- как узнать индексы? ты сам добавляешь сообщения. Первое добавленное будет иметь индекс 55 следующее 56 и т.п.
+
+40 вы должны быть 10 уровня чтобы войти
+41 вы должны быть 15 уровня чтобы войти
+42 вы должны быть 20 уровня чтобы войти  
+эти сообщения или пропусти нафиг или подправь цифру на акутальную
+
+1: none
+5: 8
+9: 13
+13: 17
+17: 19
+21: 20
+
+ Purgtry:
+1: .......
+5: 24
+9: 27
+13: 29
+17: 30
+21: 32
+
+ Doom:
+1: .........
+5: 36
+9: 37
+13: 38
+17: 39
+21: 40
+
+4. ------------------------------------------------------------------------------------------------------------------------------------
+.text:004756E1 00C                 jnz     loc_4757FF
+заменить на
+jmp 47581B ; showOpened abyss
+
+это для показа открытой бездны в мп в обход проверок
+
+loc_475820:             ; Compare Two Operands
+00C cmp     Struct28Array.field_2+1C0h, bl
+перезаписать на показа открытого склепа в обход проверок
+jmp 47584A; FillDMap1OpenedCrypt
+
+
+[04.09.2012 23:59:50] Ярик: Это только показ
+[0:00:14] Ярик: Как в склеп так и в бездну при этом может ещё не пускать
+[0:01:00] Ярик: Как сделаешь и проверишь входит или нет, так я напишу код для входа туда куда не входит
+
+5.--------------------------------------------------------------------------------------------------------------------------------
+.text:004776B5 01C                 call    PutRuneBombOnMap ; Call Procedure
+.text:0047785E 01C                 call    PutRuneBombOnMap ; Call Procedure
+Занопить. Выбрасывание рунной бомбы неписями
+
+
+
+Запретить скриптовые события карты и бомбы в МП
+.text:00422435 030                 cmp     DungeonLevel, 0 ; Compare Two Operands
+.text:0042243C 030                 jnz     loc_4224E8      ; 
+
+это скриптовое событие падения руны с картой.
+[0:36:58] Ярик: 00422435 jmp @newLoc:
+
+@newLoc
+cmp    dword ptr [0060B1D8], 0 ;DungeonLevel, 0
+jnz @disableScript
+cmp byte ptr [006DDFC8], 1   ; IsSinglePlayerMode, 1
+jnz @disableScript
+@enableScript:
+jmp 00422442
+@disableScript:
+jmp 4224E8
+
+
+3.==========================================================
+A09900 - таблица требований уровня 
+А09920 - таблица сообщений о требовании уровня
+
+
+.text:00479416 020                 cmp     dword ptr [esi+4], 5 ; Compare Two Operands
+...
+.text:00479471     loc_479471:                             ; ...
+.text:00479471 020                 test    edi, edi        ; Logical Compare
+
+00479416 jmp @newLoc
+
+
+@newLoc:
+@churchCheck:
+cmp     dword ptr [esi+4], 1 ; dlvl
+jnz     short @cataCheck ; Jump if Not Zero (ZF=0)
+mov ebx, dword ptr [006070C0]; Difficulty
+imul ebx, 6h
+add ebx, 0 ;
+add ebx, A09900
+mov bl, byte ptr [ebx]
+cmp     byte ptr [edx+1B8h], bl ; Compare Two Operands
+jge     short @return ; Jump if Greater or Equal (SF=OF)
+push    1
+lea     ebx, [eax+1]    ; Load Effective Address ; отходим назад на ЮЗ
+pop     edi
+mov     [ebp-10h], ecx
+mov     [ebp-0Ch], ebx
+mov ebx, dword ptr [006070C0]; Difficulty
+imul ebx, 6h
+add ebx, 0 ;
+add ebx, А09920
+mov bl, byte ptr [ebx]
+mov byte ptr  [ebp-1], bl
+jmp @return
+
+@cataCheck:
+cmp     dword ptr [esi+4], 5 ; dlvl
+jnz     short @caveCheck ; Jump if Not Zero (ZF=0)
+mov ebx, dword ptr [006070C0]; Difficulty
+imul ebx, 6h
+add ebx, 1 ;
+add ebx, A09900
+movzx bl, byte ptr [ebx]
+cmp     byte ptr [edx+1B8h], ebx ; Compare Two Operands
+jge     short @return ; Jump if Greater or Equal (SF=OF)
+push    1
+lea     ebx, [eax+1]    ; Load Effective Address ; отходим назад на ЮЗ
+pop     edi
+mov     [ebp-10h], ecx
+mov     [ebp-0Ch], ebx
+mov ebx, dword ptr [006070C0]; Difficulty
+imul ebx, 6h
+add ebx, 1 ;
+add ebx, А09920
+movzx bl, byte ptr [ebx]
+mov   byte ptr  [ebp-1], bl
+jmp @return
+
+@caveCheck
+cmp     dword ptr [esi+4], 9 ; dlvl
+jnz     short @hellCheck ; Jump if Not Zero (ZF=0)
+mov ebx, dword ptr [006070C0]; Difficulty
+imul ebx, 6h
+add ebx, 2 ;
+add ebx, A09900
+mov bl, byte ptr [ebx]
+cmp     byte ptr [edx+1B8h], ebx ; Compare Two Operands
+jge     short @return ; Jump if Greater or Equal (SF=OF)
+push    1
+lea     ebx, [ecx+1]    ; Load Effective Address ; отходим назад на ЮВ
+pop     edi
+mov     [ebp-10h], ebx
+mov     [ebp-0Ch], eax
+mov ebx, dword ptr [006070C0]; Difficulty
+imul ebx, 6h
+add ebx, 2 ;
+add ebx, А09920
+movzx bl, byte ptr [ebx]
+mov   byte ptr  [ebp-1], bl
+jmp @return
+
+@hellCheck:
+cmp     dword ptr [esi+4], 13d ; dlvl
+jnz     short @abyssCheck ; Jump if Not Zero (ZF=0)
+mov ebx, dword ptr [006070C0]; Difficulty
+imul ebx, 6h
+add ebx, 3 ;
+add ebx, A09900
+movzx bl, byte ptr [ebx]
+cmp     byte ptr [edx+1B8h], ebx ; Compare Two Operands
+jge     short @return ; Jump if Greater or Equal (SF=OF)
+push    1
+lea     ebx, [eax+1]    ; Load Effective Address ; отходим назад на ЮЗ
+pop     edi
+mov     [ebp-10h], ecx
+mov     [ebp-0Ch], ebx
+mov ebx, dword ptr [006070C0]; Difficulty
+imul ebx, 6h
+add ebx, 3 ;
+add ebx, А09920
+movzx bl, byte ptr [ebx]
+mov   byte ptr  [ebp-1], bl
+jmp @return
+
+@abyssCheck
+cmp     dword ptr [esi+4], 17d ; dlvl
+jnz     short @cryptCheck ; Jump if Not Zero (ZF=0)
+mov ebx, dword ptr [006070C0]; Difficulty
+imul ebx, 6h
+add ebx, 4 ;
+add ebx, A09900
+movzx bl, byte ptr [ebx]
+cmp     byte ptr [edx+1B8h], ebx ; Compare Two Operands
+jge     short @return ; Jump if Greater or Equal (SF=OF)
+push    1
+lea     ebx, [ecx-1]    ; Load Effective Address ; отходим назад на СЗ
+pop     edi
+mov     [ebp-10h], ebx
+mov     [ebp-0Ch], eax
+mov ebx, dword ptr [006070C0]; Difficulty
+imul ebx, 6h
+add ebx, 4 ;
+add ebx, А09920
+movzx bl, byte ptr [ebx]
+mov   byte ptr  [ebp-1], bl
+jmp @return
+
+@cryptCheck:
+cmp     dword ptr [esi+4], 21d ; dlvl
+jnz     short @return ; Jump if Not Zero (ZF=0)
+mov ebx, dword ptr [006070C0]; Difficulty
+imul ebx, 6h
+add ebx, 5 ;
+add ebx, A09900
+movzx bl, byte ptr [ebx]
+cmp     byte ptr [edx+1B8h], ebx ; Compare Two Operands
+jge     short @return ; Jump if Greater or Equal (SF=OF)
+push    1
+lea     ebx, [eax+1]    ; Load Effective Address ; отходим назад на ЮЗ
+pop     edi
+mov     [ebp-10h], ecx
+mov     [ebp-0Ch], ebx
+mov ebx, dword ptr [006070C0]; Difficulty
+imul ebx, 6h
+add ebx, 5 ;
+add ebx, А09920
+movzx bl, byte ptr [ebx]
+mov   byte ptr  [ebp-1], bl
+jmp @return
+
+@return:
+jmp 479471
+
+==============================================================
+
+the code:
+
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00479416(U)
+|
+:007136C0 837E0401                cmp dword ptr [esi+04], 00000001
+:007136C4 756A                    jne 00713730
+:007136C6 90                      nop
+:007136C7 90                      nop
+:007136C8 90                      nop
+:007136C9 90                      nop
+:007136CA 90                      nop
+:007136CB 8B1DC0706000            mov ebx, dword ptr [006070C0]
+:007136D1 6BDB06                  imul ebx, 00000006
+:007136D4 83C300                  add ebx, 00000000
+:007136D7 81C30099A000            add ebx, 00A09900
+:007136DD 8A1B                    mov bl, byte ptr [ebx]
+:007136DF 90                      nop
+:007136E0 90                      nop
+:007136E1 90                      nop
+:007136E2 90                      nop
+:007136E3 90                      nop
+:007136E4 90                      nop
+:007136E5 90                      nop
+:007136E6 389AB8010000            cmp byte ptr [edx+000001B8], bl
+:007136EC 90                      nop
+:007136ED 90                      nop
+:007136EE 0F8D57020000            jnl 0071394B
+:007136F4 6A01                    push 00000001
+:007136F6 8D5801                  lea ebx, dword ptr [eax+01]
+:007136F9 5F                      pop edi
+:007136FA 894DF0                  mov dword ptr [ebp-10], ecx
+:007136FD 895DF4                  mov dword ptr [ebp-0C], ebx
+:00713700 8B1DC0706000            mov ebx, dword ptr [006070C0]
+:00713706 6BDB06                  imul ebx, 00000006
+:00713709 83C300                  add ebx, 00000000
+:0071370C 81C32099A000            add ebx, 00A09920
+:00713712 8A1B                    mov bl, byte ptr [ebx]
+:00713714 90                      nop
+:00713715 90                      nop
+:00713716 885DFF                  mov byte ptr [ebp-01], bl
+:00713719 90                      nop
+:0071371A 90                      nop
+:0071371B E92B020000              jmp 0071394B
+:00713720 90                      nop
+:00713721 90                      nop
+:00713722 90                      nop
+:00713723 90                      nop
+:00713724 90                      nop
+:00713725 90                      nop
+:00713726 90                      nop
+:00713727 90                      nop
+:00713728 0000000000000000        BYTE  8 DUP(0)
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007136C4(C)
+|
+:00713730 837E0405                cmp dword ptr [esi+04], 00000005
+:00713734 756A                    jne 007137A0
+:00713736 90                      nop
+:00713737 90                      nop
+:00713738 90                      nop
+:00713739 90                      nop
+:0071373A 90                      nop
+:0071373B 8B1DC0706000            mov ebx, dword ptr [006070C0]
+:00713741 6BDB06                  imul ebx, 00000006
+:00713744 83C301                  add ebx, 00000001
+:00713747 81C30099A000            add ebx, 00A09900
+:0071374D 8A1B                    mov bl, byte ptr [ebx]
+:0071374F 90                      nop
+:00713750 90                      nop
+:00713751 90                      nop
+:00713752 90                      nop
+:00713753 90                      nop
+:00713754 90                      nop
+:00713755 90                      nop
+:00713756 389AB8010000            cmp byte ptr [edx+000001B8], bl
+:0071375C 90                      nop
+:0071375D 90                      nop
+:0071375E 0F8DE7010000            jnl 0071394B
+:00713764 6A01                    push 00000001
+:00713766 8D5801                  lea ebx, dword ptr [eax+01]
+:00713769 5F                      pop edi
+:0071376A 894DF0                  mov dword ptr [ebp-10], ecx
+:0071376D 895DF4                  mov dword ptr [ebp-0C], ebx
+:00713770 8B1DC0706000            mov ebx, dword ptr [006070C0]
+:00713776 6BDB06                  imul ebx, 00000006
+:00713779 83C301                  add ebx, 00000001
+:0071377C 81C32099A000            add ebx, 00A09920
+:00713782 8A1B                    mov bl, byte ptr [ebx]
+:00713784 90                      nop
+:00713785 90                      nop
+:00713786 885DFF                  mov byte ptr [ebp-01], bl
+:00713789 90                      nop
+:0071378A 90                      nop
+:0071378B E9BB010000              jmp 0071394B
+:00713790 90                      nop
+:00713791 90                      nop
+:00713792 90                      nop
+:00713793 90                      nop
+:00713794 90                      nop
+:00713795 90                      nop
+:00713796 90                      nop
+:00713797 90                      nop
+:00713798 0000000000000000        BYTE  8 DUP(0)
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00713734(C)
+|
+:007137A0 837E0409                cmp dword ptr [esi+04], 00000009
+:007137A4 756A                    jne 00713810
+:007137A6 90                      nop
+:007137A7 90                      nop
+:007137A8 90                      nop
+:007137A9 90                      nop
+:007137AA 90                      nop
+:007137AB 8B1DC0706000            mov ebx, dword ptr [006070C0]
+:007137B1 6BDB06                  imul ebx, 00000006
+:007137B4 83C302                  add ebx, 00000002
+:007137B7 81C30099A000            add ebx, 00A09900
+:007137BD 8A1B                    mov bl, byte ptr [ebx]
+:007137BF 90                      nop
+:007137C0 90                      nop
+:007137C1 90                      nop
+:007137C2 90                      nop
+:007137C3 90                      nop
+:007137C4 90                      nop
+:007137C5 90                      nop
+:007137C6 389AB8010000            cmp byte ptr [edx+000001B8], bl
+:007137CC 90                      nop
+:007137CD 90                      nop
+:007137CE 0F8D77010000            jnl 0071394B
+:007137D4 6A01                    push 00000001
+:007137D6 8D5901                  lea ebx, dword ptr [ecx+01]
+:007137D9 5F                      pop edi
+:007137DA 895DF0                  mov dword ptr [ebp-10], ebx
+:007137DD 8945F4                  mov dword ptr [ebp-0C], eax
+:007137E0 8B1DC0706000            mov ebx, dword ptr [006070C0]
+:007137E6 6BDB06                  imul ebx, 00000006
+:007137E9 83C302                  add ebx, 00000002
+:007137EC 81C32099A000            add ebx, 00A09920
+:007137F2 8A1B                    mov bl, byte ptr [ebx]
+:007137F4 90                      nop
+:007137F5 90                      nop
+:007137F6 885DFF                  mov byte ptr [ebp-01], bl
+:007137F9 90                      nop
+:007137FA 90                      nop
+:007137FB E94B010000              jmp 0071394B
+:00713800 90                      nop
+:00713801 90                      nop
+:00713802 90                      nop
+:00713803 90                      nop
+:00713804 90                      nop
+:00713805 90                      nop
+:00713806 90                      nop
+:00713807 90                      nop
+:00713808 0000000000000000        BYTE  8 DUP(0)
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007137A4(C)
+|
+:00713810 837E040D                cmp dword ptr [esi+04], 0000000D
+:00713814 756A                    jne 00713880
+:00713816 90                      nop
+:00713817 90                      nop
+:00713818 90                      nop
+:00713819 90                      nop
+:0071381A 90                      nop
+:0071381B 8B1DC0706000            mov ebx, dword ptr [006070C0]
+:00713821 6BDB06                  imul ebx, 00000006
+:00713824 83C303                  add ebx, 00000003
+:00713827 81C30099A000            add ebx, 00A09900
+:0071382D 8A1B                    mov bl, byte ptr [ebx]
+:0071382F 90                      nop
+:00713830 90                      nop
+:00713831 90                      nop
+:00713832 90                      nop
+:00713833 90                      nop
+:00713834 90                      nop
+:00713835 90                      nop
+:00713836 389AB8010000            cmp byte ptr [edx+000001B8], bl
+:0071383C 90                      nop
+:0071383D 90                      nop
+:0071383E 0F8D07010000            jnl 0071394B
+:00713844 6A01                    push 00000001
+:00713846 8D5801                  lea ebx, dword ptr [eax+01]
+:00713849 5F                      pop edi
+:0071384A 894DF0                  mov dword ptr [ebp-10], ecx
+:0071384D 895DF4                  mov dword ptr [ebp-0C], ebx
+:00713850 8B1DC0706000            mov ebx, dword ptr [006070C0]
+:00713856 6BDB06                  imul ebx, 00000006
+:00713859 83C303                  add ebx, 00000003
+:0071385C 81C32099A000            add ebx, 00A09920
+:00713862 8A1B                    mov bl, byte ptr [ebx]
+:00713864 90                      nop
+:00713865 90                      nop
+:00713866 885DFF                  mov byte ptr [ebp-01], bl
+:00713869 90                      nop
+:0071386A 90                      nop
+:0071386B E9DB000000              jmp 0071394B
+:00713870 90                      nop
+:00713871 90                      nop
+:00713872 90                      nop
+:00713873 90                      nop
+:00713874 90                      nop
+:00713875 90                      nop
+:00713876 90                      nop
+:00713877 90                      nop
+:00713878 0000000000000000        BYTE  8 DUP(0)
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00713814(C)
+|
+:00713880 837E0411                cmp dword ptr [esi+04], 00000011
+:00713884 756A                    jne 007138F0
+:00713886 90                      nop
+:00713887 90                      nop
+:00713888 90                      nop
+:00713889 90                      nop
+:0071388A 90                      nop
+:0071388B 8B1DC0706000            mov ebx, dword ptr [006070C0]
+:00713891 6BDB06                  imul ebx, 00000006
+:00713894 83C304                  add ebx, 00000004
+:00713897 81C30099A000            add ebx, 00A09900
+:0071389D 8A1B                    mov bl, byte ptr [ebx]
+:0071389F 90                      nop
+:007138A0 90                      nop
+:007138A1 90                      nop
+:007138A2 90                      nop
+:007138A3 90                      nop
+:007138A4 90                      nop
+:007138A5 90                      nop
+:007138A6 389AB8010000            cmp byte ptr [edx+000001B8], bl
+:007138AC 90                      nop
+:007138AD 90                      nop
+:007138AE 0F8D97000000            jnl 0071394B
+:007138B4 6A01                    push 00000001
+:007138B6 8D59FF                  lea ebx, dword ptr [ecx-01]
+:007138B9 5F                      pop edi
+:007138BA 895DF0                  mov dword ptr [ebp-10], ebx
+:007138BD 8945F4                  mov dword ptr [ebp-0C], eax
+:007138C0 8B1DC0706000            mov ebx, dword ptr [006070C0]
+:007138C6 6BDB06                  imul ebx, 00000006
+:007138C9 83C304                  add ebx, 00000004
+:007138CC 81C32099A000            add ebx, 00A09920
+:007138D2 8A1B                    mov bl, byte ptr [ebx]
+:007138D4 90                      nop
+:007138D5 90                      nop
+:007138D6 885DFF                  mov byte ptr [ebp-01], bl
+:007138D9 90                      nop
+:007138DA 90                      nop
+:007138DB E96B000000              jmp 0071394B
+:007138E0 90                      nop
+:007138E1 90                      nop
+:007138E2 90                      nop
+:007138E3 90                      nop
+:007138E4 90                      nop
+:007138E5 90                      nop
+:007138E6 90                      nop
+:007138E7 90                      nop
+:007138E8 0000000000000000        BYTE  8 DUP(0)
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00713884(C)
+|
+:007138F0 837E0415                cmp dword ptr [esi+04], 00000015
+:007138F4 7555                    jne 0071394B
+:007138F6 90                      nop
+:007138F7 90                      nop
+:007138F8 90                      nop
+:007138F9 90                      nop
+:007138FA 90                      nop
+:007138FB 8B1DC0706000            mov ebx, dword ptr [006070C0]
+:00713901 6BDB06                  imul ebx, 00000006
+:00713904 83C305                  add ebx, 00000005
+:00713907 81C30099A000            add ebx, 00A09900
+:0071390D 8A1B                    mov bl, byte ptr [ebx]
+:0071390F 90                      nop
+:00713910 90                      nop
+:00713911 90                      nop
+:00713912 90                      nop
+:00713913 90                      nop
+:00713914 90                      nop
+:00713915 90                      nop
+:00713916 389AB8010000            cmp byte ptr [edx+000001B8], bl
+:0071391C 90                      nop
+:0071391D 90                      nop
+:0071391E 0F8D27000000            jnl 0071394B
+:00713924 6A01                    push 00000001
+:00713926 8D5801                  lea ebx, dword ptr [eax+01]
+:00713929 5F                      pop edi
+:0071392A 894DF0                  mov dword ptr [ebp-10], ecx
+:0071392D 895DF4                  mov dword ptr [ebp-0C], ebx
+:00713930 8B1DC0706000            mov ebx, dword ptr [006070C0]
+:00713936 6BDB06                  imul ebx, 00000006
+:00713939 83C305                  add ebx, 00000005
+:0071393C 81C32099A000            add ebx, 00A09920
+:00713942 8A1B                    mov bl, byte ptr [ebx]
+:00713944 90                      nop
+:00713945 90                      nop
+:00713946 885DFF                  mov byte ptr [ebp-01], bl
+:00713949 90                      nop
+:0071394A 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007136EE(C), :0071371B(U), :0071375E(C), :0071378B(U), :007137CE(C)
+|:007137FB(U), :0071383E(C), :0071386B(U), :007138AE(C), :007138DB(U)
+|:007138F4(C), :0071391E(C)
+|
+:0071394B E9215BD6FF              jmp 00479471
+:00713950 90                      nop
+:00713951 90                      nop
+:00713952 90                      nop
+:00713953 90                      nop
+:00713954 90                      nop
+:00713955 90                      nop
+
+======================================================
+======================================================
+======================================================
+======================================================
+
+
+==================================================================
+
+Запрет входить в т.п. не подходящие по уровню.
+
+1. Если входим в данже в тп, то никаких проверок, всё ок.
+2. Если входим в городе, то поделить dlvl-1 на 4 получим реальный данжеон тайп
+(3 - 1)/4 = 0
+(6 - 1)/4 = 1
+(13 - 1)/4 = 3 ок
+3. Получаем по данжеон тайпу и сложности требуемый уровень и сообщение при неудаче
+4. Если удача, то просто входим.
+5. Если неудача, то проигрываем звук в зависимости от класса, показываем сообщение с нужным индексом и отходим вниз (row++, col++)
+
+.text:0043760F 05C                 mov     ecx, dword ptr [ebp+playerIndex] ; arglist
+.text:00437612 05C                 call    ClrPlrPath      ; Call Procedure
+.text:00437617 05C                 mov     eax, dword ptr [ebp+playerIndex]
+.text:0043761A 05C                 cmp     eax, CurrentPlayerIndex ; Compare Two Operands
+.text:00437620 05C                 jnz     short loc_43763F ; Jump if Not Zero (ZF=0)
+
+
+.text:00437622 05C                 mov     ax, word ptr SpellCastArray.CasterIndex[esi]
+.text:00437629 05C                 mov     dl, 31
+.text:0043762B 05C                 push    eax
+.text:0043762C 060                 mov     ecx, ebx
+.text:0043762E 060                 call    SendCmd4        ; Call Procedure
+.text:00437633 05C                 mov     eax, Players
+.text:00437638 05C                 mov     dword ptr [eax+edi], 10
+
+Вот кусок отвечающий за перемещение
+Регистры:
+eax - свободен
+ecx - свободен
+ebx - всегда 1
+edx - свободен
+edi - currentPlayerOffset без прибавления "Players"
+esi - оффсет текущего заклинания
+Стек:
+[ebp - 8h]   - spellCastIndex
+[ebp - 4h]   - playerIndex
+Другие необходимые данные и функции:
+006EB2E0 - PlayersEntryPoint
+006EB2E0+C =6EB2EC  - PlayersEntryPoint.DungeonLevel
+sizeOf PlayersEntryPoint = 18h
+
+
+
+
+00437622 jmp @newLoc
+
+@newLoc:
+
+; в сингле нет ограничений
+mov al, byte ptr [006DDFC8]; isSinglePlayerMode
+cmp al, 01h
+jz @playerMayEnter
+
+; в город тоже телепортируемся без проблемм
+mov     ax, word ptr [esi+697ACCh] ;SpellCastArray.CasterIndex[esi]
+imul eax, 18h
+add eax, 6EB2ECh ; в eax указатель на дворд PlayersEntryPoint[casterIndex].DungeonLevel
+mov eax, dword ptr [eax]
+
+cmp [0060B1D8], 0 ; dungeonLevel  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+jNz @playerMayEnter ; если это портал в город то можем войти  !!!(jz на jnz)
+
+; если уровень подходящий то можем войти
+dec eax
+shr eax, 2; из dlvl по формуле (dlvl-1)/4 получаем реальный данжеон тайп
+mov eсx, dword ptr [006070C0]; Difficulty
+imul eсx, 6h
+add eax, ecx ; в eax оффсет сразу и таблицы выводимых сообщений и требуемого уровня
+mov edx, eax //
+mov cl, byte ptr [eax+A09900] ; требуемый уровень
+mov     eax, dword ptr [006EAE14]; Players
+add eax, 1B8h ; clvl
+cmp     dword ptr [eax+edi], cl
+jge @playerMayEnter
+
+@playerCanNotEnter:
+; не можем войти
+
+;1. отображаем сообщение
+mov cl, byte ptr [edx+A09920]
+call    sub_41AAA1
+
+:2. ругаемся матом в зависимости от playerClass
+mov     eax, dword ptr [006EAE14]; Players
+add eax, 160h ; playerClass
+add eax, edi
+mov al, byte ptr [eax]
+
+test    al, al
+jz   @palAndGlad
+cmp     al, 1
+jz   @scoutAndAssasin
+cmp     al, 2
+jz   @mag
+cmp     al, 3
+jz   @monk
+cmp     al, 4
+jz   @scoutAndAssasin
+cmp     al, 5
+jz   @palAndGlad
+jmp @runAway
+
+@mag:
+mov     ecx, 230h
+jmp     @playSound
+@monk:
+mov     ecx, 370h
+jmp @playSound
+@scoutAndAssasin:
+mov     ecx, 297h
+jmp     @playSound
+@palAndGlad:
+mov     ecx, 304h
+@playSound:
+call  0041850D;  PlaySoundWithID
+
+@runAway:
+
+;3. отходим вниз
+; тут мог накосячить с координатами отступления. Если накосячил то поправлю когда это обнаружится
+mov     eax, dword ptr [006EAE14]; Players
+add eax, 3Ch ; playerCol
+add eax, edi
+movzx ecx, byte ptr [eax]; playerCol
+inc ecx
+push ecx
+movzx ecx, byte ptr [eax-4]; playerRow
+inc ecx
+push    ecx
+push    1
+pop     ecx ; NET_CMD_1_WALK_PLAYER
+mov     dl, cl
+call  00446DD2;  SendCmd5        ; Call Procedure
+
+jmp @return
+
+@playerMayEnter:
+mov     ax, word ptr [esi+697ACCh] ;SpellCastArray.CasterIndex[esi]
+mov     dl, 1Fh ; NET_CMD_31_MOVE_PLAYER_WITH_TOWN_PORTAL
+push    eax
+mov     ecx, ebx
+call    00446EB6; SendCmd4
+mov     eax, dword ptr [006EAE14]; Players
+mov     dword ptr [eax+edi], 10
+@return:
+jmp 00437650
+
+
+
+
+	CODE:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00437622(U)
+|
+:00713980 A0C8DF6D00              mov al, byte ptr [006DDFC8]
+:00713985 3C01                    cmp al, 01
+:00713987 0F8403010000            je 00713A90
+:0071398D 668B86CC7A6900          mov ax, word ptr [esi+00697ACC]
+:00713994 6BC018                  imul eax, 00000018
+:00713997 05ECB26E00              add eax, 006EB2EC
+:0071399C 8B00                    mov eax, dword ptr [eax]
+:0071399E 803DD8B1600000          cmp byte ptr [0060B1D8], 00
+:007139A5 0F85E5000000            jne 00713A90
+:007139AB 90                      nop
+:007139AC 90                      nop
+:007139AD 90                      nop
+:007139AE 48                      dec eax
+:007139AF C1E802                  shr eax, 02
+:007139B2 8B0DC0706000            mov ecx, dword ptr [006070C0]
+:007139B8 6BC906                  imul ecx, 00000006
+:007139BB 03C1                    add eax, ecx
+:007139BD 90                      nop
+:007139BE 90                      nop
+:007139BF 90                      nop
+:007139C0 8BD0                    mov edx, eax
+:007139C2 8A880099A000            mov cl, byte ptr [eax+00A09900]
+:007139C8 E80368FFFF              call 0070A1D0
+:007139CD 0FBE80B8010000          movsx eax, byte ptr [eax+000001B8]
+:007139D4 90                      nop
+:007139D5 90                      nop
+:007139D6 90                      nop
+:007139D7 90                      nop
+:007139D8 3AC1                    cmp al, cl
+:007139DA 0F8DB0000000            jnl 00713A90
+:007139E0 8A8A2099A000            mov cl, byte ptr [edx+00A09920]
+:007139E6 E8B670D0FF              call 0041AAA1
+:007139EB 90                      nop
+:007139EC E8DF67FFFF              call 0070A1D0
+:007139F1 0FBE80B8010000          movsx eax, byte ptr [eax+000001B8]
+:007139F8 90                      nop
+:007139F9 90                      nop
+:007139FA 84C0                    test al, al
+:007139FC 0F8453000000            je 00713A55
+:00713A02 3C01                    cmp al, 01
+:00713A04 0F8444000000            je 00713A4E
+:00713A0A 3C02                    cmp al, 02
+:00713A0C 0F842E000000            je 00713A40
+:00713A12 3C03                    cmp al, 03
+:00713A14 0F842D000000            je 00713A47
+:00713A1A 3C04                    cmp al, 04
+:00713A1C 0F842C000000            je 00713A4E
+:00713A22 3C05                    cmp al, 05
+:00713A24 0F842B000000            je 00713A55
+:00713A2A EB33                    jmp 00713A5F
+:00713A2C 90                      nop
+:00713A2D 90                      nop
+:00713A2E 90                      nop
+:00713A2F 90                      nop
+:00713A30 90                      nop
+:00713A31 90                      nop
+:00713A32 90                      nop
+:00713A33 90                      nop
+:00713A34 90                      nop
+:00713A35 90                      nop
+:00713A36 90                      nop
+:00713A37 90                      nop
+:00713A38 90                      nop
+:00713A39 90                      nop
+:00713A3A 90                      nop
+:00713A3B 90                      nop
+:00713A3C 90                      nop
+:00713A3D 90                      nop
+:00713A3E 90                      nop
+:00713A3F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00713A0C(C)
+|
+:00713A40 B930020000              mov ecx, 00000230
+:00713A45 EB13                    jmp 00713A5A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00713A14(C)
+|
+:00713A47 B970030000              mov ecx, 00000370
+:00713A4C EB0C                    jmp 00713A5A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00713A04(C), :00713A1C(C)
+|
+:00713A4E B997020000              mov ecx, 00000297
+:00713A53 EB05                    jmp 00713A5A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007139FC(C), :00713A24(C)
+|
+:00713A55 B904030000              mov ecx, 00000304
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00713A45(U), :00713A4C(U), :00713A53(U)
+|
+:00713A5A E8AE4AD0FF              call 0041850D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00713A2A(U)
+|
+:00713A5F A114AE6E00              mov eax, dword ptr [006EAE14]
+:00713A64 83C03C                  add eax, 0000003C
+:00713A67 03C7                    add eax, edi
+:00713A69 90                      nop
+:00713A6A 90                      nop
+:00713A6B 0FB608                  movzx ecx, byte ptr [eax]
+:00713A6E 41                      inc ecx
+:00713A6F 51                      push ecx
+:00713A70 90                      nop
+:00713A71 90                      nop
+:00713A72 0FB648FC                movzx ecx, byte ptr [eax-04]
+:00713A76 90                      nop
+:00713A77 51                      push ecx
+:00713A78 6A01                    push 00000001
+:00713A7A 59                      pop ecx
+:00713A7B 8AD1                    mov dl, cl
+:00713A7D 90                      nop
+:00713A7E 90                      nop
+:00713A7F 90                      nop
+:00713A80 E84D33D3FF              call 00446DD2
+:00713A85 90                      nop
+:00713A86 EB25                    jmp 00713AAD
+:00713A88 90                      nop
+:00713A89 90                      nop
+:00713A8A 90                      nop
+:00713A8B 90                      nop
+:00713A8C 90                      nop
+:00713A8D 90                      nop
+:00713A8E 90                      nop
+:00713A8F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00713987(C), :007139A5(C), :007139DA(C)
+|
+:00713A90 668B86CC7A6900          mov ax, word ptr [esi+00697ACC]
+:00713A97 B21F                    mov dl, 1F
+:00713A99 50                      push eax
+:00713A9A 8BCB                    mov ecx, ebx
+:00713A9C E81534D3FF              call 00446EB6
+:00713AA1 A114AE6E00              mov eax, dword ptr [006EAE14]
+:00713AA6 C70438A0000000          mov dword ptr [eax+edi], 000000A0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00713A86(U)
+|
+:00713AAD E99E3BD2FF              jmp 00437650
+:00713AB2 90                      nop
+:00713AB3 90                      nop
+:00713AB4 90                      nop
+:00713AB5 90                      nop
+
+

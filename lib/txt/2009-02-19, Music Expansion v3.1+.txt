@@ -1,0 +1,238 @@
+Town music now varies for difficulty modes in Single-player
+
+
+m1:
+4b74e8
+
+m2:
+9ffeb8
+
+m3:
+9fffd8
+
+	old:
+:0046BE56 688CE86E00              push 006EE88C
+:0046BE5B FF34B5E8744B00          push dword ptr [4*esi+004B74E8]
+
+
+
+
+
+	new:
+:0046BE56 E9C1C02900              jmp 00707F1C
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00707F47(U), :0070BBC8(U)
+|
+:0046BE5B 90                      nop
+:0046BE5C 90                      nop
+:0046BE5D 90                      nop
+:0046BE5E 90                      nop
+:0046BE5F 90                      nop
+:0046BE60 90                      nop
+:0046BE61 90                      nop
+
+
+	extra1:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0046BE56(U)
+|
+:00707F1C 688CE86E00              push 006EE88C
+:00707F21 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00707F28 0F85823C0000            jne 0070BBB0
+:00707F2E 50                      push eax
+:00707F2F A1C0706000              mov eax, dword ptr [006070C0]
+:00707F34 90                      nop
+:00707F35 83F801                  cmp eax, 00000001
+:00707F38 7412                    je 00707F4C
+:00707F3A 83F802                  cmp eax, 00000002
+:00707F3D 7417                    je 00707F56
+:00707F3F 58                      pop eax
+:00707F40 FF34B5E8744B00          push dword ptr [4*esi+004B74E8]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00707F54(U), :00707F5E(U)
+|
+:00707F47 E90F3FD6FF              jmp 0046BE5B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707F38(C)
+|
+:00707F4C 58                      pop eax
+:00707F4D FF34B5D8FF9F00          push dword ptr [4*esi+009FFFD8]
+:00707F54 EBF1                    jmp 00707F47
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707F3D(C)
+|
+:00707F56 58                      pop eax
+:00707F57 FF34B5B8FE9F00          push dword ptr [4*esi+009FFEB8]
+:00707F5E EBE7                    jmp 00707F47
+:00707F60 90                      nop
+:00707F61 90                      nop
+:00707F62 90                      nop
+:00707F63 90                      nop
+:00707F64 90                      nop
+
+
+	extra2:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707F28(C)
+|
+:0070BBB0 50                      push eax
+:0070BBB1 A1C0706000              mov eax, dword ptr [006070C0]
+:0070BBB6 83F801                  cmp eax, 00000001
+:0070BBB9 7412                    je 0070BBCD
+:0070BBBB 83F802                  cmp eax, 00000002
+:0070BBBE 7417                    je 0070BBD7
+:0070BBC0 58                      pop eax
+:0070BBC1 FF34B58854A000          push dword ptr [4*esi+00A05488]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070BBD5(U), :0070BBDF(U)
+|
+:0070BBC8 E98E02D6FF              jmp 0046BE5B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070BBB9(C)
+|
+:0070BBCD 58                      pop eax
+:0070BBCE FF34B56855A000          push dword ptr [4*esi+00A05568]
+:0070BBD5 EBF1                    jmp 0070BBC8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070BBBE(C)
+|
+:0070BBD7 58                      pop eax
+:0070BBD8 FF34B54856A000          push dword ptr [4*esi+00A05648]
+:0070BBDF EBE7                    jmp 0070BBC8
+:0070BBE1 90                      nop
+:0070BBE2 90                      nop
+:0070BBE3 90                      nop
+:0070BBE4 90                      nop
+:0070BBE5 90                      nop
+:0070BBE6 90                      nop
+:0070BBE7 90                      nop
+
+==========================================================================
+==========================================================================
+Revision 2:
+17:13 09.04.2010
+now MP music is chosen randomly for Purg./Doom modes
+selection is made randomly between SP and MP version of music for an area
+however, randomization works oddly for dungeons, seems to be ok in town. but dungeons tend to stick to original if re-entered
+
+
+
+	mod:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707F28(C)
+|
+:0070BBB0 50                      push eax
+:0070BBB1 A1C0706000              mov eax, dword ptr [006070C0]
+:0070BBB6 83F801                  cmp eax, 00000001
+:0070BBB9 742B                    je 0070BBE6
+:0070BBBB 83F802                  cmp eax, 00000002
+:0070BBBE 742B                    je 0070BBEB
+:0070BBC0 58                      pop eax
+:0070BBC1 FF34B58854A000          push dword ptr [4*esi+00A05488]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070BBD5(U), :0070BBDF(U)
+|
+:0070BBC8 E98E02D6FF              jmp 0046BE5B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070BD55(U)
+|
+:0070BBCD 58                      pop eax
+:0070BBCE FF34B56855A000          push dword ptr [4*esi+00A05568]
+:0070BBD5 EBF1                    jmp 0070BBC8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070BDB5(U)
+|
+:0070BBD7 58                      pop eax
+:0070BBD8 FF34B54856A000          push dword ptr [4*esi+00A05648]
+:0070BBDF EBE7                    jmp 0070BBC8
+:0070BBE1 90                      nop
+:0070BBE2 90                      nop
+:0070BBE3 90                      nop
+:0070BBE4 90                      nop
+:0070BBE5 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070BBB9(C)
+|
+:0070BBE6 E955010000              jmp 0070BD40
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070BBBE(C)
+|
+:0070BBEB E9B0010000              jmp 0070BDA0
+:0070BBF0 90                      nop
+
+
+
+
+
+	and:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070BBE6(U)
+|
+:0070BD40 52                      push edx
+:0070BD41 6A02                    push 00000002
+:0070BD43 5A                      pop edx
+:0070BD44 51                      push ecx
+:0070BD45 E810E2D0FF              call 00419F5A
+:0070BD4A 59                      pop ecx
+:0070BD4B 5A                      pop edx
+:0070BD4C 83F801                  cmp eax, 00000001
+:0070BD4F 0F84F7C1FFFF            je 00707F4C
+:0070BD55 E973FEFFFF              jmp 0070BBCD
+:0070BD5A 90                      nop
+..................
+:0070BD9F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070BBEB(U)
+|
+:0070BDA0 52                      push edx
+:0070BDA1 6A02                    push 00000002
+:0070BDA3 5A                      pop edx
+:0070BDA4 51                      push ecx
+:0070BDA5 E8B0E1D0FF              call 00419F5A
+:0070BDAA 59                      pop ecx
+:0070BDAB 5A                      pop edx
+:0070BDAC 83F801                  cmp eax, 00000001
+:0070BDAF 0F84A1C1FFFF            je 00707F56
+:0070BDB5 E91DFEFFFF              jmp 0070BBD7
+:0070BDBA 90                      nop
+:0070BDBB 90                      nop
+:0070BDBC 90                      nop
+:0070BDBD 90                      nop
+
+==================================================
+
+Mp Horror is given 3 variations of musicsets:
+
+A05488
+A079E8
+A07AC8
+
+====================================
+
+
+movzx   eax, byte ptr [0061CB00];
+[23:39:04] ярик: в al - 03
+[23:39:16] Mordor: ок
+[23:39:24] ярик: и ещЄ на вс€кий случай
+[23:40:17] ярик: 0061F314
+[23:40:31] ярик: оп€ть таки байт поинтер должен 1 равн€тьс€
+
+
+================
+
+last chk for quest level
+
+:0071F00A 83F80A                  cmp eax, 0000000A

@@ -1,0 +1,62 @@
+Mysterious Shrine bug fixed
+now it doesn't activate if any of the player's base attributes is zero
+
+
+
+
+
+	code:
+
+:0045187A E9E1F52B00              jmp 00710E60
+:0045187F 90                      nop
+:00451880 90                      nop
+:00451881 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00710E96(U)
+|
+:00451882 8B75FC                  mov esi, dword ptr [ebp-04]
+
+
+	ex:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045187A(U)
+|
+:00710E60 85C0                    test eax, eax
+:00710E62 7407                    je 00710E6B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00710E9C(U)
+|
+:00710E64 5F                      pop edi
+:00710E65 5E                      pop esi
+:00710E66 5B                      pop ebx
+:00710E67 C9                      leave
+:00710E68 C20400                  ret 0004
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00710E62(C)
+|
+:00710E6B 50                      push eax
+:00710E6C E85F93FFFF              call 0070A1D0
+:00710E71 80B86801000000          cmp byte ptr [eax+00000168], 00
+:00710E78 7421                    je 00710E9B
+:00710E7A 80B87001000000          cmp byte ptr [eax+00000170], 00
+:00710E81 7418                    je 00710E9B
+:00710E83 80B87801000000          cmp byte ptr [eax+00000178], 00
+:00710E8A 740F                    je 00710E9B
+:00710E8C 80B88001000000          cmp byte ptr [eax+00000180], 00
+:00710E93 7406                    je 00710E9B
+:00710E95 58                      pop eax
+:00710E96 E9E709D4FF              jmp 00451882
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00710E78(C), :00710E81(C), :00710E8A(C), :00710E93(C)
+|
+:00710E9B 58                      pop eax
+:00710E9C EBC6                    jmp 00710E64
+:00710E9E 90                      nop
+:00710E9F 90                      nop

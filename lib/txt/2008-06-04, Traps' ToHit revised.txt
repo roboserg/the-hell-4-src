@@ -1,0 +1,39 @@
+Arrow trap tohit: 100 - 2*dist - AC/2 ->>> 250 - dist - AC/2
+
+
+Was:
+
+:0042F6E1 8B4508                  mov eax, dword ptr [ebp+08]		<- dist
+:0042F6E4 6A64                    push 00000064				<- base
+:0042F6E6 03C0                    add eax, eax				<- dist+dist
+:0042F6E8 5B                      pop ebx					<- store ebx (base tohit)
+:0042F6E9 2BD8                    sub ebx, eax				<- base tohit - 2*dist
+:0042F6EB D1F9                    sar ecx, 1					<- AC / 2
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F6DF(U)
+|
+:0042F6ED 2BD9                    sub ebx, ecx				<- base tohit - AC/2
+
+
+Now:
+
+:0042F6E1 8B4508                  mov eax, dword ptr [ebp+08]
+:0042F6E4 6A7D                    push 0000007D
+:0042F6E6 5B                      pop ebx
+:0042F6E7 D1E3                    shl ebx, 1
+:0042F6E9 2BD8                    sub ebx, eax
+:0042F6EB D1F9                    sar ecx, 1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F6DF(U)
+|
+:0042F6ED 2BD9                    sub ebx, ecx
+
+----------------------------------------------------------------------------------------------------
+
+Spell trap tohit set to 90%:
+
+:0042F720 6A78                    push 00000078
+into >>>
+:0042F720 6A5A                    push 0000005A

@@ -1,0 +1,65 @@
+Trap vs Monster ToHit chance update
+
+was: 90 - monster_AC - distance
+now: 90 - monster_subtype - distance
+
+New code:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0042F169(C), :0042F16D(C)
+|
+:0042F176 6A64                    push 00000064
+:0042F178 B144                    mov cl, 44
+:0042F17A 5A                      pop edx
+:0042F17B E8DAADFEFF              call 00419F5A
+:0042F180 8945F0                  mov dword ptr [ebp-10], eax
+:0042F183 0FB68621DD6900          movzx eax, byte ptr [esi+0069DD21]
+:0042F18A 6A5A                    push 0000005A
+:0042F18C 5F                      pop edi
+:0042F18D 2BF8                    sub edi, eax
+:0042F18F 2B7D0C                  sub edi, dword ptr [ebp+0C]
+:0042F192 83FF05                  cmp edi, 00000005
+:0042F195 7D03                    jge 0042F19A
+:0042F197 6A05                    push 00000005
+:0042F199 5F                      pop edi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F195(C)
+|
+:0042F19A 83FF5F                  cmp edi, 0000005F
+:0042F19D 7E03                    jle 0042F1A2
+:0042F19F 6A5F                    push 0000005F
+:0042F1A1 5F                      pop edi
+
+
+
+
+============================================================================
+
+Old:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0042F169(C), :0042F16D(C)
+|
+:0042F176 6A64                    push 00000064
+:0042F178 B144                    mov cl, 44
+:0042F17A 5A                      pop edx
+:0042F17B E8DAADFEFF              call 00419F5A
+:0042F180 8945F0                  mov dword ptr [ebp-10], eax
+:0042F183 0FB68652DD6900          movzx eax, byte ptr [esi+0069DD52]
+:0042F18A 6A5A                    push 0000005A
+:0042F18C 5F                      pop edi
+:0042F18D 2BF8                    sub edi, eax
+:0042F18F 2B7D0C                  sub edi, dword ptr [ebp+0C]
+:0042F192 83FF05                  cmp edi, 00000005
+:0042F195 7D03                    jge 0042F19A
+:0042F197 6A05                    push 00000005
+:0042F199 5F                      pop edi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F195(C)
+|
+:0042F19A 83FF5F                  cmp edi, 0000005F
+:0042F19D 7E03                    jle 0042F1A2
+:0042F19F 6A5F                    push 0000005F
+:0042F1A1 5F                      pop edi

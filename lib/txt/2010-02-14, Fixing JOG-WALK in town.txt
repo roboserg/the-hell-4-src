@@ -1,0 +1,59 @@
+
+
+
+
+ DesertDragon (14:40:29 14/02/2010)
+ну вот можно это убрать
+
+.text:0042E3AC 008                 push    offset IsFastWalkDisabled ; a4
+.text:0042E3B1 00C                 push    0               ; a3
+.text:0042E3B3 010                 mov     IsSinglePlayerMode, 1
+.text:0042E3BA 010                 push    FastWalkPtr     ; a2
+.text:0042E3C0 014                 push    offset aHellfire ; "Hellfire"
+.text:0042E3C5 018                 call    storm_423       ; Call Procedure
+.text:0042E3CA 008                 test    eax, eax        ; Logical Compare
+.text:0042E3CC 008                 jnz     short loc_42E3D8 ; Jump if Not Zero (ZF=0)
+
+и тогда всегда при старте бег будет всегда отключен
+
+ Mordor (14:43:47 14/02/2010)
+все равно бегает
+
+ DesertDragon (14:44:05 14/02/2010)
+ну ка сам проверю
+
+ Mordor (14:44:24 14/02/2010)
+0042E3AC
+сделал там EB20
+
+
+ Mordor (14:53:54 14/02/2010)
+если тут 0 поставить, то уже ходит
+:0042E3CE C705B0044A0001000000    mov dword ptr [004A04B0], 00000001
+
+=============================
+
+Revision 2, by Dragon
+14:27 15.02.2010
+
+default value is set to: WALK
+in MP jogging is still impossible
+in SP jogging can be activated in menu, but after game restart it's usually reset to walking
+
+
+	offset 1AABB:
+EB3033C03905B0044A000F94C0506A00FF35A0054A00A3B0044A0068303A4B00E86CD30600
+	into
+753033C03905B0044A000F94C0909090909090909090A3B0044A0090909090909090909090
+
+
+	offset 2D7AC:
+68B0044A006A00C605C8DF6D0001FF35A0054A0068303A4B00E888A6050085C0750AC705B0044A0001000000
+	into
+90909090909090C605C8DF6D0001909090909090909090909090909090909090909090909090909090909090
+
+
+	offset 9EEB0:
+01
+	into
+00

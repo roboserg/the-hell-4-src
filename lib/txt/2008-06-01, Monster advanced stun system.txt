@@ -1,0 +1,128 @@
+Cave snakes are stunned if damage > (AC - 16) * 4
+Gold serpents are stunned if damage > (AC - 8) * 4
+All gargoyle types are stunned if damage is > AC * 8
+Reapers, Grotesques and Flesh golems are stunned if damage is > (AC - 20) * 8
+--------------------
+Didn't test this yet...
+
+
+
+
+Modded:
+
+:0043CF14 8B8664DD6900            mov eax, dword ptr [esi+0069DD64]
+:0043CF1A 8B00                    mov eax, dword ptr [eax]
+:0043CF1C E90F812C00              jmp 00705030
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705055(U)
+|
+:0043CF21 E9BA842C00              jmp 007053E0
+:0043CF26 0FB68652DD6900          movzx eax, byte ptr [esi+0069DD52]
+:0043CF2D C1E002                  shl eax, 02
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705416(U)
+|
+:0043CF30 C1FD06                  sar ebp, 06
+:0043CF33 3BE8                    cmp ebp, eax
+:0043CF35 0F8C22010000            jl 0043D05D
+
+==
+Extra 1:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043CF1C(U)
+|
+:00705030 83F81D                  cmp eax, 0000001D
+:00705033 7C20                    jl 00705055
+:00705035 83F820                  cmp eax, 00000020
+:00705038 7E20                    jle 0070505A
+:0070503A 83F85C                  cmp eax, 0000005C
+:0070503D 741B                    je 0070505A
+:0070503F 83F85E                  cmp eax, 0000005E
+:00705042 7416                    je 0070505A
+:00705044 83F86F                  cmp eax, 0000006F
+:00705047 7416                    je 0070505F
+:00705049 83F87D                  cmp eax, 0000007D
+:0070504C 7411                    je 0070505F
+:0070504E 3D82000000              cmp eax, 00000082
+:00705053 740A                    je 0070505F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705033(C)
+|
+:00705055 E9C77ED3FF              jmp 0043CF21
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00705038(C), :0070503D(C), :00705042(C)
+|
+:0070505A E9DC7ED3FF              jmp 0043CF3B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00705047(C), :0070504C(C), :00705053(C)
+|
+:0070505F E9F97FD3FF              jmp 0043D05D
+
+==
+Extra 2:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043CF21(U)
+|
+:007053E0 83F845                  cmp eax, 00000045
+:007053E3 7454                    je 00705439
+:007053E5 83F851                  cmp eax, 00000051
+:007053E8 744F                    je 00705439
+:007053EA 83F852                  cmp eax, 00000052
+:007053ED 744A                    je 00705439
+:007053EF 83F854                  cmp eax, 00000054
+:007053F2 7445                    je 00705439
+:007053F4 83F857                  cmp eax, 00000057
+:007053F7 744C                    je 00705445
+:007053F9 83F85A                  cmp eax, 0000005A
+:007053FC 741D                    je 0070541B
+:007053FE 83F85B                  cmp eax, 0000005B
+:00705401 7427                    je 0070542A
+:00705403 83F878                  cmp eax, 00000078
+:00705406 743D                    je 00705445
+:00705408 3D87000000              cmp eax, 00000087
+:0070540D 7436                    je 00705445
+:0070540F 3D88000000              cmp eax, 00000088
+:00705414 742F                    je 00705445
+:00705416 E90B7BD3FF              jmp 0043CF26
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007053FC(C)
+|
+:0070541B 0FB68652DD6900          movzx eax, byte ptr [esi+0069DD52]
+:00705422 83E810                  sub eax, 00000010
+:00705425 C1E002                  shl eax, 02
+:00705428 EB28                    jmp 00705452
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705401(C)
+|
+:0070542A 0FB68652DD6900          movzx eax, byte ptr [esi+0069DD52]
+:00705431 83E808                  sub eax, 00000008
+:00705434 C1E002                  shl eax, 02
+:00705437 EB19                    jmp 00705452
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007053E3(C), :007053E8(C), :007053ED(C), :007053F2(C)
+|
+:00705439 0FB68652DD6900          movzx eax, byte ptr [esi+0069DD52]
+:00705440 C1E003                  shl eax, 03
+:00705443 EB0D                    jmp 00705452
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007053F7(C), :00705406(C), :0070540D(C), :00705414(C)
+|
+:00705445 0FB68652DD6900          movzx eax, byte ptr [esi+0069DD52]
+:0070544C 83E814                  sub eax, 00000014
+:0070544F C1E003                  shl eax, 03
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00705428(U), :00705437(U), :00705443(U)
+|
+:00705452 E9D97AD3FF              jmp 0043CF30

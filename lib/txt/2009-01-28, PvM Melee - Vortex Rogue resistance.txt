@@ -1,0 +1,95 @@
++	Vortex Rogues resist 1/8 melee damage on DLVL 10 of Multiplayer Purgatory & Doom modes;
++	Vortex Rogues resist 1/4 melee damage on DLVL 11 of Multiplayer Purgatory & Doom modes;
++	Vortex Rogues resist 1/2 melee damage on DLVL 12 of Multiplayer Purgatory & Doom modes;
+
+
+	modified:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BB49(U)
+|
+:00707230 813801000000            cmp dword ptr [eax], 00000001
+:00707236 0F850C000000            jne 00707248
+:0070723C 8BC7                    mov eax, edi
+:0070723E C1F802                  sar eax, 02
+:00707241 2BF8                    sub edi, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070724E(C), :00707257(C), :0070726F(U)
+|
+:00707243 E90D49D5FF              jmp 0045BB55
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707236(C)
+|
+:00707248 813812000000            cmp dword ptr [eax], 00000012
+:0070724E 75F3                    jne 00707243
+:00707250 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00707257 74EA                    je 00707243
+:00707259 50                      push eax
+:0070725A A1D8B16000              mov eax, dword ptr [0060B1D8]
+:0070725F 83F80A                  cmp eax, 0000000A
+:00707262 740D                    je 00707271
+:00707264 83F80B                  cmp eax, 0000000B
+:00707267 7411                    je 0070727A
+:00707269 83F80C                  cmp eax, 0000000C
+:0070726C 7415                    je 00707283
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00707278(U), :00707281(U), :00707289(U)
+|
+:0070726E 58                      pop eax
+:0070726F EBD2                    jmp 00707243
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707262(C)
+|
+:00707271 8BC7                    mov eax, edi
+:00707273 C1F803                  sar eax, 03
+:00707276 2BF8                    sub edi, eax
+:00707278 EBF4                    jmp 0070726E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707267(C)
+|
+:0070727A 8BC7                    mov eax, edi
+:0070727C C1F802                  sar eax, 02
+:0070727F 2BF8                    sub edi, eax
+:00707281 EBEB                    jmp 0070726E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070726C(C)
+|
+:00707283 8BC7                    mov eax, edi
+:00707285 D1F8                    sar eax, 1
+:00707287 2BF8                    sub edi, eax
+:00707289 EBE3                    jmp 0070726E
+
+
+
+
+	next..
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045BB16(C), :0045BB25(C)
+|
+:0045BB2A A114AE6E00              mov eax, dword ptr [006EAE14]
+:0045BB2F 8B5DFC                  mov ebx, dword ptr [ebp-04]
+:0045BB32 8B8364DD6900            mov eax, dword ptr [ebx+0069DD64]
+:0045BB38 813889000000            cmp dword ptr [eax], 00000089
+:0045BB3E 7420                    je 0045BB60
+:0045BB40 833DC070600001          cmp dword ptr [006070C0], 00000001
+:0045BB47 7C0C                    jl 0045BB55
+:0045BB49 E9E2B62A00              jmp 00707230
+:0045BB4E 90                      nop
+:0045BB4F 90                      nop
+:0045BB50 90                      nop
+:0045BB51 90                      nop
+:0045BB52 90                      nop
+:0045BB53 90                      nop
+:0045BB54 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045BB47(C), :00707243(U)
+|
+:0045BB55 80BB44DD690000          cmp byte ptr [ebx+0069DD44], 00

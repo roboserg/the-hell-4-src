@@ -1,0 +1,82 @@
+Slot 78h is now used for Flesh golem and acid puddle after death not needed.
+Correcting:
+
+WAS:
+
+:0043D270 8B8664DD6900            mov eax, dword ptr [esi+0069DD64]
+:0043D276 8B00                    mov eax, dword ptr [eax]
+:0043D278 83F82F                  cmp eax, 0000002F
+:0043D27B 7C05                    jl 0043D282
+:0043D27D 83F831                  cmp eax, 00000031
+:0043D280 7E05                    jle 0043D287
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D27B(C)
+|
+:0043D282 83F878                  cmp eax, 00000078
+:0043D285 7523                    jne 0043D2AA
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D280(C)
+|
+:0043D287 0FB68621DD6900          movzx eax, byte ptr [esi+0069DD21]
+
+INTO >>>>>>>>>>>>>>>>>>
+
+step #1
+:0043D270 8B8664DD6900            mov eax, dword ptr [esi+0069DD64]
+:0043D276 8B00                    mov eax, dword ptr [eax]
+:0043D278 83F82F                  cmp eax, 0000002F
+:0043D27B 7C05                    jl 0043D282
+:0043D27D 83F831                  cmp eax, 00000031
+:0043D280 7F28                    jg 0043D2AA
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D27B(C)
+|
+:0043D282 90                      nop
+:0043D283 90                      nop
+:0043D284 90                      nop
+:0043D285 90                      nop
+:0043D286 90                      nop
+:0043D287 0FB68621DD6900          movzx eax, byte ptr [esi+0069DD21]
+
+step #2 (fixing jump)
+:0043D270 8B8664DD6900            mov eax, dword ptr [esi+0069DD64]
+:0043D276 8B00                    mov eax, dword ptr [eax]
+:0043D278 83F82F                  cmp eax, 0000002F
+:0043D27B 7C2D                    jl 0043D2AA
+:0043D27D 83F831                  cmp eax, 00000031
+:0043D280 7F28                    jg 0043D2AA
+:0043D282 90                      nop
+:0043D283 90                      nop
+:0043D284 90                      nop
+:0043D285 90                      nop
+:0043D286 90                      nop
+:0043D287 0FB68621DD6900          movzx eax, byte ptr [esi+0069DD21]
+
+=======================================
+
+monster ACh given support for puddles:
+
+	mod:
+:0043D278 83F82E                  cmp eax, 0000002E
+:0043D27B 7C2D                    jl 0043D2AA
+:0043D27D 83F831                  cmp eax, 00000031
+:0043D280 0F8FFA012D00            jg 0070D480
+:0043D286 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070D486(C)
+|
+:0043D287 0FB68621DD6900          movzx eax, byte ptr [esi+0069DD21]
+
+
+	ex:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D280(C)
+|
+:0070D480 81F8AC000000            cmp eax, 000000AC
+:0070D486 0F84FBFDD2FF            je 0043D287
+:0070D48C E919FED2FF              jmp 0043D2AA
+:0070D491 90                      nop

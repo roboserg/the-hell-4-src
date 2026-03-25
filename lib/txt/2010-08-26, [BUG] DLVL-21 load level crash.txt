@@ -1,0 +1,29 @@
+In MP it was discovered that upon loading level 21 can crash
+so far, it was noticed only on Doom mode...
+
+
+The report is as follows:
+
+=====================================
+
+Exception code: C0000005 ACCESS_VIOLATION
+Fault address:	0043B1BF 01:0003A1BF D:\Games\TheHell\zTHv1101yx03.exe
+
+Registers:
+EAX:00000000
+EBX:00000001
+ECX:00000058
+EDX:00000006
+ESI:000043B0
+EDI:006A9690
+CS:EIP:001B:0043B1BF
+SS:ESP:0023:0012F7F4	EBP:0012F820
+DS:0023	ES:0023	FS:003B	GS:0000
+Flags:00210246
+
+Call stack:
+Address	Frame	 Logical addr	Module
+0043B1BF	0012F820	0001:0003A1BF D:\Games\TheHell\zTHv1101yx03.exe
+0043BCD9	0012F89C	0001:0003ACD9 D:\Games\TheHell\zTHv1101yx03.exe
+
+=====================================

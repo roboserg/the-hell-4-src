@@ -1,0 +1,90 @@
+JG:
+
+FIRE NOVA
+Type: fire
+Min. Damage: 5·Rec(slvl, 2 + clvl/2)
+Max. Damage: 5·Rec(slvl, 15 + clvl/2)
+Quick Min. Damage: 5·(2 + clvl/2) · (9/8)^slvl
+Quick Max. Damage: 5·(15 + clvl/2) · (9/8)^slvl
+Real Damage: Rec(slvl, (Itt(5, Rnd[6]) + clvl + 5)/2)
+Number of bolts: 92
+Speed: 16 + slvl
+
+
+LIGHTNING NOVA
+Type: lightning
+Min. Damage: 5·Rec(slvl, 2 + [clvl/2])
+Max. Damage: 5·Rec(slvl, 15 + [clvl/2])
+Quick Min. Damage: 5·(2 + clvl/2) · (9/8)^slvl
+Quick Max. Damage: 5·(15 + clvl/2) · (9/8)^slvl
+Real Damage: Rec(slvl, (Itt(5, Rnd[6]) + clvl + 5)/2)
+Number of bolts: 92
+Speed: 16
+Blockable: No
+_________________________________________________
+
+Nova/Imm   ((Rnd[6]+Rnd[6]+Rnd[6]+Rnd[6]+Rnd[6]+CLVL+5)/2)*(9/8)^SLVL
+        -> ((Rnd[15]+Rnd[15]+Rnd[15]+Rnd[15]+Rnd[15]+CLVL+5)/2)*(9/8)^SLVL
+
+File Offset 00033FD9
+
+:00434BD9 6A06                    push 00000006
+wordt
+:00434BD9 6A0F                    push 0000000F
+
+
+==========================================================================================
+
+
+
+
+Nova Trap  Rnd[3]+Rnd[3]+Rnd[3]+Diff(DLVL) 
+        -> Rnd[8]+Rnd[8]+Rnd[8]+Diff(DLVL) 
+
+File Offset 0003406F
+
+:00434C6F 6A03                    push 00000003
+wordt
+:00434C6F 6A08                    push 00000008
+
+File Offset 0003407D
+
+:00434C7D 6A03                    push 00000003
+wordt
+:00434C7D 6A08                    push 00000008
+
+File Offset 00034089
+
+:00434C89 6A03                    push 00000003
+wordt
+:00434C89 6A08                    push 00000008
+
+
+
+===========================================================================================================
+
+
+
+
+Spellbook:
+
+Nova/Imm   ((Rnd[6]+Rnd[6]+Rnd[6]+Rnd[6]+Rnd[6]+CLVL+5)/2)*5*(9/8)^SLVL 
+        -> ((Rnd[15]+Rnd[15]+Rnd[15]+Rnd[15]+Rnd[15]+CLVL+5)/2)*(9/8)^SLVL 
+
+File Offset 0002DF8F
+
+:0042EB8F 8D0480                  lea eax, dword ptr [eax+4*eax]
+wordt
+:0042EB8F 909090                  3*nop
+
+File Offset 0002DFB0
+
+:0042EBB0 83C11E                  add ecx, 0000001E
+wordt
+:0042EBB0 83C14B                  add ecx, 0000004B
+
+File Offset 0002DFCB
+
+:0042EBCB 8D0C89                  lea ecx, dword ptr [ecx+4*ecx]
+wordt
+:0042EBCB 909090                  3*nop

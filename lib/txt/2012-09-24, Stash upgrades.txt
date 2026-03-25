@@ -1,0 +1,19 @@
+Set items are displayed in orange:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:10001DD9(U)
+|
+:10004B70 31C0                    xor eax, eax
+:10004B72 80FA02                  cmp dl, 02
+:10004B75 0F94C0                  sete al
+:10004B78 8D440001                lea eax, dword ptr [eax+eax+01]
+:10004B7C 80FA03                  cmp dl, 03
+:10004B7F 7503                    jne 10004B84
+:10004B81 6A04                    push 00000004
+:10004B83 58                      pop eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:10004B7F(C)
+|
+:10004B84 E95CD2FFFF              jmp 10001DE5
+:10004B89 90                      nop

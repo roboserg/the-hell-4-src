@@ -1,0 +1,36 @@
+High stun thresholds for Diablo (9*AC) and Defiler (10*AC):
+Uber doesn't need high stun threshold btw: his damage reduction will take care of everything
+
+
+	modified previous check (on Burned Corpse):
+:007078B3 0F8377080000            jnb 00708130
+
+
+	expanded code:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007078B3(C)
+|
+:00708130 83F83A                  cmp eax, 0000003A
+:00708133 7418                    je 0070814D
+:00708135 83F86E                  cmp eax, 0000006E
+:00708138 0F8567F6FFFF            jne 007077A5
+:0070813E 0FB68652DD6900          movzx eax, byte ptr [esi+0069DD52]
+:00708145 8D0440                  lea eax, dword ptr [eax+2*eax]
+:00708148 8D0440                  lea eax, dword ptr [eax+2*eax]
+:0070814B EB0C                    jmp 00708159
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708133(C)
+|
+:0070814D 0FB68652DD6900          movzx eax, byte ptr [esi+0069DD52]
+:00708154 D1E0                    shl eax, 1
+:00708156 8D0480                  lea eax, dword ptr [eax+4*eax]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070814B(U)
+|
+:00708159 E9F4D2FFFF              jmp 00705452
+:0070815E 90                      nop
+
+
+

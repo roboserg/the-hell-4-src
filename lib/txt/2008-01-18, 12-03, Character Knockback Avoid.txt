@@ -1,0 +1,217 @@
+The following gives Paladin, Monk, Assassin and Gladiator a chance to avoid knockback in MvP Melee.
+It works fine, but the actual chance to avoid KB is unknown to me (need to find out what [ebp-14] is).
+
+Implemented in v1.57u RC1:
+
+
+:0043E667 F68724DD690080          test byte ptr [edi+0069DD24], 80
+into:
+:0043E667 E8BAADFCFF              call 00409426
+:0043E66C 85C0                    test eax, eax
+
+at frree space from disabled Command.txt:
+* Referenced by a CALL at Address:
+|:0043E667   
+|
+:00409426 F68724DD690080          test byte ptr [edi+0069DD24], 80	< check KB
+:0040942D 742A                    je 00409459
+:0040942F A114AE6E00              mov eax, dword ptr [006EAE14]		< eax = character
+:00409434 03C6                    add eax, esi
+:00409436 8A8860010000            mov cl, byte ptr [eax+00000160]	< cl = char.class
+:0040943C 84C9                    test cl, cl				< test if Paladin
+:0040943E 740F                    je 0040944F
+:00409440 80F903                  cmp cl, 03				< test if Monk
+:00409443 740A                    je 0040944F
+:00409445 80F904                  cmp cl, 04				< test if Assassin
+:00409448 7405                    je 0040944F
+:0040944A 80F905                  cmp cl, 05				< test if Gladiator
+:0040944D 750A                    jne 00409459
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0040943E(C), :00409443(C), :00409448(C)
+|
+:0040944F 837DEC10                cmp dword ptr [ebp-14], 00000010	< ?????
+:00409453 7F04                    jg 00409459
+:00409455 6A01                    push 00000001
+:00409457 58                      pop eax
+:00409458 C3                      ret
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0040942D(C), :0040944D(C), :00409453(C)
+|
+:00409459 33C0                    xor eax, eax
+:0040945B C3                      ret
+
+===================================================
+Knockback avoid now depends on character base Strength:
+15:45 28.12.2009
+chance to avoid knockback is: ((baseSTR/8)+60)%
+
+
+* Referenced by a CALL at Address:
+|:0043E667   
+|
+:0070B6A0 F68724DD690080          test byte ptr [edi+0069DD24], 80
+:0070B6A7 7438                    je 0070B6E1
+:0070B6A9 A114AE6E00              mov eax, dword ptr [006EAE14]
+:0070B6AE 03C6                    add eax, esi
+:0070B6B0 8A8860010000            mov cl, byte ptr [eax+00000160]
+:0070B6B6 80F901                  cmp cl, 01
+:0070B6B9 742A                    je 0070B6E5
+:0070B6BB 80F902                  cmp cl, 02
+:0070B6BE 7425                    je 0070B6E5
+:0070B6C0 51                      push ecx
+:0070B6C1 0FB68868010000          movzx ecx, byte ptr [eax+00000168]
+:0070B6C8 C1E903                  shr ecx, 03
+:0070B6CB 83C13C                  add ecx, 0000003C
+:0070B6CE 53                      push ebx
+:0070B6CF 8BD9                    mov ebx, ecx
+:0070B6D1 59                      pop ecx
+:0070B6D2 6A64                    push 00000064
+:0070B6D4 5A                      pop edx
+:0070B6D5 51                      push ecx
+:0070B6D6 E87FE8D0FF              call 00419F5A
+:0070B6DB 59                      pop ecx
+:0070B6DC 3BC3                    cmp eax, ebx
+:0070B6DE 7F04                    jg 0070B6E4
+:0070B6E0 5B                      pop ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B6A7(C)
+|
+:0070B6E1 33C0                    xor eax, eax
+:0070B6E3 C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B6DE(C)
+|
+:0070B6E4 5B                      pop ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070B6B9(C), :0070B6BE(C)
+|
+:0070B6E5 6A01                    push 00000001
+:0070B6E7 58                      pop eax
+:0070B6E8 C3                      ret
+
+
+:0070B6E9 90                      nop
+:0070B6EA 90                      nop
+
+
+===================================================
+===================================================
+
+DMNotes:
+
+Avoiding Knockback for Characters
+
+
+Following will give Barbarians and Warriors 40 % chance to avoid the Knockback effect of a melee attack. 
+
+Knockback door Missiles wordt door game (nog) niet ondersteund.
+
+
+File Offset 0003DA67
+
+:0043E667 F68724DD690080          test byte ptr [edi+0069DD24], 80
+wordt
+:0043E667 E843EEFFFF              call 0043D4AF		Check Knockback
+:0043E66C 85C0                    test eax, eax
+
+
+Check Knockback routine op allerlaatste restje DiabloDeath, na MonsterStunAvoid routine :
+
+File Offset 0003C8AF
+
+:0043D4AF 90                      nop
+:0043D4B0 8B8F04DD6900            mov ecx, dword ptr [edi+0069DD04]
+:0043D4B6 898708DD6900            mov dword ptr [edi+0069DD08], eax
+:0043D4BC 8B87ACDC6900            mov eax, dword ptr [edi+0069DCAC]
+:0043D4C2 C1E010                  shl eax, 10
+:0043D4C5 2BC8                    sub ecx, eax
+:0043D4C7 894DF4                  mov dword ptr [ebp-0C], ecx
+:0043D4CA DB45F4                  fild dword ptr [ebp-0C]
+:0043D4CD D8F1                    fdiv st(0), st(1)
+:0043D4CF E89CD00300              call 0047A570
+:0043D4D4 89870CDD6900            mov dword ptr [edi+0069DD0C], eax
+:0043D4DA 5F                      pop edi
+:0043D4DB 5E                      pop esi
+:0043D4DC 5B                      pop ebx
+:0043D4DD DDD8                    fstp st(0)
+wordt
+:0043D4AF F68724DD690080          test byte ptr [edi+0069DD24], 80
+:0043D4B6 7424                    je 0043D4DC
+:0043D4B8 A114AE6E00              mov eax, dword ptr [006EAE14]
+:0043D4BD 8A843060010000          mov al, byte ptr [eax+esi+00000160]
+:0043D4C4 84C0                    test al, al
+:0043D4C6 7404                    je 0043D4CC
+:0043D4C8 3C05                    cmp al, 05
+:0043D4CA 750C                    jne 0043D4D8
+:0043D4CC 51                      push ecx
+:0043D4CD E86F0E0000              call 0043E341			call RND100
+:0043D4D2 59                      pop ecx
+:0043D4D3 83F828                  cmp eax, 00000028		40%
+:0043D4D6 7C04                    jl 0043D4DC
+:0043D4D8 6A01                    push 00000001
+:0043D4DA 58                      pop eax
+:0043D4DB C3                      ret
+:0043D4DC 33C0                    xor eax, eax
+:0043D4DE C3                      ret
+
+
+
+Nog over aan vrije ruimte (41 byte) op:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043E3BD(C)
+|
+:0043E492 90                      nop
+:0043E493 90                      nop
+:0043E494 90                      nop
+:0043E495 90                      nop
+:0043E496 90                      nop
+enz.
+_________________________
+
+Increasing chances to avoid Knockbacks for Warrior and Barbarian (40% -> 60%):
+
+File Offset 0003C8D3
+
+:0043D4D3 83F828                  cmp eax, 00000028
+wordt
+:0043D4D3 83F83C                  cmp eax, 0000003C
+
+
+This code was shared by the piercing effect of arrows and some spells. New routine for piercing, with slightly lower chances (40% -> 35%), using free space from small potions:
+
+File Offset 00057A25
+
+:00458625 E8A24EFEFF              call 0043D4CC
+:0045862A 
+wordt
+:00458625 E86315FDFF              call 00429B8D
+:0045862A 
+
+File Offset 00028F8D
+
+:00429B8D 90                      nop
+:00429B8E 90                      nop
+:00429B8F 7502                    jne 00429B93
+:00429B91 D1E7                    shl edi, 1
+:00429B93 80F901                  cmp cl, 01
+:00429B96 7506                    jne 00429B9E
+:00429B98 8BCF                    mov ecx, edi
+:00429B9A D1F9                    sar ecx, 1
+:00429B9C 03F9                    add edi, ecx
+wordt
+:00429B8D 51                      push ecx
+:00429B8E E8AE470100              call 0043E341
+:00429B93 59                      pop ecx
+:00429B94 83F823                  cmp eax, 00000023
+:00429B97 E93A390100              jmp 0043D4D6
+:00429B9C 9090                    2*nop
+_________
+

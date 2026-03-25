@@ -1,0 +1,5 @@
+Larger boss packs. 15 -> 19
+
+:0043BA57 6A0F                    push 0000000F
+into:
+:0043BA57 6A13                    push 00000013

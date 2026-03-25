@@ -1,0 +1,80 @@
+Unfindable quest unique list.
+
+Sorted by quest and difficulty.
+-------------------------------
+
+1. PWS-2, ring
+2. OS-4, helm
+3. MR-5, ring
+4. AV-5, armor
+5. HOTB-7, amulet
+6. AOF-10, weapon
+7. LACH-14, helm
+8. CT-19, amulet
+9. JJ-20, armor ???
+===============================
+1. PWS:
+	Horr: Ring of Protection: ARD, [1-2]DFE, [1-4]AC, [2-5]VIT, [5-15]RES
+	Purg: Ring of Zeal: ARD, [2-4]DFE, [4-8]AC, [10-15]VIT, [10-20]RES
+	Doom: Ring of Confidence: ARD, [3-6]DFE, [9-14]AC, [20-30]VIT, [20-30]RES
+
+2. OS:
+	Horr: Harlequin's Crest: +1SLVL, +3AA, [2-4]DFE,
+
+
+===============================
+
+Legacy of Blood, armor: possible reward for killing warlord on Doom, SP
+	1. +2 SLVL
+	2. -20 DFE
+	3. +10 ALL ATTRIBUTES
+	4. FASTER ATTACK
+	5. FASTEST HIT RECOVERY
+	6. +25% RESIST ALL
+	REQ: 240-20-80
+	AC: 190-200
+	DUR: 90
+
+Legacy of Blood, helm:
+	1. ENHANCED PERCEPTION
+	2. +1 SLVL
+	3. -15 DFE
+	4. INCREASED LIFE STEALING
+	5. 2% LIFE STOLEN PER HIT
+	6. +30% RESIST ALL
+	REQ: 225-20-70
+	AC: 25
+	DUR: 45
+
+The Butcher's Cleaver: possible reward for killing butcher on Doom, SP
+	1. DAMAGE: [400]
+	2. ARMOR PIERCING [25%]
+	3. KNOCKBACK
+	4. FASTER ATTACK
+	5. FASTEST HIT RECOVERY
+	6. +30 STRENGTH
+	REQ: 250-0-125
+	DUR: 30-35
+
+King Leoric's Crown: possible reward for killing Leoric on Doom, SP
+	1. +100% TOHIT, +100% DAMAGE
+	2. 2% LIFE STOLEN PER HIT
+	3. +[100-120] HP
+	4. -[18-24] DFE
+	5. FASTEST HIT RECOVERY
+	6. -50% FIRE RESISTANCE
+	REQ: 220-0-60
+	AC: 25
+	DUR: 30
+
+Staff of the Damned: possible reward for killing Lazarus on Doom, SP
+	1. +[4-6] SLVL
+	2. FASTEST HIT RECOVERY
+	3. +[3-5] DFE
+	4. +100% MANA REGENERATION RATE
+	5. -25% MANACOST
+	6. + [80-120] MANA
+	REQ: 50-240-40
+	DUR: 20
+	DAM: 12-36
+

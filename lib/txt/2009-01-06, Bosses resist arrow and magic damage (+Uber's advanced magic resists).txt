@@ -1,0 +1,151 @@
+All bosses now resist 50% arrow damage
+Uber resists 75% magic damage and 75% arrow damage
+
+New:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F461(U)
+|
+:0042F476 8A9B78794A00            mov bl, byte ptr [ebx+004A7978]
+:0042F47C 84DB                    test bl, bl
+:0042F47E 885D13                  mov byte ptr [ebp+13], bl
+:0042F481 7532                    jne 0042F4B5
+:0042F483 8B45FC                  mov eax, dword ptr [ebp-04]
+:0042F486 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0042F48C 69C0C8550000            imul eax, 000055C8
+:0042F492 03C8                    add ecx, eax
+:0042F494 6A64                    push 00000064
+:0042F496 5B                      pop ebx
+:0042F497 8B8124550000            mov eax, dword ptr [ecx+00005524]
+:0042F49D 0FAFC7                  imul eax, edi
+:0042F4A0 99                      cdq
+:0042F4A1 F7FB                    idiv ebx
+:0042F4A3 038130550000            add eax, dword ptr [ecx+00005530]
+:0042F4A9 03F8                    add edi, eax
+:0042F4AB E9C9A0FDFF              jmp 00409579
+:0042F4B0 90                      nop
+:0042F4B1 90                      nop
+:0042F4B2 90                      nop
+:0042F4B3 90                      nop
+:0042F4B4 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F481(C)
+|
+:0042F4B5 E9567E2D00              jmp 00707310
+:0042F4BA 90                      nop
+:0042F4BB 90                      nop
+:0042F4BC 8B8188010000            mov eax, dword ptr [ecx+00000188]
+:0042F4C2 D1F8                    sar eax, 1
+:0042F4C4 03F8                    add edi, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007072E2(U), :0070732E(U)
+|
+:0042F4C6 807D1800                cmp byte ptr [ebp+18], 00
+....
+
+
+Extra 1: (arrow damage adjust)
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F4AB(U)
+|
+:00409579 90                      nop					<- this incorrect jump was fixed in 1.69d RC40
+:0040957A 90                      nop
+:0040957B 90                      nop
+:0040957C 90                      nop
+:0040957D 90                      nop
+:0040957E 80B96001000001          cmp byte ptr [ecx+00000160], 01
+:00409585 7405                    je 0040958C
+:00409587 E927000000              jmp 004095B3
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00409585(C)
+|
+:0040958C 03B988010000            add edi, dword ptr [ecx+00000188]
+:00409592 0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]
+:00409599 6A64                    push 00000064
+:0040959B B106                    mov cl, 06
+:0040959D 5A                      pop edx
+:0040959E E8B7090100              call 00419F5A
+:004095A3 C1EB01                  shr ebx, 01
+:004095A6 43                      inc ebx
+:004095A7 3BC3                    cmp eax, ebx
+:004095A9 7D03                    jge 004095AE
+:004095AB C1E702                  shl edi, 02
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004095A9(C), :004095E9(U), :004095F5(U)
+|
+:004095AE E90DDD2F00              jmp 007072C0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00409587(U)
+|
+:004095B3 80B96001000005          cmp byte ptr [ecx+00000160], 05
+:004095BA 7405                    je 004095C1
+:004095BC EB2D                    jmp 004095EB
+:004095BE 90                      nop
+:004095BF 90                      nop
+:004095C0 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004095BA(C)
+|
+:004095C1 8B8188010000            mov eax, dword ptr [ecx+00000188]
+:004095C7 D1F8                    sar eax, 1
+:004095C9 03F8                    add edi, eax
+:004095CB 0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]
+:004095D2 6A64                    push 00000064
+:004095D4 B106                    mov cl, 06
+:004095D6 5A                      pop edx
+:004095D7 E87E090100              call 00419F5A
+:004095DC C1EB02                  shr ebx, 02
+:004095DF 83C305                  add ebx, 00000005
+:004095E2 3BC3                    cmp eax, ebx
+:004095E4 7D03                    jge 004095E9
+:004095E6 8D3C7F                  lea edi, dword ptr [edi+2*edi]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004095E4(C)
+|
+:004095E9 EBC3                    jmp 004095AE
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004095BC(U)
+|
+:004095EB 8B8188010000            mov eax, dword ptr [ecx+00000188]
+:004095F1 D1F8                    sar eax, 1
+:004095F3 03F8                    add edi, eax
+:004095F5 EBB7                    jmp 004095AE
+:004095F7 90                      nop
+
+
+Extra 2: (magical damage adjust)
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F4B5(U)
+|
+:00707310 8B8664DD6900            mov eax, dword ptr [esi+0069DD64]
+:00707316 3D89000000              cmp eax, 00000089
+:0070731B 7505                    jne 00707322
+:0070731D C1FF02                  sar edi, 02
+:00707320 EB0C                    jmp 0070732E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070731B(C)
+|
+:00707322 80BE44DD690000          cmp byte ptr [esi+0069DD44], 00
+:00707329 7403                    je 0070732E
+:0070732B C1FF01                  sar edi, 01
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00707320(U), :00707329(C)
+|
+:0070732E E99381D2FF              jmp 0042F4C6
+:00707333 90                      nop
+
+
+
+======================================================================================================

@@ -1,0 +1,48 @@
+int __fastcall SetupScreenResolution(HWND hWnd)
+{
+  int v1; // ecx@1
+  HWND v2; // esi@1
+  int v3; // eax@3
+  DWORD v4; // eax@5
+  DWORD v5; // eax@10
+  int v7; // edi@10
+  int v8; // eax@10
+  HWND v9; // [sp+2Ch] [bp-4h]@1
+
+  v2 = hWnd;
+  v9 = hWnd;
+  SetFocus(hWnd);
+  ShowWindow(v2, 1);
+  v1 = 0;
+  if ( byte_57A20C )
+    v1 = 2;
+  v3 = sub_417FB1(v1, (int)FuncTablePtr, 0);
+  if ( v3 )
+    ErrorIn_CPP_File(104, v3, "dx.cpp", 149);
+  dword_495358 = 1;
+  v4 = (*(int (__stdcall **)(_DWORD, _DWORD, _DWORD))(*FuncTablePtr[0] + 80))(FuncTablePtr[0], v2, 19);
+  if ( v4 == -2005532091 )
+  {
+    nullsub_1();
+  }
+  else
+  {
+    if ( v4 )
+      ErrorIn_CPP_File(104, v4, "dx.cpp", 170);
+  }
+  if ( (*(int (__stdcall **)(_DWORD, _DWORD, _DWORD, _DWORD))(*FuncTablePtr[0] + 84))(FuncTablePtr[0], 640, 480, 8) )
+  {
+    v7 = GetSystemMetrics(0);
+    v8 = GetSystemMetrics(1);
+    v5 = (*(int (__stdcall **)(_DWORD, _DWORD, _DWORD, _DWORD))(*FuncTablePtr[0] + 84))(FuncTablePtr[0], v7, v8, 8);
+    v2 = v9;
+    if ( v5 )
+      ErrorIn_CPP_File(104, v5, "dx.cpp", 183);
+  }
+  sub_417F59();
+  WithPaletteCopy2();
+  GdiSetBatchLimit(1u);
+  sub_417E4C();
+  return storm_351(v2, FuncTablePtr[0], FuncTablePtr[5], 0, 0, FuncTablePtr[4], FuncTablePtr[1], 0);
+}
+

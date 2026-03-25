@@ -1,0 +1,511 @@
+1:28 12.10.2012
+
+PvM Missile: base weapon damage + damage affixes (crits, ruin and character base damage: unaffected) capped at:
+	 Horror & Purgatory:
+	CLVL 1-23: CLVL*9,
+	CLVL 24: CLVL*10,
+	CLVL 25: CLVL*11,
+	CLVL 26: CLVL*12,
+	CLVL 27: CLVL*13,
+	CLVL 28: CLVL*14,
+	CLVL 29-50: CLVL*15,
+	 Doom:
+	CLVL 1-23: CLVL*9,
+	CLVL 24: CLVL*10
+	CLVL 25: CLVL*11,
+	CLVL 26: CLVL*12,
+	CLVL 27: CLVL*13,
+	CLVL 28: CLVL*14,
+	CLVL 29-30: CLVL*15,
+	CLVL 31-32: CLVL*16,
+	CLVL 33-34: CLVL*17,
+	CLVL 35-36: CLVL*18,
+	CLVL 37-38: CLVL*19,
+	CLVL 39-40: CLVL*20,
+	CLVL 41: CLVL*21,
+	CLVL 42: CLVL*22,
+	CLVL 43: CLVL*23,
+	CLVL 44: CLVL*24,
+	CLVL 45: CLVL*25,
+	CLVL 46: CLVL*26,
+	CLVL 47: CLVL*27,
+	CLVL 48: CLVL*28,
+	CLVL 49: CLVL*29,
+	CLVL 50: CLVL*30;
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F4AB(U)
+|
+:00714450 50                      push eax
+:00714451 0FBE81B8010000          movsx eax, byte ptr [ecx+000001B8]
+:00714458 EB16                    jmp 00714470
+:0071445A 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007144B5(U)
+|
+:0071445B 3BF8                    cmp edi, eax
+:0071445D 7E02                    jle 00714461
+:0071445F 8BF8                    mov edi, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071445D(C)
+|
+:00714461 58                      pop eax
+:00714462 90                      nop
+:00714463 90                      nop
+:00714464 90                      nop
+:00714465 90                      nop
+:00714466 90                      nop
+:00714467 90                      nop
+:00714468 90                      nop
+:00714469 90                      nop
+:0071446A 90                      nop
+:0071446B E90E51CFFF              jmp 0040957E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714458(U)
+|
+:00714470 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00714477 7418                    je 00714491
+:00714479 833DC070600002          cmp dword ptr [006070C0], 00000002
+:00714480 7471                    je 007144F3
+:00714482 EB0D                    jmp 00714491
+:00714484 90                      nop
+:00714485 90                      nop
+:00714486 90                      nop
+:00714487 90                      nop
+:00714488 90                      nop
+:00714489 90                      nop
+:0071448A 90                      nop
+:0071448B 90                      nop
+:0071448C 90                      nop
+:0071448D 90                      nop
+:0071448E 90                      nop
+:0071448F 90                      nop
+:00714490 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00714477(C), :00714482(U)
+|
+:00714491 83F818                  cmp eax, 00000018
+:00714494 7C21                    jl 007144B7
+:00714496 7429                    je 007144C1
+:00714498 83F819                  cmp eax, 00000019
+:0071449B 742E                    je 007144CB
+:0071449D 83F81A                  cmp eax, 0000001A
+:007144A0 7433                    je 007144D5
+:007144A2 83F81B                  cmp eax, 0000001B
+:007144A5 7438                    je 007144DF
+:007144A7 83F81C                  cmp eax, 0000001C
+:007144AA 743D                    je 007144E9
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714514(C)
+|
+:007144AC 53                      push ebx
+:007144AD 8BD8                    mov ebx, eax
+:007144AF C1E004                  shl eax, 04
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714561(U)
+|
+:007144B2 2BC3                    sub eax, ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007144BF(U)
+|
+:007144B4 5B                      pop ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714569(U)
+|
+:007144B5 EBA4                    jmp 0071445B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00714494(C), :007144F6(C)
+|
+:007144B7 53                      push ebx
+:007144B8 8BD8                    mov ebx, eax
+:007144BA C1E003                  shl eax, 03
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007144C9(U), :00714574(U)
+|
+:007144BD 03C3                    add eax, ebx
+:007144BF EBF3                    jmp 007144B4
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00714496(C), :007144FB(C)
+|
+:007144C1 53                      push ebx
+:007144C2 8BD8                    mov ebx, eax
+:007144C4 C1E003                  shl eax, 03
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007144D3(U)
+|
+:007144C7 03C3                    add eax, ebx
+:007144C9 EBF2                    jmp 007144BD
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071449B(C), :00714500(C)
+|
+:007144CB 53                      push ebx
+:007144CC 8BD8                    mov ebx, eax
+:007144CE C1E003                  shl eax, 03
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007144DD(U)
+|
+:007144D1 03C3                    add eax, ebx
+:007144D3 EBF2                    jmp 007144C7
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007144A0(C), :00714505(C)
+|
+:007144D5 53                      push ebx
+:007144D6 8BD8                    mov ebx, eax
+:007144D8 C1E003                  shl eax, 03
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007144E7(U)
+|
+:007144DB 03C3                    add eax, ebx
+:007144DD EBF2                    jmp 007144D1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007144A5(C), :0071450A(C)
+|
+:007144DF 53                      push ebx
+:007144E0 8BD8                    mov ebx, eax
+:007144E2 C1E003                  shl eax, 03
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007144F1(U)
+|
+:007144E5 03C3                    add eax, ebx
+:007144E7 EBF2                    jmp 007144DB
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007144AA(C), :0071450F(C)
+|
+:007144E9 53                      push ebx
+:007144EA 8BD8                    mov ebx, eax
+:007144EC C1E003                  shl eax, 03
+:007144EF 03C3                    add eax, ebx
+:007144F1 EBF2                    jmp 007144E5
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714480(C)
+|
+:007144F3 83F818                  cmp eax, 00000018
+:007144F6 7CBF                    jl 007144B7
+:007144F8 83F819                  cmp eax, 00000019
+:007144FB 7CC4                    jl 007144C1
+:007144FD 83F81A                  cmp eax, 0000001A
+:00714500 7CC9                    jl 007144CB
+:00714502 83F81B                  cmp eax, 0000001B
+:00714505 7CCE                    jl 007144D5
+:00714507 83F81C                  cmp eax, 0000001C
+:0071450A 7CD3                    jl 007144DF
+:0071450C 83F81D                  cmp eax, 0000001D
+:0071450F 7CD8                    jl 007144E9
+:00714511 83F81F                  cmp eax, 0000001F
+:00714514 7C96                    jl 007144AC
+:00714516 83F821                  cmp eax, 00000021
+:00714519 7C4B                    jl 00714566
+:0071451B 83F823                  cmp eax, 00000023
+:0071451E 7C4E                    jl 0071456E
+:00714520 83F825                  cmp eax, 00000025
+:00714523 7C54                    jl 00714579
+:00714525 83F827                  cmp eax, 00000027
+:00714528 7C59                    jl 00714583
+:0071452A 83F829                  cmp eax, 00000029
+:0071452D 7C5E                    jl 0071458D
+:0071452F 7466                    je 00714597
+:00714531 83F82A                  cmp eax, 0000002A
+:00714534 746B                    je 007145A1
+:00714536 83F82B                  cmp eax, 0000002B
+:00714539 7470                    je 007145AB
+:0071453B 83F82C                  cmp eax, 0000002C
+:0071453E 7475                    je 007145B5
+:00714540 83F82D                  cmp eax, 0000002D
+:00714543 747A                    je 007145BF
+:00714545 83F82E                  cmp eax, 0000002E
+:00714548 747F                    je 007145C9
+:0071454A 83F82F                  cmp eax, 0000002F
+:0071454D 747C                    je 007145CB
+:0071454F 83F830                  cmp eax, 00000030
+:00714552 7479                    je 007145CD
+:00714554 83F831                  cmp eax, 00000031
+:00714557 747E                    je 007145D7
+:00714559 53                      push ebx
+:0071455A 8BD8                    mov ebx, eax
+:0071455C C1E005                  shl eax, 05
+:0071455F 2BC3                    sub eax, ebx
+:00714561 E94CFFFFFF              jmp 007144B2
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714519(C)
+|
+:00714566 C1E004                  shl eax, 04
+:00714569 E947FFFFFF              jmp 007144B5
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071451E(C)
+|
+:0071456E 53                      push ebx
+:0071456F 8BD8                    mov ebx, eax
+:00714571 C1E004                  shl eax, 04
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714581(U)
+|
+:00714574 E944FFFFFF              jmp 007144BD
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714523(C)
+|
+:00714579 53                      push ebx
+:0071457A 8BD8                    mov ebx, eax
+:0071457C C1E004                  shl eax, 04
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071458B(U)
+|
+:0071457F 03C3                    add eax, ebx
+:00714581 EBF1                    jmp 00714574
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714528(C)
+|
+:00714583 53                      push ebx
+:00714584 8BD8                    mov ebx, eax
+:00714586 C1E004                  shl eax, 04
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714595(U)
+|
+:00714589 03C3                    add eax, ebx
+:0071458B EBF2                    jmp 0071457F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071452D(C)
+|
+:0071458D 53                      push ebx
+:0071458E 8BD8                    mov ebx, eax
+:00714590 C1E004                  shl eax, 04
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071459F(U)
+|
+:00714593 03C3                    add eax, ebx
+:00714595 EBF2                    jmp 00714589
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071452F(C)
+|
+:00714597 53                      push ebx
+:00714598 8BD8                    mov ebx, eax
+:0071459A C1E004                  shl eax, 04
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007145A9(U)
+|
+:0071459D 03C3                    add eax, ebx
+:0071459F EBF2                    jmp 00714593
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714534(C)
+|
+:007145A1 53                      push ebx
+:007145A2 8BD8                    mov ebx, eax
+:007145A4 C1E004                  shl eax, 04
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007145B3(U)
+|
+:007145A7 03C3                    add eax, ebx
+:007145A9 EBF2                    jmp 0071459D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714539(C)
+|
+:007145AB 53                      push ebx
+:007145AC 8BD8                    mov ebx, eax
+:007145AE C1E004                  shl eax, 04
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007145BD(U)
+|
+:007145B1 03C3                    add eax, ebx
+:007145B3 EBF2                    jmp 007145A7
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071453E(C)
+|
+:007145B5 53                      push ebx
+:007145B6 8BD8                    mov ebx, eax
+:007145B8 C1E004                  shl eax, 04
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007145C7(U)
+|
+:007145BB 03C3                    add eax, ebx
+:007145BD EBF2                    jmp 007145B1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714543(C)
+|
+:007145BF 53                      push ebx
+:007145C0 8BD8                    mov ebx, eax
+:007145C2 C1E004                  shl eax, 04
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007145E9(U)
+|
+:007145C5 03C3                    add eax, ebx
+:007145C7 EBF2                    jmp 007145BB
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714548(C)
+|
+:007145C9 EB16                    jmp 007145E1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071454D(C)
+|
+:007145CB EB1E                    jmp 007145EB
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714552(C)
+|
+:007145CD 53                      push ebx
+:007145CE 8BD8                    mov ebx, eax
+:007145D0 C1E004                  shl eax, 04
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007145DF(U)
+|
+:007145D3 03C3                    add eax, ebx
+:007145D5 EB1A                    jmp 007145F1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714557(C)
+|
+:007145D7 53                      push ebx
+:007145D8 8BD8                    mov ebx, eax
+:007145DA C1E004                  shl eax, 04
+:007145DD 03C3                    add eax, ebx
+:007145DF EBF2                    jmp 007145D3
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007145C9(U)
+|
+:007145E1 53                      push ebx
+:007145E2 8BD8                    mov ebx, eax
+:007145E4 C1E004                  shl eax, 04
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007145F3(U)
+|
+:007145E7 03C3                    add eax, ebx
+:007145E9 EBDA                    jmp 007145C5
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007145CB(U)
+|
+:007145EB 53                      push ebx
+:007145EC 8BD8                    mov ebx, eax
+:007145EE C1E004                  shl eax, 04
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007145D5(U)
+|
+:007145F1 03C3                    add eax, ebx
+:007145F3 EBF2                    jmp 007145E7
+:007145F5 90                      nop
+:007145F6 90                      nop
+
+==============================================================================
+
+Maximum damage for characters, to prevent disappointing easy Boss kills. This also limits Life and Mana Stealing in Melee.
+
+
+Max. Final Damage = clvl*64
+
+
+Arrows/Spells:  (missile..)
+
+File Offset 0002E8E3
+
+:0042F4E3 29BE1CDD6900            sub dword ptr [esi+0069DD1C], edi
+wordt
+:0042F4E3 E833100000              call 0043051B
+:0042F4E8 90                      nop
+
+Melee:
+
+File Offset 0005B01A
+
+:0045BC1A 29BB1CDD6900            sub dword ptr [ebx+0069DD1C], edi
+wordt
+:0045BC1A E80C49FDFF              call 0043052B
+:0045BC1F 90                      nop
+
+
+Using space from Charm spell:
+
+File Offset 0002F91B
+
+:0043051B 90                      nop
+:0043051C 8945F8                  mov dword ptr [ebp-08], eax
+:0043051F DB45F8                  fild dword ptr [ebp-08]
+:00430522 0FB6864EDD6900          movzx eax, byte ptr [esi+0069DD4E]
+:00430529 DC0DB8004900            fmul qword ptr [004900B8]
+:0043052F 8945F8                  mov dword ptr [ebp-08], eax
+:00430532 DC25C0004900            fsub qword ptr [004900C0]
+:00430538 DB45F8                  fild dword ptr [ebp-08]
+:0043053B DEC9                    fmulp st(1), st(0)
+:0043053D DC45EC                  fadd qword ptr [ebp-14]
+:00430540 6A01                    push 00000001
+:00430542 58                      pop eax
+:00430543 90                      nop
+:00430544 90                      nop
+:00430545 8BD3                    mov edx, ebx
+:00430547 B191                    mov cl, 91
+:00430549 88864DDD6900            mov byte ptr [esi+0069DD4D], al
+:0043054F E8069AFEFF              call 00419F5A
+:00430554 03C7                    add eax, edi
+:00430556 8945F8                  mov dword ptr [ebp-08], eax
+:00430559 DB45F8                  fild dword ptr [ebp-08]
+wordt
+:0043051B 51                      push ecx
+:0043051C 8BCB                    mov ecx, ebx
+:0043051E E819000000              call 0043053C
+:00430523 59                      pop ecx
+:00430524 29BE1CDD6900            sub dword ptr [esi+0069DD1C], edi
+:0043052A C3                      ret
+
+:0043052B 51                      push ecx
+:0043052C 8D0C30                  lea ecx, dword ptr [eax+esi]
+:0043052F E815000000              call 00430549				
+:00430534 59                      pop ecx
+:00430535 29BB1CDD6900            sub dword ptr [ebx+0069DD1C], edi
+:0043053B C3                      ret
+
+:0043053C 69C9C8550000            imul ecx, 000055C8
+:00430542 A114AE6E00              mov eax, dword ptr [006EAE14]
+:00430547 03C8                    add ecx, eax
+
+:00430549 52                      push edx
+:0043054A 0FBE91B8010000          movsx edx, byte ptr [ecx+000001B8]			edx = CLVL
+:00430551 C1E20C                  shl edx, 0C						multiply edx by 0C ???        here it's capped at CLVL*64
+:00430554 3BD7                    cmp edx, edi						compare edx to edi
+:00430556 7D02                    jge 0043055A						Jump if Greater or Equal to 0043055A
+:00430558 8BFA                    mov edi, edx						copy edx to edi
+:0043055A 5A                      pop edx							record stack's top value as edx ???
+:0043055B C3                      ret								return from call

@@ -1,0 +1,417 @@
+﻿    Degeneration of life & mana:
+
+            Life:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071621B(U)
+|
+:0071BC88 803D00CB61000E          cmp byte ptr [0061CB00], 0E
+:0071BC8F 741F                    je 0071BCB0
+:0071BC91 803D00CB61000F          cmp byte ptr [0061CB00], 0F
+:0071BC98 7446                    je 0071BCE0
+:0071BCA0 E98AA5FFFF              jmp 0071622F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071BC8F(C)
+|
+:0071BCB0 50                      push eax
+:0071BCB1 A1C0706000              mov eax, dword ptr [006070C0]
+:0071BCB6 85C0                    test eax, eax
+:0071BCB8 7409                    je 0071BCC3
+:0071BCBA 48                      dec eax
+:0071BCBB 750C                    jne 0071BCC9
+:0071BCBD 58                      pop eax
+:0071BCBE 83EB04                  sub ebx, 00000004
+:0071BCC1 EB0F                    jmp 0071BCD2
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071BCB8(C)
+|
+:0071BCC3 58                      pop eax
+:0071BCC4 83EB02                  sub ebx, 00000002
+:0071BCC7 EB09                    jmp 0071BCD2
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071BCBB(C)
+|
+:0071BCC9 58                      pop eax
+:0071BCCA 83EB06                  sub ebx, 00000006
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071BCC1(U), :0071BCC7(U), :0071BD02(U)
+|
+:0071BCD2 E958A5FFFF              jmp 0071622F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071BC98(C)
+|
+:0071BCE0 50                      push eax
+:0071BCE1 A1C0706000              mov eax, dword ptr [006070C0]
+:0071BCE6 85C0                    test eax, eax
+:0071BCE8 7409                    je 0071BCF3
+:0071BCEA 48                      dec eax
+:0071BCEB 750C                    jne 0071BCF9
+:0071BCED 58                      pop eax
+:0071BCEE 83EB06                  sub ebx, 00000006
+:0071BCF1 EB0F                    jmp 0071BD02
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071BCE8(C)
+|
+:0071BCF3 58                      pop eax
+:0071BCF4 83EB04                  sub ebx, 00000004
+:0071BCF7 EB09                    jmp 0071BD02
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071BCEB(C)
+|
+:0071BCF9 58                      pop eax
+:0071BCFA 83EB08                  sub ebx, 00000008
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071BCF1(U), :0071BCF7(U)
+|
+:0071BD02 EBCE                    jmp 0071BCD2
+
+            Mana:
+
+
+
+
+:0045DC38 F684304355000008        test byte ptr [eax+esi+00005543], 08
+test no regen
+if no
+================================================================
+
+ Надо какую-то фичу для уровня
+варианты:
+
+ 1) уменьшение меткости персонажа на 10% в льдах и на 20% в мерзлоте
+ 2) замедлить скорость атак и кастов на 1 фрейм в льдах и 2 фрейма в мерзлоте
+ 3) уменьшение АС на 10 в льдах и на 20 в мерзлоте
+ 4) + DFE: 14я: +2, 15я: +5
+
+[1:51:41] Ярик: [1:37] Ярик: 
+
+<<< 718868тут вклиниваешься
+[1:51:47] Ярик: Проверяешь квест локу
+[1:52:00] Ярик: [1:31] Ярик: 
+
+<<< Значит dword ptr [ebp - 40h] и есть AC[1:32] Ярик: 
+
+<<< add dword ptr [ebp - 48h], eax
+ту хит
+add dword ptr [ebp - 58h], eax
+дфе
+
+           сhek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718868(U)
+|
+:0071C030 90                      nop
+:0071C031 90                      nop
+:0071C032 803D14F3610001          cmp byte ptr [0061F314], 01
+:0071C039 751E                    jne 0071C059
+:0071C03B 803D00CB61000E          cmp byte ptr [0061CB00], 0E
+:0071C042 741C                    je 0071C060
+:0071C044 803D00CB61000F          cmp byte ptr [0061CB00], 0F
+:0071C04B 7423                    je 0071C070
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071C039(C), :0071C06C(U), :0071C07C(U)
+|
+:0071C059 E911C8FFFF              jmp 0071886F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071C042(C)
+|
+:0071C060 836DC00A                sub dword ptr [ebp-40], 0000000A
+:0071C064 836DB80A                sub dword ptr [ebp-48], 0000000A
+:0071C068 8345A802                add dword ptr [ebp-58], 00000002
+:0071C06C EBEB                    jmp 0071C059
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071C04B(C)
+|
+:0071C070 836DC014                sub dword ptr [ebp-40], 00000014
+:0071C074 836DB814                sub dword ptr [ebp-48], 00000014
+:0071C078 8345A802                add dword ptr [ebp-58], 00000002
+:0071C07C EBDB                    jmp 0071C059
+
+
+=============================================================
+
+    Gimping attacks
+
+[13:49:02] Ярик: Между присваиванием и проверкой отними от ebx 1-2
+[13:49:17] Ярик: Это увеличит задержку после анимации у мили атак
+[13:49:33] Ярик: Посмотрим как будет смотреться
+.text:0045D4A4                 mov     ebx, [eax+140]
+.text:0045D4AA                 imul    edx, 55C8h
+.text:0045D4B0                 cmp     ebx, [edx+edi+676]
+
+
+     Дальняя атака. Та же хрень только тут edi
+.text:0045D677                 mov     edi, [eax+8Ch]
+.text:0045D67D                 imul    edx, 55C8h
+.text:0045D683                 cmp     edi, [edx+ecx+2A4h]
+
+         Спелы. ecx
+.text:0045D746                 mov     ecx, [eax+8Ch]
+.text:0045D74C                 cmp     ecx, [eax+310h]
+_____________________________________________
+Pseudocode:
+
+@AttackGimpCalc / E8A50 ( 71BE50 )
+
+cmp byte ptr [0061F314h], 01
+jne @exit
+cmp byte ptr [0061CB00h], 0Eh
+je @ice
+cmp dword ptr [0061CB00h], 0Fh
+je @frozen
+jmp @exit
+;free _
+
+@ice
+push 02
+jmp @ret_value_with_pop
+
+@frozen
+push 04
+
+@ret_value_with_pop
+pop eax
+retn
+
+@exit
+push 00
+jmp @ret_value_with_pop
+
+
+
+ Melee:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045D4AA(U)
+|
+:0071BE30 69D2C8550000            imul edx, 000055C8
+:0071BE36 50                      push eax
+:0071BE37 E814000000              call 0071BE50
+:0071BE3C 29C3                    sub ebx, eax
+:0071BE3E 58                      pop eax
+:0071BE40 E96B16D4FF              jmp 0045D4B0
+
+ Arrows:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045D67D(U)
+|
+:0071BF00 69D2C8550000            imul edx, 000055C8
+:0071BF06 50                      push eax
+:0071BF07 E844FFFFFF              call 0071BE50
+:0071BF0C 29C7                    sub edi, eax
+:0071BF0E 58                      pop eax
+:0071BF10 E96E17D4FF              jmp 0045D683
+
+ Spells:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045D746(U)
+|
+:0071BF20 8B888C000000            mov ecx, dword ptr [eax+0000008C]
+:0071BF26 50                      push eax
+:0071BF27 E824FFFFFF              call 0071BE50
+:0071BF2C 29C1                    sub ecx, eax
+:0071BF2E 58                      pop eax
+:0071BF30 E91718D4FF              jmp 0045D74C
+
+Всё работает
+Только с луком непонятно
+
+=====================================================
+
+Добавление босса на квест локу просто как два пальца переслать
+;.mod:00717790                 jnz     loc_43C675
+;.mod:007177A2                 jmp     loc_43C675
+
+Оба адреса меняем на @newLoc / e7510
+
+@newLoc:
+cmp     byte ptr [61CB00], 12
+jnz     loc_43C675
+mov     ecx, @izualBossIndex
+jmp 71779D
+
+Вот добавление изуала
+[21:59:01] Ярик: Все просто до невозможности. Пристраиваемся паровозиком куда то в середину. 
+(Я бы пристроился в конец предыдущего .mod:0071A917                 jnz     loc_43C675)
+
+Дальше проверяем номер квест локи.
+И если нужная, то пихаем в ecx индекс нужного босса, после чего прыгаем сюды 71779D
+Если не нужная, то прыгаем туда, куда прыгал код к которому мы пристроились
+
+Это только добавит на локу босса. В любое свободное место.
+
+Если боссов больще одного. То последнего добавляем добавлением в ecx - его индекса и прыжка в 71779D
+А остальных конструкциями
+mov     ecx, @bossIndex
+call    sub_717750
+
+=======================================================
+
+.mod:007177D0                 jnz     loc_43BC1B
+
+меняем на @newLoc
+
+@newLoc: / e7580
+cmp     edx, @izualBossIndex
+jnz     loc_43BC1B
+push    50 ; координаты. Надо подбирать
+pop     edi
+push    50
+pop     ebx
+jmp     loc_43BC1B
+
+Тут тоже пристраиваемся паровозиком. В jnz. Проеряем edx на нужный индекс. Если не подходит, то прыгаем туда же куда прыгал затертый код. Если нужный, то в edi - row, в ebx - col и прыгаем на  43BC1B по образцу
+
+===========================================================
+
+Действия после смерти босса
+
+;.mod:00717B4E                 jnz     loc_7181BE
+
+00717B4E jnz @newLoc
+>>>
+@newLoc:
+cmp     edi, 246h
+jnz 7181BE
+@killIzual:
+; 1. завершение квеста
+mov     eax, 17
+imul    eax, 1Ch
+add     eax, 006EB358 ; offset Quests
+mov     byte ptr [eax+2], 3 ; квест завершен
+
+jmp     loc_45FF54
+
+Традиционно пристраиваемся в середину. В jnz
+Проверяем в edi наш босс индекс. Если не наш, прыгаем туда же, куда пригал затертый код. Если наш, то производим действия нужные и прыгаем на return (45FF54)
+
+Чтобы сделать квест завершенным - нужно 2му байту записи квеста присвоить 3. 
+Можно либо сразу вычислить адрес этого байта, либо как тут, умножать индекс квеста на размер записи квеста, прибавить начало таблицы квестов и прибавить 2.
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071AA76(C)
+|
+:0071C000 81FF47020000            cmp edi, 00000247
+:0071C006 0F85B2C1FFFF            jne 007181BE
+:0071C010 6A13                    push 00000013
+:0071C012 58                      pop eax
+:0071C013 6BC01C                  imul eax, 0000001C
+:0071C016 0558B36E00              add eax, 006EB358
+:0071C01B C6400203                mov [eax+02], 03
+:0071C01F E9303FD4FF              jmp 0045FF54
+
+==========================================================
+
+.dat2:00A350A0 off_A350A0      dd offset dword_A33E70  ; DATA XREF: sub_716400:loc_716436o
+.dat2:00A350A0                                         ; sub_716440+7o ...
+.dat2:00A350A4                 db    3
+.dat2:00A350A5                 db    1
+.dat2:00A350A6                 db    0
+.dat2:00A350A7                 db    0
+.dat2:00A350A8                 dd offset dword_4B6B10
+.dat2:00A350AC                 db    3
+.dat2:00A350AD                 db    2
+.dat2:00A350AE                 db    0
+.dat2:00A350AF                 db    0
+.dat2:00A350B0                 dd offset dword_4B6B20
+.dat2:00A350B4                 db    3
+.dat2:00A350B5                 db    2
+.dat2:00A350B6                 db    0
+.dat2:00A350B7                 db    0
+.dat2:00A350B8                 dd offset dword_4B6B30
+.dat2:00A350BC                 db    3
+.dat2:00A350BD                 db    2
+.dat2:00A350BE                 db    0
+.dat2:00A350BF                 db    0
+.dat2:00A350C0                 dd offset unk_A35050
+.dat2:00A350C4                 db    5
+.dat2:00A350C5                 db    2
+.dat2:00A350C6                 db    0
+.dat2:00A350C7                 db    0
+
+Начиная с 00A350A0 прописано 5 квестовых групп. Размер инфы о каждой группе - 8 байт
+Первый дворд - это указатель на массив индексов квестов. Далее байт - сколько квестов в группе. И наконец 3й байт - сколько квестов из группы будет включено. Чтобы добавить новый квест - надо в массив по указателю добавить новый дворд индекса в конец (расширив если места больше нет). И поменять количество квестов в квест группе и сколько из них выбирать
+
+==============================================
+
+00717536 jg @izualQuestCheck
+>>>
+@izualQuestCheck:
+cmp     al, 11
+jz @firePasCheck
+cmp al, 12
+jnz loc_41E3CF ; церковная загрузка по дефолту
+@izualHallCheck:
+; оставить место.
+jmp 0041E3DF ; портал при выходе из локи изи
+@firePasCheck:
+cmp byte ptr [00A352C0h], 0 ; если идем не из квестовой локи (из бездны)
+jz 0041E4A3
+cmp byte ptr [00A34170h], 12 ; NewQuestLocIndex
+jz @izualCut
+jmp 41E488
+@izualCut:
+xor     edx, edx
+mov     ecx, "Gendata\\IzualCut.cel"
+call    sub_41A02F
+mov     ecx, "Gendata\\IzualCut.pal"
+mov     dword_6854F8, eax
+call    sub_45552B
+mov     dword_685500, 1
+jmp     loc_41E554
+
+Новые картинки прописываются по образцу
+Меняем только имя файла картинки и палитры
+
+Для создания
+опять прицепляемся паровозиком к jnz
+Для однокомнатных лок все просто. Картинка входа на них и выхода с них одинаковые. 
+Для многокомнатных сложнее. Надо решить в какой момент какая картинка и в соответсвии с этим писать проверки.
+
+из города в локу 1: как вход из города в церковь
+из  локи 1 в город: такая же картинка
+из 1 в 2: скрин лестницы вниз в церкви
+из 2 в 1, из 2 в 3 и из 3 в 2: пещерная заставка
+
+;:0071A87A 0F854F3BD0FF            jne 0041E3CF
+
+0071A87A >>>
+>>>
+cmp     al, 13
+jz @treasure1Check
+cmp     al, 14
+jz @treasure2Check
+cmp     al, 15
+jnz 0041E3CF
+
+@treasure3Check:
+@frozenHallsCut:
+xor     edx, edx
+mov     ecx, "Gendata\\frozenHallsCut.cel"
+call    sub_41A02F
+mov     ecx, "Gendata\\frozenHallsCut.pal"
+mov     dword_6854F8, eax
+call    sub_45552B
+mov     dword_685500, 1
+jmp     loc_41E554
+
+@treasure2Check:
+jmp @frozenHallsCut ; вроде так, но место оставить
+
+@treasure1Check:
+jmp 41E3CF
+
+

@@ -1,0 +1,310 @@
+Holy Bolt damage formula set to: minDmg baseMAG+5, maxDmg baseMAG+10
+for Purgatory: 2x damage
+for Doom: 4x damage
+
+Extra code:
+(for old code scroll to the bottom)
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004353D4(U)
+|
+:00706A30 50                      push eax
+:00706A31 A1C0706000              mov eax, dword ptr [006070C0]
+:00706A36 83F801                  cmp eax, 00000001
+:00706A39 7408                    je 00706A43
+:00706A3B 83F802                  cmp eax, 00000002
+:00706A3E 7409                    je 00706A49
+:00706A40 58                      pop eax
+:00706A41 EB0A                    jmp 00706A4D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706A39(C)
+|
+:00706A43 58                      pop eax
+:00706A44 C1E001                  shl eax, 01
+:00706A47 EB04                    jmp 00706A4D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706A3E(C)
+|
+:00706A49 58                      pop eax
+:00706A4A C1E002                  shl eax, 02
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00706A41(U), :00706A47(U)
+|
+:00706A4D 8986D47A6900            mov dword ptr [esi+00697AD4], eax
+:00706A53 E982E9D2FF              jmp 004353DA
+:00706A58 90                      nop
+:00706A59 90                      nop
+:00706A5A 90                      nop
+:00706A5B 90                      nop
+:00706A5C 90                      nop
+:00706A5D 90                      nop
+:00706A5E 90                      nop
+:00706A5F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042ED27(U)
+|
+:00706A60 0FB68070010000          movzx eax, byte ptr [eax+00000170]
+:00706A67 83C005                  add eax, 00000005
+:00706A6A 50                      push eax
+:00706A6B A1C0706000              mov eax, dword ptr [006070C0]
+:00706A70 83F801                  cmp eax, 00000001
+:00706A73 7408                    je 00706A7D
+:00706A75 83F802                  cmp eax, 00000002
+:00706A78 7409                    je 00706A83
+:00706A7A 58                      pop eax
+:00706A7B EB0A                    jmp 00706A87
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706A73(C)
+|
+:00706A7D 58                      pop eax
+:00706A7E C1E001                  shl eax, 01
+:00706A81 EB04                    jmp 00706A87
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706A78(C)
+|
+:00706A83 58                      pop eax
+:00706A84 C1E002                  shl eax, 02
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00706A7B(U), :00706A81(U)
+|
+:00706A87 8902                    mov dword ptr [edx], eax
+:00706A89 A1E8AD6E00              mov eax, dword ptr [006EADE8]
+:00706A8E 69C0C8550000            imul eax, 000055C8
+:00706A94 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:00706A9A 0FB6840870010000        movzx eax, byte ptr [eax+ecx+00000170]
+:00706AA2 83C00A                  add eax, 0000000A
+:00706AA5 50                      push eax
+:00706AA6 A1C0706000              mov eax, dword ptr [006070C0]
+:00706AAB 83F801                  cmp eax, 00000001
+:00706AAE 7408                    je 00706AB8
+:00706AB0 83F802                  cmp eax, 00000002
+:00706AB3 7409                    je 00706ABE
+:00706AB5 58                      pop eax
+:00706AB6 EB0A                    jmp 00706AC2
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706AAE(C)
+|
+:00706AB8 58                      pop eax
+:00706AB9 C1E001                  shl eax, 01
+:00706ABC EB04                    jmp 00706AC2
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706AB3(C)
+|
+:00706ABE 58                      pop eax
+:00706ABF C1E002                  shl eax, 02
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00706AB6(U), :00706ABC(U)
+|
+:00706AC2 E98882D2FF              jmp 0042ED4F
+:00706AC7 90                      nop
+:00706AC8 90                      nop
+:00706AC9 90                      nop
+:00706ACA 90                      nop
+:00706ACB 90                      nop
+:00706ACC 90                      nop
+:00706ACD 90                      nop
+:00706ACE 90                      nop
+:00706ACF 90                      nop
+
+
+===========================================================================
+===============================================================================================
+===========================================================================
+
+
+Revision 2:
+for Doom: +200% damage
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004353D4(U)
+|
+:00706A30 50                      push eax
+:00706A31 A1C0706000              mov eax, dword ptr [006070C0]
+:00706A36 83F801                  cmp eax, 00000001
+:00706A39 7408                    je 00706A43
+:00706A3B 83F802                  cmp eax, 00000002
+:00706A3E 7409                    je 00706A49
+:00706A40 58                      pop eax
+:00706A41 EB0A                    jmp 00706A4D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706A39(C)
+|
+:00706A43 58                      pop eax
+:00706A44 C1E001                  shl eax, 01
+:00706A47 EB04                    jmp 00706A4D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706A3E(C)
+|
+:00706A49 58                      pop eax
+:00706A4A 8D0440                  lea eax, dword ptr [eax+2*eax]				<<<<<<
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00706A41(U), :00706A47(U)
+|
+:00706A4D 8986D47A6900            mov dword ptr [esi+00697AD4], eax
+:00706A53 E982E9D2FF              jmp 004353DA
+:00706A58 90                      nop
+:00706A59 90                      nop
+:00706A5A 90                      nop
+:00706A5B 90                      nop
+:00706A5C 90                      nop
+:00706A5D 90                      nop
+:00706A5E 90                      nop
+:00706A5F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042ED27(U)
+|
+:00706A60 0FB68070010000          movzx eax, byte ptr [eax+00000170]
+:00706A67 83C005                  add eax, 00000005
+:00706A6A 50                      push eax
+:00706A6B A1C0706000              mov eax, dword ptr [006070C0]
+:00706A70 83F801                  cmp eax, 00000001
+:00706A73 7408                    je 00706A7D
+:00706A75 83F802                  cmp eax, 00000002
+:00706A78 7409                    je 00706A83
+:00706A7A 58                      pop eax
+:00706A7B EB0A                    jmp 00706A87
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706A73(C)
+|
+:00706A7D 58                      pop eax
+:00706A7E C1E001                  shl eax, 01
+:00706A81 EB04                    jmp 00706A87
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706A78(C)
+|
+:00706A83 58                      pop eax
+:00706A84 8D0440                  lea eax, dword ptr [eax+2*eax]			<<<<<<<<<<<<<<<<<
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00706A7B(U), :00706A81(U)
+|
+:00706A87 8902                    mov dword ptr [edx], eax
+:00706A89 A1E8AD6E00              mov eax, dword ptr [006EADE8]
+:00706A8E 69C0C8550000            imul eax, 000055C8
+:00706A94 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:00706A9A 0FB6840870010000        movzx eax, byte ptr [eax+ecx+00000170]
+:00706AA2 83C00A                  add eax, 0000000A
+:00706AA5 50                      push eax
+:00706AA6 A1C0706000              mov eax, dword ptr [006070C0]
+:00706AAB 83F801                  cmp eax, 00000001
+:00706AAE 7408                    je 00706AB8
+:00706AB0 83F802                  cmp eax, 00000002
+:00706AB3 7409                    je 00706ABE
+:00706AB5 58                      pop eax
+:00706AB6 EB0A                    jmp 00706AC2
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706AAE(C)
+|
+:00706AB8 58                      pop eax
+:00706AB9 C1E001                  shl eax, 01
+:00706ABC EB04                    jmp 00706AC2
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706AB3(C)
+|
+:00706ABE 58                      pop eax
+:00706ABF 8D0440                  lea eax, dword ptr [eax+2*eax]				<<<<<<<<<<<<<<<<
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00706AB6(U), :00706ABC(U)
+|
+:00706AC2 E98882D2FF              jmp 0042ED4F
+:00706AC7 90                      nop
+:00706AC8 90                      nop
+:00706AC9 90                      nop
+:00706ACA 90                      nop
+:00706ACB 90                      nop
+:00706ACC 90                      nop
+:00706ACD 90                      nop
+:00706ACE 90                      nop
+:00706ACF 90                      nop
+
+
+====================================================================
+Speed formula revision:
+slvl*2 + 16, max=50
+into
+slvl+10, max=20
+
+:00435346 8D440008                lea eax, dword ptr [eax+eax+08]
+:0043534A 83F832                  cmp eax, 00000032
+:0043534D 7C07                    jl 00435356
+:0043534F 6A32                    push 00000032
+into:
+:00435346 83C00A                  add eax, 0000000A
+:00435349 90                      nop
+:0043534A 83F814                  cmp eax, 00000014
+:0043534D 7C07                    jl 00435356
+:0043534F 6A14                    push 00000014
+
+
+====================================================================
+
+
+:00429E06 8B92B0010000            mov edx, dword ptr [edx+000001B0]
+
+
+==========================================================================================
+==========================================================================================
+====================================================================
+====================================================================
+
+
+
+Old:
+....2008-04-14....
+
+Holy Bolt damage formula set to: minDmg baseMAG+5, maxDmg baseMAG+10
+
+
+spellboook:
+|
+:0042ECFC 8938                    mov dword ptr [eax], edi
+:0042ECFE E985010000              jmp 0042EE88
+:0042ED03 C70201000000            mov dword ptr [edx], 00000001
+:0042ED09 A1E8AD6E00              mov eax, dword ptr [006EADE8]
+:0042ED0E 69C0C8550000            imul eax, 000055C8
+:0042ED14 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0042ED1A 8B84086C010000          mov eax, dword ptr [eax+ecx+0000016C]
+:0042ED21 C1F802                  sar eax, 02
+:0042ED24 40                      inc eax
+:0042ED25 EB28                    jmp 0042ED4F
+:0042ED27 0FBE80B8010000          movsx eax, byte ptr [eax+000001B8]	> movzx .. [+170] baseMAG
+:0042ED2E 83C013                  add eax, 00000013			> +5
+:0042ED31 8902                    mov dword ptr [edx], eax
+:0042ED33 A1E8AD6E00              mov eax, dword ptr [006EADE8]
+:0042ED38 69C0C8550000            imul eax, 000055C8
+:0042ED3E 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0042ED44 0FBE8408B8010000        movsx eax, byte ptr [eax+ecx+000001B8]	> movzx ..[+170]
+:0042ED4C 83C026                  add eax, 00000026				> +10 (0Ah)
+
+the actual damage:
+
+:004353C1 69D2C8550000            imul edx, 000055C8
+:004353C7 0FBE943AB8010000        movsx edx, byte ptr [edx+edi+000001B8] 	> movzx [+170] baseMAG
+:004353CF 8D441013                lea eax, dword ptr [eax+edx+13]			> +5
+:004353D3 5A                      pop edx
+:004353D4 8986D47A6900            mov dword ptr [esi+00697AD4], eax
+:004353DA E81D6C0300              call 0046BFFC
+:004353DF 5F                      pop edi
+:004353E0 5E                      pop esi
+:004353E1 5B                      pop ebx
+:004353E2 C9                      leave
+:004353E3 C21C00                  ret 001C

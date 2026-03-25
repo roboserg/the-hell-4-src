@@ -1,0 +1,217 @@
+Zombie AI:
+
+jg:
+
+General
+1.          if out of light, exit
+2.          R = Rnd[100]
+
+Distance = 1
+1.          if R < 2텶ntf + 10, do melee attack, exit
+2.          continue to stand still
+
+Distance = 2 to 2텶ntf + 3
+1.          if R < 2텶ntf + 10, walk towards target, exit
+2.          continue to stand still
+
+Distance > 2텶ntf + 3
+1.          if R >= 2텶ntf + 10, continue to stand still, exit
+2.          calculate new R = Rnd[100]
+3.          if R < 2텶ntf + 20, walk in random direction (if blocked, continue to stand still), exit
+4.          continue to walk in the same direction as last time (if blocked, continue to stand still)
+
+code:
+
+:0043FC36 55                      push ebp
+:0043FC37 8BEC                    mov ebp, esp
+:0043FC39 83EC0C                  sub esp, 0000000C
+:0043FC3C 53                      push ebx
+:0043FC3D 56                      push esi
+:0043FC3E 8BF1                    mov esi, ecx
+:0043FC40 57                      push edi
+:0043FC41 81FEC8000000            cmp esi, 000000C8
+:0043FC47 8975FC                  mov dword ptr [ebp-04], esi
+:0043FC4A 0F831E010000            jnb 0043FD6E
+:0043FC50 69F6E4000000            imul esi, 000000E4
+:0043FC56 81C688DC6900            add esi, 0069DC88
+:0043FC5C 837E0400                cmp dword ptr [esi+04], 00000000
+:0043FC60 0F8508010000            jne 0043FD6E
+:0043FC66 8B5E20                  mov ebx, dword ptr [esi+20]
+:0043FC69 8B7E24                  mov edi, dword ptr [esi+24]
+:0043FC6C 8BC3                    mov eax, ebx
+:0043FC6E 6BC070                  imul eax, 00000070
+:0043FC71 F684380069610002        test byte ptr [eax+edi+00616900], 02		<- if in light, allow walking in random direction
+:0043FC79 0F84EF000000            je 0043FD6E
+:0043FC7F 0FB64650                movzx eax, byte ptr [esi+50]
+:0043FC83 2BD8                    sub ebx, eax
+:0043FC85 6A64                    push 00000064
+:0043FC87 0FB64651                movzx eax, byte ptr [esi+51]
+:0043FC8B 2BF8                    sub edi, eax
+:0043FC8D 8B4648                  mov eax, dword ptr [esi+48]
+:0043FC90 5A                      pop edx
+:0043FC91 B167                    mov cl, 67
+:0043FC93 8945F4                  mov dword ptr [ebp-0C], eax
+:0043FC96 E8BFA2FDFF              call 00419F5A
+:0043FC9B 8945F8                  mov dword ptr [ebp-08], eax
+:0043FC9E 53                      push ebx
+:0043FC9F E82CAF0300              call 0047ABD0
+:0043FCA4 83F802                  cmp eax, 00000002
+:0043FCA7 59                      pop ecx
+:0043FCA8 7D2D                    jge 0043FCD7
+:0043FCAA 57                      push edi
+:0043FCAB E820AF0300              call 0047ABD0
+:0043FCB0 83F802                  cmp eax, 00000002
+:0043FCB3 59                      pop ecx
+:0043FCB4 7D21                    jge 0043FCD7
+:0043FCB6 0FB68699000000          movzx eax, byte ptr [esi+00000099]
+:0043FCBD 8D44000A                lea eax, dword ptr [eax+eax+0A]
+:0043FCC1 3945F8                  cmp dword ptr [ebp-08], eax
+:0043FCC4 0F8D8E000000            jnl 0043FD58
+:0043FCCA 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:0043FCCD E8A1000000              call 0043FD73
+:0043FCD2 E981000000              jmp 0043FD58
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043FCA8(C), :0043FCB4(C)
+|
+:0043FCD7 0FB68699000000          movzx eax, byte ptr [esi+00000099]
+:0043FCDE 8D44000A                lea eax, dword ptr [eax+eax+0A]
+:0043FCE2 3945F8                  cmp dword ptr [ebp-08], eax
+:0043FCE5 7D71                    jge 0043FD58
+:0043FCE7 53                      push ebx
+:0043FCE8 E8E3AE0300              call 0047ABD0
+:0043FCED 59                      pop ecx
+:0043FCEE 0FB68E99000000          movzx ecx, byte ptr [esi+00000099]
+:0043FCF5 8D4C0904                lea ecx, dword ptr [ecx+ecx+04]
+:0043FCF9 3BC1                    cmp eax, ecx
+:0043FCFB 7D2A                    jge 0043FD27
+:0043FCFD 57                      push edi
+:0043FCFE E8CDAE0300              call 0047ABD0
+:0043FD03 59                      pop ecx
+:0043FD04 0FB68E99000000          movzx ecx, byte ptr [esi+00000099]
+:0043FD0B 8D4C0904                lea ecx, dword ptr [ecx+ecx+04]
+:0043FD0F 3BC1                    cmp eax, ecx
+:0043FD11 7D14                    jge 0043FD27
+:0043FD13 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:0043FD16 E849D3FFFF              call 0043D064
+:0043FD1B 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:0043FD1E 8BD0                    mov edx, eax
+:0043FD20 E812FCFFFF              call 0043F937
+:0043FD25 EB31                    jmp 0043FD58
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043FCFB(C), :0043FD11(C)
+|
+:0043FD27 6A64                    push 00000064
+:0043FD29 B168                    mov cl, 68
+:0043FD2B 5A                      pop edx
+:0043FD2C E829A2FDFF              call 00419F5A
+:0043FD31 0FB68E99000000          movzx ecx, byte ptr [esi+00000099]
+:0043FD38 8D4C0914                lea ecx, dword ptr [ecx+ecx+14]
+:0043FD3C 3BC1                    cmp eax, ecx
+:0043FD3E 7D0D                    jge 0043FD4D
+:0043FD40 6A08                    push 00000008
+:0043FD42 B168                    mov cl, 68
+:0043FD44 5A                      pop edx
+:0043FD45 E810A2FDFF              call 00419F5A
+:0043FD4A 8945F4                  mov dword ptr [ebp-0C], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043FD3E(C)
+|
+:0043FD4D 8B55F4                  mov edx, dword ptr [ebp-0C]
+:0043FD50 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:0043FD53 E8ECFDFFFF              call 0043FB44
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043FCC4(C), :0043FCD2(U), :0043FCE5(C), :0043FD25(U)
+|
+:0043FD58 837E0400                cmp dword ptr [esi+04], 00000000
+:0043FD5C 7510                    jne 0043FD6E
+:0043FD5E 8B4648                  mov eax, dword ptr [esi+48]
+:0043FD61 8B8EDC000000            mov ecx, dword ptr [esi+000000DC]
+:0043FD67 8B44810C                mov eax, dword ptr [ecx+4*eax+0C]
+:0043FD6B 894654                  mov dword ptr [esi+54], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043FC4A(C), :0043FC60(C), :0043FC79(C), :0043FD5C(C)
+|
+:0043FD6E 5F                      pop edi
+:0043FD6F 5E                      pop esi
+:0043FD70 5B                      pop ebx
+:0043FD71 C9                      leave
+:0043FD72 C3                      ret
+
+=======================================================
+=======================================================
+=======================================================
+
+Allow zombies to walk in random direction even when not in LR:
+
+:0043FC79 0F84EF000000            je 0043FD6E
+into >>>
+nops
+
+=======================================================
+
+Zombie AI gives more aggressive behavior at higher difficulties:
+
+Attack if:
+
+(R = Rnd[100])
+Horror: Attack if R < 2*IntF + 8
+Purg: Attack if R < 2*IntF + 30
+Doom: Attack if R < 2*IntF + 80
+
+
+Code modified:
+:0043FCB6 0FB68699000000          movzx eax, byte ptr [esi+00000099]
+:0043FCBD 8D44000A                lea eax, dword ptr [eax+eax+0A]
+	into >>>
+:0043FCB6 E9455E2C00              jmp 00705B00
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705B34(U)
+|
+:0043FCBB 90                      nop
+:0043FCBC 90                      nop
+:0043FCBD 90                      nop
+:0043FCBE 90                      nop
+:0043FCBF 90                      nop
+:0043FCC0 90                      nop
+
+
+Extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043FCB6(U)
+|
+:00705B00 A1C0706000              mov eax, dword ptr [006070C0]
+:00705B05 83F801                  cmp eax, 00000001
+:00705B08 7412                    je 00705B1C
+:00705B0A 83F802                  cmp eax, 00000002
+:00705B0D 741A                    je 00705B29
+:00705B0F 0FB68699000000          movzx eax, byte ptr [esi+00000099]
+:00705B16 8D440008                lea eax, dword ptr [eax+eax+08]
+:00705B1A EB18                    jmp 00705B34
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705B08(C)
+|
+:00705B1C 0FB68699000000          movzx eax, byte ptr [esi+00000099]
+:00705B23 8D44001E                lea eax, dword ptr [eax+eax+1E]
+:00705B27 EB0B                    jmp 00705B34
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705B0D(C)
+|
+:00705B29 0FB68699000000          movzx eax, byte ptr [esi+00000099]
+:00705B30 8D440050                lea eax, dword ptr [eax+eax+50]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00705B1A(U), :00705B27(U)
+|
+:00705B34 E982A1D3FF              jmp 0043FCBB
+
+========================================================
+

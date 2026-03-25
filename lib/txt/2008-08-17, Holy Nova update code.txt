@@ -1,0 +1,142 @@
+Holy Nova update code
+Still might need some neat fixes for mana cost
+
+:00706530 55                      push ebp
+:00706531 8BEC                    mov ebp, esp
+:00706533 83EC18                  sub esp, 00000018
+:00706536 53                      push ebx
+:00706537 56                      push esi
+:00706538 57                      push edi
+:00706539 8BF9                    mov edi, ecx
+:0070653B 69FFB0000000            imul edi, 000000B0
+:00706541 33D2                    xor edx, edx
+:00706543 8B8FD47A6900            mov ecx, dword ptr [edi+00697AD4]
+:00706549 8B87CC7A6900            mov eax, dword ptr [edi+00697ACC]
+:0070654F 8B9F5C7A6900            mov ebx, dword ptr [edi+00697A5C]
+:00706555 894DF0                  mov dword ptr [ebp-10], ecx
+:00706558 8B8F607A6900            mov ecx, dword ptr [edi+00697A60]
+:0070655E 83F8FF                  cmp eax, FFFFFFFF
+:00706561 8955E8                  mov dword ptr [ebp-18], edx
+:00706564 8945EC                  mov dword ptr [ebp-14], eax
+:00706567 894DF4                  mov dword ptr [ebp-0C], ecx
+:0070656A 7418                    je 00706584
+:0070656C 69C0C8550000            imul eax, 000055C8
+:00706572 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:00706578 8955FC                  mov dword ptr [ebp-04], edx
+:0070657B 8B440870                mov eax, dword ptr [eax+ecx+70]
+:0070657F 8945F8                  mov dword ptr [ebp-08], eax
+:00706582 EB0A                    jmp 0070658E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070656A(C)
+|
+:00706584 8955F8                  mov dword ptr [ebp-08], edx
+:00706587 C745FC01000000          mov [ebp-04], 00000001
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706582(U)
+|
+:0070658E BE67744A00              mov esi, 004A7467
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706671(C)
+|
+:00706593 0FB646FF                movzx eax, byte ptr [esi-01]
+:00706597 3945E8                  cmp dword ptr [ebp-18], eax
+:0070659A 750B                    jne 007065A7
+:0070659C 0FB60E                  movzx ecx, byte ptr [esi]
+:0070659F 3BD1                    cmp edx, ecx
+:007065A1 0F84C1000000            je 00706668
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070659A(C)
+|
+:007065A7 FFB7887A6900            push dword ptr [edi+00697A88]
+:007065AD 8B55F4                  mov edx, dword ptr [ebp-0C]
+:007065B0 0FB60E                  movzx ecx, byte ptr [esi]
+:007065B3 FF75F0                  push [ebp-10]
+:007065B6 03D1                    add edx, ecx
+:007065B8 03C3                    add eax, ebx
+:007065BA 8BCB                    mov ecx, ebx
+:007065BC FF75EC                  push [ebp-14]
+:007065BF FF75FC                  push [ebp-04]
+:007065C2 6A35                    push 00000035
+:007065C4 FF75F8                  push [ebp-08]
+:007065C7 52                      push edx
+:007065C8 8B55F4                  mov edx, dword ptr [ebp-0C]
+:007065CB 50                      push eax
+:007065CC E85EF1D2FF              call 0043572F
+:007065D1 FFB7887A6900            push dword ptr [edi+00697A88]
+:007065D7 8B55F4                  mov edx, dword ptr [ebp-0C]
+:007065DA 0FB606                  movzx eax, byte ptr [esi]
+:007065DD FF75F0                  push [ebp-10]
+:007065E0 8BCA                    mov ecx, edx
+:007065E2 2BC8                    sub ecx, eax
+:007065E4 FF75EC                  push [ebp-14]
+:007065E7 0FB646FF                movzx eax, byte ptr [esi-01]
+:007065EB FF75FC                  push [ebp-04]
+:007065EE 6A35                    push 00000035
+:007065F0 FF75F8                  push [ebp-08]
+:007065F3 51                      push ecx
+:007065F4 8BCB                    mov ecx, ebx
+:007065F6 2BC8                    sub ecx, eax
+:007065F8 51                      push ecx
+:007065F9 8BCB                    mov ecx, ebx
+:007065FB E82FF1D2FF              call 0043572F
+:00706600 FFB7887A6900            push dword ptr [edi+00697A88]
+:00706606 8B55F4                  mov edx, dword ptr [ebp-0C]
+:00706609 0FB606                  movzx eax, byte ptr [esi]
+:0070660C FF75F0                  push [ebp-10]
+:0070660F 8BCA                    mov ecx, edx
+:00706611 03C8                    add ecx, eax
+:00706613 FF75EC                  push [ebp-14]
+:00706616 0FB646FF                movzx eax, byte ptr [esi-01]
+:0070661A FF75FC                  push [ebp-04]
+:0070661D 6A35                    push 00000035
+:0070661F FF75F8                  push [ebp-08]
+:00706622 51                      push ecx
+:00706623 8BCB                    mov ecx, ebx
+:00706625 2BC8                    sub ecx, eax
+:00706627 51                      push ecx
+:00706628 8BCB                    mov ecx, ebx
+:0070662A E800F1D2FF              call 0043572F
+:0070662F FFB7887A6900            push dword ptr [edi+00697A88]
+:00706635 8B55F4                  mov edx, dword ptr [ebp-0C]
+:00706638 0FB606                  movzx eax, byte ptr [esi]
+:0070663B FF75F0                  push [ebp-10]
+:0070663E 8BCA                    mov ecx, edx
+:00706640 2BC8                    sub ecx, eax
+:00706642 FF75EC                  push [ebp-14]
+:00706645 0FB646FF                movzx eax, byte ptr [esi-01]
+:00706649 FF75FC                  push [ebp-04]
+:0070664C 6A35                    push 00000035
+:0070664E FF75F8                  push [ebp-08]
+:00706651 51                      push ecx
+:00706652 8BCB                    mov ecx, ebx
+:00706654 03C8                    add ecx, eax
+:00706656 51                      push ecx
+:00706657 8BCB                    mov ecx, ebx
+:00706659 E8D1F0D2FF              call 0043572F
+:0070665E 0FB646FF                movzx eax, byte ptr [esi-01]
+:00706662 0FB616                  movzx edx, byte ptr [esi]
+:00706665 8945E8                  mov dword ptr [ebp-18], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007065A1(C)
+|
+:00706668 83C61E                  add esi, 0000001E
+:0070666B 81FE19774A00            cmp esi, 004A7719
+:00706671 0F8C1CFFFFFF            jl 00706593
+:00706677 FF8FC87A6900            dec dword ptr [edi+00697AC8]
+:0070667D 750A                    jne 00706689
+:0070667F C7878C7A690001000000    mov dword ptr [edi+00697A8C], 00000001
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070667D(C)
+|
+:00706689 5F                      pop edi
+:0070668A 5E                      pop esi
+:0070668B 5B                      pop ebx
+:0070668C C9                      leave
+:0070668D C3                      ret
+

@@ -1,0 +1,31 @@
+After all this time, we finally found a way to avoid the computername issue. It's quite simple, actually  
+
+This will make all previous characters invalid, but once implemented, new ones will never be bothered by computernames again.
+
+Find the code where the kernel function GetComputerNameA is referenced. There should be 4 such places, as shown in Labiri's colourful post above. A few lines above that code, there is a check for SP/MP and a conditional jump over the kernel call. Disabling the SP/MP check, by simply making the jump unconditional, does the trick. So, it's 4 one-byte modifications.
+
+Example for Hellfire:
+
+:004561B7 cmp byte ptr [006DDFC8], 01    check for MP/SP
+:004561BE stosd
+:004561BF stosw
+:004561C1 mov dword ptr [ebp-08], ecx
+:004561C4 mov [ebp-04], 00000010
+:004561CB stosb
+:004561CC jbe 004561DC                         jump for MP/SP
+:004561CE lea eax, dword ptr [ebp-04]
+:004561D1 push eax
+:004561D2 lea eax, dword ptr [ebp-18]
+:004561D5 push eax
+:004561D6 Call dword ptr [004890C8]        GetComputerNameA
+:004561DC mov esi, 000004F2
+:004561E1 mov ecx, esi
+:004561E3 call 00403901
+
+:004561CC 760E                    jbe 004561DC
+
+changed into
+
+:004561CC EB0E                    jmp 004561DC
+
+At 4 different places, ofcourse. 

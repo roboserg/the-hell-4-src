@@ -1,0 +1,53 @@
+﻿Assassin damage formulae:
+
+1 Sword + Sword: 			(DEX * CLVL) / 100			705922
+2 Club + Club:			(STR * CLVL) / 110			7058f8
+4 Club + Sword:			((STR + DEX) * CLVL) / 300		7058bc	change to 400
+5 Sword + Shield:			(DEX * CLVL) / 75			705937
+6 Club + Shield:			(STR * CLVL) / 90			70594c
+7 Bow:				(DEX * CLVL) / 125			70590d		
+8 Other:				((STR + DEX) * CLVL) / 200		7058da
+
+
+Cmp edx, 01
+Je “A”
+Cmp edx, 04
+Je “B”
+Cmp edx, 03
+Je “7”		
+Cmp eax, 01
+Je ”C”
+Cmp eax, 04
+Je ”D”
+Cmp eax, 03
+Je ”7”
+Jmp ”8”
+
+A:
+Cmp eax, 01
+Je “1”
+Cmp eax, 04
+Je “4”
+Jmp “5”
+
+B:
+Cmp eax, 01
+Je “4”
+Cmp eax, 04
+Je “2”
+Jmp “6”
+
+C:
+Cmp edx, 01
+Je “1”
+Cmp edx, 04
+Je “4”
+Jmp “5”
+
+D:
+Cmp edx, 01
+Je “4”
+Cmp edx, 04
+Je “2”
+Jmp “6”
+

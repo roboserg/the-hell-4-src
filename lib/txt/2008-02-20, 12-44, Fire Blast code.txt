@@ -1,0 +1,205 @@
+Fiery Blast code:
+
+:00431DFF 807D1800                cmp byte ptr [ebp+18], 00				< damage
+:00431E03 0F8589000000            jne 00431E92
+:00431E09 6A03                    push 00000003
+:00431E0B 8BF9                    mov edi, ecx
+:00431E0D 5A                      pop edx
+:00431E0E B13C                    mov cl, 3C
+:00431E10 69FFB0000000            imul edi, 000000B0
+:00431E16 E83F81FEFF              call 00419F5A
+:00431E1B B13C                    mov cl, 3C
+:00431E1D 8BF0                    mov esi, eax
+:00431E1F 6A03                    push 00000003
+:00431E21 5A                      pop edx
+:00431E22 E83381FEFF              call 00419F5A
+:00431E27 03F0                    add esi, eax
+:00431E29 8B451C                  mov eax, dword ptr [ebp+1C]
+:00431E2C 69C0C8550000            imul eax, 000055C8
+:00431E32 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:00431E38 0FBE8408B8010000        movsx eax, byte ptr [eax+ecx+000001B8]
+:00431E40 03F0                    add esi, eax
+:00431E42 8D443604                lea eax, dword ptr [esi+esi+04]
+:00431E46 8987D47A6900            mov dword ptr [edi+00697AD4], eax
+:00431E4C 8B87887A6900            mov eax, dword ptr [edi+00697A88]
+:00431E52 85C0                    test eax, eax
+:00431E54 7E1A                    jle 00431E70
+:00431E56 8BB7D47A6900            mov esi, dword ptr [edi+00697AD4]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00431E68(C)
+|
+:00431E5C 8BCE                    mov ecx, esi
+:00431E5E 8BD1                    mov edx, ecx
+:00431E60 C1FA03                  sar edx, 03
+:00431E63 03D1                    add edx, ecx
+:00431E65 48                      dec eax
+:00431E66 8BF2                    mov esi, edx
+:00431E68 75F2                    jne 00431E5C
+:00431E6A 89B7D47A6900            mov dword ptr [edi+00697AD4], esi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:				< speed of missile
+|:00431E54(C)
+|
+:00431E70 8B87887A6900            mov eax, dword ptr [edi+00697A88]
+:00431E76 8D740010                lea esi, dword ptr [eax+eax+10]					default 16
+:00431E7A 83FE32                  cmp esi, 00000032						cmp to 50
+:00431E7D 7E03                    jle 00431E82
+:00431E7F 6A32                    push 00000032							max =50
+:00431E81 5E                      pop esi
+
+
+
+
+-----------------
+
+SpellBook Damages:
+
+
+
+File Offset 0002DE57
+
+:0042EA57 8D440004                lea eax, dword ptr [eax+eax+04]
+
+File Offset 0002DE8A
+
+:0042EA8A 8D4C0028                lea ecx, dword ptr [eax+eax+28]
+
+________________________________________________________________________________________________________________________
+
+Spellbook data revised to show correct values
+
+Mini damage:
+
+:0042EA4E E9AD862D00              jmp 00707100
+:0042EA53 90                      nop
+:0042EA54 90                      nop
+:0042EA55 90                      nop
+:0042EA56 90                      nop
+:0042EA57 90                      nop
+:0042EA58 90                      nop
+:0042EA59 90                      nop
+:0042EA5A 90                      nop
+:0042EA5B 90                      nop
+:0042EA5C 90                      nop
+:0042EA5D 90                      nop
+:0042EA5E 90                      nop
+:0042EA5F 90                      nop
+:0042EA60 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0042EA6D(C), :0070711E(U)
+|
+:0042EA61 8B02                    mov eax, dword ptr [edx]
+:0042EA63 8BF8                    mov edi, eax
+:0042EA65 C1FF04                  sar edi, 04
+:0042EA68 03F8                    add edi, eax
+:0042EA6A 49                      dec ecx
+:0042EA6B 893A                    mov dword ptr [edx], edi
+:0042EA6D 75F2                    jne 0042EA61
+
+	extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042EA4E(U)
+|
+:00707100 0FBE80B8010000          movsx eax, byte ptr [eax+000001B8]
+:00707107 85F6                    test esi, esi
+:00707109 8D8002000000            lea eax, dword ptr [eax+00000002]
+:0070710F C1E002                  shl eax, 02
+:00707112 83C05A                  add eax, 0000005A
+:00707115 C1F801                  sar eax, 01
+:00707118 8902                    mov dword ptr [edx], eax
+:0070711A 7E07                    jle 00707123
+:0070711C 8BCE                    mov ecx, esi
+:0070711E E93E79D2FF              jmp 0042EA61
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070711A(C)
+|
+:00707123 E94779D2FF              jmp 0042EA6F
+:00707128 90                      nop
+___
+
+
+
+
+Maxi:
+
+Old:
+
+:0042EA82 0FBE8408B8010000        movsx eax, byte ptr [eax+ecx+000001B8]
+:0042EA8A 8D4C0032                lea ecx, dword ptr [eax+eax+32]
+:0042EA8E 8B4508                  mov eax, dword ptr [ebp+08]
+:0042EA91 8908                    mov dword ptr [eax], ecx
+:0042EA93 0F8EEF030000            jle 0042EE88
+:0042EA99 8BF9                    mov edi, ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042EAA7(C)
+|
+:0042EA9B 8BCF                    mov ecx, edi
+
+
+New:
+
+:0042EA82 E9A9862D00              jmp 00707130
+:0042EA87 90                      nop
+:0042EA88 90                      nop
+:0042EA89 90                      nop
+:0042EA8A 90                      nop
+:0042EA8B 90                      nop
+:0042EA8C 90                      nop
+:0042EA8D 90                      nop
+:0042EA8E 90                      nop
+:0042EA8F 90                      nop
+:0042EA90 90                      nop
+:0042EA91 90                      nop
+:0042EA92 90                      nop
+:0042EA93 90                      nop
+:0042EA94 90                      nop
+:0042EA95 90                      nop
+:0042EA96 90                      nop
+:0042EA97 90                      nop
+:0042EA98 90                      nop
+:0042EA99 90                      nop
+:0042EA9A 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0042EAA7(C), :00707154(U)
+|
+:0042EA9B 8BCF                    mov ecx, edi
+
+	extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042EA82(U)
+|
+:00707130 0FBE8408B8010000        movsx eax, byte ptr [eax+ecx+000001B8]
+:00707138 8D8864000000            lea ecx, dword ptr [eax+00000064]
+:0070713E C1E102                  shl ecx, 02
+:00707141 83C15A                  add ecx, 0000005A
+:00707144 C1F901                  sar ecx, 01
+:00707147 8B4508                  mov eax, dword ptr [ebp+08]
+:0070714A 8908                    mov dword ptr [eax], ecx
+:0070714C 0F8E367DD2FF            jle 0042EE88
+:00707152 8BF9                    mov edi, ecx
+:00707154 E94279D2FF              jmp 0042EA9B
+:00707159 90                      nop
+
+======================================================
+Missile speed formula changed from slvl*2 + 16, max=50  to  slvl+15, max=40
+
+
+:00431E76 8D740008                lea esi, dword ptr [eax+eax+08]
+:00431E7A 83FE32                  cmp esi, 00000032
+:00431E7D 7E03                    jle 00431E82
+:00431E7F 6A32                    push 00000032
+:00431E81 5E                      pop esi
+into
+:00431E76 83C60F                  add esi, 0000000F
+:00431E79 90                      nop
+:00431E7A 83FE28                  cmp esi, 00000028
+:00431E7D 7E03                    jle 00431E82
+:00431E7F 6A28                    push 00000028
+

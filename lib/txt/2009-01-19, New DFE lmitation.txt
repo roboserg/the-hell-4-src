@@ -1,0 +1,139 @@
+New revision of DFE limitation.
+Formula changed to _baseVIT/2_ 
+and DFE is also capped at -25 on Horror mode to prevent Horror mode from becoming too easy
+
+	Modified:
+
+:00423C51 E97A392E00              jmp 007075D0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0042997D(U), :007075FE(U)
+|
+:00423C56 898C3044550000          mov dword ptr [eax+esi+00005544], ecx
+
+	Extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00423C51(U)
+|
+:007075D0 85C9                    test ecx, ecx
+:007075D2 7D25                    jge 007075F9
+:007075D4 8B843080010000          mov eax, dword ptr [eax+esi+00000180]
+:007075DB D1E8                    shr eax, 1
+:007075DD F7D8                    neg eax
+:007075DF 3BC1                    cmp eax, ecx
+:007075E1 7E02                    jle 007075E5
+:007075E3 8BC8                    mov ecx, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007075E1(C)
+|
+:007075E5 833DC070600001          cmp dword ptr [006070C0], 00000001
+:007075EC 730B                    jnb 007075F9
+:007075EE 6A19                    push 00000019
+:007075F0 58                      pop eax
+:007075F1 F7D8                    neg eax
+:007075F3 3BC1                    cmp eax, ecx
+:007075F5 7E02                    jle 007075F9
+:007075F7 8BC8                    mov ecx, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007075D2(C), :007075EC(C), :007075F5(C)
+|
+:007075F9 A114AE6E00              mov eax, dword ptr [006EAE14]
+:007075FE E953C6D1FF              jmp 00423C56
+:00707603 90                      nop
+-------------------------------------------------------------------------
+Revision 2:
+
+Now this feature is only applied to SP mode.
+In MP it used to leave all characters with DFE capped at 25 until touching something in their inventory or on their belt.
+This happened after entering Horror mode with any MP character.
+
+	Mod:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00423C51(U)
+|
+:007075D0 85C9                    test ecx, ecx
+:007075D2 7D2E                    jge 00707602
+:007075D4 8B843080010000          mov eax, dword ptr [eax+esi+00000180]
+:007075DB D1E8                    shr eax, 1
+:007075DD F7D8                    neg eax
+:007075DF 3BC1                    cmp eax, ecx
+:007075E1 7E02                    jle 007075E5
+:007075E3 8BC8                    mov ecx, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007075E1(C)
+|
+:007075E5 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:007075EC 7514                    jne 00707602
+:007075EE 833DC070600001          cmp dword ptr [006070C0], 00000001
+:007075F5 730B                    jnb 00707602
+:007075F7 6A19                    push 00000019
+:007075F9 58                      pop eax
+:007075FA F7D8                    neg eax
+:007075FC 3BC1                    cmp eax, ecx
+:007075FE 7E02                    jle 00707602
+:00707600 8BC8                    mov ecx, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007075D2(C), :007075EC(C), :007075F5(C), :007075FE(C)
+|
+:00707602 A114AE6E00              mov eax, dword ptr [006EAE14]
+:00707607 E94AC6D1FF              jmp 00423C56
+:0070760C 90                      nop
+============================================================================
+Revision 3:
+
+in SP Purgy DFE capped at -60
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00423C51(U)
+|
+:007075D0 85C9                    test ecx, ecx
+:007075D2 7D2E                    jge 00707602
+:007075D4 8B843080010000          mov eax, dword ptr [eax+esi+00000180]
+:007075DB D1E8                    shr eax, 1
+:007075DD F7D8                    neg eax
+:007075DF 3BC1                    cmp eax, ecx
+:007075E1 7E02                    jle 007075E5
+:007075E3 8BC8                    mov ecx, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007075E1(C)
+|
+:007075E5 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:007075EC 7514                    jne 00707602
+:007075EE 833DC070600001          cmp dword ptr [006070C0], 00000001
+:007075F5 733C                    jnb 00707633
+:007075F7 6A19                    push 00000019
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070763E(U)
+|
+:007075F9 58                      pop eax
+:007075FA F7D8                    neg eax
+:007075FC 3BC1                    cmp eax, ecx
+:007075FE 7E02                    jle 00707602
+:00707600 8BC8                    mov ecx, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007075D2(C), :007075EC(C), :007075FE(C), :0070763A(C)
+|
+:00707602 A114AE6E00              mov eax, dword ptr [006EAE14]
+:00707607 E94AC6D1FF              jmp 00423C56
+:0070760C 90                      nop
+:0070760D 90                      nop
+:0070760E 90                      nop
+:0070760F 90                      nop
+
+..........
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007075F5(C)
+|
+:00707633 833DC070600001          cmp dword ptr [006070C0], 00000001
+:0070763A 7FC6                    jg 00707602
+:0070763C 6A3C                    push 0000003C
+:0070763E EBB9                    jmp 007075F9

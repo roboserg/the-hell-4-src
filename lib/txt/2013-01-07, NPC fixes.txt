@@ -1,0 +1,235 @@
+﻿Фиксы неписей
+
+1. Смена стоимости виртовского эквипа
+
+.text:0046E755                 mov     edx, dword_6EE970
+.text:0046E75B                 mov     eax, edx
+.text:0046E75D                 push    0Ah
+.text:0046E75F                 sar     eax, 2
+.text:0046E762                 sub     edx, eax
+[1:57:04] Ярик: в edx цена
+[1:57:10] Ярик: отображаемая
+
+
+.text:00470A93                 mov     eax, WirtHaveItem_Price
+.text:00470A98                 mov     edx, eax
+.text:00470A9A                 mov     dword_6EEA1C, 13
+.text:00470AA4                 sar     edx, 2
+.text:00470AA7                 sub     eax, edx
+[2:05:33] Ярик: Та же хуйня
+[2:05:46] Ярик: Это проверка достаточно ли у нас бабла
+[2:06:25] Ярик: .text:00470AF3                 sar     edx, 2
+.text:00470AF6                 sub     eax, edx
+[2:06:29] Ярик: Это третье место
+[2:06:36] Ярик: Непосредственно отнятие бабла
+
+
+
+
+====================================================
+Фикс автоустановки на пояс. По идее не в тему, но лень новый создавать
+
+.mod:007156A0                 cmp     eax, 19d
+.mod:007156A3                 jz      short loc_7156AB
+
+cmp eax, 21d ; два кода реликтов
+jz @spellCheck
+cmp eax, 22d
+jz @spellCheck
+
+@notAllowToPut:
+.mod:007156A5                 pop     eax
+.mod:007156A6                 jmp     loc_46CB51
+
+@spellCheck:
+mov eax, dword ptr [esi + 90503Ch]; spellNumber
+cmp eax, 2 ; PS_2_HEALING
+jz 7156AB
+cmp eax, 37d ;PS_37_MANA_RECHARGE
+jz 7156AB
+jmp @notAllowToPut
+
+
+          chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007156A0(U)
+|
+:007188C0 83F813                  cmp eax, 00000013
+:007188C3 0F84E2CDFFFF            je 007156AB
+:007188C9 83F815                  cmp eax, 00000015
+:007188CC 7432                    je 00718900
+:007188CE 83F816                  cmp eax, 00000016
+:007188D1 742D                    je 00718900
+:007188D3 90                      nop
+......
+:007188FA 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718918(U)
+|
+:007188FB E9A5CDFFFF              jmp 007156A5
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007188CC(C), :007188D1(C)
+|
+:00718900 8B863C509000            mov eax, dword ptr [esi+0090503C]
+:00718906 83F802                  cmp eax, 00000002
+:00718909 0F849CCDFFFF            je 007156AB
+:0071890F 83F825                  cmp eax, 00000025
+:00718912 0F8493CDFFFF            je 007156AB
+:00718918 EBE1                    jmp 007188FB
+:0071891A 90                      nop
+
+
+
+          and:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007156E0(U)
+|
+:00718930 83F813                  cmp eax, 00000013
+:00718933 0F84B2CDFFFF            je 007156EB
+:00718939 83F815                  cmp eax, 00000015
+:0071893C 7432                    je 00718970
+:0071893E 83F816                  cmp eax, 00000016
+:00718941 742D                    je 00718970
+:00718943 90                      nop
+..........
+:0071896A 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071898A(U)
+|
+:0071896B E975CDFFFF              jmp 007156E5
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071893C(C), :00718941(C)
+|
+:00718970 58                      pop eax
+:00718971 50                      push eax
+:00718972 8B803C509000            mov eax, dword ptr [eax+0090503C]
+:00718978 83F802                  cmp eax, 00000002
+:0071897B 0F846ACDFFFF            je 007156EB
+:00718981 83F825                  cmp eax, 00000025
+:00718984 0F8461CDFFFF            je 007156EB
+:0071898A EBDF                    jmp 0071896B
+
+
+                          быстрого фикса тут не надо..
+Правка ебанутой сортировки адрии
+.text:0042A8D4 mov     esi, 6F8C68h 6F8B08h ; ItemCode
+
+.text:0042A8E6 lea     edx, [esi-360d - 8d]
+.text:0042A8EC lea     ecx, [esi-732d - 380d]
+
+Вот это должно получше быть. Если там конечно сама сортировка изначально не сломана была
+.text:0042A8D4 mov     esi, 6F8C68h 6F8BDCh ; MagicCode
+.text:0042A8E6 lea     edx, [esi-360d - 220d]
+.text:0042A8EC lea     ecx, [esi-732d - 592d]
+А тут вроде небыстрого и не надо. Сортировка уже есть. Остаётся только ключ поменять. Вопрос лишь в том какой выбрать
+
+Итем код не лучшее решение. Поскольку отличаются тольео посохи, а банки книги и реликты попадают в IC_0_OTHER
+#define ITEM_CODE_( e )\
+        e( IC_M1_NONE                ,-1) \
+        e( IC_0_OTHER                , 0)  /*          All other items (novelties)\ potions)\ scrolls)\ books)\ etc)     */\
+        e( IC_1_SWORD                , 1)  /*01 Swords                                                                                                                        */\
+        e( IC_2_AXE                        , 2)  /*02 Axes)\ Cleaver                                                                                                        */\
+        e( IC_3_BOW                        , 3)  /*03 Bows                                                                                                                                */\
+        e( IC_4_MACE                , 4)  /*04 Blunt weapons (maces)\ hammers)\ mauls)\ clubs)                                        */\
+        e( IC_5_SHIELD                , 5)  /*05 Shields                                                                                                                        */\
+        e( IC_6_LIGHT_ARMOR        , 6)  /*06 Light armor (rags)\ capes)\ leather armor)\ etc)                                        */\
+        e( IC_7_HELM                , 7)  /*07 Helms)\ crowns                                                                                                        */\
+        e( IC_8_MID_ARMOR        , 8)  /*08 Mid armor (Arkaine's Valor)\ chain mail)\ splint mail)\ etc)                */\
+        e( IC_9_HEAVY_ARMOR        , 9)  /*09 Heavy plates (Full Plate Mail)\ Gothic Plate)\ Breast Plate)\ etc)*/\
+        e( IC_10_STAFF                , 10) /*0A Staves                                                                                                                        */\
+        e( IC_11_GOLD                , 11) /*0B Gold                                                                                                                                */\
+        e( IC_12_RING                , 12) /*0C Rings                                                                                                                                */\
+        e( IC_13_AMULET                , 13) /*0D Amulets                                                                                                                        */
+
+
+Вот тут уже реликты книги банки и посохи различаются
+#define MAGIC_CODE_( e )\
+        e( MC_0_NONE                                                , 0  )\
+        e( MC_1                                                                , 1  )\
+        e( MC_2_POTION_OF_FULL_HEALING                , 2  )\
+        e( MC_3_POTION_OF_HEALING                        , 3  )\
+        e( MC_4                                                                , 4  )\
+        e( MC_5                                                                , 5  )\
+        e( MC_6_POTION_OF_MANA                                , 6  )\
+        e( MC_7_POTION_OF_FULL_MANA                        , 7  )\
+        e( MC_8                                                                , 8  )\
+        e( MC_9                                                                , 9  )\
+        e( MC_10_ELIXIR_OF_STRENGTH                        , 10 )\
+        e( MC_11_ELIXIR_OF_MAGIC                        , 11 )\
+        e( MC_12_ELIXIR_OF_DEXTERITY                , 12 )\
+        e( MC_13_ELIXIR_OF_VITALITY                        , 13 )\
+        e( MC_14                                                        , 14 )\
+        e( MC_15                                                        , 15 )\
+        e( MC_16                                                        , 16 )\
+        e( MC_17                                                        , 17 )\
+        e( MC_18_POTION_OF_REJUVENATION                , 18 )\
+        e( MC_19_POTION_OF_FULL_REJUVENTAION, 19 )\
+        e( MC_20                                                        , 20 )\
+        e( MC_21_RELIC_NEED_NO_TARGET                , 21 ) /*Scroll of Healing)\ Identify)\ Town Portal)\ Infravision)\ Phasing)\ Mana        Shield)\ Nova)\ Teleport)\ Apocalypse*/ \
+        e( MC_22_RELIC_NEED_TARGET                        , 22 ) /*Scroll of Resurrect)\ Lightning)\ FireWall)\ Inferno)\ Flash)\ Flame Wave)\        Fireball)\ Stone Curse)\ Chain Lightning)\ Guardian)\ Golem*/ \
+        e( MC_23_STAFF                                                , 23 )\
+        e( MC_24_BOOKS                                                , 24 )\
+        e( MC_25_RINGS                                                , 25 )\
+        e( MC_26_AMULETS                                        , 26 )\
+        e( MC_27_UNIQUE_ITEMS                                , 27 )\
+        e( MC_28                                                        , 28 )\
+        e( MC_29                                                        , 29 )\
+        e( MC_30_OIL_OF_SOMETHING                        , 30 ) /*(The 10 possible oils are located at A4028 and beyond)*/ \
+        e( MC_31_OIL_OF_REPAIR_I                        , 31 ) /*(also as a seperate oil)*/ \
+        e( MC_32_OIL_OF_REPAIR_II                        , 32 )\
+        e( MC_33_OIL_OF_REPAIR_III                        , 33 ) /*(also as a seperate oil)*/ \
+        e( MC_34_OIL_OF_REPAIR_IV                        , 34 )\
+        e( MC_35_OIL_OF_REPAIR_V                        , 35 )\
+        e( MC_36_BLACKSMITH_OIL                                , 36 ) /*(also as a seperate oil)*/ \
+        e( MC_37_OIL_OF_FORTITUDE                        , 37 )\
+        e( MC_38_OIL_OF_REPAIR_VI                        , 38 )\
+        e( MC_39_OIL_OF_REPAIR_VII                        , 39 )\
+        e( MC_40_OIL_OF_HANDENING                        , 40 )\
+        e( MC_41                                                        , 41 )\
+        e( MC_42_MAP_OF_THE_STARS                        , 42 )\
+        e( MC_43_EAR_HEART                                        , 43 )\
+        e( MC_44_SPECTRAL_ELIXIR                        , 44 )\
+        e( MC_45                                                        , 45 )\
+        e( MC_46_RUNES_START                                , 46 )\
+        e( MC_47_RUNE_OF_FIRE                                , 47 )\
+        e( MC_48_RUNE_OF_LIGHTNING                        , 48 )\
+        e( MC_49_RUNE_OF_SHOCK                                , 49 )\
+        e( MC_50_RUNE_OF_BLAZE                                , 50 )\
+        e( MC_51_RUNE_OF_STONE                                , 51 )\
+        e( MC_52_RUNES_END                                        , 52 )\
+        e( MC_53_AURIC_AMULET                                , 53 )\
+        e( MC_54_RECONSTRUCTED_NOTE                        , 54 )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

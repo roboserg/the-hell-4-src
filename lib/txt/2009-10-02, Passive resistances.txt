@@ -1,0 +1,27 @@
+Characters now receive passive resistance bonus from base Vitality
+all resists +1% per 16 points of baseVIT
+
+
+
+:0042404D 03C6                    add eax, esi
+:0042404F 0FB6B880010000          movzx edi, byte ptr [eax+00000180]
+:00424056 C1EF04                  shr edi, 04
+:00424059 90                      nop
+:0042405A 90                      nop
+:0042405B 90                      nop
+:0042405C 90                      nop
+:0042405D 90                      nop
+:0042405E 90                      nop
+:0042405F 8B4DC8                  mov ecx, dword ptr [ebp-38]
+:00424062 8B55C4                  mov edx, dword ptr [ebp-3C]
+:00424065 03CF                    add ecx, edi
+:00424067 03D7                    add edx, edi
+:00424069 017DE4                  add dword ptr [ebp-1C], edi
+:0042406C EB06                    jmp 00424074
+:0042406E 8B4DC8                  mov ecx, dword ptr [ebp-38]
+:00424071 8B55C4                  mov edx, dword ptr [ebp-3C]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042406C(U)
+|
+:00424074 8A9820010000            mov bl, byte ptr [eax+00000120]

@@ -1,0 +1,30 @@
+Weird shrine gives +10 to maximum damage (used to give +1)
+
+
+:00451C30 FF82A00B0000            inc dword ptr [edx+00000BA0]
+:00451C36 A114AE6E00              mov eax, dword ptr [006EAE14]
+	>>>
+:00451C30 E9804D2B00              jmp 007069B5
+:00451C35 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007069F1(U)
+|
+:00451C36 A114AE6E00              mov eax, dword ptr [006EAE14]
+
+
+	Extra:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00451C30(U)
+|
+:007069B5 FF82A00B0000            inc dword ptr [edx+00000BA0]
+:007069BB FF82A00B0000            inc dword ptr [edx+00000BA0]
+:007069C1 FF82A00B0000            inc dword ptr [edx+00000BA0]
+:007069C7 FF82A00B0000            inc dword ptr [edx+00000BA0]
+:007069CD FF82A00B0000            inc dword ptr [edx+00000BA0]
+:007069D3 FF82A00B0000            inc dword ptr [edx+00000BA0]
+:007069D9 FF82A00B0000            inc dword ptr [edx+00000BA0]
+:007069DF FF82A00B0000            inc dword ptr [edx+00000BA0]
+:007069E5 FF82A00B0000            inc dword ptr [edx+00000BA0]
+:007069EB FF82A00B0000            inc dword ptr [edx+00000BA0]
+:007069F1 E940B2D4FF              jmp 00451C36

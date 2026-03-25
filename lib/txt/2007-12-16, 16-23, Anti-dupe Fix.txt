@@ -1,0 +1,442 @@
+Dr.Zed's Fix to the 'duping' bug. (anti-dupe fix)
+
+0041E5E2
+0041E...
+0041EA5C
+
+0041E5E2:
+E8 [6488FEFF]	call 00406E4B
+90			nop
+
+00406E4B:
+6A5C			push 0000005C
+8DB5 30CA6800		lea esi, dword ptr [ebp+0068CA30]	item on cursor
+BF 9CBB6900		mov edi, 0069BB9C
+59			pop ecx
+F3			repz
+A5			movsd
+8DB0 486D6300		lea esi, dword ptr [eax+00636D48]
+833D 0CBD6900 27	cmp dword ptr [0069BD0C], 00000027
+7E [07]								jle SKIP
+C605 0CBD6900 27	mov byte ptr [0069BD0C], 27		max player #4 at 39 items
+			SKIP:
+C3			ret
+
+0041EA5C:
+E9 [B5980200]	jmp 0042092E	<00448316>
+90 90 90		nop x3
+
+0042092E:	<00448316:>
+6A5C			push 0000000C
+	(8DB5 14BD6800	lea esi, dword ptr [ebp+0068BD14])
+BE 9CBB6900		mov esi, 0069BB9C
+90			nop
+8DBD 30CA6800		lea edi, dword ptr [ebp+0068CA30]
+59			pop ecx
+F3			repz
+A5			movsd
+5F			pop edi
+5E			pop esi
+5D			pop ebp
+5B			pop ebx
+83C4 1C			add esp, 0000001C
+C3			ret
+
+Was:
+0041E5BF:
+0F84 [97040000]	je 0041EA5C
+
+Now:
+0041E5BF: (0001D9BF)
+0F84 [xxxxxxxx]	je 0042093F
+
+=================================================
+________________________________________________________
+
+Zenda's try ??: (it wasn't implemented in TD)
+___________________________________________________________________
+---------------------------------------------------------------------------------------------------------------------
+Dr.Zed's Dupefix for Diablo 1.07
+
+Requires 71 bytes of free code.
+
+Dr.Zed wrote:
+Fix to the 'duping' bug.  Note that part of this code is checking if player 4's 40th inventory
+slot is in use and, if so, deletilg it.  This code uses that memory slot.  If this wasn't done,
+problems would occur.
+
+Oh btw, it is trivial, but if the code made sure not to use the local player's data (like if the
+fourth player used the third player's data), no one would actually lose data.  By this I mean,
+if player 4 has 40 1x1 items, and player 1 uses this data space, player 4 isn't affected but
+player 1 will 'see' his backpack as only 39 items.  I don't think the game tracks other players
+backpacks all that well anyway.
+
+However, this is minor and not worth worrying about....
+
+:0041E5E2 E8D8140300              call 0044FABF
+:0041E5E7 90                      nop
+
+....47A bytes between 1st jumper and 2nd.... (41ea5c - 41e5e2 = 47a)
+
+:0041EA5C E986100300              jmp 0044FAE7
+:0041EA61 90                      nop
+:0041EA62 90                      nop
+:0041EA63 90                      nop
+
+:0044FABF 6A5C                    push 0000005C
+:0044FAC1 8DB530CA6800            lea esi, dword ptr [ebp+0068CA30]
+:0044FAC7 BF9CBB6900              mov edi, 0069BB9C
+:0044FACC 90                      nop
+:0044FACD 59                      pop ecx
+:0044FACE F3                      repz
+:0044FACF A5                      movsd
+:0044FAD0 8DB0486D6300            lea esi, dword ptr [eax+00636D48]
+:0044FAD6 833D0CBD690027          cmp dword ptr [0069BD0C], 00000027
+:0044FADD 7E07                    jle 0044FAE6
+:0044FADF C6050CBD690027          mov byte ptr [0069BD0C], 27
+:0044FAE6 C3                      ret
+
+:0044FAE7 6A5C                    push 0000005C
+:0044FAE9 8DB514BD6800            lea esi, dword ptr [ebp+0068BD14]
+:0044FAEF BE9CBB6900              mov esi, 0069BB9C
+:0044FAF4 90                      nop
+:0044FAF5 8DBD30CA6800            lea edi, dword ptr [ebp+0068CA30]
+:0044FAFB 59                      pop ecx
+:0044FAFC F3                      repz
+:0044FAFD A5                      movsd
+:0044FAFE 5F                      pop edi
+:0044FAFF 5E                      pop esi
+:0044FB00 5D                      pop ebp
+:0044FB01 5B                      pop ebx
+:0044FB02 83C41C                  add esp, 0000001C
+:0044FB05 C3                      ret
+-------------------------------------------------------------------------------------------------------------------
+
+for D1.09:
+
+Notes:
+Requires 69 bytes free space.
+ 
+
+:0041DCE1 8DB0285A6300            lea esi, dword ptr [eax+00635A28]      ;item to pick up
+->
+:0041DCE1 E8????????              call [free space 1]
+:0041DCE6 90                      nop
+
+
+--- free space 1 ---
+
+6A5C                    push 0000005C
+8DB500B76800            lea esi, dword ptr [ebp+0068B700]     ;item on cursor
+BF6CA86900              mov edi, 0069A86C
+59                      pop ecx
+F3                      repz
+A5                      movsd
+8DB0285A6300            lea esi, dword ptr [eax+00635A28]     ;item to pick up
+833DDCA9690027          cmp dword ptr [0069A9DC], 00000027     ;39th inventory slot
+7E07                    jle 0044FAE6
+C605DCA9690027          mov byte ptr [0069A9DC], 27
+C3                      ret
+-----
+:0041E0FB 5F                      pop edi
+:0041E0FC 5E                      pop esi
+:0041E0FD 5D                      pop ebp
+:0041E0FE 5B                      pop ebx
+:0041E0FF 83C418                  add esp, 00000018
+:0041E102 C3                      ret
+->
+:0041E0FB E9????????              jmp [free space 2]
+:0041E100 90                      nop
+:0041E101 90                      nop
+:0041E102 90                      nop
+
+--- free space 2 ---
+
+6A5C                    push 0000005C
+8DB5C4AC6800            lea esi, dword ptr [ebp+0068ACC4]     ;?
+BE6CA86900              mov esi, 0069A86C
+8DBD00B76800            lea edi, dword ptr [ebp+0068B700]     ;item on cursor
+59                      pop ecx
+F3                      repz
+A5                      movsd
+5F                      pop edi
+5E                      pop esi
+5D                      pop ebp
+5B                      pop ebx
+83C418                  add esp, 00000018
+C3                      ret
+
+__________________________________________________________________
+
+
+
+Diablo:
+
+:0041E5C5 8B442420                mov eax, dword ptr [esp+20]
+:0041E5C9 8BEB                    mov ebp, ebx
+:0041E5CB 69C070010000            imul eax, 00000170
+:0041E5D1 69EDD8540000            imul ebp, 000054D8
+:0041E5D7 6681A04C6D6300FF7F      and word ptr [eax+00636D4C], 7FFF
+:0041E5E0 6A5C                    push 0000005C
+:0041E5E2 8DB0486D6300            lea esi, dword ptr [eax+00636D48]		from here call made to 406e4b ????
+:0041E5E8 8DBD30CA6800            lea edi, dword ptr [ebp+0068CA30]
+:0041E5EE 59                      pop ecx
+:0041E5EF 89742428                mov dword ptr [esp+28], esi
+:0041E5F3 F3                      repz
+:0041E5F4 A5                      movsd
+:0041E5F5 8BCB                    mov ecx, ebx
+:0041E5F7 89442424                mov dword ptr [esp+24], eax
+:0041E5FB E880FCFFFF              call 0041E280
+:0041E600 8BCB                    mov ecx, ebx
+:0041E602 E8F7FBFFFF              call 0041E1FE
+:0041E607 8BCB                    mov ecx, ebx
+:0041E609 E8A4FBFFFF              call 0041E1B2
+:0041E60E 8B8DF0CA6800            mov ecx, dword ptr [ebp+0068CAF0]
+:0041E614 83C10C                  add ecx, 0000000C
+:0041E617 E8388EFEFF              call 00407454
+:0041E61C 83BD38CA68000B          cmp dword ptr [ebp+0068CA38], 0000000B
+
+Hellfire:
+
+:004219C5 8BC2                    mov eax, edx
+:004219C7 69C074010000            imul eax, 00000174
+:004219CD 89442418                mov dword ptr [esp+18], eax
+:004219D1 3988B4636800            cmp dword ptr [eax+006863B4], ecx
+:004219D7 7409                    je 004219E2
+:004219D9 6681A084626800FF7F      and word ptr [eax+00686284], 7FFF
+:004219E2 8B442418                mov eax, dword ptr [esp+18]
+:004219E6 8BEB                    mov ebp, ebx
+:004219E8 69EDC8550000            imul ebp, 000055C8
+:004219EE 8DB080626800            lea esi, dword ptr [eax+00686280]		call from here ???
+:004219F4 A114AE6E00              mov eax, dword ptr [006EAE14]
+:004219F9 6A5D                    push 0000005D
+:004219FB 8974242C                mov dword ptr [esp+2C], esi
+:004219FF 8DBC28A4530000          lea edi, dword ptr [eax+ebp+000053A4]
+:00421A06 59                      pop ecx
+:00421A07 F3                      repz
+:00421A08 A5                      movsd
+:00421A09 8BCB                    mov ecx, ebx
+:00421A0B E8D2F8FFFF              call 004212E2
+:00421A10 8BCB                    mov ecx, ebx
+:00421A12 E814F8FFFF              call 0042122B
+:00421A17 8BCB                    mov ecx, ebx
+:00421A19 E8C0F7FFFF              call 004211DE
+:00421A1E A114AE6E00              mov eax, dword ptr [006EAE14]
+:00421A23 8B8C2864540000          mov ecx, dword ptr [eax+ebp+00005464]
+:00421A2A 83C10C                  add ecx, 0000000C
+:00421A2D E86460FEFF              call 00407A96
+:00421A32 A114AE6E00              mov eax, dword ptr [006EAE14]
+:00421A37 03C5                    add eax, ebp
+:00421A39 83B8AC5300000B          cmp dword ptr [eax+000053AC], 0000000B
+
+
+
+***********************
+
+:004219EE 8DB080626800            lea esi, dword ptr [eax+00686280]
+changed into
+:004219EE E8????????              call 00??????
+:004219F3 90                      nop
+
+
+:00421EC5 5F                      pop edi
+:00421EC6 5E                      pop esi
+:00421EC7 5D                      pop ebp
+:00421EC8 5B                      pop ebx
+:00421EC9 83C41C                  add esp, 0000001C
+:00421ECC C3                      ret
+changed into
+:00421EC5 E9????????              jmp 00??????
+:00421ECA 909090                  3*nop
+
+
+***********************
+
+
+
+
+:0044FABF 6A5C                    push 0000005C
+:0044FAC1 8DB530CA6800            lea esi, dword ptr [ebp+0068CA30]
+:0044FAC7 BF9CBB6900              mov edi, 0069BB9C				address of last space in inventory
+:0044FACC 90                      nop
+:0044FACD 59                      pop ecx
+:0044FACE F3                      repz
+:0044FACF A5                      movsd
+:0044FAD0 8DB0486D6300            lea esi, dword ptr [eax+00636D48]
+:0044FAD6 833D0CBD690027          cmp dword ptr [0069BD0C], 00000027		number of items in inventory
+:0044FADD 7E07                    jle 0044FAE6
+:0044FADF C6050CBD690027          mov byte ptr [0069BD0C], 27
+:0044FAE6 C3                      ret
+
+becomes for HF:
+
+:004219FF 8DBC28A4530000          lea edi, dword ptr [eax+ebp+000053A4]
+
+:00422DBF 8BF7                    mov esi, edi
+
+:004219EE E8????????              call 00??????
+
+:00422C9E 51                      push ecx
+
+:0042075D 81C164460000            add ecx, 00004664
+
+:00401003 8BF9                    mov edi, ecx
+
+:004219F9 6A5D                    push 0000005D
+
+:0044FACD 59                      pop ecx
+:0044FACE F3                      repz
+:0044FACF A5                      movsd
+
+:004219EE 8DB080626800            lea esi, dword ptr [eax+00686280]
+
+:00422CCA 59                      pop ecx
+
+:0042075D 81C1D8470000            add ecx, 000047D8
+
+:0042F9A9 833927                  cmp dword ptr [ecx], 00000027
+
+:0044FADD 7E03                    jle 00??????
+
+:0047E523 C60127                  mov byte ptr [ecx], 27
+
+:0044FAE6 C3                      ret
+
+
+**************************
+
+:00401B8C 8BCB                    mov ecx, ebx					ebx = local character
+:004583B0 41                      inc ecx
+:004584B1 83F904                  cmp ecx, 00000004
+:00456E10 7202                    jb 00??????
+:0045852D 33C9                    xor ecx, ecx
+:0045AE04 69C9C8550000            imul ecx, 000055C8
+:0043C889 030D14AE6E00            add ecx, dword ptr [006EAE14]
+
+***********************************
+
+:0044FAE7 6A5C                    push 0000005C
+:0044FAE9 8DB514BD6800            lea esi, dword ptr [ebp+0068BD14]
+:0044FAEF BE9CBB6900              mov esi, 0069BB9C				address of last space in inventory
+:0044FAF4 90                      nop
+:0044FAF5 8DBD30CA6800            lea edi, dword ptr [ebp+0068CA30]
+:0044FAFB 59                      pop ecx
+:0044FAFC F3                      repz
+:0044FAFD A5                      movsd
+:0044FAFE 5F                      pop edi
+:0044FAFF 5E                      pop esi
+:0044FB00 5D                      pop ebp
+:0044FB01 5B                      pop ebx
+:0044FB02 83C41C                  add esp, 0000001C
+:0044FB05 C3                      ret
+
+becomes for HF:
+
+complications arise here, because of the handling of Tome and Bag.
+
+
+:0044FAE9 8DB514BD6800            lea esi, dword ptr [ebp+0068BD14]
+
+:004219EE E8????????              call 00??????
+:0042075D 81C164460000            add ecx, 00004664
+:00422222 8BF1                    mov esi, ecx
+
+:0044FAF5 8DBD30CA6800            lea edi, dword ptr [ebp+0068CA30]
+
+:0044FAE7 6A5D                    push 0000005D
+:0044FAFB 59                      pop ecx
+:0044FAFC F3                      repz
+:0044FAFD A5                      movsd
+:0044FAFE 5F                      pop edi
+:0044FAFF 5E                      pop esi
+:0044FB00 5D                      pop ebp
+:0044FB01 5B                      pop ebx
+:0044FB02 83C41C                  add esp, 0000001C
+:0044FB05 C3                      ret
+
+
+
+****************************************
+
+number of items in inventory:
+
+:00422B3C 8B88D8470000            mov ecx, dword ptr [eax+000047D8]
+
+00004664]			start last item (first + 39*174h)
+
++00000DB8]			start first inventory object
++00000DC0]			item type first inventory object
+
+
+****************************************
++++++++++++++++++++++++++
+
+Anti-dupe in The Hell:
+
+free space #1: 0045A2F4 > distance = 38901 bytes -> E801890300
+free space #2: 0045A318 > 
+
+1) call from 004219EE to 0045a2f4 (596f4) -> 38901 bytes -> e801890300
+
+2) jump from 00421ec5 to 0045a31b (5971b) -> 38451 bytes -> e951840300
+
+
+
+686280 -> 806268 seems right
+
+
+
+part 1: CALL
+
+:004219EE 8DB080626800            lea esi, dword ptr [eax+00686280]
+into:
+:004219EE E801890300              call 0045A2F4
+:004219F3 90                      nop
+
+inserted at free space from NoDropAtDeath:
+:0045A2F4 6A5C                    push 0000005C
+:0045A2F6 8DB530CA6800            lea esi, dword ptr [ebp+0068CA30]		incorrect ???
+:0045A2FC BF9CBB6900              mov edi, 0069BB9C
+:0045A301 59                      pop ecx
+:0045A302 F3                      repz
+:0045A303 A5                      movsd
+:0045A304 8DB080626800            lea esi, dword ptr [eax+00686280]		this ptr seems to be correct by far
+:0045A30A 833D0CBD690027          cmp dword ptr [0069BD0C], 00000027		incorrect ???
+:0045A311 7E07                    jle 0045A31A					pointer to return from cal - looks correct
+:0045A313 C6050CBD690027          mov byte ptr [0069BD0C], 27
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045A311(C)
+|
+:0045A31A C3                      ret
+
+
+
+part 2: JUMP
+
+:00421EC5 5F                      pop edi
+:00421EC6 5E                      pop esi
+:00421EC7 5D                      pop ebp
+:00421EC8 5B                      pop ebx
+:00421EC9 83C41C                  add esp, 0000001C
+:00421ECC C3                      ret
+into:
+:00421EC5 E951840300              jmp 0045A31B
+:00421ECA 90                      nop
+:00421ECB 90                      nop
+:00421ECC 90                      nop
+
+inserted at free space from NoDropAtDeath:
+:0045A31B 6A5C                    push 0000005C
+:0045A31D 8DB514BD6800            lea esi, dword ptr [ebp+0068BD14]		incorrect ???
+:0045A323 BE9CBB6900              mov esi, 0069BB9C
+:0045A328 8DBD30CA6800            lea edi, dword ptr [ebp+0068CA30]		incorrect ???
+:0045A32E 59                      pop ecx
+:0045A32F F3                      repz
+:0045A330 A5                      movsd
+:0045A331 5F                      pop edi
+:0045A332 5E                      pop esi
+:0045A333 5D                      pop ebp
+:0045A334 5B                      pop ebx
+:0045A335 83C41C                  add esp, 0000001C
+:0045A338 C3                      ret

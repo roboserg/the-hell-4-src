@@ -1,0 +1,54 @@
+
+
+MvP Melee
+
+Monk has advanced evasion, which reduces monsters' autohit against him by (baseDEX/32)%
+for instance, base autohit is 20%
+Monk with dexterity 192 will be autohit at 15% only
+
+Mage is autohit at 30% (he's supposed to avoid melee attackers as much as possible anyway)
+
+
+
+
+	code:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043E258(C)
+|
+:0043E25C 6A14                    push 00000014
+:0043E25E 58                      pop eax
+:0043E25F E97CCF2C00              jmp 0070B1E0
+:0043E264 90                      nop
+
+
+
+	and:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043E25F(U)
+|
+:0070B1E0 80B96001000003          cmp byte ptr [ecx+00000160], 03
+:0070B1E7 7516                    jne 0070B1FF
+:0070B1E9 8B9178010000            mov edx, dword ptr [ecx+00000178]
+:0070B1EF C1EA05                  shr edx, 05
+:0070B1F2 2BC2                    sub eax, edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070B206(C), :0070B20B(U)
+|
+:0070B1F4 3BD8                    cmp ebx, eax
+:0070B1F6 7D02                    jge 0070B1FA
+:0070B1F8 8BD8                    mov ebx, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B1F6(C)
+|
+:0070B1FA E96630D3FF              jmp 0043E265
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B1E7(C)
+|
+:0070B1FF 80B96001000002          cmp byte ptr [ecx+00000160], 02
+:0070B206 75EC                    jne 0070B1F4
+:0070B208 83C00A                  add eax, 0000000A
+:0070B20B EBE7                    jmp 0070B1F4
+:0070B20D 90                      nop

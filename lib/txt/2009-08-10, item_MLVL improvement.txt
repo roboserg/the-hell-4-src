@@ -1,0 +1,68 @@
+mlvl_item is modified for bosses:
+from mlvl+4
+ to
+horror: (mlvl/2)+5
+purgatory: (mlvl/2)+20
+doom: (mlvl/2)+34 
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004273AC(C)
+|
+:004273B0 837D100F                cmp dword ptr [ebp+10], 0000000F
+:004273B4 7503                    jne 004273B9
+:004273B6 8D7B04                  lea edi, dword ptr [ebx+04]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004273B4(C)
+|
+:004273B9 3BF8                    cmp edi, eax
+
+into
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004273AC(C)
+|
+:004273B0 E94B202E00              jmp 00709400
+:004273B5 90                      nop
+:004273B6 90                      nop
+:004273B7 90                      nop
+:004273B8 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070941D(U)
+|
+:004273B9 3BF8                    cmp edi, eax
+
+
+extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004273B0(U)
+|
+:00709400 837D100F                cmp dword ptr [ebp+10], 0000000F
+:00709404 7517                    jne 0070941D
+:00709406 D1FB                    sar ebx, 1
+:00709408 833DC070600001          cmp dword ptr [006070C0], 00000001
+:0070940F 7411                    je 00709422
+:00709411 833DC070600002          cmp dword ptr [006070C0], 00000002
+:00709418 740D                    je 00709427
+:0070941A 8D7B05                  lea edi, dword ptr [ebx+05]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00709404(C), :00709425(U), :0070942A(U)
+|
+:0070941D E997DFD1FF              jmp 004273B9
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070940F(C)
+|
+:00709422 8D7B14                  lea edi, dword ptr [ebx+14]
+:00709425 EBF6                    jmp 0070941D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00709418(C)
+|
+:00709427 8D7B22                  lea edi, dword ptr [ebx+22]
+:0070942A EBF1                    jmp 0070941D
+:0070942C 90                      nop

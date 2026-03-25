@@ -1,0 +1,31 @@
+Monk now starts with a staff:
+
+
+Modified code:
+:00424D8B E930032E00              jmp 007050C0
+:00424D90 90                      nop
+
+Additional code:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00424D8B(U)
+|
+:007050C0 49                      dec ecx
+:007050C1 7408                    je 007050CB
+:007050C3 49                      dec ecx
+:007050C4 740F                    je 007050D5
+:007050C6 E9C6FCD1FF              jmp 00424D91
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007050C1(C)
+|
+:007050CB 6897000000              push 00000097
+:007050D0 E92FFDD1FF              jmp 00424E04
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007050C4(C)
+|
+:007050D5 E9E3FCD1FF              jmp 00424DBD
+:007050DA 90                      nop
+
+===============================================

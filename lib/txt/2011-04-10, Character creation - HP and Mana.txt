@@ -1,0 +1,134 @@
+
+
+
+HP and mana calculations at character creation:
+
+
+HP starts here:
+
+:00457EB1 A114AE6E00              mov eax, dword ptr [006EAE14]
+
+=======================
+15:29 10.04.2011
+
+
+
+:00457EB8 E9437A2B00              jmp 0070F900
+
+
+	ex:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00457EB8(U)
+|
+:0070F900 8A8860010000            mov cl, byte ptr [eax+00000160]
+:0070F906 3ACB                    cmp cl, bl
+:0070F908 7425                    je 0070F92F
+:0070F90A 80F901                  cmp cl, 01
+:0070F90D 7424                    je 0070F933
+:0070F90F 80F902                  cmp cl, 02
+:0070F912 7423                    je 0070F937
+:0070F914 80F903                  cmp cl, 03
+:0070F917 7422                    je 0070F93B
+:0070F919 80F904                  cmp cl, 04
+:0070F91C 7421                    je 0070F93F
+:0070F91E 6A64                    push 00000064
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070F931(U), :0070F935(U), :0070F939(U), :0070F93D(U), :0070F941(U)
+|
+:0070F920 59                      pop ecx
+:0070F921 C1E106                  shl ecx, 06
+:0070F924 898898010000            mov dword ptr [eax+00000198], ecx
+:0070F92A E9DB85D4FF              jmp 00457F0A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070F908(C)
+|
+:0070F92F 6A50                    push 00000050
+:0070F931 EBED                    jmp 0070F920
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070F90D(C)
+|
+:0070F933 6A32                    push 00000032
+:0070F935 EBE9                    jmp 0070F920
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070F912(C)
+|
+:0070F937 6A19                    push 00000019
+:0070F939 EBE5                    jmp 0070F920
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070F917(C)
+|
+:0070F93B 6A46                    push 00000046
+:0070F93D EBE1                    jmp 0070F920
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070F91C(C)
+|
+:0070F93F 6A3C                    push 0000003C
+:0070F941 EBDD                    jmp 0070F920
+:0070F943 90                      nop
+:0070F944 90                      nop
+:0070F945 90                      nop
+
+
+=============================================================================
+=============================================================================
+=============================================================================
+=============================================================================
+
+Mana:
+
+
+
+	mod:
+:00457F4A 8A8860010000            mov cl, byte ptr [eax+00000160]
+:00457F50 80F901                  cmp cl, 01
+:00457F53 7422                    je 00457F77
+:00457F55 80F902                  cmp cl, 02
+:00457F58 7421                    je 00457F7B
+:00457F5A 80F903                  cmp cl, 03
+:00457F5D 7418                    je 00457F77
+:00457F5F 80F904                  cmp cl, 04
+:00457F62 741B                    je 00457F7F
+:00457F64 80F905                  cmp cl, 05
+:00457F67 741A                    je 00457F83
+:00457F69 6A05                    push 00000005
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00457F79(U), :00457F7D(U), :00457F81(U), :00457F85(U)
+|
+:00457F6B 59                      pop ecx
+:00457F6C C1E106                  shl ecx, 06
+:00457F6F 8988AC010000            mov dword ptr [eax+000001AC], ecx
+:00457F75 EB39                    jmp 00457FB0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00457F53(C), :00457F5D(C)
+|
+:00457F77 6A0C                    push 0000000C
+:00457F79 EBF0                    jmp 00457F6B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00457F58(C)
+|
+:00457F7B 6A3C                    push 0000003C
+:00457F7D EBEC                    jmp 00457F6B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00457F62(C)
+|
+:00457F7F 6A14                    push 00000014
+:00457F81 EBE8                    jmp 00457F6B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00457F67(C)
+|
+:00457F83 6A00                    push 00000000
+:00457F85 EBE4                    jmp 00457F6B
+:00457F87 90                      nop
+:00457F88 90                      nop
+:00457F89 90                      nop

@@ -1,0 +1,100 @@
+Now Trapped objects are only detected with Infravision:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00454630(C), :0045463F(U), :00454665(U), :0045467E(C), :0045468B(C)
+|:004546A6(C), :004546C6(C), :00454717(C)
+|
+:00454857 A1E8AD6E00              mov eax, dword ptr [006EADE8]
+:0045485C 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:00454862 69C0C8550000            imul eax, 000055C8
+:00454868 03C1                    add eax, ecx
+:0045486A E9D11A2B00              jmp 00706340
+:0045486F 90                      nop
+:00454870 90                      nop
+:00454871 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070634D(U)
+|
+:00454872 83BF08E66D0000          cmp dword ptr [edi+006DE608], 00000000
+:00454879 741F                    je 0045489A
+:0045487B 56                      push esi
+
+* Possible StringData Ref from Data Obj ->"Trapped %s"
+                                  |
+:0045487C 6810584B00              push 004B5810
+:00454881 53                      push ebx
+:00454882 E839520200              call 00479AC0
+:00454887 83C40C                  add esp, 0000000C
+:0045488A 53                      push ebx
+:0045488B 56                      push esi
+:0045488C E89F540200              call 00479D30
+:00454891 59                      pop ecx
+:00454892 C605AC114D0002          mov byte ptr [004D11AC], 02
+:00454899 59                      pop ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00454879(C), :00706347(C)
+|
+:0045489A 5F                      pop edi
+:0045489B 5E                      pop esi
+:0045489C 5B                      pop ebx
+:0045489D C3                      ret
+
+
+	Extra:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045486A(U)
+|
+:00706340 83B8D001000000          cmp dword ptr [eax+000001D0], 00000000
+:00706347 0F844DE5D4FF            je 0045489A
+:0070634D E920E5D4FF              jmp 00454872
+
+
+
+==================================================================================
+
+Trap view in v1.66e:
+(previous 'always see' system)
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00454630(C), :0045463F(U), :00454665(U), :0045467E(C), :0045468B(C)
+|:004546A6(C), :004546C6(C), :00454717(C)
+|
+:00454857 A1E8AD6E00              mov eax, dword ptr [006EADE8]
+:0045485C 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:00454862 69C0C8550000            imul eax, 000055C8
+:00454868 90                      nop
+:00454869 90                      nop
+:0045486A 90                      nop
+:0045486B 90                      nop
+:0045486C 90                      nop
+:0045486D 90                      nop
+:0045486E 90                      nop
+:0045486F 90                      nop
+:00454870 90                      nop
+:00454871 90                      nop
+:00454872 83BF08E66D0000          cmp dword ptr [edi+006DE608], 00000000
+:00454879 741F                    je 0045489A
+:0045487B 56                      push esi
+
+* Possible StringData Ref from Data Obj ->"Trapped %s"
+                                  |
+:0045487C 6810584B00              push 004B5810
+:00454881 53                      push ebx
+:00454882 E839520200              call 00479AC0
+:00454887 83C40C                  add esp, 0000000C
+:0045488A 53                      push ebx
+:0045488B 56                      push esi
+:0045488C E89F540200              call 00479D30
+:00454891 59                      pop ecx
+:00454892 C605AC114D0002          mov byte ptr [004D11AC], 02
+:00454899 59                      pop ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00454879(C)
+|
+:0045489A 5F                      pop edi
+:0045489B 5E                      pop esi
+:0045489C 5B                      pop ebx
+:0045489D C3                      ret

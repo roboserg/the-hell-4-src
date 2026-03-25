@@ -1,0 +1,164 @@
+Dupe fix, trying again
+
+quote from HF101 patch:
+"Fixed the bug where picking up gold when your inventory is full duplicates the gold in your hand and fills your gold slot."
+this could be the key...
+
+
+4  	Item type
+01 = Weapons
+02 = All armors
+03 = Jewelry, potion, scrolls
+04 = Gold				<<<
+05 = Novelty items
+
+-------------------------
+12  	Item Code
+00 = All other items (novelties, potions, scrolls, books, etc)
+01 = Swords
+02 = Axes, Cleaver
+03 = Bows
+04 = Blunt weapons (maces, hammers, mauls, clubs)
+05 = Shields
+06 = Light armor (rags, capes, leather armor, etc)
+07 = Helms, crowns
+08 = Mid armor (Arkaine's Valor, chain mail, splint mail, etc)
+09 = Heavy plates (Full Plate Mail, Gothic Plate, Breast Plate, etc)
+0A = Staves
+0B = Gold				<<<
+0C = Rings
+0D = Amulets
+
+=================================================================
+
+:0041F85D C744241827000000        mov [esp+18], 00000027
+
+=====
+
+
+
+Notes:
+Requires 69 bytes free space.
+ 
+
+:0041DCE1 8DB0285A6300            lea esi, dword ptr [eax+00635A28]      ;item to pick up
+->
+:0041DCE1 E8????????              call [free space 1]
+:0041DCE6 90                      nop
+
+
+--- free space 1 ---
+
+6A5C                    push 0000005C
+8DB500B76800            lea esi, dword ptr [ebp+0068B700]     ;item on cursor
+BF6CA86900              mov edi, 0069A86C
+59                      pop ecx
+F3                      repz
+A5                      movsd
+8DB0285A6300            lea esi, dword ptr [eax+00635A28]     ;item to pick up
+833DDCA9690027          cmp dword ptr [0069A9DC], 00000027     ;39th inventory slot
+7E07                    jle 0044FAE6
+C605DCA9690027          mov byte ptr [0069A9DC], 27
+C3                      ret
+-----
+:0041E0FB 5F                      pop edi
+:0041E0FC 5E                      pop esi
+:0041E0FD 5D                      pop ebp
+:0041E0FE 5B                      pop ebx
+:0041E0FF 83C418                  add esp, 00000018
+:0041E102 C3                      ret
+->
+:0041E0FB E9????????              jmp [free space 2]
+:0041E100 90                      nop
+:0041E101 90                      nop
+:0041E102 90                      nop
+
+--- free space 2 ---
+
+6A5C                    push 0000005C
+8DB5C4AC6800            lea esi, dword ptr [ebp+0068ACC4]     ;?
+BE6CA86900              mov esi, 0069A86C
+8DBD00B76800            lea edi, dword ptr [ebp+0068B700]     ;item on cursor
+59                      pop ecx
+F3                      repz
+A5                      movsd
+5F                      pop edi
+5E                      pop esi
+5D                      pop ebp
+5B                      pop ebx
+83C418                  add esp, 00000018
+C3                      ret
+
+=================================================================
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042199E(C)
+|
+:004219C5 8BC2                    mov eax, edx
+:004219C7 69C074010000            imul eax, 00000174
+:004219CD 89442418                mov dword ptr [esp+18], eax
+:004219D1 3988B4636800            cmp dword ptr [eax+006863B4], ecx
+:004219D7 7409                    je 004219E2
+:004219D9 6681A084626800FF7F      and word ptr [eax+00686284], 7FFF
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004219D7(C)
+|
+:004219E2 E9193D2E00              jmp 00705700
+
+..
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004219E2(U)
+|
+:00705700 8B442418                mov eax, dword ptr [esp+18]
+:00705704 8BEB                    mov ebp, ebx
+:00705706 69EDC8550000            imul ebp, 000055C8
+:0070570C 8DB080626800            lea esi, dword ptr [eax+00686280]		item to pick up ?
+:00705712 A114AE6E00              mov eax, dword ptr [006EAE14]			
+:00705717 6A5D                    push 0000005D
+:00705719 8974242C                mov dword ptr [esp+2C], esi			[esp+2C] = item to pick up ?
+:0070571D 8DBC28A4530000          lea edi, dword ptr [eax+ebp+000053A4]		edi = item on cursor ?
+:00705724 59                      pop ecx					ecx = 5D (WTF is 5D BTW?)
+:00705725 F3                      repz
+:00705726 A5                      movsd
+:00705727 8BCB                    mov ecx, ebx
+
+
+.......
+below is not touched by dupefix by Zed
+..
+
+:00421A0B E8D2F8FFFF              call 004212E2
+:00421A10 8BCB                    mov ecx, ebx
+:00421A12 E814F8FFFF              call 0042122B
+:00421A17 8BCB                    mov ecx, ebx
+:00421A19 E8C0F7FFFF              call 004211DE
+:00421A1E A114AE6E00              mov eax, dword ptr [006EAE14]
+:00421A23 8B8C2864540000          mov ecx, dword ptr [eax+ebp+00005464]
+:00421A2A 83C10C                  add ecx, 0000000C
+:00421A2D E86460FEFF              call 00407A96
+:00421A32 A114AE6E00              mov eax, dword ptr [006EAE14]
+:00421A37 03C5                    add eax, ebp
+:00421A39 83B8AC5300000B          cmp dword ptr [eax+000053AC], 0000000B	check if item code is 'Gold'
+:00421A40 752C                    jne 00421A6E					skip if not
+:00421A42 8BCB                    mov ecx, ebx
+:00421A44 E882DCFFFF              call 0041F6CB
+:00421A49 8BF0                    mov esi, eax
+:00421A4B 85F6                    test esi, esi
+:00421A4D 0F85FD020000            jne 00421D50
+:00421A53 A114AE6E00              mov eax, dword ptr [006EAE14]
+:00421A58 8B4C2418                mov ecx, dword ptr [esp+18]
+:00421A5C 8B842868540000          mov eax, dword ptr [eax+ebp+00005468]
+:00421A63 898144636800            mov dword ptr [ecx+00686344], eax
+:00421A69 E9E2020000              jmp 00421D50
+...
+
+and this is the ending (where Jump should point)
+
+:007057F0 5F                      pop edi
+:007057F1 5E                      pop esi
+:007057F2 5D                      pop ebp
+:007057F3 5B                      pop ebx
+:007057F4 83C41C                  add esp, 0000001C
+:007057F7 C3                      ret

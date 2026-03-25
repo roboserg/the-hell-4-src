@@ -1,0 +1,69 @@
+When selling to Griz, unique items will be shown in golden. If unique item requirements not met, it will still be shown as red.
+This code might need further improvement.
+
+:0046D4A2 E8BC6FFDFF              call 00444463
+:0046D4A7 90                      nop
+
+
+* Referenced by a CALL at Address:
+|:0046D4A2   
+|
+:00444463 740C                    je 00444471
+:00444465 C645FC01                mov [ebp-04], 01
+:00444469 3C01                    cmp al, 01
+:0044446B 7404                    je 00444471
+:0044446D C645FC03                mov [ebp-04], 03
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00444463(C), :0044446B(C)
+|
+:00444471 C3                      ret
+
+
+==============================================
+update 2:03 15.08.2012
+
+next menu also shows correct colors for golds:
+
+
+
+:0046E4AB E930382A00              jmp 00711CE0
+
+
+
+	and:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0046E4AB(U)
+|
+:00711CE0 885DFC                  mov byte ptr [ebp-04], bl
+:00711CE3 80FA01                  cmp dl, 01
+:00711CE6 740F                    je 00711CF7
+:00711CE8 80FA02                  cmp dl, 02
+:00711CEB 7410                    je 00711CFD
+:00711CED 80FA03                  cmp dl, 03
+:00711CF0 7411                    je 00711D03
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00711CFB(U), :00711D01(U), :00711D07(U)
+|
+:00711CF2 E9BFC7D5FF              jmp 0046E4B6
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00711CE6(C)
+|
+:00711CF7 C645FC01                mov [ebp-04], 01
+:00711CFB EBF5                    jmp 00711CF2
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00711CEB(C)
+|
+:00711CFD C645FC03                mov [ebp-04], 03
+:00711D01 EBEF                    jmp 00711CF2
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00711CF0(C)
+|
+:00711D03 C645FC04                mov [ebp-04], 04
+:00711D07 EBE9                    jmp 00711CF2
+:00711D09 90                      nop
+:00711D0A 90                      nop

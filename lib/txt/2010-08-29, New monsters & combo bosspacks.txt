@@ -1,0 +1,67 @@
+Combo bosspack ideas:
+(syntax: boss + mob)
+
+1. 	Gargoyle + bats
+2. 	Gargoyle + hellbats
+3. 	Goatbow + hounds
+4. 	Goatmace + hounds
+5. 	Goatlord + hounds
+6. 	Gdigger + hounds
+7. 	Hork + hounds
+8. 	Mega + hounds
+9. 	Reaper + hounds
+10. 	Bigfall + fallen
+11.	Knight + mages
+12.	Knight + order
+13.	Knight + succubi
+14.	Bigspider + scorps
+15.	Biclops + hounds
+16.	Biclops + bigfall
+17.	Scorpion Lord + scorps
+18.	Flesh + clasps
+19.	Mage + bats
+20.	Mega + hbat
+21.	Demskel + small skellies
+22.	Lich + zombies
+23.	
+
+
+
+
+=======================
+Monster ideas:
+
+[DONE] 1. Litedemon, dlvl 21-23
+[DONE] 2. Demskels, dlvl 23-24
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+B 	1. shadow beast
+D 	2. fallen one spear
+D 	3. fallen one sword
+U 	4. grave digger
+U 	5. skelaxe
+U 	6. skelsword
+U 	7. skelbow
+U 	8. burned corpse
+B 	9. fiend
+D	10. 
+D	11.
+B	12.
+B	13.
+B	14.
+D	15. 

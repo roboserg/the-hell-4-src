@@ -1,0 +1,35 @@
+Boss mlvl modifier is varying for difficulty now:
+Horror: +2
+Purgat: +3
+Doom: +4
+
+This will make items with level 63 no longer droppable on Horror and Purgatory
+Uber's level should be set to 59 now
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043BCF8(U)
+|
+:00708F60 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00708F67 7415                    je 00708F7E
+:00708F69 833DC070600002          cmp dword ptr [006070C0], 00000002
+:00708F70 7415                    je 00708F87
+:00708F72 8086C000000002          add byte ptr [esi+000000C0], 02
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00708F85(U), :00708F8E(U)
+|
+:00708F79 E9812DD3FF              jmp 0043BCFF
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708F67(C)
+|
+:00708F7E 8086C000000003          add byte ptr [esi+000000C0], 03
+:00708F85 EBF2                    jmp 00708F79
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708F70(C)
+|
+:00708F87 8086C000000004          add byte ptr [esi+000000C0], 04
+:00708F8E EBE9                    jmp 00708F79
+:00708F90 90                      nop

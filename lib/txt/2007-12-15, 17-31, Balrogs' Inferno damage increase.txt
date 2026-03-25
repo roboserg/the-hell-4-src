@@ -1,0 +1,4 @@
+:00435099 2BD0                    sub edx, eax
+:0043509B 42                      inc edx
+into:
+:00435099 C1E203                  shl edx, 03

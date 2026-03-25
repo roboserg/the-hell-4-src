@@ -1,0 +1,930 @@
+Improving Monster's life in Purg (((500+Horror)*2)+250) and Doom (((1000+Horror)*3)+500) >>>>>>>>>>>
+Improving Boss' life in Purg (((Horror+500)*2)+4000) and Doom ((Horror+1000)*4)+4000) >>>>>>>>>>>
+
+Improving Monsters' Primary damage in Purg (min: +75, max: +120) and Doom (min: +158, max: +188) >>>>>>>>>>>
+
+Improving Boss' Primary damage in Purg (Min: +95, Max: +125) and Doom (+193) >>>>>>>>>>>
+
+Improving Monsters' Primary and Secondary ToHit in Purg (+95) and Doom (+190) >>>>>>>>>>>
+
+Improving Monsters' AC in Purg (Horror+75) and Doom (Horror+150) >>>>>>>>>>>
+
+Changing Base Monsters' XP rewards in Purg [(Horror+400)*2] and Doom [(Horror+400)*4] >>>>>>>>>>> zTHv1.72L...
+
+ORIGINAL ROUTINES > > > > > 
+new code here:
+:0043B403 E8ECEE0100              call 0045A2F4
+:0043B408 90                      nop
+
+and here:
+:0045A2F4 8D0480                  lea eax, dword ptr [eax+4*eax]			HP*5
+:0045A2F7 D1E8                    shr eax, 1						divide by 2
+:0045A2F9 83E13F                  and ecx, 0000003F
+:0045A2FC C3                      ret
+
+Purgatory Monster modifiers: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+:0043B3E3 A1C0706000              mov eax, dword ptr [006070C0]
+:0043B3E8 83F801                  cmp eax, 00000001			> check if Difficulty level is Purgatory
+:0043B3EB 0F85A3000000            jne 0043B494				> if not go to 43B494 (Doom mode monster modifier routine)
+:0043B3F1 8A0DC8DF6D00            mov cl, byte ptr [006DDFC8]		
+:0043B3F7 8B8618DD6900            mov eax, dword ptr [esi+0069DD18]	> 69DD18 seems to be monster HP
+:0043B3FD FEC9                    dec cl
+:0043B3FF F6D9                    neg cl
+:0043B401 1BC9                    sbb ecx, ecx
+:0043B403 8D0440                  lea eax, dword ptr [eax+2*eax]		> HP*3
+:0043B406 83E13F                  and ecx, 0000003c			
+:0043B409 83C13F                  add ecx, 0000003c			> add 127
+:0043B40C C1E106                  shl ecx, 06				> this actually can multiply addon HPs !!! -> modified to 09 (+1008)
+:0043B40F 03C1                    add eax, ecx				> add (HP*3)+127
+:0043B411 898618DD6900            mov dword ptr [esi+0069DD18], eax
+:0043B417 89861CDD6900            mov dword ptr [esi+0069DD1C], eax	> ???
+:0043B41D 808648DD69000F          add byte ptr [esi+0069DD48], 0F	> MLVL + 15
+:0043B424 668B864ADD6900          mov ax, word ptr [esi+0069DD4A]
+:0043B42B 6605E803                add ax, 03E8				> add 1000 to ax ???	->mod to 1F4 (500)
+:0043B42F D1E0                    shl eax, 1					> eax*2 (XP+2000 ??)	-> +1000
+:0043B431 6689864ADD6900          mov word ptr [esi+0069DD4A], ax
+:0043B438 80864CDD690055          add byte ptr [esi+0069DD4C], 55
+:0043B43F 8A8E4DDD6900            mov cl, byte ptr [esi+0069DD4D]	> make cl byte-pointer to monster's MinDMG ??
+:0043B445 B002                    mov al, 02					> al + 2 -> 46  (horror damage + 70 points of damage)
+:0043B447 02C8                    add cl, al					> cl + al	-> 
+:0043B449 D0E1                    shl cl, 1					> cl * 2		-> 9090 (damage is doubled no more)
+:0043B44B 888E4DDD6900            mov byte ptr [esi+0069DD4D], cl	> 
+:0043B451 8A8E4EDD6900            mov cl, byte ptr [esi+0069DD4E]
+:0043B457 02C8                    add cl, al
+:0043B459 D0E1                    shl cl, 1							-> 9090 (max damage is doubled no more)
+:0043B45B 888E4EDD6900            mov byte ptr [esi+0069DD4E], cl
+:0043B461 80864FDD690055          add byte ptr [esi+0069DD4F], 55	> +85 (2nd attack ToHit value), modify to 3C
+:0043B468 8A8E50DD6900            mov cl, byte ptr [esi+0069DD50]
+:0043B46E 02C8                    add cl, al
+:0043B470 D0E1                    shl cl, 1
+:0043B472 888E50DD6900            mov byte ptr [esi+0069DD50], cl
+:0043B478 8A8E51DD6900            mov cl, byte ptr [esi+0069DD51]
+:0043B47E 02C8                    add cl, al
+:0043B480 D0E1                    shl cl, 1
+:0043B482 888E51DD6900            mov byte ptr [esi+0069DD51], cl
+:0043B488 808652DD690032          add byte ptr [esi+0069DD52], 32	> +75 AC, modify to 4B, done!
+:0043B48F E9BA000000              jmp 0043B54E
+
+
+Doom Monsters modifiers: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043B3EB(C)
+|
+:0043B494 83F802                  cmp eax, 00000002			> check if mode = Doom
+:0043B497 0F85B1000000            jne 0043B54E				> if not, go someplace else :)
+:0043B49D A0C8DF6D00              mov al, byte ptr [006DDFC8]
+:0043B4A2 FEC8                    dec al
+:0043B4A4 F6D8                    neg al
+:0043B4A6 1BC0                    sbb eax, eax
+:0043B4A8 83E07E                  and eax, 0000007d
+:0043B4AB 83C07E                  add eax, 0000007d
+:0043B4AE C1E004                  shl eax, 04				> 04, modified to -> 07 = +2000
+:0043B4B1 038618DD6900            add eax, dword ptr [esi+0069DD18]
+:0043B4B7 C1E002                  shl eax, 01				> 
+:0043B4BA 898618DD6900            mov dword ptr [esi+0069DD18], eax
+:0043B4C0 89861CDD6900            mov dword ptr [esi+0069DD1C], eax
+:0043B4C6 808648DD69001E          add byte ptr [esi+0069DD48], 1E	> MLVL + 30
+:0043B4CD 668B864ADD6900          mov ax, word ptr [esi+0069DD4A]
+:0043B4D4 6605E803                add ax, 03E8				-> mod to 1F4 (500)
+:0043B4D8 C1E002                  shl eax, 02				=> +2000
+:0043B4DB 6689864ADD6900          mov word ptr [esi+0069DD4A], ax
+:0043B4E2 80864CDD690078          add byte ptr [esi+0069DD4C], 78
+:0043B4E9 8A8E4DDD6900            mov cl, byte ptr [esi+0069DD4D]
+:0043B4EF B006                    mov al, 06					-> b7 ( +183 dmg)
+:0043B4F1 C0E102                  shl cl, 02					-> 9090 (dmg is 4x no more)
+:0043B4F4 02C8                    add cl, al
+:0043B4F6 888E4DDD6900            mov byte ptr [esi+0069DD4D], cl
+:0043B4FC 8A8E4EDD6900            mov cl, byte ptr [esi+0069DD4E]
+:0043B502 C0E102                  shl cl, 02					-> 9090 (maxDMG is 4x no more)
+:0043B505 02C8                    add cl, al			
+:0043B507 888E4EDD6900            mov byte ptr [esi+0069DD4E], cl
+:0043B50D 80864FDD690078          add byte ptr [esi+0069DD4F], 78
+:0043B514 8A8E50DD6900            mov cl, byte ptr [esi+0069DD50]
+:0043B51A C0E102                  shl cl, 02
+:0043B51D 02C8                    add cl, al
+:0043B51F 888E50DD6900            mov byte ptr [esi+0069DD50], cl
+:0043B525 8A8E51DD6900            mov cl, byte ptr [esi+0069DD51]
+:0043B52B C0E102                  shl cl, 02
+:0043B52E 02C8                    add cl, al
+:0043B530 888E51DD6900            mov byte ptr [esi+0069DD51], cl
+:0043B536 808652DD690050          add byte ptr [esi+0069DD52], 50	> + 150 AC, modified to 96
+:0043B53D 8B8748010000            mov eax, dword ptr [edi+00000148]
+:0043B543 668B4076                mov ax, word ptr [eax+76]
+:0043B547 66898654DD6900          mov word ptr [esi+0069DD54], ax
+
+++++++++++++
+Purgatory mode Boss modifiers: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+:0043BDEC 8B0DC0706000            mov ecx, dword ptr [006070C0]
+:0043BDF2 83F901                  cmp ecx, 00000001
+:0043BDF5 0F8580000000            jne 0043BE7B
+:0043BDFB 8B8E90000000            mov ecx, dword ptr [esi+00000090]
+:0043BE01 FEC8                    dec al
+:0043BE03 F6D8                    neg al
+:0043BE05 1BC0                    sbb eax, eax
+:0043BE07 8D0C49                  lea ecx, dword ptr [ecx+2*ecx]
+:0043BE0A 83E03F                  and eax, 00000028
+:0043BE0D 8086C00000000F          add byte ptr [esi+000000C0], 0F
+:0043BE14 83C03F                  add eax, 00000028				
+:0043BE17 C1E006                  shl eax, 0A				> +1280 HP
+:0043BE1A 03C1                    add eax, ecx
+:0043BE1C 898690000000            mov dword ptr [esi+00000090], eax
+:0043BE22 898694000000            mov dword ptr [esi+00000094], eax
+:0043BE28 668B86C2000000          mov ax, word ptr [esi+000000C2]
+:0043BE2F 6605E803                add ax, 03E8				
+:0043BE33 D1E0                    shl eax, 1
+:0043BE35 668986C2000000          mov word ptr [esi+000000C2], ax
+:0043BE3C 8A86C5000000            mov al, byte ptr [esi+000000C5]
+:0043BE42 0402                    add al, 02					> +4b (+75)
+:0043BE44 D0E0                    shl al, 1					> 90 90
+:0043BE46 8886C5000000            mov byte ptr [esi+000000C5], al
+:0043BE4C 8A86C6000000            mov al, byte ptr [esi+000000C6]
+:0043BE52 0402                    add al, 02					> +55 (+85)
+:0043BE54 D0E0                    shl al, 1					> 90 90
+:0043BE56 8886C6000000            mov byte ptr [esi+000000C6], al
+:0043BE5C 8A86C8000000            mov al, byte ptr [esi+000000C8]
+:0043BE62 0402                    add al, 02
+:0043BE64 D0E0                    shl al, 1
+:0043BE66 8886C8000000            mov byte ptr [esi+000000C8], al
+:0043BE6C 8A86C9000000            mov al, byte ptr [esi+000000C9]
+:0043BE72 0402                    add al, 02
+:0043BE74 D0E0                    shl al, 1
+:0043BE76 E987000000              jmp 0043BF02
+
+
+Doom mode Boss modifiers: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043BDF5(C)
+|
+:0043BE7B 83F902                  cmp ecx, 00000002
+:0043BE7E 0F8584000000            jne 0043BF08
+:0043BE84 FEC8                    dec al
+:0043BE86 F6D8                    neg al
+:0043BE88 1BC0                    sbb eax, eax
+:0043BE8A 8086C00000001E          add byte ptr [esi+000000C0], 1E
+:0043BE91 83E07E                  and eax, 0000007E
+:0043BE94 83C07E                  add eax, 0000007E
+:0043BE97 C1E004                  shl eax, 04					> modified to 07 (+ 2016 HP)
+:0043BE9A 038690000000            add eax, dword ptr [esi+00000090]
+:0043BEA0 C1E002                  shl eax, 02
+:0043BEA3 898690000000            mov dword ptr [esi+00000090], eax
+:0043BEA9 898694000000            mov dword ptr [esi+00000094], eax
+:0043BEAF 668B86C2000000          mov ax, word ptr [esi+000000C2]
+:0043BEB6 6605E803                add ax, 03E8
+:0043BEBA C1E002                  shl eax, 02
+:0043BEBD 668986C2000000          mov word ptr [esi+000000C2], ax
+:0043BEC4 8A86C5000000            mov al, byte ptr [esi+000000C5]
+:0043BECA C0E002                  shl al, 02
+:0043BECD 0406                    add al, 06
+:0043BECF 8886C5000000            mov byte ptr [esi+000000C5], al
+:0043BED5 8A86C6000000            mov al, byte ptr [esi+000000C6]
+:0043BEDB C0E002                  shl al, 02
+:0043BEDE 0406                    add al, 06
+:0043BEE0 8886C6000000            mov byte ptr [esi+000000C6], al
+:0043BEE6 8A86C8000000            mov al, byte ptr [esi+000000C8]
+:0043BEEC C0E002                  shl al, 02
+:0043BEEF 0406                    add al, 06
+:0043BEF1 8886C8000000            mov byte ptr [esi+000000C8], al
+:0043BEF7 8A86C9000000            mov al, byte ptr [esi+000000C9]
+:0043BEFD C0E002                  shl al, 02
+:0043BF00 0406                    add al, 06
+__________________
+DMN stuff below:
+
+Normal monsters in Nightmare:
+
+File Offset 0003A811
+
+:0043B411 898618DD6900            mov dword ptr [esi+0069DD18], eax
+wordt
+:0043B411 E8F1F40300              call 0047A907
+:0043B416 90                      nop
+
+
+Normal monsters in Hell:
+
+File Offset 0003A8BA
+
+:0043B4BA 898618DD6900            mov dword ptr [esi+0069DD18], eax
+wordt
+:0043B4BA E806F40300              call 0047A8C5
+:0043B4BF 90                      nop
+
+Bosses in Nightmare:
+
+File Offset 0003B21C
+
+:0043BE1C 898690000000            mov dword ptr [esi+00000090], eax
+wordt
+:0043BE1C E8ACC6FEFF              call 004284CD
+:0043BE21 90                      nop
+
+
+Bosses in Hell:
+
+File Offset 0003B2A3
+
+:0043BEA3 898690000000            mov dword ptr [esi+00000090], eax
+wordt
+:0043BEA3 E81FC6FEFF              call 004284C7
+:0043BEA8 90                      nop
+=============================================================
+=============================================================
+=============================================================
+the hell v1.57e_05x2:
+MODIFIED ROUTINES > > > > > > > > > > >
+Purg and Doom base monster modifier code:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043B3BD(C)
+|
+:0043B3E3 A1C0706000              mov eax, dword ptr [006070C0]
+:0043B3E8 83F801                  cmp eax, 00000001
+:0043B3EB 0F85A3000000            jne 0043B494
+:0043B3F1 8A0DC8DF6D00            mov cl, byte ptr [006DDFC8]
+:0043B3F7 8B8618DD6900            mov eax, dword ptr [esi+0069DD18]
+:0043B3FD FEC9                    dec cl
+:0043B3FF F6D9                    neg cl
+:0043B401 1BC9                    sbb ecx, ecx
+:0043B403 E8ECEE0100              call 0045A2F4
+:0043B408 83C13F                  add ecx, 0000003F
+:0043B40B C1E109                  shl ecx, 09
+:0043B40E 03C1                    add eax, ecx
+:0043B410 898618DD6900            mov dword ptr [esi+0069DD18], eax
+:0043B416 89861CDD6900            mov dword ptr [esi+0069DD1C], eax
+:0043B41C 808648DD69000F          add byte ptr [esi+0069DD48], 0F
+:0043B423 668B864ADD6900          mov ax, word ptr [esi+0069DD4A]
+:0043B42A 6605EE02                add ax, 02EE
+:0043B42E D1E0                    shl eax, 1
+:0043B430 6689864ADD6900          mov word ptr [esi+0069DD4A], ax
+:0043B437 80864CDD690055          add byte ptr [esi+0069DD4C], 55
+:0043B43E 8A8E4DDD6900            mov cl, byte ptr [esi+0069DD4D]
+:0043B444 B046                    mov al, 46
+:0043B446 02C8                    add cl, al
+:0043B448 888E4DDD6900            mov byte ptr [esi+0069DD4D], cl
+:0043B44E 8A8E4EDD6900            mov cl, byte ptr [esi+0069DD4E]
+:0043B454 02C8                    add cl, al
+:0043B456 888E4EDD6900            mov byte ptr [esi+0069DD4E], cl
+:0043B45C 80864FDD690055          add byte ptr [esi+0069DD4F], 55
+:0043B463 8A8E50DD6900            mov cl, byte ptr [esi+0069DD50]
+:0043B469 02C8                    add cl, al
+:0043B46B 888E50DD6900            mov byte ptr [esi+0069DD50], cl
+:0043B471 8A8E51DD6900            mov cl, byte ptr [esi+0069DD51]
+:0043B477 02C8                    add cl, al
+:0043B479 888E51DD6900            mov byte ptr [esi+0069DD51], cl
+:0043B47F 808652DD69004B          add byte ptr [esi+0069DD52], 4B
+:0043B486 E9C3000000              jmp 0043B54E
+:0043B48B 90                      nop						< free space
+:0043B48C 90                      nop
+:0043B48D 90                      nop
+:0043B48E 90                      nop
+:0043B48F 90                      nop
+:0043B490 90                      nop
+:0043B491 90                      nop
+:0043B492 90                      nop
+:0043B493 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043B3EB(C)
+|
+:0043B494 83F802                  cmp eax, 00000002
+:0043B497 0F85B1000000            jne 0043B54E
+:0043B49D A0C8DF6D00              mov al, byte ptr [006DDFC8]
+:0043B4A2 FEC8                    dec al
+:0043B4A4 F6D8                    neg al
+:0043B4A6 1BC0                    sbb eax, eax
+:0043B4A8 83E076                  and eax, 00000076
+:0043B4AB 83C076                  add eax, 00000076
+:0043B4AE C1E007                  shl eax, 07
+:0043B4B1 038618DD6900            add eax, dword ptr [esi+0069DD18]
+:0043B4B7 C1E002                  shl eax, 02
+:0043B4BA 898618DD6900            mov dword ptr [esi+0069DD18], eax
+:0043B4C0 89861CDD6900            mov dword ptr [esi+0069DD1C], eax
+:0043B4C6 808648DD69001E          add byte ptr [esi+0069DD48], 1E
+:0043B4CD 668B864ADD6900          mov ax, word ptr [esi+0069DD4A]
+:0043B4D4 66057102                add ax, 0271
+:0043B4D8 C1E002                  shl eax, 02
+:0043B4DB 6689864ADD6900          mov word ptr [esi+0069DD4A], ax
+:0043B4E2 80864CDD690078          add byte ptr [esi+0069DD4C], 78
+:0043B4E9 8A8E4DDD6900            mov cl, byte ptr [esi+0069DD4D]
+:0043B4EF B0BC                    mov al, BC
+:0043B4F1 02C8                    add cl, al
+:0043B4F3 888E4DDD6900            mov byte ptr [esi+0069DD4D], cl
+:0043B4F9 8A8E4EDD6900            mov cl, byte ptr [esi+0069DD4E]
+:0043B4FF 02C8                    add cl, al
+:0043B501 888E4EDD6900            mov byte ptr [esi+0069DD4E], cl
+:0043B507 80864FDD690078          add byte ptr [esi+0069DD4F], 78
+:0043B50E 8A8E50DD6900            mov cl, byte ptr [esi+0069DD50]
+:0043B514 02C8                    add cl, al
+:0043B516 888E50DD6900            mov byte ptr [esi+0069DD50], cl
+:0043B51C 8A8E51DD6900            mov cl, byte ptr [esi+0069DD51]
+:0043B522 02C8                    add cl, al
+:0043B524 888E51DD6900            mov byte ptr [esi+0069DD51], cl
+:0043B52A 808652DD690096          add byte ptr [esi+0069DD52], 96
+:0043B531 8B8748010000            mov eax, dword ptr [edi+00000148]
+:0043B537 668B4076                mov ax, word ptr [eax+76]
+:0043B53B 66898654DD6900          mov word ptr [esi+0069DD54], ax
+:0043B542 EB0A                    jmp 0043B54E
+:0043B544 90                      nop						< free space
+:0043B545 90                      nop
+:0043B546 90                      nop
+:0043B547 90                      nop
+:0043B548 90                      nop
+:0043B549 90                      nop
+:0043B54A 90                      nop
+:0043B54B 90                      nop
+:0043B54C 90                      nop
+:0043B54D 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043B486(U), :0043B497(C), :0043B542(U)
+|
+:0043B54E 5F                      pop edi
+:0043B54F 5E                      pop esi
+:0043B550 5B                      pop ebx
+:0043B551 C20C00                  ret 000C
+======================================================================
+Version zTHv1.71fRC74:
+XP rewards in Purg: [(Horror+500)*1,5] and Doom: [(Horror+500)*3]
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043B3BD(C)
+|
+:0043B3E3 A1C0706000              mov eax, dword ptr [006070C0]
+:0043B3E8 83F801                  cmp eax, 00000001
+:0043B3EB 0F85A3000000            jne 0043B494
+:0043B3F1 8A0DC8DF6D00            mov cl, byte ptr [006DDFC8]
+:0043B3F7 8B8618DD6900            mov eax, dword ptr [esi+0069DD18]
+:0043B3FD FEC9                    dec cl
+:0043B3FF F6D9                    neg cl
+:0043B401 1BC9                    sbb ecx, ecx
+:0043B403 E8ECEE0100              call 0045A2F4
+:0043B408 83C13C                  add ecx, 0000003C
+:0043B40B C1E109                  shl ecx, 09
+:0043B40E 03C1                    add eax, ecx
+:0043B410 898618DD6900            mov dword ptr [esi+0069DD18], eax
+:0043B416 89861CDD6900            mov dword ptr [esi+0069DD1C], eax
+:0043B41C 808648DD69000F          add byte ptr [esi+0069DD48], 0F
+:0043B423 668B864ADD6900          mov ax, word ptr [esi+0069DD4A]			<<< HERE
+:0043B42A 6605F401                add ax, 01F4
+:0043B42E 53                      push ebx
+:0043B42F 8BD8                    mov ebx, eax
+:0043B431 D1FB                    sar ebx, 1
+:0043B433 03C3                    add eax, ebx
+:0043B435 5B                      pop ebx
+:0043B436 6689864ADD6900          mov word ptr [esi+0069DD4A], ax
+:0043B43D 80864CDD69005A          add byte ptr [esi+0069DD4C], 5A
+:0043B444 8A8E4DDD6900            mov cl, byte ptr [esi+0069DD4D]
+:0043B44A B046                    mov al, 46
+:0043B44C 02C8                    add cl, al
+:0043B44E 888E4DDD6900            mov byte ptr [esi+0069DD4D], cl
+:0043B454 8A8E4EDD6900            mov cl, byte ptr [esi+0069DD4E]
+:0043B45A 02C8                    add cl, al
+:0043B45C 888E4EDD6900            mov byte ptr [esi+0069DD4E], cl
+:0043B462 80864FDD69005A          add byte ptr [esi+0069DD4F], 5A
+:0043B469 8A8E50DD6900            mov cl, byte ptr [esi+0069DD50]
+:0043B46F 02C8                    add cl, al
+:0043B471 888E50DD6900            mov byte ptr [esi+0069DD50], cl
+:0043B477 8A8E51DD6900            mov cl, byte ptr [esi+0069DD51]
+:0043B47D 02C8                    add cl, al
+:0043B47F 888E51DD6900            mov byte ptr [esi+0069DD51], cl
+:0043B485 808652DD690055          add byte ptr [esi+0069DD52], 55
+:0043B48C E9BD000000              jmp 0043B54E
+:0043B491 90                      nop
+:0043B492 90                      nop
+:0043B493 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043B3EB(C)
+|
+:0043B494 83F802                  cmp eax, 00000002
+:0043B497 0F85B1000000            jne 0043B54E
+:0043B49D A0C8DF6D00              mov al, byte ptr [006DDFC8]
+:0043B4A2 FEC8                    dec al
+:0043B4A4 F6D8                    neg al
+:0043B4A6 1BC0                    sbb eax, eax
+:0043B4A8 83E046                  and eax, 00000046
+:0043B4AB 83C046                  add eax, 00000046
+:0043B4AE C1E008                  shl eax, 08
+:0043B4B1 038618DD6900            add eax, dword ptr [esi+0069DD18]
+:0043B4B7 C1E002                  shl eax, 02
+:0043B4BA 898618DD6900            mov dword ptr [esi+0069DD18], eax
+:0043B4C0 89861CDD6900            mov dword ptr [esi+0069DD1C], eax
+:0043B4C6 808648DD69001E          add byte ptr [esi+0069DD48], 1E
+:0043B4CD 668B864ADD6900          mov ax, word ptr [esi+0069DD4A]
+:0043B4D4 6605F401                add ax, 01F4
+:0043B4D8 8D0440                  lea eax, dword ptr [eax+2*eax]		<<< and HERE, hopefully it won't give problems....
+:0043B4DB 6689864ADD6900          mov word ptr [esi+0069DD4A], ax
+:0043B4E2 80864CDD6900B4          add byte ptr [esi+0069DD4C], B4
+:0043B4E9 8A8E4DDD6900            mov cl, byte ptr [esi+0069DD4D]
+:0043B4EF B0BC                    mov al, BC
+:0043B4F1 02C8                    add cl, al
+:0043B4F3 888E4DDD6900            mov byte ptr [esi+0069DD4D], cl
+:0043B4F9 8A8E4EDD6900            mov cl, byte ptr [esi+0069DD4E]
+:0043B4FF 02C8                    add cl, al
+:0043B501 888E4EDD6900            mov byte ptr [esi+0069DD4E], cl
+:0043B507 80864FDD6900B4          add byte ptr [esi+0069DD4F], B4
+:0043B50E 8A8E50DD6900            mov cl, byte ptr [esi+0069DD50]
+:0043B514 02C8                    add cl, al
+:0043B516 888E50DD6900            mov byte ptr [esi+0069DD50], cl
+:0043B51C 8A8E51DD6900            mov cl, byte ptr [esi+0069DD51]
+:0043B522 02C8                    add cl, al
+:0043B524 888E51DD6900            mov byte ptr [esi+0069DD51], cl
+:0043B52A 808652DD6900AA          add byte ptr [esi+0069DD52], AA
+:0043B531 8B8748010000            mov eax, dword ptr [edi+00000148]
+:0043B537 668B4076                mov ax, word ptr [eax+76]
+:0043B53B 66898654DD6900          mov word ptr [esi+0069DD54], ax
+:0043B542 EB0A                    jmp 0043B54E
+:0043B544 90                      nop
+:0043B545 90                      nop
+:0043B546 90                      nop
+:0043B547 90                      nop
+:0043B548 90                      nop
+:0043B549 90                      nop
+:0043B54A 90                      nop
+:0043B54B 90                      nop
+:0043B54C 90                      nop
+:0043B54D 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043B48C(U), :0043B497(C), :0043B542(U)
+|
+:0043B54E 5F                      pop edi
+:0043B54F 5E                      pop esi
+:0043B550 5B                      pop ebx
+:0043B551 C20C00                  ret 000C
+
+===========================================================================
+===========================================================================
+===========================================================================
+
+v1.86
+HP formulas revised:
+	Horror monsters MP: according to monster's data values: Rnd[minimum-maximum],
+	Horror monsters SP: HorrorMP/2,
+	Purgatory monsters MP: (((500+HorrorMP)*2)+250),
+	Purgatory monsters SP: PurgatoryMP/2,
+	Doom monsters MP: (((1000+Horror)*3)+500),
+	Doom monsters SP: DoomMP/2,
+	Horror boss MP & SP: according to boss' data,
+	Purgatory boss MP: (((Horror+500)*2)+4000),
+	Purgatory boss SP: (((Horror+500)*2)+2000),
+	Doom boss MP: ((Horror+1000)*4)+4000);
+	Doom boss SP: ((Horror+1000)*4)+2000);
+
+
+	Monsters:
+:0043B3E3 A1C0706000              mov eax, dword ptr [006070C0]
+:0043B3E8 83F801                  cmp eax, 00000001
+:0043B3EB 0F85A3000000            jne 0043B494
+:0043B3F1 8A0DC8DF6D00            mov cl, byte ptr [006DDFC8]
+:0043B3F7 8B8618DD6900            mov eax, dword ptr [esi+0069DD18]
+:0043B3FD FEC9                    dec cl
+:0043B3FF F6D9                    neg cl
+:0043B401 1BC9                    sbb ecx, ecx
+:0043B403 E9ECEE0100              jmp 0045A2F4
+:0043B408 90                      nop
+:0043B409 90                      nop
+:0043B40A 90                      nop
+:0043B40B 90                      nop
+:0043B40C 90                      nop
+:0043B40D 90                      nop
+:0043B40E 90                      nop
+:0043B40F 90                      nop
+:0043B410 90                      nop
+:0043B411 90                      nop
+:0043B412 90                      nop
+:0043B413 90                      nop
+:0043B414 90                      nop
+:0043B415 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045A308(U)
+|
+:0043B416 898618DD6900            mov dword ptr [esi+0069DD18], eax
+:0043B41C 89861CDD6900            mov dword ptr [esi+0069DD1C], eax
+:0043B422 808648DD69000F          add byte ptr [esi+0069DD48], 0F
+:0043B429 668B864ADD6900          mov ax, word ptr [esi+0069DD4A]
+:0043B430 66059001                add ax, 0190
+:0043B434 D1E0                    shl eax, 1
+:0043B436 6689864ADD6900          mov word ptr [esi+0069DD4A], ax
+:0043B43D 80864CDD69005A          add byte ptr [esi+0069DD4C], 5A
+:0043B444 8A8E4DDD6900            mov cl, byte ptr [esi+0069DD4D]
+:0043B44A B055                    mov al, 55
+:0043B44C 02C8                    add cl, al
+:0043B44E 888E4DDD6900            mov byte ptr [esi+0069DD4D], cl
+:0043B454 8A8E4EDD6900            mov cl, byte ptr [esi+0069DD4E]
+:0043B45A 02C8                    add cl, al
+:0043B45C 888E4EDD6900            mov byte ptr [esi+0069DD4E], cl
+:0043B462 80864FDD69005A          add byte ptr [esi+0069DD4F], 5A
+:0043B469 8A8E50DD6900            mov cl, byte ptr [esi+0069DD50]
+:0043B46F 02C8                    add cl, al
+:0043B471 888E50DD6900            mov byte ptr [esi+0069DD50], cl
+:0043B477 8A8E51DD6900            mov cl, byte ptr [esi+0069DD51]
+:0043B47D 02C8                    add cl, al
+:0043B47F 888E51DD6900            mov byte ptr [esi+0069DD51], cl
+:0043B485 808652DD690055          add byte ptr [esi+0069DD52], 55
+:0043B48C E9BD000000              jmp 0043B54E
+:0043B491 90                      nop
+:0043B492 90                      nop
+:0043B493 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043B3EB(C)
+|
+:0043B494 83F802                  cmp eax, 00000002
+:0043B497 0F85B1000000            jne 0043B54E
+:0043B49D A0C8DF6D00              mov al, byte ptr [006DDFC8]
+:0043B4A2 FEC8                    dec al
+:0043B4A4 F6D8                    neg al
+:0043B4A6 1BC0                    sbb eax, eax
+:0043B4A8 83E07D                  and eax, 0000007D
+:0043B4AB 83C07D                  add eax, 0000007D
+:0043B4AE C1E008                  shl eax, 08
+:0043B4B1 038618DD6900            add eax, dword ptr [esi+0069DD18]
+:0043B4B7 8D0440                  lea eax, dword ptr [eax+2*eax]
+:0043B4BA E9F1F42C00              jmp 0070A9B0
+:0043B4BF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070A9BC(U)
+|
+:0043B4C0 89861CDD6900            mov dword ptr [esi+0069DD1C], eax
+:0043B4C6 808648DD69001E          add byte ptr [esi+0069DD48], 1E
+:0043B4CD 668B864ADD6900          mov ax, word ptr [esi+0069DD4A]
+:0043B4D4 66059001                add ax, 0190
+:0043B4D8 8D0440                  lea eax, dword ptr [eax+2*eax]
+:0043B4DB 6689864ADD6900          mov word ptr [esi+0069DD4A], ax
+:0043B4E2 80864CDD6900B4          add byte ptr [esi+0069DD4C], B4
+:0043B4E9 8A8E4DDD6900            mov cl, byte ptr [esi+0069DD4D]
+:0043B4EF B09E                    mov al, 9E
+:0043B4F1 02C8                    add cl, al
+:0043B4F3 888E4DDD6900            mov byte ptr [esi+0069DD4D], cl
+:0043B4F9 8A8E4EDD6900            mov cl, byte ptr [esi+0069DD4E]
+:0043B4FF B0BC                    mov al, BC
+:0043B501 02C8                    add cl, al
+:0043B503 888E4EDD6900            mov byte ptr [esi+0069DD4E], cl
+:0043B509 80864FDD6900B4          add byte ptr [esi+0069DD4F], B4
+:0043B510 8A8E50DD6900            mov cl, byte ptr [esi+0069DD50]
+:0043B516 02C8                    add cl, al
+:0043B518 888E50DD6900            mov byte ptr [esi+0069DD50], cl
+:0043B51E 8A8E51DD6900            mov cl, byte ptr [esi+0069DD51]
+:0043B524 02C8                    add cl, al
+:0043B526 888E51DD6900            mov byte ptr [esi+0069DD51], cl
+:0043B52C 808652DD6900AA          add byte ptr [esi+0069DD52], AA
+:0043B533 8B8748010000            mov eax, dword ptr [edi+00000148]
+:0043B539 668B4076                mov ax, word ptr [eax+76]
+:0043B53D 66898654DD6900          mov word ptr [esi+0069DD54], ax
+:0043B544 EB08                    jmp 0043B54E
+:0043B546 90                      nop
+:0043B547 90                      nop
+:0043B548 90                      nop
+:0043B549 90                      nop
+:0043B54A 90                      nop
+:0043B54B 90                      nop
+:0043B54C 90                      nop
+:0043B54D 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043B48C(U), :0043B497(C), :0043B544(U)
+|
+:0043B54E 5F                      pop edi
+:0043B54F 5E                      pop esi
+:0043B550 5B                      pop ebx
+:0043B551 C20C00                  ret 000C
+
+
+	Extra:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043B403(U)
+|
+:0045A2F4 83E17D                  and ecx, 0000007D
+:0045A2F7 83C17D                  add ecx, 0000007D
+:0045A2FA C1E107                  shl ecx, 07
+:0045A2FD 03C1                    add eax, ecx
+:0045A2FF C1E001                  shl eax, 01
+:0045A302 81C0803E0000            add eax, 00003E80
+:0045A308 E90911FEFF              jmp 0043B416
+:0045A30D 90                      nop
+:0045A30E 90                      nop
+:0045A30F 90                      nop
+:0045A310 90                      nop
+:0045A311 90                      nop
+
+
+	Extra2:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043B4BA(U)
+|
+:0070A9B0 81C0007D0000            add eax, 00007D00
+:0070A9B6 898618DD6900            mov dword ptr [esi+0069DD18], eax
+:0070A9BC E9FF0AD3FF              jmp 0043B4C0
+:0070A9C1 90                      nop
+:0070A9C2 90                      nop
+:0070A9C3 90                      nop
+:0070A9C4 90                      nop
+:0070A9C5 90                      nop
+:0070A9C6 90                      nop
+:0070A9C7 90                      nop
+
+
+
+
+	Bosses:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043BDE1(C)
+|
+:0043BDEC 8B0DC0706000            mov ecx, dword ptr [006070C0]
+:0043BDF2 83F901                  cmp ecx, 00000001
+:0043BDF5 0F8580000000            jne 0043BE7B
+:0043BDFB 8B8E90000000            mov ecx, dword ptr [esi+00000090]
+:0043BE01 FEC8                    dec al
+:0043BE03 F6D8                    neg al
+:0043BE05 1BC0                    sbb eax, eax
+:0043BE07 90                      nop
+:0043BE08 90                      nop
+:0043BE09 90                      nop
+:0043BE0A 83E07D                  and eax, 0000007D
+:0043BE0D 50                      push eax
+:0043BE0E E9BDE62C00              jmp 0070A4D0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070A53B(U)
+|
+:0043BE13 58                      pop eax
+:0043BE14 83C07D                  add eax, 0000007D
+:0043BE17 E9D4EB2C00              jmp 0070A9F0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070A9FE(U)
+|
+:0043BE1C 898690000000            mov dword ptr [esi+00000090], eax
+:0043BE22 898694000000            mov dword ptr [esi+00000094], eax
+:0043BE28 668B86C2000000          mov ax, word ptr [esi+000000C2]
+:0043BE2F 6605E803                add ax, 03E8
+:0043BE33 D1E0                    shl eax, 1
+:0043BE35 668986C2000000          mov word ptr [esi+000000C2], ax
+:0043BE3C 8A86C5000000            mov al, byte ptr [esi+000000C5]
+:0043BE42 045F                    add al, 5F
+:0043BE44 90                      nop
+:0043BE45 90                      nop
+:0043BE46 8886C5000000            mov byte ptr [esi+000000C5], al
+:0043BE4C 8A86C6000000            mov al, byte ptr [esi+000000C6]
+:0043BE52 046E                    add al, 6E
+:0043BE54 90                      nop
+:0043BE55 90                      nop
+:0043BE56 8886C6000000            mov byte ptr [esi+000000C6], al
+:0043BE5C 8A86C8000000            mov al, byte ptr [esi+000000C8]
+:0043BE62 045F                    add al, 5F
+:0043BE64 90                      nop
+:0043BE65 90                      nop
+:0043BE66 8886C8000000            mov byte ptr [esi+000000C8], al
+:0043BE6C 8A86C9000000            mov al, byte ptr [esi+000000C9]
+:0043BE72 046E                    add al, 6E
+:0043BE74 90                      nop
+:0043BE75 90                      nop
+:0043BE76 E987000000              jmp 0043BF02
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043BDF5(C)
+|
+:0043BE7B 83F902                  cmp ecx, 00000002
+:0043BE7E 0F8584000000            jne 0043BF08
+:0043BE84 FEC8                    dec al
+:0043BE86 F6D8                    neg al
+:0043BE88 1BC0                    sbb eax, eax
+:0043BE8A 50                      push eax
+:0043BE8B E9B0E62C00              jmp 0070A540					special doom mlvl bonus for monsters (by mslot)
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070A5AB(U)
+|
+:0043BE90 58                      pop eax
+:0043BE91 83E07D                  and eax, 0000007D
+:0043BE94 83C07D                  add eax, 0000007D
+:0043BE97 C1E00A                  shl eax, 0A
+:0043BE9A 8B8E90000000            mov ecx, dword ptr [esi+00000090]
+:0043BEA0 81C100FA0000            add ecx, 0000FA00
+:0043BEA6 C1E102                  shl ecx, 02
+:0043BEA9 03C1                    add eax, ecx
+:0043BEAB 90                      nop
+:0043BEAC 90                      nop
+:0043BEAD 90                      nop
+:0043BEAE 90                      nop
+:0043BEAF 898690000000            mov dword ptr [esi+00000090], eax
+:0043BEB5 898694000000            mov dword ptr [esi+00000094], eax
+:0043BEBB 668B86C2000000          mov ax, word ptr [esi+000000C2]
+:0043BEC2 6605E803                add ax, 03E8
+:0043BEC6 C1E002                  shl eax, 02
+:0043BEC9 668986C2000000          mov word ptr [esi+000000C2], ax
+:0043BED0 8A86C5000000            mov al, byte ptr [esi+000000C5]
+:0043BED6 04C1                    add al, C1
+:0043BED8 8886C5000000            mov byte ptr [esi+000000C5], al
+:0043BEDE 8A86C6000000            mov al, byte ptr [esi+000000C6]
+:0043BEE4 04C1                    add al, C1
+:0043BEE6 8886C6000000            mov byte ptr [esi+000000C6], al
+:0043BEEC 8A86C8000000            mov al, byte ptr [esi+000000C8]
+:0043BEF2 04C1                    add al, C1
+:0043BEF4 8886C8000000            mov byte ptr [esi+000000C8], al
+:0043BEFA 8A86C9000000            mov al, byte ptr [esi+000000C9]
+:0043BF00 04C1                    add al, C1
+
+
+	Extra:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043BE17(U)
+|
+:0070A9F0 C1E00A                  shl eax, 0A
+:0070A9F3 81C1007D0000            add ecx, 00007D00
+:0070A9F9 C1E101                  shl ecx, 01
+:0070A9FC 03C1                    add eax, ecx
+:0070A9FE E91914D3FF              jmp 0043BE1C
+:0070AA03 90                      nop
+:0070AA04 90                      nop
+
+
+====================================================================
+
+shooters (50%):
+3
+14
+20-23
+40-45
+48
+49
+54
+98
+101-108
+114
+117
+119
+124
+129
+131
+133
+
+smallers (75%):
+5
+8
+12
+13
+17
+19
+28-32
+38
+39
+53
+80
+83
+92
+94
+116
+128
+
+----------------------
+
+DOING:
+for Purgatory:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045A308(U)
+|
+:0070AA30 53                      push ebx
+:0070AA31 8B1F                    mov ebx, dword ptr [edi]
+:0070AA33 83FB03                  cmp ebx, 00000003
+:0070AA36 0F8444010000            je 0070AB80
+:0070AA3C 83FB0E                  cmp ebx, 0000000E
+:0070AA3F 0F843B010000            je 0070AB80
+:0070AA45 83FB14                  cmp ebx, 00000014
+:0070AA48 0F8432010000            je 0070AB80
+:0070AA4E 83FB15                  cmp ebx, 00000015
+:0070AA51 0F8429010000            je 0070AB80
+:0070AA57 83FB16                  cmp ebx, 00000016
+:0070AA5A 0F8420010000            je 0070AB80
+:0070AA60 83FB16                  cmp ebx, 00000016
+:0070AA63 0F8417010000            je 0070AB80
+:0070AA69 83FB17                  cmp ebx, 00000017
+:0070AA6C 0F840E010000            je 0070AB80
+:0070AA72 83FB28                  cmp ebx, 00000028
+:0070AA75 0F8405010000            je 0070AB80
+:0070AA7B 83FB29                  cmp ebx, 00000029
+:0070AA7E 0F84FC000000            je 0070AB80
+:0070AA84 83FB2A                  cmp ebx, 0000002A
+:0070AA87 0F84F3000000            je 0070AB80
+:0070AA8D 83FB2B                  cmp ebx, 0000002B
+:0070AA90 0F84EA000000            je 0070AB80
+:0070AA96 83FB2C                  cmp ebx, 0000002C
+:0070AA99 0F84E1000000            je 0070AB80
+:0070AA9F 83FB2D                  cmp ebx, 0000002D
+:0070AAA2 0F84D8000000            je 0070AB80
+:0070AAA8 83FB30                  cmp ebx, 00000030
+:0070AAAB 0F84CF000000            je 0070AB80
+:0070AAB1 83FB31                  cmp ebx, 00000031
+:0070AAB4 0F84C6000000            je 0070AB80
+:0070AABA 83FB36                  cmp ebx, 00000036
+:0070AABD 0F84BD000000            je 0070AB80
+:0070AAC3 83FB62                  cmp ebx, 00000062
+:0070AAC6 0F84B4000000            je 0070AB80
+:0070AACC 83FB65                  cmp ebx, 00000065
+:0070AACF 0F8251000000            jb 0070AB26
+:0070AAD5 83FB6C                  cmp ebx, 0000006C
+:0070AAD8 0F86A2000000            jbe 0070AB80
+:0070AADE 83FB72                  cmp ebx, 00000072
+:0070AAE1 0F8499000000            je 0070AB80
+:0070AAE7 83FB75                  cmp ebx, 00000075
+:0070AAEA 0F8490000000            je 0070AB80
+:0070AAF0 83FB77                  cmp ebx, 00000077
+:0070AAF3 0F8487000000            je 0070AB80
+:0070AAF9 83FB7C                  cmp ebx, 0000007C
+:0070AAFC 0F847E000000            je 0070AB80
+:0070AB02 81FB81000000            cmp ebx, 00000081
+:0070AB08 0F8472000000            je 0070AB80
+:0070AB0E 81FB83000000            cmp ebx, 00000083
+:0070AB14 0F8466000000            je 0070AB80
+:0070AB1A 81FB85000000            cmp ebx, 00000085
+:0070AB20 0F845A000000            je 0070AB80
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070AACF(C)
+|
+:0070AB26 E985000000              jmp 0070ABB0
+:0070AB2B 90                      nop
+...
+:0070AB7F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070AA36(C), :0070AA3F(C), :0070AA48(C), :0070AA51(C), :0070AA5A(C)
+|:0070AA63(C), :0070AA6C(C), :0070AA75(C), :0070AA7E(C), :0070AA87(C)
+|:0070AA90(C), :0070AA99(C), :0070AAA2(C), :0070AAAB(C), :0070AAB4(C)
+|:0070AABD(C), :0070AAC6(C), :0070AAD8(C), :0070AAE1(C), :0070AAEA(C)
+|:0070AAF3(C), :0070AAFC(C), :0070AB08(C), :0070AB14(C), :0070AB20(C)
+|
+:0070AB80 D1F8                    sar eax, 1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070AB8F(U), :0070ABE9(C), :0070AC4C(U)
+|
+:0070AB82 5B                      pop ebx
+:0070AB83 E98E08D3FF              jmp 0043B416
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070ABB3(C), :0070ABBC(C), :0070ABC5(C), :0070ABCE(C), :0070ABD7(C)
+|:0070ABE0(C), :0070ABF2(C), :0070ABFB(C), :0070AC04(C), :0070AC0D(C)
+|:0070AC16(C), :0070AC1F(C), :0070AC28(C), :0070AC31(C), :0070AC3A(C)
+|:0070AC46(C)
+|
+:0070AB88 8BD8                    mov ebx, eax
+:0070AB8A C1FB02                  sar ebx, 02
+:0070AB8D 2BC3                    sub eax, ebx
+:0070AB8F EBF1                    jmp 0070AB82
+:0070AB91 90                      nop
+...
+:0070ABAF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070AB26(U)
+|
+:0070ABB0 83FB05                  cmp ebx, 00000005
+:0070ABB3 0F84CFFFFFFF            je 0070AB88
+:0070ABB9 83FB08                  cmp ebx, 00000008
+:0070ABBC 0F84C6FFFFFF            je 0070AB88
+:0070ABC2 83FB0C                  cmp ebx, 0000000C
+:0070ABC5 0F84BDFFFFFF            je 0070AB88
+:0070ABCB 83FB0D                  cmp ebx, 0000000D
+:0070ABCE 0F84B4FFFFFF            je 0070AB88
+:0070ABD4 83FB11                  cmp ebx, 00000011
+:0070ABD7 0F84ABFFFFFF            je 0070AB88
+:0070ABDD 83FB13                  cmp ebx, 00000013
+:0070ABE0 0F84A2FFFFFF            je 0070AB88
+:0070ABE6 83FB1C                  cmp ebx, 0000001C
+:0070ABE9 0F8293FFFFFF            jb 0070AB82
+:0070ABEF 83FB20                  cmp ebx, 00000020
+:0070ABF2 0F8690FFFFFF            jbe 0070AB88
+:0070ABF8 83FB26                  cmp ebx, 00000026
+:0070ABFB 0F8487FFFFFF            je 0070AB88
+:0070AC01 83FB27                  cmp ebx, 00000027
+:0070AC04 0F847EFFFFFF            je 0070AB88
+:0070AC0A 83FB35                  cmp ebx, 00000035
+:0070AC0D 0F8475FFFFFF            je 0070AB88
+:0070AC13 83FB50                  cmp ebx, 00000050
+:0070AC16 0F846CFFFFFF            je 0070AB88
+:0070AC1C 83FB53                  cmp ebx, 00000053
+:0070AC1F 0F8463FFFFFF            je 0070AB88
+:0070AC25 83FB5C                  cmp ebx, 0000005C
+:0070AC28 0F845AFFFFFF            je 0070AB88
+:0070AC2E 83FB5E                  cmp ebx, 0000005E
+:0070AC31 0F8451FFFFFF            je 0070AB88
+:0070AC37 83FB74                  cmp ebx, 00000074
+:0070AC3A 0F8448FFFFFF            je 0070AB88
+:0070AC40 81FB80000000            cmp ebx, 00000080
+:0070AC46 0F843CFFFFFF            je 0070AB88
+:0070AC4C E931FFFFFF              jmp 0070AB82
+:0070AC51 90                      nop
+....
+:0070ACDF 90                      nop
+
+
+--------------------
+
+for Doom:
+:0070A9B0 E925030000              jmp 0070ACDA <- there, the checks are the same

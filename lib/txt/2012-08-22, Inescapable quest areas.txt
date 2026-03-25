@@ -1,0 +1,318 @@
+
+
+
+	Savegame impossible for quest areas:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0041B2C5(U)
+|
+:00712740 833C0808                cmp dword ptr [eax+ecx], 00000008
+:00712744 7415                    je 0071275B
+:00712746 803D14F3610000          cmp byte ptr [0061F314], 00
+:0071274D 750C                    jne 0071275B
+:0071274F E9778BD0FF              jmp 0041B2CB
+:00712754 90                      nop
+:00712755 90                      nop
+:00712756 90                      nop
+:00712757 90                      nop
+:00712758 90                      nop
+:00712759 90                      nop
+:0071275A 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00712744(C), :0071274D(C)
+|
+:0071275B E9768BD0FF              jmp 0041B2D6
+:00712760 90                      nop
+:00712761 90                      nop
+
+
+
+
+
+=================================================
+TP availability returned after area cleanup only:
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00432F33(U)
+|
+:00712800 833D80DC690004          cmp dword ptr [0069DC80], 00000004
+:00712807 740F                    je 00712818
+:00712809 C7868C7A690001000000    mov dword ptr [esi+00697A8C], 00000001
+:00712813 E93A07D2FF              jmp 00432F52
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00712807(C)
+|
+:00712818 660FB605D4B16000        movzx ax, byte ptr [0060B1D4]
+:00712820 90                      nop
+:00712821 90                      nop
+:00712822 90                      nop
+:00712823 90                      nop
+:00712824 90                      nop
+:00712825 90                      nop
+:00712826 90                      nop
+:00712827 90                      nop
+:00712828 90                      nop
+:00712829 90                      nop
+:0071282A 90                      nop
+:0071282B E90B07D2FF              jmp 00432F3B
+
+
+================================================
+
+and more code:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0047947A(U)
+|
+:0071285F 90                      nop
+:00712860 833D80DC690004          cmp dword ptr [0069DC80], 00000004
+:00712867 7517                    jne 00712880
+:00712869 FF357CB66E00            push dword ptr [006EB67C]
+:0071286F E90C6CD6FF              jmp 00479480
+:00712874 90                      nop
+:00712875 90                      nop
+:00712876 90                      nop
+:00712877 90                      nop
+:00712878 90                      nop
+:00712879 90                      nop
+:0071287A 90                      nop
+:0071287B 90                      nop
+:0071287C 90                      nop
+:0071287D 90                      nop
+:0071287E 90                      nop
+:0071287F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00712867(C)
+|
+:00712880 6A02                    push 00000002
+:00712882 5A                      pop edx
+:00712883 8855FF                  mov byte ptr [ebp-01], dl
+:00712886 90                      nop
+:00712887 90                      nop
+:00712888 90                      nop
+:00712889 90                      nop
+:0071288A 0FBE157CB66E00          movsx edx, byte ptr [006EB67C]
+:00712891 90                      nop
+:00712892 90                      nop
+:00712893 90                      nop
+:00712894 90                      nop
+:00712895 90                      nop
+:00712896 BF58B36E00              mov edi, 006EB358
+:0071289B 3A9750010000            cmp dl, byte ptr [edi+00000150]
+:007128A1 750D                    jne 007128B0
+:007128A3 90                      nop
+:007128A4 90                      nop
+:007128A5 90                      nop
+:007128A6 90                      nop
+:007128A7 90                      nop
+:007128A8 90                      nop
+:007128A9 40                      inc eax
+:007128AA EB3C                    jmp 007128E8
+:007128AC 90                      nop
+:007128AD 90                      nop
+:007128AE 90                      nop
+:007128AF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007128A1(C)
+|
+:007128B0 3A9788010000            cmp dl, byte ptr [edi+00000188]
+:007128B6 7515                    jne 007128CD
+:007128B8 49                      dec ecx
+:007128B9 EB2D                    jmp 007128E8
+:007128BB 90                      nop
+:007128BC 90                      nop
+:007128BD 90                      nop
+:007128BE 90                      nop
+:007128BF 90                      nop
+:007128C0 90                      nop
+:007128C1 90                      nop
+:007128C2 90                      nop
+:007128C3 90                      nop
+:007128C4 90                      nop
+:007128C5 90                      nop
+:007128C6 90                      nop
+:007128C7 90                      nop
+:007128C8 90                      nop
+:007128C9 90                      nop
+:007128CA 90                      nop
+:007128CB 90                      nop
+:007128CC 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007128B6(C)
+|
+:007128CD 3A976C010000            cmp dl, byte ptr [edi+0000016C]
+:007128D3 750B                    jne 007128E0
+:007128D5 41                      inc ecx
+:007128D6 EB10                    jmp 007128E8
+:007128D8 90                      nop
+:007128D9 90                      nop
+:007128DA 90                      nop
+:007128DB 90                      nop
+:007128DC 90                      nop
+:007128DD 90                      nop
+:007128DE 90                      nop
+:007128DF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007128D3(C)
+|
+:007128E0 40                      inc eax
+:007128E1 41                      inc ecx
+:007128E2 90                      nop
+:007128E3 90                      nop
+:007128E4 90                      nop
+:007128E5 90                      nop
+:007128E6 90                      nop
+:007128E7 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007128AA(U), :007128B9(U), :007128D6(U)
+|
+:007128E8 894DF0                  mov dword ptr [ebp-10], ecx
+:007128EB 8945F4                  mov dword ptr [ebp-0C], eax
+:007128EE E9F46BD6FF              jmp 004794E7
+
+
+pre plan to above:
+
+Вначале русским по белому:
+если количество монстров - 4 (зачистили уровень) то
+push    SPQuestDangeonLevel
+jmp 479480
+Восстанавливаем затёртое, продолжаем выполнение, тем самым благополучно выходим
+
+Если нет, то устанавливаем сообщение выводимое в 2 (это наше о запрете выхода)
+mov     [ebp+messageIndex], 42
+оно же 
+mov byte ptr [ebp-1], 02h
+проверяем какой это уровень. В зависимости от уровня 
+устанавливаем клетку на которую топать при неудочном заходе
+ecx - текущий ряд игрока
+eax - текущая колонка игрока
+их можно спокойно менять, дальше они не будут использованы
+row= dword ptr -10h
+    col= dword ptr -0Ch
+mov   dword ptr  [ebp+row], ecx;
+mov  dword ptr   [ebp+col], eax;
+После того как выбрали куда будем перемещаться, прыгаем на 
+jmp 4794E7 от этого кода выполняется выбор звука в зависимости от класса о том что сюда рано, выведется сообщение указанное и переместится игрок на указанные координаты
+Осталось понять как определять где мы. в колодце, алтаре или где...
+006EB358 - DungeonQuests
+150   - леорик
+188 - чамбер оф бон
+16c - колодец
+1a4 - лазарус
+Для определения проверяем байт [DungeonQuests + offset] на совпадение с SPQuestDangeonLevel
+.data:006EB67C     ; int SPQuestDangeonLevel
+Координаты
+колодец СЗ  row + 1; col
+Леорика грбница: СВ    row; col + 1
+Зал Костей: ЮВ   row -1; col
+лазарь:       Ю      row +1; col + 1
+// 3) Нулевые координаты находятся в верхнем углу карты относительно экрана
+// по правой стороне координата y (row)
+// по левой x (col)
+
+====================================================
+
+========================================================
+adding sound to notify that area is cleared
+applied to all quest levels
+
+
+.data:0061F314     ; char IsQuestLevel
+Добавление звука всем локам при очистке
+
+.text:0043C72D 004                 mov     esi, [ecx]
+.text:0043C72F 004                 mov     [eax], esi
+.text:0043C731 004                 mov     [ecx], edx
+.text:0043C733 004                 pop     esi
+.text:0043C734 000                 retn          
+Из 0043C72D  jmp на свободное место
+
+
+--------------------------
+: ставим затёртые мувы. поп и ретурн в другом месте
+Если лока не квестовая то выходим
+cmp byte ptr [0061F314], 0
+jz @end
+Если количество монстров > 4 выходим
+833D80DC690004          cmp dword ptr [0069DC80], 00000004
+jg @end
+Количество монстров равно 4 - квестовая лока зачищена. играем звук
+E85384FFFF              call 0070A1D0  ; получение указателя на текущего игрока
+push    dword ptr [eax+3Ch]
+mov     edx, dword ptr [eax+38h]
+push    14
+pop     ecx
+call    4186C4
+@end:
+pop     esi
+retn ; or jmp 0043C734 вроде он не должен к этому моменту затереться
+
+
+
+
+
+=====================================
+;новая функция
+;возвращает 1 если лока квестовая и монстров больше 4 и 0 в противном случае
+IsTownPortalDisabled
+xor eax, eax
+inc eax
+;Если лока не квестовая то возвращаем 0
+cmp byte ptr [0061F314], 0
+jz @return0
+;Если количество монстров > 4 возвращаем 1
+833D80DC690004          cmp dword ptr [0069DC80], 00000004
+jg @return1
+@return0:
+xor eax, eax
+@return1:
+retn
+
+---------оформляется как функция на свободном месте
+
+
+check:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043C72D(U)
+|
+:00712910 8B31                    mov esi, dword ptr [ecx]
+:00712912 8930                    mov dword ptr [eax], esi
+:00712914 8911                    mov dword ptr [ecx], edx
+:00712916 803D14F3610001          cmp byte ptr [0061F314], 01
+:0071291D 7402                    je 00712921
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00712928(C), :0071293D(U)
+|
+:0071291F 5E                      pop esi
+:00712920 C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071291D(C)
+|
+:00712921 833D80DC690004          cmp dword ptr [0069DC80], 00000004
+:00712928 7FF5                    jg 0071291F
+:0071292A E8A178FFFF              call 0070A1D0
+:0071292F FF703C                  push [eax+3C]
+:00712932 8B5038                  mov edx, dword ptr [eax+38]
+:00712935 6A0E                    push 0000000E
+:00712937 59                      pop ecx
+:00712938 E8875DD0FF              call 004186C4
+:0071293D EBE0                    jmp 0071291F
+:0071293F 90                      nop
+
+
+

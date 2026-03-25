@@ -1,0 +1,39 @@
+Town:
+
+v1 - Iconic TH Town palette
+v2 - TheDark53 town palette, but without bright-green grass
+v3 - Default Diablo palette
+v4 - Same as #2, with grass that is less green and more yellow-brown (more like autumn style)
+v5 - #1 with grass color set to reddish
+v6 - Similar to #5 but with more yellow colors
+v7 - #1 with green grass
+v8 - Moonlit Tristram, bright night (purple leaves, bronze roofs)
+v9 - 
+v10 - 
+v11 - #1 +grass 33
+v12 - #1 +roof 0 
+v13 - #1 +grass 20 +100 to its contrast (looks like hay)
+
+
+
+=
+
+grass colors:
+col, row
+
+7-4
+9-4
+3-5
+6-5
+8-5
+11-5
+14-5
+4, 6
+6,6
+11,6 
+14, 6
+7,7 a lot
+9,7
+10,7
+
+===

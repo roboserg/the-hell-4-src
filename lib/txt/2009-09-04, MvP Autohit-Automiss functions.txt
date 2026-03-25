@@ -1,0 +1,76 @@
+
+
+Missile:
+min: 16%
+max: (95-(bDEX/4))%
+
+	Comments:
+
+* Referenced by a CALL at Address:
+|:0042F727   
+|
+:0042F730 50                      push eax
+:0042F731 52                      push edx
+:0042F732 8B8178010000            mov eax, dword ptr [ecx+00000178]	<- baseDEX
+:0042F738 C1E802                  shr eax, 02				<- baseDEX/4
+:0042F73B 6A5F                    push 0000005F
+:0042F73D 5A                      pop edx				<- EDX = 95
+:0042F73E 2BD0                    sub edx, eax				<- 95 - (bDEX/4)
+:0042F740 3BD3                    cmp edx, ebx				<- cmp result to monster's current tohit chance
+:0042F742 7D02                    jge 0042F746				<- jump if monster's tohit is below
+:0042F744 8BDA                    mov ebx, edx				<- otherwise set it to 95%
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F742(C)
+|
+:0042F746 6A10                    push 00000010				<- EAX = 16
+:0042F748 58                      pop eax
+:0042F749 3BD8                    cmp ebx, eax				<- cmp monsterToHit to 16%
+:0042F74B 7D02                    jge 0042F74F
+:0042F74D 8BD8                    mov ebx, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F74B(C)
+|
+:0042F74F 5A                      pop edx
+:0042F750 58                      pop eax
+:0042F751 C3                      ret
+
+
+_________________________________
+
+Melee:
+min: 23%
+max: (100-(bDEX/8))%
+
+	Comments:
+
+* Referenced by a CALL at Address:
+|:0043E235   
+|
+:0040952F 50                      push eax
+:00409530 52                      push edx
+:00409531 8B8178010000            mov eax, dword ptr [ecx+00000178]	<- EAX= bDEX/8
+:00409537 C1E803                  shr eax, 03
+:0040953A 6A64                    push 00000064
+:0040953C 5A                      pop edx
+:0040953D 2BD0                    sub edx, eax
+:0040953F 3BD3                    cmp edx, ebx
+:00409541 7D02                    jge 00409545
+:00409543 8BDA                    mov ebx, edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00409541(C)
+|
+:00409545 6A17                    push 00000017				- cmp to 23
+:00409547 58                      pop eax
+:00409548 3BD8                    cmp ebx, eax
+:0040954A 7D02                    jge 0040954E
+:0040954C 8BD8                    mov ebx, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0040954A(C)
+|
+:0040954E 5A                      pop edx
+:0040954F 58                      pop eax
+:00409550 C3                      ret

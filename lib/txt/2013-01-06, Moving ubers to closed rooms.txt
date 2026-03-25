@@ -1,0 +1,734 @@
+﻿Переселение уберов
+переселение Пинки с его псами на 6й уровень мультиДума:
+
+в большом зале, нарисованном через дун файл, помещен пинки и его собаки числом штук 12
+важно чтобы ниодна из его писн не оказалась вне зала, иначе ненароком активирует весь пак, что может очень не входить в план игрока. всетаки это убербосс.
+поддержку его и псин на 6м уровне мультидума я сделаю сам. знаю как.
+данные в данных босса тоже изменю.
+тебе надо сделать:
+дун файл на 6м уровне (мульти, дум) и поместить туда boss_ID#556 и его 12 собак рядом mnstr_ID#206
+
+=====================================================
+@IsPinkiOnLevel: // E5700
+cmp byte ptr [006070С0], 2; сложность дум
+jnz @F
+cmp byte ptr [006DDFC8], 1; режим мульти
+jz @F
+cmp byte ptr [0060B1D8], 6 ; этаж шестой
+jnz @F
+mov eax, 1
+retn
+@@:
+xor eax, eax
+retn
+
+                chek:
+* Referenced by a CALL at Addresses:
+|:00718B30   , :00718B6E   
+|
+:00718B00 803DC070600002          cmp byte ptr [006070C0], 02
+:00718B07 7516                    jne 00718B1F
+:00718B09 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00718B10 740D                    je 00718B1F
+:00718B12 803DD8B1600006          cmp byte ptr [0060B1D8], 06
+:00718B19 7504                    jne 00718B1F
+:00718B1B 6A01                    push 00000001
+:00718B1D 58                      pop eax
+:00718B1E C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00718B07(C), :00718B10(C), :00718B19(C)
+|
+:00718B1F 31C0                    xor eax, eax
+:00718B21 C3                      ret
+
+
+======================================================
+
+00410729 >>>
+>>> // E5730
+call @IsPinkiOnLevel
+test eax, eax
+jz @F
+@makePinkiRoomHall:
+mov  ecx, 1; нужен квестовый зал
+mov edx, 11d ; rowSize 
+mov esi, 11d ; colSize ; размеры потом подберутся
+jmp 41074Eh
+
+@@:
+80 3D E2 B4 6E 00 00 cmp     byte_6EB4E2, 0
+jmp 00410730
+
+           сhek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00410729(U)
+|
+:00718B30 E8CBFFFFFF              call 00718B00
+:00718B35 85C0                    test eax, eax
+:00718B37 740E                    je 00718B47
+:00718B39 6A01                    push 00000001
+:00718B3B 59                      pop ecx
+:00718B3C 6A0B                    push 0000000B
+:00718B3E 5A                      pop edx
+:00718B3F 6A0B                    push 0000000B
+:00718B41 5E                      pop esi
+:00718B42 E9077CCFFF              jmp 0041074E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718B37(C)
+|
+:00718B47 803DE2B46E0000          cmp byte ptr [006EB4E2], 00
+:00718B4E E9DD7BCFFF              jmp 00410730
+======================================================
+0040F946 >>>
+>>> // E5760
+jz @pinkiRoomCheck
+33 D2                                   xor     edx, edx ; затёртое
+B9 38 73 49 00                          mov     ecx, offset aLevelsL2dataBo
+jmp 40F94F
+@pinkiRoomCheck:
+call @IsPinkiOnLevel
+test eax, eax
+jz @F
+@loadPinkiRoom:
+33 D2                                   xor     edx, edx
+mov ecx, "Levels\\L2Data\\pinkyRoom.DUN" // A36590
+jmp 40F94F
+@@:
+retn
+call @IsUberFrom8FloorOnLevel
+test eax, eax
+jz @F
+jmp @loadPinkiRoom ; если точно всегда такая же будет
+; если будет другая потом, то лучше сразу сделать. Проще менять потом будет
+; xor     edx, edx
+; mov ecx,  *dun file name*
+; jmp 40F94F
+@@:
+retn
+
+               chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0040F946(U)
+|
+:00718B60 740C                    je 00718B6E
+:00718B62 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"Levels\L2Data\Bonestr2.DUN"
+                                  |
+:00718B64 B938734900              mov ecx, 00497338
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718B7E(U)
+|
+:00718B69 E9E16DCFFF              jmp 0040F94F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718B60(C)
+|
+:00718B6E E88DFFFFFF              call 00718B00
+:00718B73 85C0                    test eax, eax
+:00718B75 7409                    je 00718B80
+:00718B77 33D2                    xor edx, edx
+:00718B79 B99065A300              mov ecx, 00A36590
+:00718B7E EBE9                    jmp 00718B69
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718B75(C)
+|
+:00718B80 E97B030000              jmp 00718F00
+
++
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718B80(U)
+|
+:00718F00 E88BFFFFFF              call 00718E90
+:00718F05 85C0                    test eax, eax
+:00718F07 740C                    je 00718F15
+:00718F09 31D2                    xor edx, edx
+:00718F0B B9C665A300              mov ecx, 00A365C6
+:00718F10 E93A6ACFFF              jmp 0040F94F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718F07(C)
+|
+:00718F15 C3                      ret
+
+
+==============================================================
+@UnMarkPatternPositionOnMap: // E5790
+
+копия 0041C0BA
+в копии 
+loc_41C0FB:
+or      byte ptr [ebx], 8
+меняем на 
+and byte ptr [ebx], 0f7h
+Всё
+
+=============================================================
+
+0043BC3E >>> // E57F0
+>>>
+cmp edx, 556d
+jz @pinki
+cmp     edx, 4
+jz 0043BC43
+jmp 43BC4B ; следующая проверка
+@pinki:
+lea     edi, [eax+eax+16]; row
+lea     ebx, [ecx+ecx+16] ; col ; точные координаты центра комнты сам выверишь
+jmp 43BC4B; следующая проверка
+
+           chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043BC3E(U)
+|
+:00718BF0 81FA2C020000            cmp edx, 0000022C
+:00718BF6 7418                    je 00718C10
+:00718BF8 83FA04                  cmp edx, 00000004
+:00718BFB 0F844230D2FF            je 0043BC43
+:00718C01 90                      nop
+..
+:00718C05 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718C20(U)
+|
+:00718C06 E94030D2FF              jmp 0043BC4B
+:00718C0B 90                      nop
+..
+:00718C0F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718BF6(C)
+|
+:00718C10 8D7C0010                lea edi, dword ptr [eax+eax+10]
+:00718C14 8D5C0910                lea ebx, dword ptr [ecx+ecx+10]
+:00718C18 90                      nop
+..
+:00718C1F 90                      nop
+:00718C20 EBE4                    jmp 00718C06
+===========================================================
+
+0043C067 >>> // E5830
+call @IsPinkiOnLevel
+test eax, eax
+jz @F
+@AddPinki:
+call @UnMarkPatternPositionOnMap ; разблокировали квестовую комнату для установки монстров
+mov ecx, ??? ; base monster index пинки
+mov edx, 2 ; от балды // seeding size?не. это обозначает что то другое. значения 1 2 4 обычные. 1 - монстры которые выбраны при обычной генерации
+call 0043A95E ; add monster type
+mov ecx, 0CEh  ; base monster index собак
+mov edx, 2 ; от балды
+call 0043A95E ; add monster type
+push 12h ; количество слуг
+mov edx, eax
+mov ecx, 22Ch ; босс айди
+call 0043BA78 ; CreateBoss(int uniqMonsterIndex, int bossPackSpriteIndex, int packCount)
+; поставили пинки с собаками. Внутри устанавливается фиксированное положение для него.
+call 0041C0BA ; заблокировали обратно
+@@:
+mov ecx, 6
+call 45FA93
+jmp 0043C06F
+
+            chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043C067(U)
+|
+:00718C30 E8CBFEFFFF              call 00718B00
+:00718C35 85C0                    test eax, eax
+:00718C37 7429                    je 00718C62
+:00718C39 90                      nop
+:00718C3A 90                      nop
+:00718C3B E850FFFFFF              call 00718B90
+:00718C40 EB3E                    jmp 00718C80 //  > >>>>>>>>>>>>>>>>>>>
+:00718C42 90                      nop
+...
+:00718C4F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718C99(U)
+|
+:00718C50 E8232ED2FF              call 0043BA78
+:00718C55 90                      nop
+:00718C56 90                      nop
+:00718C57 90                      nop
+:00718C58 E85D34D0FF              call 0041C0BA
+:00718C5D 90                      nop
+..
+:00718C61 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718C37(C)
+|
+:00718C62 6A06                    push 00000006
+:00718C64 59                      pop ecx
+:00718C65 E8296ED4FF              call 0045FA93
+:00718C6A E90034D2FF              jmp 0043C06F
+:00718C6F 90                      nop
+...
+:00718C7F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718C40(U)
+|
+:00718C80 B9CD000000              mov ecx, 000000CD // < <<<<<<<<<<<<<<<<<
+:00718C85 6A02                    push 00000002
+:00718C87 5A                      pop edx
+:00718C88 E8D11CD2FF              call 0043A95E
+:00718C8D 90                      nop
+:00718C8E 90                      nop
+:00718C8F 90                      nop
+:00718C90 6A12                    push 00000012
+:00718C92 89C2                    mov edx, eax
+:00718C94 B92C020000              mov ecx, 0000022C
+:00718C99 EBB5                    jmp 00718C50
+:00718C9B 90                      nop
+===========================================================
+===========================================================
+===========================================================
+
+@IsDrebezOnLevel: // E5980
+cmp byte ptr [006070С0], 2; сложность дум
+jnz @F
+cmp byte ptr [006DDFC8], 1; режим мульти
+jz @F
+cmp byte ptr [0060B1D8], 2 ; этаж второй
+jnz @F
+mov eax, 1
+retn
+@@:
+xor eax, eax
+retn            
+============================
+
+;установка комнаты
+
+0071693B >>> // E59AB
+>>>
+call @IsDrebezOnLevel
+test eax, eax
+jz @F
+@makeDrebezRoom:
+xor     edx, edx
+mov     ecx, "Levels\\L1Data\\Drebez.DUN"
+call   41A02F
+mov     dword ptr [57738C], eax
+mov     dword ptr [577350], ebx
+@@:
+push    7
+pop     ecx
+call    sub_45FA93
+jmp 40C00A
+
+        chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071693B(U)
+|
+:00718DAB E8D0FFFFFF              call 00718D80
+:00718DB0 85C0                    test eax, eax
+:00718DB2 741F                    je 00718DD3
+:00718DB4 31D2                    xor edx, edx
+:00718DB6 B9AC65A300              mov ecx, 00A365AC
+:00718DBB 90                      nop
+..
+:00718DBF 90                      nop
+:00718DC0 E86A12D0FF              call 0041A02F
+:00718DC5 90                      nop
+:00718DC6 90                      nop
+:00718DC7 90                      nop
+:00718DC8 A38C735700              mov dword ptr [0057738C], eax
+:00718DCD 891D50735700            mov dword ptr [00577350], ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718DB2(C)
+|
+:00718DD3 E93232CFFF              jmp 0040C00A
+
+=================================================
+
+; точное позиционирование босса // e59e0
+
+:00718C06 E94030D2FF              jmp 0043BC4B
+;00718C06 jmp >>>
+>>>
+cmp edx, 22Dh; босс айди дребеза. Может другой у него
+jz @drebez
+jmp 0043BC4B
+@drebez:
+lea     edi, [eax+eax+16]; row
+lea     ebx, [ecx+ecx+16] ; col ; точные координаты центра комнты сам выверишь. 16 - это точно верхний угол
+jmp 43BC4B; следующая проверка
+
+                                       chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718C06(U)
+|
+:00718DE0 81FA2D020000            cmp edx, 0000022D
+:00718DE6 7408                    je 00718DF0
+:00718DE8 E95E2ED2FF              jmp 0043BC4B
+:00718DED 90                      nop
+:00718DEE 90                      nop
+:00718DEF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718DE6(C)
+|
+:00718DF0 8D7C0016                lea edi, dword ptr [eax+eax+16]
+:00718DF4 8D5C0916                lea ebx, dword ptr [ecx+ecx+16]
+:00718DF8 E94E2ED2FF              jmp 0043BC4B
+===================================================
+
+; добавление босса со свитой со временной разблокировкой комнаты
+
+00718C62 >>> // E5A00
+>>>
+call @IsDrebezOnLevel
+test eax, eax
+jz @F>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+@AddDrebez:
+call @UnMarkPatternPositionOnMap ; разблокировали квестовую комнату для установки монстров
+mov ecx, CFh ; base monster index drebeza
+mov edx, 2
+call 0043A95E ; add monster type
+mov ecx, D0h  ; base monster index слуг
+mov edx, 2 ; от балды
+call 0043A95E ; add monster type
+push 8 ; количество слуг
+mov edx, eax
+mov ecx, 22Dh ; босс айди
+call 0043BA78
+call 0041C0BA ; заблокировали обратно
+@@:<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+mov ecx, 6
+call 45FA93
+jmp 0043C06F @uxorenAndFloor8UberCheck
+
+         chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718C60(U)
+|
+:00718E00 EB4E                    jmp 00718E50
+:00718E02 90                      nop
+..
+:00718E05 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718E59(U)
+|
+:00718E06 E885FDFFFF              call 00718B90
+:00718E0B B9CF000000              mov ecx, 000000CF
+:00718E10 6A02                    push 00000002
+:00718E12 5A                      pop edx
+:00718E13 E8461BD2FF              call 0043A95E
+:00718E18 B9D0000000              mov ecx, 000000D0
+:00718E1D 6A02                    push 00000002
+:00718E1F 5A                      pop edx
+:00718E20 90                      nop
+:00718E21 90                      nop
+:00718E22 90                      nop
+:00718E23 E8361BD2FF              call 0043A95E
+:00718E28 6A08                    push 00000008
+:00718E2A 90                      nop
+:00718E2B 90                      nop
+:00718E2C 90                      nop
+:00718E2D 89C2                    mov edx, eax
+:00718E2F B92D020000              mov ecx, 0000022D
+:00718E34 E83F2CD2FF              call 0043BA78
+:00718E39 E87C32D0FF              call 0041C0BA
+:00718E3E 90                      nop
+:00718E3F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718E57(C)
+|
+:00718E40 6A06                    push 00000006
+:00718E42 59                      pop ecx
+:00718E43 E91DFEFFFF              jmp 00718C65
+:00718E48 90                      nop
+.
+:00718E4F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718E00(U)
+|
+:00718E50 E82BFFFFFF              call 00718D80
+:00718E55 85C0                    test eax, eax
+:00718E57 74E7                    je 00718E40
+:00718E59 EBAB                    jmp 00718E06
+
+===================================================
+===================================================
+Ксорен и босс с 8го этажа
+
+@IsUxorenOnLevel: // E5A60
+cmp byte ptr [006070С0], 2; сложность дум
+jnz @F
+cmp byte ptr [006DDFC8], 1; режим мульти
+jz @F
+cmp byte ptr [0060B1D8], 22d ; этаж второй
+jnz @F
+mov eax, 1
+retn
+@@:
+xor eax, eax
+retn
+
+=======================================================
+
+@IsUberFrom8FloorOnLevel: // E5A90
+cmp byte ptr [006070С0], 2; сложность дум
+jnz @F
+cmp byte ptr [006DDFC8], 1; режим мульти
+jz @F
+cmp byte ptr [0060B1D8], 8d ; этаж второй
+jnz @F
+mov eax, 1
+retn
+@@:
+xor eax, eax
+retn
+
+=======================================================
+ 
+; точное позиционирование босса. Обоих точнее сразу
+
+;:00718DE8 E95E2ED2FF              jmp 0043BC4B
+
+00718DE8 >>> // E5AC0
+>>>
+cmp edx, 578; босс айди ксорен
+jz @uxoren
+cmp edx, 537 ; босс айди уберб с 8го этажа
+jz @uberFrom8Floor
+jmp 0043BC4B
+@uxoren:
+lea     edi, [eax+eax+16]; row
+lea     ebx, [ecx+ecx+16] ; col ; точные координаты центра комнты сам выверишь. 16 - это точно верхний угол
+jmp 43BC4B; следующая проверка
+@uberFrom8Floor:
+lea     edi, [eax+eax+16]; row
+lea     ebx, [ecx+ecx+16] ; col ; точные координаты центра комнты сам выверишь. 16 - это точно верхний угол
+jmp 43BC4B; следующая проверка
+
+             chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718DE8(U)
+|
+:00718EC0 81FA42020000            cmp edx, 00000242
+:00718EC6 740D                    je 00718ED5
+:00718EC8 81FA19020000            cmp edx, 00000219
+:00718ECE 7412                    je 00718EE2
+:00718ED0 E9762DD2FF              jmp 0043BC4B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718EC6(C)
+|
+:00718ED5 8D7C0016                lea edi, dword ptr [eax+eax+16]
+:00718ED9 8D5C0916                lea ebx, dword ptr [ecx+ecx+16]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718EEA(U)
+|
+:00718EDD E9692DD2FF              jmp 0043BC4B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718ECE(C)
+|
+:00718EE2 8D7C0018                lea edi, dword ptr [eax+eax+18]
+:00718EE6 8D5C0918                lea ebx, dword ptr [ecx+ecx+18]
+:00718EEA EBF1                    jmp 00718EDD
+
+===================================================
+
+; добавление босса со свитой со временной разблокировкой комнаты
+
+;loc_718E00:   jmp     short loc_718E50
+
+ 718C60 >>> E5B80
+@uxorenAndFloor8UberCheck:
+
+call @IsUxorenOnLevel
+test eax, eax
+jz @F>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+@AddUxoren:
+call @UnMarkPatternPositionOnMap ; разблокировали квестовую комнату для установки монстров
+mov ecx, ??? ; base monster index uxoren
+mov edx, 2
+call 0043A95E ; add monster type
+mov ecx, ???  ; base monster index слуг
+mov edx, 2 ; от балды
+call 0043A95E ; add monster type
+push ??? ; количество слуг
+mov edx, eax
+mov ecx, ??? ; босс айди
+call 0043BA78
+call 0041C0BA ; заблокировали обратно
+@@:<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+call @IsUberFrom8FloorOnLevel
+test eax, eax
+jz @F>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+@AddUberFrom8Floor:
+call @UnMarkPatternPositionOnMap ; разблокировали квестовую комнату для установки монстров
+mov ecx, ??? ; base monster index UberFrom8Floor
+mov edx, 2
+call 0043A95E ; add monster type
+mov ecx, ???  ; base monster index слуг
+mov edx, 2 ; от балды
+call 0043A95E ; add monster type
+push ??? ; количество слуг
+mov edx, eax
+mov ecx, ??? ; босс айди
+call 0043BA78
+call 0041C0BA ; заблокировали обратно
+@@:<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+mov ecx, 6
+call 45FA93
+jmp 718E50
+
+             chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718C60(U)
+|
+:00718F80 E8DBFEFFFF              call 00718E60
+:00718F85 85C0                    test eax, eax
+:00718F87 7429                    je 00718FB2
+:00718F89 E802FCFFFF              call 00718B90
+:00718F8E B9D8000000              mov ecx, 000000D8
+:00718F93 BA02000000              mov edx, 00000002
+:00718F98 E8C119D2FF              call 0043A95E
+:00718F9D 6A08                    push 00000008
+:00718F9F 89C2                    mov edx, eax
+:00718FA1 B942020000              mov ecx, 00000242
+:00718FA6 E8CD2AD2FF              call 0043BA78
+:00718FAB E80A31D0FF              call 0041C0BA
+:00718FB0 EB3E                    jmp 00718FF0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718F87(C)
+|
+:00718FB2 E8D9FEFFFF              call 00718E90
+:00718FB7 85C0                    test eax, eax
+:00718FB9 7435                    je 00718FF0
+:00718FBB E8D0FBFFFF              call 00718B90
+:00718FC0 B9C5000000              mov ecx, 000000C5
+:00718FC5 6A02                    push 00000002
+:00718FC7 5A                      pop edx
+:00718FC8 E89119D2FF              call 0043A95E
+:00718FCD B9C6000000              mov ecx, 000000C6
+:00718FD2 BA02000000              mov edx, 00000002
+:00718FD7 90                      nop
+:00718FD8 E88119D2FF              call 0043A95E
+:00718FDD 6A12                    push 00000012
+:00718FDF 89C2                    mov edx, eax
+:00718FE1 B919020000              mov ecx, 00000219
+:00718FE6 E88D2AD2FF              call 0043BA78
+:00718FEB E8CA30D0FF              call 0041C0BA
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00718FB0(U), :00718FB9(C)
+|
+:00718FF0 90                      nop
+:00718FF1 90                      nop
+:00718FF2 6A06                    push 00000006
+:00718FF4 59                      pop ecx
+:00718FF5 E8996AD4FF              call 0045FA93
+:00718FFA E951FEFFFF              jmp 00718E50
+:00718FFF 90                      nop
+=====================================================
+Добавление комнаты на 8й этаж
+
+Добавление Зала
+
+;.text:0041071A 38 0D 3A B4 6E 00                       cmp     byte_6EB43A, cl
+;.text:00410720 74 2C                                   jz      short loc_41074E
+
+0041071A 00410717 >>> // E5B20
+>>>
+dec     eax
+jz    @7floor
+call @IsUberFrom8FloorOnLevel
+test eax, eax
+jz @F //  >> 
+@makeUberFrom8FloorRoomHall:
+; можно прыгнуть на 00718B39 там такой же зал делается для пинки
+mov  ecx, 1; нужен квестовый зал
+mov edx, 11d ; rowSize 
+mov esi, 11d ; colSize ; размеры потом подберутся
+@@:
+jmp 41074Eh
+@7floor:
+38 0D 3A B4 6E 00                       cmp     byte_6EB43A, cl
+jmp 00410720
+
+       chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0041071A(U)
+|
+:00718F20 48                      dec eax
+:00718F21 740E                    je 00718F31
+:00718F23 E868FFFFFF              call 00718E90
+:00718F28 85C0                    test eax, eax
+:00718F2A 741D                    je 00718F49
+:00718F2C EB12                    jmp 00718F40
+:00718F2E 90                      nop
+:00718F2F 90                      nop
+:00718F30 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718F21(C)
+|
+:00718F31 380D3AB46E00            cmp byte ptr [006EB43A], cl
+:00718F37 E9E477CFFF              jmp 00410720
+:00718F3C 90                      nop
+...
+:00718F3F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718F2C(U)
+|
+:00718F40 6A01                    push 00000001
+:00718F42 59                      pop ecx
+:00718F43 6A0D                    push 0000000D
+:00718F45 5A                      pop edx
+:00718F46 6A0D                    push 0000000D
+:00718F48 5E                      pop esi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718F2A(C)
+|
+:00718F49 E90078CFFF              jmp 0041074E
+===================================================
+
+Теперь подгрузка дуна
+
+См. 102 блока
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

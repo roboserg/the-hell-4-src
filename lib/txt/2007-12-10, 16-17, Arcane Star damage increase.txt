@@ -1,0 +1,78 @@
+Arcane Star damage increase
+
+New formula is:    160*SLVL + 2*MAG
+
+for ex., clvl15 Mage with MAG of 90 and AS slvl of 2 will do 160*2 + 2*90 = 320 + 180 = 500 damage, and 125 resisted damage
+
+
+:004361C2 69FFC8550000            imul edi, 000055C8
+:004361C8 A114AE6E00              mov eax, dword ptr [006EAE14]
+:004361CD 8BBC076C010000          mov edi, dword ptr [edi+eax+0000016C]
+:004361D4 8B86887A6900            mov eax, dword ptr [esi+00697A88]
+:004361DA 8BCF                    mov ecx, edi
+:004361DC 8D0440                  lea eax, dword ptr [eax+2*eax]
+:004361DF D1F9                    sar ecx, 1
+:004361E1 03C1                    add eax, ecx
+:004361E3 C1FF03                  sar edi, 03		divide MAG by 8
+:004361E6 03C7                    add eax, edi
+:004361E8 EB75                    jmp 0043625F
+
+into:
+
+:004361C2 69FFC8550000            imul edi, 000055C8
+:004361C8 A114AE6E00              mov eax, dword ptr [006EAE14]
+:004361CD 8BBC076C010000          mov edi, dword ptr [edi+eax+0000016C]
+:004361D4 8B86887A6900            mov eax, dword ptr [esi+00697A88]
+:004361DA 8BCF                    mov ecx, edi
+:004361DC 8D0480                  lea eax, dword ptr [eax+4*eax]		SLVL*5
+:004361DF D1E0                    shl eax, 1					(SLVL*5)*2
+:004361E1 D1E0                    shl eax, 1					((SLVL*5)*2)*2
+:004361E3 03C1                    add eax, ecx				add MAG
+:004361E5 90                      nop
+:004361E6 03C7                    add eax, edi				add MAG 
+:004361E8 EB75                    jmp 0043625F
+
+into:
+
+:004361C2 69FFC8550000            imul edi, 000055C8
+:004361C8 A114AE6E00              mov eax, dword ptr [006EAE14]
+:004361CD 8BBC076C010000          mov edi, dword ptr [edi+eax+0000016C]	< make EDI dword pointer to Cur.Magic
+:004361D4 8B86887A6900            mov eax, dword ptr [esi+00697A88]		< make EAX dword pointer to SLVL
+:004361DA 8BCF                    mov ecx, edi					< ECX = Cur.Magic
+:004361DC 8D0480                  lea eax, dword ptr [eax+4*eax]			< EAX = SLVL*5
+:004361DF C1E003                  shl eax, 03					< (SLVL*5)*8
+:004361E2 03C1                    add eax, ecx					< (SLVL*40)+Cur.Magic
+:004361E4 03C7                    add eax, edi					< ((SLVL*40)+Cur.Magic)+Cur.Magic
+:004361E6 90                      nop
+:004361E7 90                      nop
+:004361E8 EB75                    jmp 0043625F
+
+into:
+
+:004361C2 69FFC8550000            imul edi, 000055C8
+:004361C8 A114AE6E00              mov eax, dword ptr [006EAE14]
+:004361CD 8BBC076C010000          mov edi, dword ptr [edi+eax+0000016C]
+:004361D4 8B86887A6900            mov eax, dword ptr [esi+00697A88]
+:004361DA D1E7                    shl edi, 1						< CurMag*2
+:004361DC 8BCF                    mov ecx, edi					< ECX = 2xCurMag
+:004361DE 8D0480                  lea eax, dword ptr [eax+2*eax]			< 3*SLVL
+:004361E1 C1E003                  shl eax, 05					< 96*SLVL
+:004361E4 03C1                    add eax, ecx					< 96*SLVL+2xCur.Mag
+:004361E6 03C7                    add eax, edi					< (40*SLVL+2xCur.Mag)+2xCurMag
+:004361E8 EB75                    jmp 0043625F
+
+_________________
+
+Spellbook:
+
+:0042EE68 8308FF                  or dword ptr [eax], FFFFFFFF
+:0042EE6B EB1B                    jmp 0042EE88
+:0042EE6D 8B806C010000            mov eax, dword ptr [eax+0000016C]
+:0042EE73 8D0CB6                  lea ecx, dword ptr [esi+4*esi]
+:0042EE76 8BF0                    mov esi, eax
+:0042EE78 C1E103                  shl ecx, 03
+:0042EE7B 03CE                    add ecx, esi
+:0042EE7D 03C8                    add ecx, eax
+:0042EE7F 90                      nop
+:0042EE80 90                      nop
+:0042EE81 890A                    mov dword ptr [edx], ecx

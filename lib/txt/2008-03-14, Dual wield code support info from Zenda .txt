@@ -1,0 +1,41 @@
+Zenda's notes on dual wield:
+
+"isn't there special attack code in place for the fireguy?  that's an example of a special animiation for a special kind of attack, right?"
+
+If a special animation for a monster exists, all you need do to use it is give the monster a behaviour that will use it. For characters, it works totally different.
+
+"to add a check for second sword in the inventory and to set 'ss' something else to the rogueXX.CL2?"
+
+I'm afraid its not that simple.
+
+Animations are named, for example, RHBAS.CL2 for a rogue with bow in plate armor standing still in the dungeon. R stands for Rogue, H for Heavy armor, B is for Bow, and AS is the 'idle' animation. There are 8 animations needed for a rogue with bow in plate: idle (AS), attack (AT), walk (AW), getting stunned (HT), dying (DT), casting a Fire spell (FM), a Lightning spell (LM), Magic spell (QM), idle in town (ST) and walking in town (WL) (there is also Blocking, for some setups). Similar series exist ofcourse for light and medium armor, making a total of 24 animations (each consisting of 8 frames minimum, but some have 20).
+
+Now, to add the dual wield animation, you'd not only have to create all those frames, but you would need a code for the set as well, like the B for Bow. If you want this to support sword/sword, blunt/blunt and sword/blunt, 3 new sets and corresponding codes are needed.
+
+Existing set codes can be found as a string in the EXE somewhere: 'NUSDBAMHT'. New animation set codes would require adding them there. Btw, if you have onehanded staves implemented, a 'H' will already be added to this string.
+
+N - no weapon or shield
+
+U - only a shield
+
+S - one-handed sword
+
+D - sword and shield
+
+B - bow
+
+A - axe
+
+M - one-handed blunt weapon only
+
+H - blunt and shield
+
+T - staff
+
+The game finds the right code by means of what I use to call 'appearance flag', found at offset 00000078 in the character record. For example, this flag holds the value 4 if you are using a bow, so the game picks the 5th letter in the string to build the appropriate CL2 filename (first one is 0). Using a shield makes the game add 1 to the appearance value, and so D follows S, and H follows M. Btw, this is how the one-handed staff with a shield works: the game picks the letter after the T, so if you added H it will show blunt and shield.
+
+The appearance flag also keeps track of the type of armor. For medium it will add 10h, for heavy armor 20h. So our plated rogue with a bow would have the value 24h. This 20h is substracted when determining the animation code, ofcourse.
+
+So, to make dual wield animations work, you would have to create the animations, define the code for the set, and adjust the code that sets the appearance flag in the character record. This code can be found in the routine that handles all equipment changes, as described in EquipmentProc.DOC (DarkModNotes). However, you will also have to check and correct all code that uses this appearance flag, as it is used for many things.
+
+All in all, this is not something I would easily start, but I'd be glad to help if someone (still) wants to try.

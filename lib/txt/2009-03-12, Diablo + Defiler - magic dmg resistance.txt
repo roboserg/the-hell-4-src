@@ -1,0 +1,42 @@
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070798E(C)
+|
+:0070797D 83F86E                  cmp eax, 0000006E
+:00707980 0F85E80B0000            jne 0070856E
+:00707986 E9F10B0000              jmp 0070857C
+
+
+	and:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707980(C)
+|
+:0070856E 83F83A                  cmp eax, 0000003A
+:00708571 0F85ABEDFFFF            jne 00707322
+:00708577 E90E000000              jmp 0070858A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707986(U)
+|
+:0070857C 50                      push eax
+:0070857D 8BC7                    mov eax, edi
+:0070857F C1F802                  sar eax, 02
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708594(U)
+|
+:00708582 2BF8                    sub edi, eax
+:00708584 58                      pop eax
+:00708585 E998EDFFFF              jmp 00707322
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708577(U)
+|
+:0070858A 50                      push eax
+:0070858B 8BC7                    mov eax, edi
+:0070858D C1F802                  sar eax, 02
+:00708590 2BF8                    sub edi, eax
+:00708592 D1F8                    sar eax, 1
+:00708594 EBEC                    jmp 00708582

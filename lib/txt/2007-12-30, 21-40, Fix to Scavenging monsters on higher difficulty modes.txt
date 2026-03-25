@@ -1,0 +1,73 @@
+Fix Scavenging Heal for Higher Difficulties. Did not work properly on Purgatory and Doom mode.
+
+This also makes their HP go a little over maximum at the end of eating (+5-10%) and leaves bodies quite often, but that's OK because usually scavenging monsters are found on easy levels...
+
+Increase per animation -> maxhp/8
+
+:0044176C 8B8664DD6900            mov eax, dword ptr [esi+0069DD64]
+:00441772 8B803C010000            mov eax, dword ptr [eax+0000013C]
+:00441778 C1E006                  shl eax, 06
+:0044177B 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00441782 7502                    jne 00441786
+:00441784 D1F8                    sar eax, 1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00441782(C)
+|
+:00441786 8BC8                    mov ecx, eax
+:00441788 C1F903                  sar ecx, 03
+:0044178B 018E1CDD6900            add dword ptr [esi+0069DD1C], ecx
+:00441791 39861CDD6900            cmp dword ptr [esi+0069DD1C], eax
+:00441797 7E06                    jle 0044179F
+:00441799 89861CDD6900            mov dword ptr [esi+0069DD1C], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00441797(C)
+|
+:0044179F 8B8E1CDD6900            mov ecx, dword ptr [esi+0069DD1C]
+
+INTO:
+
+:0044176C 8B8618DD6900            mov eax, dword ptr [esi+0069DD18]
+:00441772 C1F803                  sar eax, 03				maxHP / 8
+:00441775 01861CDD6900            add dword ptr [esi+0069DD1C], eax
+:0044177B EB22                    jmp 0044179F
+:0044177D 90                      nop
+:0044177E 90                      nop
+:0044177F 90                      nop
+:00441780 90                      nop
+:00441781 90                      nop
+:00441782 90                      nop
+:00441783 90                      nop
+:00441784 90                      nop
+:00441785 90                      nop
+:00441786 90                      nop
+:00441787 90                      nop
+:00441788 90                      nop
+:00441789 90                      nop
+:0044178A 90                      nop
+:0044178B 90                      nop
+:0044178C 90                      nop
+:0044178D 90                      nop
+:0044178E 90                      nop
+:0044178F 90                      nop
+:00441790 90                      nop
+:00441791 90                      nop
+:00441792 90                      nop
+:00441793 90                      nop
+:00441794 90                      nop
+:00441795 90                      nop
+:00441796 90                      nop
+:00441797 90                      nop
+:00441798 90                      nop
+:00441799 90                      nop
+:0044179A 90                      nop
+:0044179B 90                      nop
+:0044179C 90                      nop
+:0044179D 90                      nop
+:0044179E 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0044177B(U)
+|
+:0044179F 8B8E1CDD6900            mov ecx, dword ptr [esi+0069DD1C]

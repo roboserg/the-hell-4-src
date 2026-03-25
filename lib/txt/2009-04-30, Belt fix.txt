@@ -1,0 +1,43 @@
+Allowed right-clicking (casting/drinking) belt items in positions
+5 through 8, while the Spellbook is open
+by Dragon
+
+
+	old:
+:0040A379 3905DC124D00            cmp dword ptr [004D12DC], eax
+:0040A37F 740C                    je 0040A38D
+:0040A381 813D2852570040010000    cmp dword ptr [00575228], 00000140
+:0040A38B 7F68                    jg 0040A3F5
+
+
+	mod:
+:0040A381 E8DAEA2F00              call 00708E60
+:0040A386 83F800                  cmp eax, 00000000
+:0040A389 90                      nop
+:0040A38A 90                      nop
+:0040A38B 7468                    je 0040A3F5
+
+	ex:
+* Referenced by a CALL at Address:
+|:0040A381   
+|
+:00708E60 813D2452570060010000    cmp dword ptr [00575224], 00000160
+:00708E6A 7D0C                    jge 00708E78
+:00708E6C 813D2852570040010000    cmp dword ptr [00575228], 00000140
+:00708E76 7F07                    jg 00708E7F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708E6A(C)
+|
+:00708E78 B801000000              mov eax, 00000001
+:00708E7D EB02                    jmp 00708E81
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708E76(C)
+|
+:00708E7F 33C0                    xor eax, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708E7D(U)
+|
+:00708E81 C3                      ret

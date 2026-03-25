@@ -1,0 +1,179 @@
+Take note. It seems that MvM stun threshold is handled here. Just a guess. Gotta check
+
+:0043DC65 0FBE8648DD6900          movsx eax, byte ptr [esi+0069DD48]
+
+============================
+
+Whole routine (from 1.108):
+
+
+* Referenced by a CALL at Addresses:
+|:0043DBC5   , :0043DBD2   , :0044470A   
+|
+:0043DBDE 55                      push ebp
+:0043DBDF 8BEC                    mov ebp, esp
+:0043DBE1 51                      push ecx
+:0043DBE2 53                      push ebx
+:0043DBE3 8BD9                    mov ebx, ecx
+:0043DBE5 56                      push esi
+:0043DBE6 57                      push edi
+:0043DBE7 81FBC8000000            cmp ebx, 000000C8
+:0043DBED 8BFA                    mov edi, edx
+:0043DBEF 895DFC                  mov dword ptr [ebp-04], ebx
+:0043DBF2 0F838B010000            jnb 0043DD83
+:0043DBF8 8BF3                    mov esi, ebx
+:0043DBFA 69F6E4000000            imul esi, 000000E4
+:0043DC00 83BE64DD690000          cmp dword ptr [esi+0069DD64], 00000000	 << check if monster
+:0043DC07 0F8476010000            je 0043DD83
+:0043DC0D 85FF                    test edi, edi
+:0043DC0F 7C16                    jl 0043DC27
+:0043DC11 8BC7                    mov eax, edi
+:0043DC13 B201                    mov dl, 01
+:0043DC15 69C0E4000000            imul eax, 000000E4
+:0043DC1B 8BCF                    mov ecx, edi
+:0043DC1D D2E2                    shl dl, cl
+:0043DC1F 8D8047DD6900            lea eax, dword ptr [eax+0069DD47]
+:0043DC25 0810                    or byte ptr [eax], dl
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043DC0F(C)
+|
+:0043DC27 A0D8B16000              mov al, byte ptr [0060B1D8]			<< al = dlvl
+:0043DC2C 8B961CDD6900            mov edx, dword ptr [esi+0069DD1C]
+:0043DC32 50                      push eax
+:0043DC33 8BCB                    mov ecx, ebx
+:0043DC35 E8C2880000              call 004464FC
+:0043DC3A 8B5D08                  mov ebx, dword ptr [ebp+08]
+:0043DC3D 8B55FC                  mov edx, dword ptr [ebp-04]
+:0043DC40 53                      push ebx
+:0043DC41 33C9                    xor ecx, ecx
+:0043DC43 E88F990000              call 004475D7
+:0043DC48 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:0043DC4B 6A01                    push 00000001
+:0043DC4D 5A                      pop edx
+:0043DC4E E89DA7FDFF              call 004183F0
+:0043DC53 8B8664DD6900            mov eax, dword ptr [esi+0069DD64]
+:0043DC59 8B00                    mov eax, dword ptr [eax]			eax = monsterslot
+:0043DC5B 83F81D                  cmp eax, 0000001D				Hidden...
+:0043DC5E 7C05                    jl 0043DC65
+:0043DC60 83F820                  cmp eax, 00000020
+:0043DC63 7E15                    jle 0043DC7A					..are autostunned
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043DC5E(C)
+|
+:0043DC65 0FB68652DD6900          movzx eax, byte ptr [esi+0069DD52]		<< stun threshold
+:0043DC6C 83E802                  sub eax, 00000002				<< mAC - 2
+:0043DC6F C1FB06                  sar ebx, 06
+:0043DC72 3BD8                    cmp ebx, eax
+:0043DC74 0F8C09010000            jl 0043DD83
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043DC63(C)
+|
+:0043DC7A 33DB                    xor ebx, ebx
+:0043DC7C 3BFB                    cmp edi, ebx
+:0043DC7E 7C18                    jl 0043DC98
+:0043DC80 69FFE4000000            imul edi, 000000E4
+:0043DC86 8B87D0DC6900            mov eax, dword ptr [edi+0069DCD0]
+:0043DC8C 83E804                  sub eax, 00000004
+:0043DC8F 83E007                  and eax, 00000007
+:0043DC92 8986D0DC6900            mov dword ptr [esi+0069DCD0], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043DC7E(C)
+|
+:0043DC98 8B8664DD6900            mov eax, dword ptr [esi+0069DD64]
+:0043DC9E 8B00                    mov eax, dword ptr [eax]
+:0043DCA0 83F827                  cmp eax, 00000027
+:0043DCA3 750A                    jne 0043DCAF
+:0043DCA5 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:0043DCA8 E853100000              call 0043ED00
+:0043DCAD EB22                    jmp 0043DCD1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043DCA3(C)
+|
+:0043DCAF 83BE20DD690004          cmp dword ptr [esi+0069DD20], 00000004
+:0043DCB6 90                      nop
+:0043DCB7 90                      nop
+:0043DCB8 90                      nop
+:0043DCB9 90                      nop
+:0043DCBA 90                      nop
+:0043DCBB 90                      nop
+:0043DCBC 7513                    jne 0043DCD1
+:0043DCBE C68690DC690001          mov byte ptr [esi+0069DC90], 01
+:0043DCC5 899E94DC6900            mov dword ptr [esi+0069DC94], ebx
+:0043DCCB 899E98DC6900            mov dword ptr [esi+0069DC98], ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043DCAD(U), :0043DCBC(C)
+|
+:0043DCD1 83BE8CDC69000F          cmp dword ptr [esi+0069DC8C], 0000000F
+:0043DCD8 0F84A5000000            je 0043DD83
+:0043DCDE 8B8664DD6900            mov eax, dword ptr [esi+0069DD64]
+:0043DCE4 83386D                  cmp dword ptr [eax], 0000006D
+:0043DCE7 741E                    je 0043DD07
+:0043DCE9 FFB6D0DC6900            push dword ptr [esi+0069DCD0]
+:0043DCEF 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:0043DCF2 8D908C000000            lea edx, dword ptr [eax+0000008C]
+:0043DCF8 E89DEFFFFF              call 0043CC9A
+:0043DCFD C7868CDC690005000000    mov dword ptr [esi+0069DC8C], 00000005
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043DCE7(C)
+|
+:0043DD07 899EC0DC6900            mov dword ptr [esi+0069DCC0], ebx
+:0043DD0D 899EC4DC6900            mov dword ptr [esi+0069DCC4], ebx
+:0043DD13 8B86B8DC6900            mov eax, dword ptr [esi+0069DCB8]
+:0043DD19 8B7DFC                  mov edi, dword ptr [ebp-04]
+:0043DD1C 8986A8DC6900            mov dword ptr [esi+0069DCA8], eax
+:0043DD22 8B86BCDC6900            mov eax, dword ptr [esi+0069DCBC]
+:0043DD28 8986ACDC6900            mov dword ptr [esi+0069DCAC], eax
+:0043DD2E 8B86A8DC6900            mov eax, dword ptr [esi+0069DCA8]
+:0043DD34 8986B0DC6900            mov dword ptr [esi+0069DCB0], eax
+:0043DD3A 8B86ACDC6900            mov eax, dword ptr [esi+0069DCAC]
+:0043DD40 8986B4DC6900            mov dword ptr [esi+0069DCB4], eax
+:0043DD46 8B86A8DC6900            mov eax, dword ptr [esi+0069DCA8]
+:0043DD4C 8986B8DC6900            mov dword ptr [esi+0069DCB8], eax
+:0043DD52 8B86ACDC6900            mov eax, dword ptr [esi+0069DCAC]
+:0043DD58 8BCF                    mov ecx, edi
+:0043DD5A 8986BCDC6900            mov dword ptr [esi+0069DCBC], eax
+:0043DD60 E873EFFFFF              call 0043CCD8
+:0043DD65 8BCF                    mov ecx, edi
+:0043DD67 E8C6EFFFFF              call 0043CD32
+:0043DD6C 8B86A8DC6900            mov eax, dword ptr [esi+0069DCA8]
+:0043DD72 47                      inc edi
+:0043DD73 6BC070                  imul eax, 00000070
+:0043DD76 0386ACDC6900            add eax, dword ptr [esi+0069DCAC]
+:0043DD7C 893C85E0D15700          mov dword ptr [4*eax+0057D1E0], edi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043DBF2(C), :0043DC07(C), :0043DC74(C), :0043DCD8(C)
+|
+:0043DD83 5F                      pop edi
+:0043DD84 5E                      pop esi
+:0043DD85 5B                      pop ebx
+:0043DD86 C9                      leave
+:0043DD87 C20400                  ret 0004
+
+================================================================
+
+Changing MvM stun formula:
+	from:
+mAC-2
+	to:
+(mAC/2)+MLVL
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043DC65(U)
+|
+:0070F100 0FB68652DD6900          movzx eax, byte ptr [esi+0069DD52]
+:0070F107 53                      push ebx
+:0070F108 8BD8                    mov ebx, eax
+:0070F10A 0FB68648DD6900          movzx eax, byte ptr [esi+0069DD48]
+:0070F111 D1EB                    shr ebx, 1
+:0070F113 03C3                    add eax, ebx
+:0070F115 5B                      pop ebx
+:0070F116 E954EBD2FF              jmp 0043DC6F

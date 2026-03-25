@@ -1,0 +1,118 @@
+* Possible Reference to Dialog: DialogID_0068 
+                                  |
+:00417DB2 6A68                    push 00000068
+:00417DB4 8BD0                    mov edx, eax
+:00417DB6 59                      pop ecx
+:00417DB7 E8A49DFEFF              call 00401B60
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00417DA6(U), :00417DAA(C)
+|
+:00417DBC A1D4A15700              mov eax, dword ptr [0057A1D4]
+:00417DC1 6A08                    push 00000008
+:00417DC3 6858020000              push 00000258				< game display height
+:00417DC8 6820030000              push 00000320				< game display width
+:00417DCD 8B08                    mov ecx, dword ptr [eax]
+:00417DCF 50                      push eax
+:00417DD0 FF5154                  call [ecx+54]
+:00417DD3 3BC3                    cmp eax, ebx
+:00417DD5 7437                    je 00417E0E
+
+* Reference To: USER32.GetSystemMetrics, Ord:012Ch
+                                  |
+:00417DD7 8B3504924800            mov esi, dword ptr [00489204]
+:00417DDD 53                      push ebx
+:00417DDE FFD6                    call esi
+:00417DE0 8BF8                    mov edi, eax
+:00417DE2 6A01                    push 00000001
+:00417DE4 FFD6                    call esi
+:00417DE6 8B0DD4A15700            mov ecx, dword ptr [0057A1D4]
+:00417DEC 6A08                    push 00000008
+:00417DEE 50                      push eax
+:00417DEF 8B11                    mov edx, dword ptr [ecx]
+:00417DF1 57                      push edi
+:00417DF2 51                      push ecx
+:00417DF3 FF5254                  call [edx+54]
+:00417DF6 3BC3                    cmp eax, ebx
+:00417DF8 8B742410                mov esi, dword ptr [esp+10]
+:00417DFC 7410                    je 00417E0E
+:00417DFE 68B7000000              push 000000B7
+:00417E03 55                      push ebp
+
+* Possible Reference to Dialog: DialogID_0068 
+							this changes in-game resolution to 800x600, but the image displayed is still 640x480...
+=================================
+
+:00407E7F B880020000              mov eax, 00000280			< X-axis width for mouse, 640 -> 800
+:00407E84 3BF0                    cmp esi, eax
+:00407E86 7C02                    jl 00407E8A
+:00407E88 8BF0                    mov esi, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00407E86(C)
+|
+:00407E8A 85FF                    test edi, edi
+:00407E8C 7D02                    jge 00407E90
+:00407E8E 33FF                    xor edi, edi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00407E8C(C)
+|
+:00407E90 B8E0010000              mov eax, 000001E0			< Y-axis width for mouse, 480 -> 600
+:00407E95 3BF8                    cmp edi, eax
+:00407E97 7C02                    jl 00407E9B
+:00407E99 8BF8                    mov edi, eax
+									applied in x1
+================================
+
+:0041DEE3 6880020000              push 00000280				< changing this to 800 gives crash...
+
+================================
+
+the code below (very likely that its incomplete) affects screen display cery much!:
+* Possible StringData Ref from Data Obj ->"SCROLLRT.cpp"
+                                  |
+:0046ACA2 6870724B00              push 004B7270
+:0046ACA7 BA470E0000              mov edx, 00000E47
+:0046ACAC 8BCE                    mov ecx, esi
+:0046ACAE E8D56DF9FF              call 00401A88
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0046ABF2(C), :0046ACA0(C)
+|
+:0046ACB3 8B742410                mov esi, dword ptr [esp+10]
+:0046ACB7 85F6                    test esi, esi
+:0046ACB9 7E0F                    jle 0046ACCA
+:0046ACBB 56                      push esi
+:0046ACBC 6880020000              push 00000280				< 640 width, changing to 800 creates duplicate effect (like desktop tile)
+:0046ACC1 33D2                    xor edx, edx
+:0046ACC3 33C9                    xor ecx, ecx
+:0046ACC5 E85B010000              call 0046AE25
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0046ACB9(C)
+|
+:0046ACCA 81FEE0010000            cmp esi, 000001E0
+:0046ACD0 0F8D11010000            jnl 0046ADE7
+:0046ACD6 837C242400              cmp dword ptr [esp+24], 00000000
+:0046ACDB BB65010000              mov ebx, 00000165
+:0046ACE0 7413                    je 0046ACF5
+:0046ACE2 6A1C                    push 0000001C
+:0046ACE4 68E8000000              push 000000E8
+:0046ACE9 8BD3                    mov edx, ebx
+:0046ACEB B9CC000000              mov ecx, 000000CC
+:0046ACF0 E830010000              call 0046AE25
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0046ACE0(C)
+|
+:0046ACF5 837C241400              cmp dword ptr [esp+14], 00000000
+:0046ACFA 7416                    je 0046AD12
+:0046ACFC 6A3C                    push 0000003C
+:0046ACFE 6820010000              push 00000120
+:0046AD03 BA8E010000              mov edx, 0000018E
+:0046AD08 B9B0000000              mov ecx, 000000B0
+:0046AD0D E813010000              call 0046AE25
+
+=======================================================
+

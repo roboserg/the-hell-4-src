@@ -1,0 +1,27 @@
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00401DCA(C)
+|
+:00401D77 8B45FC                  mov eax, dword ptr [ebp-04]
+:00401D7A 6A50                    push 00000050					<- this value affects map radius
+:00401D7C C1E006                  shl eax, 06
+:00401D7F 99                      cdq
+:00401D80 59                      pop ecx
+:00401D81 F7F9                    idiv ecx
+:00401D83 8945F8                  mov dword ptr [ebp-08], eax
+:00401D86 8BC6                    mov eax, esi
+:00401D88 99                      cdq
+:00401D89 F77DF8                  idiv [ebp-08]
+:00401D8C 8BC8                    mov ecx, eax
+:00401D8E 8BC6                    mov eax, esi
+:00401D90 99                      cdq
+:00401D91 F77DF8                  idiv [ebp-08]
+:00401D94 D0E1                    shl cl, 1
+:00401D96 FEC1                    inc cl
+:00401D98 888FB0074D00            mov byte ptr [edi+004D07B0], cl
+:00401D9E 8BDA                    mov ebx, edx
+:00401DA0 85DB                    test ebx, ebx
+:00401DA2 7408                    je 00401DAC
+:00401DA4 FEC1                    inc cl
+:00401DA6 888FB0074D00            mov byte ptr [edi+004D07B0], cl

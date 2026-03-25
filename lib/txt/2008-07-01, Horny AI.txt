@@ -1,0 +1,631 @@
+Horned Demon
+...subtypes 0-8 in TH...
+
+When finishing a circle walk, a monster using the Horned Demon attack type will start acting normally but will not pick circle walk as its next action.
+
+General
+1.          if not active, exit
+2.          R = Rnd[100]
+
+Distance = 1
+1.          if R < 2텶ntf + 28, do melee attack, exit
+
+Distance = 2 to 4
+1.          if last action was walking and standtime is 0 and R < 2텶ntf + 33, walk towards last seen position of target, exit
+2.          if standtime is greater than 1 second and R < 2텶ntf + 83, walk towards last seen position of target
+3.          do delay for (Rnd[10] + 10)/20 seconds
+
+Distance > 4
+1.          if target is in same area Rnd[4] > 0 then start circle walk
+2.          if R < 2텶ntf + 43 and the line of sight is clear, do charge attack, exit
+3.          if last action was walking and standtime is 0 and R < 2텶ntf + 33, walk towards last seen position of target, exit
+4.          if standtime is greater than 1 second and R < 2텶ntf + 83, walk towards last seen position of target
+5.          do delay for (Rnd[10] + 10)/20 seconds
+
+============================================================================
+
+	HFv1.01:
+:0044271A 55                      push ebp
+:0044271B 8BEC                    mov ebp, esp
+:0044271D 83EC18                  sub esp, 00000018
+:00442720 53                      push ebx
+:00442721 56                      push esi
+:00442722 8BF1                    mov esi, ecx
+:00442724 57                      push edi
+:00442725 81FEC8000000            cmp esi, 000000C8
+:0044272B 8975FC                  mov dword ptr [ebp-04], esi
+:0044272E 0F83CB020000            jnb 004429FF
+:00442734 69F6E4000000            imul esi, 000000E4
+:0044273A 81C688DC6900            add esi, 0069DC88
+:00442740 837E0400                cmp dword ptr [esi+04], 00000000
+:00442744 0F85B5020000            jne 004429FF
+:0044274A 80BEA000000000          cmp byte ptr [esi+000000A0], 00
+:00442751 0F84A8020000            je 004429FF
+:00442757 0FB64E51                movzx ecx, byte ptr [esi+51]
+:0044275B 8B5624                  mov edx, dword ptr [esi+24]
+:0044275E FFB6AC000000            push dword ptr [esi+000000AC]
+:00442764 0FB64650                movzx eax, byte ptr [esi+50]
+:00442768 FFB6A8000000            push dword ptr [esi+000000A8]
+:0044276E 894DF8                  mov dword ptr [ebp-08], ecx
+:00442771 8B4E20                  mov ecx, dword ptr [esi+20]
+:00442774 8BDA                    mov ebx, edx
+:00442776 2B5DF8                  sub ebx, dword ptr [ebp-08]
+:00442779 8BF9                    mov edi, ecx
+:0044277B 8945F0                  mov dword ptr [ebp-10], eax
+:0044277E 2BF8                    sub edi, eax
+:00442780 895DEC                  mov dword ptr [ebp-14], ebx
+:00442783 E83277FDFF              call 00419EBA
+:00442788 80BEA0000000FF          cmp byte ptr [esi+000000A0], FF
+:0044278F 8945F4                  mov dword ptr [ebp-0C], eax
+:00442792 7308                    jnb 0044279C
+:00442794 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:00442797 E898D10000              call 0044F934
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00442792(C)
+|
+:0044279C 6A64                    push 00000064
+:0044279E B183                    mov cl, 83
+:004427A0 5A                      pop edx
+:004427A1 E8B477FDFF              call 00419F5A				EAX = Rnd[100]
+:004427A6 8945E8                  mov dword ptr [ebp-18], eax
+:004427A9 57                      push edi
+:004427AA E821840300              call 0047ABD0
+:004427AF 83F802                  cmp eax, 00000002
+:004427B2 59                      pop ecx
+:004427B3 7D10                    jge 004427C5
+:004427B5 53                      push ebx
+:004427B6 E815840300              call 0047ABD0
+:004427BB 83F802                  cmp eax, 00000002
+:004427BE 59                      pop ecx
+:004427BF 0F8CD6000000            jl 0044289B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004427B3(C)
+|
+:004427C5 807E0804                cmp byte ptr [esi+08], 04
+:004427C9 7445                    je 00442810
+:004427CB 57                      push edi
+:004427CC E8FF830300              call 0047ABD0
+:004427D1 83F805                  cmp eax, 00000005
+:004427D4 59                      pop ecx
+:004427D5 7D10                    jge 004427E7
+:004427D7 53                      push ebx
+:004427D8 E8F3830300              call 0047ABD0
+:004427DD 83F805                  cmp eax, 00000005
+:004427E0 59                      pop ecx
+:004427E1 0F8CB8000000            jl 0044289F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004427D5(C)
+|
+:004427E7 6A04                    push 00000004
+:004427E9 B184                    mov cl, 84
+:004427EB 5A                      pop edx
+:004427EC E86977FDFF              call 00419F5A
+:004427F1 85C0                    test eax, eax
+:004427F3 0F84A6000000            je 0044289F
+:004427F9 807E0804                cmp byte ptr [esi+08], 04
+:004427FD 7411                    je 00442810
+:004427FF 83660C00                and dword ptr [esi+0C], 00000000
+:00442803 6A02                    push 00000002
+:00442805 5A                      pop edx
+:00442806 B185                    mov cl, 85
+:00442808 E84D77FDFF              call 00419F5A
+:0044280D 894610                  mov dword ptr [esi+10], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004427C9(C), :004427FD(C)
+|
+:00442810 53                      push ebx
+:00442811 C6460804                mov [esi+08], 04
+:00442815 E8B6830300              call 0047ABD0
+:0044281A 59                      pop ecx
+:0044281B 8BD8                    mov ebx, eax
+:0044281D 57                      push edi
+:0044281E E8AD830300              call 0047ABD0
+:00442823 3BC3                    cmp eax, ebx
+:00442825 59                      pop ecx
+:00442826 7E0C                    jle 00442834
+:00442828 57                      push edi
+:00442829 E8A2830300              call 0047ABD0
+:0044282E 8B5DEC                  mov ebx, dword ptr [ebp-14]
+:00442831 59                      pop ecx
+:00442832 EB0A                    jmp 0044283E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00442826(C)
+|
+:00442834 8B5DEC                  mov ebx, dword ptr [ebp-14]
+:00442837 53                      push ebx
+:00442838 E893830300              call 0047ABD0
+:0044283D 59                      pop ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00442832(U)
+|
+:0044283E 8B4E0C                  mov ecx, dword ptr [esi+0C]
+:00442841 03C0                    add eax, eax
+:00442843 3BC8                    cmp ecx, eax
+:00442845 8D5101                  lea edx, dword ptr [ecx+01]
+:00442848 89560C                  mov dword ptr [esi+0C], edx
+:0044284B 7D4E                    jge 0044289B
+:0044284D 8B4E20                  mov ecx, dword ptr [esi+20]
+:00442850 8B45F0                  mov eax, dword ptr [ebp-10]
+:00442853 6BC970                  imul ecx, 00000070
+:00442856 6BC070                  imul eax, 00000070
+:00442859 8B5624                  mov edx, dword ptr [esi+24]
+:0044285C 8A8C11D0786000          mov cl, byte ptr [ecx+edx+006078D0]
+:00442863 8B55F8                  mov edx, dword ptr [ebp-08]
+:00442866 3A8C10D0786000          cmp cl, byte ptr [eax+edx+006078D0]
+:0044286D 752C                    jne 0044289B
+:0044286F 8B55F4                  mov edx, dword ptr [ebp-0C]
+:00442872 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:00442875 8D4610                  lea eax, dword ptr [esi+10]
+:00442878 50                      push eax
+:00442879 E8E7D2FFFF              call 0043FB65
+:0044287E 85C0                    test eax, eax
+:00442880 751D                    jne 0044289F
+:00442882 6A0A                    push 0000000A
+:00442884 B17D                    mov cl, 7D
+:00442886 5A                      pop edx
+:00442887 E8CE76FDFF              call 00419F5A
+:0044288C 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:0044288F 8BD0                    mov edx, eax
+:00442891 83C20A                  add edx, 0000000A
+:00442894 E88DD6FFFF              call 0043FF26
+:00442899 EB04                    jmp 0044289F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004427BF(C), :0044284B(C), :0044286D(C)
+|
+:0044289B C6460801                mov [esi+08], 01
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004427E1(C), :004427F3(C), :00442880(C), :00442899(U)
+|
+:0044289F 807E0801                cmp byte ptr [esi+08], 01
+:004428A3 0F8540010000            jne 004429E9
+:004428A9 57                      push edi
+:004428AA E821830300              call 0047ABD0
+:004428AF 83F805                  cmp eax, 00000005				<- distance check for charge
+:004428B2 59                      pop ecx
+:004428B3 7D10                    jge 004428C5
+:004428B5 53                      push ebx
+:004428B6 E815830300              call 0047ABD0
+:004428BB 83F805                  cmp eax, 00000005				<- same
+:004428BE 59                      pop ecx
+:004428BF 0F8C8F000000            jl 00442954
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004428B3(C)
+|
+:004428C5 0FB68699000000          movzx eax, byte ptr [esi+00000099]
+:004428CC 8D44002B                lea eax, dword ptr [eax+eax+2B]		eax = (IntF*2)+43, chance for charge attack
+:004428D0 3945E8                  cmp dword ptr [ebp-18], eax
+:004428D3 7D7F                    jge 00442954
+:004428D5 FF75F8                  push [ebp-08]
+:004428D8 8B55FC                  mov edx, dword ptr [ebp-04]
+
+* Possible StringData Ref from Code Obj ->"SUV땤$W땥딼딵딬eAB"
+                                  |
+:004428DB B901494400              mov ecx, 00444901
+:004428E0 FF75F0                  push [ebp-10]
+:004428E3 FF7624                  push [esi+24]
+:004428E6 FF7620                  push [esi+20]
+:004428E9 E8F3160000              call 00443FE1
+:004428EE 85C0                    test eax, eax
+:004428F0 7462                    je 00442954
+:004428F2 8A464C                  mov al, byte ptr [esi+4C]
+:004428F5 33FF                    xor edi, edi
+:004428F7 57                      push edi
+:004428F8 57                      push edi
+:004428F9 FF75FC                  push [ebp-04]
+:004428FC 8B5624                  mov edx, dword ptr [esi+24]
+:004428FF 8B4E20                  mov ecx, dword ptr [esi+20]
+:00442902 50                      push eax
+:00442903 6A14                    push 00000014
+:00442905 FF75F4                  push [ebp-0C]
+:00442908 FF75F8                  push [ebp-08]
+:0044290B FF75F0                  push [ebp-10]
+:0044290E E81C2EFFFF              call 0043572F
+:00442913 83F8FF                  cmp eax, FFFFFFFF
+:00442916 0F84CD000000            je 004429E9
+:0044291C 8B86E0000000            mov eax, dword ptr [esi+000000E0]
+:00442922 397814                  cmp dword ptr [eax+14], edi
+:00442925 740B                    je 00442932
+:00442927 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:0044292A 6A03                    push 00000003
+:0044292C 5A                      pop edx
+:0044292D E8BE5AFDFF              call 004183F0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00442925(C)
+|
+:00442932 8B4E20                  mov ecx, dword ptr [esi+20]
+:00442935 83C8FF                  or eax, FFFFFFFF
+:00442938 6BC970                  imul ecx, 00000070
+:0044293B 2B45FC                  sub eax, dword ptr [ebp-04]
+:0044293E 034E24                  add ecx, dword ptr [esi+24]
+:00442941 89048DE0D15700          mov dword ptr [4*ecx+0057D1E0], eax
+:00442948 C746040E000000          mov [esi+04], 0000000E
+:0044294F E995000000              jmp 004429E9
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004428BF(C), :004428D3(C), :004428F0(C)
+|
+:00442954 57                      push edi
+:00442955 E876820300              call 0047ABD0
+:0044295A 83F802                  cmp eax, 00000002
+:0044295D 59                      pop ecx
+:0044295E 7D2C                    jge 0044298C
+:00442960 53                      push ebx
+:00442961 E86A820300              call 0047ABD0
+:00442966 83F802                  cmp eax, 00000002
+:00442969 59                      pop ecx
+:0044296A 7D20                    jge 0044298C
+:0044296C 0FB68699000000          movzx eax, byte ptr [esi+00000099]
+:00442973 8D44001C                lea eax, dword ptr [eax+eax+1C]	<- EAX = (2*IntF)+28, attack chance
+:00442977 3945E8                  cmp dword ptr [ebp-18], eax
+:0044297A 7D6D                    jge 004429E9
+:0044297C 8B45F4                  mov eax, dword ptr [ebp-0C]
+:0044297F 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:00442982 894648                  mov dword ptr [esi+48], eax
+:00442985 E8E9D3FFFF              call 0043FD73
+:0044298A EB5D                    jmp 004429E9
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0044295E(C), :0044296A(C)
+|
+:0044298C 6A64                    push 00000064
+:0044298E B186                    mov cl, 86
+:00442990 5A                      pop edx
+:00442991 E8C475FDFF              call 00419F5A				EAX = Rnd[100]
+:00442996 0FB68E99000000          movzx ecx, byte ptr [esi+00000099]
+:0044299D D1E1                    shl ecx, 1
+:0044299F 8D5121                  lea edx, dword ptr [ecx+21]		EDX = (2*IntF)+33, walk towards last coordinate of tgt, %
+:004429A2 3BC2                    cmp eax, edx
+:004429A4 7C38                    jl 004429DE
+:004429A6 8B5670                  mov edx, dword ptr [esi+70]
+:004429A9 83FA01                  cmp edx, 00000001
+:004429AC 740A                    je 004429B8
+:004429AE 83FA02                  cmp edx, 00000002
+:004429B1 7405                    je 004429B8
+:004429B3 83FA03                  cmp edx, 00000003
+:004429B6 750D                    jne 004429C5
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004429AC(C), :004429B1(C)
+|
+:004429B8 837E7400                cmp dword ptr [esi+74], 00000000
+:004429BC 7507                    jne 004429C5
+:004429BE 83C153                  add ecx, 00000053			+83
+:004429C1 3BC1                    cmp eax, ecx				cmp Rnd[100] to (2*IntF+83)
+:004429C3 7C19                    jl 004429DE
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses: <- delay, walk
+|:004429B6(C), :004429BC(C)
+|
+:004429C5 6A0A                    push 0000000A
+:004429C7 B187                    mov cl, 87
+:004429C9 5A                      pop edx
+:004429CA E88B75FDFF              call 00419F5A				<- EAX = Rnd[10]
+:004429CF 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:004429D2 8BD0                    mov edx, eax
+:004429D4 83C20A                  add edx, 0000000A			<- EDX = 10 + Rnd [10]
+:004429D7 E84AD5FFFF              call 0043FF26
+:004429DC EB0B                    jmp 004429E9
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004429A4(C), :004429C3(C)
+|
+:004429DE 8B55F4                  mov edx, dword ptr [ebp-0C]
+:004429E1 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:004429E4 E84ECFFFFF              call 0043F937
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004428A3(C), :00442916(C), :0044294F(U), :0044297A(C), :0044298A(U)
+|:004429DC(U)
+|
+:004429E9 837E0400                cmp dword ptr [esi+04], 00000000
+:004429ED 7510                    jne 004429FF
+:004429EF 8B4648                  mov eax, dword ptr [esi+48]
+:004429F2 8B8EDC000000            mov ecx, dword ptr [esi+000000DC]
+:004429F8 8B44810C                mov eax, dword ptr [ecx+4*eax+0C]
+:004429FC 894654                  mov dword ptr [esi+54], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0044272E(C), :00442744(C), :00442751(C), :004429ED(C)
+|
+:004429FF 5F                      pop edi
+:00442A00 5E                      pop esi
+:00442A01 5B                      pop ebx
+:00442A02 C9                      leave
+:00442A03 C3                      ret
+
+------------------------------------------------------
+------------------------------------------------------
+------------------------------------------------------
+
+Variable (for difficulty) chance for doing attack
+
+:0044296C E90F342C00              jmp 00705D80
+:00442971 90                      nop
+:00442972 90                      nop
+:00442973 90                      nop
+:00442974 90                      nop
+:00442975 90                      nop
+:00442976 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705DBA(U)
+|
+:00442977 3945E8                  cmp dword ptr [ebp-18], eax
+
+	Extra:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0044296C(U)
+|
+:00705D80 A1C0706000              mov eax, dword ptr [006070C0]
+:00705D85 83F801                  cmp eax, 00000001
+:00705D88 7415                    je 00705D9F
+:00705D8A 83F802                  cmp eax, 00000002
+:00705D8D 7420                    je 00705DAF
+:00705D8F 0FB68699000000          movzx eax, byte ptr [esi+00000099]	<-(IntF*2)+8
+:00705D96 8D440004                lea eax, dword ptr [eax+eax+04]
+:00705D9A EB1E                    jmp 00705DBA
+:00705D9C 90                      nop
+:00705D9D 90                      nop
+:00705D9E 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705D88(C)
+|
+:00705D9F 0FB68699000000          movzx eax, byte ptr [esi+00000099]
+:00705DA6 8D04851A000000          lea eax, dword ptr [4*eax+0000001A]		<- (IntF*4)+26
+:00705DAD EB0B                    jmp 00705DBA
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705D8D(C)
+|
+:00705DAF 0FB68699000000          movzx eax, byte ptr [esi+00000099]		<- (IntF*2)+70
+:00705DB6 8D440046                lea eax, dword ptr [eax+eax+46]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00705D9A(U), :00705DAD(U)
+|
+:00705DBA E9B8CBD3FF              jmp 00442977
+__________________________________________________________________
+
+Delays:
+:004429CF E954352C00              jmp 00705F28
+:004429D4 90                      nop
+:004429D5 90                      nop
+:004429D6 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705F51(U)
+|
+:004429D7 E84AD5FFFF              call 0043FF26
+
+
+	Extra:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004429CF(U)
+|
+:00705F28 8B0DC0706000            mov ecx, dword ptr [006070C0]
+:00705F2E 83F901                  cmp ecx, 00000001
+:00705F31 740F                    je 00705F42
+:00705F33 83F902                  cmp ecx, 00000002
+:00705F36 7414                    je 00705F4C
+:00705F38 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:00705F3B 8BD0                    mov edx, eax
+:00705F3D 83C20E                  add edx, 0000000E
+:00705F40 EB0F                    jmp 00705F51
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705F31(C)
+|
+:00705F42 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:00705F45 8BD0                    mov edx, eax
+:00705F47 83C207                  add edx, 00000007
+:00705F4A EB05                    jmp 00705F51
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705F36(C)
+|
+:00705F4C 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:00705F4F 8BD0                    mov edx, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00705F40(U), :00705F4A(U)
+|
+:00705F51 E981CAD3FF              jmp 004429D7
+==========================================================================
+Charge chances adjusted for difficulty:
+H: 23-50%
+P: 50-77%
+D: 80-98%
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004428C5(U)
+|
+:00708930 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00708937 7418                    je 00708951
+:00708939 833DC070600002          cmp dword ptr [006070C0], 00000002
+:00708940 741E                    je 00708960
+:00708942 0FB68699000000          movzx eax, byte ptr [esi+00000099]
+:00708949 8D0440                  lea eax, dword ptr [eax+2*eax]
+:0070894C 83C017                  add eax, 00000017
+:0070894F EB1A                    jmp 0070896B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708937(C)
+|
+:00708951 0FB68699000000          movzx eax, byte ptr [esi+00000099]
+:00708958 8D0440                  lea eax, dword ptr [eax+2*eax]
+:0070895B 83C032                  add eax, 00000032
+:0070895E EB0B                    jmp 0070896B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708940(C)
+|
+:00708960 0FB68699000000          movzx eax, byte ptr [esi+00000099]
+:00708967 8D440050                lea eax, dword ptr [eax+eax+50]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070894F(U), :0070895E(U)
+|
+:0070896B E9609FD3FF              jmp 004428D0
+
+==========================================================================
+H: if last action was walking and standtime is 0 and R < 2텶ntf + 32, walk towards last seen position of target,
+P: if last action was walking and standtime is 0 and R < 2텶ntf + 56, walk towards last seen position of target,
+D: if last action was walking and standtime is 0 and R < 2텶ntf + 80, walk towards last seen position of target,
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0044299D(U)
+|
+:00708970 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00708977 7410                    je 00708989
+:00708979 833DC070600002          cmp dword ptr [006070C0], 00000002
+:00708980 740E                    je 00708990
+:00708982 D1E1                    shl ecx, 1
+:00708984 8D5120                  lea edx, dword ptr [ecx+20]
+:00708987 EB0C                    jmp 00708995
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708977(C)
+|
+:00708989 D1E1                    shl ecx, 1
+:0070898B 8D5138                  lea edx, dword ptr [ecx+38]
+:0070898E EB05                    jmp 00708995
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708980(C)
+|
+:00708990 D1E1                    shl ecx, 1
+:00708992 8D5150                  lea edx, dword ptr [ecx+50]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00708987(U), :0070898E(U)
+|
+:00708995 E908A0D3FF              jmp 004429A2
+
+============================================================================
+Minimum distance for charge varies for difficulty mode:
+Horror - 4
+Purgat - 3
+Doom   - 2
+
+
+
+:004428AF E920692C00              jmp 007091D4
+:004428B4 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007091FC(U)
+|
+:004428B5 53                      push ebx
+:004428B6 E815830300              call 0047ABD0
+:004428BB E946692C00              jmp 00709206
+:004428C0 90                      nop
+:004428C1 90                      nop
+:004428C2 90                      nop
+:004428C3 90                      nop
+:004428C4 90                      nop
+:004428C5 90                      nop
+:004428C6 90                      nop
+:004428C7 90                      nop
+:004428C8 90                      nop
+:004428C9 90                      nop
+:004428CA 90                      nop
+:004428CB 90                      nop
+:004428CC 90                      nop
+:004428CD 90                      nop
+:004428CE 90                      nop
+:004428CF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070896B(U)
+|
+:004428D0 3945E8                  cmp dword ptr [ebp-18], eax
+
+
+
+	extra:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004428AF(U)
+|
+:007091D4 833DC070600001          cmp dword ptr [006070C0], 00000001
+:007091DB 7411                    je 007091EE
+:007091DD 833DC070600002          cmp dword ptr [006070C0], 00000002
+:007091E4 7410                    je 007091F6
+:007091E6 83F805                  cmp eax, 00000005
+:007091E9 59                      pop ecx
+:007091EA 7D15                    jge 00709201
+:007091EC EB0E                    jmp 007091FC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007091DB(C)
+|
+:007091EE 83F804                  cmp eax, 00000004
+:007091F1 59                      pop ecx
+:007091F2 7D0D                    jge 00709201
+:007091F4 EB06                    jmp 007091FC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007091E4(C)
+|
+:007091F6 83F803                  cmp eax, 00000003
+:007091F9 59                      pop ecx
+:007091FA 7D05                    jge 00709201
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007091EC(U), :007091F4(U)
+|
+:007091FC E9B496D3FF              jmp 004428B5
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007091EA(C), :007091F2(C), :007091FA(C)
+|
+:00709201 E92AF7FFFF              jmp 00708930
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004428BB(U)
+|
+:00709206 833DC070600001          cmp dword ptr [006070C0], 00000001
+:0070920D 7411                    je 00709220
+:0070920F 833DC070600002          cmp dword ptr [006070C0], 00000002
+:00709216 7410                    je 00709228
+:00709218 83F805                  cmp eax, 00000005
+:0070921B 59                      pop ecx
+:0070921C 7C15                    jl 00709233
+:0070921E EB0E                    jmp 0070922E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070920D(C)
+|
+:00709220 83F804                  cmp eax, 00000004
+:00709223 59                      pop ecx
+:00709224 7C0D                    jl 00709233
+:00709226 EB06                    jmp 0070922E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00709216(C)
+|
+:00709228 83F803                  cmp eax, 00000003
+:0070922B 59                      pop ecx
+:0070922C 7C05                    jl 00709233
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070921E(U), :00709226(U)
+|
+:0070922E E9FDF6FFFF              jmp 00708930
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070921C(C), :00709224(C), :0070922C(C)
+|
+:00709233 E91C97D3FF              jmp 00442954
+:00709238 90                      nop

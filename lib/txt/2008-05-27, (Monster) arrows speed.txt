@@ -1,0 +1,5 @@
+Monster fire/lite arrow speed set to 50:
+
+Offset 2FFBA:
+
+6a1c -> 6a32

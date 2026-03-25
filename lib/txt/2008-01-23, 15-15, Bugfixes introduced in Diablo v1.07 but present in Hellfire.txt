@@ -1,0 +1,56 @@
+Visual bugs:
+
+Adria's books appear white now only if a player can read them.
+
+Fixed the bug that caused shields to disappear when worn after
+      wielding two-handed weapons.
+
+The casting of a Nova spell is now visible to all nearby players.
+
+When in effect, the Mana Shield graphic appears to all players
+___________________________________________________
+
+Gameplay bugs:
+
+Fixed the bug that froze Lazarus (and made him invulnerable to 
+      arrows and spells) after player had entered his lair, then left 
+      (or died), and finally returned.
+
+Allowed right-clicking (casting/drinking) belt items in positions
+      5 through 8, while the Spellbook is open.
+
+Prevented bows with fire-hit damage from interfering with the
+      behavior of Gargoyle class monsters.
+
+Fixed the bug that caused excessive damage when a Mana Shield 
+      expired due to an attack.
+
+Fixed the bug that caused Mana Shield to become less effective
+      with increasing spell level.
+
+Fixed bugs that prevented items with the suffixes Thieves,
+      Speed/Haste, Balance/Stability/Harmony, and Piercing/Bashing/
+      Puncturing from working properly.
+
+Prevented repeated castings (128 or more) of Mana Shield from
+      disabling the casting of any more spells.
+
+Fixed bug that rarely transformed unique items (like the Optic
+      Amulet) into some other (usually mundane) item when saving the
+      game and then starting a new game.
+
+Fixed the bug that prevented Rogues from properly disarming traps
+      on levels 13 through 15.
+
+Fixed the Mana Shield bugs that could make a player invulnerable
+      and/or invisible to other players.
+
+Prevented players from becoming stuck inside a wall when Town
+      Portalling down into a dungeon.
+
+Fixed the freeze upon touching a Hidden Shrine while equipped
+      with only indestructible items.
+
+Fixed crashes associated with being attacked or killed by a
+      Black Death (Zombie class).  This includes the crash upon
+      resurrecting after being killed by a Black Death.

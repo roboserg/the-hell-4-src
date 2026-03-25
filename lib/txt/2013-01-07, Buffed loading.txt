@@ -1,0 +1,152 @@
+﻿Фикс загрузки с активными бафами
+
+.text:0042CE35 81 EC 20 01 00 00                       sub     esp, 120h
+резерваруем 8 байт на стеке
+sub esp, 128h // suM ?
+
+;dword ptr [ebp - 124h] - флаги
+;dword ptr [ebp - 128h] - количество зарядов рефлекта
+
+=====================================================
+
+.text:0042CF13 E8 09 05 00 00                          call    sub_42D421 ; load player
+.text:0042CF18 A1 E8 AD 6E 00                          mov     eax, arglist
+
+0042CF13 >>> // E58B0
+>>>
+call    sub_42D421 ; load player
+
+call @getCurrentPlayerOffset
+mov ecx, dword ptr [eax + 288d] ; MayBeImmortalFlag
+and ecx, 7
+mov dword ptr [ebp - 124h], ecx
+
+movzx ecx, word ptr [eax + 21872d]; CountOfReflectCharges
+mov dword ptr [ebp - 128h], ecx
+
+jmp 0042CF18
+
+             chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042CF13(U)
+|
+:00718CB0 E86C47D1FF              call 0042D421
+:00718CB5 90                      nop
+..
+:00718CB9 90                      nop
+:00718CBA E81115FFFF              call 0070A1D0
+:00718CBF 90                      nop
+:00718CC0 90                      nop
+:00718CC1 8B88E4000000            mov ecx, dword ptr [eax+000000E4]
+:00718CC7 90                      nop
+:00718CC8 90                      nop
+:00718CC9 90                      nop
+:00718CCA 898DDCFEFFFF            mov dword ptr [ebp+FFFFFEDC], ecx
+:00718CD0 90                      nop
+...
+:00718CD5 90                      nop
+:00718CD6 0FB78870550000          movzx ecx, word ptr [eax+00005570]
+:00718CDD 898DD8FEFFFF            mov dword ptr [ebp+FFFFFED8], ecx
+:00718CE3 E93042D1FF              jmp 0042CF18
+=====================================================
+
+.text:0042CFAC A3 B4 E3 6D 00                          mov     dword_6DE3B4, eax
+.text:0042CFB1 BF 40 D6 69 00                          mov     edi, offset word_69D640
+
+0042CFAC >>> // E58F0
+>>>
+A3 B4 E3 6D 00                          mov     dword_6DE3B4, eax
+call @getCurrentPlayerOffset
+mov ecx, dword ptr [ebp - 124h]
+mov dword ptr [eax + 288d], ecx
+
+mov ecx, dword ptr [ebp - 128h]
+mov word ptr [eax + 21872d], cx
+
+; загрузка состояния бега в городе
+mov cl, byte ptr [eax + 30d]
+mov dword ptr [004A04B0], 0
+test cl, 1
+jz @F
+mov dword ptr [004A04B0], 1
+@@:
+jmp 0042CFB1
+
+                 chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042CFAC(U)
+|
+:00718CF0 A3B4E36D00              mov dword ptr [006DE3B4], eax
+:00718CF5 E8D614FFFF              call 0070A1D0
+:00718CFA 90                      nop
+...
+:00718CFF 90                      nop
+:00718D00 8B8DDCFEFFFF            mov ecx, dword ptr [ebp+FFFFFEDC]
+:00718D06 90                      nop
+:00718D07 90                      nop
+:00718D08 8988E4000000            mov dword ptr [eax+000000E4], ecx
+:00718D0E 8B8DD8FEFFFF            mov ecx, dword ptr [ebp+FFFFFED8]
+:00718D14 66898870550000          mov word ptr [eax+00005570], cx
+:00718D1B 8A481E                  mov cl, byte ptr [eax+1E]
+:00718D1E C705B0044A0000000000    mov dword ptr [004A04B0], 00000000
+:00718D28 F6C101                  test cl, 01
+:00718D2B 740A                    je 00718D37
+:00718D2D C705B0044A0001000000    mov dword ptr [004A04B0], 00000001
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718D2B(C)
+|
+:00718D37 90                      nop
+...
+:00718D3A 90                      nop
+:00718D3B E97142D1FF              jmp 0042CFB1
+
+=========================================================
+
+.text:0042D6DF 8B 0D E8 AD 6E 00                       mov     ecx, arglist
+.text:0042D6E5 E8 82 04 00 00                          call    sub_42DB6C
+
+0042D6DF >>> // E5950
+>>>
+cmp dword ptr [004A04B0], 0
+jz @fastWalkDisable
+
+@fastWalkEnable:
+or byte ptr [eax+ecx + 30d], 1
+jmp @F
+
+@fastWalkDisable:
+and byte ptr [eax+ecx + 30d], 0feh
+
+@@:
+8B 0D E8 AD 6E 00                       mov     ecx, arglist
+jmp 0042D6E5
+
+          chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042D6DF(U)
+|
+:00718D50 833DB0044A0000          cmp dword ptr [004A04B0], 00000000
+:00718D57 7407                    je 00718D60
+:00718D59 804C081E01              or byte ptr [eax+ecx+1E], 01
+:00718D5E EB08                    jmp 00718D68
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718D57(C)
+|
+:00718D60 90                      nop
+:00718D61 90                      nop
+:00718D62 8064081EFE              and byte ptr [eax+ecx+1E], FE
+:00718D67 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718D5E(U)
+|
+:00718D68 8B0DE8AD6E00            mov ecx, dword ptr [006EADE8]
+:00718D6E 90                      nop
+:00718D6F 90                      nop
+:00718D70 90                      nop
+:00718D71 E96F49D1FF              jmp 0042D6E5
+
+
+

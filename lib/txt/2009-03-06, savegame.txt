@@ -1,0 +1,104 @@
+* Referenced by a CALL at Addresses:
+|:00456244   , :0045634C   , :004565CC   , :004568E7   
+|
+:00456284 55                      push ebp
+:00456285 8BEC                    mov ebp, esp
+:00456287 81EC04010000            sub esp, 00000104
+:0045628D 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00456294 53                      push ebx
+:00456295 56                      push esi
+:00456296 57                      push edi
+:00456297 8BF9                    mov edi, ecx
+:00456299 7620                    jbe 004562BB
+:0045629B 837D0C00                cmp dword ptr [ebp+0C], 00000000
+
+* Possible StringData Ref from Data Obj ->"\dlinfo_%d.drv"
+                                  |
+:0045629F BB0C5B4B00              mov ebx, 004B5B0C
+:004562A4 7405                    je 004562AB
+
+* Possible StringData Ref from Data Obj ->"\HellMP_%d.drv"
+                                  |
+:004562A6 BBFC5A4B00              mov ebx, 004B5AFC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004562A4(C)
+|
+:004562AB 6804010000              push 00000104
+:004562B0 57                      push edi
+
+* Reference To: KERNEL32.GetWindowsDirectoryA, Ord:0151h
+                                  |
+:004562B1 FF15C0904800            Call dword ptr [004890C0]
+:004562B7 8BF0                    mov esi, eax
+:004562B9 EB35                    jmp 004562F0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00456299(C)
+|
+:004562BB 837D0C00                cmp dword ptr [ebp+0C], 00000000
+
+* Possible StringData Ref from Data Obj ->"\single_%d.sv"
+                                  |
+:004562BF BBEC5A4B00              mov ebx, 004B5AEC
+:004562C4 7405                    je 004562CB
+
+* Possible StringData Ref from Data Obj ->"\HellSP_%d.hsv"
+                                  |
+:004562C6 BBDC5A4B00              mov ebx, 004B5ADC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004562C4(C)
+|
+:004562CB 6804010000              push 00000104
+:004562D0 57                      push edi
+:004562D1 FF3578535700            push dword ptr [00575378]
+
+* Reference To: KERNEL32.GetModuleFileNameA, Ord:00FCh
+                                  |
+:004562D7 FF1558904800            Call dword ptr [00489058]
+:004562DD 8BF0                    mov esi, eax
+:004562DF 6A5C                    push 0000005C
+:004562E1 57                      push edi
+:004562E2 E8B9390200              call 00479CA0
+:004562E7 59                      pop ecx
+:004562E8 85C0                    test eax, eax
+:004562EA 59                      pop ecx
+:004562EB 7403                    je 004562F0
+:004562ED 802000                  and byte ptr [eax], 00
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004562B9(U), :004562EB(C)
+|
+:004562F0 85F6                    test esi, esi
+:004562F2 750B                    jne 004562FF
+
+* Possible StringData Ref from Data Obj ->"Unable to get save directory"
+                                  |
+:004562F4 68BC5A4B00              push 004B5ABC
+:004562F9 E867B6FAFF              call 00401965
+:004562FE 59                      pop ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004562F2(C)
+|
+:004562FF FF7508                  push [ebp+08]
+:00456302 8D85FCFEFFFF            lea eax, dword ptr [ebp+FFFFFEFC]
+:00456308 53                      push ebx
+:00456309 50                      push eax
+:0045630A E8B1370200              call 00479AC0
+:0045630F 83C40C                  add esp, 0000000C
+:00456312 8D85FCFEFFFF            lea eax, dword ptr [ebp+FFFFFEFC]
+:00456318 50                      push eax
+:00456319 57                      push edi
+:0045631A E8213A0200              call 00479D40
+:0045631F 59                      pop ecx
+:00456320 59                      pop ecx
+:00456321 57                      push edi
+:00456322 E8D9590200              call 0047BD00
+:00456327 59                      pop ecx
+:00456328 5F                      pop edi
+:00456329 5E                      pop esi
+:0045632A 5B                      pop ebx
+:0045632B C9                      leave
+:0045632C C20800                  ret 0008

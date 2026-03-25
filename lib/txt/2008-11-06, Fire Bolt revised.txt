@@ -1,0 +1,106 @@
+Firebolt speed lowered:
+
+:004318AA 8D440010                lea eax, dword ptr [eax+eax+10]
+into
+:004318AA 8D440008                lea eax, dword ptr [eax+eax+08]
+________________________________________________________
+
+Damage set to Rnd[60] + slvl + cMag*4 + 1
+
+:004361EA 6A0A                    push 0000000A
+:004361EC B14B                    mov cl, 4B
+:004361EE 5A                      pop edx
+:004361EF E8663DFEFF              call 00419F5A
+:004361F4 69FFC8550000            imul edi, 000055C8
+:004361FA 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:00436200 0386887A6900            add eax, dword ptr [esi+00697A88]
+:00436206 8B8C0F6C010000          mov ecx, dword ptr [edi+ecx+0000016C]
+:0043620D C1F901                  sar ecx, 01
+:00436210 8D440801                lea eax, dword ptr [eax+ecx+01]
+:00436214 EB49                    jmp 0043625F
+
+into >>
+
+:004361EA 6A14                    push 00000014
+:004361EC B14B                    mov cl, 4B
+:004361EE 5A                      pop edx
+:004361EF E8663DFEFF              call 00419F5A
+:004361F4 69FFC8550000            imul edi, 000055C8
+:004361FA 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:00436200 0386887A6900            add eax, dword ptr [esi+00697A88]
+:00436206 8B8C0F6C010000          mov ecx, dword ptr [edi+ecx+0000016C]
+:0043620D 90                      nop
+:0043620E 90                      nop
+:0043620F 90                      nop
+:00436210 8D440801                lea eax, dword ptr [eax+ecx+01]
+:00436214 EB49                    jmp 0043625F
+
+into >>
+
+:004361EA 6A3C                    push 0000003C
+:004361EC B14B                    mov cl, 4B
+:004361EE 5A                      pop edx
+:004361EF E8663DFEFF              call 00419F5A					eax = Rnd[60], 0-59
+:004361F4 69FFC8550000            imul edi, 000055C8
+:004361FA 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]		
+:00436200 0386887A6900            add eax, dword ptr [esi+00697A88]		(0-59)+SLVL
+:00436206 8B8C0F6C010000          mov ecx, dword ptr [edi+ecx+0000016C]		ecx = cMAG
+:0043620D C1E102                  shl ecx, 02					cMAG*4
+:00436210 8D440801                lea eax, dword ptr [eax+ecx+01]		cMAG*4 + (1-60) + SLVL
+:00436214 EB49                    jmp 0043625F
+
+________________________________________________________
+
+Spellbook damages are corrected at these addreses:
+
+:0042E8A2 C1F803                  sar eax, 03
+wordt (min. damage in spellbook)
+
+
+:0042E8C3 C1F803                  sar eax, 03
+wordt (max. damage in spellbook)
+
+
+
+Spellbook damage should be:
+mini: ((cMAG*4) + 1 + SLVL)/4
+maxi: ((cMAG*4) + 60 + SLVL)/4
+
+Spellbook displays *effective* damage now:
+
+:0042E89C 8B806C010000            mov eax, dword ptr [eax+0000016C]	eax = cMag
+:0042E8A2 90                      nop
+:0042E8A3 90                      nop
+:0042E8A4 90                      nop
+:0042E8A5 8D443001                lea eax, dword ptr [eax+esi+01]	eax = cMag+1
+:0042E8A9 8902                    mov dword ptr [edx], eax			edx = eax
+:0042E8AB A1E8AD6E00              mov eax, dword ptr [006EADE8]
+:0042E8B0 69C0C8550000            imul eax, 000055C8
+:0042E8B6 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0042E8BC 8B84086C010000          mov eax, dword ptr [eax+ecx+0000016C]
+:0042E8C3 90                      nop
+:0042E8C4 90                      nop
+:0042E8C5 90                      nop
+:0042E8C6 8D443014                lea eax, dword ptr [eax+esi+14]
+:0042E8CA E980040000              jmp 0042ED4F
+
+
+into >>>
+
+
+:0042E89C 8B806C010000            mov eax, dword ptr [eax+0000016C]
+:0042E8A2 90                      nop
+:0042E8A3 90                      nop
+:0042E8A4 90                      nop
+:0042E8A5 8D443001                lea eax, dword ptr [eax+esi+01]
+:0042E8A9 8902                    mov dword ptr [edx], eax
+:0042E8AB A1E8AD6E00              mov eax, dword ptr [006EADE8]
+:0042E8B0 69C0C8550000            imul eax, 000055C8
+:0042E8B6 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0042E8BC 8B84086C010000          mov eax, dword ptr [eax+ecx+0000016C]
+:0042E8C3 90                      nop
+:0042E8C4 90                      nop
+:0042E8C5 90                      nop
+:0042E8C6 8D44300F                lea eax, dword ptr [eax+esi+0F]
+:0042E8CA E980040000              jmp 0042ED4F
+

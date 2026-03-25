@@ -1,0 +1,88 @@
+Gold Golem melee resistance:
+dlvl 21: 2/8
+dlvl 22: 3/8
+other dlvl's: 4/8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708AFE(C)
+|
+:00708EC0 81387D000000            cmp dword ptr [eax], 0000007D
+:00708EC6 0F8525000000            jne 00708EF1
+:00708ECC 803DD8B1600015          cmp byte ptr [0060B1D8], 15
+:00708ED3 750B                    jne 00708EE0
+:00708ED5 50                      push eax
+:00708ED6 8BC7                    mov eax, edi
+:00708ED8 C1F802                  sar eax, 02
+:00708EDB 2BF8                    sub edi, eax
+:00708EDD 58                      pop eax
+:00708EDE EB11                    jmp 00708EF1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708ED3(C)
+|
+:00708EE0 803DD8B1600016          cmp byte ptr [0060B1D8], 16
+:00708EE7 7505                    jne 00708EEE
+:00708EE9 E9CAF6FFFF              jmp 007085B8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708EE7(C)
+|
+:00708EEE C1EF01                  shr edi, 01
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00708EC6(C), :00708EDE(U)
+|
+:00708EF1 E95F2CD5FF              jmp 0045BB55
+:00708EF6 90                      nop
+:00708EF7 90                      nop
+:00708EF8 90                      nop
+:00708EF9 90                      nop
+:00708EFA 90                      nop
+:00708EFB 90                      nop
+:00708EFC 90                      nop
+:00708EFD 90                      nop
+:00708EFE 90                      nop
+:00708EFF 90                      nop
+
+
+==========================================================================
+Same resistance against arrows
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708B54(C)
+|
+:00708F00 3D7D000000              cmp eax, 0000007D
+:00708F05 0F852F000000            jne 00708F3A
+:00708F0B 803DD8B1600015          cmp byte ptr [0060B1D8], 15
+:00708F12 750B                    jne 00708F1F
+:00708F14 50                      push eax
+:00708F15 8BC7                    mov eax, edi
+:00708F17 C1F802                  sar eax, 02
+:00708F1A 2BF8                    sub edi, eax
+:00708F1C 58                      pop eax
+:00708F1D EB1B                    jmp 00708F3A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708F12(C)
+|
+:00708F1F 803DD8B1600016          cmp byte ptr [0060B1D8], 16
+:00708F26 750F                    jne 00708F37
+:00708F28 50                      push eax
+:00708F29 8BC7                    mov eax, edi
+:00708F2B C1F802                  sar eax, 02
+:00708F2E 2BF8                    sub edi, eax
+:00708F30 D1F8                    sar eax, 1
+:00708F32 2BF8                    sub edi, eax
+:00708F34 58                      pop eax
+:00708F35 EB03                    jmp 00708F3A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708F26(C)
+|
+:00708F37 C1EF01                  shr edi, 01
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00708F05(C), :00708F1D(U), :00708F35(U)
+|
+:00708F3A E997E3FFFF              jmp 007072D6
+:00708F3F 90                      nop

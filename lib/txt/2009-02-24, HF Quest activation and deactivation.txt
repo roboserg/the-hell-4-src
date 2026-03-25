@@ -1,0 +1,22 @@
+Hellfire quest activation/deactivation:
+
+
+* Referenced by a CALL at Address:
+|:0040934F   
+|
+:004093F9 55                      push ebp
+:004093FA 8BEC                    mov ebp, esp
+:004093FC 83EC48                  sub esp, 00000048
+:004093FF 53                      push ebx
+:00409400 C605E053570001          mov byte ptr [005753E0], 01
+:00409407 C605E453570001          mov byte ptr [005753E4], 01
+:0040940E C605E853570001          mov byte ptr [005753E8], 01
+:00409415 C605D453570001          mov byte ptr [005753D4], 01		< celia iirc
+:0040941C C605D853570000          mov byte ptr [005753D8], 00		< active/inactive 'complete nut'
+:00409423 5B                      pop ebx
+:00409424 C9                      leave
+:00409425 C3                      ret
+
+-----------------------------------------------------------------------------------
+
+:004775CE 80B8B80100000F          cmp byte ptr [eax+000001B8], 0F		< clvl requirement for Lester to drop rune bomb (item 27h)

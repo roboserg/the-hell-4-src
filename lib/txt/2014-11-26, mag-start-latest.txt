@@ -1,0 +1,57 @@
+﻿Заряды маговского посоха
+
+;.text:00424E9F                 jmp     loc_70DC00
+
+00424E9F jmp @newLoc // F05B0
+>>>
+; eax, ecx, edx свободны
+; ebx - currentPlayer offset
+
+mov     eax, dword ptr[006EAE14]; Players
+add     eax, ebx
+movsx   ecx, byte ptr [eax+160h] ; Player.ClassID
+cmp ecx, 2 ; mag
+jnz @return
+
+mov edx, 30d
+mov dword ptr [eax+2396 +228], edx; left on body item CurCharges
+mov dword ptr [eax+2396 +232], edx; left on body item BaseCharges
+
+@return:
+jmp 70DC00
+
+===========================================================
+
+Доп заклы магу
+
+
+; player.AvalibleSpellMaskLo = 1 << (PS_1_FIREBOLT - 1); 1
+;PS_30_CHARGED_BOLT 20000000h
+;PS_31_HOLY_BOLT 40000000h
+
+включение 3х заклов
+.text:0045815D                 mov     dword ptr [eax+esi+Player.anonymous_0.AvalibleSpellMask], 1 60000001h
+
+установка уровней заклам
+;.text:004581A6 80 B8 60 01 00 00 02                    cmp     byte ptr [eax+160h], 2
+;.text:004581AD 75 07                                   jnz     short loc_4581B6
+;.text:004581AF C6 80 C2 00 00 00 02                    mov     byte ptr [eax+0C2h], 2
+;.text:004581B6
+;.text:004581B6                         loc_4581B6:                             ; CODE XREF: CreatePlayer+4EBj
+;.text:004581B6 6A 03                                   push    3
+
+004581A6 jmp @newLoc / F0600
+>>>
+cmp     byte ptr [eax+160h], 2
+jnz     @return
+mov     byte ptr [eax+0C2h], 1
+mov     byte ptr [eax+0DFh], 1
+mov     byte ptr [eax+0E0h], 1
+
+@return:
+jmp 004581B6
+
+
+
+
+

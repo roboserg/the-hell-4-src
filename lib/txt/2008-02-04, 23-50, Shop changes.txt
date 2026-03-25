@@ -1,0 +1,13 @@
+Wirt max price:
+:0042AEC9 81F9E0930400            cmp ecx, 000493E0	< it was 300,000 Gold
+-> changed to 900,000 Gold
+
+Grizwold no longer restricts himself to item types thta character doesn't have:
+:0042A726 7D0D                    jge 0042A735		< jge -> jmp
+
+Grizwold max price cap 200,000 -> 800,000:
+:0042A6F8 81F9400D0300            cmp ecx, 00030D40
+into:
+:0042A6F8 81F900350C00            cmp ecx, 000C3500
+
+

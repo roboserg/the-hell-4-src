@@ -1,0 +1,1112 @@
+﻿@AddWarpFromIzualHall: адрес сюда. не смей подставлять! / e7300
+and     dword ptr [70021Ch], 0
+mov     dword ptr [700220h], 1
+mov     dword ptr [700228h], 1Eh ; координаты портала
+mov     dword ptr [70022Ch], 53h
+mov     dword ptr [700230h], 1029d ;MAYBE_GOING_TO_QUEST_DUNGEON
+mov     byte ptr [700234h], 11d ;QuestLocIndex
+mov     byte ptr [700235h], 3 ;QuestLocDunType
+retn
+
+     chek:
+:0071A700 83251C02700000          and dword ptr [0070021C], 00000000
+:0071A707 C7052002700001000000    mov dword ptr [00700220], 00000001
+:0071A711 C7052802700012000000    mov dword ptr [00700228], 00000012
+:0071A71B C7052C02700058000000    mov dword ptr [0070022C], 00000058
+:0071A725 C7053002700005040000    mov dword ptr [00700230], 00000405
+:0071A72F 90                      nop
+:0071A730 90                      nop
+:0071A731 C605340270000B          mov byte ptr [00700234], 0B
+:0071A738 C6053502700003          mov byte ptr [00700235], 03
+:0071A73F C3                      ret
+====================================================
+
+; вызов в 575 первого блокнота
+@izualHall: / e7350
+
+; вставить как нибудь
+cmp byte ptr [6EB548h], 2
+jge @F
+mov dword ptr [0057A214],  ???  ; PlayerSoundMessageDelay
+mov dword ptr [0057A218],  ???  ; SoundMessage
+mov byte ptr [6EB548h], 2
+@@:
+
+; разнообразие в зависимости от сложности или ещё чего то сам сделаешь
+;call @selectRandomDunForIzualHall / address ? нету пока. Вот соберешься рэндомизировать тогда и сделаем
+mov esi, offset "Levels\\L3Data\\izualHall.DUN" ; eax
+
+mov ecx, esi
+push    50
+push    20
+pop     edx
+call 00414BC7 ; альтернативный дун
+
+push    50
+mov ecx, esi
+push    19
+pop     edx
+call 00414A7C ; главный дун
+
+mov ecx, offset "Levels\\L3Data\\L3pfoul.pal" ; или другая спец палитра
+call 0045552B
+
+movzx   ecx, byte_6EB548
+test ecx, ecx
+jz @F
+mov byte ptr [6EB549h], 1; само по себе ничего не значит. В функции активации квестов будет значить что надо портал открыть
+@@:
+
+call @AddWarpFromIzualHall
+
+; координаты появления игрока на карте.
+mov dword ptr [0061F334h], 44d
+mov dword ptr [0061F338h], 44d
+
+pop     esi
+retn
+
+ chek:
+ * Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716AA3(C)
+|
+:0071A750 BE6869A300              mov esi, 00A36968
+
+:0071A75F 89F1                    mov ecx, esi
+:0071A761 6A32                    push 00000032
+:0071A763 6A14                    push 00000014
+:0071A765 5A                      pop edx
+
+:0071A76B E857A4CFFF              call 00414BC7
+
+:0071A777 6A32                    push 00000032
+:0071A779 89F1                    mov ecx, esi
+:0071A77B 6A13                    push 00000013
+:0071A77D 5A                      pop edx
+
+:0071A781 E8F6A2CF90              call 91414A7C
+
+:0071A788 B98369A300              mov ecx, 00A36983
+
+Нету
+
+:0071A793 0FB60D48B56E00          movzx ecx, byte ptr [006EB548]
+
+:0071A7A0 85C9                    test ecx, ecx
+:0071A7A2 7410                    je 0071A7B4
+:0071A7A4 C60549B56E0001          mov byte ptr [006EB549], 01
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071A7A2(C)
+|
+:0071A7B4 E802000000              call 0071A7BB
+:0071A7B9 EB01                    jmp 0071A7BC
+
+* Referenced by a CALL at Address:
+|:0071A7B4   
+|
+:0071A7BB C3                      ret
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071A7B9(U)
+|
+
+:0071A7C0 C70534F361002C000000    mov dword ptr [0061F334], 0000002C
+:0071A7CA C70538F361002C000000    mov dword ptr [0061F338], 0000002C
+
+:0071A7DE 5E                      pop esi
+:0071A7DF C3                      ret
+
+========================================================
+
+@izualHallPortalOpen: ; прыжок с 911 первого блока
+cmp byte ptr [0061CB00h], 12
+jnz @return
+cmp byte ptr [6EB549h], 1
+jnz @return
+
+push ecx
+push edx
+push eax
+push ebx
+
+; кастуем портал
+xor ebx, ebx ; нолег
+mov eax, dword ptr [006EADE8h] ; CurrentPlayerIndex
+mov ecx, 50d; координаты. Опять подбором
+mov edx, 50d
+
+push ebx
+push ebx
+push eax
+push ebx
+push 65d
+push ebx
+push edx
+push ecx
+call 0043572F
+
+; добавляем ворпы
+mov ecx, 1
+call 0071A450
+
+; обнуляем флаг необходимости каста портала
+mov byte ptr [6EB549h], bl
+
+pop ebx
+pop eax
+pop edx
+pop ecx
+
+@return:
+jmp     loc_717A90
+
+
+ chek:
+ 
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071A65B(U)
+|
+:0071A800 803D00CB61000C          cmp byte ptr [0061CB00], 0C
+:0071A807 754E                    jne 0071A857
+:0071A809 803D49B56E0001          cmp byte ptr [006EB549], 01
+:0071A810 7545                    jne 0071A857
+:0071A812 51                      push ecx
+:0071A813 52                      push edx
+:0071A814 50                      push eax
+:0071A815 53                      push ebx
+:0071A818 31DB                    xor ebx, ebx
+:0071A81A A1E8AD6E00              mov eax, dword ptr [006EADE8]
+:0071A821 6A12                    push 00000012
+:0071A823 59                      pop ecx
+:0071A824 6A58                    push 00000058
+:0071A826 5A                      pop edx
+:0071A829 53                      push ebx
+:0071A82A 53                      push ebx
+:0071A82B 50                      push eax
+:0071A82C 53                      push ebx
+:0071A82D 6A41                    push 00000041
+:0071A82F 53                      push ebx
+:0071A830 52                      push edx
+:0071A831 51                      push ecx
+:0071A834 E8F6AED1FF              call 0043572F
+:0071A83C 6A01                    push 00000001
+:0071A83E 59                      pop ecx
+:0071A83F E80CFCFFFF              call 0071A450
+:0071A846 881D49B56E00            mov byte ptr [006EB549], bl
+:0071A850 5B                      pop ebx
+:0071A851 58                      pop eax
+:0071A852 5A                      pop edx
+:0071A853 59                      pop ecx
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071A807(C), :0071A810(C)
+|
+:0071A857 E934D2FFFF              jmp 00717A90
+=======================================================
+
+; .mod:00717536                 jg      short loc_71753A
+
+00717536 jg @izualQuestCheck
+>>>
+@izualQuestCheck:
+cmp     al, 11
+jz @firePasCheck
+cmp al, 12
+jnz loc_41E3CF ; церковная загрузка по дефолту
+@izualHallCheck:
+; оставить место.
+jmp 0041E3DF ; портал при выходе из локи изи
+@firePasCheck:
+cmp byte ptr [00A352C0h], 0 ; если идем не из квестовой локи (из бездны)
+jz 0041E4A3
+cmp byte ptr [00A34170h], 12 ; NewQuestLocIndex
+jz @izualCut
+jmp 41E488
+@izualCut:
+xor     edx, edx
+mov     ecx, "Gendata\\IzualCut.cel"
+call    sub_41A02F
+mov     ecx, "Gendata\\IzualCut.pal"
+mov     dword_6854F8, eax
+call    sub_45552B
+mov     dword_685500, 1
+jmp     loc_41E554
+
+
+dlvl 19 >> passage : abyss (внизу)
+passage >> valley : izual (внизу)
+valley >> passage : red portal (внизу)
+passage >> dlvl 19 : cave (внизу)
+
+    chek
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00717536(C)
+|
+:0071A870 3C0B                    cmp al, 0B
+:0071A872 7431                    je 0071A8A5
+:0071A874 3C0C                    cmp al, 0C
+:0071A87A 0F854F3BD0FF            jne 0041E3CF
+:0071A89B E93F3BD0FF              jmp 0041E3DF
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071A872(C)
+|
+:0071A8A5 803DC052A30000          cmp byte ptr [00A352C0], 00
+:0071A8AE 0F84EF3BD0FF            je 0041E4A3
+:0071A8B4 803D14F3610000          cmp byte ptr [0061F314], 00
+:0071A8BD 0F84C53BD0FF            je 0041E488
+:0071A8CA 31D2                    xor edx, edx
+:0071A8CC B9A069A300              mov ecx, 00A369A0
+:0071A8D3 E857F7CFFF              call 0041A02F
+
+* Possible StringData Ref from Data Obj ->"Gendata\Cut2.pal"
+                                  |
+:0071A8DA B9400C4A00              mov ecx, 004A0C40
+:0071A8DF A3F8546800              mov dword ptr [006854F8], eax
+:0071A8E7 E83FACD3FF              call 0045552B
+:0071A8F0 C7050055680001000000    mov dword ptr [00685500], 00000001
+:0071A8FB E9543CD0FF              jmp 0041E554
+
+
+
+
+
+=======================================================
+
+Добавление босса \ done
+
+1. само добавление
+
+;.mod:00717790                 jnz     loc_43C675
+;.mod:007177A2                 jmp     loc_43C675
+
+Оба адреса меняем на @newLoc / e7510
+
+@newLoc:
+cmp     byte ptr [61CB00], 12
+jnz     loc_43C675
+mov     ecx, @izualBossIndex
+jmp 71779D
+
+2. установка координат
+
+.mod:007177D0                 jnz     loc_43BC1B
+
+меняем на @newLoc
+
+@newLoc: / e7580
+cmp     edx, @izualBossIndex
+jnz     loc_43BC1B
+push    50 ; координаты. Надо подбирать
+pop     edi
+push    50
+pop     ebx
+jmp     loc_43BC1B
+
+=========================================================
+
+Izual boss: ( boss ID = 246h)
+
+Damage:
+Horror: 80-100
+Purgatory: 220-240
+Doom: 300-340
+
+=========================================================
+
+TODO:
+1. разговоры горожан
+2. Завершение квеста и Речь после убийства
+3. Награда
+
+Условие активации квеста у джил:
+посещение какого то уровня, 
+
+;.text:00477118                 jmp     loc_715FD3
+
+00477118 >>> / e75a0
+>>
+; доступные регистры: eax, ecx, edx
+; edi - playerIndex
+; esi - citizenOffset
+
+call 70A1D0; @getCurPlayerOffset
+add eax, 1f4h ; player.LevelVisitData[0]
+add eax, 19d ; выбрать уровень на который нужно прийти чтобы начался квест
+movzx eax, byte ptr [eax]
+test eax, eax
+jz @returnCheckNextQuestActions ; ещё не достигли уровня который является триггером / e75b2
+
+push edi
+push esi
+
+mov edi, 17 ; индекс квеста
+imul edi, 1Сh
+add edi, offset 006EB358 ; в edi начало структуры izual квеста
+
+add esi, 006FF200 ; в esi начало gilianOffset + Cityzens
+
+movzx eax, byte ptr [edi+2]; izualQuest.Status
+cmp eax, 1 ; QS_1_ACCEPT
+jnz @nextCheck  
+
+@startQuestSpeech:
+mov     dword ptr[esi+50h], 96h
+mov eax, dword ptr [006EADE8] ; CurrentPlayerIndex
+mov dword ptr[esi+0a8h], eax
+mov byte ptr [edi+2], 2 ; izualQuest.Status = QS_2_IN_PROGRESS;
+mov eax, 1
+mov dword ptr [edi+18h], eax ; izualQuest.TalkToFlag = 1;
+movzx byte ptr [edi+14h], al ; izualQuest.Status2 = 1;
+mov eax, @startGilianIzualQuestSpeechIndex // write later / e7604
+mov dword ptr [edi+14h], eax ; izualQuest.SpeechIndex
+mov ecx, eax
+call 0042E543 ; StartSpeech
+jmp @returnWithPop / e7616
+
+@nextCheck:
+cmp eax, 3 ; QS_3_COMPLETE
+jnz @returnWithPopCheckNextQuestActions / e761d
+mov eax, byte ptr [edi+14h]; izualQuest.Status2
+cmp eax, 23
+jz @returnWithPopCheckNextQuestActions / e7627
+
+@endQuestSpeech:
+mov     dword ptr[esi+50h], 96h
+mov eax, dword ptr [006EADE8] ; CurrentPlayerIndex
+mov dword ptr[esi+0a8h], eax
+mov byte ptr [edi+14h], 23 ; izualQuest.Status2 = 3; 
+mov ecx, @endGilianIzualQuestSpeechIndex / e763E
+call 0042E543 ; StartSpeech
+call @addExpPoints / e7649
+
+@returnWithPop: / e7650
+pop esi
+pop edi
+jmp 00477164
+
+@returnWithPopCheckNextQuestActions:
+pop esi
+pop edi
+@returnCheckNextQuestActions:
+jmp 00715FD3
+
+====================================================
+
+Действия при смерти Изуала:
+1. завершение квеста
+2. отложенная речь персонажа (звуки пропишу)
+3. спецдроп (тут еще непонятно что делать). главное найти куда.
+
+;.mod:00717B4E                 jnz     loc_7181BE
+
+00717B4E jnz @newLoc
+>>>
+@newLoc:
+cmp     edi, 246h
+jnz 7181BE
+@killIzual:
+; 1. завершение квеста
+mov     eax, 17
+imul    eax, 1Ch
+add     eax, 006EB358 ; offset Quests
+mov     byte ptr [eax+2], 3 ; квест завершен
+ 
+; 2. отложенная речь персонажа (звуки пропишу)
+mov dword ptr [0057A214], @speechDelay \
+call 0070A1D0 ; GetCurrentPlayerOffset
+mov eax, dword ptr [eax + 352d]; ClassID
+cmp al, 0
+jz @pal
+cmp al, 5
+jz @pal
+cmp al, 1
+jz @scout
+cmp al, 4
+jz @scout
+cmp al, 2
+jnz @noSound
+@mag:
+mov eax, @magSoundIndex
+jmp @setSound
+@scout:
+mov eax, @scoutSoundIndex
+jmp @setSound
+@pal:
+mov eax, @palSoundIndex
+@setSound:
+mov dword ptr [0057A218], eax ; 0057A218
+@noSound:
+
+jmp     loc_45FF54
+
+ chek:
+ 
+ * Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00717B4E(C)
+|
+:0071AA70 81FF46020000            cmp edi, 00000246
+:0071AA76 0F8542D7FFFF            jne 007181BE
+
+:0071AA81 6A11                    push 00000011
+:0071AA83 58                      pop eax
+:0071AA84 6BC01C                  imul eax, 0000001C
+:0071AA87 0558B36E00              add eax, 006EB358
+:0071AA8C C6400203                mov [eax+02], 03
+
+:0071AAA0 C70514A2570050000000    mov dword ptr [0057A214], 00000050
+:0071AAAA 90                      nop
+:0071AAAB E820F7FEFF              call 0070A1D0
+:0071AAB0 90                      nop
+:0071AAB1 90                      nop
+:0071AAB2 0FBE8060010000          movsx eax, byte ptr [eax+00000160]
+:0071AAB9 90                      nop
+:0071AABA 3C00                    cmp al, 00
+:0071AABC 742D                    je 0071AAEB
+:0071AABE 3C05                    cmp al, 05
+:0071AAC0 7429                    je 0071AAEB
+:0071AAC2 3C01                    cmp al, 01
+:0071AAC4 742E                    je 0071AAF4
+:0071AAC6 3C04                    cmp al, 04
+:0071AAC8 742A                    je 0071AAF4
+:0071AACA 3C02                    cmp al, 02
+:0071AACC 7514                    jne 0071AAE2
+:0071AACE B800040000              mov eax, 00000400
+:0071AAD3 90                      nop
+:0071AAD4 90                      nop
+:0071AAD5 A318A25700              mov dword ptr [0057A218], eax
+:0071AADA 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071AAE7(U), :0071AAF0(U), :0071AAF9(U)
+|
+:0071AADB E97454D4FF              jmp 0045FF54
+:0071AAE0 90                      nop
+:0071AAE1 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071AACC(C)
+|
+:0071AAE2 B861020000              mov eax, 00000261
+:0071AAE7 EBF2                    jmp 0071AADB
+:0071AAE9 90                      nop
+:0071AAEA 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071AABC(C), :0071AAC0(C)
+|
+:0071AAEB B82F030000              mov eax, 0000032F
+:0071AAF0 EBE9                    jmp 0071AADB
+:0071AAF2 90                      nop
+:0071AAF3 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071AAC4(C), :0071AAC8(C)
+|
+:0071AAF4 B8C2020000              mov eax, 000002C2
+:0071AAF9 EBE0                    jmp 0071AADB
+
+===========================================================
+Удлинение чл...инферно Изуалу
+
+;.text:00439CF5 83 BE F0 7A 69 00 03                    cmp     dword_697AF0[esi], 3
+;.text:00439CFC 75 0A                                   jnz     short loc_439D08
+;.text:00439CFE
+;.text:00439CFE                         loc_439CFE:                             ; CODE XREF: ActInferno+C5j
+;.text:00439CFE C7 86 8C 7A 69 00 01 00+                mov     dword_697A8C[esi], 1
+
+00439CF5 >>> / e7800
+>>>
+Если кастер - не монстр, то 3
+если кастер не босс Изуал то 3
+
+; регистры свободны eax, ecx, edx, ebx и edi
+
+00697A58 Missile
++116 CasterIndex
++120 CasterType
+
+cmp dword ptr [esi + 697AD0h], 1 ; CT_1_MONSTER_AND_TRAP
+jnz @short
+
+mov ecx, dword ptr [esi + 697ACCh] ;monsterIndex
+mov edx, 246h
+call 00716320 ; IsThisBoss
+test eax, eax
+jz @short
+@long:
+mov eax, 5
+jmp @F
+@short
+mov eax, 3
+@@:
+cmp     dword ptr [esi + 697AF0], eax
+jnz 439D08
+jmp 00439CFE
+
+ chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00439CF5(U)
+|
+:0071AC00 83BED07A690001          cmp dword ptr [esi+00697AD0], 00000001
+:0071AC07 751C                    jne 0071AC25
+:0071AC09 8B8ECC7A6900            mov ecx, dword ptr [esi+00697ACC]
+:0071AC0F BA46020000              mov edx, 00000246
+:0071AC14 E807B7FFFF              call 00716320
+:0071AC1C 85C0                    test eax, eax
+:0071AC1E 7405                    je 0071AC25
+:0071AC20 6A09                    push 00000009
+:0071AC22 58                      pop eax
+:0071AC23 EB03                    jmp 0071AC28
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071AC07(C), :0071AC1E(C)
+|
+:0071AC25 6A03                    push 00000003
+:0071AC27 58                      pop eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071AC23(U)
+|
+:0071AC28 3986F07A6900            cmp dword ptr [esi+00697AF0], eax
+:0071AC2E 0F85D4F0D1FF            jne 00439D08
+:0071AC34 E9C5F0D1FF              jmp 00439CFE
+=============================================================
+
+izual, inferno dmg 4x:
+
+4350A1:
+ >>
+e784F:
+push eax
+mov ecx, dword ptr [esi+00697ACC]
+mov edx, 246h
+call 716320
+test eax, eax
+je @usual
+@Izual:
+pop eax
+0FB60F                movzx ecx, byte ptr [edi]
+03C1                    add eax, ecx
+shl eax, 2
+@return
+jmp 4350a6
+
+@usual:
+pop eax
+0FB60F                  movzx ecx, byte ptr [edi]
+03C1                    add eax, ecx
+jmp @return
+
+         chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004350A1(U)
+|
+:0071AC4F 50                      push eax
+:0071AC50 8B8ECC7A6900            mov ecx, dword ptr [esi+00697ACC]
+:0071AC56 BA46020000              mov edx, 00000246
+:0071AC5B E8C0B6FFFF              call 00716320
+:0071AC64 85C0                    test eax, eax
+:0071AC66 7412                    je 0071AC7A
+:0071AC68 58                      pop eax
+:0071AC69 0FB60F                  movzx ecx, byte ptr [edi]
+:0071AC6C 03C1                    add eax, ecx
+:0071AC6E C1E002                  shl eax, 02
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071AC80(U)
+|
+:0071AC73 E92EA4D1FF              jmp 004350A6
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071AC66(C)
+|
+:0071AC7A 58                      pop eax
+:0071AC7B 0FB60F                  movzx ecx, byte ptr [edi]
+:0071AC7E 03C1                    add eax, ecx
+:0071AC80 EBF1                    jmp 0071AC73
+
+============================================================
+
+@addExpPoints: ; вызов 372 этого блока / e7889
+mov eax, dword ptr [006070С0] ; Difficulty
+test eax, eax
+jz @horror
+dec eax
+jnz @doom
+@purgatory:
+mov eax, @purgExpCount // 500 000
+jmp @F
+@horror:
+mov eax, @horrorExpCount // 50 000
+jmp @F
+@doom:
+mov eax, @doomExpCount // 2 000 000
+@@:
+push eax
+
+call 0070A1D0 ;GetCurrentPlayerOffset
+movzx edx, byte ptr [eax + 440]; clvl
+
+mov ecx, dword ptr [006EADE8] ; CurrentPlayerIndex
+
+call 00458492 ; AddPlayerExperience
+retn
+
+ chek:
+ 
+ * Referenced by a CALL at Address:
+|:0071AA49   
+|
+:0071AC89 A1C0706000              mov eax, dword ptr [006070C0]
+:0071AC8E 85C0                    test eax, eax
+:0071AC90 740A                    je 0071AC9C
+:0071AC92 48                      dec eax
+:0071AC93 750E                    jne 0071ACA3
+:0071AC95 B820A10700              mov eax, 0007A120
+:0071AC9A EB0C                    jmp 0071ACA8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071AC90(C)
+|
+:0071AC9C B850C30000              mov eax, 0000C350
+:0071ACA1 EB05                    jmp 0071ACA8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071AC93(C)
+|
+:0071ACA3 B880841E00              mov eax, 001E8480
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071AC9A(U), :0071ACA1(U)
+|
+:0071ACA8 50                      push eax
+:0071ACA9 E822F5FEFF              call 0070A1D0
+:0071ACAE 0FBE90B8010000          movsx edx, byte ptr [eax+000001B8]
+:0071ACB5 8B0DE8AD6E00            mov ecx, dword ptr [006EADE8]
+:0071ACBB E8D2D7D3FF              call 00458492
+:0071ACC0 C3                      ret
+
+=======================
+
+Izual: 93,33% KB resistance
+
+:0070FBBB 813889000000            cmp dword ptr [eax], 00000089
+:0070FBC1 7508                    jne 0070FBCB
+:0070FBC3 52                      push edx
+:0070FBC4 6A14                    push 00000014
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070FBDF(U)
+|
+:0070FBC6 E93D9AFFFF              jmp 00709608
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070FBC1(C)
+|
+:0070FBCB 8138B0000000            cmp dword ptr [eax], 000000B0
+:0070FBD1 75B5                    jne 0070FB88
+:0070FBD3 803DD8B1600014          cmp byte ptr [0060B1D8], 14
+:0070FBDA 7FAC                    jg 0070FB88 // exit
+:0070FBDC 52                      push edx
+:0070FBDD 6A0F                    push 0000000F
+:0070FBDF EBE5                    jmp 0070FBC6
+
+=========================================================
+
+Снижение резов в Долине
+
+;.text:00424090                         loc_424090:                             ; CODE XREF: sub_423965+71Bj
+;.text:00424090 F6 45 CF 80                             test    byte ptr [ebp+var_34+3], 80h
+;.text:00424094 74 08                                   jz      short loc_42409E
+;.text:00424096 33 C9                                   xor     ecx, ecx
+;.text:00424098 33 D2                                   xor     edx, edx
+;.text:0042409A 33 DB                                   xor     ebx, ebx
+;.text:0042409C EB 03                                   jmp     short loc_4240A1
+;.text:0042409E                         ; ---------------------------------------------------------------------------
+;.text:0042409E
+;.text:0042409E                         loc_42409E:                             ; CODE XREF: sub_423965+72Fj
+;.text:0042409E 8B 5D E4                                mov     ebx, [ebp+var_1C]
+;.text:004240A1
+;.text:004240A1                         loc_4240A1:                             ; CODE XREF: sub_423965+737j
+;.text:004240A1 6A 55                                   push    85
+
+
+00424090 >>> / e78d0
+>>>
+F6 45 CF 80 test    byte ptr [ebp+var_34+3], 80h
+jnz  00424096 ; обнуление резов при соответствующем флаге
+@izualDecResCheck:
+8B 5D E4                                mov     ebx, [ebp+var_1C]
+cmp byte ptr [0061F314], 0
+jz @return
+cmp byte ptr [0061CB00], 12
+jnz @return
+
+push eax
+mov eax, dword ptr [006070С0] ; Difficulty
+test eax, eax
+jz @horror
+dec eax
+jnz @doom
+@purgatory:
+mov eax, @purgResDecValue
+jmp @F
+@horror:
+mov eax, @horrorResDecValue
+jmp @F
+@doom:
+mov eax, @doomResDecValue
+@@:
+sub ecx, eax
+sub edx, eax
+sub ebx, eax
+pop eax
+
+@return:
+jmp 004240A1
+
+ chek:
+ 
+ * Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00424090(U)
+|
+:0071ACD0 F645CF80                test [ebp-31], 80
+:0071ACD4 0F85BC93D0FF            jne 00424096
+:0071ACDA 8B5DE4                  mov ebx, dword ptr [ebp-1C]
+:0071ACE0 803D14F3610000          cmp byte ptr [0061F314], 00
+:0071ACE7 7430                    je 0071AD19
+:0071ACE9 803D00CB61000C          cmp byte ptr [0061CB00], 0C
+:0071ACF0 7527                    jne 0071AD19
+:0071ACF4 50                      push eax
+:0071ACF5 A1C0706000              mov eax, dword ptr [006070C0]
+:0071ACFC 85C0                    test eax, eax
+:0071AD00 7407                    je 0071AD09
+:0071AD02 48                      dec eax
+:0071AD03 7508                    jne 0071AD0D
+:0071AD05 6A28                    push 00000028
+:0071AD07 EB06                    jmp 0071AD0F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071AD00(C)
+|
+:0071AD09 6A1E                    push 0000001E
+:0071AD0B EB02                    jmp 0071AD0F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071AD03(C)
+|
+:0071AD0D 6A32                    push 00000032
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071AD07(U), :0071AD0B(U)
+|
+:0071AD0F 58                      pop eax
+:0071AD10 29C1                    sub ecx, eax
+:0071AD12 29C2                    sub edx, eax
+:0071AD14 29C3                    sub ebx, eax
+:0071AD16 58                      pop eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071ACE7(C), :0071ACF0(C)
+|
+:0071AD19 E98393D0FF              jmp 004240A1
+=======================================================
+
+Молнниевая атака изуала
+
+Исправление
+.text:0043DFF8 80 BE 20 DD 69 00 18                    cmp     byte ptr dword_69DD20[esi], 24
+.text:0043DFFF 74 09                                   jz      short loc_43E00A
+.text:0043E001 33 D2                                   xor     edx, edx        ; soundType
+
+0043DFF8 >>> / e79c0
+>>>
+; то же самое что внизу до ретурна
+@return:
+80 BE 20 DD 69 00 18                    cmp     byte ptr dword_69DD20[esi], 24
+jmp 0043DFFF
+------------------------------------------------------------
+
+;.text:0043E00A 8B 86 64 DD 69 00                       mov     eax, dword_69DD64[esi]
+;.text:0043E010 8B 00                                   mov     eax, [eax]
+
+0043E00A >>> / e7930 / cancelled
+>>>
+; регистры
+; eax, ecx, edx свободны
+; edi - monsterIndex
+; esi - monsterOffset
+ 
+mov     ecx, edi; monsterIndex
+mov edx, 246h
+call 00716320 ; IsThisBoss
+test eax, eax
+jz @return
+
+mov     ecx, dword ptr [esi+69DCA8h] ;Monsters.Row[edi]
+movsx  eax, byte ptr [esi+69DCD8h] ; Monsters.TargetRow[esi]
+sub  ecx, eax
+push    ecx
+call   0047ABD0 ; _abs
+pop     ecx
+
+cmp eax, 2
+jge @return
+
+mov     ecx, dword ptr [esi+69DCACh] ;Monsters.Col[edi]
+movsx  eax, byte ptr [esi+69DCD9h] ; Monsters.TargetCol[esi]
+sub  ecx, eax
+push    ecx
+call   0047ABD0 ; _abs
+pop     ecx
+
+cmp eax, 2
+jge @return
+
+mov eax, dword ptr [006070С0] ; Difficulty
+test eax, eax
+jz @horror
+dec eax
+jnz @doom
+@purgatory:
+mov ecx, @minDamagePurg / 140
+mov edx, @maxDamagePurg / 200
+jmp @F
+@horror:
+mov ecx, @minDamageHorror / 80
+mov edx, @maxDamageHorror / 120
+jmp @F
+@doom:
+mov ecx, @minDamageDoom / 220
+mov edx, @maxDamageDoom / 300
+@@:
+call 00425A76
+xor ecx, ecx; нолег
+
+push ecx
+push eax
+push edi; monsterIndex
+push 1 ; CT_1_MONSTER_AND_TRAP
+push 8; MI_8_LIGHTING_SEGMENT
+push 0ffff ffffh
+push ecx
+push ecx
+movzx ecx, byte ptr [esi + 80]; targetRow
+movzx edx, byte ptr [esi + 81]; targetCol
+call 0043572F; castMissile
+
+@return:
+8B 86 64 DD 69 00                       mov     eax, dword_69DD64[esi]
+jmp 0043E010
+
+
+ check:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043DFF8(U)
+|
+:0071ADC0 89F9                    mov ecx, edi
+:0071ADC2 BA46020000              mov edx, 00000246
+:0071ADC7 E854B5FFFF              call 00716320
+:0071ADCC 85C0                    test eax, eax
+:0071ADCE 7450                    je 0071AE20
+:0071ADD0 A1C0706000              mov eax, dword ptr [006070C0]
+:0071ADD5 85C0                    test eax, eax
+:0071ADD7 740F                    je 0071ADE8
+:0071ADD9 48                      dec eax
+:0071ADDA 7518                    jne 0071ADF4
+:0071ADDC B9C8000000              mov ecx, 000000C8
+:0071ADE1 BA18010000              mov edx, 00000118
+:0071ADE6 EB16                    jmp 0071ADFE
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071ADD7(C)
+|
+:0071ADE8 B978000000              mov ecx, 00000078
+:0071ADED BAB4000000              mov edx, 000000B4
+:0071ADF2 EB0A                    jmp 0071ADFE
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071ADDA(C)
+|
+:0071ADF4 B92C010000              mov ecx, 0000012C
+:0071ADF9 BA90010000              mov edx, 00000190
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071ADE6(U), :0071ADF2(U)
+|
+:0071ADFE C1E106                  shl ecx, 06
+:0071AE01 C1E206                  shl edx, 06
+:0071AE04 E86DACD0FF              call 00425A76
+:0071AE09 31C9                    xor ecx, ecx
+:0071AE0B 51                      push ecx
+:0071AE0C 50                      push eax
+:0071AE0D 57                      push edi
+:0071AE0E 6A01                    push 00000001
+:0071AE10 6A08                    push 00000008
+:0071AE12 6AFF                    push FFFFFFFF
+:0071AE14 51                      push ecx
+:0071AE15 51                      push ecx
+:0071AE16 EB18                    jmp 0071AE30
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071AE3E(U)
+|
+:0071AE18 E812A9D1FF              call 0043572F
+:0071AE1D 90                      nop
+:0071AE1E 90                      nop
+:0071AE1F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071ADCE(C)
+|
+:0071AE20 80BE20DD690018          cmp byte ptr [esi+0069DD20], 18
+:0071AE27 E9D331D2FF              jmp 0043DFFF
+:0071AE2C 90                      nop
+:0071AE2D 90                      nop
+:0071AE2E 90                      nop
+:0071AE2F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071AE16(U)
+|
+:0071AE30 0FB68ED8DC6900          movzx ecx, byte ptr [esi+0069DCD8]
+:0071AE37 0FB696D9DC6900          movzx edx, byte ptr [esi+0069DCD9]
+:0071AE3E EBD8                    jmp 0071AE18
+
+ add-on:
+ 
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071ADD0(U)
+|
+:0071C5B5 8B8EA8DC6900            mov ecx, dword ptr [esi+0069DCA8]
+:0071C5BB 0FBE86D8DC6900          movsx eax, byte ptr [esi+0069DCD8]
+:0071C5C2 29C1                    sub ecx, eax
+:0071C5C4 51                      push ecx
+:0071C5C5 E806E6D5FF              call 0047ABD0
+:0071C5CC 59                      pop ecx
+:0071C5D0 83F802                  cmp eax, 00000002
+:0071C5D3 7D1F                    jge 0071C5F4
+:0071C5D5 8B8EACDC6900            mov ecx, dword ptr [esi+0069DCAC]
+:0071C5DB 0FBE86D9DC6900          movsx eax, byte ptr [esi+0069DCD9]
+:0071C5E2 29C1                    sub ecx, eax
+:0071C5E4 51                      push ecx
+:0071C5E5 E8E6E5D5FF              call 0047ABD0
+:0071C5EA 59                      pop ecx
+:0071C5EB 83F802                  cmp eax, 00000002
+:0071C5F0 7D02                    jge 0071C5F4
+:0071C5F2 EB05                    jmp 0071C5F9
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071C5D3(C), :0071C5F0(C)
+|
+:0071C5F4 E927E8FFFF              jmp 0071AE20
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071C5F2(U)
+|
+:0071C5F9 90                      nop
+:0071C5FA 90                      nop
+:0071C5FB A1C0706000              mov eax, dword ptr [006070C0]
+:0071C600 E9D0E7FFFF              jmp 0071ADD5
+
+===========================================================
+
+Речь при входе на уровень.
+
+28 строка этого блокнота.
++
+374 381 правка одной цифры
+
+============================================================
+
+Запрет списка заклов в долине
+
+00717F88 >>>
+>>>
+cmp     al, 12
+jnz @return1
+
+cmp     ecx, 6
+jz  @return0
+
+cmp     ecx, 15
+jz  @return0
+
+cmp     ecx, 17
+jz  @return0
+
+cmp     ecx, 18
+jz  @return0
+
+cmp     ecx, 19
+jz  @return0
+
+cmp     ecx, 24
+jz  @return0
+
+cmp     ecx, 39
+jz  @return0
+
+cmp     ecx, 40
+jz  @return0
+
+cmp     ecx, 41
+jz  @return0
+
+cmp     ecx, 43
+jz  @return0
+
+@return1:
+jmp 00717F8D
+@return0:
+jmp 00717F91
+
+          chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00717F88(U)
+|
+:0071B150 3C0C                    cmp al, 0C
+:0071B152 7547                    jne 0071B19B
+:0071B154 83F906                  cmp ecx, 00000006
+:0071B157 7447                    je 0071B1A0
+:0071B159 83F90F                  cmp ecx, 0000000F
+:0071B15C 7442                    je 0071B1A0
+:0071B15E 83F911                  cmp ecx, 00000011
+:0071B161 743D                    je 0071B1A0
+:0071B163 83F912                  cmp ecx, 00000012
+:0071B166 7438                    je 0071B1A0
+:0071B168 83F913                  cmp ecx, 00000013
+:0071B16B 7433                    je 0071B1A0
+:0071B16D 83F918                  cmp ecx, 00000018
+:0071B170 742E                    je 0071B1A0
+:0071B172 83F927                  cmp ecx, 00000027
+:0071B175 7429                    je 0071B1A0
+:0071B177 83F928                  cmp ecx, 00000028
+:0071B17A 7424                    je 0071B1A0
+:0071B17C 83F929                  cmp ecx, 00000029
+:0071B17F 741F                    je 0071B1A0
+:0071B181 83F92B                  cmp ecx, 0000002B
+:0071B184 741A                    je 0071B1A0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071B152(C)
+|
+:0071B19B E9EDCDFFFF              jmp 00717F8D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071B157(C), :0071B15C(C), :0071B161(C), :0071B166(C), :0071B16B(C)
+|:0071B170(C), :0071B175(C), :0071B17A(C), :0071B17F(C), :0071B184(C)
+|
+:0071B1A0 E9ECCDFFFF              jmp 00717F91
+
+
+
+
+
+
+

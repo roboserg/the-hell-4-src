@@ -1,0 +1,50 @@
+Glowing Shrine code: ???
+
+:00452C85 8BCB                    mov ecx, ebx
+:00452C87 E8F2B80000              call 0045E57E
+:00452C8C A1E8AD6E00              mov eax, dword ptr [006EADE8]
+:00452C91 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:00452C97 69C0C8550000            imul eax, 000055C8
+:00452C9D 03C1                    add eax, ecx
+:00452C9F 57                      push edi
+:00452CA0 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:00452CA7 8D4C0902                lea ecx, dword ptr [ecx+ecx+02]
+:00452CAB 51                      push ecx
+:00452CAC 57                      push edi
+:00452CAD 6A01                    push 00000001
+:00452CAF 6A05                    push 00000005
+:00452CB1 E9B8010000              jmp 00452E6E
+:00452CB6 85C0                    test eax, eax
+:00452CB8 0F85AE030000            jne 0045306C
+:00452CBE 8B45FC                  mov eax, dword ptr [ebp-04]
+:00452CC1 3B05E8AD6E00            cmp eax, dword ptr [006EADE8]
+:00452CC7 0F859F030000            jne 0045306C
+:00452CCD B12D                    mov cl, 2D
+:00452CCF E8CD7DFCFF              call 0041AAA1
+:00452CD4 8B1DE8AD6E00            mov ebx, dword ptr [006EADE8]
+:00452CDA 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:00452CE0 8BC3                    mov eax, ebx
+:00452CE2 69C0C8550000            imul eax, 000055C8
+:00452CE8 8B8408BC010000          mov eax, dword ptr [eax+ecx+000001BC]		make eax pointer to character's XP ???
+:00452CEF 3D88130000              cmp eax, 00001388					cmp eax to 5000
+:00452CF4 894508                  mov dword ptr [ebp+08], eax
+:00452CF7 7E15                    jle 00452D0E						jump if lower or equal to 5000 ??
+:00452CF9 DB4508                  fild dword ptr [ebp+08]
+:00452CFC 6A05                    push 00000005						magic to add ???
+:00452CFE 5F                      pop edi
+:00452CFF DC0DD8024900            fmul qword ptr [004902D8]
+:00452D05 E866780200              call 0047A570
+:00452D0A 8BF0                    mov esi, eax
+:00452D0C EB0C                    jmp 00452D1A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:			if xp is less or equal  to 5000
+|:00452CF7(C)
+|
+:00452D0E 99                      cdq
+
+* Possible Reference to Dialog: DialogID_0068, CONTROL_ID:03E8, "unknown error"
+                                  |
+:00452D0F B9E8030000              mov ecx, 000003E8					ecx = 1000
+:00452D14 F7F9                    idiv ecx
+:00452D16 33F6                    xor esi, esi
+:00452D18 8BF8                    mov edi, eax

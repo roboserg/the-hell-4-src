@@ -1,0 +1,192 @@
+PvM Missile magic tohit formula calculation.
+
+	Old formula: cMAG - 2*MLVL + 25 + bonus
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F396(C)
+|
+:0042F5D4 69C0C8550000            imul eax, 000055C8
+:0042F5DA 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0042F5E0 03C1                    add eax, ecx
+:0042F5E2 0FBE8E48DD6900          movsx ecx, byte ptr [esi+0069DD48]	ecx = mlvl
+:0042F5E9 8BB86C010000            mov edi, dword ptr [eax+0000016C]	edi = cMAG
+:0042F5EF 8A8060010000            mov al, byte ptr [eax+00000160]	al = character class
+:0042F5F5 D1E1                    shl ecx, 1				mlvl*2				<- D1F9 to make it MLVL/2
+:0042F5F7 2BF9                    sub edi, ecx				cMAG - (mlvl*2)
+:0042F5F9 2B7D10                  sub edi, dword ptr [ebp+10]		cMAG - (mlvl*2) - ???
+:0042F5FC 83C719                  add edi, 00000019			(cMAG - (mlvl*2) - ???) + 25
+:0042F5FF 3C02                    cmp al, 02				check if Mage
+:0042F601 0F85E6FDFFFF            jne 0042F3ED
+:0042F607 83C714                  add edi, 00000014			for Mage add bonus of 20
+:0042F60A E9FEFDFFFF              jmp 0042F40D
+
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+cMAG - 2*MLVL + 25 + bonus
+
+cMAG - mToHit/2 + 25 ?
+280 - 63 + 25 + 20 = 262% (!!!)
+cMAG/2 - ((mAC/4)+1) + 25 + bonus
+40 + 25 - 64 = 1
+80 + 25 - 64 = 41
+125 + 45 - 64 = 101
+100 + 25 - 64 = 61
+80 + 25 - 63 = 105 - 63 = 42
+
+cMAG + 25 - mAC/2
+
+80 + 25 - 127 = -20...
+
+
+=======================
+Revision 2:
+..implementing in 1.70d RC5..
+
+formula is being changed from cMAG - MLVL/2 + 25 + bonus to cMag/2 + 25 + bonus - ((mAC/4)+1)
+
+	Planning:
+
+jump free space from 42F5E2
+0FB68E52DD6900	movzx ecx, byte ptr [esi+0069DD52]
+8BB86C010000	mov edi, dword ptr [eax+0000016C]
+8A8060010000	mov al, byte ptr [eax+00000160]
+c1f902		sar ecx, 02
+41		inc ecx
+D1FF		sar edi, 1
+2BF9		sub edi, ecx
+2B7D10		sub edi, dword ptr [ebp+10]
+return to 42F5FC
+
+
+	Doing:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F396(C)
+|
+:0042F5D4 69C0C8550000            imul eax, 000055C8
+:0042F5DA 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0042F5E0 03C1                    add eax, ecx
+:0042F5E2 E929802D00              jmp 00707610
+:0042F5E7 90                      nop
+:0042F5E8 90                      nop
+:0042F5E9 90                      nop
+:0042F5EA 90                      nop
+:0042F5EB 90                      nop
+:0042F5EC 90                      nop
+:0042F5ED 90                      nop
+:0042F5EE 90                      nop
+:0042F5EF 90                      nop
+:0042F5F0 90                      nop
+:0042F5F1 90                      nop
+:0042F5F2 90                      nop
+:0042F5F3 90                      nop
+:0042F5F4 90                      nop
+:0042F5F5 90                      nop
+:0042F5F6 90                      nop
+:0042F5F7 90                      nop
+:0042F5F8 90                      nop
+:0042F5F9 90                      nop
+:0042F5FA 90                      nop
+:0042F5FB 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070762E(U)
+|
+:0042F5FC 83C719                  add edi, 00000019
+:0042F5FF 3C02                    cmp al, 02
+:0042F601 0F85E6FDFFFF            jne 0042F3ED
+:0042F607 83C714                  add edi, 00000014
+:0042F60A E9FEFDFFFF              jmp 0042F40D
+
+	extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F5E2(U)
+|
+:00707610 0FB68E52DD6900          movzx ecx, byte ptr [esi+0069DD52]
+:00707617 8BB86C010000            mov edi, dword ptr [eax+0000016C]
+:0070761D 8A8060010000            mov al, byte ptr [eax+00000160]
+:00707623 C1F902                  sar ecx, 02
+:00707626 41                      inc ecx
+:00707627 D1FF                    sar edi, 1
+:00707629 2BF9                    sub edi, ecx
+:0070762B 2B7D10                  sub edi, dword ptr [ebp+10]
+:0070762E E9C97FD2FF              jmp 0042F5FC
+
+
+=======================
+Revision 3:
+..implementing in 1.70d RC6..
+
+New formula is: cMag/2 + 25 + bonus - ((mAC/4)+1)
+and bonuses are:
+Pal 0%
+Sct 5%
+Mag 20%
+Mnk 0%
+Asa 15%
+Gld 10%
+
+
+	Code:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F396(C)
+|
+:0042F5D4 69C0C8550000            imul eax, 000055C8
+:0042F5DA 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0042F5E0 03C1                    add eax, ecx
+:0042F5E2 E929802D00              jmp 00707610
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070762E(U)
+|
+:0042F5E7 83C719                  add edi, 00000019
+:0042F5EA 3C01                    cmp al, 01
+:0042F5EC 7503                    jne 0042F5F1
+:0042F5EE 83C705                  add edi, 00000005
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F5EC(C)
+|
+:0042F5F1 3C02                    cmp al, 02
+:0042F5F3 7503                    jne 0042F5F8
+:0042F5F5 83C714                  add edi, 00000014
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F5F3(C)
+|
+:0042F5F8 3C04                    cmp al, 04
+:0042F5FA 7503                    jne 0042F5FF
+:0042F5FC 83C70F                  add edi, 0000000F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F5FA(C)
+|
+:0042F5FF 3C05                    cmp al, 05
+:0042F601 7503                    jne 0042F606
+:0042F603 83C70A                  add edi, 0000000A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F601(C)
+|
+:0042F606 90                      nop
+:0042F607 90                      nop
+:0042F608 90                      nop
+:0042F609 90                      nop
+:0042F60A E9FEFDFFFF              jmp 0042F40D
+
+
+	extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F5E2(U)
+|
+:00707610 0FB68E52DD6900          movzx ecx, byte ptr [esi+0069DD52]
+:00707617 8BB86C010000            mov edi, dword ptr [eax+0000016C]
+:0070761D 8A8060010000            mov al, byte ptr [eax+00000160]
+:00707623 C1F902                  sar ecx, 02
+:00707626 41                      inc ecx
+:00707627 D1FF                    sar edi, 1
+:00707629 2BF9                    sub edi, ecx
+:0070762B 2B7D10                  sub edi, dword ptr [ebp+10]
+:0070762E E9B47FD2FF              jmp 0042F5E7

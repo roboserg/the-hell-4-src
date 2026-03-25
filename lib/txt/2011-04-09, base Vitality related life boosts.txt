@@ -1,0 +1,88 @@
+Base VIT stat-based life raises are modified to comply with formula in MFA:
+
+(without it, base VIT used to add 2 HP for glad/Pal and 1 for all others. this looked weird).
+
+
+	mod:
+:0045E931 E93A0F2B00              jmp 0070F870
+
+
+	ex:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045E931(U)
+|
+:0070F870 84C9                    test cl, cl
+:0070F872 742C                    je 0070F8A0
+:0070F874 80F901                  cmp cl, 01
+:0070F877 7437                    je 0070F8B0
+:0070F879 80F902                  cmp cl, 02
+:0070F87C 7417                    je 0070F895
+:0070F87E 80F903                  cmp cl, 03
+:0070F881 743D                    je 0070F8C0
+:0070F883 80F904                  cmp cl, 04
+:0070F886 7428                    je 0070F8B0
+:0070F888 50                      push eax
+:0070F889 8BC7                    mov eax, edi
+:0070F88B D1E0                    shl eax, 1
+:0070F88D 03F8                    add edi, eax
+:0070F88F C1E802                  shr eax, 02
+:0070F892 03F8                    add edi, eax
+:0070F894 58                      pop eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070F87C(C), :0070F8A3(U), :0070F8B2(U), :0070F8CA(U)
+|
+:0070F895 E9A2F0D4FF              jmp 0045E93C
+:0070F89A 90                      nop
+:0070F89B 90                      nop
+:0070F89C 90                      nop
+:0070F89D 90                      nop
+:0070F89E 90                      nop
+:0070F89F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070F872(C)
+|
+:0070F8A0 8D3C7F                  lea edi, dword ptr [edi+2*edi]
+:0070F8A3 EBF0                    jmp 0070F895
+:0070F8A5 90                      nop
+:0070F8A6 90                      nop
+:0070F8A7 90                      nop
+:0070F8A8 90                      nop
+:0070F8A9 90                      nop
+:0070F8AA 90                      nop
+:0070F8AB 90                      nop
+:0070F8AC 90                      nop
+:0070F8AD 90                      nop
+:0070F8AE 90                      nop
+:0070F8AF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070F877(C), :0070F886(C)
+|
+:0070F8B0 D1E7                    shl edi, 1
+:0070F8B2 EBE1                    jmp 0070F895
+:0070F8B4 90                      nop
+:0070F8B5 90                      nop
+:0070F8B6 90                      nop
+:0070F8B7 90                      nop
+:0070F8B8 90                      nop
+:0070F8B9 90                      nop
+:0070F8BA 90                      nop
+:0070F8BB 90                      nop
+:0070F8BC 90                      nop
+:0070F8BD 90                      nop
+:0070F8BE 90                      nop
+:0070F8BF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070F881(C)
+|
+:0070F8C0 50                      push eax
+:0070F8C1 8BC7                    mov eax, edi
+:0070F8C3 D1E8                    shr eax, 1
+:0070F8C5 D1E7                    shl edi, 1
+:0070F8C7 03F8                    add edi, eax
+:0070F8C9 58                      pop eax
+:0070F8CA EBC9                    jmp 0070F895
+:0070F8CC 90                      nop

@@ -1,0 +1,938 @@
+﻿"Lost Treasure"
+quest..
+
+
+Plan:
+
+1. 
+2. 
+3. 
+4. 
+5. 
+6. 
+7. 
+8. 
+9. 
+10. 
+11. 
+12. 
+13. 
+14. 
+15. 
+16. 
+17. 
+18. 
+19. 
+20. 
+
+Квест дает Вирт. Если персонаж побывал на уровне 7. При разговоре с Виртом он произносит 1ю речь, открывается квест и рядом с домом Джиллиан падает (появляется?) карта, которая откроет вход в квестовую локацию. Горожане все имеют по фразе насчет квеста. Вирт имеет промежуточный диалог (госсип). Но он не прокомментирует выполнение квеста как таковое. Карта при нажатии ПКМ покажет картинку, которую показывала карта собора из ХФ (которую дропал Дефайлер). При бросании на новоявленную могилу, она откроется и покажет надпись "to Disused Reliquary".
+Лока состоит из 3х уровней. Первый в стиле церкви. Остальные два - в сеттинге пещер:
+1. Disused Reliquary
+2. Glacial Caverns
+3. Frozen Lake
+
+Для всех трех уровней дуны я нарисую (всем уровням нужна поддержка уникальных палитр)
+1й уровень небольшой: 10х40
+2й и 3й - большие: каждый по 40х40
+
+Квестовых событий особо не будет. Только расстановка монстров по локе, добавление особенностей уровня, и хардкодовая установка нескольких боссов.
+
+Квест будет выполнен при условии что будет убит босс №..., находящийся в конце Frozen Lake.
+
+===========
+
+Могилу справа от собора нарисовать я не смог. Но потом осознал что она занимает всего 2 тайла. Так что при условии появлени квеста в игре, эту могилу можно поместить туда програмно. Открыть картой - также программно. Вобщем, как с расщелиной, ведущей к Андариель...
+
+===========
+Звуки:
+С картой уже звуки сделаны - они к бейс айтему карты собора привязаны. Именно этот бейс айтем и надо будет теперь сделать открывашкой для могилы с правой стороны собора.
+
+==============================================================
+
+1. Настройка данных квеста
+
+4B6A84 - 20 байт инфы о квесте
+
+.data:004B6A84 FF                                      db -1 0
+.data:004B6A85 FF                                      db -1
+.data:004B6A86 FF                                      db 0FFh 1
+.data:004B6A87 13                                      db 19
+.data:004B6A88 64 00 00 00                             db 100
+004B6A89                                                   db    13 ; questLocNumber
+004B6A8A        dw 00
+.data:004B6A8C 00 00 00 00                             dd 0
+.data:004B6A90 32 01 00 00                             dd 306 (тут речь вирта начальная которая будет проигрываться при клике на строку квеста в квест панели)
+.data:004B6A94 B4 6B 4B 00                             dd offset aWanderingTrade ; "Wandering Trader" "Lost Treasure"
+ 
+{ 0,        -1,        DT_1_CHURCH_OR_CRYPT,        Q_19_LOST_TREASURE,        100,        QLN_13,        0,        0,        SP_306,        "Lost Treasure" }, // 19 
+________________________________________
+2. Диалог вирта открывающий квест
+
+;.text:0047733E 80 3D 54 76 69 00 00                    cmp     byte_697654, 0  ; IsSpeechPanelVisible
+;.text:00477345 0F 85 7D 06 00 00                       jnz     return_4779C8
+;.text:0047734B 8B D5                                   mov     edx, ebp ; не используется
+;.text:0047734D B9 E0 00 00 00                          mov     ecx, 224        ; speechOffset
+;.text:00477352 E8 6A F5 FF FF                          call    NPCGreeting
+;.text:00477357 83 3D E0 F1 6F 00 00                    cmp     dword_6FF1E0, 0 ; NPCMenusEnabled
+;.text:0047735E 0F 84 64 06 00 00                       jz      return_4779C8
+;.text:00477364 B1 0C                                   mov     cl, 12
+;.text:00477366 E9 5B 01 00 00                          jmp     loc_4774C6      ; open menu
+
+
+0047733E >>> / e7e00
+>>>
+; регистры
+;eax, ecx, edx свободны
+; edi - playerIndex
+; ebx - townerIndex
+; esi - townerOffset
+; ebp - playerOffset
+
+; по факту все 4 можно переназначить без проблем. После вставки они не используются нигде.
+
+call 70A1D0; @getCurPlayerOffset
+add eax, 1f4h ; player.LevelVisitData[0]
+add eax, 7 ; выбрать уровень на который нужно прийти чтобы начался квест
+movzx eax, byte ptr [eax]
+test eax, eax
+jz @return
+
+mov edi, 19 ; индекс квеста
+imul edi, 1Сh
+add edi, offset 006EB358 ; в edi начало структуры квеста
+
+add esi, 006FF200 ; в esi начало gilianOffset + Cityzens
+
+movzx eax, byte ptr [edi+2]; Status
+cmp eax, 1 ; QS_1_ACCEPT
+jnz @return  
+
+@startQuestSpeech:
+mov     dword ptr[esi+50h], 96h
+mov eax, dword ptr [006EADE8] ; CurrentPlayerIndex
+mov dword ptr[esi+0a8h], eax
+mov byte ptr [edi+2], 2 ; Status = QS_2_IN_PROGRESS;
+mov eax, 1
+movzx byte ptr [edi+14h], 01 ; Status2 = 1;
+mov eax, @startSpeechIndex
+mov dword ptr [edi+10h], eax ; SpeechIndex
+mov ecx, eax
+call 0042E543 ; StartSpeech
+
+mov ecx, 22 ; map base item index
+mov edx, 40 ; row ; координаты подбирать нужно
+push 40 ; col
+call 00427DC6 ; drop item
+
+@return:
+80 3D 54 76 69 00 00                    cmp     byte_697654, 0  ; IsSpeechPanelVisible
+jmp 00477345
+
+      chek:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0047733E(U)
+|
+:0071B205 E8C6EFFEFF              call 0070A1D0
+:0071B20C 81C5F4010000            add ebp, 000001F4
+:0071B212 83C507                  add ebp, 00000007
+:0071B215 0FB600                  movzx eax, byte ptr [eax]
+:0071B218 85C0                    test eax, eax
+:0071B21C 7472                    je 0071B290
+:0071B222 6A13                    push 00000013
+:0071B224 5F                      pop edi
+:0071B225 6BFF1C                  imul edi, 0000001C
+:0071B228 81C758B36E00            add edi, 006EB358
+:0071B230 81C600F26F00            add esi, 006FF200
+:0071B237 0FB64702                movzx eax, byte ptr [edi+02]
+:0071B23B 83F801                  cmp eax, 00000001
+:0071B23E 7550                    jne 0071B290
+:0071B242 C7465096000000          mov [esi+50], 00000096
+:0071B249 A1E8AD6E00              mov eax, dword ptr [006EADE8]
+:0071B250 8986A8000000            mov dword ptr [esi+000000A8], eax
+:0071B256 C6470202                mov [edi+02], 02
+:0071B25A 6A01                    push 00000001
+:0071B25C 58                      pop eax
+:0071B260 C6471401                mov [edi+14], 01
+:0071B264 B868010000              mov eax, 00000168
+:0071B26A 894714                  mov dword ptr [edi+14], eax
+:0071B26D 89C1                    mov ecx, eax
+:0071B271 E8CD32D1FF              call 0042E543
+:0071B278 6A16                    push 00000016
+:0071B27A 59                      pop ecx
+:0071B27B 6A28                    push 00000028
+:0071B27D 5A                      pop edx
+:0071B285 E83CCBD0FF              call 00427DC6
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071B21C(C), :0071B23E(C)
+|
+:0071B290 803D5476690000          cmp byte ptr [00697654], 00
+:0071B297 E9A9C0D5FF              jmp 00477345
+_______________________________
+3. Скрипт поднятия карты
+
+.text:0042158B                 cmp     dword ptr [esi+550Ch], 22  ; восстановить ка было
+.text:00421592                 jnz     short loc_421602
+
+
+;.text:00421594 69 C0 C8 55 00 00                       imul    eax, 55C8h
+;.text:0042159A 83 25 30 B5 6E 00 00                    and     dword_6EB530, 0
+;.text:004215A1 C6 05 1A B5 6E 00 02                    mov     byte_6EB51A, 2
+;.text:004215A8 C6 05 2C B5 6E 00 01                    mov     byte_6EB52C, 1
+;.text:004215AF 89 3D 14 A2 57 00                       mov     dword_57A214, edi
+;.text:004215B5 8A 84 08 60 01 00 00                    mov     al, [eax+ecx+160h]
+
+
+00421594 >>> / e7ec0
+>>>
+mov edx, 19 ; индекс квеста
+imul edx, 1Сh
+add edx, offset 006EB358h ; в edx начало структуры квеста
+
+cmp byte ptr [edx+14h], 01
+jg 4217D0 ; нет скриптового события
+
+mov byte ptr [edx+14h], 02; status2
+mov byte ptr [edx+18h], 1; talkToflag
+
+69 C0 C8 55 00 00                       imul    eax, 55C8h
+jmp 004215AF
+
+          chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00421594(U)
+|
+:0071B2C0 6A13                    push 00000013
+:0071B2C2 5A                      pop edx
+:0071B2C3 6BD21C                  imul edx, 0000001C
+:0071B2C6 81C258B36E00            add edx, 006EB358
+:0071B2CC 807A1401                cmp byte ptr [edx+14], 01
+:0071B2D6 0F8FF464D0FF            jg 004217D0
+:0071B2DE C6421402                mov [edx+14], 02
+:0071B2E2 C6421801                mov [edx+18], 01
+:0071B2E6 69C0C8550000            imul eax, 000055C8
+:0071B2F0 E9BA62D0FF              jmp 004215AF
+_______________________________________
+4. Диалоги остальных горожан / done
+
+4CB258h + индекс горожанина * 96d + индекс квеста * 4
+
+
+
+TI_0_GRISWOLD =  0,  4CB2A4
+        TI_1_PEPIN =  1,  4CB304
+        TI_2_WOUNDED_GUY =  2,  4CB364 / ??)
+        TI_3_OGDEN =  3, 4CB3C4
+        TI_4_CAIN =  4, 4CB424
+        TI_5_FARNHAM =  5, 4CB484
+        TI_6_ADRIA =  6, 4CB4E4
+        TI_7_GILIAN =  7, 4CB544
+        TI_8_WIRT =  8,  4CB5A4
+__________________________________________
+5. Помещение тайлов входа в локу в город 
+
+@FillDMapOpenedDisusedReliquary: / e7F80
+imul ecx, 112
+add ecx, edx
+shl ecx, 2
+mov dword ptr [005F5F30h + ecx], 1331
+mov dword ptr [005F60F0h + ecx], 1332
+
+mov dword ptr [005F5F34h + ecx], 1333
+mov dword ptr [005F60F4h + ecx], 1334
+
+mov dword ptr [005F5F38h + ecx], 1335
+mov dword ptr [005F60F8h + ecx], 1336
+
+mov dword ptr [005F5F3Сh + ecx], 1337
+mov dword ptr [005F60FCh + ecx], 1338
+
+mov dword ptr [005F5D70h + ecx], 1339
+mov dword ptr [005F5BB0h + ecx], 1340
+jmp 00474FB6
+
+-------------------------------------------------------
+
+@FillDMapClosedDisusedReliquary: / e7F00
+imul ecx, 112
+add ecx, edx
+shl ecx, 2
+mov dword ptr [005F5F30h + ecx], 1323
+mov dword ptr [005F60F0h + ecx], 1324
+mov dword ptr [005F5F34h + ecx], 1325
+mov dword ptr [005F60F4h + ecx], 1326
+mov dword ptr [005F5F38h + ecx], 1327
+mov dword ptr [005F60F8h + ecx], 1328
+mov dword ptr [005F5F3Сh + ecx], 1329
+mov dword ptr [005F60FCh + ecx], 1330
+mov dword ptr [005F5D70h + ecx], 1339
+mov dword ptr [005F5BB0h + ecx], 1340
+jmp 00474FB6
+
+ chek:
+ 
+* Referenced by a CALL at Address:
+|:0071B41F   
+|
+:0071B300 6BC970                  imul ecx, 00000070
+:0071B303 01D1                    add ecx, edx
+:0071B305 C1E102                  shl ecx, 02
+:0071B308 C781305F5F002B050000    mov dword ptr [ecx+005F5F30], 0000052B
+:0071B312 C781F0605F002C050000    mov dword ptr [ecx+005F60F0], 0000052C
+:0071B31C C781345F5F002D050000    mov dword ptr [ecx+005F5F34], 0000052D
+:0071B326 C781F4605F002E050000    mov dword ptr [ecx+005F60F4], 0000052E
+:0071B331 C781385F5F002F050000    mov dword ptr [ecx+005F5F38], 0000052F
+:0071B33C C781F8605F0030050000    mov dword ptr [ecx+005F60F8], 00000530
+:0071B347 C7813C5F5F0031050000    mov dword ptr [ecx+005F5F3C], 00000531
+:0071B352 C781FC605F0032050000    mov dword ptr [ecx+005F60FC], 00000532
+:0071B35D C781705D5F003B050000    mov dword ptr [ecx+005F5D70], 0000053B
+:0071B36A C781B05B5F003C050000    mov dword ptr [ecx+005F5BB0], 0000053C
+:0071B379 E9389CD5FF              jmp 00474FB6
+
+* Referenced by a CALL at Address:
+|:0071B437   
+|
+:0071B380 6BC970                  imul ecx, 00000070
+:0071B383 01D1                    add ecx, edx
+:0071B385 C1E102                  shl ecx, 02
+:0071B388 C781305F5F0033050000    mov dword ptr [ecx+005F5F30], 00000533
+:0071B392 C781F0605F0034050000    mov dword ptr [ecx+005F60F0], 00000534
+:0071B39C C781345F5F0035050000    mov dword ptr [ecx+005F5F34], 00000535
+:0071B3A6 C781F4605F0036050000    mov dword ptr [ecx+005F60F4], 00000536
+:0071B3B1 C781385F5F0037050000    mov dword ptr [ecx+005F5F38], 00000537
+:0071B3BC C781F8605F0038050000    mov dword ptr [ecx+005F60F8], 00000538
+:0071B3C7 C7813C5F5F0039050000    mov dword ptr [ecx+005F5F3C], 00000539
+:0071B3D2 C781FC605F003A050000    mov dword ptr [ecx+005F60FC], 0000053A
+:0071B3DD C781705D5F003B050000    mov dword ptr [ecx+005F5D70], 0000053B
+:0071B3EA C781B05B5F003C050000    mov dword ptr [ecx+005F5BB0], 0000053C
+:0071B3F9 E9B89BD5FF              jmp 00474FB6
+-----------------------------------------------------------
+
+.mod:007157CF E9 9D 00 D6 FF                          jmp     loc_475871
+
+007157CF >>> / e8000
+>>>
+mov     edi, 19
+imul    edi, 1Ch
+add     edi, offset byte_6EB358
+movzx   eax, byte ptr [edi+2]
+test    eax, eax
+jz     @return
+
+mov ecx, 40; row - координаты входа
+mov edx, 40; col
+call @FillDMapClosedDisusedReliquary
+
+movzx   eax, byte ptr [edi+20]
+cmp     eax, 2
+jle   @return
+
+mov ecx, 40; row - координаты входа
+mov edx, 40; col
+call @FillDMapOpenedDisusedReliquary
+
+mov dword ptr [edi + 4], 20 ; row координаты точки перехода
+mov dword ptr [edi + 8], 33 ; col
+
+@return:
+jmp     loc_475871
+
+ chek:
+ 
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007157CF(U)
+|
+:0071B400 6A13                    push 00000013
+:0071B402 5F                      pop edi
+:0071B403 6BFF1C                  imul edi, 0000001C
+:0071B406 81C758B36E00            add edi, 006EB358
+:0071B40C 0FB64702                movzx eax, byte ptr [edi+02]
+:0071B410 85C0                    test eax, eax
+:0071B412 90                      nop
+:0071B413 90                      nop
+:0071B414 7439                    je 0071B44F
+:0071B416 90                      nop
+:0071B417 90                      nop
+:0071B418 6A28                    push 00000028
+:0071B41A 59                      pop ecx
+:0071B41B 6A28                    push 00000028
+:0071B41D 5A                      pop edx
+:0071B41E 90                      nop
+:0071B41F E8DCFEFFFF              call 0071B300
+:0071B424 90                      nop
+:0071B425 90                      nop
+:0071B426 0FB64714                movzx eax, byte ptr [edi+14]
+:0071B42A 83F802                  cmp eax, 00000002
+:0071B42D 7E20                    jle 0071B44F
+:0071B42F 6A28                    push 00000028
+:0071B431 59                      pop ecx
+:0071B432 6A28                    push 00000028
+:0071B434 5A                      pop edx
+:0071B435 90                      nop
+:0071B436 90                      nop
+:0071B437 E844FFFFFF              call 0071B380
+:0071B43C 90                      nop
+:0071B43D 90                      nop
+:0071B43E C7470428000000          mov [edi+04], 00000028
+:0071B445 90                      nop
+:0071B446 C7470828000000          mov [edi+08], 00000028
+:0071B44D 90                      nop
+:0071B44E 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071B414(C), :0071B42D(C)
+|
+:0071B44F E91DA4D5FF              jmp 00475871
+
+
+=====================================================
+
+6. Скрипт открытия квестовой локи
+
+.text:00422435 80 3D D8 B1 60 00 00                    cmp     byte_60B1D8, 0
+.text:0042243C 0F 85 A6 00 00 00                       jnz     loc_4224E8 ; восстановить
+
+
+.text:0042245F 75 3F                                   jnz     short loc_4224A0 - переделать на безусловный джамп. Скрипт рунной бомбы выключен
+
+
+.text:004224A9 83 F9 23                                cmp     ecx, 35
+.text:004224AC 7C 3A                                   jl      short loc_4224E8
+.text:004224AE 83 F9 26                                cmp     ecx, 38
+.text:004224B1 7F 35                                   jg      short loc_4224E8
+.text:004224B3 83 FA 14                                cmp     edx, 20
+.text:004224B6 7C 30                                   jl      short loc_4224E8
+.text:004224B8 83 FA 18                                cmp     edx, 24
+.text:004224BB 7F 2B                                   jg      short loc_4224E8
+
+Координаты заменить на новые в районе 19 31  20-23  32-36 например
+
+004224BD >>>
+>>>
+mov edx, 19 ; индекс квеста
+imul edx, 1Сh
+add edx, offset 006EB358h ; в edx начало структуры квеста
+
+cmp byte ptr [edx+14h], 02
+jg 4224E8 ; нет скриптового события. Чтобы если игрок получит две карты и бросит их, ничего фатального не произошло.
+
+mov byte ptr [edx+14h], 03
+mov dword ptr [edx + 4], 20 ; row координаты точки перехода
+mov dword ptr [edx + 8], 33 ; col
+
+mov ecx, 18
+mov edx, 30
+call @FillDMapOpenedDisusedReliquary ; нарисовать открытый вход
+mov ecx, 72 ; звук открытия
+call 0041850D
+or      eax, 0FFFFFFFFh
+jmp 4225B4
+
+6.а Настройка надписи и ворпа в городе
+
+.text:00478461 0F 84 C3 01 00 00                       jz      loc_47862A
+
+00478461 >>> / e8100
+>>>
+mov eax, dword ptr [4D1650h] ; cursor.row
+sub eax, 36 ; координата входа в склеп
+push eax
+call 0047ABD0
+pop ecx
+cmp eax, 4
+jge @downToReliquary
+
+mov eax, dword ptr [4D1654] ; cursor.col
+sub eax, 24 ; координата входа в склеп
+push eax
+call 0047ABD0
+pop ecx
+cmp eax, 4
+jge @downToReliquary
+
+@downToCrypt
+jmp 47862A
+
+@downToReliquary:
+push    offset aDownToCrypt ; "to Disused Reliquary"
+push   4D12F0 ; Dest
+call    00479D30 ;_strcpy
+pop     ecx
+pop     ecx
+mov     dword ptr [4D1650], 20 ; координаты ворпа
+mov     dword ptr [4D1654], 33
+jmp     47861F
+
+ chek:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00478461(C)
+|
+:0071B500 A150164D00              mov eax, dword ptr [004D1650]
+:0071B505 83E824                  sub eax, 00000024
+:0071B508 50                      push eax
+:0071B50B E8C0F6D5FF              call 0047ABD0
+:0071B512 59                      pop ecx
+:0071B513 83F804                  cmp eax, 00000004
+:0071B516 7D22                    jge 0071B53A
+:0071B518 A154164D00              mov eax, dword ptr [004D1654]
+:0071B51D 83E818                  sub eax, 00000018
+:0071B520 50                      push eax
+:0071B523 E8A8F6D5FF              call 0047ABD0
+:0071B52A 59                      pop ecx
+:0071B52B 83F804                  cmp eax, 00000004
+:0071B52E 7D0A                    jge 0071B53A
+:0071B533 E9F2D0D5FF              jmp 0047862A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071B516(C), :0071B52E(C)
+|
+:0071B53A 68BB78A300              push 00A378BB
+:0071B53F 68F0124D00              push 004D12F0
+:0071B547 E8E4E7D5FF              call 00479D30
+:0071B54E 59                      pop ecx
+:0071B54F 59                      pop ecx
+:0071B550 C70550164D0028000000    mov dword ptr [004D1650], 00000028
+:0071B55A C70554164D0028000000    mov dword ptr [004D1654], 00000028
+:0071B567 E9B3D0D5FF              jmp 0047861F
+
+-------------------------------------------------------
+7. Загрузка 3х уровней, установка точки выхода
+
+а. точка возврата из квестовой локи
+
+0071A239 >>> / e8179
+>>>
+dec eax
+dec eax
+jz @setReturnPointToTreasureQuest
+retn
+; нопы на еще один джамп
+@setReturnPointToTreasureQuest:
+push    edi
+push    19
+pop     edi
+imul    edi, 1Ch
+add     edi, offset byte_6EB358
+mov     eax, [edi+4]
+nop
+mov     dword_6EB670, eax
+mov     eax, [edi+8]
+inc     eax
+mov     dword_6EB66C, eax
+movzx   eax, byte ptr [edi]
+mov     dword_6EB67C, eax
+mov     dword_6EB674, 0
+pop     edi
+retn
+
+ chek:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071A239(U)
+|
+:0071B579 48                      dec eax
+:0071B57A 48                      dec eax
+:0071B57B 740A                    je 0071B587
+:0071B57D C3                      ret
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071B57B(C)
+|
+:0071B587 57                      push edi
+:0071B588 6A13                    push 00000013
+:0071B58A 5F                      pop edi
+:0071B58B 6BFF1C                  imul edi, 0000001C
+:0071B58E 81C758B36E00            add edi, 006EB358
+:0071B595 8B4704                  mov eax, dword ptr [edi+04]
+:0071B598 A370B66E00              mov dword ptr [006EB670], eax
+:0071B59F 8B4708                  mov eax, dword ptr [edi+08]
+:0071B5A2 40                      inc eax
+:0071B5A6 A36CB66E00              mov dword ptr [006EB66C], eax
+:0071B5AC 0FB607                  movzx eax, byte ptr [edi]
+:0071B5AF A37CB66E00              mov dword ptr [006EB67C], eax
+:0071B5B4 C70574B66E0000000000    mov dword ptr [006EB674], 00000000
+:0071B5BF 5F                      pop edi
+:0071B5C0 C3                      ret
+______________________________________
+б. имена локаций в 2х массивах
+
+.dat2:00A34034                 dd 0
+.dat2:00A34038                 dd 0
+.dat2:00A3403C                 dd 0
+; указатели на имена тут
+
+.dat2:00A35230                 dd 0
+.dat2:00A35234                 dd 0
+.dat2:00A35238                 dd 0
+; и тут
+
+в. уровни локаций
+
+.dat2:00A3603D                 db    1
+.dat2:00A3603E                 db    1
+.dat2:00A3603F                 db    1
+
+байты dlvl локаций
+
+г. непосредственно код загрузки всех уровней
+
+.mod:00716AA9                 jmp     short loc_716B1B
+
+00716AA9 >>> / e81d0
+>>>
+dec eax
+jz @firstFloor
+dec eax
+jz @secondFloor
+dec eax
+jz @thirdFloor
+jmp     716B1B
+
+@firstFloor:
+; оставить место на вызов функции рэндомизации
+mov     esi, offset "Levels\\L1Data\\Treasure01.DUN"
+
+push    00h
+xor     edx, edx
+mov     ecx, esi
+call    sub_40BDEE ; LoadQuestDungeonAltMapChurch
+
+movzx eax, byte ptr [A352C0h];@PrevQuestLocIndex
+cmp eax, 14
+jz @enterFromTresure2
+@enterFromTown:
+push 40
+mov edx, 40
+jmp @loadMainMap
+@enterFromTresure2:
+push 40
+mov edx, 40
+@loadMainMap:
+mov ecx, esi
+call    sub_40BAFD
+
+mov ecx, offset "levels\\l1data\\l1base.pal" ; или другая спец палитра
+call 0045552B
+
+mov eax, 112d
+push eax
+push eax
+xor ecx, ecx
+xor edx, edx
+call 0044C022; AddDoorsAndLibrazObjectInChurch(0, 0, 112, 112);
+
+call @addWarpToTreasure1 ; см п. 8
+
+; ловушки, многаловушек) / cancelled
+call 0044CEBB
+call 0044CD09
+
+pop     esi
+retn
+
+==================================================
+
+@secondFloor: / e82b0
+; оставить место на вызов функции рэндомизации
+mov     esi, offset "Levels\\L3Data\\Treasure02.DUN"
+
+push    00h
+xor     edx, edx
+mov     ecx, esi
+call    sub_414BC7 ; LoadQuestDungeonAltMapCave
+
+xor edx, edx
+push edx ; раз не используется смело передаем нолики
+mov ecx, esi
+call    sub_414A7C
+
+movzx eax, byte ptr [A352C0h];@PrevQuestLocIndex
+cmp eax, 13
+jz @enterFromTresure1
+@enterFromTresure3:
+mov     dword_61F334, 40 ; координаты на сей раз не инвертированы / e857D
+mov     dword_61F338, 40
+jmp @F
+@enterFromTresure1:
+mov     dword_61F334, 40 / 56
+mov     dword_61F338, 40 / 19
+@@:
+
+mov ecx, offset "levels\\l3data\\l3base.pal" ; или другая спец палитра
+call 0045552B
+
+call @addWarpToTreasure2 ; см п. 8
+
+; ловушки, многаловушек) / cancelled
+call 0044CEBB
+call 0044CD09
+
+pop     esi
+retn
+
+==================================================
+
+@thirdFloor: / e8430
+; оставить место на вызов функции рэндомизации
+mov     esi, offset "Levels\\L3Data\\Treasure03.DUN"
+
+push    00h
+xor     edx, edx
+mov     ecx, esi
+call    sub_414BC7 ; LoadQuestDungeonAltMapCave
+
+xor edx, edx
+push edx ; раз не используется смело передаем нолики
+mov ecx, esi
+call    sub_414A7C
+
+mov     dword_61F334, 40 ; координаты на сей раз не инвертированы
+mov     dword_61F338, 40
+
+mov ecx, offset "levels\\l3data\\l3base.pal" ; или другая спец палитра
+call 0045552B
+
+call @addWarpToTreasure3 ; см п. 8
+
+; ловушки, многаловушек) / cancelled
+call 0044CEBB
+call 0044CD09
+
+pop     esi
+retn
+
+8. ворпы
+
+@addWarpToTreasure1: / e8320
+and     dword_70021C, 0
+mov     dword_700220, 2 ; число ворпов
+
+mov     dword_700228, 30 / done
+mov     dword_70022C, 40 ; координаты предстоит подбирать
+mov     dword_700230, 1028 ; ворп обратно
+
+mov     dword_700238, 31 / done
+mov     dword_70023C, 40 ; координаты предстоит подбирать
+mov     dword_700240, 405h ; ворп на квестовую локу
+mov     byte ptr dword_700244, 14 ; номер локи
+mov     byte ptr dword_700245, 3 ; данжеон тайп пещеры
+retn
+
+====================================
+
+@addWarpToTreasure2: / e8260
+and     dword_70021C, 0
+mov     dword_700220, 2 ; число ворпов
+
+mov     dword_700228, 30 / e8277 / done
+mov     dword_70022C, 40 ; координаты предстоит подбирать
+mov     dword_700230, 405h ; ворп на квестовую локу
+mov     byte ptr dword_700234, 13 ; номер локи
+mov     byte ptr dword_700235, 1 ; данжеон тайп церковь
+
+mov     dword_700238, 31 / e8392 / done
+mov     dword_70023C, 40 ; координаты предстоит подбирать
+mov     dword_700240, 405h ; ворп на квестовую локу
+mov     byte ptr dword_700244, 15 ; номер локи
+mov     byte ptr dword_700245, 3 ; данжеон тайп пещеры
+retn
+
+=======================================
+
+@addWarpToTreasure3: / e83e0
+and     dword_70021C, 0
+mov     dword_700220, 1 ; число ворпов
+
+mov     dword_700228, 30 / done
+mov     dword_70022C, 40 ; координаты предстоит подбирать
+mov     dword_700230, 405h ; ворп на квестовую локу
+mov     byte ptr dword_700234, 14 ; номер локи
+mov     byte ptr dword_700235, 3 ; данжеон тайп пещеры
+retn
+
+==========================================
+@ShowDungeonEnteriesDiscriptionsTreasure:
+копия 717440
+
+В копии / e8490
+
+.mod:00717491                 mov     eax, 16
+.mod:00717496                 imul    eax, 1Ch
+.mod:00717499                 add     eax, offset byte_6EB358
+.mod:0071749E                 nop
+.mod:0071749F                 nop
+.mod:007174A0                 movzx   eax, byte ptr [eax]
+.mod:007174A3                 push    eax
+.mod:007174A4                 push    offset aBackToLevelI ; "Back to Level %i" "Back to town"
+push    offset byte_4D12F0 ; Dest
+call   00479AC0 ; _sprintf
+add     esp, 8
+jmp 0071B90D
+
+.mod:007174B0
+.mod:007174B0 loc_7174B0:                             ; CODE XREF: sub_717440+46j
+.mod:007174B0                 push    offset byte_4D12F0 ; Dest
+.mod:007174B5                 call    _sprintf
+.mod:007174BA                 add     esp, 0Ch
+
+==========================================
+
+;.mod:0071A5B0                 dec     eax
+;.mod:0071A5B1                 dec     eax
+;.mod:0071A5B2                 jle     short unknown_libname_91 ; Microsoft VisualC 2-10/net runtime
+;.mod:0071A5B4                 jmp     loc_47934F
+
+0071A5B4 >>> / e8540
+>>>
+dec eax
+dec eax
+dec eax
+jle @showTreashureWarpDescription
+jmp     loc_47934F
+
+@showTreashureWarpDescription:
+call @ShowDungeonEnteriesDiscriptionsTreasure
+jmp     loc_47934A
+
+ chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071A5B4(U)
+|
+:0071B940 48                      dec eax
+:0071B941 48                      dec eax
+:0071B942 48                      dec eax
+:0071B943 7E0B                    jle 0071B950
+:0071B948 E902DAD5FF              jmp 0047934F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071B943(C)
+|
+:0071B950 E83BFFFFFF              call 0071B890
+:0071B95A E9EBD9D5FF              jmp 0047934A
+______________________________
+
+  все ворпы настроены, смело двигаемся дальше...
+
+9. Превращение лавы в лед
+
+.text:0040B8C8                 cmp     dword_495358, 0
+.text:0040B8CF                 jz      short locret_40B8D6
+.text:0040B8D1                 jmp     sub_4558ED
+
+0040B8C8 >>> / e8600
+>>>
+cmp     dword_495358, 0
+jz @noCircling
+cmp byte ptr [0061F314], 1 ; IsQuestFloor
+jnz @circling
+cmp byte ptr [0061CB00], 15 ; QuestFloorIndex
+jnz @circling
+@noCircling:
+retn
+@circling:
+jmp     sub_4558ED
+
+       chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0040B8C8(U)
+|
+:0071BA00 833D5853490000          cmp dword ptr [00495358], 00000000
+:0071BA07 7427                    je 0071BA30
+:0071BA09 803D14F3610001          cmp byte ptr [0061F314], 01
+:0071BA10 751E                    jne 0071BA30
+:0071BA12 803D00CB61000F          cmp byte ptr [0061CB00], 0F
+:0071BA19 7515                    jne 0071BA30
+:0071BA1B C3                      ret
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071BA07(C), :0071BA10(C), :0071BA19(C)
+|
+:0071BA30 E9B89ED3FF              jmp 004558ED
+======================================================
+
+@allowLavaWalking: / e8650
+xor edx, edx
+mov ecx, 56
+@loop1:
+mov byte ptr [0060B2E0 + ecx], dl
+inc ecx
+cmp ecx, 147
+jl @loop1
+
+mov byte ptr [0060B2E0h + 150d], dl
+mov byte ptr [0060B2E0h + 152d], dl
+
+mov ecx, 154
+@loop2:
+mov byte ptr [0060B2E0 + ecx], dl
+inc ecx
+cmp ecx, 161
+jl @loop2
+retn
+
+====================================================
+
+.text:0040B4FE                 call    sub_41B72D
+; вставить после 
+cmp byte ptr [0061F314], 1 ; IsQuestFloor
+jnz @F
+cmp byte ptr [0061CB00], 15 ; QuestFloorIndex
+jnz @F
+call @allowLavaWalking
+@@: / куда? 895 ?
+
+at e86b0
+
+ chek:
+:0071BAB5 E873FCCFFF              call 0041B72D
+:0071BABA EB14                    jmp 0071BAD0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071BAE2(U)
+|
+:0071BAC0 E88BFFFFFF              call 0071BA50
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071BAD7(C), :0071BAE0(C)
+|
+:0071BAC9 E935FACEFF              jmp 0040B503
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071BABA(U)
+|
+:0071BAD0 803D14F3610001          cmp byte ptr [0061F314], 01
+:0071BAD7 75F0                    jne 0071BAC9
+:0071BAD9 803D00CB61000F          cmp byte ptr [0061CB00], 0F
+:0071BAE0 75E7                    jne 0071BAC9
+:0071BAE2 EBDC                    jmp 0071BAC0
+
+
+10. расстановка боссов
+
+11. настройка картинок загрузки
+
+12.  запрет каста телепорта (нефик) и инфравидения (слишком светло) в пещерах льда (№2) и на мерзлом озере (№3)
+
+13. Надо какую-то фичу для уровня
+варианты:
+
+ 1) уменьшение меткости персонажа на 15% в льдах и на 25% в мерзлоте
+ 2) замедлить скорость атак и кастов на 1 фрейм в льдах и 2 фрейма в мерзлоте
+ 3) уменьшение АС на 15 в льдах и на 25 в мерзлоте
+ 4) + DFE
+
+14. Заселение монстров, балансировка расстановки и количества. Проработка сценария сложности.
+
+Biclops - straigh melee attacker
+Liches - ranged magic missile shooters and retreaters
+Boars - chargers
+Winged Skeletons - circle around player, shooting physical damage missiles and engaging in melee as they approach
+Snow Golems (character golem gfx) - act as hidden, scariest AI ever ( isn't that a fresh idea - the very snow itself forms a threat))
+
+mnstr IDs:
+dark charger - 66h (4 15), beast
+ice golem - EBh (4 both), undead
+frozen horror - ECh (4 both), undead
+overlord 68h, 

@@ -1,0 +1,67 @@
+Some spells do knockback, but only Holybolt and Elemental actually DO the knockback.
+Needs more testing and optimizing...
+
+Modified:
+
+:0042F576 807D1300                cmp byte ptr [ebp+13], 00
+:0042F57A 750E                    jne 0042F58A
+:0042F57C F6400108                test [eax+01], 08
+:0042F580 7408                    je 0042F58A
+:0042F582 8B4DF8                  mov ecx, dword ptr [ebp-08]
+:0042F585 E837D80000              call 0043CDC1
+
+into >>>>
+
+:0042F576 50                      push eax
+:0042F577 E8D4642D00              call 00705A50
+:0042F57C 85C0                    test eax, eax
+:0042F57E 58                      pop eax
+:0042F57F 90                      nop
+:0042F580 7408                    je 0042F58A
+:0042F582 8B4DF8                  mov ecx, dword ptr [ebp-08]
+:0042F585 E837D80000              call 0043CDC1
+
+
+
+Extra:
+
+* Referenced by a CALL at Address:
+|:0042F577   
+|
+:00705A50 807D1300                cmp byte ptr [ebp+13], 00
+:00705A54 0F8476000000            je 00705AD0
+:00705A5A 837D143D                cmp dword ptr [ebp+14], 0000003D
+:00705A5E 7479                    je 00705AD9
+:00705A60 837D141C                cmp dword ptr [ebp+14], 0000001C
+:00705A64 7473                    je 00705AD9
+:00705A66 837D1406                cmp dword ptr [ebp+14], 00000006
+:00705A6A 746D                    je 00705AD9
+:00705A6C 837D1418                cmp dword ptr [ebp+14], 00000018
+:00705A70 7467                    je 00705AD9
+:00705A72 837D1435                cmp dword ptr [ebp+14], 00000035
+:00705A76 7461                    je 00705AD9
+:00705A78 90                      nop
+.................................
+:00705ACD 90                      nop
+:00705ACE EB06                    jmp 00705AD6
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705A54(C)
+|
+:00705AD0 F6400108                test [eax+01], 08
+:00705AD4 7503                    jne 00705AD9
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705ACE(U)
+|
+:00705AD6 33C0                    xor eax, eax
+:00705AD8 C3                      ret
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00705A5E(C), :00705A64(C), :00705A6A(C), :00705A70(C), :00705A76(C)
+|:00705AD4(C)
+|
+:00705AD9 6A01                    push 00000001
+:00705ADB 58                      pop eax
+:00705ADC C3                      ret

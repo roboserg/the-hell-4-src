@@ -1,0 +1,69 @@
+Bonewings received dual attack (this was planned long ago, but I forgot to do it)
+
+:004445FA 83F850                  cmp eax, 00000050
+:004445FD 761D                    jbe 0044461C
+:004445FF 83F857                  cmp eax, 00000057
+:00444602 7422                    je 00444626
+:00444604 83F86E                  cmp eax, 0000006E
+:00444607 7413                    je 0044461C
+:00444609 83F878                  cmp eax, 00000078
+:0044460C 740E                    je 0044461C
+:0044460E 3D88000000              cmp eax, 00000088
+:00444613 7411                    je 00444626
+:00444615 3D89000000              cmp eax, 00000089
+:0044461A 750F                    jne 0044462B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004445FD(C), :00444607(C), :0044460C(C), :00444632(U)
+|
+:0044461C E9549AFFFF              jmp 0043E075
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00444630(C)
+|
+:00444621 E9869AFFFF              jmp 0043E0AC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00444602(C), :00444613(C)
+|
+:00444626 E93C0C2C00              jmp 00705267
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0044461A(C)
+|
+:0044462B 3D84000000              cmp eax, 00000084
+:00444630 75EF                    jne 00444621
+:00444632 EBE8                    jmp 0044461C
+
+=======================================================
+
+
+previous:
+
+:004445FA 83F850                  cmp eax, 00000050
+:004445FD 761D                    jbe 0044461C
+:004445FF 83F857                  cmp eax, 00000057
+:00444602 7422                    je 00444626
+:00444604 83F86E                  cmp eax, 0000006E
+:00444607 7413                    je 0044461C
+:00444609 83F878                  cmp eax, 00000078
+:0044460C 740E                    je 0044461C
+:0044460E 3D88000000              cmp eax, 00000088
+:00444613 7411                    je 00444626
+:00444615 3D89000000              cmp eax, 00000089
+:0044461A 7505                    jne 00444621
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004445FD(C), :00444607(C), :0044460C(C)
+|
+:0044461C E9549AFFFF              jmp 0043E075
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0044461A(C)
+|
+:00444621 E9869AFFFF              jmp 0043E0AC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00444602(C), :00444613(C)
+|
+:00444626 E93C0C2C00              jmp 00705267

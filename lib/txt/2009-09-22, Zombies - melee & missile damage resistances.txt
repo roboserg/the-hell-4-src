@@ -1,0 +1,205 @@
+Complex melee damage resistances for:
+Grave Digger:
+25% for dlvl-2 on Horror,
+37,5% for Purgatory,
+50% for Doom;
+
+Tomb Slave:
+12,5% for dlvl-3 on Horror,
+25% for dlvl-4 on Horror,
+37,5% for Purgatory,
+50% on Doom;
+
+Burned Corpse:
+25% for dlvl-2 on Horror,
+37,5% for Purgatory,
+50% for Doom;
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708FA6(C)
+|
+:00709F50 813806000000            cmp dword ptr [eax], 00000006
+:00709F56 0F8548000000            jne 00709FA4
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00709FF6(C)
+|
+:00709F5C 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00709F63 0F8428000000            je 00709F91
+:00709F69 833DC070600002          cmp dword ptr [006070C0], 00000002
+:00709F70 0F842A000000            je 00709FA0
+:00709F76 803DD8B1600002          cmp byte ptr [0060B1D8], 02
+:00709F7D 0F8509000000            jne 00709F8C
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00709FEE(U)
+|
+:00709F83 50                      push eax
+:00709F84 8BC7                    mov eax, edi
+:00709F86 C1F802                  sar eax, 02
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00709FEC(U)
+|
+:00709F89 2BF8                    sub edi, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00709F9E(U)
+|
+:00709F8B 58                      pop eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00709F7D(C), :00709FA2(U), :00709FE4(U), :00709FFC(U)
+|
+:00709F8C E9B2D2FFFF              jmp 00707243
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00709F63(C), :00709FB7(C)
+|
+:00709F91 50                      push eax
+:00709F92 8BC7                    mov eax, edi
+:00709F94 C1F802                  sar eax, 02
+:00709F97 2BF8                    sub edi, eax
+:00709F99 C1F801                  sar eax, 01
+:00709F9C 2BF8                    sub edi, eax
+:00709F9E EBEB                    jmp 00709F8B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00709F70(C), :00709FC4(C)
+|
+:00709FA0 D1EF                    shr edi, 1
+:00709FA2 EBE8                    jmp 00709F8C
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00709F56(C)
+|
+:00709FA4 81380F000000            cmp dword ptr [eax], 0000000F
+:00709FAA 0F8540000000            jne 00709FF0
+:00709FB0 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00709FB7 0F84D4FFFFFF            je 00709F91
+:00709FBD 833DC070600002          cmp dword ptr [006070C0], 00000002
+:00709FC4 0F84D6FFFFFF            je 00709FA0
+:00709FCA 803DD8B1600003          cmp byte ptr [0060B1D8], 03
+:00709FD1 0F840F000000            je 00709FE6
+:00709FD7 803DD8B1600004          cmp byte ptr [0060B1D8], 04
+:00709FDE 0F840A000000            je 00709FEE
+:00709FE4 EBA6                    jmp 00709F8C
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00709FD1(C)
+|
+:00709FE6 50                      push eax
+:00709FE7 8BC7                    mov eax, edi
+:00709FE9 C1F803                  sar eax, 03
+:00709FEC EB9B                    jmp 00709F89
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00709FDE(C)
+|
+:00709FEE EB93                    jmp 00709F83
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00709FAA(C)
+|
+:00709FF0 813800000000            cmp dword ptr [eax], 00000000
+:00709FF6 0F8460FFFFFF            je 00709F5C
+:00709FFC EB8E                    jmp 00709F8C
+
+=================================================================================
+Absolutely the same resistances for the same monsters against damage from arrows:
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708F54(U)
+|
+:0070A020 3D00000000              cmp eax, 00000000
+:0070A025 0F841B000000            je 0070A046
+:0070A02B 3D06000000              cmp eax, 00000006
+:0070A030 0F8410000000            je 0070A046
+:0070A036 3D0F000000              cmp eax, 0000000F
+:0070A03B 0F844D000000            je 0070A08E
+:0070A041 E930000000              jmp 0070A076
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070A025(C), :0070A030(C)
+|
+:0070A046 833DC070600001          cmp dword ptr [006070C0], 00000001
+:0070A04D 0F8428000000            je 0070A07B
+:0070A053 833DC070600002          cmp dword ptr [006070C0], 00000002
+:0070A05A 0F842A000000            je 0070A08A
+:0070A060 803DD8B1600002          cmp byte ptr [0060B1D8], 02
+:0070A067 0F8509000000            jne 0070A076
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070A0CC(U)
+|
+:0070A06D 50                      push eax
+:0070A06E 8BC7                    mov eax, edi
+:0070A070 C1F802                  sar eax, 02
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070A0CA(U)
+|
+:0070A073 2BF8                    sub edi, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070A088(U)
+|
+:0070A075 58                      pop eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070A041(U), :0070A067(C), :0070A08C(U), :0070A0C2(U)
+|
+:0070A076 E9BFEEFFFF              jmp 00708F3A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070A04D(C), :0070A095(C)
+|
+:0070A07B 50                      push eax
+:0070A07C 8BC7                    mov eax, edi
+:0070A07E C1F802                  sar eax, 02
+:0070A081 2BF8                    sub edi, eax
+:0070A083 C1F801                  sar eax, 01
+:0070A086 2BF8                    sub edi, eax
+:0070A088 EBEB                    jmp 0070A075
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070A05A(C), :0070A0A2(C)
+|
+:0070A08A D1EF                    shr edi, 1
+:0070A08C EBE8                    jmp 0070A076
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070A03B(C)
+|
+:0070A08E 833DC070600001          cmp dword ptr [006070C0], 00000001
+:0070A095 74E4                    je 0070A07B
+:0070A097 90                      nop
+:0070A098 90                      nop
+:0070A099 90                      nop
+:0070A09A 90                      nop
+:0070A09B 833DC070600002          cmp dword ptr [006070C0], 00000002
+:0070A0A2 74E6                    je 0070A08A
+:0070A0A4 90                      nop
+:0070A0A5 90                      nop
+:0070A0A6 90                      nop
+:0070A0A7 90                      nop
+:0070A0A8 803DD8B1600003          cmp byte ptr [0060B1D8], 03
+:0070A0AF 0F840F000000            je 0070A0C4
+:0070A0B5 803DD8B1600004          cmp byte ptr [0060B1D8], 04
+:0070A0BC 0F840A000000            je 0070A0CC
+:0070A0C2 EBB2                    jmp 0070A076
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070A0AF(C)
+|
+:0070A0C4 50                      push eax
+:0070A0C5 8BC7                    mov eax, edi
+:0070A0C7 C1F803                  sar eax, 03
+:0070A0CA EBA7                    jmp 0070A073
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070A0BC(C)
+|
+:0070A0CC EB9F                    jmp 0070A06D

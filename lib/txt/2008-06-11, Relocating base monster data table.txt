@@ -1,0 +1,33 @@
+Collecting data...
+
+
+
+Virtual address of the table, currently:
+
+:004ABEF0 (aa8f0)
+first monster handling should be over by  :004ABF70
+4b03f0 should be last space addressed in monstr table...
+
+New starting offset for base monster table:	2FF8F0
+
+Virtual address is:				:00932CF0
+
+Whole monster table size is:			4500h bytes
+
+=============================
+
+beginning at AF058 (:004b0658), monster activity slots (00 - inactive, 01 - active), dword values
+new offset 2ff480 (:00932880)
+
+replacing the check above does work!
+
+============================
+
+in between checks that seem odd:
+
+:0043C6C5 8B0C85EC034B00          mov ecx, dword ptr [4*eax+004B03EC]
+
+-----
+
+:0043AB5C BE44C34A00              mov esi, 004AC344
+:0043ABBB 81FEC4CC4A00            cmp esi, 004ACCC4

@@ -1,0 +1,5 @@
+Slower durability loss on firing Bows: 1/50 -> 1/60
+
+:0045C6D9 6A32                    push 00000032
+into >>
+:0045C6D9 6A3C                    push 0000003C

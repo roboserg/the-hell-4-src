@@ -1,0 +1,39 @@
+Scout, Monk and Assassin will also inflict critical damage in melee. The formula is the same: CLVL%
+
+:0045BA6D 8A8160010000            mov al, byte ptr [ecx+00000160]
+:0045BA73 84C0                    test al, al
+:0045BA75 7404                    je 0045BA7B
+:0045BA77 3C05                    cmp al, 05
+:0045BA79 7517                    jne 0045BA92
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BA75(C)
+|
+:0045BA7B 0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]
+:0045BA82 6A64                    push 00000064
+:0045BA84 B106                    mov cl, 06
+:0045BA86 5A                      pop edx
+:0045BA87 E8CEE4FBFF              call 00419F5A
+:0045BA8C 3BC3                    cmp eax, ebx
+:0045BA8E 7D02                    jge 0045BA92
+:0045BA90 D1E7                    shl edi, 1
+
+INTO >>>>>>>>>>
+
+:0045BA6D 8A8160010000            mov al, byte ptr [ecx+00000160]
+:0045BA73 84C0                    test al, al
+:0045BA75 7404                    je 0045BA7B
+:0045BA77 3C02                    cmp al, 02
+:0045BA79 7417                    je 0045BA92
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BA75(C)
+|
+:0045BA7B 0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]
+:0045BA82 6A64                    push 00000064
+:0045BA84 B106                    mov cl, 06
+:0045BA86 5A                      pop edx
+:0045BA87 E8CEE4FBFF              call 00419F5A
+:0045BA8C 3BC3                    cmp eax, ebx
+:0045BA8E 7D02                    jge 0045BA92
+:0045BA90 D1E7                    shl edi, 1

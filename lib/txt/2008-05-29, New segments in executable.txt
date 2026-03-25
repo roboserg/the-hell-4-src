@@ -1,0 +1,29 @@
+New segments in TH.exe:
+
+Gladoo's msg below________
+
+
+I can add two more objects. I don't think their names matter, just the flags at the end.
+
+(see TH.exe in WD32 at the top of file)
+
+object01: .text .... flags: 60000020 : Allows executable as code, readable and contains executable code.
+
+object02: .rdata... flags: 40000040 40:40 : Is readable and contains initialized data.
+
+object03: .data.....flags: C0000040 C0:40 : Is readable and writeable and contains initialized data.
+
+object05: .mod.....flags: E00000E0 : Allows executable as code, readable, writeable, contains executable code, contains initialized data and contains uninitialized data.
+
+Which one's do you need? And what size in hex of the objects do you need? I made .mod 100,000 hex bytes and E00000E0 because that's the flag Labiri had set for his extra space, for reference.
+
+1). If it's in the TH.exe then it should still be 400C00 to my knowledge. If it's not, you could figure it out by writing code in the new section with workshop, find it in WD32 and subtract the two address. That should give you the new offset for that section.
+
+I'm sending a file with 2 more .mod2 and .mod3 with E00000E0 and if you need different let me know I'll change it.
+.mod2 001D1C00 - 002D1BFF
+.mod3 002D1C00 - 003D1BFF
+
+=================================================================================
+
+For the new segments the modifier is +633400
+

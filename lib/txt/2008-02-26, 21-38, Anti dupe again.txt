@@ -1,0 +1,377 @@
+//----- (00421978) --------------------------------------------------------
+int __fastcall WithCharacterAndStruct372(int aPlayerIndex, signed int Struct372Index)
+{
+  int PlayerIndex; // ebx@1
+  int result; // eax@4
+  int CharacterOffset; // ebp@7
+  int v5; // ecx@8
+  bool v6; // esi@8
+  signed int v7; // edi@31
+  signed int v8; // edi@34
+  signed int v9; // edi@37
+  signed int v10; // edi@40
+  signed int v11; // edi@45
+  signed int v12; // edi@48
+  signed int v13; // edi@51
+  signed int v14; // edi@56
+  signed int *v15; // edi@61
+  signed int v16; // edi@64
+  signed int v17; // edi@67
+  signed int v18; // edi@70
+  signed int v19; // edi@75
+  signed int v20; // edi@78
+  int v21; // ecx@82
+  int v22; // edx@86
+  int v23; // ecx@87
+  char v24; // al@93
+  int v25; // ecx@96
+  signed int v26; // eax@8
+  signed int v27; // eax@18
+  bool v28; // eax@33
+  bool v29; // eax@36
+  bool v30; // eax@39
+  bool v31; // eax@42
+  bool v32; // eax@47
+  bool v33; // eax@50
+  bool v34; // eax@53
+  bool v35; // eax@58
+  bool v36; // eax@63
+  bool v37; // eax@72
+  bool v38; // eax@77
+  bool v39; // eax@80
+  int Index2; // [sp+24h] [bp-8h]@1
+  int SlotOffset; // [sp+18h] [bp-14h]@5
+  const void *ItemOnMapPtr; // [sp+28h] [bp-4h]@7
+  int v43; // [sp+14h] [bp-18h]@21
+  int v44; // [sp+10h] [bp-1Ch]@21
+  signed int v45; // [sp+20h] [bp-Ch]@25
+  int v46; // [sp+1Ch] [bp-10h]@25
+
+  PlayerIndex = aPlayerIndex;
+  Index2 = Struct372Index;
+  if ( dword_4D0E44 )
+  {
+    dword_4D0E44 = 0;
+    dword_4D1108 = 0;
+  }
+  if ( Struct372Index == 127
+    || (result = Struct372Array[Struct372Index].MapCol, *(&Map112x112[112 * Struct372Array[Struct372Index].MapRow]
+                                                        + result)) )
+  {
+    SlotOffset = 372 * Struct372Index;
+    if ( Struct372Array[Struct372Index].field_134 )
+      LOWORD(Struct372Array[Struct372Index].field_4) &= 0x7FFFu;
+    CharacterOffset = 21960 * aPlayerIndex;
+    ItemOnMapPtr = (char *)Struct372Array + SlotOffset;
+    memcpy(
+      &CharactersPtr[aPlayerIndex].SomeStruct372,
+      (char *)Struct372Array + SlotOffset,
+      sizeof(CharactersPtr[aPlayerIndex].SomeStruct372));
+    sub_4212E2(aPlayerIndex);
+    sub_42122B(PlayerIndex);
+    sub_4211DE(PlayerIndex);
+    sub_407A96(CharactersPtr[PlayerIndex].SomeStruct372.field_C0 + 12);
+    if ( CharactersPtr[PlayerIndex].SomeStruct372.field_8 == 11 )
+    {
+      v26 = sub_41F6CB(PlayerIndex);
+      v6 = v26;
+      if ( !v26 )
+      {
+        v5 = SlotOffset;
+        *(int *)((char *)&Struct372Array[0].Price + SlotOffset) = *(int *)((char *)&CharactersPtr->SomeStruct372.Price
+                                                                         + CharacterOffset);
+      }
+      goto LABEL_81;
+    }
+    v6 = 0;
+    v5 = *(int *)((char *)&CharactersPtr->Appearance + CharacterOffset) & 0xF;
+    if ( (!(*(int *)((char *)&CharactersPtr->Appearance + CharacterOffset) & 0xF)
+       || v5 == 1
+       || *((_BYTE *)&CharactersPtr->Class + CharacterOffset) >= 4 && (v5 == 6 || v5 == 2))
+      && CharactersPtr[PlayerIndex].Unknown <= 3
+      && *(_DWORD *)(&CharactersPtr->SomeStruct372.field_164 + CharacterOffset)
+      && *((_BYTE *)&CharactersPtr->SomeStruct372.field_BC + CharacterOffset + 2) == 1 )
+    {
+      v27 = sub_41F9AF(PlayerIndex);
+      v6 = v27;
+      if ( !v27 )
+      {
+LABEL_21:
+        v5 = dword_4D1620;
+        v43 = dword_4D1630;
+        v44 = dword_4D1620;
+        if ( dword_4D1630 == 1 )
+        {
+          if ( dword_4D1620 == dword_4D1630 )
+          {
+            v5 = (int)CharactersPtr;
+            if ( *(_DWORD *)(&CharactersPtr->SomeStruct372.field_164 + CharacterOffset) )
+            {
+              if ( BaseItemsPtr[*(int *)((char *)&CharactersPtr->SomeStruct372.field_168 + CharacterOffset)].UseOnceFlag )
+              {
+                v45 = 0;
+                v46 = 21960 * PlayerIndex;
+                while ( !v6 )
+                {
+                  if ( *(_DWORD *)(v5 + v46 + 18444) == -1 )
+                  {
+                    memcpy((void *)(v5 + v46 + 18436), (const void *)(CharacterOffset + 21412 + v5), 0x174u);
+                    sub_42463E(PlayerIndex);
+                    v6 = 1;
+                    dword_68550C = 1;
+                  }
+                  ++v45;
+                  v46 += 372;
+                  if ( v45 >= 8 )
+                    break;
+                  v5 = (int)CharactersPtr;
+                }
+              }
+            }
+            v7 = 30;
+            do
+            {
+              if ( v6 )
+                break;
+              v28 = sub_41F373(PlayerIndex, v7++, 1, 1, 1);
+              v6 = v28;
+            }
+            while ( v7 <= 39 );
+            v8 = 20;
+            do
+            {
+              if ( v6 )
+                break;
+              v29 = sub_41F373(PlayerIndex, v8++, 1, 1, 1);
+              v6 = v29;
+            }
+            while ( v8 <= 29 );
+            v9 = 10;
+            do
+            {
+              if ( v6 )
+                break;
+              v30 = sub_41F373(PlayerIndex, v9++, 1, 1, 1);
+              v6 = v30;
+            }
+            while ( v9 <= 19 );
+            v10 = 0;
+            do
+            {
+              if ( v6 )
+                break;
+              v31 = sub_41F373(PlayerIndex, v10++, 1, 1, 1);
+              v6 = v31;
+            }
+            while ( v10 <= 9 );
+          }
+        }
+        if ( v43 == 1 )
+        {
+          if ( v44 == 2 )
+          {
+            v11 = 29;
+            do
+            {
+              if ( v6 )
+                break;
+              v32 = sub_41F373(PlayerIndex, v11--, 1, 2, 1);
+              v6 = v32;
+            }
+            while ( v11 >= 20 );
+            v12 = 9;
+            do
+            {
+              if ( v6 )
+                break;
+              v33 = sub_41F373(PlayerIndex, v12--, 1, 2, 1);
+              v6 = v33;
+            }
+            while ( v12 >= 0 );
+            v13 = 19;
+            do
+            {
+              if ( v6 )
+                break;
+              v34 = sub_41F373(PlayerIndex, v13--, 1, 2, 1);
+              v6 = v34;
+            }
+            while ( v13 >= 10 );
+          }
+          if ( v43 == 1 )
+          {
+            if ( v44 == 3 )
+            {
+              v14 = 0;
+              do
+              {
+                if ( v6 )
+                  break;
+                v35 = sub_41F373(PlayerIndex, v14++, 1, 3, 1);
+                v6 = v35;
+              }
+              while ( v14 < 20 );
+            }
+          }
+        }
+        if ( v43 == 2 )
+        {
+          if ( v44 == 2 )
+          {
+            v15 = (signed int *)L"\b";
+            do
+            {
+              if ( v6 )
+                break;
+              v36 = sub_41F373(PlayerIndex, *v15, 2, 2, 1);
+              ++v15;
+              v6 = v36;
+            }
+            while ( (signed int)v15 < (signed int)"Data\\Inv\\Inv.CEL" );
+            v16 = 21;
+            do
+            {
+              if ( v6 )
+                break;
+              v6 = sub_41F373(PlayerIndex, v16, 2, 2, 1);
+              v16 += 2;
+            }
+            while ( v16 < 29 );
+            v17 = 1;
+            do
+            {
+              if ( v6 )
+                break;
+              v6 = sub_41F373(PlayerIndex, v17, 2, 2, 1);
+              v17 += 2;
+            }
+            while ( v17 < 9 );
+            v18 = 10;
+            do
+            {
+              if ( v6 )
+                break;
+              v37 = sub_41F373(PlayerIndex, v18++, 2, 2, 1);
+              v6 = v37;
+            }
+            while ( v18 < 19 );
+          }
+          if ( v43 == 2 )
+          {
+            if ( v44 == 3 )
+            {
+              v19 = 0;
+              do
+              {
+                if ( v6 )
+                  break;
+                v38 = sub_41F373(PlayerIndex, v19++, 2, 3, 1);
+                v6 = v38;
+              }
+              while ( v19 < 9 );
+              v20 = 10;
+              do
+              {
+                if ( v6 )
+                  break;
+                v39 = sub_41F373(PlayerIndex, v20++, 2, 3, 1);
+                v6 = v39;
+              }
+              while ( v20 < 19 );
+            }
+          }
+        }
+LABEL_81:
+        if ( v6 )
+        {
+          v21 = *(int *)((char *)&Struct372Array[0].MapRow + SlotOffset);
+          result = *(int *)((char *)&Struct372Array[0].MapCol + SlotOffset);
+          *(&Map112x112[112 * v21] + result) = 0;
+          if ( PortalToLevel == 21 )
+          {
+            if ( v21 == dword_691CA8 )
+            {
+              if ( result == dword_691CAC )
+              {
+                dword_691E1C = -1;
+                byte_691CE4 = 0;
+                dword_691CBC = 0;
+                dword_691CC0 = 0;
+                dword_691CC4 = 0;
+                dword_691CC8 = 0;
+                dword_691CEC = 0;
+                dword_691CE8 = 0;
+              }
+            }
+          }
+          v22 = 0;
+          while ( v22 < dword_6920DC )
+          {
+            v23 = DwordArray127[v22];
+            if ( v23 == Index2 )
+            {
+              result = sub_427F68(v23, v22);
+              v22 = 0;
+            }
+            else
+            {
+              ++v22;
+            }
+          }
+          return result;
+        }
+        if ( PlayerIndex == CurrentHero[0] )
+        {
+          v24 = *((_BYTE *)&CharactersPtr->Class + CharacterOffset);
+          if ( !v24 )
+            goto LABEL_107;
+          if ( v24 == 1 )
+            goto LABEL_108;
+          if ( v24 == 2 )
+          {
+            LOBYTE(v5) = 0;
+            v25 = MayBeRND(v5, 3) + 531;
+LABEL_103:
+            sub_41850D(v25);
+            goto LABEL_104;
+          }
+          if ( v24 == 3 )
+          {
+            LOBYTE(v5) = 0;
+            v25 = MayBeRND(v5, 3) + 851;
+            goto LABEL_103;
+          }
+          if ( v24 == 4 )
+          {
+LABEL_108:
+            LOBYTE(v5) = 0;
+            v25 = MayBeRND(v5, 3) + 634;
+            goto LABEL_103;
+          }
+          if ( v24 == 5 )
+          {
+LABEL_107:
+            LOBYTE(v5) = 0;
+            v25 = MayBeRND(v5, 3) + 737;
+            goto LABEL_103;
+          }
+        }
+LABEL_104:
+        memcpy((char *)CharactersPtr + CharacterOffset + 21412, ItemOnMapPtr, 0x174u);
+        sub_427E8B(Index2, 1);
+        sub_4471D5(
+          1,
+          11,
+          *((_BYTE *)&Struct372Array[0].MapRow + SlotOffset),
+          *((_BYTE *)&Struct372Array[0].MapCol + SlotOffset));
+        *(int *)((char *)&CharactersPtr->SomeStruct372.field_8 + CharacterOffset) = -1;
+        return sub_407AED();
+      }
+      sub_424ABF(PlayerIndex, 1);
+    }
+    if ( v6 )
+      goto LABEL_81;
+    goto LABEL_21;
+  }
+  return result;
+}

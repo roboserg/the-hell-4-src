@@ -1,0 +1,65 @@
+MP Menu options availability:
+
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0041B2EB(U)
+|
+:00710280 E85F000000              call 007102E4
+:00710285 B924054A00              mov ecx, 004A0524
+:0071028A E855000000              call 007102E4
+:0071028F B918054A00              mov ecx, 004A0518
+:00710294 EB65                    jmp 007102FB
+:00710296 90                      nop
+:00710297 90                      nop
+:00710298 00000000000000000000    BYTE 10 DUP(0)
+:007102A2 00000000000000000000    BYTE 10 DUP(0)
+:007102AC 00000000000000000000    BYTE 10 DUP(0)
+:007102B6 00000000000000000000    BYTE 10 DUP(0)
+:007102C0 00000000000000000000    BYTE 10 DUP(0)
+:007102CA 00000000000000000000    BYTE 10 DUP(0)
+:007102D4 00000000000000000000    BYTE 10 DUP(0)
+:007102DE 0000                    BYTE 2 DUP(0)
+
+
+:007102E0 90                      nop
+:007102E1 90                      nop
+:007102E2 90                      nop
+:007102E3 90                      nop
+
+* Referenced by a CALL at Addresses:
+|:00710280   , :0071028A   
+|
+:007102E4 803DD8B1600000          cmp byte ptr [0060B1D8], 00
+:007102EB 7F04                    jg 007102F1
+:007102ED 85D2                    test edx, edx
+:007102EF 7405                    je 007102F6
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007102EB(C)
+|
+:007102F1 8061037F                and byte ptr [ecx+03], 7F		not available
+:007102F5 C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007102EF(C)
+|
+:007102F6 80490380                or byte ptr [ecx+03], 80		available
+:007102FA C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00710294(U)
+|
+:007102FB E907CDD0FF              jmp 0041D007
+
+
+==================================
+
+
+push eax
+call 70A1D0 

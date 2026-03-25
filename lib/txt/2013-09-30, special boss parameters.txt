@@ -1,0 +1,180 @@
+﻿Ослабление бутчера
+
+Делается только на хорроре
+
+урон меняется на:
+минимум = 6
+максимум = 11
+
+хитпоинты меняются на:
+300 (в сингле должно само собой поменятьсч на 150)
+
+армор меняется на:
+24
+
+=================
+
+Леорик:
+
+урон:
+12-28
+
+ХП:
+900
+
+армор:
+34
+
+
+.text:0043BE7E 0F 85 84 00 00 00                       jnz     loc_43BF08
+.text:0043BE84 FE C8                                   dec     a
+
+0043BE7E >>>
+>>>
+jz 0043BE84 ; изменение данных для DL_2_DOOM
+; проверка на мясо
+cmp     dword ptr [ebp-4], 9
+jz @bucherWeakening
+cmp     dword ptr [ebp-4], 1
+jz @leoricWeakening
+; свободное место на доп проверки
+jmp @return
+
+@bucherWeakening
+; eax, ecx, edx - свободен
+
+mov eax, 300
+cmp byte ptr [006DDFC8], 1
+jnz @F
+sar eax, 1
+@@:
+shl eax, 6
+mov  dword ptr   [esi+90h], eax ; baseLife
+mov  dword ptr   [esi+94h], eax ; curLife
+
+mov  byte ptr   [esi+0C5h], 6
+mov  byte ptr   [esi+0C6h], 11
+
+mov  byte ptr   [esi+202], 24
+
+mov word ptr [esi+0C2h], 1000 ; опыт
+
+mov byte ptr [esi+0C0h], 15 ; mlvl
+
+mov byte ptr [esi+196], 1; toHit
+
+jmp @return
+
+@leoricWeakening:
+; тоже какое то ослабление
+
+mov eax, 900
+cmp byte ptr [006DDFC8], 1
+jnz @F
+sar eax, 1
+@@:
+shl eax, 6
+mov  dword ptr   [esi+90h], eax ; baseLife
+mov  dword ptr   [esi+94h], eax ; curLife
+
+mov  byte ptr   [esi+0C5h], 12
+mov  byte ptr   [esi+0C6h], 28
+
+mov  byte ptr   [esi+202], 34
+
+@return:
+jmp 43BF08
+
+
+chekk:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043BE7E(U)
+|
+:007194A0 0F84DE29D2FF            je 0043BE84
+:007194A6 90                      nop
+...
+:007194AF 90                      nop
+:007194B0 837DFC09                cmp dword ptr [ebp-04], 00000009
+:007194B4 744A                    je 00719500
+:007194B6 837DFC01                cmp dword ptr [ebp-04], 00000001
+:007194BA 0F8480000000            je 00719540
+:007194C0 90                      nop
+.....
+:007194FA 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071953E(U), :00719597(U), :007195B7(U)
+|
+:007194FB E9082AD2FF              jmp 0043BF08
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007194B4(C)
+|
+:00719500 B82C010000              mov eax, 0000012C
+:00719505 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:0071950C 7502                    jne 00719510
+:0071950E D1F8                    sar eax, 1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071950C(C)
+|
+:00719510 C1E006                  shl eax, 06
+:00719513 898690000000            mov dword ptr [esi+00000090], eax
+:00719519 898694000000            mov dword ptr [esi+00000094], eax
+:0071951F C686C500000006          mov byte ptr [esi+000000C5], 06
+:00719526 C686C60000000A          mov byte ptr [esi+000000C6], 0A
+:0071952D C686CA00000017          mov byte ptr [esi+000000CA], 17
+:00719534 EB4A                    jmp 00719580
+:00719536 90                      nop
+...
+:0071953D 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071957E(U)
+|
+:0071953E EBBB                    jmp 007194FB
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007194BA(C)
+|
+:00719540 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00719547 7535                    jne 0071957E
+:00719549 B8F4010000              mov eax, 000001F4
+:0071954E 90                      nop
+:0071954F 90                      nop
+:00719550 C1E006                  shl eax, 06
+:00719553 898690000000            mov dword ptr [esi+00000090], eax
+:00719559 898694000000            mov dword ptr [esi+00000094], eax
+:0071955F C686C50000000E          mov byte ptr [esi+000000C5], 0E
+:00719566 C686C60000001C          mov byte ptr [esi+000000C6], 1C
+:0071956D C686CA00000023          mov byte ptr [esi+000000CA], 23
+:00719574 EB2A                    jmp 007195A0
+:00719576 90                      nop
+...
+:0071957D 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719547(C)
+|
+:0071957E EBBE                    jmp 0071953E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719534(U)
+|
+:00719580 66C786C2000000E803      mov word ptr [esi+000000C2], 03E8
+:00719589 C686C00000000F          mov byte ptr [esi+000000C0], 0F
+:00719590 C686C400000001          mov byte ptr [esi+000000C4], 01
+:00719597 E95FFFFFFF              jmp 007194FB
+:0071959C 90                      nop
+:0071959D 90                      nop
+:0071959E 90                      nop
+:0071959F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719574(U)
+|
+:007195A0 66C786C2000000D007      mov word ptr [esi+000000C2], 07D0
+:007195A9 C686C000000019          mov byte ptr [esi+000000C0], 19
+:007195B0 C686C400000005          mov byte ptr [esi+000000C4], 05
+:007195B7 E93FFFFFFF              jmp 007194FB

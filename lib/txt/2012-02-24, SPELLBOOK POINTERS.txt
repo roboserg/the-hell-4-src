@@ -1,0 +1,56 @@
+At offset 2E290 there is a whole series of addresses to spellbook damages from spells
+
+Virt.address:
+:0042EE8F
+
+00:0042EE8F 9CE84200                DWORD 0042E89C		FBolt, Hydra
+01:0042EE93 CFE84200                DWORD 0042E8CF		Healing
+02:0042EE97 BAE94200                DWORD 0042E9BA		Lightning
+03:0042EE9B DEE94200                DWORD 0042E9DE		Flash
+04:0042EE9F 0AEA4200                DWORD 0042EA0A		Identify (N/A)
+05:0042EEA3 15EA4200                DWORD 0042EA15		FWall
+06:0042EEA7 0AEA4200                DWORD 0042EA0A		TP, StoneCurse, Seeing, Phasing, ManaShield(0B) (N/A)
+07:0042EEAB 4EEA4200                DWORD 0042EA4E		FBlast 
+08:0042EEAF AEEA4200                DWORD 0042EAAE		NOT USED!
+09:0042EEB3 4EEA4200                DWORD 0042EA4E		BallLightning
+0A:0042EEB7 36EB4200                DWORD 0042EB36		Hellfire
+0B:0042EEBB 0AEA4200                DWORD 0042EA0A		Reflect, LRing (N/A)
+0C:0042EEBF 6BEB4200                DWORD 0042EB6B		LNova
+0D:0042EEC3 0AEA4200                DWORD 0042EA0A		FRing (N/A)
+0E:0042EEC7 D3EB4200                DWORD 0042EBD3		Inferno
+0F:0042EECB 00EC4200                DWORD 0042EC00		Golem
+10:0042EECF 0AEA4200                DWORD 0042EA0A		Fury, Teleport (N/A)
+11:0042EED3 14EC4200                DWORD 0042EC14		Apocalypse
+12:0042EED7 0AEA4200                DWORD 0042EA0A		Etherialize, Repair, Recharge, Disarm (N/A)
+13:0042EEDB A1EC4200                DWORD 0042ECA1		Elemental
+14:0042EEDF 03ED4200                DWORD 0042ED03		CBolt
+15:0042EEE3 27ED4200                DWORD 0042ED27		HBolt
+16:0042EEE7 0AEA4200                DWORD 0042EA0A		BoneSpirit(20), Telekinesis (N/A)
+17:0042EEEB 59ED4200                DWORD 0042ED59		HealOther
+18:0042EEEF 6DEE4200                DWORD 0042EE6D		AStar
+19:0042EEF3 0AEA4200                DWORD 0042EA0A		BoneSpirit(24) (N/A, hardcoded later)
+1A:0042EEF7 15EA4200                DWORD 0042EA15		LWall
+1B:0042EEFB 6BEB4200                DWORD 0042EB6B		FNova
+1C:0042EEFF 6DEE4200                DWORD 0042EE6D		Warp(2A), ANova, Berserk
+1D:0042EF03 15EA4200                DWORD 0042EA15		Ring of Fire
+1E:0042EF07 0AEA4200                DWORD 0042EA0A		ManaShield(2E) (N/A)
+1F:0042EF0B 4EEA4200                DWORD 0042EA4E		Fury
+20:0042EF0F BAE94200                DWORD 0042E9BA		Rune of Light
+21:0042EF13 6BEB4200                DWORD 0042EB6B		Rune of Nova, Rune of Immolation
+22:0042EF17 0AEA4200                DWORD 0042EA0A		Warp(33) (N/A)
+23:0042EF1B 27ED4200                DWORD 0042ED27		Mana, Magi, HNova
+
+Immediately after this table (at 0042EF1F) there is a table with 0x33 (number of spells :) entries.
+It contains indexes in the previous table:
+00 01 02 03 04 05 06 06 06 06 06 07 00 09 0a 0b
+0b 0c 0d 0e 0f 10 10 11 12 12 12 12 13 14 15 16
+16 17 18 19 23 23 23 1a 1b 1c 1c 1c 1d 1e 1f 20
+21 21 22
+
+Following code works with these tables to obtain an address (and jump) from number of spell (ecx).
+0042E884:
+dec ecx
+cmp ecx,32
+ja 0042EE88  //Break
+movzx ecx, byte [ecx+0042EF1F]
+jmp [ecx*4+0042EE8F]

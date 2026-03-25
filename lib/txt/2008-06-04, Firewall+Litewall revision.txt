@@ -1,0 +1,123 @@
+Correcting Firewall and Litewall  durations: mini duration is as for SLVL 2, maxi - SLVL 7
+
+Lightning Wall
+Type: lightning
+Min. Damage: 4 + 2·clvl
+Max. Damage: 40 + 2·clvl
+Real Damage: (Rnd[10] + Rnd[10] + clvl + 2)/4
+Duration: 12.75 + 12.75·slvl seconds
+Number of bolts: 11
+Blockable: No
+
+*   The central lightning wall bolt actually consists of two bolts on top of each other, with the result of a damage for that ”bolt” being double.
+*   Does twice the damage of a Fire Wall and lasts longer.
+*   The flame will try to hit once every 0.05 seconds for a total of 255 + 255·slvl times.
+--------------------------------
+
+Fire Wall
+Type: fire
+Min. Damage: 4 + 2·clvl
+Max. Damage: 40 + 2·clvl
+Real Damage: (Rnd[10] + Rnd[10] + clvl + 2)/8
+Duration: 8 + 8·slvl seconds (12 + 8·slvl in Hellfire)
+Number of flames: 11
+Blockable: No
+
+*   The central fire wall flame actually consists of two flames on top of each other, with the result of a damage for that ”flame” being double.
+*   The Fire Wall will disappear immediately if you gain any level in the spell.
+*   Fire Walls are treated as traps against players, including the caster.
+*   The flame will try to hit once every 0.05 seconds for a total of 160 + 160·slvl times (240 + 160·slvl times in Hellfire).
+--------------------------------
+
+Ring of Fire
+Type: fire
+Min. Damage: 4 + clvl·2
+Max. Damage: 40 + clvl·2
+Duration: 12 + 8·slvl seconds
+Real Damage: (Rnd[10] + Rnd[10] + clvl + 2)/8
+Duration: 8 + 8·slvl seconds (12 + 8·slvl in Hellfire)
+Number of flames: 22
+Blockable: No
+
+*   Does the same damage as a Fire Wall and lasts the same amount of time.
+*   The Ring of Fire will disappear immediately if you gain any level in the spell.
+*   Fire Walls are treated as traps against players, including the caster.
+*   The flame will try to hit once every 0.05 seconds for a total of 160 + 160·slvl times.
+----------------------------
+
+Firewall duration = ((slvl+1)*5)*2 ? <<<- second chunk
+
+:00431C91 8B86887A6900            mov eax, dword ptr [esi+00697A88]
+:00431C97 40                      inc eax
+:00431C98 69C0FF000000            imul eax, 000000FF
+:00431C9E 8986C87A6900            mov dword ptr [esi+00697AC8], eax
+
+vs
+
+:00431D5D 8B86887A6900            mov eax, dword ptr [esi+00697A88]
+:00431D63 40                      inc eax
+:00431D64 8D0480                  lea eax, dword ptr [eax+4*eax]
+:00431D67 D1E0                    shl eax, 1
+:00431D69 807D1800                cmp byte ptr [ebp+18], 00
+:00431D6D 8986C87A6900            mov dword ptr [esi+00697AC8], eax
+:00431D73 751F                    jne 00431D94
+
+
+================
+
+Doing!
+
+Firewall:
+
+:00431D5D E8AE3A2D00              call 00705810
+
+xtra:
+* Referenced by a CALL at Addresses:
+|:00431C91   , :00431D5D   
+|
+:00705810 8B86887A6900            mov eax, dword ptr [esi+00697A88]
+:00705816 83F807                  cmp eax, 00000007
+:00705819 7E03                    jle 0070581E
+:0070581B 6A07                    push 00000007
+:0070581D 58                      pop eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705819(C)
+|
+:0070581E 83F802                  cmp eax, 00000002
+:00705821 7D03                    jge 00705826
+:00705823 6A02                    push 00000002
+:00705825 58                      pop eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705821(C)
+|
+:00705826 C3                      ret
+
+--------------------
+Litewall:
+
+:00431C91 E87A3B2D00              call 00705810
+
+xtra: (same as for firewall)
+* Referenced by a CALL at Addresses:
+|:00431C91   , :00431D5D   
+|
+:00705810 8B86887A6900            mov eax, dword ptr [esi+00697A88]
+:00705816 83F807                  cmp eax, 00000007
+:00705819 7E03                    jle 0070581E
+:0070581B 6A07                    push 00000007
+:0070581D 58                      pop eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705819(C)
+|
+:0070581E 83F802                  cmp eax, 00000002
+:00705821 7D03                    jge 00705826
+:00705823 6A02                    push 00000002
+:00705825 58                      pop eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705821(C)
+|
+:00705826 C3                      ret

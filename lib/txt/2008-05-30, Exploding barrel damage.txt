@@ -1,0 +1,79 @@
+Exploding barrel damage now depends on difficulty mode and dungeon level:
+
+Was:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00453FB9(C)
+|
+:00453FCC 8A83E8FE6000            mov al, byte ptr [ebx+0060FEE8]
+:00453FD2 84C0                    test al, al
+:00453FD4 7E18                    jle 00453FEE
+:00453FD6 8D550F                  lea edx, dword ptr [ebp+0F]
+:00453FD9 52                      push edx
+:00453FDA 51                      push ecx
+:00453FDB 51                      push ecx
+:00453FDC 57                      push edi
+:00453FDD 6A10                    push 00000010
+:00453FDF 6A08                    push 00000008
+:00453FE1 51                      push ecx
+:00453FE2 83CAFF                  or edx, FFFFFFFF
+:00453FE5 0FBEC8                  movsx ecx, al
+:00453FE8 49                      dec ecx
+:00453FE9 E821B6FDFF              call 0042F60F
+
+
+Now:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00453FB9(C)
+|
+:00453FCC 8A83E8FE6000            mov al, byte ptr [ebx+0060FEE8]
+:00453FD2 84C0                    test al, al
+:00453FD4 7E18                    jle 00453FEE
+:00453FD6 8D550F                  lea edx, dword ptr [ebp+0F]
+:00453FD9 52                      push edx
+:00453FDA 51                      push ecx
+:00453FDB 51                      push ecx
+:00453FDC 57                      push edi
+:00453FDD E932112B00              jmp 00705114
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705121(U)
+|
+:00453FE2 83CAFF                  or edx, FFFFFFFF
+:00453FE5 0FBEC8                  movsx ecx, al
+:00453FE8 49                      dec ecx
+:00453FE9 E821B6FDFF              call 0042F60F
+
+
+Extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00453FDD(U)
+|
+:00705114 E80D000000              call 00705126
+:00705119 83C210                  add edx, 00000010
+:0070511C 52                      push edx
+:0070511D D1FA                    sar edx, 1
+:0070511F 52                      push edx
+:00705120 51                      push ecx
+:00705121 E9BCEED4FF              jmp 00453FE2
+
+* Referenced by a CALL at Address:
+|:00705114   
+|
+:00705126 51                      push ecx
+:00705127 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:0070512E 8B0DC0706000            mov ecx, dword ptr [006070C0]
+:00705134 85C9                    test ecx, ecx
+:00705136 740B                    je 00705143
+:00705138 C1E203                  shl edx, 03
+:0070513B 83F901                  cmp ecx, 00000001
+:0070513E 7403                    je 00705143
+:00705140 C1E202                  shl edx, 02
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00705136(C), :0070513E(C)
+|
+:00705143 59                      pop ecx
+:00705144 C3                      ret

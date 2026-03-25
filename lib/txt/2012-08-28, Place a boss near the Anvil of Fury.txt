@@ -1,0 +1,10 @@
+[16:37:46] Ярик: 43C057
+
+Помнишь ты про босса спрашивал?
+if( IsQuestOnLevel(Q_10_ANVIL_OF_FURY) ){
+  v15 = (int)LoadFile("Levels\\L3Data\\Anvil.DUN", 0);
+  v16 = (char*)v15;
+  AddQuestMonsters((ushort*)v15, 2 * StartPatternRow + 2, 2 * StartPatternCol + 2);
+  FreeMem(v16);
+ }
+[16:54:27] Ярик: Для наковальни

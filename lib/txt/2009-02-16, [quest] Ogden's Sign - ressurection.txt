@@ -1,0 +1,115 @@
+Ogden's Sign quest ressurecting
+no problems, tested in SP	-check imp shamans corresponding boss slot for odd behavior
+done	-solve problem with dropping tavern sign from chest
+	-correct snotspill speeches
+	-correct townsmen speeches about the quest
+===============================================
+Chest dropping sign:
+
+	old:
+:00451210 6A0C                    push 0000000C
+:00451212 59                      pop ecx
+:00451213 E8B669FDFF              call 00427BCE
+
+
+	new:
+:0045120D E99E6B2B00              jmp 00707DB0
+:00451212 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707DB9(U)
+|
+:00451213 E8B669FDFF              call 00427BCE
+
+	extra:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045120D(U)
+|
+:00707DB0 FF75FC                  push [ebp-04]
+:00707DB3 6847010000              push 00000147
+:00707DB8 59                      pop ecx
+:00707DB9 E95594D4FF              jmp 00451213
+
+
+===============================================
+Snotspill will now check for item 147h in inventory of a player:
+
+	old:
+:00444EEB 8BCF                    mov ecx, edi
+:00444EED 50                      push eax
+:00444EEE 6A0C                    push 0000000C
+:00444EF0 5A                      pop edx
+:00444EF1 E867190300              call 0047685D
+
+
+	new:
+:00444EEB E9CE2E2C00              jmp 00707DBE
+:00444EF0 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707DC7(U)
+|
+:00444EF1 E867190300              call 0047685D
+
+	ex:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00444EEB(U)
+|
+:00707DBE 8BCF                    mov ecx, edi
+:00707DC0 50                      push eax
+:00707DC1 6847010000              push 00000147
+:00707DC6 5A                      pop edx
+:00707DC7 E925D1D3FF              jmp 00444EF1
+
+========================================================
+
+Snot's speeches:
+
+1) now I will kill you, text -> snot01, text
+2) we live again, text -> snot02, text
+3) we'll be invincible, no text -> snot03, text
+text scroll speeds adjusted also
+========================================================
+Now it's time to restore some activation sounds for some bosses:
+gyfax: 		989E0: 	v499FE0		245h
+rotfeast: 	989C8: 	v499FC8		246h
+amducian: 	989B0: 	v499FB0    	248h
+
+=======================================
+Harlequin's crest dropped?
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00476AB8(C), :00476AC1(C), :00476AC9(C), :00476AD2(C)
+|
+:00476B1C 83BE58F26F0000          cmp dword ptr [esi+006FF258], 00000000
+:00476B23 7560                    jne 00476B85
+:00476B25 8D442410                lea eax, dword ptr [esp+10]
+:00476B29 8BCF                    mov ecx, edi
+:00476B2B 50                      push eax
+:00476B2C 6A0C                    push 0000000C
+:00476B2E 5A                      pop edx
+:00476B2F E829FDFFFF              call 0047685D
+:00476B34 85C0                    test eax, eax
+:00476B36 744D                    je 00476B85
+:00476B38 8B542410                mov edx, dword ptr [esp+10]
+:00476B3C 8BCF                    mov ecx, edi
+:00476B3E C6051EB46E0003          mov byte ptr [006EB41E], 03
+:00476B45 C60530B46E0003          mov byte ptr [006EB430], 03
+:00476B4C E82EA3FAFF              call 00420E7F
+:00476B51 8B860CF26F00            mov eax, dword ptr [esi+006FF20C]
+:00476B57 8B9608F26F00            mov edx, dword ptr [esi+006FF208]
+:00476B5D 40                      inc eax
+:00476B5E 50                      push eax
+:00476B5F 6A05                    push 00000005
+:00476B61 59                      pop ecx
+:00476B62 E8DD09FBFF              call 00427544
+:00476B67 C78650F26F0096000000    mov dword ptr [esi+006FF250], 00000096
+:00476B71 89BEA8F26F00            mov dword ptr [esi+006FF2A8], edi
+:00476B77 6A0D                    push 0000000D
+:00476B79 59                      pop ecx
+:00476B7A E8C479FBFF              call 0042E543
+:00476B7F 899E58F26F00            mov dword ptr [esi+006FF258], ebx
+
+
+
+palantir = 38h

@@ -1,0 +1,507 @@
+New Oil of Repair. a stronger version of Blacksmith Oil...
+repairs 75%, up to 50 points
+if aplied on an undamaged item, increases durability by 2 points
+
+	mod:
+:0042856B E9D0FC2D00              jmp 00708240
+
+	and:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708253(U)
+|
+:00708235 D1E8                    shr eax, 1
+:00708237 51                      push ecx
+:00708238 8BC8                    mov ecx, eax
+:0070823A D1E9                    shr ecx, 1
+:0070823C 03C1                    add eax, ecx
+:0070823E EB15                    jmp 00708255
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042856B(U)
+|
+:00708240 8B8EF0000000            mov ecx, dword ptr [esi+000000F0]
+:00708246 8BBEEC000000            mov edi, dword ptr [esi+000000EC]
+:0070824C 3BF9                    cmp edi, ecx
+:0070824E 7D19                    jge 00708269
+:00708250 8D4101                  lea eax, dword ptr [ecx+01]
+:00708253 EBE0                    jmp 00708235
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070823E(U)
+|
+:00708255 59                      pop ecx
+:00708256 6A32                    push 00000032
+:00708258 5B                      pop ebx
+:00708259 3BC3                    cmp eax, ebx
+:0070825B 7E02                    jle 0070825F
+:0070825D 8BC3                    mov eax, ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070825B(C)
+|
+:0070825F 03C7                    add eax, edi
+:00708261 3BC1                    cmp eax, ecx
+:00708263 7E19                    jle 0070827E
+:00708265 8BC1                    mov eax, ecx
+:00708267 EB15                    jmp 0070827E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070824E(C)
+|
+:00708269 81F996000000            cmp ecx, 00000096
+:0070826F 0F8D3603D2FF            jnl 004285AB
+:00708275 8D4102                  lea eax, dword ptr [ecx+02]
+:00708278 8986F0000000            mov dword ptr [esi+000000F0], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00708263(C), :00708267(U)
+|
+:0070827E 8986EC000000            mov dword ptr [esi+000000EC], eax
+:00708284 E92203D2FF              jmp 004285AB
+:00708289 90                      nop
+
+
+======================================================================
+
+The Butcher's Oil:
+raises minimum damage by 10 and maximum by 20 on Horror
+min: 15, max: 35 on Purg
+min: 20, max: 50 on Doom
+available only in Singleplayer...
+
+9FEDF2 - name pointer
+
+
+	the code (replaces oil of skill):
+:0042848B 8B96D0000000            mov edx, dword ptr [esi+000000D0]
+:00428491 8D8ED0000000            lea ecx, dword ptr [esi+000000D0]
+:00428497 8D86CC000000            lea eax, dword ptr [esi+000000CC]
+:0042849D 8BFA                    mov edi, edx
+:0042849F 8B30                    mov esi, dword ptr [eax]
+:004284A1 2BFE                    sub edi, esi
+:004284A3 833DC070600001          cmp dword ptr [006070C0], 00000001
+:004284AA 741D                    je 004284C9
+:004284AC 833DC070600002          cmp dword ptr [006070C0], 00000002
+:004284B3 7428                    je 004284DD
+:004284B5 81FF96000000            cmp edi, 00000096
+:004284BB 7D0A                    jge 004284C7
+:004284BD 83C60A                  add esi, 0000000A
+:004284C0 83C214                  add edx, 00000014
+:004284C3 8930                    mov dword ptr [eax], esi
+:004284C5 8911                    mov dword ptr [ecx], edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004284BB(C), :004284CF(C), :004284DB(U), :004284E3(C), :004284EF(U)
+|
+:004284C7 EBBD                    jmp 00428486
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004284AA(C)
+|
+:004284C9 81FFC8000000            cmp edi, 000000C8
+:004284CF 7DF6                    jge 004284C7
+:004284D1 83C60F                  add esi, 0000000F
+:004284D4 83C223                  add edx, 00000023
+:004284D7 8930                    mov dword ptr [eax], esi
+:004284D9 8911                    mov dword ptr [ecx], edx
+:004284DB EBEA                    jmp 004284C7
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004284B3(C)
+|
+:004284DD 81FFFA000000            cmp edi, 000000FA
+:004284E3 7DE2                    jge 004284C7
+:004284E5 83C614                  add esi, 00000014
+:004284E8 83C232                  add edx, 00000032
+:004284EB 8930                    mov dword ptr [eax], esi
+:004284ED 8911                    mov dword ptr [ecx], edx
+:004284EF EBD6                    jmp 004284C7
+:004284F1 90                      nop
+:004284F2 90                      nop
+
+
+
+
+---------------------------------------------------------------
+Oil of Death is now also usable on bows:
+
+file offset 000277DD
+
+:004283DD 83F921                  cmp ecx, 00000021
+changed into
+:004283DD 83F922                  cmp ecx, 00000022
+=====================================================
+Providing images:
+
+BS Oil - brite OR [done]
+Forte - brite red [done]
+Accu - pale blue, 248, a001h
+Mast - brite ble, 393, 3102h
+Effe - pale yellow, 250, a201h
+Death - brite yellow, 394, 3202h
+Hard - pale brown, 249, a101h
+Imper - dark brown, 395, 3302h
+
+========================================================================
+Added oils of accuracy, mastery, effectiveness (ex-sharpness) and death
+
+maxDmg-minDmg difference for damage increasing oils raised from 30 pts to 100 pts
+
+New  Oil of Mastery: adds random [3-10]% to weapons tohit chance
+
+	Doing:
+:004285B6 2A844200                DWORD 0042842A
+
+	More:
+:0042842A E911F92D00              jmp 00707D40
+:0042842F 90                      nop
+:00428430 90                      nop
+:00428431 90                      nop
+:00428432 90                      nop
+:00428433 90                      nop
+:00428434 90                      nop
+:00428435 90                      nop
+:00428436 90                      nop
+:00428437 90                      nop
+
+	Extra:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042842A(U)
+|
+:00707D40 81C6F8000000            add esi, 000000F8
+:00707D46 833E64                  cmp dword ptr [esi], 00000064
+:00707D49 0F8D5C08D2FF            jnl 004285AB
+:00707D4F 6A08                    push 00000008
+:00707D51 B144                    mov cl, 44
+:00707D53 5A                      pop edx
+:00707D54 E94908D2FF              jmp 004285A2			<continue...
+:00707D59 90                      nop
+:00707D5A 90                      nop
+=========================================================
+12:12 13.07.2009
+Oil of Effectiveness:
+now increases max damage by 1 if:
+max damage below 200
+&
+maxDmg-minDmg below 100
+
+
+:0042842F 8B8ED0000000            mov ecx, dword ptr [esi+000000D0]
+:00428435 8D86D0000000            lea eax, dword ptr [esi+000000D0]
+:0042843B 8BD1                    mov edx, ecx
+:0042843D 2B96CC000000            sub edx, dword ptr [esi+000000CC]
+:00428443 83FA64                  cmp edx, 00000064
+:00428446 0F8D5F010000            jnl 004285AB
+:0042844C E94F0F2E00              jmp 007093A0
+:00428451 90                      nop
+:00428452 90                      nop
+:00428453 90                      nop
+:00428454 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007093AC(U)
+|
+:00428455 41                      inc ecx
+
+
+and:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042844C(U)
+|
+:007093A0 81F9C8000000            cmp ecx, 000000C8
+:007093A6 0F8DFFF1D1FF            jnl 004285AB
+:007093AC E9A4F0D1FF              jmp 00428455
+:007093B1 90                      nop
+
+
+
+
+
+Oil of Death:
+now increases min damage by 1 & max damage by 3 if:
+max damage below 250
+&
+maxDmg-minDmg below 125
+
+:0042845D 8B96D0000000            mov edx, dword ptr [esi+000000D0]
+:00428463 8D8ED0000000            lea ecx, dword ptr [esi+000000D0]
+:00428469 8D86CC000000            lea eax, dword ptr [esi+000000CC]
+:0042846F 8BFA                    mov edi, edx
+:00428471 8B30                    mov esi, dword ptr [eax]
+:00428473 2BFE                    sub edi, esi
+:00428475 E93E0F2E00              jmp 007093B8
+:0042847A 90                      nop
+:0042847B 90                      nop
+:0042847C 90                      nop
+:0042847D 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007093CD(U)
+|
+:0042847E 46                      inc esi
+
+and:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00428475(U)
+|
+:007093B8 83FF7D                  cmp edi, 0000007D
+:007093BB 0F8DEAF1D1FF            jnl 004285AB
+:007093C1 81FAFA000000            cmp edx, 000000FA
+:007093C7 0F8DDEF1D1FF            jnl 004285AB
+:007093CD E9ACF0D1FF              jmp 0042847E
+:007093D2 90                      nop
+
+
+=========================================================
+td53:
+
+Improved Hardening Oils: 4-5 is now 5-7
+
+file offset 00027984
+
+:00428584 6A02                    push 00000002
+:00428586 5A                      pop edx
+:00428587 B144                    mov cl, 44
+:00428589 E811980200              call 00451D9F
+:0042858E 03C3                    add eax, ebx
+:00428590 90                      nop
+changed into
+:00428584 6A03                    push 00000003
+:00428586 ...
+:00428590 40                      inc eax
+
+
+Improved Imperviousness Oils: 6-8 is now 8-12
+
+file offset 000279A7
+
+:004285A7 40                      inc eax
+:004285A8 40                      inc eax
+changed into
+:004285A7 D1E0                    shl eax, 1
+
+
+Improved Accuracy Oils: 4-5 is now 14-16
+
+file offset 00027822
+
+:00428422 E95D010000              jmp 00428584
+:00428427 90                      nop
+:00428428 90                      nop
+:00428429 90                      nop
+changed into
+:00428422 C1E302                  shl ebx, 02
+:00428425 E95A010000              jmp 00428584
+:0042842A
+
+Oils of Mastery no longer exist.
+
+
+Allow Grizwold to sell Blacksmith oils:
+
+file offset 00029523
+
+:0042A123 E88BFFFFFF              call 0042A0B3			check for allowed item types
+changed into
+:0042A123 E85C890200              call 00452A84			check for BS Oil and allowed item types
+:0042A128 
+
+Using free space from removed Glimmering Shrine:
+
+file offset 00051E84
+
+:00452A84 85C0                    test eax, eax
+:00452A86 0F85E0050000            jne 0045306C
+:00452A8C 8B0DE8AD6E00            mov ecx, dword ptr [006EADE8]
+:00452A92 EB07                    jmp 00452A9B
+changed into
+:00452A84 83F954                  cmp ecx, 00000054		base item number for Blacksmith Oil
+:00452A87 0F852676FDFF            jne 0042A0B3
+:00452A8D 6A01                    push 00000001
+:00452A8F 58                      pop eax
+:00452A90 C3                      ret
+:00452A91 909090                  3*nop
+
+
+Prices for Blacksmith and Accuracy Oils will be increased (see DataFixes42Y.txt).
+
+
+Preventing Tome of Lore from treating the Orb of Revival (now Oil of Accuracy) as Identify Scroll:
+
+file offset 0004316B
+
+:00443D6B 83FA70                  cmp edx, 00000070
+changed into
+:00443D6B 83FA6D                  cmp edx, 0000006D	spare base item number for Tome of Lore
+
+
+=========================================================================================
+Great revision of Oils:
+15:29 20.12.2009
+all damage, accuracy and AC increaing oils are replaced with durability modifiers
+
+
+:004285B2 1C844200                DWORD 0042841C	oil of accuracy: +[1-2]% ToHit
+:004285B6 2A844200                DWORD 0042842A	oil of mastery: +[3-10]% Tohit
+:004285BA 38844200                DWORD 00428438	oil of effectiveness: +1 to minDmg
+:004285BE 5D844200                DWORD 0042845D	oil of death: +1 to minDmg, + 3 to maxDmg
+:004285C2 8B844200                DWORD 0042848B	the butcher's oil: a complex thing, see Oil Changes.txt...
+:004285C6 F3844200                DWORD 004284F3	blacksmith oil: repairs 50%, up to 25 pts, or +1 to maxDur if item is repaired and maxDur < 100
+:004285CA 3C854200                DWORD 0042853C	oil of fortitude: +[2-5] to current and maximum durability if maxDur < 200
+:004285CE 6B854200                DWORD 0042856B	oil of permanence: unused
+:004285D2 7E854200                DWORD 0042857E	oil of hardening: +[1-2] AC (if < 60)
+:004285D6 93854200                DWORD 00428593	oil of imperviousness: +[3-5] AC (if < 120)
+
+accuracy >> repair 5-10 dur. points 			(oil of repair)		4A5F4E,	1a3h,	640h (50)
+mastery >> repair 10-20 dur points 			(oil of repair)		4A5F4E,	1a2h,	C80h (100)
+effectiveness >> repair 20-30 dur points 		(oil of repair)		4A5F4E,	1a1h,	12C0h (150)
+death >> repair 30-40 dur points 			(oil of repair)		4A5F4E,	1a0h,	1900h (200)
+the butcher's oil >> repair 40-50 dur points 		(oil of repair)		4A5F4E,	232H,	1F40h (250)
+blacksmith oil >> +1 max durability, max=100 		(blacksmith oil)		1B8h,	FA0h (125)
+oil of fortitude >> +[2-5] dur, max=200 		(oil of fortitude)		238h,	7D00h (1000)
+oil of permanence >> repair 50-60 dur points 		(oil of repair)		4A5F4E,	11H,	2580h (300)
+oil of hardening >> repair 60-75 dur points 		(oil of repair)		4A5F4E,	100h,	3200h (400)
+oil of imperviousness >> +2 max durability, mx=150 	(oil of hardening)		1B9h,	2BC0h (350)
+
+
+1	accuracy - 		6: 1, 	2, 	3, 	6, 	14, 	24		rename to:	oil of repair1
+2	mastery - 		1: 27							rename to:	oil of repair2
+3	effect - 		7: 1, 	1, 	2, 	3, 	6, 	14, 	24	rename to:	oil of repair3
+4	death - 		1: 26							rename to:	oil of repair4
+5	butcher's - 		0: 0							rename to:	oil of repair5
+6	blacksmith oil - 	5: 1, 	9, 	2, 	20, 	32			rename to:	blacksmith oil
+7	fortitude - 		1: 15							rename to:	oil of fortitude
+8	repair - 		2: 16, 	32						rename to:	oil of repair6
+9	hardening - 		2: 1, 	7						rename to:	oil of repair7
+10	imperv - 		1: 26							rename to:	oil of hardening
+
+..........
+
+
+
+..........
+
+v1	repair1 4a574F
+v1	repair1
+v1	repair1
+v1	repair1
+v1	blacksmith oil
+v2	repair1
+v2	blacksmith oil
+v2	repair1
+v3	blacksmith oil
+v3	repair2
+v6	repair2
+v6	repair3
+v7	blacksmith oil
+v9	repair3
+v14	blacksmith oil
+v14	repair4
+v15	hardening 4a5768
+v16	repair4
+v20	repair5
+v22	repair6
+v24	repair5
+v24	hardening
+v26	repair6
+v26	repair7
+v27	oil of fortitude
+v32	repair7
+
+
+===========
+
+:0042882D F8854200                DWORD 004285F8
+:00428831 1E864200                DWORD 0042861E
+:00428835 44864200                DWORD 00428644
+:00428839 6A864200                DWORD 0042866A
+:0042883D 90864200                DWORD 00428690
+:00428841 B6864200                DWORD 004286B6
+:00428845 DC864200                DWORD 004286DC
+:00428849 02874200                DWORD 00428702
+:0042884D 0C874200                DWORD 0042870C
+:00428851 32874200                DWORD 00428732
+
+renaming:
+oil of repair: 4a574f
+
+i:	4a574f
+ii:	4a56a0
+iii:	4a56b9
+iv:	4a56d2
+v:	4a56eb
+vi:	4a5704
+vii:	4a5781
+
+
+===============
+
+Oil of hardening:
+10:35 19.03.2010
+added check to prevent durability from going beyond 150
+
+
+	old code:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00428575(U)
+|
+:0070B490 8B8EF0000000            mov ecx, dword ptr [esi+000000F0]
+:0070B496 8BBEEC000000            mov edi, dword ptr [esi+000000EC]
+:0070B49C 81F996000000            cmp ecx, 00000096
+:0070B4A2 7D09                    jge 0070B4AD
+:0070B4A4 8D4102                  lea eax, dword ptr [ecx+02]
+:0070B4A7 8986F0000000            mov dword ptr [esi+000000F0], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B4A2(C)
+|
+:0070B4AD 6A01                    push 00000001
+:0070B4AF 58                      pop eax
+:0070B4B0 5F                      pop edi
+:0070B4B1 5E                      pop esi
+:0070B4B2 5B                      pop ebx
+:0070B4B3 C3                      ret
+
+
+:0070B4B4 90                      nop
+:0070B4B5 90                      nop
+
+
+	new:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00428575(U)
+|
+:0070B490 8B8EF0000000            mov ecx, dword ptr [esi+000000F0]
+:0070B496 8BBEEC000000            mov edi, dword ptr [esi+000000EC]
+:0070B49C 81F995000000            cmp ecx, 00000095
+:0070B4A2 7510                    jne 0070B4B4
+:0070B4A4 8D4101                  lea eax, dword ptr [ecx+01]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B4BF(U)
+|
+:0070B4A7 8986F0000000            mov dword ptr [esi+000000F0], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B4BA(C)
+|
+:0070B4AD 6A01                    push 00000001
+:0070B4AF 58                      pop eax
+:0070B4B0 5F                      pop edi
+:0070B4B1 5E                      pop esi
+:0070B4B2 5B                      pop ebx
+:0070B4B3 C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B4A2(C)
+|
+:0070B4B4 81F995000000            cmp ecx, 00000095
+:0070B4BA 7DF1                    jge 0070B4AD
+:0070B4BC 8D4102                  lea eax, dword ptr [ecx+02]
+:0070B4BF EBE6                    jmp 0070B4A7
+:0070B4C1 90                      nop
+:0070B4C2 90                      nop
+:0070B4C3 90                      nop
+:0070B4C4 90                      nop

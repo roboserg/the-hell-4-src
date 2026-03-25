@@ -1,0 +1,78 @@
+004212E2
+
+
+
+
+hob:
+
+mov edi, 0ach ; 172 нижняя граница
+ YarikMudry (23:23:44 11/08/2012) 
+cmp     [esi+54d8h], edi ; player.ItemOnCursor.UniqueItemIndex сравнить с 172
+jb     @return ; jump if below  @return метка возврата
+ YarikMudry (23:24:56 11/08/2012) 
+mov edi, 0aeh ; 174 верхняя граница
+cmp     [esi+54d8h], edi ; player.ItemOnCursor.UniqueItemIndex сравнить с 174
+ja     @return ; jump if above  @return метка возврата
+ YarikMudry (23:26:02 11/08/2012) 
+mov     Struct28Array.field_2+0E0h, 3
+ YarikMudry (23:26:48 11/08/2012) 
+; hallsOfTheBlindQuest.Status = 3; установить статус этого квеста 3 похоже для него это значит завершение
+ YarikMudry (23:27:01 11/08/2012) 
+jmp @return
+ YarikMudry (23:27:08 11/08/2012) 
+Ну вот и всё
+
+DOING!
+
+
+
+:004212FE E976032F00              jmp 00711679
+:00421303 90                      nop
+ 302563839@qip.ru (00:49:54 12/08/2012) 
+:00711679 8D3401                  lea esi, dword ptr [ecx+eax]
+:0071167C 89442420                mov dword ptr [esp+20], eax
+:00711680 81BED8540000AC000000    cmp dword ptr [esi+000054D8], 000000AC
+:0071168A 7213                    jb 0071169F
+:0071168C 81BED8540000AE000000    cmp dword ptr [esi+000054D8], 000000AE
+:00711696 7707                    ja 0071169F
+:00711698 C6053AB46E0003          mov byte ptr [006EB43A], 03
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071168A(C), :00711696(C)
+|
+:0071169F 6A0A                    push 0000000A
+:007116A1 5F                      pop edi
+:007116A2 E970FCD0FF              jmp 00421317
+
+
+this works, by checking for specific unique item slots
+
+
+==
+==
+==
+
+valor
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00421517(U)
+|
+:007116D0 81BED8540000B2000000    cmp dword ptr [esi+000054D8], 000000B2
+:007116DA 7224                    jb 00711700
+:007116DC 81BED8540000B5000000    cmp dword ptr [esi+000054D8], 000000B5
+:007116E6 721D                    jb 00711705
+:007116E8 81BED854000070010000    cmp dword ptr [esi+000054D8], 00000170
+:007116F2 720C                    jb 00711700
+:007116F4 81BED854000079010000    cmp dword ptr [esi+000054D8], 00000179
+:007116FE 7205                    jb 00711705
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007116DA(C), :007116F2(C)
+|
+:00711700 E986FED0FF              jmp 0042158B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007116E6(C), :007116FE(C)
+|
+:00711705 E916FED0FF              jmp 00421520
+:0071170A 90                      nop

@@ -1,0 +1,367 @@
+Types of base items that bosses can drop (?)
+
+
+* Referenced by a CALL at Addresses:
+|:0042749B   , :00427601   
+|
+:00426D8B 55                      push ebp
+:00426D8C 8BEC                    mov ebp, esp
+:00426D8E 81EC0C080000            sub esp, 0000080C
+:00426D94 53                      push ebx
+:00426D95 56                      push esi
+:00426D96 83F9FF                  cmp ecx, FFFFFFFF
+:00426D99 57                      push edi
+:00426D9A 894DF8                  mov dword ptr [ebp-08], ecx
+:00426D9D 742E                    je 00426DCD
+:00426D9F 69C9E4000000            imul ecx, 000000E4
+:00426DA5 8B8168DD6900            mov eax, dword ptr [ecx+0069DD68]
+:00426DAB 668B4878                mov cx, word ptr [eax+78]
+:00426DAF F6C580                  test ch, 80
+:00426DB2 7419                    je 00426DCD
+:00426DB4 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00426DBB 7510                    jne 00426DCD
+:00426DBD 81E1FF0F0000            and ecx, 00000FFF
+:00426DC3 83C8FF                  or eax, FFFFFFFF
+:00426DC6 2BC1                    sub eax, ecx
+:00426DC8 E9CE000000              jmp 00426E9B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00426D9D(C), :00426DB2(C), :00426DBB(C)
+|
+:00426DCD E824C8FFFF              call 004235F6
+:00426DD2 8365FC00                and dword ptr [ebp-04], 00000000
+:00426DD6 33FF                    xor edi, edi
+:00426DD8 803D05509000FF          cmp byte ptr [00905005], FF		
+:00426DDF 8945F4                  mov dword ptr [ebp-0C], eax
+:00426DE2 0F84A2000000            je 00426E8A
+:00426DE8 8D95F4F7FFFF            lea edx, dword ptr [ebp+FFFFF7F4]
+:00426DEE B90C509000              mov ecx, 0090500C			<< ecx = byte 12 in base item data (Item Code)
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00426E84(C)
+|
+:00426DF3 8379F400                cmp dword ptr [ecx-0C], 00000000	<< compare byte 0 (12 - 12), findability
+:00426DF7 6A01                    push 00000001
+:00426DF9 5E                      pop esi
+:00426DFA 7502                    jne 00426DFE				<< if findable, esi = 1
+:00426DFC 33F6                    xor esi, esi				<< if not, esi = 0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00426DFA(C)
+|
+:00426DFE 837DF8FF                cmp dword ptr [ebp-08], FFFFFFFF
+:00426E02 7414                    je 00426E18
+:00426E04 8B45F8                  mov eax, dword ptr [ebp-08]
+:00426E07 69C0E4000000            imul eax, 000000E4
+:00426E0D 8A8048DD6900            mov al, byte ptr [eax+0069DD48]	<< al = mlvl
+:00426E13 3A410C                  cmp al, byte ptr [ecx+0C]		<< cmp al to ecx+12 (processed item's qlvl)
+:00426E16 EB0B                    jmp 00426E23
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00426E02(C)
+|
+:00426E18 8B45F4                  mov eax, dword ptr [ebp-0C]		
+:00426E1B 0FBE590C                movsx ebx, byte ptr [ecx+0C]		<< ebx = item qlvl
+:00426E1F 03C0                    add eax, eax
+:00426E21 3BC3                    cmp eax, ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00426E16(U)
+|
+:00426E23 7D02                    jge 00426E27
+:00426E25 33F6                    xor esi, esi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00426E23(C)
+|
+:00426E27 8A01                    mov al, byte ptr [ecx]		<< al = item code (byte 12)
+:00426E29 84C0                    test al, al				<< check if code is other items (pots, relix, books..)
+:00426E2B 7502                    jne 00426E2F
+:00426E2D 33F6                    xor esi, esi				<< esi = 0 if equal
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00426E2B(C)
+|
+:00426E2F 3C0B                    cmp al, 0B				<< if gold..
+:00426E31 7502                    jne 00426E35
+:00426E33 33F6                    xor esi, esi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00426E31(C)
+|
+:00426E35 3C0E                    cmp al, 0E				<< ???
+:00426E37 7502                    jne 00426E3B
+:00426E39 33F6                    xor esi, esi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00426E37(C)
+|
+:00426E3B 83792C18                cmp dword ptr [ecx+2C], 00000018	<< if data byte 38h = 18 (book)
+:00426E3F EB03                    jmp 00426E44				<< left as zero (bosses dont drop books in TH)
+:00426E41 6A01                    push 00000001
+:00426E43 5E                      pop esi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00426E3F(U)
+|
+:00426E44 8B4130                  mov eax, dword ptr [ecx+30]		<< spell number
+:00426E47 83F820                  cmp eax, 00000020			<< ressurect...
+:00426E4A 750B                    jne 00426E57
+:00426E4C 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00426E53 7502                    jne 00426E57
+:00426E55 33F6                    xor esi, esi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00426E4A(C), :00426E53(C)
+|
+:00426E57 83F822                  cmp eax, 00000022			<< heal other
+:00426E5A 750B                    jne 00426E67	
+:00426E5C 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00426E63 7502                    jne 00426E67
+:00426E65 33F6                    xor esi, esi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00426E5A(C), :00426E63(C)
+|
+:00426E67 85F6                    test esi, esi
+:00426E69 7411                    je 00426E7C
+:00426E6B 817DFC00020000          cmp dword ptr [ebp-04], 00000200
+:00426E72 7D08                    jge 00426E7C
+:00426E74 FF45FC                  inc [ebp-04]
+:00426E77 893A                    mov dword ptr [edx], edi
+:00426E79 83C204                  add edx, 00000004
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00426E69(C), :00426E72(C)
+|
+:00426E7C 83C14C                  add ecx, 0000004C
+:00426E7F 47                      inc edi
+:00426E80 8079F9FF                cmp byte ptr [ecx-07], FF
+:00426E84 0F8569FFFFFF            jne 00426DF3
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00426DE2(C)
+|
+:00426E8A 8B55FC                  mov edx, dword ptr [ebp-04]
+:00426E8D B119                    mov cl, 19
+:00426E8F E8C630FFFF              call 00419F5A
+:00426E94 8B8485F4F7FFFF          mov eax, dword ptr [ebp+4*eax-0000080C]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00426DC8(U)
+|
+:00426E9B 5F                      pop edi
+:00426E9C 5E                      pop esi
+:00426E9D 5B                      pop ebx
+:00426E9E C9                      leave
+:00426E9F C3                      ret
+
+
+========================================================================
+========================================================================
+
+droppability
+
+STR check:
+horror:
+20 + dlvl*5
+purg:
+135 + dlvl*5
+doom:
+unlimited
+
+MAG check:
+same
+
+DEX check:
+same
+
+
+	Plan:
+
+eax can be used
+
+0FB605C0706000          movzx eax, byte ptr [006070C0]
+cmp eax, 01
+jb 'hora'
+je 'purgo'
+
+	hora:
+0FB605D8B16000          movzx eax, byte ptr [0060B1D8]
+
+
+0FB65901                movzx ebx, byte ptr [ecx+01]
+
+
+eax = limit
+movzx ebx, byte ptr [ecx+24]		0FB65924
+cmp eax, ebx
+
+= = = = = = =
+
+INSERT EBX
+
+CMP EAX, EBX.....
+
+
+
+
+
+
+
+	the code:
+
+:00426E3B E958832E00              jmp 0070F198
+
+
+	extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00426E3B(U)
+|
+:0070F198 33C0                    xor eax, eax
+:0070F19A 53                      push ebx
+:0070F19B 0FB605C0706000          movzx eax, byte ptr [006070C0]
+:0070F1A2 83F801                  cmp eax, 00000001
+:0070F1A5 720A                    jb 0070F1B1					<< Horror
+:0070F1A7 7435                    je 0070F1DE					<< Purg
+:0070F1A9 EB75                    jmp 0070F220					<< Doom
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070F1DC(U), :0070F29A(U)
+|
+:0070F1AB 5B                      pop ebx
+:0070F1AC E9937CD1FF              jmp 00426E44
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070F1A5(C)
+|
+:0070F1B1 0FB605D8B16000          movzx eax, byte ptr [0060B1D8]
+:0070F1B8 6BC005                  imul eax, 00000005
+:0070F1BB 83C014                  add eax, 00000014
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070F1EE(U)
+|
+:0070F1BE 0FB65924                movzx ebx, byte ptr [ecx+24]
+:0070F1C2 3BC3                    cmp eax, ebx
+:0070F1C4 7D02                    jge 0070F1C8
+:0070F1C6 33F6                    xor esi, esi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070F1C4(C)
+|
+:0070F1C8 0FB65925                movzx ebx, byte ptr [ecx+25]
+:0070F1CC 3BC3                    cmp eax, ebx
+:0070F1CE 7D02                    jge 0070F1D2
+:0070F1D0 33F6                    xor esi, esi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070F1CE(C)
+|
+:0070F1D2 0FB65926                movzx ebx, byte ptr [ecx+26]
+:0070F1D6 3BC3                    cmp eax, ebx
+:0070F1D8 7D02                    jge 0070F1DC
+:0070F1DA 33F6                    xor esi, esi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070F1D8(C)
+|
+:0070F1DC EBCD                    jmp 0070F1AB
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070F1A7(C)
+|
+:0070F1DE 0FB605D8B16000          movzx eax, byte ptr [0060B1D8]
+:0070F1E5 6BC005                  imul eax, 00000005
+:0070F1E8 81C087000000            add eax, 00000087
+:0070F1EE EBCE                    jmp 0070F1BE
+:0070F1F0 90                      nop
+...
+:0070F21F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:		<< Doom checks !!!!!!
+|:0070F1A9(U)
+|
+:0070F220 0FB601                  movzx eax, byte ptr [ecx]			<< Armor, lite
+:0070F223 83F806                  cmp eax, 00000006			
+:0070F226 7502                    jne 0070F22A					skip if mail/plate
+:0070F228 33F6                    xor esi, esi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070F226(C)
+|
+:0070F22A 83F807                  cmp eax, 00000007				<< helms
+:0070F22D 750B                    jne 0070F23A
+:0070F22F 0FB65920                movzx ebx, byte ptr [ecx+20]
+:0070F233 83FB0A                  cmp ebx, 0000000A				<< if maxAC >= 10
+:0070F236 7302                    jnb 0070F23A					skip
+:0070F238 33F6                    xor esi, esi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070F22D(C), :0070F236(C)
+|
+:0070F23A 83F805                  cmp eax, 00000005				<< shield
+:0070F23D 750B                    jne 0070F24A
+:0070F23F 0FB65920                movzx ebx, byte ptr [ecx+20]
+:0070F243 83FB10                  cmp ebx, 00000010				
+:0070F246 7302                    jnb 0070F24A					skip if maxAC >= 16
+:0070F248 33F6                    xor esi, esi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070F23D(C), :0070F246(C)
+|
+:0070F24A 83F802                  cmp eax, 00000002				<< axe
+:0070F24D 750B                    jne 0070F25A
+:0070F24F 0FB65918                movzx ebx, byte ptr [ecx+18]
+:0070F253 83FB6E                  cmp ebx, 0000006E
+:0070F256 7302                    jnb 0070F25A					<< skip if maxDmg >= 110
+:0070F258 33F6                    xor esi, esi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070F24D(C), :0070F256(C)
+|
+:0070F25A 83F803                  cmp eax, 00000003				<< bow
+:0070F25D 750B                    jne 0070F26A
+:0070F25F 0FB65918                movzx ebx, byte ptr [ecx+18]
+:0070F263 83FB32                  cmp ebx, 00000032
+:0070F266 7302                    jnb 0070F26A					<< if maxDmg > 49
+:0070F268 33F6                    xor esi, esi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070F25D(C), :0070F266(C)
+|
+:0070F26A 83F804                  cmp eax, 00000004				<< blunt
+:0070F26D 750B                    jne 0070F27A
+:0070F26F 0FB65918                movzx ebx, byte ptr [ecx+18]
+:0070F273 83FB1C                  cmp ebx, 0000001C
+:0070F276 7302                    jnb 0070F27A					<< if maxDmg > 27
+:0070F278 33F6                    xor esi, esi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070F26D(C), :0070F276(C)
+|
+:0070F27A 83F80A                  cmp eax, 0000000A				<< staff
+:0070F27D 750B                    jne 0070F28A
+:0070F27F 0FB6590C                movzx ebx, byte ptr [ecx+0C]
+:0070F283 83FB13                  cmp ebx, 00000013
+:0070F286 7302                    jnb 0070F28A					<< if qlvl > 18
+:0070F288 33F6                    xor esi, esi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070F27D(C), :0070F286(C)
+|
+:0070F28A 83F801                  cmp eax, 00000001				<< sharp
+:0070F28D 750B                    jne 0070F29A
+:0070F28F 0FB65918                movzx ebx, byte ptr [ecx+18]
+:0070F293 83FB31                  cmp ebx, 00000031
+:0070F296 7302                    jnb 0070F29A					<< if maxDmg > 48
+:0070F298 33F6                    xor esi, esi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070F28D(C), :0070F296(C)
+|
+:0070F29A E90CFFFFFF              jmp 0070F1AB
+:0070F29F 90                      nop
+:0070F2A0 90                      nop
+:0070F2A1 90                      nop

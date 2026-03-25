@@ -1,0 +1,27 @@
+Per-frame damage cap from below fixed in MvP Missile:
+(dlvl-3 flash from monsters used to be capped at zero, now minimum is one)
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070CF0E(U)
+|
+:00719480 833DC070600002          cmp dword ptr [006070C0], 00000002
+:00719487 7505                    jne 0071948E
+:00719489 E9893AFFFF              jmp 0070CF17
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719487(C)
+|
+:0071948E 83F801                  cmp eax, 00000001
+:00719491 7602                    jbe 00719495
+:00719493 EB03                    jmp 00719498
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719491(C)
+|
+:00719495 6A01                    push 00000001
+:00719497 58                      pop eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719493(U)
+|
+:00719498 E9463AFFFF              jmp 0070CEE3

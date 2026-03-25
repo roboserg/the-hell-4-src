@@ -1,0 +1,16 @@
+not implemented !!!!
+
+
+:0043E596 A114AE6E00              mov eax, dword ptr [006EAE14]
+:0043E59B F684304355000004        test byte ptr [eax+esi+00005543], 04
+:0043E5A3 7437                    je 0043E5DC
+:0043E5A5 6A03                    push 00000003						<< this seems like thorns' MAX damage value
+:0043E5A7 B163                    mov cl, 63
+:0043E5A9 5A                      pop edx
+:0043E5AA E8ABB9FDFF              call 00419F5A
+:0043E5AF 40                      inc eax
+:0043E5B0 8D8F1CDD6900            lea ecx, dword ptr [edi+0069DD1C]
+:0043E5B6 C1E006                  shl eax, 06
+:0043E5B9 2901                    sub dword ptr [ecx], eax
+
+seems its wrong tho...

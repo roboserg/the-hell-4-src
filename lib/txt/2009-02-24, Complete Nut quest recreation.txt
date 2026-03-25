@@ -1,0 +1,5 @@
+Redoing Cow quest
+
+
+grey suit = 2Fh		bludgeon
+brown suit = 2Eh	large bone

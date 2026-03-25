@@ -1,0 +1,183 @@
+[23:32:40] ßðèê: TheHell2_Debug.exe:00480CAF push    ebp
+TheHell2_Debug.exe:00480CB0 mov     ebp, esp
+TheHell2_Debug.exe:00480CB2 mov     eax, [ebp+8]
+TheHell2_Debug.exe:00480CB5 imul    eax, 0B0h
+TheHell2_Debug.exe:00480CBB push    esi
+TheHell2_Debug.exe:00480CBC push    edi
+TheHell2_Debug.exe:00480CBD push    22h
+TheHell2_Debug.exe:00480CBF push    dword ptr [ebp+24h]
+TheHell2_Debug.exe:00480CC2 mov     dword_AAF084[eax], 1
+TheHell2_Debug.exe:00480CCC call    near ptr unk_4047C8
+TheHell2_Debug.exe:00480CD1 pop     ecx
+TheHell2_Debug.exe:00480CD2 xor     edi, edi
+TheHell2_Debug.exe:00480CD4 pop     ecx
+TheHell2_Debug.exe:00480CD5 mov     esi, edi
+TheHell2_Debug.exe:00480CD7
+TheHell2_Debug.exe:00480CD7 loc_480CD7:                             ; CODE XREF: TheHell2_Debug.exe:00480D2Bj
+TheHell2_Debug.exe:00480CD7 cmp     edi, [ebp+24h]
+TheHell2_Debug.exe:00480CDA jz      short loc_480D1E
+TheHell2_Debug.exe:00480CDC mov     edx, off_BCC238
+TheHell2_Debug.exe:00480CE2 cmp     byte ptr [esi+edx+1Dh], 0
+TheHell2_Debug.exe:00480CE7 jz      short loc_480D1E
+TheHell2_Debug.exe:00480CE9 mov     ecx, [ebp+24h]
+TheHell2_Debug.exe:00480CEC mov     eax, [esi+edx+34h]
+TheHell2_Debug.exe:00480CF0 imul    ecx, 55C8h
+TheHell2_Debug.exe:00480CF6 cmp     eax, [ecx+edx+34h]
+TheHell2_Debug.exe:00480CFA jnz     short loc_480D1E
+TheHell2_Debug.exe:00480CFC push    dword ptr [esi+edx+3Ch]
+TheHell2_Debug.exe:00480D00 mov     ecx, [ebp+0Ch]
+TheHell2_Debug.exe:00480D03 push    dword ptr [esi+edx+38h]
+TheHell2_Debug.exe:00480D07 mov     edx, [ebp+10h]
+TheHell2_Debug.exe:00480D0A call    near ptr unk_4016C2
+TheHell2_Debug.exe:00480D0F test    al, al
+TheHell2_Debug.exe:00480D11 jz      short loc_480D1E
+TheHell2_Debug.exe:00480D13 xor     ecx, ecx
+TheHell2_Debug.exe:00480D15 push    edi
+TheHell2_Debug.exe:00480D16 mov     dl, 55h
+TheHell2_Debug.exe:00480D18 inc     ecx
+TheHell2_Debug.exe:00480D19 call    near ptr unk_401852
+TheHell2_Debug.exe:00480D1E
+TheHell2_Debug.exe:00480D1E loc_480D1E:                             ; CODE XREF: TheHell2_Debug.exe:00480CDAj
+TheHell2_Debug.exe:00480D1E                                         ; TheHell2_Debug.exe:00480CE7j ...
+TheHell2_Debug.exe:00480D1E add     esi, 55C8h
+TheHell2_Debug.exe:00480D24 inc     edi
+TheHell2_Debug.exe:00480D25 cmp     esi, offset unk_15720
+TheHell2_Debug.exe:00480D2B jl      short loc_480CD7
+TheHell2_Debug.exe:00480D2D pop     edi
+TheHell2_Debug.exe:00480D2E pop     esi
+TheHell2_Debug.exe:00480D2F pop     ebp
+TheHell2_Debug.exe:00480D30 retn
+
+
+
+
+[14.08.2012 23:40:33] ßðèê: 55h
+8Bh
+0ECh;ü
+8Bh
+45h;E
+8
+69h
+0C0h;L
+0B0h;-
+0
+0
+0
+56h
+57h
+6Ah
+22h;"
+0FFh
+75h;u
+24h;$
+0C7h
+80h;À
+84h;Ä
+0F0h;¨
+0AAh;ê
+0
+1
+0
+0
+0
+0E8h
+0F7h;¢
+3Ah;:
+0F8h;°
+0FFh
+59h
+33h
+0FFh
+59h
+8Bh
+0F7h;¢
+3Bh
+7Dh;}
+24h;$
+74h
+42h;B
+8Bh
+15h
+38h;8
+0C2h;T
+0BCh;-
+0
+80h
+7Ch;|
+16h
+1Dh
+0
+74h
+35h;5
+8Bh
+4Dh;M
+24h;$
+8Bh
+44h;D
+16h
+34h;4
+69h
+0C9h;ã
+0C8h;L
+55h;U
+0
+0
+3Bh
+44h;D
+11h
+34h;4
+75h
+22h;"
+0FFh
+74h;t
+16h
+3Ch;<
+8Bh
+4Dh;M
+0Ch
+0FFh
+74h;t
+16h
+38h;8
+8Bh
+55h;U
+10h
+0E8h
+0B3h;¦
+9
+0F8h;°
+0FFh
+84h
+0C0h;L
+74h
+0Bh
+33h
+0C9h;ã
+57h
+0B2h
+55h;U
+41h
+0E8h
+34h;4
+0Bh
+0F8h;°
+0FFh
+81h
+0C6h;¦
+0C8h;L
+55h;U
+0
+0
+47h
+81h
+0FEh;¦
+20h
+57h;W
+1
+0
+7Ch
+0AAh;ê
+5Fh
+5Eh
+5Dh
+0C3h

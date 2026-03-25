@@ -1,0 +1,472 @@
+
+
+=========================================================
+
+не стирать !
+
+:0042E2BB 8078E900                cmp byte ptr [eax-17], 00
+
+
+
+.text:0044EDC3 028                 cmp     [esi], eax      ; Compare Two Operands
+.text:0044EDC5 028                 jz      loc_44EEF6
+[1:42:13] Ярик: jmp @newLoc
+[1:42:28] Ярик: Это проверка на текущее состояние - смерть
+[1:42:34] Ярик: Потому трупа не пинает
+[1:43:02] Ярик: А вот при воскрешении игрок уже не труп и его успевает ещё разок долбануть
+[1:43:09] Mordor: ага
+[1:43:41] Ярик: Потому надо на новом месте добавить проверку на неуязвимость
+[1:46:13 | Edited 1:46:34] Ярик: @newLoc:
+cmp   dword ptr  [esi], eax
+jz @noDamage    
+cmp byte ptr [esi+13Fh], 0
+jnz @noDamage 
+@damage:
+jmp 0044EDCB
+@noDamage 
+jmp loc_44EEF6
+
+==============================
+
+    код:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0044EDC3(U)
+|
+:00713B00 3906                    cmp dword ptr [esi], eax
+:00713B02 740E                    je 00713B12
+:00713B04 80BE3F01000000          cmp byte ptr [esi+0000013F], 00
+:00713B0B 7505                    jne 00713B12
+:00713B0D E9B9B2D3FF              jmp 0044EDCB
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00713B02(C), :00713B0B(C)
+|
+:00713B12 E9DFB3D3FF              jmp 0044EEF6
+:00713B17 90                      nop
+
+
+=============
+
+ZERO HP GOD-MODE 
+1. First make sure you are in possession of an item that gives you + hit points. 
+2. Equip this item. 
+
+2. Now cast blood star or bone spirit till your life gets to exact the value that your + hit points item is giving you. 
+3. Cast mana shield. 
+4. Take your + hit point item off. 
+
+Your hit points should now reach 0. The character then is invincible to all forms of attack. A character with a hit point value of 0 will be killed by any sort of Healing. Be careful, before you go through a Portal or stairway, put your + hit points item back on, or you will see yourself dead in the next level or town.
+
+
+=================================================================
+Появление чемпионов.
+
+Чемпионами не рождаются чемпионами становятся =) :))
+после того как добавлены все монстры на карту выбираем случайные координаты на карте и проверяем сколько там монстров 
+таких точек зачемпионивания будет сколько угодно в зависимости от требований баланса. скорее всего надо будет делать от min до max таких областей.
+Если нашли область в которой как минимум 2 монстра подходящих (не боссы и не прислужники), то всех их делаем чемпионами. 
+Для этого в генерал монстер флаг устанавливаем какой то свободный флаг в 1, удваиваем хп и броню (с бронёй мор разберётся)
+возможно, будет полезно добавить им урона: +(10-20)%
+двойной обычный дроп. при наведении надпись чемпион *имя* синим
+В общем функция сделать чемпионом состоит только из удвоения хп и установки флага
+
+Необходимые функции:
+
+СделатьЧемпионов(минКуч, максКуч)// основная делалка
+// внутри получаем случайное количество между мин и макс и столько куч чемпионов делаем. изнутри получаем случайные координаты и вызываем с ними функцию делания чемпионов. Если получилось то она вернёт 1 если нет то пробуем ещё. Результат прибавляется к счётчику.
+
+ОбратитьКучу(row, col)
+// вначале проверить 4 клетки кучи на наличие подходящих для обращения монстров
+// если меньше 2х подходящих монстров то возвращаем 0, маловато монстров
+// если 2 и более то проходим по всем 4м и если там подходящих для обращения монстр, то обращаем его
+
+ПроверитьМонстра(row, col)
+// проверяет есть ли монстр в клетке, не является ли он боссом и не является ли он бандой босса и не является ли чемпионом. если всё соблюдается то возвращает 1 иначе 0
+
+ОбратитьМонстра(row, col)
+// вначале проверяем вышеописанной функцией. Если она вернула 0 то выходим.
+// Иначе устанавливаем флаг монстра-чемпиона и удваиваем хп
+
+Добавление в конце 0043B798 в этот момент все монстры по уровню уже расставлены
+
+1. ====================================================
+43B9A5 jmp newLoc
+
+@newLoc
+mov ecx, MIN_CHAMP_PACKS_COUNT
+mov edx, MAX_CHAMP_PACKS_COUNT; сюда статично или по хитрожопой формуле числа
+call @MakeChampions
+; затёртое
+pop     edi
+pop     esi
+pop     ebp
+pop     ebx
+add     esp, 230h
+retn                             // written
+
+2. =======================================================:00713BC0
+@MakeChampions
+push esi
+push edi
+
+push ebx ; !!!!
+mov ebx, FFFh; попыток ; !!!!
+
+call 00425A76 ; функция randFromRange возвращает случайное число между максимумом и минимумом
+mov esi, eax; реальное количество добавялемых паков
+
+@loop:// основной цикл добавления
+mov ecx, 0
+mov edx, 6E
+call 00425A76
+mov edi, eax;  row
+mov ecx, 0
+mov edx, 6E
+call 00425A76
+mov ecx, edi;  row
+mov edx, eax;  col
+call @RecruitPack
+sub esi, eax; если удачно то вычтется 1 иначе ещё попытка
+
+dec ebx ; !!!!
+cmp ebx, 0 ; !!!!
+jle @return ; !!!!
+
+cmp esi, 0
+jg @loop
+
+@return:
+pop ebx  ; !!!!
+
+pop ebx
+pop esi
+retn                        // written
+
+
+3.=========================================================:00713D00 
+@RecruitPack
+push ebx
+
+@packCheck:
+// вначале проверить 4 клетки кучи на наличие подходящих для обращения монстров
+xor ebx, ebx
+call @isPotencialChamp; не должна менять ecx и edx (row, col)
+add ebx, eax
+dec ecx
+call @isPotencialChamp (row-1, col)
+add ebx, eax
+dec edx
+call @isPotencialChamp (row-1, col-1)
+add ebx, eax
+inc ecx
+call @isPotencialChamp (row, col-1)
+add ebx, eax
+cmp ebx, 2
+jl @return0// если меньше 2х подходящих монстров то возвращаем 0, маловато монстров
+// если 2 и более то проходим по всем 4м и если там подходящих для обращения монстр, то обращаем его
+inc edx
+call @RecrutMonster ; тоже не должен менять ecx и edx  (row, col)
+dec ecx
+call @RecrutMonster  (row-1, col)
+dec edx
+call @RecrutMonster   (row-1, col-1)
+inc ecx
+call @RecrutMonster   (row, col-1)
+
+@return1
+push 1
+pop eax
+jmp @return
+
+@return0
+xor eax, eax
+
+@return
+pop ebx
+retn            // written
+
+
+
+4.=========================================================
+
+@isPotencialChamp
+push ecx
+push edx
+// проверяет есть ли монстр в клетке
+imul    ecx, 70h
+mov eax, ecx
+add eax, edx ; в eax cell
+shl eax, 2
+mov eax, byte ptr [eax+57D1E0h] ; получили значение карты монстров. если положительно то есть монстр и eax это monsterNumber
+cmp eax, 0
+jle @return0 ; нет монстра
+//не является ли он боссом
+dec eax; monsterIndex
+imul    eax, 0E4h ; monsterOffset
+add eax, 0069DC88 ; начало таблицы монстров. в eax теперь начало нужного монстра
+mov ecx, dword ptr [eax+018h];
+cmp ecx, 0
+jne @return0
+// и не является ли он бандой босса
+mov cl, byte ptr [eax+0D5h]; char   isBossPack;                // 213
+cmp cl, 0
+jne @return0
+// и не является ли чемпионом
+mov  cl, byte ptr [eax+0BCh];  uchar  ChampionIndex;                // 188
+cmp cl, 0
+jnz @return0 ; это чемпион
+
+@return1
+push 1
+pop eax
+jmp @return
+
+@return0
+xor eax, eax
+
+@return
+pop edx
+pop ecx
+retn                    // written
+
+
+
+5.=========================================================
+
+@RecrutMonster
+push ecx
+push edx
+push esi
+// вначале проверяем вышеописанной функцией. Если она вернула 0 то выходим.
+call @isPotencialChamp
+cmp eax, 0
+jz @return
+// Иначе устанавливаем флаг монстра-чемпиона и удваиваем хп
+imul    ecx, 70h
+mov esi, ecx
+add esi, edx ; в eax cell
+shl esi, 2
+mov esi, dword ptr [esi+57D1E0h] ; получили значение карты монстров. если положительно то есть монстр и esi это monsterNumber
+cmp esi, 0
+jle @return ; нет монстра
+dec esi; monsterIndex
+imul    esi, 0E4h ; monsterOffset
+add esi, 0069DC88 ; начало таблицы монстров. в esi теперь начало нужного монстра
+
+mov edx, 3 ; количество видов чемпионов
+call 00419F5A ; rng
+inc eax
+mov  byte ptr [esi+0BCh], al;  uchar  ChampionIndex;                // 188
+dec eax
+mov ecx, esi
+shl eax, 2; умножить на 4
+add eax, @makeChampFunctTable
+call [eax]
+@return
+pop esi
+pop edx
+pop ecx
+retn                    // written
+
+5.1=========================================================
+@defender: ;defender: 4x HP, -25% damage
+push esi
+mov esi, ecx
+; x4 HP
+mov     ecx, dword ptr [esi+90h];  int  BaseLife;                        // 144
+shl ecx, 2
+mov dword ptr [esi+90h], ecx; int  BaseLife;
+mov dword ptr [esi+94h], ecx; int  CurrentLife;                        // 148
+
+;-25% damage
+MIN_DAM ; любое число - нижняя планка для дамага после понижения
+movzx     ecx, byte ptr [esi+0C5h]; uchar  MinDamage;         // 197
+mov edx, ecx
+shr edx, 2; 25% от дамага
+sub ecx , edx ; 75% от дамага
+cmp ecx, MIN_DAM 
+jge @F
+mov ecx, MIN_DAM
+@@
+mov byte ptr [esi+0C5h ], cl
+
+movzx   ecx , byte ptr [esi+0C6h]; uchar  MaxDamage;                        // 198
+mov edx, ecx
+shr edx, 2; 25% от дамага
+sub ecx , edx ; 75% от дамага
+cmp ecx, MIN_DAM 
+jge @F
+mov ecx, MIN_DAM
+@@
+mov byte ptr [esi+0C6h ], cl
+
+movzx   ecx , byte ptr [esi+0C8h]; uchar  SecondMinDamage;        // 200
+mov edx, ecx
+shr edx, 2; 25% от дамага
+sub ecx , edx ; 75% от дамага
+cmp ecx, MIN_DAM 
+jge @F
+mov ecx, MIN_DAM
+@@
+mov byte ptr [esi+0C8h ], cl
+
+movzx   ecx , byte ptr [esi+0C9h]; uchar  SecondMaxDamage;        // 201
+mov edx, ecx
+shr edx, 2; 25% от дамага
+sub ecx , edx ; 75% от дамага
+cmp ecx, MIN_DAM 
+jge @F
+mov ecx, MIN_DAM
+@@
+mov byte ptr [esi+0C9h ], cl
+
+pop esi
+retn
+5.2=========================================================
+@fanatic: ;+50% Tohit, -25% HP
+push esi
+mov esi, ecx
+
+;+50% Tohit
+movzx   ecx , byte ptr [esi+0C4h]; uchar  ToHit;                                // 196
+mov edx, ecx
+shr edx, 1; 50% ту хит
+add ecx , edx ; 150% ту хит
+cmp ecx, FF
+jl @F
+mov ecx, FF
+@@
+mov byte ptr [esi+0C4h ], cl
+
+movzx   ecx , byte ptr [esi+0C7h]; uchar  SecondToHit;                // 199
+mov edx, ecx
+shr edx, 1; 50% ту хит
+add ecx , edx ; 150% ту хит
+cmp ecx, FF
+jl @F
+mov ecx, FF
+@@
+mov byte ptr [esi+0C7h ], cl
+
+;-25% HP
+MIN_HP ; любое число - нижняя планка для hp после понижения
+mov     ecx, dword ptr [esi+90h];  int  BaseLife;                        // 144
+mov edx, ecx
+shr edx, 2; 25% hp
+sub ecx, edx; 75% hp
+cmp ecx, MIN_HP
+jg @F
+mov ecx, MIN_HP
+@@
+mov dword ptr [esi+90h], ecx; int  BaseLife;
+mov dword ptr [esi+94h], ecx; int  CurrentLife;                        // 148
+
+pop esi
+retn
+
+5.3=========================================================
+@berserker: ;2x damage, -50% AC
+push esi
+mov esi, ecx
+
+;2x damage
+movzx     ecx, byte ptr [esi+0C5h]; uchar  MinDamage;         // 197
+shl ecx, 1; 200% от дамага
+cmp ecx, FF
+jle @F
+mov ecx, FF
+@@
+mov byte ptr [esi+0C5h ], cl
+
+movzx   ecx , byte ptr [esi+0C6h]; uchar  MaxDamage;                        // 198
+shl ecx, 1; 200% от дамага
+cmp ecx, FF
+jle @F
+mov ecx, FF
+@@
+mov byte ptr [esi+0C6h ], cl
+
+movzx   ecx , byte ptr [esi+0C8h]; uchar  SecondMinDamage;        // 200
+shl ecx, 1; 200% от дамага
+cmp ecx, FF
+jle @F
+mov ecx, FF
+@@
+mov byte ptr [esi+0C8h ], cl
+
+movzx   ecx , byte ptr [esi+0C9h]; uchar  SecondMaxDamage;        // 201
+shl ecx, 1; 200% от дамага
+cmp ecx, FF
+jle @F
+mov ecx, FF
+@@
+mov byte ptr [esi+0C9h ], cl
+
+;-50% AC
+MIN_AC ; любое число - нижняя планка для AC после понижения
+movzx     ecx, byte ptr [esi+0CAh]; uchar  ArmorClass;                // 202
+shr ecx, 1; 50% ac
+cmp ecx, MIN_AC 
+jg @F
+mov ecx, MIN_AC 
+@@:
+mov byte ptr [esi+0CAh] , cl;
+
+pop esi
+retn
+
+6.=========================================================
+;.mod:00712AFB                 jmp     loc_405879
+00712AFB jmp @newLoc
+
+@newLoc:
+movzx ecx, byte ptr [eax+0069DD44];   uchar  ChampionIndex;                // 188
+cmp  cl, 00;
+jz 00405879 ; обычный монстр
+@champion:
+mov     [4D11AC], 1 ; синий цвет инфопанели
+push    dword ptr [eax+69DD60h]; monsterName  0069DC88 + 0D8h
+dec ecx
+shl ecx, 2; *= 4
+add ecx, @champNamePtrTable
+mov ecx, dword ptr [ecx]
+push ecx
+
+push    esi             ; Dest
+call    00479AC0; _sprintf
+add     esp, 0Ch
+jmp 0040588E
+
+7.=========================================================
+
+.mod:00710068                 nop
+.mod:00710069                 nop
+.mod:0071006A                 push    eax
+.mod:000BCh71006B                 mov     eax, edi
+.mod:0071006D                 nop
+.mod:0071006E                 nop
+.mod:0071006F                 nop
+.mod:00710070                 imul    eax, 0E4h
+.mod:00710076                 cmp     dword ptr [eax+69DCA0h], 0
+.mod:0071007D                 pop     eax
+.mod:0071007E                 jz      short loc_7100D4
+
+eax не используется и за счет его убирания можно освободить место
+
+mov     eax, edi
+imul    eax, 0E4h
+cmp     dword ptr [eax+69DCA0h], 0
+jnz      00710080 ; спец дроп с боссов
+cmp  byte ptr [eax+0BCh], 00;  uchar  ChampionIndex;                // 188
+jz 7100D4 ; одна шмотка
+@champion:
+jmp 7100C1 ; две шмотки
+
+если поместится там, то ок. не поместится, можно будет сместить вперёд следующий кусок. Ну или на новое место прыгнуть ради проверки.
+
+
+
+
+
+

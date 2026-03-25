@@ -1,0 +1,219 @@
+gold now takes (DLVL/2)+1 into account for its formula
+
+
+	call:
+:004259BF E80C2C2E00              call 007085D0
+
+
+	new function:
+* Referenced by a CALL at Address:
+|:004259BF   
+|
+:007085D0 8A0DD8B16000            mov cl, byte ptr [0060B1D8]
+:007085D6 0FB6D1                  movzx edx, cl
+:007085D9 8BC2                    mov eax, edx
+:007085DB C1E801                  shr eax, 01
+:007085DE 40                      inc eax
+:007085DF C3                      ret
+
+==========================================================
+
+purg & doom modifiers are probably still too high, could be modified later if disbalance is obvious
+
+==========================================================
+
+DLVL modifier is: (DLVL/2)+1
+difficulty modifiers:
+H: Rnd[((3*((DLVL/2)+1)+2)*2]+((3*((DLVL/2)+1)+2)*2)
+P: Rnd[((3*((DLVL/2)+1)+25)*2]+((3*((DLVL/2)+1)+25)*2)
+D: Rnd[((3*((DLVL/2)+1)+50)*2]+((3*((DLVL/2)+1)+50)*2)
+
+Fucked up, isn't it?
+
+Should be less complicated and easier to understand, and  should be way better balanced.
+
+Should start with [1-10] on horror level 1 and progress to [50-100] on horror level 24
+then purgatory: from [50-100] to [100-200]
+doom: [100-200] to [200-400]
+
+=============================
+Revision 3:
+Horr: ((DLVL*4)-3)+Rnd[18]
+Purg: ((DLVL*4)+89)+Rnd[36]
+Doom: ((DLVL*4)+181)+Rnd[54]
+
+....See '2009-03-25, Gold drop calculator.xls' for details.....
+
+	code:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004259B2(C)
+|
+:004259BF E80A2C2E00              call 007085CE
+:004259C4 83BE886268000B          cmp dword ptr [esi+00686288], 0000000B
+:004259CB 8BF8                    mov edi, eax
+:004259CD 0F859C000000            jne 00425A6F
+:004259D3 A1C0706000              mov eax, dword ptr [006070C0]
+:004259D8 3BC3                    cmp eax, ebx
+:004259DA 7511                    jne 004259ED
+:004259DC 6A12                    push 00000012
+:004259DE B115                    mov cl, 15
+:004259E0 5A                      pop edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705E38(U)
+|
+:004259E1 E87445FFFF              call 00419F5A
+:004259E6 8BCF                    mov ecx, edi
+:004259E8 EB37                    jmp 00425A21
+:004259EA 90                      nop
+:004259EB 90                      nop
+:004259EC 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004259DA(C)
+|
+:004259ED 83F801                  cmp eax, 00000001
+:004259F0 7513                    jne 00425A05
+:004259F2 6A24                    push 00000024
+:004259F4 B115                    mov cl, 15
+:004259F6 5A                      pop edx
+:004259F7 E85E45FFFF              call 00419F5A
+:004259FC 8BCF                    mov ecx, edi
+:004259FE 83C15C                  add ecx, 0000005C
+:00425A01 EB1E                    jmp 00425A21
+:00425A03 90                      nop
+:00425A04 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004259F0(C)
+|
+:00425A05 83F802                  cmp eax, 00000002
+:00425A08 751B                    jne 00425A25
+:00425A0A 6A36                    push 00000036
+:00425A0C B115                    mov cl, 15
+:00425A0E 5A                      pop edx
+:00425A0F E84645FFFF              call 00419F5A
+:00425A14 8BCF                    mov ecx, edi
+:00425A16 81C1B8000000            add ecx, 000000B8
+:00425A1C 90                      nop
+:00425A1D 90                      nop
+:00425A1E 90                      nop
+:00425A1F 90                      nop
+:00425A20 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004259E8(U), :00425A01(U)
+|
+:00425A21 03C1                    add eax, ecx
+:00425A23 EB03                    jmp 00425A28
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00425A08(C)
+|
+:00425A25 8B4508                  mov eax, dword ptr [ebp+08]
+
+
+	DLVL modifier for gold drops: [ (DLVL*4)-3 ]
+* Referenced by a CALL at Address:
+|:004259BF   
+|
+:007085CE 8A0DD8B16000            mov cl, byte ptr [0060B1D8]
+:007085D4 0FB6D1                  movzx edx, cl
+:007085D7 8BC2                    mov eax, edx
+:007085D9 C1E002                  shl eax, 02
+:007085DC 48                      dec eax
+:007085DD 48                      dec eax
+:007085DE 48                      dec eax
+:007085DF C3                      ret
+=============================
+Revision 4:
+Horr: ((DLVL*3)-2)+Rnd[16]
+Purg: ((DLVL*3)+63)+Rnd[31]
+Doom: ((DLVL*3)+128)+Rnd[51]
+
+....See '2009-03-25, Gold drop calculator.xls' for details.....
+
+	code:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004259B2(C)
+|
+:004259BF E80A2C2E00              call 007085CE
+:004259C4 83BE886268000B          cmp dword ptr [esi+00686288], 0000000B
+:004259CB 8BF8                    mov edi, eax
+:004259CD 0F859C000000            jne 00425A6F
+:004259D3 A1C0706000              mov eax, dword ptr [006070C0]
+:004259D8 3BC3                    cmp eax, ebx
+:004259DA 7511                    jne 004259ED
+:004259DC 6A12                    push 00000012
+:004259DE B115                    mov cl, 15
+:004259E0 5A                      pop edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705E38(U)
+|
+:004259E1 E87445FFFF              call 00419F5A
+:004259E6 8BCF                    mov ecx, edi
+:004259E8 EB37                    jmp 00425A21
+:004259EA 90                      nop
+:004259EB 90                      nop
+:004259EC 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004259DA(C)
+|
+:004259ED 83F801                  cmp eax, 00000001
+:004259F0 7513                    jne 00425A05
+:004259F2 6A24                    push 00000024
+:004259F4 B115                    mov cl, 15
+:004259F6 5A                      pop edx
+:004259F7 E85E45FFFF              call 00419F5A
+:004259FC 8BCF                    mov ecx, edi
+:004259FE 83C15C                  add ecx, 0000005C
+:00425A01 EB1E                    jmp 00425A21
+:00425A03 90                      nop
+:00425A04 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004259F0(C)
+|
+:00425A05 83F802                  cmp eax, 00000002
+:00425A08 751B                    jne 00425A25
+:00425A0A 6A36                    push 00000036
+:00425A0C B115                    mov cl, 15
+:00425A0E 5A                      pop edx
+:00425A0F E84645FFFF              call 00419F5A
+:00425A14 8BCF                    mov ecx, edi
+:00425A16 81C1B8000000            add ecx, 000000B8
+:00425A1C 90                      nop
+:00425A1D 90                      nop
+:00425A1E 90                      nop
+:00425A1F 90                      nop
+:00425A20 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004259E8(U), :00425A01(U)
+|
+:00425A21 03C1                    add eax, ecx
+:00425A23 EB03                    jmp 00425A28
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00425A08(C)
+|
+:00425A25 8B4508                  mov eax, dword ptr [ebp+08]
+
+
+	DLVL modifier for gold drops: [ (DLVL*3)-2 ]
+* Referenced by a CALL at Address:
+|:004259BF   
+|
+:007085CE 8A0DD8B16000            mov cl, byte ptr [0060B1D8]
+:007085D4 0FB6D1                  movzx edx, cl
+:007085D7 8BC2                    mov eax, edx
+:007085D9 8D0440                  lea eax, dword ptr [eax+2*eax]
+:007085DC 48                      dec eax
+:007085DD 48                      dec eax
+:007085DE C3                      ret
+
+
+:007085DF 90                      nop
+

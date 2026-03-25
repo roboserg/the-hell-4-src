@@ -1,0 +1,6 @@
+Arcane Shield's durability (number of hits taken): [CLVL * SLVL] -> [1 + CLVL + SLVL]
+
+:0043037D 0FAFFA                  imul edi, edx
+wordt
+:0043037D 03FA                    add edi, edx
+:0043037F 47                      inc edi

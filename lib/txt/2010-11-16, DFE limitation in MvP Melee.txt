@@ -1,0 +1,87 @@
+MvP Melee:
+DFE is limited to 50%
+this should prevent the game from becoming too easy for well-protected characters (especially, on Horror)
+
+======================
+
+push esi
+mov esi, eax
+shr esi, 1
+add eax, ecx
+mov ecx, esi
+pop esi
+jmp 0043E354
+
+============================
+
+OLD (with block):
+
+:0043E34F 6A40                    push 00000040
+:0043E351 03C1                    add eax, ecx
+:0043E353 59                      pop ecx
+:0043E354 89450C                  mov dword ptr [ebp+0C], eax
+:0043E357 3BC1                    cmp eax, ecx
+:0043E359 7D03                    jge 0043E35E
+:0043E35B 894D0C                  mov dword ptr [ebp+0C], ecx
+
+============================
+
+NEW (with block):
+
+:0043E34F E99CF42C00              jmp 0070D7F0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070D7FA(U)
+|
+:0043E354 89450C                  mov dword ptr [ebp+0C], eax		FD = EAX
+:0043E357 3BC1                    cmp eax, ecx				compare FD with 
+:0043E359 7D03                    jge 0043E35E
+:0043E35B 894D0C                  mov dword ptr [ebp+0C], ecx
+
+EXTRA:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043E34F(U)
+|
+:0070D7F0 56                      push esi
+:0070D7F1 8BF0                    mov esi, eax
+:0070D7F3 D1EE                    shr esi, 1
+:0070D7F5 03C1                    add eax, ecx
+:0070D7F7 8BCE                    mov ecx, esi
+:0070D7F9 5E                      pop esi
+:0070D7FA E9550BD3FF              jmp 0043E354
+:0070D7FF 90                      nop
+:0070D800 90                      nop
+
+
+==============================
+==============================
+==============================
+
+OLD (no block):
+
+:0043E4DD 8B8844550000            mov ecx, dword ptr [eax+00005544]
+:0043E4E3 C1E106                  shl ecx, 06
+:0043E4E6 03D9                    add ebx, ecx
+:0043E4E8 83FB40                  cmp ebx, 00000040
+:0043E4EB 895D0C                  mov dword ptr [ebp+0C], ebx
+:0043E4EE 7D06                    jge 0043E4F6
+:0043E4F0 6A40                    push 00000040
+:0043E4F2 5B                      pop ebx
+:0043E4F3 895D0C                  mov dword ptr [ebp+0C], ebx
+
+=============================
+
+Plan:
+
+EBX = damage
+ECX = DFE
+
+push esi
+mov esi, ebx
+add ebx, ecx
+shr esi, 1
+cmp ebx, esi
+jge "1"
+mov ebx, esi
+"1" pop esi

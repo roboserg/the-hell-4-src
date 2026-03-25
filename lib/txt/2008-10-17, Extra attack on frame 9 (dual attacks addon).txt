@@ -1,0 +1,53 @@
+Added some monsters that attack twice: Leoric, Moon Clan, Blood Knight, Balor
+
+Note: this modification is about attack frame 9, it also increases ToHit chance of this (primary) attack by 10%
+Note also that this is connected to previous changes. See "2008-05-19, additional melee attacks (dual and triple).txt"
+
+__________________________________________________________________________
+
+Code:
+
+:0043E012 83F839                  cmp eax, 00000039
+:0043E015 7C43                    jl 0043E05A
+:0043E017 E9C8650000              jmp 004445E4
+
+into >>>
+
+:0043E012 E9B48A2C00              jmp 00706ACB
+:0043E017 90                      nop
+:0043E018 90                      nop
+:0043E019 90                      nop
+:0043E01A 90                      nop
+:0043E01B 90                      nop
+
+
+
+Extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043E012(U)
+|
+:00706ACB 83F842                  cmp eax, 00000042				horndeath
+:00706ACE 741E                    je 00706AEE
+:00706AD0 83F855                  cmp eax, 00000055				balor
+:00706AD3 7419                    je 00706AEE
+:00706AD5 83F821                  cmp eax, 00000021				moon clan
+:00706AD8 7414                    je 00706AEE
+:00706ADA 83F832                  cmp eax, 00000032				leo
+:00706ADD 740F                    je 00706AEE
+:00706ADF 83F87A                  cmp eax, 0000007A				bloodknight
+:00706AE2 740A                    je 00706AEE
+:00706AE4 83F839                  cmp eax, 00000039				
+:00706AE7 7C0A                    jl 00706AF3
+:00706AE9 E9F6DAD3FF              jmp 004445E4				continue to uber
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00706ACE(C), :00706AD3(C), :00706AD8(C), :00706ADD(C), :00706AE2(C)
+|
+:00706AEE E92975D3FF              jmp 0043E01C				attack performed
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706AE7(C)
+|
+:00706AF3 E96275D3FF              jmp 0043E05A				no extra attack
+

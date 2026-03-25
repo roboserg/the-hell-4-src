@@ -1,0 +1,125 @@
+Restart in town
+
+life and mana resets:
+
+
+:0045AFAA 6A40                    push 00000040
+:0045AFAC 895C3034                mov dword ptr [eax+esi+34], ebx
+:0045AFB0 A114AE6E00              mov eax, dword ptr [006EAE14]
+:0045AFB5 5A                      pop edx				<< edx = 1 (hp?)
+:0045AFB6 8BCF                    mov ecx, edi
+:0045AFB8 889C303D010000          mov byte ptr [eax+esi+0000013D], bl
+:0045AFBF E8E8390000              call 0045E9AC
+:0045AFC4 A114AE6E00              mov eax, dword ptr [006EAE14]
+:0045AFC9 33D2                    xor edx, edx
+:0045AFCB 899C30AC010000          mov dword ptr [eax+esi+000001AC], ebx
+:0045AFD2 A114AE6E00              mov eax, dword ptr [006EAE14]
+:0045AFD7 03C6                    add eax, esi
+:0045AFD9 8B88AC010000            mov ecx, dword ptr [eax+000001AC]
+:0045AFDF 2B88B0010000            sub ecx, dword ptr [eax+000001B0]
+:0045AFE5 0388A8010000            add ecx, dword ptr [eax+000001A8]
+:0045AFEB 8988A4010000            mov dword ptr [eax+000001A4], ecx
+:0045AFF1 8BCF                    mov ecx, edi
+:0045AFF3 E8C79AFCFF              call 00424ABF
+
+
+
+	Called routine: set player HPs:
+
+* Referenced by a CALL at Addresses:
+|:004241CB   , :00437C47   , :0045A1F7   , :0045AC06   , :0045AC4C   
+|:0045AFBF   , :0046C261   
+|
+:0045E9AC 56                      push esi
+:0045E9AD 8BF1                    mov esi, ecx
+:0045E9AF 57                      push edi
+:0045E9B0 83FE04                  cmp esi, 00000004
+:0045E9B3 8BFA                    mov edi, edx
+:0045E9B5 720D                    jb 0045E9C4
+:0045E9B7 56                      push esi
+
+* Possible StringData Ref from Data Obj ->"SetPlayerHitPoints: illegal player "
+                                        ->"%d"
+                                  |
+:0045E9B8 68F0674B00              push 004B67F0
+:0045E9BD E8A32FFAFF              call 00401965
+:0045E9C2 59                      pop ecx
+:0045E9C3 59                      pop ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045E9B5(C)
+|
+:0045E9C4 8BC6                    mov eax, esi
+:0045E9C6 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0045E9CC 69C0C8550000            imul eax, 000055C8
+:0045E9D2 89BC0198010000          mov dword ptr [ecx+eax+00000198], edi		<< curHP = 1
+:0045E9D9 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0045E9DF 03C1                    add eax, ecx
+:0045E9E1 8B8894010000            mov ecx, dword ptr [eax+00000194]		<< ecx = maxbaseHP
+:0045E9E7 2B889C010000            sub ecx, dword ptr [eax+0000019C]		<< maxbaseHP - maxcurHP
+:0045E9ED 03CF                    add ecx, edi					<< ecx = (maxbaseHP - maxcurHP) + 1
+:0045E9EF 898890010000            mov dword ptr [eax+00000190], ecx		<< base life = (maxbaseHP - maxcurHP) + 1
+:0045E9F5 3B35E8AD6E00            cmp esi, dword ptr [006EADE8]
+:0045E9FB 750A                    jne 0045EA07
+:0045E9FD C705400E4D0001000000    mov dword ptr [004D0E40], 00000001
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045E9FB(C)
+|
+:0045EA07 5F                      pop edi
+:0045EA08 5E                      pop esi
+:0045EA09 C3                      ret
+
+=====================================================================
+
+1st try:
+(gives no reliable result)
+
+ 1:
+:0045AFBF E83C4D2B00              call 0070FD00
+
+
+ 2:
+* Referenced by a CALL at Address:
+|:0045AFBF   
+|
+:0070FD00 56                      push esi
+:0070FD01 8BF1                    mov esi, ecx
+:0070FD03 57                      push edi
+:0070FD04 83FE04                  cmp esi, 00000004
+:0070FD07 8BFA                    mov edi, edx
+:0070FD09 720D                    jb 0070FD18
+:0070FD0B 56                      push esi
+
+* Possible StringData Ref from Data Obj ->"SetPlayerHitPoints: illegal player "
+                                        ->"%d"
+                                  |
+:0070FD0C 68F0674B00              push 004B67F0
+:0070FD11 E84F1CCFFF              call 00401965
+:0070FD16 59                      pop ecx
+:0070FD17 59                      pop ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070FD09(C)
+|
+:0070FD18 8BC6                    mov eax, esi
+:0070FD1A 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0070FD20 69C0C8550000            imul eax, 000055C8
+:0070FD26 89BC0198010000          mov dword ptr [ecx+eax+00000198], edi
+:0070FD2D 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0070FD33 03C1                    add eax, ecx
+:0070FD35 8B8894010000            mov ecx, dword ptr [eax+00000194]
+:0070FD3B 2B889C010000            sub ecx, dword ptr [eax+0000019C]
+:0070FD41 03CF                    add ecx, edi
+:0070FD43 83F964                  cmp ecx, 00000064
+:0070FD46 7D03                    jge 0070FD4B
+:0070FD48 6A64                    push 00000064
+:0070FD4A 59                      pop ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070FD46(C)
+|
+:0070FD4B 898890010000            mov dword ptr [eax+00000190], ecx
+:0070FD51 E99FECD4FF              jmp 0045E9F5
+:0070FD56 90                      nop
+:0070FD57 90                      nop

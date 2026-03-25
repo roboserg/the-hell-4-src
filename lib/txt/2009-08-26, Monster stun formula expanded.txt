@@ -1,0 +1,140 @@
+Monster stun formula expanded by adding random to it
+
+Now stun threshold is Rnd[50-100]% of stun value
+Used to be static value (100%)
+This reduces monster stun threshold by 25% on average and increases chances to stun them
+
+
+	Old code:
+
+:0043CF30 C1FD06                  sar ebp, 06
+:0043CF33 3BE8                    cmp ebp, eax
+:0043CF35 0F8C22010000            jl 0043D05D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070505A(U), :00708641(U)
+|
+:0043CF3B 33ED                    xor ebp, ebp
+
+
+
+	New code:
+
+:0043CF30 C1FD06                  sar ebp, 06
+:0043CF33 E9F7C42C00              jmp 0070942F
+:0043CF38 90                      nop
+:0043CF39 90                      nop
+:0043CF3A 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070505A(U), :00708641(U), :00709445(U)
+|
+:0043CF3B 33ED                    xor ebp, ebp
+
+
+	and:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043CF33(U)
+|
+:0070942F C1F801                  sar eax, 01
+:00709432 8BD0                    mov edx, eax
+:00709434 53                      push ebx
+:00709435 8BD8                    mov ebx, eax
+:00709437 51                      push ecx
+:00709438 E81D0BD1FF              call 00419F5A
+:0070943D 59                      pop ecx
+:0070943E 03C3                    add eax, ebx
+:00709440 5B                      pop ebx
+:00709441 3BE8                    cmp ebp, eax
+:00709443 7C05                    jl 0070944A
+:00709445 E9F13AD3FF              jmp 0043CF3B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00709443(C)
+|
+:0070944A E90E3CD3FF              jmp 0043D05D
+
+
+=======================================================================
+Step 2: optimization:
+Monster stun formula optimized: Rnd((stun value/2)+1)+((stun value/2)+1)
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043CF33(U)
+|
+:0070942E C1F801                  sar eax, 01
+:00709431 40                      inc eax
+:00709432 8BD0                    mov edx, eax
+:00709434 53                      push ebx
+:00709435 8BD8                    mov ebx, eax
+:00709437 51                      push ecx
+:00709438 E81D0BD1FF              call 00419F5A
+:0070943D 59                      pop ecx
+:0070943E 03C3                    add eax, ebx
+:00709440 5B                      pop ebx
+:00709441 3BE8                    cmp ebp, eax
+:00709443 7C05                    jl 0070944A
+:00709445 E9F13AD3FF              jmp 0043CF3B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00709443(C)
+|
+:0070944A E90E3CD3FF              jmp 0043D05D
+
+=======================================================================
+
+Step 3
+Now there is 1% chance to always stun a monster
+and 1% chance for a monster to always avoid stun
+in other words there is minimum 1% chance to stun monsters and 99% maximum chance to stun them
+and also stun formula changed to Range between min and max, where: 
+min = (stun_threshold+1)/2
+max = (((stun_threshold+1)/2) + (stun_threshold+1))
+in other words, Rnd[50-150]% of stun value
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043CF33(U)
+|
+:0070942E 40                      inc eax
+:0070942F 8BD0                    mov edx, eax
+:00709431 C1F801                  sar eax, 01
+:00709434 53                      push ebx
+:00709435 8BD8                    mov ebx, eax
+:00709437 51                      push ecx
+:00709438 E81D0BD1FF              call 00419F5A
+:0070943D 59                      pop ecx
+:0070943E 03C3                    add eax, ebx
+:00709440 5B                      pop ebx
+:00709441 3BE8                    cmp ebp, eax
+:00709443 7C1A                    jl 0070945F
+:00709445 6864000000              push 00000064
+:0070944A 5A                      pop edx
+:0070944B 51                      push ecx
+:0070944C E8090BD1FF              call 00419F5A
+:00709451 59                      pop ecx
+:00709452 81F863000000            cmp eax, 00000063
+:00709458 741A                    je 00709474
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00709472(C)
+|
+:0070945A E9DC3AD3FF              jmp 0043CF3B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00709443(C)
+|
+:0070945F 6864000000              push 00000064
+:00709464 5A                      pop edx
+:00709465 51                      push ecx
+:00709466 E8EF0AD1FF              call 00419F5A
+:0070946B 59                      pop ecx
+:0070946C 81F863000000            cmp eax, 00000063
+:00709472 74E6                    je 0070945A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00709458(C)
+|
+:00709474 E9E43BD3FF              jmp 0043D05D

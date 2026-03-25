@@ -1,0 +1,218 @@
+﻿
+
+.text:00476562 loc_476562:                             ; CODE XREF: LoadTowners+5Bj
+.text:00476562                                         ; LoadTowners:loc_476554j ...
+.text:00476562                 cmp     SomeBoolFlag_18, bl
+.text:00476568                 jz      short loc_47657C
+.text:0047656A                 mov     eax, Players
+.text:0047656F                 cmp     [eax+205h], bl
+.text:00476575                 jz      short loc_47657C
+.text:00476577                 call    LoadCelia
+.text:0047657C
+.text:0047657C loc_47657C:                             ; CODE XREF: LoadTowners+71j
+.text:0047657C                                         ; LoadTowners+7Ej
+.text:0047657C                 pop     ebx
+.text:0047657D                 retn
+
+
+00476562: jmp @newLoc
+>>>
+@newLoc:
+cmp     byte ptr[005753D4], bl ; флаг включенности квеста в конфиге(сейчас всегда включен)
+jz @notLoadCelia
+
+cmp     byte ptr[006DDFC8], 1 ; доступен только в сингле
+jnz @notLoadCelia
+
+mov     eax, dword ptr [006EAE14] ; Players
+cmp     [eax+205h], bl ; если игрок побывал на каком то там этаже
+jz @notLoadCelia
+
+@loadCelia:
+jmp 00476577
+@notLoadCelia:
+jmp 0047657C
+
+asm:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00476562(U)
+|
+:0071F8B0 381DD4535700            cmp byte ptr [005753D4], bl
+:0071F8B6 90                      nop
+:0071F8B7 90                      nop
+:0071F8B8 742D                    je 0071F8E7
+:0071F8BA 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:0071F8C1 7524                    jne 0071F8E7
+:0071F8C3 A114AE6E00              mov eax, dword ptr [006EAE14]
+:0071F8C8 389805020000            cmp byte ptr [eax+00000205], bl
+:0071F8CE 7417                    je 0071F8E7
+:0071F8D0 90                      nop
+..........
+:0071F8DF 90                      nop
+:0071F8E0 E9926CD5FF              jmp 00476577
+:0071F8E5 90                      nop
+:0071F8E6 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071F8B8(C), :0071F8C1(C), :0071F8CE(C)
+|
+:0071F8E7 E9906CD5FF              jmp 0047657C
+
+
+=====================================================================
+
+Фикс манакоста стен и колец
+
+004449BE:
+dec esi; сиеровцы забыли уменьшить на 1. Из-за этого если на клетке со стеной только 1 заклинание, то проверяется на принадлежность к стене другое заклинане
+.text:004449BE 69 F6 B0 00 00 00                       imul    esi, 176
+.text:004449C4 8B B6 58 7A 69 00                       mov     esi, Missiles[esi]
+
+Теперь осталось только в данных заклинаний проставить по 1му эффекту стен, а не два
+
+asm:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004449BE(U)
+|
+:0071F900 4E                      dec esi
+:0071F901 69F6B0000000            imul esi, 000000B0
+:0071F907 90                      nop
+:0071F908 90                      nop
+:0071F909 E9B650D2FF              jmp 004449C4
+
+===================================================================
+
+Фикс огненной и молниевой стены на одной клетке
+Сейчас ищется только первый найденный кусок стены и он и считается тут стоящим.
+Мы же будем искать до упора.
+
+.text:00444A0F 83 FE 05                                cmp     esi, 5
+.text:00444A12 74 0F                                   jz      short loc_444A23
+.text:00444A14 83 FE 46                                cmp     esi, 70
+.text:00444A17 74 10                                   jz      short loc_444A29
+.text:00444A19
+.text:00444A19                         loc_444A19
+
+00444A0F: jmp @newLoc
+>>>
+@newLoc:
+cmp     esi, 5 ; MI_5_FIRE_WALL_SEGMENT
+jnz @lightningWallSegmentCheck
+
+@fireWallAction:
+mov     byte ptr [ebp+0Bh], 1
+jmp @continue
+
+@lightningWallSegmentCheck:
+cmp     esi, 70d ; MI_70_LIGHTNING_WALL_SEGMENT
+jnz @continue
+
+@lightningWallAction:
+mov     byte ptr [ebp-1], 1
+
+@continue:
+jmp 00444A19
+
+  asm:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00444A0F(U)
+|
+:0071F920 83FE05                  cmp esi, 00000005
+:0071F923 750B                    jne 0071F930
+:0071F925 C6450B01                mov [ebp+0B], 01
+:0071F929 EB15                    jmp 0071F940
+:0071F92B 90                      nop
+........
+:0071F92F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071F923(C)
+|
+:0071F930 83FE46                  cmp esi, 00000046
+:0071F933 750B                    jne 0071F940
+:0071F935 C645FF01                mov [ebp-01], 01
+:0071F939 90                      nop
+.......
+:0071F93F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071F929(U), :0071F933(C)
+|
+:0071F940 E9D450D2FF              jmp 00444A19
+Однократное взятие стоимости перед началом каста
+
+;.text:0046C156                         loc_46C156:                             ; CODE XREF: CastPlayerSpell+5Fj
+;.text:0046C156                                                                 ; CastPlayerSpell+64j
+;.text:0046C156 80 3E 0A                                cmp     byte ptr [esi], 10
+;.text:0046C159 75 0B                                   jnz     short loc_46C166
+;.text:0046C15B 8B 4D FC                                mov     ecx, [ebp+playerIndex] ; playerIndex
+;.text:0046C15E 6A 07                                   push    7
+;.text:0046C160 5A                                      pop     edx
+;.text:0046C161 E8 96 FE FF FF                          call    MinusManaOrChargeOrRelicByPriceOfSSpell
+;.text:0046C166
+;.text:0046C166                         loc_46C166:                             ; CODE XREF: CastPlayerSpell+92j
+;.text:0046C166 80 3E 34                               
+
+0046C156: jmp @newLoc
+>>>
+@newLoc:
+cmp     byte ptr [esi], 10d ; MI_10_TOWN_PORTAL
+jnz    @fireWallCheck
+8B 4D FC                                mov     ecx, [ebp+playerIndex] ; playerIndex
+push    7d ; PS_7_TOWN_PORTAL
+pop     edx
+call  0046BFFC  ; MinusManaOrChargeOrRelicByPriceOfSSpell
+
+@fireWallCheck:
+cmp     byte ptr [esi], 38d; MI_38_FIRE_WALL
+jnz    @lightningWallCheck
+8B 4D FC                                mov     ecx, [ebp+playerIndex] ; playerIndex
+push    6d ; PS_6_FIRE_WALL
+pop     edx
+call  0046BFFC  ; MinusManaOrChargeOrRelicByPriceOfSSpell
+
+@lightningWallCheck:
+cmp     byte ptr [esi], 71d; MI_71_LIGHTING_WALL
+jnz    @fireCircleCheck
+8B 4D FC                                mov     ecx, [ebp+playerIndex] ; playerIndex
+push    40d ; PS_40_LIGHTING_WALL
+pop     edx
+call  0046BFFC  ; MinusManaOrChargeOrRelicByPriceOfSSpell
+
+@fireCircleCheck:
+cmp     byte ptr [esi], 81d; MI_81_FLAME_RING 
+jnz    @lightningCircleCheck
+8B 4D FC                                mov     ecx, [ebp+playerIndex] ; playerIndex
+push    45d ; PS_45_RING_OF_FIRE (19?)
+pop     edx
+call  0046BFFC  ; MinusManaOrChargeOrRelicByPriceOfSSpell
+
+@lightningCircleCheck:
+cmp     byte ptr [esi], 84d; MI_84_LIGHTING_RING
+jnz    @return
+8B 4D FC                                mov     ecx, [ebp+playerIndex] ; playerIndex
+push    17d ; PS_17_LIGHTING_RING
+pop     edx
+call  0046BFFC  ; MinusManaOrChargeOrRelicByPriceOfSSpell
+
+@return:
+jmp 0046C166
+
+====================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+

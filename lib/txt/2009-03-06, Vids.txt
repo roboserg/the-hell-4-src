@@ -1,0 +1,190 @@
+VIDS
+
+
+
+
+
+* Possible StringData Ref from Data Obj ->"gendata\logo.smk"
+                                  |
+:00409368 B934544900              mov ecx, 00495434
+:0040936D 5A                      pop edx
+:0040936E E830BE0300              call 004451A3
+
+* Possible StringData Ref from Data Obj ->"Intro"
+                                  |
+:00409373 BE2C544900              mov esi, 0049542C
+:00409378 8D7DF8                  lea edi, dword ptr [ebp-08]
+
+
+==========
+
+
+* Referenced by a CALL at Address:
+|:0042E37E   
+|
+:0042E4DE E82BD90300              call 0046BE0E
+
+* Possible StringData Ref from Data Obj ->"gendata\diablo1.smk"
+                                  |
+:0042E4E3 B914544900              mov ecx, 00495414
+:0042E4E8 6A01                    push 00000001
+:0042E4EA 5A                      pop edx
+:0042E4EB E8B36C0100              call 004451A3
+:0042E4F0 E9F8FDFFFF              jmp 0042E2ED
+
+* Referenced by a CALL at Address:
+|:00409215   
+|
+:0042E4F5 8B0D60766900            mov ecx, dword ptr [00697660]
+:0042E4FB 83256076690000          and dword ptr [00697660], 00000000
+:0042E502 E8F8BAFEFF              call 00419FFF
+:0042E507 8B0D64766900            mov ecx, dword ptr [00697664]
+:0042E50D 83256476690000          and dword ptr [00697664], 00000000
+:0042E514 E9E6BAFEFF              jmp 00419FFF
+
+
+=============
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043EF2E(C)
+|
+:0043EF34 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"gendata\DiabVic1.smk"
+                                  |
+:0043EF36 B944394B00              mov ecx, 004B3944
+:0043EF3B EB10                    jmp 0043EF4D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043EF32(C)
+|
+:0043EF3D 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"gendata\DiabVic3.smk"
+                                  |
+:0043EF3F B92C394B00              mov ecx, 004B392C
+:0043EF44 EB07                    jmp 0043EF4D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043EF26(C), :0043EF2A(C)
+|
+:0043EF46 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"gendata\DiabVic2.smk"
+                                  |
+:0043EF48 B914394B00              mov ecx, 004B3914
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043EF3B(U), :0043EF44(U)
+|
+:0043EF4D E851620000              call 004451A3
+:0043EF52 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"gendata\Diabend.smk"
+                                  |
+:0043EF54 B900394B00              mov ecx, 004B3900
+:0043EF59 E845620000              call 004451A3
+:0043EF5E 0FB61DD8744B00          movzx ebx, byte ptr [004B74D8]
+:0043EF65 6A01                    push 00000001
+:0043EF67 C605D8744B0001          mov byte ptr [004B74D8], 01
+:0043EF6E 59                      pop ecx
+:0043EF6F E84BCF0200              call 0046BEBF
+:0043EF74 33C9                    xor ecx, ecx
+:0043EF76 8BF0                    mov esi, eax
+:0043EF78 E842CF0200              call 0046BEBF
+:0043EF7D 6A02                    push 00000002
+:0043EF7F 59                      pop ecx
+:0043EF80 E8B5CE0200              call 0046BE3A
+
+* Possible StringData Ref from Data Obj ->"gendata\loopdend.smk"
+                                  |
+:0043EF85 B9E8384B00              mov ecx, 004B38E8
+:0043EF8A C705A0B76A0001000000    mov dword ptr [006AB7A0], 00000001
+:0043EF94 6A01                    push 00000001
+:0043EF96 5A                      pop edx
+:0043EF97 E807620000              call 004451A3
+:0043EF9C 8325A0B76A0000          and dword ptr [006AB7A0], 00000000
+:0043EFA3 E866CE0200              call 0046BE0E
+:0043EFA8 8BCE                    mov ecx, esi
+:0043EFAA E810CF0200              call 0046BEBF
+:0043EFAF 881DD8744B00            mov byte ptr [004B74D8], bl
+:0043EFB5 5E                      pop esi
+:0043EFB6 5B                      pop ebx
+:0043EFB7 C3                      ret
+
+============
+WTF ?
+
+* Possible StringData Ref from Data Obj ->"gendata\fprst3.smk"
+                                  |
+:0044343C B95C394B00              mov ecx, 004B395C
+:00443441 E81F76FDFF              call 0041AA65
+
+===============
+
+
+
+doom:		A09281
+fbutch3:	A09292
+hellfire:	A092A6
+
+
+randomizing vds:
+
+
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042E4E3(U)
+|
+:007110C0 50                      push eax
+:007110C1 51                      push ecx
+:007110C2 6A0A                    push 0000000A
+:007110C4 5A                      pop edx
+:007110C5 51                      push ecx
+:007110C6 E88F8ED0FF              call 00419F5A
+:007110CB 59                      pop ecx
+:007110CC 83F801                  cmp eax, 00000001
+:007110CF 7416                    je 007110E7
+:007110D1 83F802                  cmp eax, 00000002
+:007110D4 741A                    je 007110F0
+:007110D6 83F803                  cmp eax, 00000003
+:007110D9 741E                    je 007110F9
+:007110DB 59                      pop ecx
+:007110DC 58                      pop eax
+
+* Possible StringData Ref from Data Obj ->"gendata\diablo1.smk"
+                                  |
+:007110DD B914544900              mov ecx, 00495414
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007110EE(U), :007110F7(U), :00711100(U)
+|
+:007110E2 E901D4D1FF              jmp 0042E4E8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007110CF(C)
+|
+:007110E7 59                      pop ecx
+:007110E8 58                      pop eax
+:007110E9 B98192A000              mov ecx, 00A09281
+:007110EE EBF2                    jmp 007110E2
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007110D4(C)
+|
+:007110F0 59                      pop ecx
+:007110F1 58                      pop eax
+:007110F2 B99292A000              mov ecx, 00A09292
+:007110F7 EBE9                    jmp 007110E2
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007110D9(C)
+|
+:007110F9 59                      pop ecx
+:007110FA 58                      pop eax
+:007110FB B9A692A000              mov ecx, 00A092A6
+:00711100 EBE0                    jmp 007110E2

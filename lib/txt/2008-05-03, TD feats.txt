@@ -1,0 +1,554 @@
+Below are features of TheDark v5.3
+
+Some of them might be good to have in The Hell as well
+
+----------------------------------------------------------------------------------
+
+     General features
+-
+	Changed the icon of the program file
+-
+	Changed the game intro and menu screens
+-
+	A command file is no longer needed and will be ignored when found.
+-
+	Credits are given by Ogden in his openings speech.
+-
+	Changed the positions of some townspeople and cows, and added a extra cow. Cain got a different appearance.
+-
+	Disabled Cain's speeches about Lazarus in MP mode.
+-
+	Replaced Wounded Townsman by The Dark signpost.
+-
+	Speeches for entering Nest levels have lost their annoying text window.
+-
+	End Game message for killing The Dark Lord in Abyss.
+-
++	Dungeon messages, comments on victory and the activation sounds of certain bosses are also heard in MultiPlayer.
+-
+	Map is automatically switched on at game start, and objects on dungeon floors are highlighted while the map is active.
+-
++	Disabled the 'Duplicate item has been found' message, but the game will still remove them.
+-
+	Disabled 'New Game' and 'Quit' options when 'Restart in Town' is possible (to help prevent accidental exits when character has died).
+-
+	A new Option makes it possible to choose between 'CD' (Diablo Church & Catacombs) and 'HD' (Original Hellfire soundtracks), affecting the music for Nest and Abyss. The reason for this is that some brands of CD-ROM equipment can give problems, because of powersaving features. Use 'HD' if you copied all the needed files to harddisk, and 'CD' if you are using the Diablo CD-ROM and experiencing these problems.
+-
+	The coloring palettes of town and the dungeon levels are changed, and for Church and Catacombs the number of possible palettes is increased.
+-
+	Changed many un-selectable dungeon objects to give areas a different look.
+-
+	Burning crosses are more common, and their damage is no longer neglectible.
+-
+	Skeleton Tomes can drop all possible scroll types.
+-
++	Damage from exploding barrels, pods or urns depends on difficulty and dungeon level.
+-
++	New Spiked Ball trap in Abyss, based on the old 'mindmace' animation.
+-
+	All traps are improved. They have a better chance to hit (80% instead of 40%) and do damage depending on DLVL and difficulty mode. Nova and Spiked Ball traps can often be deadly.
+-
++	Shrines can not be identified by their names. Most have beneficial effects, and those that have not will only affect the character touching it.
+-
+	Shrines in Hell often appear as crucified skeletons.
+-
+	Mysterious Books are found on levels 4, 8 and 12. They create a Mysterious shrine effect for all present characters.
+-
+	Blood Foutains give large amounts of life (depending on DLVL and difficulty).
+-
+	Purifying Springs appear as a Cauldron, and give large amounts of mana (depending on DLVL and difficulty).
+-
+	Murky pool is re-usable (note that the created Seeing spell effect does not stack).
+-
+	Fountain of Tears is replaced by a Circle of Abundance which fully restores Life and Mana with every touch.
+-
+	Tomes in Abyss may cast Seeing, recharge items, or upgrade Healing and Mana potions, and affect all present characters.
+-
+	The spellbook stands found on the last Abyss level give Invincibility and full mana to the reader. The Invincibility takes away one DEX, as usual.
+-
+	Wirt only sells things up to 120000 gold now.
+-
+	Griswold and Wirt no longer try to sell better equipment then your character already has.
+-
+	Lower refund prices, but also lower repair prices at Grizwold's shop.
+-
+	No item can be sold for more then 25000 gold at Adria's or 20000 at Grizwold's.
+-
++	Full potions of any kind are no longer unlimited available in shops.
+-
+	Grizwold sometimes sells Blacksmith Oils.
+-
+	Pepin always sells Scrolls of Town Portal.
+-
+	From Adria, you can obtain a key to safely store 100000 gold. She will return the amount on request, minus a small fee for herself.
+-
+	Spell recharge costs at Adria are revised (recharging unique items will no longer be cheaper as intended).
+-
+	Changed start and restart positions.
+-
+	The amount of gold found in the dungeons is decreased.
+-
+	Each slot in inventory can hold up to 10000 gold.
+-
++	Restarting in town makes a character loose half of all gold in inventory.
+-
+	Dying on level 16 makes a character drop items, like everywhere else.
+-
+	Full information (including correct Magic requirement for Spellbooks) is shown for items on the ground in Town, and in the dungeons while the map is active.
+-
+	Quests may give different reward items, and use tougher monsters. Quest items are not re-usable in new SP games.
+-
+	King Leoric and The Butcher quest will always appear in SP, but Gharbad the Weak, Cow and Theodore quests are disabled.
+-
+	Slain Hero (level 9 in SP) will always give a book of Lightning Wall.
+
+Back To Top      Characters
+-
+	Characters may unintentionally hit eachother, with ranged as well as melee attacks. Minimum final ToHit against other characters is 25%, maximum is 50%.
+-
+	Spells and skills can not be used while any character attribute is zero.
+-
+	Most character classes have a fixed appearance, regardless of the type of armor worn. This is done to be better able to distinguish between some classes in coop, but also because it looks better.
+-
+	Xp is shared for all players on the same dungeon level, regardless of their role in the death of the monster and without being divided by the number of players.
+-
+	The (MP only) limit to XP gained per monster has been raised from 200*CLVL to 250*CLVL.
+-
++	Fixed bugs that allowed characters attributes to become negative.
+-
++++	Fixed bugs for dying with Life-decreasing items.
+-
+	Fixed walking animation for Bard with a sword.
+-
+	All characters can see traps with Seeing or when CLVL is greater then 2*(DLVL+1).
+-
+	All characters regenerate Life and Mana at a rate determined by Vitality and Magic (increased with every 32 points). Regeneration is doubled while in Town.
+-
+	Running in town is automatically enabled for both SP and MP.
+-
+	Running in the dungeons is possible by continuously pressing down the control key (like in DiabloII). This will cause a lifedrain which will increase with heavier armors or shields. This drain is more severe for Sorcerers. To be able to run current life must be more then 25% of the maximum amount. You might have to adjust your keyboard rate to a shorter delay and faster repeat if you experience problems. Running isn't supported in MP, and might show incorrectly to others. Also, casting spells while running may paralyse your character, which lasts until hit by an attack.
+-
+	Maximum chance for blocking melee attacks is 70%. However, monks receive a bonus of 10% on top of this, and barbarians, rogues and sorcerers a 20% penalty (which gives them 80% and 50% maximum, respectively). 
+
+
+++	Blocking a melee attack does not prevent knockback.
+-
+	Maximum chance for blocking missile attacks is 90%. Spell attacks will only be blocked if the character has no resistance to the spell damage. Apocalypse can never be blocked.
+-
+	Critical Hits do double damage and have a chance of 6+2*CLVL/5 % to occur. If succesful, this chance is checked again for possible more critical damage, up to a limit of 32*CLVL. All characters except rogues and sorcerers can do critical damage with melee weapons, while warriors and rogues can with bows. All characters can do critical damage with spells. Attacks on other players will never do critical damage.
+-
++	Slightly increased ToHit-penalty for bows when shooting over long distances.
+-
++?	Arrow speed is lowered to prevent continuous misses at a certain distance.
+-
++	Arrows have 25% chance to continue their path after a successful hit. Secondary effects such as fire or lightning will not occur if this happens.
+-
+	Characters start with 50 gold, except for the Bard who starts with 150 gold.
+-
+	Sorcerer starts with Fire Bolt and Holy Bolt spells, and a staff of Charged Bolt.
+-
+	Bard starts with Firebolt and two daggers.
+-
+	Warrior starts with a shortbow in inventory.
+-
+	Barbarian starts with two bone clubs.
+-
+	Monks have Escape, and Rogues have Telekinesis as skill.
+-
+	Warrior's Repair skill will always lower maximum durability by 1, regardless of CLVL.
+-
+	Barbarians have Healing as a skill. The amount of life restored increases with CLVL, but also with higher Healing spell levels.
+-
+	Sorcerers have Spell Recharge as skill. It will lower the current durability of items it is used on, and can therefor not be used on jewelry and such.
+-
+	Base damage for rogues is lower, and only determined by DEX.
+-
+	Barbarians are stunned when damage exceeds CLVL, other classes with 3*CLVL/4.
+-
+	Barbarians no longer have innate resistance.
+-
+	Warriors and Barbarians have 75% chance to avoid knockback from monsters.
+-
+	Warriors and rogues have a built-in +30 bonus for ToHit while using bows.
+-
+	Bards and sorcerers have a built-in +30 bonus for ToHit with spells.
+-
+	Improved attack speed for Warriors using Bows
+-
+	Warriors receive 2.5 Life for each VIT point from items
+-
+	Sorcerers have +1 to SLVL.
+-
+	Slower spell casting speed for sorcerers (bard and sorcerer are now equally fast)
+-
+	Bard has improved damage only when not using other weapons as swords
+-
+	Bard receives 2.5 Mana for each Magic point from items
+-
+	Bards with no other weapon as swords, and Barbarians, have the same melee attack speed as warriors
+-
+	Monks (with staff or barehanded) and Bards (when using no other weapon as a sword) have 1+CLVL/2 bonus to AC
+-
+	Monk in light armor (or in unique mail armor) have another CLVL/2 bonus to AC, but -CLVL penalty to AC when wearing any plate armor
+-
+	Unarmed combat damage for Monks is 1 to 1+CLVL/2, and unarmed attack speed is equal to that with staves (which is faster as other classes can be)
+-
+	Monk has fastest Blocking speed, and thus no longer needs Fast Block items
+-
+	Barbarians have -1 to SLVL.
+-
+	Barbarians receive 3.0 Life for each VIT point from items.
+-
+	Barbarians with axes have CLVL*VIT/100 bonus to damage, ignore 1/8 of their targets AC, and have a chance (STR/8 %) to avoid half of the final melee damage inflicted upon them.
+-
+	Barbarians can use two one-handed weapons at the same time, just like Bards.
+-
++	Monks with staves, Barbarians with two weapons or an axe, and Bards with two weapons have a sweep attack, which do half normal damage with 30+2*MLVL-2*CLVL (minimum 30) penalty for ToHit.
+-
+	Monks will auto-equip staves.
+
+Back To Top      Items
+-
+	Modified durability, quality level, armor class, damage, requirements, and other statistics for most base items. Many items have new images, and some even have their own (new) drop animations.
+-
+	There are a number of new and better base items, including a helm, shield, mail, sword, staff and axe. These will, in general, not be found in Normal mode.
+-
++	There are special 'class items', that give a bonus (determined by CLVL) to attributes when merely kept in inventory, but only for the matching character class. Your character will make a comment to notify you, when one is recovered. These items can only be found on the deepest levels of Hellmode.
+-
+	Many new and changed Unique Items. All have their own unique image. In general they are found in deeper levels and are more expensive, and (nearly) always useful. All unique items can be found, including the quest rewards from SinglePlayer. Many unique items use graphics that were not shown in the original Hellfire.
+-
+	All swords and bludgeoning weapons are one-handed.
+-
+	Spell charges are supported on any item, and can be recharged in many ways.
+-
+	Indestructible armor, shields or weapons do not exist. Items having the maximum durability of 255 can be damaged as normal.
+-
+	When an item's current durability is depleted, its maximum durability will start to decrease. If that also is depleted, the item will be destroyed.
+-
++	Slightly increased chance for durability loss when hitting with a melee weapon.
+-
+	Increased chance for durability loss when shooting with a bow.
+-
+	Reduced chance for durability loss on armors when character is stunned.
+-
+	All magic Oils can be found in MultiPlayer. Effects other than those affecting durability are not permanent, and will not be carried over to a new game.
+-
+	Limits on bonusses from oils are mostly removed making them more useful for high level characters.
+-
+	Small Potions return 2/8 to 5/8 of the total amount of Life and/or Mana, regardless of character class.
+-
+	All scrolls have a Magic requirement, but one that is low enough to make them usable by any higher level character.
+-
+	Potions of Mana and Elixers are expensive, but you will be able to buy Elixers of Vitality too.
+-
++	Spellbooks are no longer readable when maximum Spell level is reached.
+-
+	Many existing suffixes and prefixes are adjusted and can appear in combinations that are not possible in the regular game.
+-
+	Doppleganger, Peril and Sparkling no longer exists.
+-
+	New prefixes in the Shielding and Absorbing series, and new Spell suffixes exists.
+-
+	New 'Increased Mana regeneration' property (for Unique items only) allows characters to regain 5/8 Mana per second more.
+-
+	Corruption gives a severe Mana drain, instead of removing all Mana at once.
+-
+	Extra AC vs. Demons or Undead adds CLVL to AC.
+-
+	Negating ("Negates Magic") sets all resistances to 0, but also halves the damage received from any spell attack.
+-
+	Extra AC vs. Demons or Undead gives a bonus of 25 AC.
+-
+	Evasion absorbs 25% of damage from spells or other missiles. It also lowers the maximum chance to get hit by such attacks from 95% to 64%, or even lower with high DEX (to a minimum of 32% at 256).
+-
+	Devastation now adds to Critical Damage, and can also appear on bows. It effectively adds 16 to CLVL in Critical Damage calculations, increasing both the chance for succes, and the maximum amount of damage that can be reached with criticals.
+-
+	Revenge ("Attacker takes damage") makes attackers take damage equal to half the actual damage they inflicted.
+-
+	Dreadfull ("Random 0-300% damage") applies to your total melee damage.
+-
+	Piercing ignores 1/4, Puncturing ignores 3/8, and Bashing ignores 1/2 of target's AC, when on melee weapons.
+-
+	Piercing on bows uses only 1/4 of the distance penalty in ToHit calculations, while Puncturing on bows (nearly) ignores distance.
+-
+	Demonslaying gives 50% chance to do double damage on Demons. For monks, who have built-in Demonslaying, the damage will be tripled.
+-
+	Items that give Less Damage from Enemies add up to a maximum total effect of (CLVL+1)/2 points reduction.
+-
+	The Darkness effect is not considered a curse, and therefore expensive.
+-
+	Anvils of Repair will restore up to 50% of an items durability, with a maximum of 30 points.
+-
+	Accuracy, Hardiness and Imperviousness Oils are improved.
+-
++	Blacksmith Oils will add 1 to maximum durability as long as it is below 200.
+-
+	Oil of Permanence is now called Oil of the Ages, and it increases maximum durability to 200.
+-
+	Oils of Mastery no longer exist.
+-
+	Oils of Death can now also be used on bows.
+-
+	Rune of Recharging will fully recharge any item with spell charges.
+-
+	Bottle of Fury gives Rage and heals life.
+-
+	Valuable Bloodstones can be found. Adria will pay 15000 gold for them.
+-
+	A Tome of Lore will hold up to 60 Identify scrolls. If not empty, it enables a character to cast Identify spells (by right-clicking on it). Adria will fill it with 10 scrolls, and it will automatically fill itself further with scrolls that are picked up in such a manner that they go into the backpack (not belt) directly.
+-
+	Potion Bags are used to store up to 60 potions of one type. It will automatically fill itself with potions of the correct type that are picked up in such a manner that they go into the backpack (not belt) directly. The type of potion is determined by the first picked up with an empty bag. Right-clicking on a bag will retrieve a potion.
+-
+	Immolation, Nova and Arcane Runes can be found and bought. They will create a triple-strength version of the corresponding spell at a desired point of impact, which must be in view. As replacement for SLVL in damage calculations these runes use CLVL/4, and they require no Magic to operate, which makes them useful for all character classes (although the normal chance to hit or miss, based on Magic, still applies).
+-
+	Ears can be used to cast the Mana spell.
+-
+	Rainbow Elixers give 4 points to spent on attributes. They cannot be found or bought, but are created with the ingredients that can be found in Abyss (Vial of Darkness, Vial of the Spirits, and Vial of Light).
+-
+	The Cathedral map can be found on level 16. In MP it has no use, but in SP it is needed to open the entrance to the Abyss.
+
+Back To Top      Monsters
+-
+	Modified statistics for all existing monsters, and several new are monsters added. In general, monsters do not inflict more damage as in the original games, but they are smarter and tougher (especially in Nightmare and Hell modes).
+-
+	After 30 kills, the remaining life of the monsters is shown.
+-
+	Bosses will never drop spellbooks as a reward (with the exception of Zhar the Mad in SP, ofcourse).
+-
+	You can meet many different opponents on each level, even on level 16.
+-
+	Barrels, pods and urns may have several types of monsters in them, including types that normally not appear on the level.
+-
+	Bosses have larger minion packs (up to 15 monsters, and more for King Leoric and the Butcher), but can sometimes appear alone or with a smaller group. Several bosses are of a different type then used for the pack, and a few use random appearing monsters.
+-
+	All monsters have 20% minimum chance to hit, and 42% chance to avoid knockback from weapons and stuns. However, maximum chances for ToHit on characters are reduced by CLVL/4.
+-
+	Monster Melee ToHit is 40+9*(MLVL-CLVL)+BaseToHit-AC, and monster Archer ToHit is 40+8*(MLVL-CLVL)+BaseToHit-AC. This makes that AC values between 300 and 400 are effective against the toughest melee monsters in Hell mode. Lower values are still very useful for lesser monsters.
+-
+	Resistant monsters receive only 1/8 damage from spells, but can be stunned if damage is still high enough.
+-
+	Monster attacks are more random (thanks to Crystalion's fix to the stuck pRNG).
+-
+	Summoned Golems and Charmed monsters will no longer attack characters, eachother, or StoneCursed creatures, and will be attacked on sight by all enemy creatures.
+-
++	Monsters will warn other, direct neighbouring, monsters when they become aware of you.
+-
++	Monsters no longer always target the closest character, if it is out of sight, nor do they prefer to attack 'game creator' characters.
+-
+	Improved intelligence for several Ranged attack types (shooting goats, witches and liches), so that they do not blindly follow their target when it goes out of sight.
+-
++	Monsters do not forget or loose their target while in view of it.
+-
++	As long as their boss is alive, minions will have the ability to alert the entire pack to your presence, even if there is a large distance involved. They will also try to regroup when they lost their target.
+-
+	All monsters are immune to attacks, but do not regenerate, while Stone Cursed.
+-
+	Some bosses and normal monsters, such as all Gargoyle types, are immune to Stone Curse. However, most of those will be affected by the Medusa Gaze spell.
+-
+	Some monsters have Life Drain (all Shredded types, Guardian Princes, King Leoric and the Dark Lord). This enables them to add the damage they do to their life, without limit.
+-
+	Monsters in SP have as much life as in MP, and can have Lifestealing as well.
+-
+	Monsters are fairly even divided in Animals, Undead and Demons, although certain areas favor certain classes. For example, you will find many animals in Caves, mostly Demons in Hell, never Undead in Nest, and mostly Undead and Demons in Abyss. Also, monster groups always belong to the same class. For example, all knights, golems and shredded are Undead, all drakes, spiders and dogs are animal, and all balrogs, witches and mages are Demon.
+-
+	Animals are always immune to Magic, Undead are always immune to Lightning, and Demons are very often immune to Fire, and at least resistant to Fire or Lightning.
+-
+	Monster regeneration varies by type. Undead hardly regenerate, while Demons can heal themselves very quickly.
+-
+	Corrected Familiar attack damage (so that damage varies with difficulty).
+-
+	Missile Speed for FireBolt, FireBall and Bloodstar from monsters has increased.
+-	
+	Increased damage for Flash from Mages, for Lightning from Lightning Demons, and Inferno from Balrog types.
+-
+	Improved secondary attacks for Lightning and Magma Demons.
+-
+	Increased chances to charge their target for all Charging creatures.
+-
+	Improved Fallen One attacktype to allow for more and better 'warcries'.
+-
+	Some monsters can use 'warcries' like Fallen Ones, but will never flee.
+-
+	Balrog types will only use Inferno from a distance, not while in melee range.
+-
++	Adjusted Diablo attacktype to favor melee attacks over Apocalypse while in melee range.
+-
+	All spitting dogs, all spiders, Firebats, Hellbats and Scowlers are immune to Charm, despite the fact these are all animals.
+-
+	All spitting dogs and spiders will become a damageing acid puddle after death.
+-
+	All Gargoyles will pretend to be statues again, if left alone for a while.
+-
++	The attacks of mages, liches and scowlers always give splash damage, making these monsters more dangerous then they were before.
+-
+	Scavenging monsters (the normal scavenger types, but also Nest Rats, Grave Diggers and Dark Servants) heal faster.
+-
+	All Shredded types steal life and can drain STR at 12.5% chance per hit.
+-
+	Dark Servants can drain VIT at 37.5% chance per hit.
+-
+	Illusion Weavers are no longer immune to attacks while retreating.
+-
+	Stalking Death hide like the Hiddens, but will only flee after stunning blows when they are halfway damaged. They are immune to all attacks while retreating.
+-
+	Ghost Warriors hide like the Hiddens too, but will never flee.
+-
+	Sparkworms have a Lightning attack like that of Familiar bats, but more deadly.
+-
+	Warpers have the ability to teleport next to your character if attacked, similar to Blink bats.
+-
+	Dark Mages look different and are more agressive as other wizards, and will follow if you try to escape.
+-
+	Horror Archers shoot lightning arrows.
+-
++	Fire Clan and Hell Clan goats shoot fire arrows.
+-
+	Satyr Lords no longer appear as normal monster, but only as Goat bosses and Gharbad's minions.
+-
+	Fallen Rogues were once heroes but are now in the service of the Dark Lord. Being human, they cannot be stonecursed or charmed. They also posses Evasion, which makes them very hard to hit with spells and other missiles, and have the ability to hide themselves (even from Seeing). Otherwise, they are weak as any rogue, and quickly die from heavy damage.
+-
+	King Leoric, Gharbad the Weak, the Butcher and The Defiler will always appear, in both SP and MP, on the last level of their area (Church for Leoric, Catacombs for Gharbad, Caves for Butcher and Nest for Defiler). They, and the Dark Lord (on both occasions), will drop two magic items as a reward (in SP, King Leoric and the Butcher will only drop the proper quest item).
+-
+	The Dark Lord has the ability to resist all spells, and cannot be truly slain in Hell. He appears again on the last level of the Abyss, stronger as ever before. The game does not end when Diablo is killed.
+
+Back To Top      Spells
+-
+	Spellcasters are not immune to their own spells.
+-
++	Removed Mana cost reduction for all character classes.
+-
++	Spell Book pages are reorganized, so that spells are grouped by functionality, and show more accurate damage values. Spell info is displayed also when staves are used.
+-
+	Modified overlay text on speedbook icons for items with spells.
+-
+	All characters can do critical damage with spells (at a recurring chance of 6+2*CLVL/5%). Resisted spells may still cause very high damage this way.
+-
+	The chance to hit targets with a spell is calculated as 30+MAG-2*MLVL, with a bonus of 30 added for Sorcerers and Bards.
+-
+	All spells may stun any not-immune monster, provided that the inflicted damage is high enough.
+-
++	Splash from spells like Fireball and Arcane Star does half normal damage and will always occur, even if it is out of sight of the caster.
+-
++	Spell hotkeys are available: A for Escape, Q for Invincibility, W for Fire Wall, E for Lightning Wall, R for Sanctuary, T for Blood Wave, Y for Golem and U for Charm.
+-
+	Character Class related F1-F4 hotkeys: F1 for Healing or Mana Shield, F2 for Teleport, F3 for Barrier, Telekinesis, Medusa Gaze or Divine Help, and F4 for Stone Curse or Rage.
+-
+	All these fixed hotkeys can automatically be used whenever the corresponding spell is available for casting (this includes skills, equipped items and scrolls in inventory).
+-
+	Fire Bolt has increased damage.
+-
+	Damage and maximum speed of Fire Ball is lower, and its missile uses a different animation as Fire Bolt.
+-
+	Elemental is slower, can knockback, is improved in damage, and will hit opponents multiple times. It also gives splash damage, although very little.
+-
+	Inferno does damage determined by CLVL, and always has a 90% chance for ToHit
+-
+	Guardian will attack enemies with Inferno, so damage will depend on CLVL. Duration depends on SLVL. There can be only one Guardian at any given time.
+-
+	Charged Bolt can be cast at any remote location in view of the caster.
+-
+	Lightning Blast can knockback and has a very high damage potential.
+-
+	Arcane Star does moderate Magic damage, gives splash, and has knockback.
+-
+	Bloodstar does no longer drain life, gives more damage and has a higher speed.
+-
+	Flash works properly, doing damage as listed in the spell book.
+-
+	Nova and Immolation do more damage, and can be cast at any remote location in view of the caster.
+-
++	Arcane Destruction creates a multitude of Arcane Stars, similar to Nova and Immolation.
+-
++	Fire- and Lightning Walls do no damage, but creatures that are not immune will not try to cross the walls. Duration is fairly long and improves with higher SLVL. Walls will terminate when another of its type is created by the same caster.
+-
+	Holy Bolt has a knockback effect, and damage based on SLVL, CLVL and MAG.
+-
+	BoneSpirit hurts a monster for 1/8 of its remaining life, and may hit several times. Only Undead are immune to it, and only The Dark Lord is resistant to its damage.
+-
++	Magic Missile does non-elemental damage, uses the new Krull animation, and will shoot extra missiles towards any monster that comes within range (determined by SLVL). Damage increases more strongly with high SLVL values.
+-
+	Doom Serpents is a targetting spell like Bone Spirit and Elemental. It uses a new animation, has knockback and uses all of the casters mana to give very high non-elemental damage. It also gives splash damage, although very little.
+-
+	Apocalypse attacks all enemies in view of the caster. It uses all of the casters mana to give very high non-elemental damage. Casting will cost one MAG.
+-
+	Sanctuary creates a circle of holy flames around the caster. All Demons and Undead that are not immune to Magic are repelled by it. Duration improves with higher SLVL. There can only be one Sanctuary at any given time, so repeated casting will terminate older Sanctuaries.
+-
+	Blood Wave does no damage, but has the ability to repel any monster. It always has a 90% chance for ToHit.
+-
+	Stone Curse will not work on all monsters, and those affected are immune to any attack for the duration of the spell.
+-
+	Medusa Gaze will Stone Curse all monsters in view of the caster. Only Gargoyles and a few individual Demons are immune to this spell. Casting will cost one MAG.
+-
+	Golem resists all elemental spells, but is vulnerable to Holy Bolt. Its damage and life increase with CLVL, SLVL and MAG. A summoned Golem will not attack other Golems or Charmed animals, and detoriates over time. Monster statistics are shown as for other creatures.
+-
+	Healing has lower mana cost at higher SLVL.
+-
+	Heal All restores life for all characters nearby (including the caster).
+-
+	Divine Help will, during a short period, continuously restore life and mana for all characters. Duration and the amount restored increase with both CLVL and SLVL. Casting this spell will cost one VIT.
+-
+	Barrier reduces melee damage by 15+RND[CLVL/2]% for a number of hits determined by SLVL and CLVL.
+-
+	Mana Shield has a Mana leak that increases for larger amounts of Mana, and decreases with SLVL. There is no life loss when it expires, and all stun-related bugs are fixed. Damage absorption becomes more efficient with high SLVL.
+-
+	Warp teleports to the furthest stairs on dungeon levels, and to the Church entrance while in town.
+-
+	Charm will only affect animals (but not bats, dogs, spiders or scowlers), regardless immunities and resistances. Charmed monsters become your ally. They do slightly less damage as unaffected monsters do.
+-
+	Escape teleports the caster to a random location nearby. While risky and not always useful, this spell is faster as teleport and can provide help in desperate situations.
+-
+	Rage increases Strength, Dexterity and Vitality, for a short period. This spell improves with CLVL. All negative effects from the old HellFire spell are removed.
+-
+	Seeing makes the caster aware of all nearby creatues and traps, and shows information about monster's resistances and remaining life. Duration is long, and not affected by CLVL, SLVL, or repeated castings.
+-
+	Invincibility makes the caster temporary invulnerable to melee attacks. The duration is not affected by CLVL, SLVL, or repeated castings. Casting this spell will cost one DEX.
+-
+	The Mana spell will restore Mana, the amount depending on CLVL.
+
+Back To Top      Shrines
+-
+	Magical, Divine, Spooky, Glimmering, Cryptic, Sparkling and Shimmering shrine effects no longer exist.
+-
+	Enchanted, Stone, and Hidden shrine effects are more common in Hell.
+-
+	Mysterious, Enchanted, Stone, Weird, Gloomy, Religious, Eldritch and Spiritual effects are shared by all characters on the same level.
+-
+	Oily, Murphy and Tainted will not be found in Church or Catacombs.
+-
+	Hidden and Enchanted will not be found in Church.
+-
+	Mysterious will not affect characters with maximum attributes.
+-
+	Murphy has 1:10 chance to halve the maximum durability of one equipped item, or takes away half the gold, of the character touching it.
+-
+	Oily creates a Sanctuary spell and gives the user 2 points to spend on attributes.
+-
+	Weird adds 1, 2 or 3, depending on difficulty, to maximum damage of all carried weapons.
+-
+	Gloomy adds 2, 3 or 4, depending on difficulty, to the AC of all carried armor, but does not lower any damage.
+-
+	Hidden can no longer lower item durability, unless it is higher as 240.
+-
+	Eerie, Abandoned, Creepy and Quiet give one to the corresponding attribute, for all characters around.
+-
+	Tainted only affects the character touching it.
+-
+	Sacred decreases Vitality by 1, and adds a spell level choosing between Healing, Heal All (Nightmare and Hell mode) or Divine Help (Hell mode only).
+-
+	Ornate decreases Dexterity by 1, and adds a spell level choosing between Stone curse, Golem (Nightmare and Hell mode) or Medusa Gaze (Hell mode only).
+-
+	Fascinating decreases Magic by 1, and adds a spell level choosing between Telekinese, Barrier (Nightmare and Hell mode) or Sanctuary (Hell mode only).
+-
+	Town decreases Strength by 1, and adds a spell level choosing between Townportal, Warp (Nightmare and Hell mode) or Teleport (Hell mode only).
+-
+	Sacred, Ornate, Fascinating and Town Shrine do not affect characters that have the chosen spell at maximum level.
+-
+	Holy adds 1 to each attribute that is not at maximum.
+-
+	Eldritch transforms all small Healing and Mana potions into full potions.
+-
+	Enchanted lowers one spell in level, and gives 50% chance for all other known spells to increase in level.
+-
+	Spiritual gives more gold, the amount depending on dungeon level and difficulty.
+-
+	Mendicant's (SP only) converts all gold into XP.

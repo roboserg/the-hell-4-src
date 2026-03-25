@@ -1,0 +1,9 @@
+()Drop items/gold also if dying on level 16
+
+:0045A10D 7509                    jne 0045A118
+wordt:
+:0045A10D EB09                    jmp 0045A118
+
+>>>
+
+9090

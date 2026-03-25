@@ -1,0 +1,13 @@
+
+
+
+
+
+New unique item table at offset: 1D1C00
+
+
+Last unique item data over at offset: 30B744
+
+New virtual address for unique item table is: 805000
+
+CED98 <- at the end of taable, it directs there (I think)

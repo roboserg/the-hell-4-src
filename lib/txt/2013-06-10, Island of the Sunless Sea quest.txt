@@ -1,0 +1,1186 @@
+﻿"Island of the Sunless Sea"
+
+Квест даёт Фарнхэм, после того как герой побывал на уровне подземелья №10
+
+У всех горожан есть речевки про этот квест.
+
+Локация айлэнда - это один уровень в сеттинге пещер.
+
+Вход на локу находится на уровне 11. Выглядит.... надо нарисовать дун файл для этого, мне. Но туда будет вести портал, это точно.
+
+Что с камешками делать ("pick the right rocks") - ?
+
+Локацию мне надо нарисовать. Это дун максимальных размеров (40х40 кажется).
+Палитра готова: levels\L3\island02.pal
+
+Особенностью уровня будет ускоренная регенерация жизни и маны. Это я сам закодить смогу.
+Особенностью уровня, негативно влияющей на игрока будет - ?
+
+Зачистка уровня закроет квест.
+===========================
+
+Особенности уровня с морем:
+1. Ускоренная регенерация жизни и маны (пепин: "a place of great healing...")
+2. Повышенный опыт с монстров в этой локации (Кейн: "Angels and warriors of light could use this place to heal themselves and gather their strength. It was also a staging area where they could train and prepare for the Sin War" )
+3. Повышенный урон от монстров (+DFE ?..) (Пьяница: "you better shield your eyes; shield everything!")
+
+Quest group:
+Zhar the Mad, Black Mushroom, Anvil of Fury < сюда добавить (выбираться будет из списка по-прежнему 2 квеста)
+
+Дун файл (5х5) для входа в локу:  levels\L3\islandEntry.dun
+Объекты расставлены (три статуи ангела) монстры есть
+
+-----------------------------------------------------------------------------
+
+План.
+0. Снести нах огрызки от квестов дефа и убера
+1. сделать болтовню о квесте горожанам
+2. активировать квест после посещения 11го уровня
+3. добавить в выборку квестов
+4. сделать вход в локу 11 этаж
+5. сделать загрузку локи (одной)
+6. Настроить варпы между 11 этажом и островом
+7. Экран загрузки, спецмузыка если есть
+8. Убедиться в том, что при перезаходе на локу она грузится нормально
+9. Загрузка босса и спецскрипты
+
+================================================================
+0. занопить: / ready
+
+.text:0043D54E 83 25 A0 B5 6E 00 00                    and     Quests.talkToFlag+230h, 0/
+
+.text:0045EE96 C6 05 8A B5 6E 00 02                    mov     Quests.Unknown1+230h, 2/
+.text:0045EE9D C7 05 A0 B5 6E 00 01 00+                mov     Quests.talkToFlag+230h, 1/
+.text:0045EEA7 C7 05 98 B5 6E 00 1E 01+                mov     Quests.QuestNamePtr+230h, 11Eh/
+
+На безусловный джамп:
+.text:00460502 75 23                                   jnz     short loc_460527/
+
+.text:0046052D 75 23                                   jnz     short loc_460552/
+
+==================================================================
+1. сделать общую настройку квеста
+
+1.1. заполнить инфо о квесте / ready*
+
+.data:004B6A98 FF                                      db 255 11; spDungeonLevel
+.data:004B6A99 FF                                      db 255 ; mpDungeonLevel
+.data:004B6A9A FF                                      db 255 3; dungeonType
+.data:004B6A9B 14                                      db 20 ; questNumber
+.data:004B6A9C 64                                      db 100 ; align
+.data:004B6A9D 00                                      db 0 16; questFloorNumber
+.data:004B6A9E 00 00                                   dw 0 ; align2
+.data:004B6AA0 01 00 00 00                             dd 1 0; isQuestBeInMp
+.data:004B6AA4 1E 01 00 00                             dd 286 @SpeechIndexAboutQuest; speechIndex // rechek here * ....17Dh (?)
+.data:004B6AA8 7B 9B 4B 00                             dd offset aTheDefiler   ; "The Defiler" "Island of the ..."; questName
+
+1.2. добавление в выборку / ready
+
+; лучше в конце делать, иначе это осложнит тесты
+
+4B6B30 - тут добавить в конец 20d дворд. Если не влезает, перенести // A37E10
+
+.dat2:00A350B8 30 6B 4B 00                             dd offset dword_4B6B30 ; изменить если там не влезает / done
+.dat2:00A350BC 03                                      db    3 4 
+.dat2:00A350BD 02                                      db    2 ; два квеста из группы так и остается
+.dat2:00A350BE 00                                      db    0
+.dat2:00A350BF 00                                      db    0
+
+1.3. болтовня горожанам
+opening speech for Drunkard: 17Dh
+004CB258
+14 строк размера 96 байт
+
+дворд нужной речи считается так:
+
+004CB258h + 60h * TownerIndex + questIndex * 4
+оно же для квеста 20d
+004CB2A8h + 60h * TownerIndex
+
+        TI_0_GRISWOLD =  0, / c9ca8
+        TI_1_PEPIN =  1, / c9d08
+        TI_2_WOUNDED_GUY =  2,
+        TI_3_OGDEN =  3, / c9dc8
+        TI_4_CAIN =  4, / c9e28
+        TI_5_FARNHAM =  5, / --
+        TI_6_ADRIA =  6, / c9ee8
+        TI_7_GILIAN =  7, / c9f48
+        TI_8_WIRT =  8, / c9fa8
+        TI_9_COWS =  9,
+        TI_10_LESTER =  10,
+        TI_11_CELIA =  11,
+        TI_12_NUT =  12,
+        TI_13_NONE =  13,
+
+2. Вход в квестовую локу. Самая запарная часть
+2.1. освобожение места под шаблон /ready
+
+.mod:00719D40 6A 11                                   push    17
+.mod:00719D42 59                                      pop     ecx
+.mod:00719D43 90                                      nop
+.mod:00719D44 90                                      nop
+.mod:00719D45 90                                      nop
+.mod:00719D46 E8 48 5D D4 FF                          call    IsQuestOnLevel
+.mod:00719D4B 85 C0                                   test    eax, eax
+.mod:00719D4D 0F 84 3A 88 CF FF                       jz jnz     loc_41258D 00719D68
+
+mov ecx, 20
+call    0045FA93 ;IsQuestOnLevel
+test    eax, eax
+jnz   @freeRoomForIsland
+.mod:00719D5E EB 08                                   jmp     short loc_719D68 41258D ; ретурн
+
+------------------------------
+@freeRoomForIsland:
+копия 00719D68, изменения только тут:
+.mod:00719D82 8D 48 0A                                lea     ecx, [eax+10 6]
+.mod:00719D86 8D 4F 0A                                lea     ecx, [edi+10 6]
+
+      chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719D54(U)
+|
+:0071C7A0 6A14                    push 00000014
+:0071C7A2 59                      pop ecx
+:0071C7A3 E8EB32D4FF              call 0045FA93
+:0071C7A8 85C0                    test eax, eax
+:0071C7AA 7514                    jne 0071C7C0
+:0071C7B1 E9D75DCFFF              jmp 0041258D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071C7AA(C)
+|
+:0071C7C0 89EA                    mov edx, ebp
+:0071C7C2 30C9                    xor cl, cl
+:0071C7C4 E891D7CFFF              call 00419F5A
+:0071C7C9 89C7                    mov edi, eax
+:0071C7CB 89EA                    mov edx, ebp
+:0071C7CD 30C9                    xor cl, cl
+:0071C7CF 01EF                    add edi, ebp
+:0071C7D1 E884D7CFFF              call 00419F5A
+:0071C7D6 01E8                    add eax, ebp
+:0071C7D8 89C2                    mov edx, eax
+:0071C7DA 8D4806                  lea ecx, dword ptr [eax+06]
+:0071C7DD 51                      push ecx
+:0071C7DE 8D4F06                  lea ecx, dword ptr [edi+06]
+:0071C7E1 51                      push ecx
+:0071C7E2 89F9                    mov ecx, edi
+:0071C7E4 E8C068CFFF              call 004130A9
+:0071C7E9 E99F5DCFFF              jmp 0041258D
+
+2.2. создание шаблона /ready
+
+; В новом месте создаешь такой шаблон. Все числа hex
+; адрес пишешь сюда, чтобы я его потом не искал // A38888
+
+@IslandPatten:
+05 05
+
+07   07   07   07   07 
+07   07   07   07   07 
+07   07   07   07   07 
+07   07   07   07   07 
+07   07   07   07   07 
+
+6B   6C   6A   00   00
+6A   00   6B   00   6B
+6B   6C   6B   00   6C
+36   6B   6C   6B   00
+6B   00   6B   43   6B
+//
+2.3. установка шаблона
+2.3.1. Создание функции для установки шаблона острова / ready
+
+@PlaceIslandPatternToMap ;делаем копию 412102, адрес сюда // 71C800
+
+; в копии меняем 4 адреса 
+.text:0041210A 0F B6 1D 79 A6 48 00                    movzx   ebx, ds:PatMap11x11_48A678_AnvilOfFuryPattern+1
+на @IslandPatten
+
+.text:00412114 0F B6 3D 78 A6 48 00                    movzx   edi, ds:PatMap11x11_48A678_AnvilOfFuryPattern
+на @IslandPatten
+
+.text:00412186 8A 92 78 A6 48 00                       mov     dl, ds:PatMap11x11_48A678_AnvilOfFuryPattern[edx]
+на @IslandPatten
+
+.text:0041220B 8A 9A 78 A6 48 00                       mov     bl, ds:PatMap11x11_48A678_AnvilOfFuryPattern[edx]
+на @IslandPatten
+
+2.3.2. вызов функции / ready
+
+.mod:00719F36 74 0E                                   jz      short loc_719F46 00719F4B
+
+00719F4B >>>
+>>>
+push    20
+pop     ecx
+call    0045FA93 ;IsQuestOnLevel
+test    eax, eax
+jz      @return
+call @PlaceIslandPatternToMap
+mov     edi, eax
+@return:
+jmp 41278D
+
+ chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719F4B(U)
+|
+:0071C965 6A14                    push 00000014
+:0071C967 59                      pop ecx
+:0071C968 E82631D4FF              call 0045FA93
+:0071C96D 85C0                    test eax, eax
+:0071C96F 7407                    je 0071C978
+:0071C971 E88AFEFFFF              call 0071C800
+:0071C976 89C7                    mov edi, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071C96F(C)
+|
+:0071C97B E90D5ECFFF              jmp 0041278D
+
+2.3.3. загрузка монстров из дуна / ready
+
+;.text:0043C173 6A 0A                                   push    10
+;.text:0043C175 59                                      pop     ecx
+;.text:0043C176 E8 18 39 02 00                          call    IsQuestOnLevel
+;.text:0043C17B 85 C0                                   test    eax, eax
+;.text:0043C17D 74 2F                                   jz      short loc_43C1AE
+;.text:0043C17F 33 D2                                   xor     edx, edx        ; byteReaded
+
+0043C176 >>> / e9590
+call    0045FA93 ;IsQuestOnLevel
+test    eax, eax
+jz     @IslandCheck
+jmp 0043C17F ; anvil monsters
+@IslandCheck:
+push    20
+pop     ecx
+call    0045FA93 ;IsQuestOnLevel
+test    eax, eax
+jz      short loc_43C1AE ; следующая проверка
+@loadIslandMonsters:
+xor     edx, edx
+mov ecx, @IslandEnterPattern / A38000
+call  0041A02F;  LoadFile
+mov     esi, eax
+mov     eax, dword ptr [0061F33C] ;StartPatternCol40
+mov     ecx, esi        ; dunData
+lea     eax, [eax+eax+2]; на счет +2 не уверен
+push    eax             ; startCol
+mov     eax, dword ptr [0061F330] ;StartPatternRow40
+lea     edx, [eax+eax+2] ; startRow аналогично на счет +2
+call  0043C5CC ; AddQuestMonsters
+mov     ecx, esi        ; a1
+call  00419FFF ; FreeMem
+jmp 43C1AE ; следующая проверка
+
+2.3.4. загрузка объектов из дуна / ready
+
+;.mod:00719B50 E9 71 29 D3 FF                          jmp     loc_44C4C6
+
+00719B50>>> / e9610
+>>>
+xor     edx, edx
+mov ecx, @IslandEnterPattern
+call  0041A02F;  LoadFile
+mov     esi, eax
+mov     eax, dword ptr [0061F33C] ;StartPatternCol40
+mov     ecx, esi        ; dunData
+lea     eax, [eax+eax+2]; на счет +2 не уверен
+push    eax             ; startCol
+mov     eax, dword ptr [0061F330] ;StartPatternRow40
+lea     edx, [eax+eax+2] ; startRow аналогично на счет +2
+call  0044CF4F; ParseDUNFile2 ; добавление объектов из дуна
+mov     ecx, esi        ; a1
+call  00419FFF ; FreeMem
+; оставить место. Тут ещё может будет доп настройка статуй
+call 0071CB00 (см. строку выше)
+@return:
+jmp 44C4C6
+
+2.3.5. настройка купидона нашего
+
+.data:004B43A8 02                      angel           db 2 ; непонятный флаг
+.data:004B43A9 0F                                      db 15 ; индекс спрайта BOS_15_ANGEL
+.data:004B43AA 00                                      db 0 ; minDungeonLevel
+.data:004B43AB 00                                      db 0 ; maxDungeonLevel
+.data:004B43AC 00                                      db 0 ; DungeonType
+.data:004B43AD FF                                      db 255 ; RoomTypeIndex
+.data:004B43AE FF                                      db 255 20; индекст квеста для которого его грузить
+.data:004B43AF 00                                      db 0 ; field_4_4
+.data:004B43B0 00 00 00 00                             dd 0 ; hasAnimation
+.data:004B43B4 01 00 00 00                             dd 1 ; AnimationDelayFrameCount
+.data:004B43B8 00 00 00 00                             dd 0 ; FramesCount
+.data:004B43BC 60 00 00 00                             dd 96 ; Width
+.data:004B43C0 01 00 00 00                             dd 1 ; isBlockWalking
+.data:004B43C4 00 00 00 00                             dd 0 ; objectAllowWalking
+.data:004B43C8 01 00 00 00                             dd 1 ; field_20
+.data:004B43CC 00                                      db 0 ; destructable
+.data:004B43CD 00                                      db 0 1; selectable
+.data:004B43CE 00                                      db 0 ; field_24_3
+.data:004B43CF 00                                      db 0 ; field_24_4
+.data:004B43D0 00 00 00 00                             dd 0 ; CanBeTrappedWithWallTrap
+
+2.3.5.1. / ready
+текст при наведении
+
+;.text:0045467B 83 F8 19                                cmp     eax, 25
+;.text:0045467E 0F 85 D3 01 00 00                       jnz     loc_454857      ; jumptable 004546D3 default case
+;.text:00454684 80 3D 14 F3 61 00 00                    cmp     IsQuestFloor, 0
+
+0045467E >>> / e9660
+>>>
+jz 00454684
+cmp eax, 24
+jnz 454857
+push    offset "Rock angel"
+jmp     loc_45484F
+
+=======================================================
+
+Вариант активации портала в локу айлэнда такой:
+
+    Наугад (правильная последовательность статуй для кликания в каждой новой игре генерируется рандомно), как с открытием комнаты к накрулу, кликнуть по статуям, правильная активация каждой ознаменована генерацией флеша (или иного закла, если флеш трудно заделать) на тайле этой статуи.
+    
+    Если коснуться после правильной статуи к неправильной, то генерация сбивается и звучит саунд как когда ловушка опустошает ману (следующая комбинация из трех ставится рандомно, а не как у накрула - также), если в правильном порядке прикоснуться к статуям, то открывается портал в локу айлэнда слева от средней статуи и игрок получает ХР:
+    хоррор: 5000, пург: 40000, дум: 250000
+
+; новые данные
+db @CurAngelSeqIndex: 00h / 40550A
+db @AngelSeq: 00 00 00 00 00 00 00 00 00 / 405500
+
+====================================================
+
+@GenerateRandomSequenceOfAngels: / e9690 ( @71CA90 )
+; вызывается при заходе на локу, загрузке игры и т.п.
+; зависит от сида подземелья
+push esi
+push edi
+; вроде сид даже не надо инициализировать
+mov esi, 9
+mov edi, @AngelSeq / 405500 ( A38900 )
+@loop:
+mov edx, 3
+call 00419F5A
+inc eax
+
+mov byte ptr [edi], al
+
+inc edi
+dec esi
+jnz @loop
+
+pop edi
+pop esi
+retn
+
+          сheck:
+:0071CA90 56                      push esi
+:0071CA91 57                      push edi
+:0071CA92 6A09                    push 00000009
+:0071CA94 5E                      pop esi
+:0071CA95 BF0089A300              mov edi, 00A38900
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071CAAD(C)
+|
+:0071CA9A 6A03                    push 00000003
+:0071CA9C 5A                      pop edx
+:0071CA9F E8B6D4CFFF              call 00419F5A
+:0071CAA6 40                      inc eax
+:0071CAA7 8807                    mov byte ptr [edi], al
+:0071CAA9 47                      inc edi
+:0071CAAC 4E                      dec esi
+:0071CAAD 75EB                    jne 0071CA9A
+:0071CAAF 5F                      pop edi
+:0071CAB0 5E                      pop esi
+:0071CAB1 C3                      ret
+
+====================================================
+
+@SetupAngels: / e9700 ( @71CB00 ) / ready
+; установка индексов статуям
+push edi
+push esi
+push ebx
+
+mov     edi, dword ptr [006DE3B4h] ;ObjectsCount
+xor     edx, edx
+push         1
+pop         ecx
+test    edi, edi
+jle     @return
+mov     ebx, 006DE1B8 ; offset ObjectsIndex
+@loop:
+mov     eax, dword ptr [ebx]
+mov     esi, eax
+imul    esi, 78h
+cmp     dword ptr [6DE5C0 + esi], 24 ; BaseObjectIndex == BO_24_ANGEL
+jnz     @continue
+mov         dword ptr [6DE634 + esi], ecx ; object.bookIndex
+inc         ecx
+@continue:
+inc     edx
+add     ebx, 4
+cmp     edx, edi
+jl      @loop
+@return:
+
+; вызов @GenerateRandomSequenceOfAngels
+call 0071CA90 ;@GenerateRandomSequenceOfAngels
+
+; обнуление индекса текущего нажатия
+xor eax, eax
+mov byte ptr [@CurAngelSeqIndex], al // A3890A
+
+pop ebx
+pop esi
+pop edi
+retn
+
+chek:
+:0071CB00 57                      push edi
+:0071CB01 56                      push esi
+:0071CB02 53                      push ebx
+:0071CB03 8B3DB4E36D00            mov edi, dword ptr [006DE3B4]
+:0071CB09 31D2                    xor edx, edx
+:0071CB0B 6A01                    push 00000001
+:0071CB0D 59                      pop ecx
+:0071CB0E 85FF                    test edi, edi
+:0071CB10 7E2C                    jle 0071CB3E
+:0071CB14 BBB8E16D00              mov ebx, 006DE1B8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071CB3A(C)
+|
+:0071CB19 8B03                    mov eax, dword ptr [ebx]
+:0071CB1B 89C6                    mov esi, eax
+:0071CB1D 6BF678                  imul esi, 00000078
+:0071CB20 83BEC0E56D0018          cmp dword ptr [esi+006DE5C0], 00000018
+:0071CB29 7509                    jne 0071CB34
+:0071CB2B 898E34E66D00            mov dword ptr [esi+006DE634], ecx
+:0071CB33 41                      inc ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071CB29(C)
+|
+:0071CB34 42                      inc edx
+:0071CB35 83C304                  add ebx, 00000004
+:0071CB38 39FA                    cmp edx, edi
+:0071CB3A 7CDD                    jl 0071CB19
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071CB10(C)
+|
+:0071CB40 E84BFFFFFF              call 0071CA90
+:0071CB47 31C0                    xor eax, eax
+:0071CB49 A20A89A300              mov byte ptr [00A3890A], al
+:0071CB50 5B                      pop ebx
+:0071CB51 5E                      pop esi
+:0071CB52 5F                      pop edi
+:0071CB53 C3                      ret
+
+====================================================
+
+@CheckAngelClick: / e9770 ( 71CB70 ) / ready
+; ecx - индекс ангела
+; проверяет верность ввода. Если неверно, то сбрасывает счетчик в 0 и возвращает 0
+; если верно, но не последний элемент, то 1
+; если верно и все нажато, то 2
+movzx eax, byte ptr [@CurAngelSeqIndex] / a3890a
+cmp cl, byte ptr [@AngelSeq + eax] / a38900
+jnz @wrongAngel
+@validAngel:
+cmp eax, 8
+jz @seqDone
+
+inc eax
+mov byte ptr [@CurAngelSeqIndex], al
+push 1
+pop eax
+retn
+
+@seqDone:
+push 2
+pop eax
+retn
+
+@wrongAngel:
+xor eax, eax
+movzx byte ptr [@CurAngelSeqIndex], al
+retn
+
+chek:
+:0071CB70 0FB6050A89A300          movzx eax, byte ptr [00A3890A]
+:0071CB79 3A880089A300            cmp cl, byte ptr [eax+00A38900]
+:0071CB81 751D                    jne 0071CBA0
+:0071CB83 83F809                  cmp eax, 00000009
+:0071CB86 7412                    je 0071CB9A
+:0071CB88 40                      inc eax
+:0071CB89 A20A89A300              mov byte ptr [00A3890A], al
+:0071CB90 6A01                    push 00000001
+:0071CB92 58                      pop eax
+:0071CB93 C3                      ret
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071CB86(C)
+|
+:0071CB9A 6A02                    push 00000002
+:0071CB9C 58                      pop eax
+:0071CB9D C3                      ret
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071CB81(C)
+|
+:0071CBA0 31C0                    xor eax, eax
+:0071CBA2 A20A89A300              mov byte ptr [00A3890A], al
+:0071CBA7 C3                      ret
+====================================================
+
+@ActivateAngels: / e9800 ( 71CC00 )
+; ecx - playerIndex
+; edx - objectIndex
+; фукнция действия ангелов.
+; если уровень = уровню квеста острова, то:
+; вызываем @CheckAngelClick с номером статуи
+push edi
+push esi
+push ebx
+
+mov ebx, ecx
+mov edi, edx
+mov esi, edx
+imul esi, 78h
+
+cmp     byte ptr [esi+6DE600h], 00 ; selectable
+jz @return
+
+mov ecx, 20
+call    0045FA93 ;IsQuestOnLevel
+test    eax, eax
+jz     @return ; если ангелы ещё где нибудь планируются, то сделать длинный джамп. Чтобы потом легко было прыгнуть на новый скрипт
+
+mov ecx, dword ptr [6DE634 + esi] ; statueIndex
+call @CheckAngelClick
+test eax, eax
+jz @failScript
+dec eax
+jz @succesScript
+
+@fullSuccesScript: / e9847
+; если 2 - запуск скрипта который блокирует статуи, открывает портал и ставит ворп на ; его место. в скрипте можно и звук questDone играть
+mov eax, 20
+imul eax, 28
+add eax, 006EB358h
+mov byte ptr [eax + 20], 1 ; status2 = 1, значит портал уже открыт
+mov byte ptr [eax + 21], 1 ; status3 = 1, триггер старта скрипта открытия портала и деактивации статуй
+
+push dword ptr [006DE5C8 + esi] ; statue.Col
+mov edx, dword ptr [006DE5C4 + esi] ; statue.Row
+mov ecx, 14 ; S_14_SFX_MISC_QUESTDON
+call 004186C4 ; PlayLocalSound
+
+jmp @return
+
+@succesScript: / e9880
+; если 1 - каст флеша (он сам свой звук играет)
+xor eax, eax
+
+push eax ; slvl
+push eax ; damage
+push ebx; casterIndex
+push 1 ; casterType
+push 11 ; MI_11_FLASH_FR
+push eax ; casterDirection
+
+mov eax, ebx
+imul eax, 55C8h
+add eax, dword ptr [006EAE14h] ; Players
+push dword ptr [eax+ 60] ; Col
+push dword ptr [eax+ 56] ; Row
+
+mov edx, dword ptr [006DE5C8 + esi] ; statue.Col
+mov ecx, dword ptr [006DE5C4 + esi] ; statue.Row
+
+call 0043572F ; CastMissile
+; CastMissile(object.Row, object.Col, player.Row, player.Col, player.Orientation, MI_11_FLASH_FR, CT_1_MONSTER_AND_TRAP, 0, 3 * DungeonLevel + 2, 0);
+
+xor eax, eax
+
+push eax ; slvl
+push eax ; damage
+push ebx; casterIndex
+push 1 ; casterType
+push 12 ; MI_12_FLASH_BACK
+push eax ; casterDirection
+
+mov eax, ebx
+imul eax, 55C8h
+add eax, dword ptr [006EAE14] ; Players
+push dword ptr [eax+ 60] ; Col
+push dword ptr [eax+ 56] ; Row
+
+mov edx, dword ptr [006DE5C8 + esi] ; statue.Col
+mov ecx, dword ptr [006DE5C4 + esi] ; statue.Row
+
+call 0043572F ; CastMissile
+
+jmp @return
+
+@failScript: / e98ba
+; если 0 - звук кражи маны и все
+; PlayLocalSound(S_80_SFX_MISC_CAST10, row, col);
+
+push dword ptr [006DE5C8 + esi] ; statue.Col
+mov edx, dword ptr [006DE5C4h + esi] ; statue.Row
+mov ecx, 1036 ; новый звучок сделал
+call 004186C4 ; PlayLocalSound
+
+@return: / e98D4
+pop ebx
+pop esi
+pop edi
+retn
+
+
+;.text:00450541 74 17                                   jz      short loc_45055A
+;.text:00450543 83 F8 05                                cmp     eax, 5
+;.text:00450546 0F 8C 1F 02 00 00                       jl      return_0        ; jumptable 00450647 default case
+;.text:0045054C 83 F8 07                                cmp     eax, 7
+
+00450543 >>> / e9900
+>>>
+cmp eax, 24
+jnz @F
+
+@angel:
+mov     edx, edi
+mov     ecx, esi
+call    @ActivateAngels
+jmp     0045076B
+
+@@:
+cmp, eax, 5
+jl      0045076B
+jmp 0045054C
+
+====================================================
+
+.text:0045F816 A0 D8 B1 60 00                          mov     al, byte ptr DungeonLevel
+.text:0045F81B 33 DB                                   xor     ebx, ebx
+
+0045F816 >>> / e9980 / ready
+>>>
+; ebx esi edi eax ecx, edx свободен
+mov ecx, 20
+call    0045FA93 ;IsQuestOnLevel
+test eax, eax
+jz @return
+
+mov eax, 20
+imul eax, 28
+add eax, 006EB358h
+cmp byte ptr [eax + 21], 01 ;  триггер старта скрипта открытия портала
+jnz @return 
+
+mov byte ptr [eax + 21], 00
+; 1. заблокировать статуи ангелов
+
+mov     edi, dword ptr [006DE3B4h] ;ObjectsCount
+xor     edx, edx
+push         1
+pop         ecx
+test    edi, edi
+jle     @afterLoop
+mov     ebx, 006DE1B8h ; offset ObjectsIndex
+@loop:
+mov     eax, dword ptr [ebx]
+mov     esi, eax
+imul    esi, 78h
+cmp     dword ptr [6DE5C0 + esi], 24 ; BaseObjectIndex == BO_24_ANGEL
+jnz     @continue
+mov byte ptr [esi+6DE600h], 00 ; object.selectable = 0
+@continue:
+inc     edx
+add     ebx, 4
+cmp     edx, edi
+jl      @loop
+@afterLoop: / e99dd
+
+; 2. вычислить куда ставить портал
+mov edi, dword ptr [0061F330h]; StartPatternRow40
+lea edi, [edi + edi + 16]
+add edi, 5
+
+mov esi, dword ptr [0061F33Ch]; StartPatternCol40
+lea esi, [esi + esi + 16]
+add esi, 5
+
+; 3. поставить ворп / e99f9
+
+mov eax, 20
+imul eax, 28
+add eax, 006EB358h
+mov dword ptr [eax + 4], edi
+mov dword ptr [eax + 8], esi
+
+; 4. поставить портал / e9a0c
+
+xor ebx, ebx
+mov eax, dword ptr [006EADE8h] ; CurrentPlayerIndex
+mov ecx, edi
+mov edx, esi
+
+push ebx
+push ebx
+push eax
+push ebx
+push 65d
+push ebx
+push edx
+push ecx
+call 0043572F
+
+@return: / e9a2c
+A0 D8 B1 60 00                          mov     al, byte ptr DungeonLevel
+jmp 0045F81B
+
+===========================================================
+
+.text:00460877 A0 D8 B1 60 00                          mov     al, byte ptr DungeonLevel
+.text:0046087C 3A 05 FC B4 6E 00                       cmp     al, Quests.SPDangeonLevel+1A4h
+
+00460877 >>> / e9a40
+>>>
+mov ecx, 20
+call    0045FA93 ;IsQuestOnLevel
+test eax, eax
+jz @return
+
+mov eax, 20
+imul eax, 28
+add eax, 006EB358h
+cmp byte ptr [eax + 20], 01
+jl @return
+
+mov byte ptr [eax + 21], 01 ;  триггер старта скрипта открытия портала
+
+@return:
+A0 D8 B1 60 00                          mov     al, byte ptr DungeonLevel
+jmp 0046087C
+
+при загрузке этажа с ангелами, а также при повторном заходе неважно когда, если портал уже был открыт, то статуи должны быть деактивированы, и портал с ворпом стоять где положено
+
+
+========================================================
+
+;.mod:0071A680 80 3D 14 F3 61 00 00                    cmp     IsQuestFloor, 0
+;.mod:0071A687 90                                      nop
+;.mod:0071A688 90                                      nop
+;.mod:0071A689 74 38                                   jz      short loc_71A6C3
+;.mod:0071A68B 90                                      nop
+;.mod:0071A68C 80 3D 00 CB 61 00 0B                    cmp     QuestFloorIndex, 11
+
+0071A687 >>>
+>>>
+jnz  0071A68C
+mov ecx, 20
+call    0045FA93 ;IsQuestOnLevel
+test eax, eax
+jz 71A6C3
+jmp 407DA6
+
+========================================================
+
+.mod:0071A68C 80 3D 00 CB 61 00 0B                    cmp     QuestFloorIndex, 11
+.mod:0071A693 90                                      nop
+.mod:0071A694 74 25                                   jz      short loc_71A6BB
+.mod:0071A696 80 3D 00 CB 61 00 0C                    cmp     QuestFloorIndex, 12
+
+jz      short loc_71A6BB
+cmp     QuestFloorIndex, 16
+
+.mod:0071A69D 75 24                                   jnz     short loc_71A6C3
+
+    chek:
+:0071A68C 803D00CB61000B          cmp byte ptr [0061CB00], 0B
+:0071A693 90                      nop
+:0071A694 7425                    je 0071A6BB
+:0071A696 803D00CB61000C          cmp byte ptr [0061CB00], 0C
+:0071A69D 741C                    je 0071A6BB
+:0071A69F 803D00CB610010          cmp byte ptr [0061CB00], 10
+:0071A6A6 751B                    jne 0071A6C3
+ =========================================================
+00A34040 указатель на имя локации 16 / from
+00A3523C тут тоже / to
+ =======================================================
+Загрузка локации / ready
+
+.mod:0071B5D6 48                                      dec     eax
+.mod:0071B5D7 0F 84 53 02 00 00                       jz      loc_71B830
+.mod:0071B5DD 90                                      nop
+.mod:0071B5DE 90                                      nop
+
+dec     eax
+jz @loadIsland
+
+.mod:0071B5DF E9 37 B5 FF FF                          jmp     loc_716B1B
+ =====================================================
+@addWarpFromIsland: / e9c00 / (71d000 ) / ready
+ and     dword ptr [0070021ch], 0
+mov     dword ptr [00700220h], 1
+mov     dword ptr [700228h], 55
+mov     dword ptr [70022Ch], 55 / fixed
+mov     dword ptr [700230h], 1028
+retn
+ ===================================================
+@loadIsland: / e9b00 / ready
+; если зашли, то квест активирован
+push    edi
+push    20
+pop     edi
+imul    edi, 1Ch
+add     edi, 006EB358h ;offset Quests
+cmp     byte ptr [edi+2], 1
+jnz     @F
+push    2
+pop     eax
+mov     [edi+2], al
+@@:
+mov   byte ptr  [edi+ 21], 01 ; триггер необходимости открыть портал. При этом сам скрипт ещё не написан
+pop     edi
+
+;call    @islandRandomization ; оставить место пока под это / e9b29
+;mov     esi, eax
+mov     esi, "levels\\l3data\\island.dun"
+
+mov     ecx, esi
+push    32h
+push    14h
+pop     edx
+call    00414BC7 ;LoadQuestDungeonAltMapCave
+
+mov     ecx, esi
+push    32h
+push    13h
+pop     edx
+call    00414A7C ;LoadQuestDungeonMainMapCave
+
+mov     ecx, "levels\\l3data\\island.pal"
+call   0045552B ; LoadPalette
+
+call @addWarpFromIsland
+
+mov     dword ptr [0061F334h], 56 ; PlayerRowPos
+mov     dword ptr [0061F338h], 56 ; PlayerColPos
+
+pop     esi
+retn
+
+=======================================================
+
+; возвращаться на тайл ниже портала, который перед статуями
+
+0071B57D >>> / e9d00 / ready
+>>>
+dec eax
+dec eax
+dec eax
+jz @setReturnPointToIsland
+retn
+; достаточно нопов для нового прыжка
+@setReturnPointToIsland:
+push    edi
+push    20
+pop     edi
+imul    edi, 1Ch
+add     edi, 006EB358h ;offset Quests
+mov     eax, [edi+4]
+inc eax
+mov   dword ptr [006EB670h]  , eax ; SPQuestRow
+mov     eax, [edi+8]
+inc     eax
+mov   dword ptr [006EB66ch] , eax ; SPQuestCol
+movzx   eax, byte ptr [edi]
+mov   dword ptr [006EB67C]  , eax ; SPQuestDungeonLevel
+mov   dword ptr [006EB674]  , 3 ;SPQuestDungeonType
+pop     edi
+? ret?
+======================================================
+
+;.mod:0071A857 E9 34 D2 FF FF                          jmp     loc_717A90
+
+0071A857 >>> / ready / :0071D4B0
+>>>
+cmp byte ptr [0061CB00h], 16 
+jnz @return
+cmp byte ptr [6EB59Dh], 1; quest20.status3 - триггер портала
+jnz @return
+mov byte ptr [6EB59Dh], 0
+
+push ecx
+push edx
+push eax
+push ebx
+
+; кастуем портал
+xor ebx, ebx ; нолег
+mov eax, dword ptr [006EADE8h] ; CurrentPlayerIndex
+mov ecx, 55d; координаты. 
+mov edx, 55d
+
+; 834. поменял одну координату / got it
+
+push ebx
+push ebx
+push eax
+push ebx
+push 65d
+push ebx
+push edx
+push ecx
+call 0043572F
+
+pop ebx
+pop eax
+pop edx
+pop ecx
+
+@return:
+jmp     loc_717A90
+
+===========================================================
+
+@ShowDungeonEnteriesDiscriptionsIsland / ready
+копия 717440h. адрес сюда  / EA000 ( 71D400 )
+поменять в копии только 00717491 с 16d на 20d
+
+-----------------
+
+0071B945>>>
+>>>
+dec eax
+jle @showIslandDesctription
+jmp     loc_47934F
+@showIzualDesctription:
+call @ShowDungeonEnteriesDiscriptionsIsland
+jmp     loc_47934A
+
+ chek:
+:0071B940 48                      dec eax
+:0071B941 48                      dec eax
+:0071B942 48                      dec eax
+:0071B943 7E0B                    jle 0071B950
+:0071B945 48                      dec eax
+:0071B946 7E17                    jle 0071B95F >>
+:0071B948 E902DAD5FF              jmp 0047934F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071B943(C)
+|
+:0071B950 E83BFFFFFF              call 0071B890
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071B964(U)
+|
+:0071B95A E9EBD9D5FF              jmp 0047934A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071B946(C)
+|
+>> :0071B95F E89C1A0000              call 0071D400
+:0071B964 EBF4                    jmp 0071B95A
+===========================================================
+
+;.text:0043565C 69 C0 B0 00 00 00                       imul    eax, 0B0h
+;.text:00435662 8B 74 24 08                             mov     esi, [esp+4+casterCol]
+
+0043565C >>> / e9c50 / done
+>>>
+mov esi, eax
+push edx
+
+mov ecx, 20
+call    0045FA93 ;IsQuestOnLevel
+test eax, eax
+jnz @islandPortal
+
+cmp byte ptr [0061F314h], 1; IsQuestFloor
+jnz @return
+cmp byte ptr [0061CB00h], 16; QuestFloorIndex
+jnz @return
+
+@islandPortal:
+mov ecx, esi
+mov edx, 15 ; новый портал
+call 0042FAA0 ; SetMissileSprite
+
+@return:
+pop edx
+mov eax, esi
+imul    eax, 0B0h
+jmp 00435662
+
+
+============================================================
+/ e9cb0
+
+;.mod:0071C0F0 E9 DA 22 D0 FF                          jmp     loc_41E3CF / ready
+
+0071C0F0>>>
+>>>
+cmp     al, 16
+jnz     short loc_41E3CF
+
+@islandCut:
+xor     edx, edx
+mov     ecx, "Gendata\\cutportl.cel" / ( 4A0D28 )
+call    sub_41A02F
+mov     ecx, "Gendata\\cutportl.pal" / ( A37B81 )
+mov     dword ptr [6854F8h], eax
+call    45552B
+mov     dword ptr [685500h], 1
+jmp     loc_41E554
+============================================================
+
+;.text:00414B55 C7 45 FC B0 5B 5F 00                    mov     [ebp+var_4], offset FineMap
+;.text:00414B5C
+;.text:00414B5C                         loc_414B5C:                             ; CODE XREF: LoadQuestDungeonMainMapCave+13Bj
+;.text:00414B5C 8B 45 FC                                mov     eax, [ebp+var_4]
+
+00414B55 >>> / ea140
+>>>
+cmp byte ptr [0061CB00h], 16; QuestFloorIndex
+jz @return
+C7 45 FC B0 5B 5F 00                    mov     [ebp+var_4], offset FineMap
+jmp 00414B5C
+@return:
+jmp 00414BB9
+
+============================================================
+речь
+
+; ebx   eax ecx, edx    свободен
+; ebp - playerOffset
+; edi - player index
+; esi - townerOffset
+
+;.text:0047719D 80 3D 54 76 69 00 00                    cmp     Speech_IsPanelVisible, 0
+;.text:004771A4 0F 85 1E 08 00 00                       jnz     loc_4779C8
+
+0047719D >>> / ea1b0
+>>>
+push 1
+pop ebx
+mov     eax, dword ptr [006EAE14h] ;Players
+cmp     byte ptr [eax+ebp+500 + 10], 0
+jz @return
+cmp     byte ptr [6EB58Ah], bl ; islandQuestStatus
+jnz @return
+mov     byte ptr [6EB58Ah], 02
+mov     dword ptr [6EB5A0h], ebx ; islandQuestTalkToFlag
+push 150
+pop eax
+mov     dword ptr [6FF250h + esi], eax ; isThisTownerSpeakingNow
+mov     dword ptr [6FF2A8h + esi], edi ; indexOfPlayerWhichSpeaksTownsman
+mov ecx, 17Dh
+mov dword ptr [6EB598h], ecx ; islandQuestSpeechIndex
+call 0042E543 ; StartSpeech
+mov     dword ptr [6FF258h + esi], ebx ; IsTownerActionSelected
+
+@return: / ea20c
+80 3D 54 76 69 00 00                    cmp     Speech_IsPanelVisible, 0
+jmp 004771A4
+
+================/=======/======/===/=================================
+фикс скрипта пепина
+
+.mod:007151A0 B8 2C 01 00 00                          mov     eax, 300
+.mod:007151A5 89 47 14                                mov     [edi+20 16], eax 
+
+------------------------------------
+
+.mod:007151AC E8 92 93 D1 FF                          call    StartSpeech
+
+push 1
+pop eax
+mov dword ptr [esi + 88], eax
+
+.mod:007151B1 EB 8D                                   jmp     short loc_715140
+
+-------------------------------------------
+
+.mod:0071512B E8 13 94 D1 FF                          call    StartSpeech
+
+push 1
+pop eax
+mov dword ptr [esi + 88], eax
+
+.mod:00715130 E9 92 03 00 00                          jmp     loc_7154C7
+
+-------------------------------------------
+
+.text:0047729C 80 3D 76 B3 6E 00 02                    cmp     Quests.Unknown1+1Ch, 2
+.text:004772A3 75 5A                                   jnz     short loc_4772FF
+
+0047729C >>>
+>>>
+cmp dword ptr [6FF258h], 01; IsTownerActionSelected
+jz 4772FF
+80 3D 76 B3 6E 00 02                    cmp     Quests.Unknown1+1Ch, 2
+jmp 004772A3
+
+==.=====/=========/====/==/=====/===================
+
+;.mod:00717AA4 E9 57 D7 FF FF                          jmp     loc_715200
+
+00717AA4>>> / done ( works )
+>>>
+
+A0 00 CB 61 00                          mov     al, QuestFloorIndex
+cmp  byte ptr   [6EB594h], al ;  islandQuest.questFloorNumber
+jnz @return
+cmp     byte ptr [6EB58Ah], 03 ; QS_3_COMPLETE
+jz @return
+cmp dword ptr [0069DC80h], 4 ; MonstersCount
+jnz @return
+
+mov     byte ptr [6EB58Ah], 03
+
+@return:
+jmp     loc_715200
+======================================================
+
+Добавление босса \ done
+
+1. само добавление
+
+;.mod:0071BF47 0F 85 28 07 D2 FF                       jnz     loc_43C675
+
+0071BF47 jnz @newLoc
+
+@newLoc:
+cmp     byte ptr [61CB00], 16
+jnz     loc_43C675
+mov     ecx, @islandBossIndex
+jmp 71779D
+
+2. установка координат
+
+.mod:007177D0 0F 85 9A 31 00 00                       jnz     loc_71A970
+
+меняем на @newLoc
+
+@newLoc:
+cmp     edx, @islandBossIndex
+jnz     loc_71A970
+push    50 ; координаты. Надо подбирать
+pop     edi
+push    50
+pop     ebx
+jmp     loc_71A970
+
+===========================================
+
+

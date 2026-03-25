@@ -1,0 +1,134 @@
+﻿boss view hp should be done here
+
+40589e
+
+------------
+
+td53 code for this:
+
+:0040589E E800A10200              call 0042F9A3
+:004058A3 85C9                    test ecx, ecx
+:004058A5 740E                    je 004058B5
+:004058A7 C605AC114D0003          mov byte ptr [004D11AC], 03
+:004058AE E817ED0300              call 004445CA
+:004058B3 EB20                    jmp 004058D5
+
+----------------------------------							
+the following routine checks if monster is diablo and if so, displays him as boss, also checks if monster is unique. This routine is NOT needed in TH.
+
+* Referenced by a CALL at Address:
+|:0040589E   
+|
+:0042F9A3 8B8864DD6900            mov ecx, dword ptr [eax+0069DD64]
+:0042F9A9 83396D                  cmp dword ptr [ecx], 0000006D
+:0042F9AC 740C                    je 0042F9BA
+:0042F9AE 80B844DD690000          cmp byte ptr [eax+0069DD44], 00
+:0042F9B5 7503                    jne 0042F9BA
+:0042F9B7 33C9                    xor ecx, ecx
+:0042F9B9 C3                      ret
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0042F9AC(C), :0042F9B5(C)
+|
+:0042F9BA 6A01                    push 00000001
+:0042F9BC 59                      pop ecx
+:0042F9BD C3                      ret
+
+----------------------------------
+* Referenced by a CALL at Address:
+|:004058AE   
+|
+:004445CA 53                      push ebx
+:004445CB 56                      push esi
+:004445CC E8805B0300              call 0047A151
+:004445D1 85C0                    test eax, eax
+:004445D3 740F                    je 004445E4
+:004445D5 BEC0114D00              mov esi, 004D11C0
+:004445DA E8A0FEFFFF              call 0044447F
+:004445DF E802000000              call 004445E6
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004445D3(C)
+|
+:004445E4 EB1F                    jmp 00444605
+
+* Referenced by a CALL at Address:
+|:004445DF   
+|
+:004445E6 53                      push ebx
+:004445E7 55                      push ebp
+:004445E8 56                      push esi
+:004445E9 57                      push edi
+:004445EA BEC0114D00              mov esi, 004D11C0
+:004445EF A12C164D00              mov eax, dword ptr [004D162C]
+:004445F4 69C0E4000000            imul eax, 000000E4
+:004445FA 8A9854DD6900            mov bl, byte ptr [eax+0069DD54]
+:00444600 E9E5FEFFFF              jmp 004444EA
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004445E4(U)
+|
+:00444605 5E                      pop esi
+:00444606 5B                      pop ebx
+:00444607 C3                      ret
+
+--------------------------------------------
+* Referenced by a CALL at Address:
+|:004445CC   
+|
+:0047A151 8A8020DD6900            mov al, byte ptr [eax+0069DD20]
+:0047A157 3C15                    cmp al, 15
+:0047A159 0F85FBA2FCFF            jne 0044445A
+:0047A15F C3                      ret
+
+-------------------------------------------
+* Referenced by a CALL at Addresses:
+|:0044444E   , :004445DA   
+|
+:0044447F 51                      push ecx
+:00444480 52                      push edx
+:00444481 A12C164D00              mov eax, dword ptr [004D162C]
+:00444486 69C0E4000000            imul eax, 000000E4
+:0044448C 8B901CDD6900            mov edx, dword ptr [eax+0069DD1C]
+:00444492 8B8818DD6900            mov ecx, dword ptr [eax+0069DD18]
+:00444498 C1E906                  shr ecx, 06
+:0044449B C1EA06                  shr edx, 06
+:0044449E 51                      push ecx
+:0044449F 52                      push edx
+
+* Possible StringData Ref from Data Obj ->"Hitpoints %i of %i"
+                                  |
+:004444A0 68B8394B00              push 004B39B8
+:004444A5 56                      push esi
+:004444A6 E815560300              call 00479AC0
+:004444AB 83C410                  add esp, 00000010
+:004444AE 8BCE                    mov ecx, esi
+:004444B0 6A01                    push 00000001
+:004444B2 5A                      pop edx
+:004444B3 E89200FCFF              call 0040454A
+:004444B8 5A                      pop edx
+:004444B9 59                      pop ecx
+:004444BA C3                      ret
+
+--------------------------------------
+* Referenced by a CALL at Address:
+|:004445DF   
+|
+:004445E6 53                      push ebx
+:004445E7 55                      push ebp
+:004445E8 56                      push esi
+:004445E9 57                      push edi
+:004445EA BEC0114D00              mov esi, 004D11C0
+:004445EF A12C164D00              mov eax, dword ptr [004D162C]
+:004445F4 69C0E4000000            imul eax, 000000E4
+:004445FA 8A9854DD6900            mov bl, byte ptr [eax+0069DD54]
+:00444600 E9E5FEFFFF              jmp 004444EA
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004445E4(U)
+|
+:00444605 5E                      pop esi
+:00444606 5B                      pop ebx
+:00444607 C3                      ret
+

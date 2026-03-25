@@ -1,0 +1,27 @@
+
+pressing 'Z' doesn't zoom in/out now
+Default mode is zoomout, so there should be no problems
+Z key now can be used as a hotkey for spell
+
+
+
+:0040AD3C 390D04535700            cmp dword ptr [00575304], ecx
+:0040AD42 0F94C0                  sete al
+:0040AD45 A304535700              mov dword ptr [00575304], eax
+:0040AD4A E95EFFFFFF              jmp 0040ACAD
+	into:
+:0040AD3C E96CFFFFFF              jmp 0040ACAD
+:0040AD41 90                      nop
+:0040AD42 90                      nop
+:0040AD43 90                      nop
+:0040AD44 90                      nop
+:0040AD45 90                      nop
+:0040AD46 90                      nop
+:0040AD47 90                      nop
+:0040AD48 90                      nop
+:0040AD49 90                      nop
+:0040AD4A 90                      nop
+:0040AD4B 90                      nop
+:0040AD4C 90                      nop
+:0040AD4D 90                      nop
+:0040AD4E 90                      nop

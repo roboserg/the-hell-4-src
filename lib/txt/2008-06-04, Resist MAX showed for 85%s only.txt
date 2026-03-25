@@ -1,0 +1,47 @@
+Fixed +%resist stuff to not show MAX with 75%s but with 85%s instead:
+
+* Possible StringData Ref from Data Obj ->"Resist Fire : 85%% MAX"
+                                  |
+:00428901 6820674A00              push 004A6720
+:00428906 E93C050000              jmp 00428E47
+:0042890B 8BB614010000            mov esi, dword ptr [esi+00000114]
+:00428911 83FE4B                  cmp esi, 0000004B					to 55
+:00428914 7D0B                    jge 00428921
+:00428916 56                      push esi
+
+* Possible StringData Ref from Data Obj ->"Resist Lightning : %+i%%"
+                                  |
+:00428917 6804674A00              push 004A6704
+:0042891C E9DD040000              jmp 00428DFE
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00428914(C)
+|
+
+* Possible StringData Ref from Data Obj ->"Resist Lightning : 85%% MAX"
+                                  |
+:00428921 68E8664A00              push 004A66E8
+:00428926 E91C050000              jmp 00428E47
+:0042892B 8BB618010000            mov esi, dword ptr [esi+00000118]
+:00428931 83FE4B                  cmp esi, 0000004B					to 55
+:00428934 7D0B                    jge 00428941
+:00428936 56                      push esi
+
+* Possible StringData Ref from Data Obj ->"Resist Magic : %+i%%"
+                                  |
+:00428937 68D0664A00              push 004A66D0
+:0042893C E9BD040000              jmp 00428DFE
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00428934(C)
+|
+
+* Possible StringData Ref from Data Obj ->"Resist Magic : 85%% MAX"
+                                  |
+:00428941 68B8664A00              push 004A66B8
+:00428946 E9FC040000              jmp 00428E47
+:0042894B 8B8610010000            mov eax, dword ptr [esi+00000110]
+:00428951 BFC0114D00              mov edi, 004D11C0
+:00428956 83F84B                  cmp eax, 0000004B					to 55
+:00428959 7D0F                    jge 0042896A
+:0042895B 50                      push eax

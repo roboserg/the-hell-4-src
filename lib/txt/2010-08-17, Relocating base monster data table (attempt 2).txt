@@ -1,0 +1,76 @@
+Collecting data...
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Seems to work!
+IMPLEMENTED!
+
+Virtual address of the table, currently:
+
+1)
+from _:004ABEF0 (AA8F0) to :004B03F0 (AEDF0)_
+(first monster handling should be over by  :004ABF70)
+
+>> new home: 2FFEF0 (:009332F0) to ?
+
+shifts:
+4ABExx >> 9332yy, xx = yy
+BF >> 33
+C0 >> 34
+C1 >> 35
+C2 >> 36
+C3 >> 37
+C4 >> 38
+FF >> 63
+4B00 >> 64
+4B03 >> 67
+
+2)
+from  _:004B03F0 (AEDF0) to :004B0658 (AF058)_  there's a strange table, looks like something about monster slots, total 268h bytes long
+
+>> new home: 310F10 (:00944310) to 311178
+
+
+shifts:
+4B0444 >> 944364
+
+3)
+from _AF058 (:004B0658) to AF280 (:004B0880)_ <<< monster activity slots (00 - inactive, 01 - active), dword values, total 228h bytes long
+
+>> new home: 311E58 (:00945258)
+
+
+======
+
+New starting offset for base monster table:	2FFEF0
+
+Virtual address is:				:009332F0
+
+Whole monster table size is:			4500h bytes
+
+=============================
+
+
+
+replacing the check above does work???
+
+============================
+
+in between checks (for monster table) that seem odd:
+
+
+:0043ABFB B944BF4A00              mov ecx, 004ABF44               V (done)
+
+:0043AB5C BE44C34A00              mov esi, 004AC344               V
+
+:0043ABBB 81FEC4CC4A00            cmp esi, 004ACCC4		  V
+
+:004572D4 C705DCAD6E0088AD0400    mov dword ptr [006EADDC], 0004AD88     X (not done)
+
+:0043C6C5 8B0C85EC034B00          mov ecx, dword ptr [4*eax+004B03EC]   <<< refers either to 1) or to 2), for now modified to 2) <94430C>
+
+:0043F88B F68076084B0001          test byte ptr [eax+004B0876], 01 	V     <<< refers to 3), did so
+
+============================
+============================
+
+-----
+

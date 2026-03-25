@@ -1,0 +1,208 @@
+New Fire Blast damage formula:
+Rec(slvl, 8·(Rnd[50]+Rnd[50]+clvl) + 50)
+
+
+:00431DFF 807D1800                cmp byte ptr [ebp+18], 00
+:00431E03 0F8589000000            jne 00431E92
+:00431E09 6A32                    push 00000032
+:00431E0B 8BF9                    mov edi, ecx
+:00431E0D 5A                      pop edx
+:00431E0E B13C                    mov cl, 3C
+:00431E10 69FFB0000000            imul edi, 000000B0
+:00431E16 E83F81FEFF              call 00419F5A
+:00431E1B B13C                    mov cl, 3C
+:00431E1D 8BF0                    mov esi, eax
+:00431E1F 6A32                    push 00000032
+:00431E21 5A                      pop edx
+:00431E22 E83381FEFF              call 00419F5A
+:00431E27 03F0                    add esi, eax
+:00431E29 8B451C                  mov eax, dword ptr [ebp+1C]
+:00431E2C 69C0C8550000            imul eax, 000055C8
+:00431E32 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:00431E38 0FBE8408B8010000        movsx eax, byte ptr [eax+ecx+000001B8]
+:00431E40 03F0                    add esi, eax
+:00431E42 E919452D00              jmp 00706360
+:00431E47 90                      nop
+:00431E48 90                      nop
+:00431E49 90                      nop
+:00431E4A 90                      nop
+:00431E4B 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070636E(U)
+|
+:00431E4C 8B87887A6900            mov eax, dword ptr [edi+00697A88]
+:00431E52 85C0                    test eax, eax
+:00431E54 7E1A                    jle 00431E70
+:00431E56 8BB7D47A6900            mov esi, dword ptr [edi+00697AD4]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00431E68(C)
+|
+:00431E5C 8BCE                    mov ecx, esi
+:00431E5E 8BD1                    mov edx, ecx
+:00431E60 C1FA04                  sar edx, 04
+:00431E63 03D1                    add edx, ecx
+:00431E65 48                      dec eax
+:00431E66 8BF2                    mov esi, edx
+:00431E68 75F2                    jne 00431E5C
+:00431E6A 89B7D47A6900            mov dword ptr [edi+00697AD4], esi
+
+
+	Extra:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00431E42(U)
+|
+:00706360 C1E603                  shl esi, 03
+:00706363 83C632                  add esi, 00000032
+:00706366 8BC6                    mov eax, esi
+:00706368 8987D47A6900            mov dword ptr [edi+00697AD4], eax
+:0070636E E9D9BAD2FF              jmp 00431E4C
+
+
+
+==========================================================================
+==========================================================================
+
+
+:00431E09 6A14                    push 00000014
+:00431E0B 8BF9                    mov edi, ecx
+:00431E0D 5A                      pop edx
+:00431E0E B13C                    mov cl, 3C
+:00431E10 69FFB0000000            imul edi, 000000B0
+:00431E16 E83F81FEFF              call 00419F5A					Rnd [20]
+:00431E1B B13C                    mov cl, 3C
+:00431E1D 8BF0                    mov esi, eax					store in ESI
+:00431E1F 6A14                    push 00000014
+:00431E21 5A                      pop edx
+:00431E22 E83381FEFF              call 00419F5A					Rnd [20]
+:00431E27 03F0                    add esi, eax					add to ESI (ESI by this moment = Rnd[20] + Rnd[20] )
+:00431E29 8B451C                  mov eax, dword ptr [ebp+1C]
+:00431E2C 69C0C8550000            imul eax, 000055C8
+:00431E32 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:00431E38 0FBE8408B8010000        movsx eax, byte ptr [eax+ecx+000001B8]		EAX = CLVL
+:00431E40 03F0                    add esi, eax					Rnd[20] + Rnd[20] + CLVL
+:00431E42 8D44360A                lea eax, dword ptr [esi+esi+0A]			EAX = (Rnd[20] + Rnd[20] + CLVL) * 2, + 10
+:00431E46 8987D47A6900            mov dword ptr [edi+00697AD4], eax		damage = EAX
+:00431E4C 8B87887A6900            mov eax, dword ptr [edi+00697A88]		EAX = SLVL
+:00431E52 85C0                    test eax, eax					if SLVL = 1 or below
+:00431E54 7E1A                    jle 00431E70
+:00431E56 8BB7D47A6900            mov esi, dword ptr [edi+00697AD4]		ESI = damage
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00431E68(C)
+|
+:00431E5C 8BCE                    mov ecx, esi					ECX = damage
+:00431E5E 8BD1                    mov edx, ecx					EDX = ECX
+:00431E60 C1FA03                  sar edx, 03					damage / 8
+:00431E63 03D1                    add edx, ecx					(damage / 8) + damage ( same as damage * 9/8)
+:00431E65 48                      dec eax						
+:00431E66 8BF2                    mov esi, edx					
+:00431E68 75F2                    jne 00431E5C					
+:00431E6A 89B7D47A6900            mov dword ptr [edi+00697AD4], esi		
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:	Spell flight speed ?
+|:00431E54(C)
+|							if SLVL is 1 or 0
+:00431E70 8B87887A6900            mov eax, dword ptr [edi+00697A88]	EAX = SLVL
+:00431E76 8D740008                lea esi, dword ptr [eax+eax+08]		(SLVL * 2) + 8
+:00431E7A 83FE32                  cmp esi, 00000032
+:00431E7D 7E03                    jle 00431E82
+:00431E7F 6A32                    push 00000032
+:00431E81 5E                      pop esi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00431E7D(C)
+|
+:00431E82 8B4D1C                  mov ecx, dword ptr [ebp+1C]
+:00431E85 6A0C                    push 0000000C
+:00431E87 5A                      pop edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705636(U)
+|
+:00431E88 E86FA10300              call 0046BFFC
+:00431E8D 8B7D08                  mov edi, dword ptr [ebp+08]
+:00431E90 EB03                    jmp 00431E95
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00431E03(C)
+|
+:00431E92 6A32                    push 00000032
+:00431E94 5E                      pop esi
+
+
+==============================================================
+Smarter recursive formula from TheDark53
+
+Modified damage for Magic Missile, to make it less powerful for lower characters, yet more useful for higher characters:
+
+old min damage 2
+old max damage 2+CLVL+2*SLVL
+
+new min damage 2
+new max damage 2+(6+SLVL+MAG/32+CLVL/4)*(17/16)^(SLVL-1)
+
+Routine for recursive damage [EAX] over SLVL [ECX] (starting damage is 6+SLVL+MAG/32+CLVL/4):
+
+file offset 00051810
+
+:00452410 57                      push edi
+:00452411 0FBEB8B8010000          movsx edi, byte ptr [eax+000001B8]	edi = CLVL
+:00452418 8B806C010000            mov eax, dword ptr [eax+0000016C]	eax = cMAG
+:0045241E C1F803                  sar eax, 03				cMAG / 8
+:00452421 03C7                    add eax, edi				(cMAG / 8) + CLVL
+:00452423 C1F802                  sar eax, 02				((cMAG / 8) + CLVL) / 4
+:00452426 03C1                    add eax, ecx				(((cMAG / 8) + CLVL) / 4) + SLVL
+:00452428 49                      dec ecx					SLVL - 1
+:00452429 83C006                  add eax, 00000006			((((cMAG / 8) + CLVL) / 4) + SLVL) + 6
+:0045242C 85C9                    test ecx, ecx				SLVL = 0 (or 1 ?) ?
+:0045242E 7E0A                    jle 0045243A				
+:00452430 8BF8                    mov edi, eax				edi = ((((cMAG / 8) + CLVL) / 4) + SLVL) + 6
+:00452432 C1FF04                  sar edi, 04				(((((cMAG / 8) + CLVL) / 4) + SLVL) + 6) / 4
+:00452435 03C7                    add eax, edi				((((((cMAG / 8) + CLVL) / 4) + SLVL) + 6) / 4) + ((((cMAG / 8) + CLVL) / 4) + SLVL) + 6
+:00452437 49                      dec ecx					SLVL - 1
+:00452438 EBF2                    jmp 0045242C				jmp test ecx, ecx (WTF is that?)
+:0045243A 5F                      pop edi
+:0045243B C3                      ret
+
+MM real damage:
+
+file offset 0002F9A7
+
+:004305A7 0FBE90B8010000          movsx edx, byte ptr [eax+000001B8]
+:004305AE 8B86887A6900            mov eax, dword ptr [esi+00697A88]
+:004305B4 40                      inc eax
+:004305B5 D1E0                    shl eax, 1
+:004305B7 03C2                    add eax, edx
+:004305B9 6A02                    push 00000002
+:004305BB 5A                      pop edx
+:004305BC C3                      ret
+:004305BD 90                      nop
+:004305BE 90                      nop
+changed into
+:004305A7 8B8E887A6900            mov ecx, dword ptr [esi+00697A88]
+:004305AD E85E1E0200              call 00452410
+:004305B2 6A02                    push 00000002
+:004305B4 5A                      pop edx
+:004305B5 03C2                    add eax, edx
+:004305B7 C3                      ret
+:004305B8 9090909090              5*nop
+:004305BD 90                      nop
+:004305BE 90                      nop
+
+Now 7 bytes free space from 004305B8 to 004305BF
+
+MM Spellbook damage:
+
+file offset 0002DFD3
+
+:0042EBD3 0FBE80B8010000          movsx eax, byte ptr [eax+000001B8]
+:0042EBDA 03C6                    add eax, esi
+:0042EBDC 90                      nop
+:0042EBDD 90                      nop
+:0042EBDE 03C6                    add eax, esi
+changed into
+:0042EBD3 8BCE                    mov ecx, esi
+:0042EBD5 E836380200              call 00452410
+:0042EBDA 909090909090            6*nop

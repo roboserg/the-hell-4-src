@@ -1,0 +1,140 @@
+Applied in: [rev_1.62e_33]
+PvP Melee: Pals and Glads have CLVL% chance for a 2x damage critical hit, Monks have CLVL% chance for 4x damage critical hit, Assassins have CLVL% chance for 3x damage critical hit
+PvP Melee: on top of that, the final damage is divided by 16
+
+Modified:
+
+:0045C025 E986912A00              jmp 007051B0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705211(U)
+|
+:0045C02A C1FF04                  sar edi, 04
+:0045C02D EB1B                    jmp 0045C04A
+:0045C02F 90                      nop
+:0045C030 90                      nop
+:0045C031 90                      nop
+:0045C032 90                      nop
+:0045C033 90                      nop
+:0045C034 90                      nop
+:0045C035 90                      nop
+:0045C036 90                      nop
+:0045C037 90                      nop
+:0045C038 90                      nop
+:0045C039 90                      nop
+:0045C03A 90                      nop
+:0045C03B 90                      nop
+:0045C03C 90                      nop
+:0045C03D 90                      nop
+:0045C03E 90                      nop
+:0045C03F 90                      nop
+:0045C040 90                      nop
+:0045C041 90                      nop
+:0045C042 90                      nop
+:0045C043 90                      nop
+:0045C044 90                      nop
+:0045C045 90                      nop
+:0045C046 90                      nop
+:0045C047 90                      nop
+:0045C048 90                      nop
+:0045C049 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045C02D(U)
+|
+:0045C04A A114AE6E00              mov eax, dword ptr [006EAE14]
+
+
+Extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045C025(U)
+|
+:007051B0 8A8160010000            mov al, byte ptr [ecx+00000160]
+:007051B6 84C0                    test al, al
+:007051B8 740C                    je 007051C6
+:007051BA 3C03                    cmp al, 03
+:007051BC 7421                    je 007051DF
+:007051BE 3C04                    cmp al, 04
+:007051C0 7437                    je 007051F9
+:007051C2 3C05                    cmp al, 05
+:007051C4 754B                    jne 00705211
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007051B8(C)
+|
+:007051C6 0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]
+:007051CD 6A64                    push 00000064
+:007051CF B106                    mov cl, 06
+:007051D1 5A                      pop edx
+:007051D2 E8834DD1FF              call 00419F5A
+:007051D7 3BC3                    cmp eax, ebx
+:007051D9 7D02                    jge 007051DD
+:007051DB D1E7                    shl edi, 1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007051D9(C)
+|
+:007051DD EB32                    jmp 00705211
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007051BC(C)
+|
+:007051DF 0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]
+:007051E6 6A64                    push 00000064
+:007051E8 B106                    mov cl, 06
+:007051EA 5A                      pop edx
+:007051EB E86A4DD1FF              call 00419F5A
+:007051F0 3BC3                    cmp eax, ebx
+:007051F2 7D03                    jge 007051F7
+:007051F4 C1E702                  shl edi, 02					<- set to 03 to cause +700% dmg, testing with Orachin...
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007051F2(C)
+|
+:007051F7 EB18                    jmp 00705211
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007051C0(C)
+|
+:007051F9 0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]
+:00705200 6A64                    push 00000064
+:00705202 B106                    mov cl, 06
+:00705204 5A                      pop edx
+:00705205 E8504DD1FF              call 00419F5A
+:0070520A 3BC3                    cmp eax, ebx
+:0070520C 7D03                    jge 00705211
+:0070520E 8D3C7F                  lea edi, dword ptr [edi+2*edi]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007051C4(C), :007051DD(U), :007051F7(U), :0070520C(C)
+|
+:00705211 E9146ED5FF              jmp 0045C02A
+:00705216 90                      nop
+
+=========================================================
+
+Original:
+
+:0045C025 8A8160010000            mov al, byte ptr [ecx+00000160]
+:0045C02B 84C0                    test al, al					if Pal
+:0045C02D 7404                    je 0045C033
+:0045C02F 3C05                    cmp al, 05					or Glad
+:0045C031 7517                    jne 0045C04A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045C02D(C)
+|
+:0045C033 0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]		calculate critical hit
+:0045C03A 6A64                    push 00000064
+:0045C03C B106                    mov cl, 06
+:0045C03E 5A                      pop edx
+:0045C03F E816DFFBFF              call 00419F5A
+:0045C044 3BC3                    cmp eax, ebx
+:0045C046 7D02                    jge 0045C04A
+:0045C048 D1E7                    shl edi, 1						2x damage
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045C031(C), :0045C046(C)
+|
+:0045C04A A114AE6E00              mov eax, dword ptr [006EAE14]

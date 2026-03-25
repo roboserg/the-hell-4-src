@@ -1,0 +1,15 @@
+necromorb (monster # 77h) spell allowed here by disabling check on it (used to be 75xx instead of 2 nops)
+
+:0043B053 837DFC77                cmp dword ptr [ebp-04], 00000077
+:0043B057 90                      nop
+:0043B058 90                      nop
+:0043B059 B800080000              mov eax, 00000800
+:0043B05E 850538D66900            test dword ptr [0069D638], eax
+:0043B064 7514                    jne 0043B07A
+:0043B066 090538D66900            or dword ptr [0069D638], eax
+:0043B06C B132                    mov cl, 32
+:0043B06E E8B14AFFFF              call 0042FB24
+:0043B073 B137                    mov cl, 37
+:0043B075 E8AA4AFFFF              call 0042FB24
+
+SIMILAR RESTRICTIONS ARE MOST LIKELY TO BE FOUND SOMEWHERE THERE....

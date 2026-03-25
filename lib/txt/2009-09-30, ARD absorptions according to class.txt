@@ -1,0 +1,92 @@
+ARD absorption modified  according to character class:
+without ARD:
+Paladin: 25%
+Scout: 34,375%
+Mage: 25%
+Monk: 34,375%
+Assassin: 29,6875%
+Gladiator: 25%
+
+with ARD:
+Paladin: 50%
+Scout: 56,25%
+Mage: 50%
+Monk: 56,25%
+Assassin: 53,125%
+Gladiator: 50%
+
+
+
+	previous:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F86F(U)
+|
+:00706A00 8B3514AE6E00            mov esi, dword ptr [006EAE14]
+:00706A06 F6843E4355000010        test byte ptr [esi+edi+00005543], 10
+:00706A0E 8D0C3E                  lea ecx, dword ptr [esi+edi]
+:00706A11 7404                    je 00706A17
+:00706A13 D1FA                    sar edx, 1
+:00706A15 EB09                    jmp 00706A20
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706A11(C)
+|
+:00706A17 51                      push ecx
+:00706A18 8BCA                    mov ecx, edx
+:00706A1A C1F902                  sar ecx, 02
+:00706A1D 2BD1                    sub edx, ecx
+:00706A1F 59                      pop ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706A15(U)
+|
+:00706A20 E94B370000              jmp 0070A170
+
+
+
+	expansion:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706A20(U)
+|
+:0070A170 80B96001000001          cmp byte ptr [ecx+00000160], 01
+:0070A177 7429                    je 0070A1A2
+:0070A179 80B96001000002          cmp byte ptr [ecx+00000160], 02
+:0070A180 741B                    je 0070A19D
+:0070A182 80B96001000003          cmp byte ptr [ecx+00000160], 03
+:0070A189 7417                    je 0070A1A2
+:0070A18B 80B96001000004          cmp byte ptr [ecx+00000160], 04
+:0070A192 7420                    je 0070A1B4
+:0070A194 80B96001000005          cmp byte ptr [ecx+00000160], 05
+:0070A19B 7400                    je 0070A19D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070A180(C), :0070A19B(C), :0070A1AB(U), :0070A1BD(U)
+|
+:0070A19D E9E256D2FF              jmp 0042F884
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070A177(C), :0070A189(C)
+|
+:0070A1A2 51                      push ecx
+:0070A1A3 8BCA                    mov ecx, edx
+:0070A1A5 C1F902                  sar ecx, 02
+:0070A1A8 2BD1                    sub edx, ecx
+:0070A1AA 59                      pop ecx
+:0070A1AB EBF0                    jmp 0070A19D
+:0070A1AD 90                      nop
+:0070A1AE 90                      nop
+:0070A1AF 90                      nop
+:0070A1B0 90                      nop
+:0070A1B1 90                      nop
+:0070A1B2 90                      nop
+:0070A1B3 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070A192(C)
+|
+:0070A1B4 51                      push ecx
+:0070A1B5 8BCA                    mov ecx, edx
+:0070A1B7 C1F903                  sar ecx, 03
+:0070A1BA 2BD1                    sub edx, ecx
+:0070A1BC 59                      pop ecx
+:0070A1BD EBDE                    jmp 0070A19D

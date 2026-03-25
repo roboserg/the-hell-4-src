@@ -1,0 +1,8 @@
+1)  00477B52                 sub     eax, 50
+
+2)  0044BC31                 push    50
+
+3)  0044B9CC                 add     dword_6DE0D8, 50
+
+4) 0044BA62                 add     dword_6DE0D8, 50
+[20:27:35] Yuri Kravchenko (DD): вот эти места

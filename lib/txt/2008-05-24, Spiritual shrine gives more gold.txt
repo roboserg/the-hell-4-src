@@ -1,0 +1,34 @@
+Spiritual shrine gives more gold.
+Code pasted from td53...
+
+:004526F8 A114AE6E00              mov eax, dword ptr [006EAE14]
+:004526FD 8B4D08                  mov ecx, dword ptr [ebp+08]
+:00452700 80BC08DC47000000        cmp byte ptr [eax+ecx+000047DC], 00
+:00452708 0F85B8000000            jne 004527C6
+:0045270E 0FB605D4B16000          movzx eax, byte ptr [0060B1D4]
+:00452715 B1A0                    mov cl, A0
+:00452717 8D1480                  lea edx, dword ptr [eax+4*eax]
+:0045271A D1E2                    shl edx, 1
+:0045271C E83978FCFF              call 00419F5A
+:00452721 0FB60DD4B16000          movzx ecx, byte ptr [0060B1D4]
+:00452728 6A5D                    push 0000005D
+:0045272A BEA0C66F00              mov esi, 006FC6A0
+
+into
+
+:004526F8 A114AE6E00              mov eax, dword ptr [006EAE14]
+:004526FD 8B4D08                  mov ecx, dword ptr [ebp+08]
+:00452700 80BC08DC47000000        cmp byte ptr [eax+ecx+000047DC], 00
+:00452708 0F85B8000000            jne 004527C6
+:0045270E E8DEC6FFFF              call 0044EDF1
+:00452713 42                      inc edx
+:00452714 52                      push edx
+:00452715 B1A0                    mov cl, A0
+:00452717 8D1492                  lea edx, dword ptr [edx+4*edx]
+:0045271A D1E2                    shl edx, 1
+:0045271C E83978FCFF              call 00419F5A
+:00452721 59                      pop ecx
+:00452722 C1E101                  shl ecx, 01
+:00452725 C1E001                  shl eax, 01
+:00452728 6A5D                    push 0000005D
+:0045272A BEA0C66F00              mov esi, 006FC6A0

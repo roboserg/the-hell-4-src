@@ -1,0 +1,83 @@
+All hidden get stunned at any damage received, all golems (except mud and summoned) are immune to stun, Bone creepers are stunned normally:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043CEDB(C)
+|
+:0043CF02 6A01                    push 00000001
+:0043CF04 8BCB                    mov ecx, ebx
+:0043CF06 5A                      pop edx
+:0043CF07 E8E4B4FDFF              call 004183F0
+:0043CF0C 8BF3                    mov esi, ebx
+:0043CF0E 69F6E4000000            imul esi, 000000E4
+:0043CF14 8B8664DD6900            mov eax, dword ptr [esi+0069DD64]
+:0043CF1A 8B00                    mov eax, dword ptr [eax]
+:0043CF1C E90F812C00              jmp 00705030
+:0043CF21 90                      nop
+:0043CF22 90                      nop
+:0043CF23 90                      nop
+:0043CF24 90                      nop
+:0043CF25 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705055(U)
+|
+:0043CF26 0FB68652DD6900          movzx eax, byte ptr [esi+0069DD52]
+:0043CF2D 48                      dec eax
+:0043CF2E D1E0                    shl eax, 1
+:0043CF30 C1FD06                  sar ebp, 06
+:0043CF33 3BE8                    cmp ebp, eax
+:0043CF35 0F8C22010000            jl 0043D05D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070505A(U)
+|
+:0043CF3B 33ED                    xor ebp, ebp
+...................
+...................
+...................
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043CF35(C), :0043CFBF(C), :0070505F(U)
+|
+:0043D05D 5F                      pop edi
+:0043D05E 5E                      pop esi
+:0043D05F 5D                      pop ebp
+:0043D060 5B                      pop ebx
+:0043D061 C20400                  ret 0004
+
+-
+And at free space:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043CF1C(U)
+|
+:00705030 83F81D                  cmp eax, 0000001D
+:00705033 7C20                    jl 00705055
+:00705035 83F820                  cmp eax, 00000020
+:00705038 7E20                    jle 0070505A
+:0070503A 83F85C                  cmp eax, 0000005C
+:0070503D 741B                    je 0070505A
+:0070503F 83F85E                  cmp eax, 0000005E
+:00705042 7416                    je 0070505A
+:00705044 83F86F                  cmp eax, 0000006F
+:00705047 7416                    je 0070505F
+:00705049 83F87D                  cmp eax, 0000007D
+:0070504C 7411                    je 0070505F
+:0070504E 3D82000000              cmp eax, 00000082
+:00705053 740A                    je 0070505F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705033(C)
+|
+:00705055 E9CC7ED3FF              jmp 0043CF26				<- normal stun routine
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00705038(C), :0070503D(C), :00705042(C)
+|
+:0070505A E9DC7ED3FF              jmp 0043CF3B			<- always stun
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00705047(C), :0070504C(C), :00705053(C)
+|
+:0070505F E9F97FD3FF              jmp 0043D05D				<- never stun
+:00705064 90                      nop

@@ -1,0 +1,17 @@
+Warping Demon now has 'warped' stun threshold, too:
+stunned if: damage _below_  (mAC-25)*5
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708138(C)
+|
+:00708620 83F827                  cmp eax, 00000027
+:00708623 0F857CF1FFFF            jne 007077A5
+:00708629 0FB68652DD6900          movzx eax, byte ptr [esi+0069DD52]
+:00708630 83E819                  sub eax, 00000019
+:00708633 8D0480                  lea eax, dword ptr [eax+4*eax]
+:00708636 C1FD06                  sar ebp, 06
+:00708639 3BE8                    cmp ebp, eax
+:0070863B 0F8D1C4AD3FF            jnl 0043D05D
+:00708641 E9F548D3FF              jmp 0043CF3B

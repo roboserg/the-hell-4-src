@@ -1,0 +1,9 @@
+Width pointers:
+9 to 200008,
+2 to 200014,
+
+Height pointers:
+4 to 200D78
+
+Animation pointers:
+6 to 201AE8

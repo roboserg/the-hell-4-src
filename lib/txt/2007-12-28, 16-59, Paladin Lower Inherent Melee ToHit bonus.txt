@@ -1,0 +1,7 @@
+Paladin Melee ToHit Bonus 35%  ->  20%
+
+:0045B98D 83C323                  add ebx, 00000023
+into:
+:0045B98D 83C314                  add ebx, 00000014
+
+Actually, it's being restored to its default value here. It's done to make sure that the guy's ToHit won't differ TOO much from other players' ToHit

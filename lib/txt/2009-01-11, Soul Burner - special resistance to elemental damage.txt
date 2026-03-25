@@ -1,0 +1,67 @@
+Soul Burners resist 50% elemental damage (Fire/Lite/Magic) on Horror mode, Multiplayer (boss resistance = 75%);
+Soul Burners resist 75% elemental damage on Purgatory mode, Multiplayer (boss resistance = 87,5%);
+Soul Burners resist 87,5% elemental damage on Doom mode, Multiplayer (boss resistance = 93,75%);
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F4B5(U)
+|
+:00707310 8B8664DD6900            mov eax, dword ptr [esi+0069DD64]
+:00707316 3D89000000              cmp eax, 00000089
+:0070731B 7516                    jne 00707333
+:0070731D C1FF02                  sar edi, 02
+:00707320 EB0C                    jmp 0070732E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00707338(C), :00707341(C), :0070759D(U)
+|
+:00707322 80BE44DD690000          cmp byte ptr [esi+0069DD44], 00
+:00707329 7403                    je 0070732E
+:0070732B C1FF01                  sar edi, 01
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00707320(U), :00707329(C)
+|
+:0070732E E98781D2FF              jmp 0042F4BA
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070731B(C)
+|
+:00707333 3D85000000              cmp eax, 00000085
+:00707338 75E8                    jne 00707322
+:0070733A 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00707341 74DF                    je 00707322
+:00707343 E938020000              jmp 00707580
+:00707348 90                      nop
+
+......OTHER STUFF.........................................
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707343(U)
+|
+:00707580 50                      push eax
+:00707581 A1C0706000              mov eax, dword ptr [006070C0]
+:00707586 83F801                  cmp eax, 00000001
+:00707589 7409                    je 00707594
+:0070758B 83F802                  cmp eax, 00000002
+:0070758E 7409                    je 00707599
+:00707590 D1FF                    sar edi, 1
+:00707592 EB08                    jmp 0070759C
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707589(C)
+|
+:00707594 C1FF02                  sar edi, 02
+:00707597 EB03                    jmp 0070759C
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070758E(C)
+|
+:00707599 C1FF03                  sar edi, 03
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00707592(U), :00707597(U)
+|
+:0070759C 58                      pop eax
+:0070759D E980FDFFFF              jmp 00707322
+:007075A2 90                      nop

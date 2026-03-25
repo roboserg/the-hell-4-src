@@ -1,0 +1,81 @@
+DLVL mods
+
+Automap will now show "level #" for all dlvls, including abyss (17-20) and crypt (21-24):
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00403112(C)
+|
+:00403126 A0D8B16000              mov al, byte ptr [0060B1D8]
+:0040312B 84C0                    test al, al
+:0040312D 7457                    je 00403186
+:0040312F 3C11                    cmp al, 11
+:00403131 7212                    jb 00403145				<- forced JMP here
+:00403133 3C14                    cmp al, 14
+:00403135 770E                    ja 00403145
+:00403137 0FB6C0                  movzx eax, al
+:0040313A 83E810                  sub eax, 00000010
+:0040313D 50                      push eax
+
+* Possible StringData Ref from Data Obj ->"Level: Abyss %i"
+                                  |
+:0040313E 684C4B4900              push 00494B4C
+:00403143 EB1F                    jmp 00403164
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00403131(C), :00403135(C)
+|
+:00403145 3C15                    cmp al, 15
+:00403147 7212                    jb 0040315B				<- forced JMP here
+:00403149 3C18                    cmp al, 18
+:0040314B 770E                    ja 0040315B
+:0040314D 0FB6C0                  movzx eax, al
+:00403150 83E814                  sub eax, 00000014
+:00403153 50                      push eax
+
+* Possible StringData Ref from Data Obj ->"Level: Crypt %i"
+                                  |
+:00403154 683C4B4900              push 00494B3C
+:00403159 EB09                    jmp 00403164
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00403147(C), :0040314B(C)
+|
+:0040315B 0FB6C0                  movzx eax, al
+:0040315E 50                      push eax
+
+* Possible StringData Ref from Data Obj ->"Level: %i"
+                                  |
+:0040315F 68304B4900              push 00494B30
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00403143(U), :00403159(U)
+|
+:00403164 8D8500FFFFFF            lea eax, dword ptr [ebp+FFFFFF00]
+:0040316A 50                      push eax
+:0040316B E850690700              call 00479AC0
+:00403170 83C40C                  add esp, 0000000C
+:00403173 8D8500FFFFFF            lea eax, dword ptr [ebp+FFFFFF00]
+:00403179 6A03                    push 00000003
+:0040317B 50                      push eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00403124(U)
+|
+:0040317C 6A08                    push 00000008
+:0040317E 8BD6                    mov edx, esi
+:00403180 59                      pop ecx
+:00403181 E866290000              call 00405AEC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0040312D(C)
+|
+:00403186 5E                      pop esi
+:00403187 C9                      leave
+:00403188 C3                      ret
+
+=====================================================
+
+At 40AE68 DLVL GFX load routine seems to be handled.
+

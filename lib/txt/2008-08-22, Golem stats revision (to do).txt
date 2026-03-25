@@ -1,0 +1,120 @@
+
+
+
+=========================================
+=========================================
+=========================================
+
+From TheDark:
+
+New Golem statistics, mostly to prevent negative/overflow values
+
+MinDamage (min = 1)   : 8 + 2*Slvl                   -> 4 + Slvl   
+MaxDamage (max = 127) : 24 + 3*Slvl + Clvl           -> 4*(Slvl+4) + Clvl/2    
+Tohit (always < 128)  : 6*(Slvl+8) + 2*Clvl          -> 64 + 2*slvl 
+Hitpoints             : MaxMana*2/3 + 20*(Slvl+Clvl) -> 4*Magic + 16*(Slvl+Clvl)
+
+file offset 000443D4
+
+:00444FD4 8D80887A6900            lea eax, dword ptr [eax+00697A88]
+:00444FDA 894508                  mov dword ptr [ebp+08], eax			Slvl
+:00444FDD 8B83B0010000            mov eax, dword ptr [ebx+000001B0]		MaxMana
+:00444FE3 99                      cdq
+:00444FE4 F7F9                    idiv ecx					MaxMana/3
+:00444FE6 E8D5A8FEFF              call 0042F8C0					ecx = Slvl + Clvl
+:00444FEB 8D0C89                  lea ecx, dword ptr [ecx+4*ecx]
+:00444FEE C1E107                  shl ecx, 07					2*5*(slvl+clvl) [*64]
+:00444FF1 03C1                    add eax, ecx					MaxMana/3 + 2*5*(slvl+clvl) [*64]
+:00444FF3 8A0A                    mov cl, byte ptr [edx]			Slvl
+:00444FF5 D1E0                    shl eax, 1					MaxMana*2/3 + 20*(slvl+clvl)
+:00444FF7 898618DD6900            mov dword ptr [esi+0069DD18], eax
+:00444FFD 89861CDD6900            mov dword ptr [esi+0069DD1C], eax
+:00445003 8AC1                    mov al, cl
+:00445005 C68652DD690019          mov byte ptr [esi+0069DD52], 19
+:0044500C 8A93B8010000            mov dl, byte ptr [ebx+000001B8]		clvl
+:00445012 0408                    add al, 08					slvl + 8
+:00445014 B306                    mov bl, 06
+:00445016 88450B                  mov byte ptr [ebp+0B], al
+:00445019 F6EB                    imul bl					6*(slvl+8)
+:0044501B D0E2                    shl dl, 1					2*clvl
+:0044501D 02D0                    add dl, al					6*(slvl+8) + 2*clvl
+:0044501F 8AC2                    mov al, dl
+:00445021 90                      nop
+:00445022 80C104                  add cl, 04					slvl+4
+:00445025 88964CDD6900            mov byte ptr [esi+0069DD4C], dl
+:0044502B D0E1                    shl cl, 1					2*(slvl+4)
+:0044502D D0E8                    shr al, 1					24 + clvl + 3*slvl
+:0044502F 888E4DDD6900            mov byte ptr [esi+0069DD4D], cl
+:00445035 88864EDD6900            mov byte ptr [esi+0069DD4E], al
+
+changed into
+
+:00444FD4 8B80887A6900            mov eax, dword ptr [eax+00697A88]		Slvl
+:00444FDA 50                      push eax
+:00444FDB 9090                    2*nop		
+:00444FDD 0403                    add al, 03
+:00444FDF 84C0                    test al, al
+:00444FE1 7D02                    jge 00444FE5
+:00444FE3 33C0                    xor eax, eax
+:00444FE5 40                      inc eax
+:00444FE6 88864DDD6900            mov byte ptr [esi+0069DD4D], al		Min. Damage
+:00444FEC D0E0                    shl al, 1
+:00444FEE 8BC8                    mov ecx, eax
+:00444FF0 0438                    add al, 38
+:00444FF2 88864CDD6900            mov byte ptr [esi+0069DD4C], al		Tohit
+:00444FF8 8A93B8010000            mov dl, byte ptr [ebx+000001B8]		Clvl
+:00444FFE 8AC2                    mov al, dl
+:00445000 D0E8                    shr al, 1
+:00445002 D0E1                    shl cl, 1
+:00445004 02C1                    add al, cl
+:00445006 B17F                    mov cl, 7F
+:00445008 3AC8                    cmp cl, al
+:0044500A 7D02                    jge 0044500E
+:0044500C 8AC1                    mov al, cl
+:0044500E 88864EDD6900            mov byte ptr [esi+0069DD4E], al		Max. Damage
+:00445014 58                      pop eax
+:00445015 9090                    2*nop		
+:00445017 02C2                    add al, dl
+:00445019 C1E002                  shl eax, 02
+:0044501C 8B936C010000            mov edx, dword ptr [ebx+0000016C]		Current Magic
+:00445022 03C2                    add eax, edx
+:00445024 C1E008                  shl eax, 08
+:00445027 C68652DD690019          mov byte ptr [esi+0069DD52], 19
+:0044502E 90                      nop
+:0044502F 898618DD6900            mov dword ptr [esi+0069DD18], eax		Min. Life
+:00445035 89861CDD6900            mov dword ptr [esi+0069DD1C], eax		Max. Life
+
+Now 18 bytes free space from 0042F8C0 to 0042F8D2:
+
+:0042F8C0 8B5508                  mov edx, dword ptr [ebp+08]
+:0042F8C3 8B0A                    mov ecx, dword ptr [edx]
+:0042F8C5 57                      push edi
+:0042F8C6 0FBEBBB8010000          movsx edi, byte ptr [ebx+000001B8]
+:0042F8CD 03CF                    add ecx, edi
+:0042F8CF 5F                      pop edi
+:0042F8D0 C3                      ret
+:0042F8D1 90                      nop
+
+Golem Damage in Spellbook:
+
+file offset 0002E003
+
+:0042EC03 56                      push esi					esi = Slvl
+:0042EC04 83C604                  add esi, 00000004
+:0042EC07 C1E601                  shl esi, 01
+:0042EC0A 8932                    mov dword ptr [edx], esi			8 + 2*Slvl
+:0042EC0C 5E                      pop esi
+:0042EC0D 0332                    add esi, dword ptr [edx]
+:0042EC0F 8B0DE8AD6E00            mov ecx, dword ptr [006EADE8]
+:0042EC15 E86D9F0500              call 00488B87					edx = Clvl
+:0042EC1A 03F2                    add esi, edx					8 + 3*Slvl + Clvl
+:0042EC1C 83C610                  add esi, 00000010				24 + 3*Slvl + Clvl
+changed into
+:0042EC03 83C604                  add esi, 00000004				4 + Slvl
+:0042EC06 8932                    mov dword ptr [edx], esi		
+:0042EC08 C1E602                  shl esi, 02					16 + 4*Slvl
+:0042EC0B 8B0DE8AD6E00            mov ecx, dword ptr [006EADE8]
+:0042EC11 E8719F0500              call 00488B87					edx = Clvl
+:0042EC16 D1EA                    shr edx, 1
+:0042EC18 03F2                    add esi, edx					16 + 4*Slvl + Clvl/2
+:0042EC1A 9090909090              5*nop

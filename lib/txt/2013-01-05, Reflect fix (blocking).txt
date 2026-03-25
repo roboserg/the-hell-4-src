@@ -1,0 +1,201 @@
+﻿  oGBVshaNWT  
+Функция определения процента. наделай внутри нопов. Чтобы менять было удобно
+@calcReflectPercent: // E55A0
+;ecx - индекс игрока
+push edx
+imul ecx, 55C8h
+add ecx, dword ptr [006EAE14]
+mov     edx, [ecx+180h]; bvit
+shr     edx, 3
+add     edx, 24h
+push ecx
+mov     cl, 6Ah
+call    sub_419F5A ; rng
+pop ecx
+add eax, 10d; решил тут а не после
+mov     edx, [ecx+160h]
+test edx, edx
+jz @palBonus
+cmp     edx, 5
+jz @gladiatorBonus
+cmp edx, 3
+jnz @return
+@monkBonus:
+movsx   edx, byte ptr [ecx+1B8h]; clvl
+shr     edx, 2
+add edx, 3
+add eax, edx ; reflectPercent += 3 + player.CharLevel/4
+jmp @return
+@gladiatorBonus:
+add eax, 6 ; reflectPercent += 6
+jmp @return
+@palBonus:
+add eax, 12d ; reflectPercent += 12
+@return:
+pop edx
+retn
+                      chekk:
+          * Referenced by a CALL at Addresses:
+|:0043E361   , :0043E50A   
+|
+:007189A0 52                      push edx
+:007189A1 69C9C8550000            imul ecx, 000055C8
+:007189A7 030D14AE6E00            add ecx, dword ptr [006EAE14]
+:007189AD 8B9180010000            mov edx, dword ptr [ecx+00000180]
+:007189B3 C1EA03                  shr edx, 03
+:007189B6 83C224                  add edx, 00000024
+:007189B9 51                      push ecx
+:007189BA B16A                    mov cl, 6A
+:007189BC E89915D0FF              call 00419F5A
+:007189C1 59                      pop ecx
+:007189C2 90                      nop
+:007189C3 90                      nop
+:007189C4 90                      nop
+:007189C5 90                      nop
+:007189C6 90                      nop
+:007189C7 83C00A                  add eax, 0000000A
+:007189CA 90                      nop
+:007189CB 90                      nop
+:007189CC 90                      nop
+:007189CD 90                      nop
+:007189CE 90                      nop
+:007189CF 90                      nop
+:007189D0 0FBE9160010000          movsx edx, byte ptr [ecx+00000160]
+:007189D7 85D2                    test edx, edx
+:007189D9 7435                    je 00718A10
+:007189DB 83FA05                  cmp edx, 00000005
+:007189DE 7438                    je 00718A18
+:007189E0 83FA03                  cmp edx, 00000003
+:007189E3 7536                    jne 00718A1B
+:007189E5 90                      nop
+:007189E6 90                      nop
+:007189E7 90                      nop
+:007189E8 90                      nop
+:007189E9 90                      nop
+:007189EA 90                      nop
+:007189EB 90                      nop
+:007189EC 90                      nop
+:007189ED 90                      nop
+:007189EE 90                      nop
+:007189EF 90                      nop
+:007189F0 0FBE91B8010000          movsx edx, byte ptr [ecx+000001B8]
+:007189F7 C1EA02                  shr edx, 02
+:007189FA 83C203                  add edx, 00000003
+:007189FD 90                      nop
+:007189FE 90                      nop
+:007189FF 90                      nop
+:00718A00 01D0                    add eax, edx
+:00718A02 EB17                    jmp 00718A1B
+:00718A04 90                      nop
+:00718A05 90                      nop
+:00718A06 90                      nop
+:00718A07 90                      nop
+:00718A08 90                      nop
+:00718A09 90                      nop
+:00718A0A 90                      nop
+:00718A0B 90                      nop
+:00718A0C 90                      nop
+:00718A0D 90                      nop
+:00718A0E 90                      nop
+:00718A0F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007189D9(C)
+|
+:00718A10 83C00C                  add eax, 0000000C
+:00718A13 EB06                    jmp 00718A1B
+:00718A15 90                      nop
+:00718A16 90                      nop
+:00718A17 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007189DE(C)
+|
+:00718A18 83C006                  add eax, 00000006
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007189E3(C), :00718A02(U), :00718A13(U)
+|
+:00718A1B 5A                      pop edx
+:00718A1C C3                      ret
+
+=======================================
+
+; уже работающий рефлект пересаживаем на новую функцию. во избежание рассинхрона
+0043E50A ; в ecx уже playerIndex
+call @calcReflectPercent
+jmp 0043E527 ; после прибавки    
+      
+=======================================
+смена процента
+
+loc_43E35E:
+push    0Ah
+mov     cl, 64h
+pop     edx
+call    sub_419F5A
+add     eax, 14h
+mov ecx, dword ptr [ebp - 4]; playerIndex
+call @calcReflectPercent
+mov     [ebp+maxDamage], eax ??
+
+     chekk:
+:0043E35E 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:0043E361 E83AA62D00              call 007189A0
+:0043E366 90                      nop
+:0043E367 90                      nop
+:0043E368 90                      nop
+:0043E369 90                      nop
+:0043E36A 90                      nop
+:0043E36B 894510                  mov dword ptr [ebp+10], eax
+==========================================
+удвоение или двойное удвоение отдачи
+
+0043E37F >>> // E5660
+cmp     dword ptr [edi+69DCA0h], 0
+jz @monsterDamage:
+@bossDamage:
+shl eax, 1
+jmp @return
+@monsterDamage:
+shl eax, 2
+@return:
+sub     [edi+69DD1Ch], eax
+jmp 0043E385
+
+chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043E37F(U)
+|
+:00718A60 83BFA0DC690000          cmp dword ptr [edi+0069DCA0], 00000000
+:00718A67 7409                    je 00718A72
+:00718A69 D1E0                    shl eax, 1
+:00718A6B 90                      nop
+:00718A6C 90                      nop
+:00718A6D 90                      nop
+:00718A6E 90                      nop
+:00718A6F 90                      nop
+:00718A70 EB03                    jmp 00718A75
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718A67(C)
+|
+:00718A72 C1E002                  shl eax, 02
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718A70(U)
+|
+:00718A75 29871CDD6900            sub dword ptr [edi+0069DD1C], eax
+:00718A7B E90559D2FF              jmp 0043E385
+
+
+
+
+
+
+
+
+
+
+
+

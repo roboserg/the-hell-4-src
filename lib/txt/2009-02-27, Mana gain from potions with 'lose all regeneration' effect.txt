@@ -1,0 +1,24 @@
+Effect of lost regenerations doesn't affect the ability to gain mana from small/full mana potions and small/full holy waters:
+jumps below adjusted accordingly
+Note: Elixir of Magic never was affected by this)
+
+
+:00429908 F6804355000008          test byte ptr [eax+00005543], 08
+:0042990F 0F854E070000            jne 0042A063
+
+
+
+:00429988 F6804355000008          test byte ptr [eax+00005543], 08
+:0042998F 0F85CE060000            jne 0042A063
+
+
+
+:00429B1C F6814355000008          test byte ptr [ecx+00005543], 08
+:00429B23 0F853A050000            jne 0042A063
+
+
+
+:00429C34 F6804355000008          test byte ptr [eax+00005543], 08
+:00429C3B 0F8522040000            jne 0042A063
+>>>>
+jne 0 bytes

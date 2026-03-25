@@ -1,0 +1,40 @@
+Leoric's level differs for difficulty modes
+
+	mod:
+:0046B426 E905CF2900              jmp 00708330
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708355(U)
+|
+:0046B42B 6A2D                    push 0000002D
+
+
+	and:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0046B426(U)
+|
+:00708330 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00708337 7410                    je 00708349
+:00708339 833DC070600002          cmp dword ptr [006070C0], 00000002
+:00708340 740E                    je 00708350
+
+* Possible StringData Ref from Data Obj ->"Levels\L1Data\SklKng2.DUN"
+                                  |
+:00708342 B99C734B00              mov ecx, 004B739C
+:00708347 EB0C                    jmp 00708355
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708337(C)
+|
+:00708349 B9F3EC9F00              mov ecx, 009FECF3
+:0070834E EB05                    jmp 00708355
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708340(C)
+|
+:00708350 B90DED9F00              mov ecx, 009FED0D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00708347(U), :0070834E(U)
+|
+:00708355 E9D130D6FF              jmp 0046B42B

@@ -1,0 +1,1084 @@
+JG:
+
+4.3    Traps
+
+Most traps are of magical nature, and thus it is appropriate to explain how they work here. Traps can be set off when you open chests, sarcophagi, barrels, or doors. There are 7 different types of traps (including skeletons) in the original Diablo. Three new ones were added in Hellfire. The probability of a trap is shown in the table below. Traps originating from shrines are not covered by this guide.
+
+For damage and other information about the traps, see below. For damage, when two values or formulas are given, the top one is minimum damage and the bottom one is maximum damage. With fire arrows, the maximum damage might at times be less than the minimum damage (possible on dlvl 1-8). In that case, the actual damage done is always identical to the minimum damage. The table also list some dungeon features that while not being traps, still deal damage to players.
+
+===================
+
+Trap damages:
+
+Arrow:
+Min: dlvl
+Max: 2·dlvl
+
+Burning cross:
+Church:                  6/64
+Catacombs:               8/64
+Caves:                   10/64
+Hell:                    12/64
+
+Fire Arrow:
+Min: dlvl + Rnd[10] + 1
+Max: 2·dlvl + Rnd[10] + 1
+
+Firebolt:
+dlvl + Rnd[2·dlvl]
+
+Lightning:
+(dlvl + Rnd[dlvl])/32
+
+Nova:
+Itt(3, Rnd[3]) + dlvl/2
+
+Exploding barrel:
+Min: 8
+Max: 16
+
+Ring of Fire:
+(Rnd[10] + Rnd[10] + dlvl + 2)/8
+
+=========================================================================
+
+To Hit
+
+To Hit for traps is calculated according to the formulas below.
+
+To Hit for an arrow trap:                           100 - AC/2
+
+To Hit for a magic trap:                              40
+
+As with attacks from monsters, there is also an automatic chance of hitting for traps, and it is listed below. Of course, the auto To Hit for magic traps is 40%, even on dungeon levels 14 to 16.
+
+arrow trap:                                                   10%
+
+magic trap:                                                   40%
+
+on dungeon level 14:                                  20%
+
+on dungeon level 15:                                  25%
+
+on dungeon level 16:                                  30%
+
+·       magic traps includes Fire Wall, Flame Wave and Ring of Fire attacks from other players.
+
+==========================================================================
+==========================================================================
+
+44C5ED
+[23:36:44] Ярик: Так настенные
+[23:37:25] Ярик: По этому адресу ставится условие - не данжеон тайп 1
+[23:37:33] Ярик: Сделай как обычно
+[23:37:52] Ярик: хуеву тучу условий так чтобы нормально было
+[23:40:39] Ярик: 0044CD09
+[23:40:52] Ярик: Тут установка настенных
+[23:41:24] Ярик: В самом начале проверяются диапазоны уровней и на их основе процент заловушеных объектов
+dlvl 1   10%
+dlvl 2-4 15%
+dlvl 5-6 20%
+dlvl >=7 25%
+[23:44:20] Ярик: 0044E1E1
+[23:44:34] Ярик: Тут выбирается спел для настенных ловушек
+[23:44:50] Ярик: из стрелы, фаерболта и молнии
+В склепе из за высокого dlvl шанс на стрелы выше, чем на остальное
+[23:47:18] Ярик: 0044CF13
+тут ограничение для катакомб 2мя видами сундучных ловушек
+[23:49:38] Ярик: 00450FCB
+тут устанавливается 6 эффектов ловушек для сундуков
+
+==========================================================================
+
+Arrow:
+original damage: dlvl -2*dlvl
+
+:0043608F 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]	<- edx = minDam
+:00436096 8D0412                  lea eax, dword ptr [edx+edx]		<- eax = maxDam
+
+
+Current damage in TH: (((Dlvl*(Diff*2))+2)*8)+2 - ((((Dlvl*(Diff*2))+2)*8)+2)*3
+obviously, we need a better formula, and simplified one :)
+
+:0043608F E84E420200              call 0045A2E2
+:00436094 42                      inc edx
+:00436095 42                      inc edx
+:00436096 8D0452                  lea eax, dword ptr [edx+2*edx]
+
+:0045A2E2 E80A4BFFFF              call 0044EDF1
+:0045A2E7 42                      inc edx
+:0045A2E8 42                      inc edx
+:0045A2E9 C1E203                  shl edx, 03
+:0045A2EC C3                      ret
+
+:0044EDF1 51                      push ecx
+:0044EDF2 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:0044EDF9 8B0DC0706000            mov ecx, dword ptr [006070C0]
+:0044EDFF 85C9                    test ecx, ecx
+:0044EE01 7409                    je 0044EE0C
+:0044EE03 D1E2                    shl edx, 1
+:0044EE05 83F901                  cmp ecx, 00000001
+:0044EE08 7402                    je 0044EE0C
+:0044EE0A D1E2                    shl edx, 1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0044EE01(C), :0044EE08(C)
+|
+:0044EE0C 59                      pop ecx
+:0044EE0D C3                      ret
+
+=====================
+New damage formula:
+Horror: (Dlvl*5)+5 - ((Dlvl*5)+5)*2
+Purgat: (Dlvl*5)+130 - ((Dlvl*5)+130)*2
+Doom:   (Dlvl*10)+260 - ((Dlvl*10)+260)*2
+
+
+:0043608F E9253A2D00              jmp 00709AB9
+:00436094 90                      nop
+:00436095 90                      nop
+:00436096 90                      nop
+:00436097 90                      nop
+:00436098 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00436077(U), :0043608D(U), :00709AE6(U)
+|
+:00436099 8B8E5C7A6900            mov ecx, dword ptr [esi+00697A5C]
+
+	Exp:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043608F(U)
+|
+:00709AB9 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:00709AC0 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00709AC7 0F841E000000            je 00709AEB
+:00709ACD 833DC070600002          cmp dword ptr [006070C0], 00000002
+:00709AD4 0F841C000000            je 00709AF6
+:00709ADA 8D1492                  lea edx, dword ptr [edx+4*edx]
+:00709ADD 81C205000000            add edx, 00000005
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00709AF4(U), :00709B01(U)
+|
+:00709AE3 8D0412                  lea eax, dword ptr [edx+edx]
+:00709AE6 E9AEC5D2FF              jmp 00436099
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00709AC7(C)
+|
+:00709AEB 8D1492                  lea edx, dword ptr [edx+4*edx]
+:00709AEE 81C282000000            add edx, 00000082
+:00709AF4 EBED                    jmp 00709AE3
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00709AD4(C)
+|
+:00709AF6 8D1492                  lea edx, dword ptr [edx+4*edx]
+:00709AF9 D1E2                    shl edx, 1
+:00709AFB 81C204010000            add edx, 00000104
+:00709B01 EBE0                    jmp 00709AE3
+:00709B03 90                      nop
+
+========================================================================
+========================================================================
+========================================================================
+Firebolt:
+original: dlvl + Rnd[2·dlvl]
+
+:00436241 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:00436248 D1E2                    shl edx, 1
+:0043624A B14E                    mov cl, 4E
+:0043624C E8093DFEFF              call 00419F5A
+:00436251 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043623F(U)
+|
+:00436258 03C1                    add eax, ecx
+:0043625A EB03                    jmp 0043625F
+
+
+
+	Currently in TH: Rnd[(((dlvl*(diff*2))+2)*64)+4] + dlvl
+also weird formula..
+
+:00436241 E884400200              call 0045A2CA
+:00436246 42                      inc edx
+:00436247 42                      inc edx
+:00436248 42                      inc edx
+:00436249 42                      inc edx
+:0043624A B14E                    mov cl, 4E
+:0043624C E8093DFEFF              call 00419F5A
+:00436251 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043623F(U)
+|
+:00436258 03C1                    add eax, ecx
+:0043625A EB03                    jmp 0043625F
+
+
+:0045A2CA E8224BFFFF              call 0044EDF1
+:0045A2CF 42                      inc edx
+:0045A2D0 42                      inc edx
+:0045A2D1 C1E206                  shl edx, 06
+:0045A2D4 C3                      ret
+
+
+:0044EDF1 51                      push ecx
+:0044EDF2 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:0044EDF9 8B0DC0706000            mov ecx, dword ptr [006070C0]
+:0044EDFF 85C9                    test ecx, ecx
+:0044EE01 7409                    je 0044EE0C
+:0044EE03 D1E2                    shl edx, 1
+:0044EE05 83F901                  cmp ecx, 00000001
+:0044EE08 7402                    je 0044EE0C
+:0044EE0A D1E2                    shl edx, 1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0044EE01(C), :0044EE08(C)
+|
+:0044EE0C 59                      pop ecx
+:0044EE0D C3                      ret
+
+
+	Changing formua to: 
+Horr: Rnd[((dlvl+2)*16)+1] + (dlvl*8)
+Purg: Rnd[(((dlvl*2)+2)*16)+1] + ((dlvl+40)*8)
+Doom: Rnd[(((dlvl*4)+2)*16)+1] + ((dlvl+200)*8)
+
+
+	code:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00436196(C)
+|
+:00436241 E884400200              call 0045A2CA
+:00436246 42                      inc edx
+:00436247 B14E                    mov cl, 4E
+:00436249 E80C3DFEFF              call 00419F5A
+:0043624E E90D392D00              jmp 00709B60
+:00436253 90                      nop
+:00436254 90                      nop
+:00436255 90                      nop
+:00436256 90                      nop
+:00436257 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043623F(U), :00709B7C(U)
+|
+:00436258 03C1                    add eax, ecx
+:0043625A EB03                    jmp 0043625F
+
+
+	and:
+* Referenced by a CALL at Address:
+|:00436241   
+|
+:0045A2CA E8224BFFFF              call 0044EDF1
+:0045A2CF 42                      inc edx
+:0045A2D0 42                      inc edx
+:0045A2D1 C1E204                  shl edx, 04
+:0045A2D4 C3                      ret
+
+
+	and:
+* Referenced by a CALL at Addresses:
+|:00434C94   , :0044EDCC   , :0045270E   , :0045A2CA   
+|
+:0044EDF1 51                      push ecx
+:0044EDF2 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:0044EDF9 8B0DC0706000            mov ecx, dword ptr [006070C0]
+:0044EDFF 85C9                    test ecx, ecx
+:0044EE01 7409                    je 0044EE0C
+:0044EE03 D1E2                    shl edx, 1
+:0044EE05 83F901                  cmp ecx, 00000001
+:0044EE08 7402                    je 0044EE0C
+:0044EE0A D1E2                    shl edx, 1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0044EE01(C), :0044EE08(C)
+|
+:0044EE0C 59                      pop ecx
+:0044EE0D C3                      ret
+
+
+	and:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043624E(U)
+|
+:00709B60 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:00709B67 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00709B6E 7411                    je 00709B81
+:00709B70 833DC070600002          cmp dword ptr [006070C0], 00000002
+:00709B77 7410                    je 00709B89
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00709B87(U), :00709B8F(U)
+|
+:00709B79 C1E103                  shl ecx, 03
+:00709B7C E9D7C6D2FF              jmp 00436258
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00709B6E(C)
+|
+:00709B81 81C128000000            add ecx, 00000028
+:00709B87 EBF0                    jmp 00709B79
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00709B77(C)
+|
+:00709B89 81C1C8000000            add ecx, 000000C8
+:00709B8F EBE8                    jmp 00709B79
+:00709B91 90                      nop
+:00709B92 90                      nop
+
+
+====================================================================
+
+Fire Arrow:
+orig.dam.:
+Min: dlvl + Rnd[10] + 1
+Max: 2·dlvl + Rnd[10] + 1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00435EF0(C)
+|
+:00435F11 6A0A                    push 0000000A
+:00435F13 B144                    mov cl, 44
+:00435F15 5A                      pop edx
+:00435F16 E83F40FEFF              call 00419F5A				<- EAX = Rnd[10]
+:00435F1B 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]	<- ECX = Dlvl
+:00435F22 6A0A                    push 0000000A
+:00435F24 8D5C0801                lea ebx, dword ptr [eax+ecx+01]	<- EBX (minimum_Damage) = Rnd[10] + Dlvl + 1
+:00435F28 5A                      pop edx
+:00435F29 B144                    mov cl, 44
+:00435F2B E82A40FEFF              call 00419F5A				<- EAX = Rnd[10]
+:00435F30 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]	<- ECX = Dlvl
+:00435F37 8D444801                lea eax, dword ptr [eax+2*ecx+01]	<- EAX (maximum_Damage) = Rnd[10] + (Dlvl*2) + 1
+
+
+
+New formula:
+
+Horr:
+min: Rnd[Dlvl*2]+(Dlvl*4)+1
+max: Rnd[Dlvl*4]+(Dlvl*4)+10
+
+Purg: 
+min: Rnd[Dlvl*4]+(Dlvl*8)+30
+max: Rnd[Dlvl*8]+(Dlvl*8)+50
+
+Doom: 
+min: Rnd[Dlvl*8]+(Dlvl*8)+60
+max: Rnd[Dlvl*16]+(Dlvl*16)+125
+
+
+
+
+	new code:
+:00435F11 E9AA3C2D00              jmp 00709BC0
+:00435F16 90                      nop
+.......
+:00435F3A 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00435F0F(U), :0047AAD9(U), :00709C15(U)
+|
+:00435F3B 6A01                    push 00000001
+
+
+	and:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00435F11(U)
+|
+:00709BC0 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00709BC7 0F844D000000            je 00709C1A
+:00709BCD 833DC070600002          cmp dword ptr [006070C0], 00000002
+:00709BD4 0F847D000000            je 00709C57
+:00709BDA 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:00709BE1 C1E201                  shl edx, 01
+:00709BE4 B144                    mov cl, 44
+:00709BE6 E86F03D1FF              call 00419F5A
+:00709BEB 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:00709BF2 C1E102                  shl ecx, 02
+:00709BF5 8D5C0801                lea ebx, dword ptr [eax+ecx+01]
+:00709BF9 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:00709C00 C1E202                  shl edx, 02
+:00709C03 B144                    mov cl, 44
+:00709C05 E85003D1FF              call 00419F5A
+:00709C0A 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:00709C11 8D44880A                lea eax, dword ptr [eax+4*ecx+0A]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00709C55(U), :00709C95(U)
+|
+:00709C15 E921C3D2FF              jmp 00435F3B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00709BC7(C)
+|
+:00709C1A 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:00709C21 C1E202                  shl edx, 02
+:00709C24 B144                    mov cl, 44
+:00709C26 E82F03D1FF              call 00419F5A
+:00709C2B 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:00709C32 C1E103                  shl ecx, 03
+:00709C35 8D5C081E                lea ebx, dword ptr [eax+ecx+1E]
+:00709C39 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:00709C40 C1E203                  shl edx, 03
+:00709C43 B144                    mov cl, 44
+:00709C45 E81003D1FF              call 00419F5A
+:00709C4A 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:00709C51 8D44C832                lea eax, dword ptr [eax+8*ecx+32]
+:00709C55 EBBE                    jmp 00709C15
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00709BD4(C)
+|
+:00709C57 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:00709C5E C1E203                  shl edx, 03
+:00709C61 B144                    mov cl, 44
+:00709C63 E8F202D1FF              call 00419F5A
+:00709C68 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:00709C6F C1E103                  shl ecx, 03
+:00709C72 8D5C083C                lea ebx, dword ptr [eax+ecx+3C]
+:00709C76 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:00709C7D C1E204                  shl edx, 04
+:00709C80 B144                    mov cl, 44
+:00709C82 E8D302D1FF              call 00419F5A
+:00709C87 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:00709C8E C1E101                  shl ecx, 01
+:00709C91 8D44C87D                lea eax, dword ptr [eax+8*ecx+7D]
+:00709C95 E97BFFFFFF              jmp 00709C15
+
+
+
+
+
+
+
+=============================================================
+
+Lightning:
+original formula:
+(dlvl + Rnd[dlvl])/32
+my opinion on actual damage:
+(Rnd[Dlvl]/64) + Dlvl/32
+
+:0043713D 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:00437144 B151                    mov cl, 51
+:00437146 E80F2EFEFF              call 00419F5A				
+:0043714B 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:00437152 8D3C48                  lea edi, dword ptr [eax+2*ecx]	<- EDI = (Rnd[Dlvl]/64) + Dlvl/32
+
+
+	Current TH situation:
+Rnd[(Dlvl+2)*8]+(Dlvl/64)
+definetely needs fixing :))
+
+:0043713D E893310200              call 0045A2D5				<- returns "(Dlvl+2)*8"
+:00437142 40                      inc eax				<- WTF??
+:00437143 41                      inc ecx				<- WTF??
+:00437144 B151                    mov cl, 51
+:00437146 E80F2EFEFF              call 00419F5A
+:0043714B 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:00437152 8D3CC8                  lea edi, dword ptr [eax+8*ecx]	<- Rnd[(Dlvl+2)*8]+(Dlvl/64)
+
+	and:
+* Referenced by a CALL at Address:
+|:0043713D   
+|
+:0045A2D5 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:0045A2DC 42                      inc edx
+:0045A2DD 42                      inc edx				Dlvl+2
+:0045A2DE C1E209                  shl edx, 09				(Dlvl+2)*8
+:0045A2E1 C3                      ret
+
+
+	Revised formula:
+	Horr: Rnd[Dlvl]+(Dlvl*2), 8 attacks,
+	Purg: Rnd[(Dlvl+26)]+((Dlvl+26)*2), 8 attacks,
+	Doom: Rnd[((Dlvl+51)*2)]+((Dlvl+51)*2), 8 attacks;
+
+	new code:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004370D2(C)
+|
+:0043713D E91E2C2D00              jmp 00709D60
+:00437142 90                      nop
+................
+:00437154 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043710D(U), :00437136(U), :00709D98(U)
+|
+:00437155 8B866C7A6900            mov eax, dword ptr [esi+00697A6C]
+
+
+	and:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043713D(U)
+|
+:00709D60 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00709D67 0F8430000000            je 00709D9D
+:00709D6D 833DC070600002          cmp dword ptr [006070C0], 00000002
+:00709D74 0F8449000000            je 00709DC3
+:00709D7A 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:00709D81 C1E206                  shl edx, 06
+:00709D84 B151                    mov cl, 51
+:00709D86 E8CF01D1FF              call 00419F5A
+:00709D8B 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:00709D92 C1E106                  shl ecx, 06
+:00709D95 8D3C48                  lea edi, dword ptr [eax+2*ecx]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00709DC1(U), :00709DE7(U)
+|
+:00709D98 E9B8D3D2FF              jmp 00437155
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00709D67(C)
+|
+:00709D9D 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:00709DA4 83C21A                  add edx, 0000001A
+:00709DA7 C1E206                  shl edx, 06
+:00709DAA B151                    mov cl, 51
+:00709DAC E8A901D1FF              call 00419F5A
+:00709DB1 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:00709DB8 83C11A                  add ecx, 0000001A
+:00709DBB C1E106                  shl ecx, 06
+:00709DBE 8D3C48                  lea edi, dword ptr [eax+2*ecx]
+:00709DC1 EBD5                    jmp 00709D98
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00709D74(C)
+|
+:00709DC3 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:00709DCA 83C233                  add edx, 00000033
+:00709DCD C1E207                  shl edx, 07
+:00709DD0 B151                    mov cl, 51
+:00709DD2 E88301D1FF              call 00419F5A
+:00709DD7 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:00709DDE 83C133                  add ecx, 00000033
+:00709DE1 C1E106                  shl ecx, 06
+:00709DE4 8D3C48                  lea edi, dword ptr [eax+2*ecx]
+:00709DE7 EBAF                    jmp 00709D98
+:00709DE9 90                      nop
+
+============================================================================
+
+Nova trap damage in TH:
+	Horr: Rnd[8] + Rnd[8] + Rnd[8] + Dlvl + 5,
+	Horr: Rnd[8] + Rnd[8] + Rnd[8] + (Dlvl*2) + 5,
+	Horr: Rnd[8] + Rnd[8] + Rnd[8] + (Dlvl*4) + 5;
+
+	code:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00434BD3(C)
+|
+:00434C6F 6A08                    push 00000008
+:00434C71 B142                    mov cl, 42
+:00434C73 5A                      pop edx
+:00434C74 E8E152FEFF              call 00419F5A
+:00434C79 B142                    mov cl, 42
+:00434C7B 8BF8                    mov edi, eax
+:00434C7D 6A08                    push 00000008
+:00434C7F 5A                      pop edx
+:00434C80 E8D552FEFF              call 00419F5A
+:00434C85 B142                    mov cl, 42
+:00434C87 03F8                    add edi, eax
+:00434C89 6A08                    push 00000008
+:00434C8B 5A                      pop edx
+:00434C8C E8C952FEFF              call 00419F5A
+:00434C91 40                      inc eax
+:00434C92 03F8                    add edi, eax
+:00434C94 E858A10100              call 0044EDF1
+:00434C99 03FA                    add edi, edx
+:00434C9B 83C705                  add edi, 00000005
+:00434C9E 89BED47A6900            mov dword ptr [esi+00697AD4], edi
+========================
+Fire Arrow (Tratp type) physical damage tuning:
+  Horror:
+min = (DLVL*2)+10
+max = (DLVL*3)+10
+  Purgat:
+min = (DLVL*2)+78
+max =  (DLVL*4)+78
+  Doom:
+min = (DLVL*2)+183
+max = (DLVL*5)+183
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00435D81(U)
+|
+:00719340 0FB605D8B16000          movzx eax, byte ptr [0060B1D8]
+:00719347 D1E0                    shl eax, 1
+:00719349 0FB63DD8B16000          movzx edi, byte ptr [0060B1D8]
+:00719350 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00719357 7414                    je 0071936D
+:00719359 7F19                    jg 00719374
+:0071935B 90                      nop
+:0071935C 90                      nop
+:0071935D 90                      nop
+:0071935E 90                      nop
+:0071935F 90                      nop
+:00719360 83C00A                  add eax, 0000000A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00719372(U), :0071937C(U)
+|
+:00719363 01C7                    add edi, eax
+:00719365 8945F8                  mov dword ptr [ebp-08], eax
+:00719368 E941CAD1FF              jmp 00435DAE
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719357(C)
+|
+:0071936D D1E7                    shl edi, 1
+:0071936F 83C04E                  add eax, 0000004E
+:00719372 EBEF                    jmp 00719363
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719359(C)
+|
+:00719374 6BFF03                  imul edi, 00000003
+:00719377 05B7000000              add eax, 000000B7
+:0071937C EBE5                    jmp 00719363
+========================
+========================
+========================
+========================
+========================
+Below trap-related notes from TD:
+
+
+
+
+Increasing Ring of Fire Trap Damage
+
+File Offset 00038191
+
+:00438D91 90                      nop
+:00438D92 90                      nop
+wordt
+:00438D91 0402                    add al, 02
+
+
+Increasing Firebolt Trap Damage
+
+File Offset 00035646
+
+:00436246 90                      nop
+:00436247 90                      nop
+wordt
+:00436246 42                      inc edx
+:00436247 42                      inc edx
+
+
+Increassing Lightning Trap Damage
+
+File Offset 00036542
+
+:00437142 90                      nop
+:00437143 90                      nop
+:00437144 52                      push edx
+wordt
+:00437142 D1E2                    shl edx, 1
+:00437143 52                      push edx
+
+File Offset 0003654F
+
+:0043714F D1E1                    shl ecx, 1
+:00437151 90                      nop
+wordt
+:0043714F C1E103                  shl ecx, 03
+
+
+Increasing Normal Arrow Trap Damage
+
+File Offset 00035494
+
+:00436094 90                      nop
+:00436095 90                      nop
+wordt
+:00436094 D1E2                    shl edx, 1
+
+
+Fire/Lightning Arrows
+
+Reducing the high damage done by Fire/Lightning Arrows from Traps, elemental part only:
+
+File Offset 00035311
+
+:00435F11 6A0A                    push 0000000A
+:00435F13 B144                    mov cl, 44
+:00435F15 5A                      pop edx
+:00435F16 E83F40FEFF              call 00419F5A
+:00435F1B 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:00435F22 6A0A                    push 0000000A
+:00435F24 8D5C0801                lea ebx, dword ptr [eax+ecx+01]
+:00435F28 5A                      pop edx
+:00435F29 B144                    mov cl, 44
+:00435F2B E82A40FEFF              call 00419F5A
+:00435F30 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+wordt
+:00435F11 E802000000              call 00435F18
+:00435F16 EB1F                    jmp 00435F37
+:00435F18 E8972C0500              call 00488BB4
+:00435F1D 52                      push edx
+:00435F1E B144                    mov cl, 44
+:00435F20 E83540FEFF              call 00419F5A
+:00435F25 5A                      pop edx
+:00435F26 8BCA                    mov ecx, edx
+:00435F28 C1E902                  shr ecx, 02
+:00435F2B 8D5C0801                lea ebx, dword ptr [eax+ecx+01]
+:00435F2F C3                      ret
+:00435F30 90909090909090          7*nop
+
+File Offset 00035386
+
+:00435F86 6A0A                    push 0000000A
+:00435F88 B144                    mov cl, 44
+:00435F8A 5A                      pop edx
+:00435F8B E8CA3FFEFF              call 00419F5A
+:00435F90 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:00435F97 6A0A                    push 0000000A
+:00435F99 8D5C0801                lea ebx, dword ptr [eax+ecx+01]
+:00435F9D 5A                      pop edx
+:00435F9E B144                    mov cl, 44
+:00435FA0 E8B53FFEFF              call 00419F5A
+:00435FA5 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+wordt
+:00435F86 E88DFFFFFF              call 00435F18
+:00435F8B EB1F                    jmp 00435FAC
+:00435F8D 909090                  3*nop
+
+Now 31 free bytes here.
+
+========================
+
+Fixed bug that was introduced by TrapView52H
+
+File offset 00038E67
+
+:00439A67 80B8D001000000          cmp byte ptr [eax+000001D0], 00
+changed into
+:00439A67 83B8D001000000          cmp dword ptr [eax+000001D0], 00000000
+
+
+Increassed damage for Firebolt and Spikeball traps:
+
+File Offset 00035647
+
+:00436247 42                      inc edx
+:00436248 D1E2                    shl edx, 1
+changed into
+:00436247 C1E202                  shl edx, 02
+
+File Offset 00035652
+
+:00436252 D1E0                    shl eax, 1
+:00436254 59                      pop ecx
+:00436255 41                      inc ecx
+:00436256 D1E1                    shl ecx, 1
+changed into
+:00436252 59                      pop ecx
+:00436253 D1E1                    shl ecx, 1
+:00436255 40                      inc eax
+:00436256 40                      inc eax
+:00436257 40                      inc eax
+
+
+Increassed damage for Lightning traps:
+
+File Offset 0003654F
+
+:0043714F C1E104                  shl ecx, 04
+changed into
+:0043714F C1E105                  shl ecx, 05
+
+
+Increassed maximum damage for (normal) Arrow traps:
+
+File Offset 00035496
+
+:00436096 8D0412                  lea eax, dword ptr [edx+edx]
+changed into
+:00436096 8D0452                  lea eax, dword ptr [edx+2*edx]
+
+
+Slightly increased damage for Nova traps:
+
+File Offset 00034091
+
+:00434C91 03F8                    add edi, eax
+:00434C93 52                      push edx
+:00434C94 E81B3F0500              call 00488BB4
+:00434C99 8BC2                    mov eax, edx
+:00434C9B 5A                      pop edx
+:00434C9C 03F8                    add edi, eax
+changed into
+:00434C91 40                      inc eax
+:00434C92 03F8                    add edi, eax
+:00434C94 E81B3F0500              call 00488BB4
+:00434C99 03FA                    add edi, edx
+:00434C9B 83C708                  add edi, 00000008
+
+============================
+
+Changed trap distribution:
+
+Nest
+
+Arrow (old trap, not used in previous versions)
+Potionbreaking
+Manadraining
+
+Hell
+
+Nova
+Golem (new trap: summons a Golem)
+Lightning Arrow
+
+Caves
+
+Arrow (old trap, not used in previous versions)
+Fire Arrow
+
+Catacombs
+
+Arrow (old trap, not used in previous versions)
+Lightning Arrow
+
+
+File offset 000503CB
+
+:00450FCB 2BCB                    sub ecx, ebx
+:00450FCD 7417                    je 00450FE6		Lightning Arrow (originally Arrow)
+:00450FCF 49                      dec ecx
+:00450FD0 7418                    je 00450FEA		Fire Arrow
+:00450FD2 49                      dec ecx
+:00450FD3 7419                    je 00450FEE		Nova
+:00450FD5 49                      dec ecx
+:00450FD6 740E                    je 00450FE6		Lightning Arrow (originally Ring of Fire)
+:00450FD8 49                      dec ecx
+:00450FD9 7407                    je 00450FE2		Potion Breaking
+:00450FDB 49                      dec ecx
+:00450FDC 750C                    jne 00450FEA		Fire Arrow (originally Arrow)
+:00450FDE 6A53                    push 00000053		Mana Sucking
+:00450FE0 EB12                    jmp 00450FF4
+:00450FE2 6A52                    push 00000052
+:00450FE4 EB0E                    jmp 00450FF4
+:00450FE6 6A38                    push 00000038
+:00450FE8 EB0A                    jmp 00450FF4
+:00450FEA 6A1B                    push 0000001B
+:00450FEC EB06                    jmp 00450FF4
+:00450FEE E97E280000              jmp 00453871
+:00450FF3 90                      nop
+changed into
+:00450FCB 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:00450FD2 F6C104                  test cl, 01
+:00450FD5 7512                    jne 00450FE9
+:00450FD7 83FA0D                  cmp edx, 0000000D
+:00450FDA 7C09                    jl 00450FE5
+:00450FDC 83FA10                  cmp edx, 00000010
+:00450FDF 0F8C8C280000            jl 00453871				Nova
+:00450FE5 33D2                    xor edx, edx				Arrow
+:00450FE7 EB0C                    jmp 00450FF5
+:00450FE9 83FA08                  cmp edx, 00000008
+:00450FEC 0F8F42AB0000            jg 0045BB34
+:00450FF2 6A38                    push 00000038				Lightning Arrow
+:00450FF4
+
+
+File offset 0005AF34
+
+:0045BB34 90                      nop
+:0045BB35 90                      nop
+:0045BB36 90                      nop
+:0045BB37 90                      nop
+:0045BB38 90                      nop
+:0045BB39 90                      nop
+:0045BB3A 90                      nop
+:0045BB3B 90                      nop
+:0045BB3C 80FB01                  cmp bl, 01
+:0045BB3F 7519                    jne 0045BB5A
+:0045BB41 90                      nop
+:0045BB42 90                      nop
+:0045BB43 90                      nop
+:0045BB44 90                      nop
+:0045BB45 90                      nop
+:0045BB46 90                      nop
+:0045BB47 90                      nop
+:0045BB48 90                      nop
+:0045BB49 750F                    jne 0045BB5A
+:0045BB4B 8BD7                    mov edx, edi
+:0045BB4D 03FA                    add edi, edx
+:0045BB4F 80B86001000003          cmp byte ptr [eax+00000160], 03
+:0045BB56 7502                    jne 0045BB5A
+:0045BB58 03FA                    add edi, edx
+:0045BB5A C3                      ret
+:0045BB5B 90                      nop
+:0045BB5C 90                      nop
+:0045BB5D 90                      nop
+:0045BB5E 90                      nop
+:0045BB5F 90                      nop
+:0045BB60 90                      nop
+:0045BB61 90                      nop
+:0045BB62 90                      nop
+:0045BB63 90                      nop
+:0045BB64 90                      nop
+changed into
+:0045BB34 83FA0C                  cmp edx, 0000000C
+:0045BB37 7F04                    jg 0045BB3D
+:0045BB39 6A1B                    push 0000001B				Fire Arrow
+:0045BB3B EB1D                    jmp 0045BB5A
+:0045BB3D 83FA0F                  cmp edx, 0000000F
+:0045BB40 7F0D                    jg 0045BB4F
+:0045BB42 80F901                  cmp cl, 01
+:0045BB45 7404                    je 0045BB4B
+:0045BB47 6A5F                    push 0000005F				Golem
+:0045BB49 EB0F                    jmp 0045BB5A
+:0045BB4B 6A38                    push 00000038				Lightning Arrow
+:0045BB4D EB0B                    jmp 0045BB5A
+:0045BB4F 80F901                  cmp cl, 01
+:0045BB52 7404                    je 0045BB58
+:0045BB54 6A53                    push 00000053				Mana draining
+:0045BB56 EB02                    jmp 0045BB5A
+:0045BB58 6A52                    push 00000052				Potion breaking
+:0045BB5A E99554FFFF              jmp 00450FF4
+:0045BB5F
+
+
+
+The Golem trap calls the Spawn spell-effect (only used by the Hork Demon in Hellfire), which creates a monster as defined by the first entry on the monster selection list for the current dungeon-level. This trap will only appear in Hell levels, so the monster-selection list for those levels is adjusted to include a Golem monster (see MonsterSelection52M.TXT).
+
+The Golem summoned by traps is a new monster that looks and acts the same as the Golem summoned by spell (except that it attacks characters, ofcourse). A new Idle animation is created (by ArthurDent) and added to the MPQ as Monsters\Golem\Golemn.CL2
+
+Note that Golems lack a Hitrecovery animation, but that none is needed (see MonsterStun52M.TXT).
+
+
+Changing obsolete Bone Lord into a Golem:
+
+pos name                  type      attacktype        sub  dlvl   mlvl     HP      AC  TH1   damage1 TH2  damage2  MFL/MFL    exp  size stand walk  attk1 frame   hr  death attk2 frame    playback speed
+
+ 96 Bone Lord             undead   39 Unknown          3  16-16    31   250- 280  100  135   40- 50  135   40- 50  RRI/RRI   3947  5000  10     8    20     8     6    24    16    12      3   0   0   0   0   0
+    Golem                          13 Butcher                      30   300- 300   60  135   30- 30    0    0-  0  RRR/RRR   2000         3    12    12     7     0    12    20     0      0 
+
+000AD8F0 8000 0000 8813 0000 7029 4B00 0100 0000 ........p)K.....
+000AD900 C81D 4B00 0100 0000 0000 0000 0000 0000 ..K.............
+000AD910 0A00 0000 0800 0000 1400 0000 0600 0000 ................
+000AD920 1800 0000 1000 0000 0300 0000 0000 0000 ................
+000AD930 0000 0000 0000 0000 0000 0000 0000 0000 ................
+000AD940 0409 4A00 1E1E 1F00 FA00 0000 1801 0000 ..J.............
+000AD950 2700 0000 0003 0000 0387 0828 3287 0C28 '..........(2..(
+000AD960 3264 0000 6300 6300 0000 0700 6B0F 0000 2d..c.c.....k...
+changed into
+000AD8F0 6000 0000 8813 0000 E022 4B00 0100 0000 `........"K.....
+000AD900 C422 4B00 0000 0000 0000 0000 0000 0000 ."K.............
+000AD910 0300 0000 0C00 0000 0C00 0000 0000 0000 ................
+000AD920 0C00 0000 1400 0000 0000 0000 0000 0000 ................
+000AD930 0000 0000 0000 0000 0000 0000 0000 0000 ................
+000AD940 BC22 4B00 1E1E 1E00 2C01 0000 2C01 0000 ."K.....,...,...
+000AD950 0D00 0000 0002 0000 0387 071E 1E00 0000 ................
+000AD960 003C 0000 4700 4700 0000 0700 D007 0000 .<..G.G.........
+
+For comparison, original Golem:
+
+109 Golem                 undead   21 Golem            0   1- 1*   12     1-   1    1    0    1-  1    0   0- 0    RRR/RRR   386      0   0     12   12     7     0    12    20     0      0   0   0   0   0   0
+
+000ADF70 6000 0000 8201 0000 E022 4B00 0100 0000 `........"K.....
+000ADF80 C422 4B00 0000 0000 0000 0000 0000 0000 ."K.............
+000ADF90 0000 0000 0C00 0000 0C00 0000 0000 0000 ................
+000ADFA0 0C00 0000 1400 0000 0000 0000 0000 0000 ................
+000ADFB0 0000 0000 0000 0000 0000 0000 0000 0000 ................
+000ADFC0 BC22 4B00 0000 0C00 0100 0000 0100 0000 ."K.............
+000ADFD0 1500 0000 0002 0000 0000 0701 0100 0000 ................
+000ADFE0 0001 0000 0700 0700 0000 0900 0000 0000 ................
+
+
+Disabling drops for Golems from traps:
+
+File offset 0003C9A9
+
+:0043D5A9 0F85554E0100            jne 00452404
+changed into
+:0043D5A9 0F854B2FFFFF            jne 004304FA
+:0043D5AF   
+
+File offset 0002F8FA
+
+:004304FA 90                      nop
+:004304FB 90                      nop
+:004304FC 90                      nop
+:004304FD 90                      nop
+:004304FE 90                      nop
+:004304FF 90                      nop
+:00430500 90                      nop
+:00430501 90                      nop
+:00430502 90                      nop
+:00430503 90                      nop
+:00430504 90                      nop
+:00430505 90                      nop
+:00430506 90                      nop
+:00430507 90                      nop
+changed into
+:004304FA 83F860                  cmp eax, 00000060
+:004304FD 0F85011F0200            jne 00452404
+:00430503 E949D10000              jmp 0043D651
+:00430508 
+
+
+Set facing direction for Death/Special animation (this is needed because for Golems these animations have only one direction):
+
+File offset 0003A1B7
+
+:0043ADB7 83BEB08E6A006D          cmp dword ptr [esi+006A8EB0], 0000006D
+changed into
+:0043ADB7 8BCE                    mov ecx, esi
+:0043ADB9 E9E6760100              jmp 004524A4
+:0043ADBE
+
+Using free space from obsolete Divine Shrine code:
+
+File offset 000518A4
+
+:004524A4 90                      nop
+:004524A5 90                      nop
+:004524A6 90                      nop
+:004524A7 90                      nop
+:004524A8 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:004524AE 03C8                    add ecx, eax
+:004524B0 8B919C010000            mov edx, dword ptr [ecx+0000019C]
+:004524B6 899198010000            mov dword ptr [ecx+00000198], edx
+changed into
+:004524A4 81C1B08E6A00            add ecx, 006A8EB0
+:004524AA 83396D                  cmp dword ptr [ecx], 0000006D
+:004524AD 7403                    je 004524B2
+:004524AF 833960                  cmp dword ptr [ecx], 00000060
+:004524B2 E90789FEFF              jmp 0043ADBE
+:004524B7 9090909090              5*nop
+
+
+Force Special animation at monster-creation by Spawn spell-effect:
+
+File offset 00034E8E
+
+:00435A8E 8B17                    mov edx, dword ptr [edi]		current facing direction
+:00435A90 8BC8                    mov ecx, eax				monster-number
+:00435A92 E866710000              call 0043CBFD				set Idle (00) state
+changed into
+:00435A8E 33D2                    xor edx, edx				set facing direction
+:00435A90 8BC8                    mov ecx, eax				monster-number
+:00435A92 E8C2B50000              call 00441059				set Special (0B) state
+:00435A97 
+
+
+Set Golem Summoning sound for Spawn spell-effect:
+
+000A6DCC 5F00 0000 2406 4300 A059 4300 0100 0000 _...$.C..YC.....
+000A6DDC 0200 2E00 FFFF FFFF FFFF FFFF           ............
+changed into
+000A6DE0 7400 0000                               t...

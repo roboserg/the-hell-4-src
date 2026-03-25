@@ -1,0 +1,102 @@
+
+Spell queuing: fixed queuing on character spell mana checks
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0046C0D6(U)
+|
+:00713CFE 51                      push ecx
+:00713CFF 52                      push edx
+:00713D00 E87B000000              call 00713D80
+:00713D05 5A                      pop edx
+:00713D06 59                      pop ecx
+:00713D07 83F800                  cmp eax, 00000000
+:00713D0A 0F849784D5FF            je 0046C1A7
+:00713D10 8B4518                  mov eax, dword ptr [ebp+18]
+:00713D13 90                      nop
+:00713D14 90                      nop
+:00713D15 2BC3                    sub eax, ebx
+:00713D17 894DFC                  mov dword ptr [ebp-04], ecx
+:00713D1A 0F84CC83D5FF            je 0046C0EC
+:00713D20 E9B683D5FF              jmp 0046C0DB
+:00713D25 90                      nop
+:00713D26 90                      nop
+:00713D27 90                      nop
+:00713D28 90                      nop
+:00713D29 90                      nop
+:00713D2A 90                      nop
+:00713D2B 90                      nop
+:00713D2C 90                      nop
+:00713D2D 90                      nop
+:00713D2E 90                      nop
+:00713D2F 90                      nop
+:00713D30 00000000000000000000    BYTE 10 DUP(0)
+:00713D3A 00000000000000000000    BYTE 10 DUP(0)
+:00713D44 00000000000000000000    BYTE 10 DUP(0)
+:00713D4E 00000000000000000000    BYTE 10 DUP(0)
+:00713D58 00000000000000000000    BYTE 10 DUP(0)
+:00713D62 00000000000000000000    BYTE 10 DUP(0)
+:00713D6C 00000000000000000000    BYTE 10 DUP(0)
+:00713D76 0000                    BYTE 2 DUP(0)
+
+
+:00713D78 90                      nop
+:00713D79 90                      nop
+:00713D7A 90                      nop
+:00713D7B 90                      nop
+:00713D7C 90                      nop
+:00713D7D 90                      nop
+:00713D7E 90                      nop
+:00713D7F 90                      nop
+
+* Referenced by a CALL at Address:
+|:00713D00   
+|
+:00713D80 8BC1                    mov eax, ecx
+:00713D82 69C0C8550000            imul eax, 000055C8
+:00713D88 030514AE6E00            add eax, dword ptr [006EAE14]
+:00713D8E 90                      nop
+:00713D8F 90                      nop
+:00713D90 8A80A8000000            mov al, byte ptr [eax+000000A8]
+:00713D96 84C0                    test al, al	<< skill
+:00713D98 7426                    je 00713DC0
+:00713D9A 3C01                    cmp al, 01	<< spell
+:00713D9C 7416                    je 00713DB4
+:00713D9E 3C02                    cmp al, 02	<< relict
+:00713DA0 740B                    je 00713DAD
+:00713DA2 3C03                    cmp al, 03	<< staff
+:00713DA4 751A                    jne 00713DC0
+:00713DA6 E83EEFD0FF              call 00422CE9
+:00713DAB EB0F                    jmp 00713DBC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00713DA0(C)
+|
+:00713DAD E817EED0FF              call 00422BC9
+:00713DB2 EB08                    jmp 00713DBC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00713D9C(C)
+|
+:00713DB4 6A00                    push 00000000
+:00713DB6 50                      push eax
+:00713DB7 E8B382D5FF              call 0046C06F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00713DAB(U), :00713DB2(U)
+|
+:00713DBC C3                      ret
+:00713DBD 90                      nop
+:00713DBE 90                      nop
+:00713DBF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00713D98(C), :00713DA4(C)
+|
+:00713DC0 6A01                    push 00000001
+:00713DC2 58                      pop eax
+:00713DC3 C3                      ret
+
+
+:00713DC4 90                      nop

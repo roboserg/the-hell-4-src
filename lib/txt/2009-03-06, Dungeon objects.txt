@@ -1,0 +1,327 @@
+* Possible StringData Ref from Data Obj ->"Crucified Skeleton"
+                                  |
+:0045466A 68E0594B00              push 004B59E0
+:0045466F E9DB010000              jmp 0045484F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00454647(C)
+|
+:00454674 83F81C                  cmp eax, 0000001C
+:00454677 7F47                    jg 004546C0
+:00454679 743B                    je 004546B6
+:0045467B 83F819                  cmp eax, 00000019
+:0045467E 0F85D3010000            jne 00454857
+:00454684 803D14F3610000          cmp byte ptr [0061F314], 00
+:0045468B 0F84C6010000            je 00454857
+:00454691 A000CB6100              mov al, byte ptr [0061CB00]
+:00454696 3C02                    cmp al, 02
+:00454698 750A                    jne 004546A4
+
+* Possible StringData Ref from Data Obj ->"Ancient Tome"
+                                  |
+:0045469A 68D0594B00              push 004B59D0
+:0045469F E9AB010000              jmp 0045484F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00454698(C)
+|
+:004546A4 3C05                    cmp al, 05
+:004546A6 0F85AB010000            jne 00454857
+
+* Possible StringData Ref from Data Obj ->"Book of Vileness"
+                                  |
+:004546AC 68BC594B00              push 004B59BC
+:004546B1 E999010000              jmp 0045484F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00454679(C)
+|
+
+* Possible StringData Ref from Data Obj ->"Skull Lever"
+                                  |
+:004546B6 68B0594B00              push 004B59B0
+:004546BB E98F010000              jmp 0045484F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00454677(C)
+|
+:004546C0 83C0D7                  add eax, FFFFFFD7
+:004546C3 83F838                  cmp eax, 00000038
+:004546C6 0F878B010000            ja 00454857
+:004546CC 0FB6802A494500          movzx eax, byte ptr [eax+0045492A]
+:004546D3 FF24859E484500          jmp dword ptr [4*eax+0045489E]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00454628(C)
+|
+
+* Possible StringData Ref from Data Obj ->"Lever"
+                                  |
+:004546DA 6868554B00              push 004B5568
+:004546DF E96B010000              jmp 0045484F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00454639(C)
+|
+:004546E4 83BF24E66D0001          cmp dword ptr [edi+006DE624], 00000001
+:004546EB 750D                    jne 004546FA
+
+* Possible StringData Ref from Data Obj ->"Open Door"
+                                  |
+:004546ED 68A4594B00              push 004B59A4
+:004546F2 56                      push esi
+:004546F3 E838560200              call 00479D30
+:004546F8 59                      pop ecx
+:004546F9 59                      pop ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004546EB(C)
+|
+:004546FA 83BF24E66D0000          cmp dword ptr [edi+006DE624], 00000000
+:00454701 750D                    jne 00454710
+
+* Possible StringData Ref from Data Obj ->"Closed Door"
+                                  |
+:00454703 6898594B00              push 004B5998
+:00454708 56                      push esi
+:00454709 E822560200              call 00479D30
+:0045470E 59                      pop ecx
+:0045470F 59                      pop ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00454701(C)
+|
+:00454710 83BF24E66D0002          cmp dword ptr [edi+006DE624], 00000002
+:00454717 0F853A010000            jne 00454857
+
+* Possible StringData Ref from Data Obj ->"Blocked Door"
+                                  |
+:0045471D 6888594B00              push 004B5988
+:00454722 E928010000              jmp 0045484F
+
+* Possible StringData Ref from Data Obj ->"Mythical Book"
+                                  |
+:00454727 6878594B00              push 004B5978
+:0045472C E91E010000              jmp 0045484F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00454651(C)
+|
+
+* Possible StringData Ref from Data Obj ->"Small Chest"
+                                  |
+:00454731 686C594B00              push 004B596C
+:00454736 E914010000              jmp 0045484F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00454658(C)
+|
+
+* Possible StringData Ref from Data Obj ->"Chest"
+                                  |
+:0045473B 6864594B00              push 004B5964
+:00454740 E90A010000              jmp 0045484F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045465F(C)
+|
+
+* Possible StringData Ref from Data Obj ->"Large Chest"
+                                  |
+:00454745 6858594B00              push 004B5958
+:0045474A E900010000              jmp 0045484F
+
+* Possible StringData Ref from Data Obj ->"Sarcophagus"
+                                  |
+:0045474F 684C594B00              push 004B594C
+:00454754 E9F6000000              jmp 0045484F
+
+* Possible StringData Ref from Data Obj ->"Bookshelf"
+                                  |
+:00454759 6840594B00              push 004B5940
+:0045475E E9EC000000              jmp 0045484F
+
+* Possible StringData Ref from Data Obj ->"Bookcase"
+                                  |
+:00454763 6834594B00              push 004B5934
+:00454768 E9E2000000              jmp 0045484F
+:0045476D A0D8B16000              mov al, byte ptr [0060B1D8]
+:00454772 3C11                    cmp al, 11
+:00454774 720E                    jb 00454784
+:00454776 3C14                    cmp al, 14
+:00454778 770A                    ja 00454784
+
+* Possible StringData Ref from Data Obj ->"Pod"
+                                  |
+:0045477A 6830594B00              push 004B5930
+:0045477F E9CB000000              jmp 0045484F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00454774(C), :00454778(C)
+|
+:00454784 3C15                    cmp al, 15
+:00454786 720E                    jb 00454796
+:00454788 3C18                    cmp al, 18
+:0045478A 770A                    ja 00454796
+
+* Possible StringData Ref from Data Obj ->"Urn"
+                                  |
+:0045478C 6854534B00              push 004B5354
+:00454791 E9B9000000              jmp 0045484F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00454786(C), :0045478A(C)
+|
+
+* Possible StringData Ref from Data Obj ->"Barrel"
+                                  |
+:00454796 682C544B00              push 004B542C
+:0045479B E9AF000000              jmp 0045484F
+:004547A0 6827594B00              push 004B5927
+:004547A5 EB1F                    jmp 004547C6
+:004547A7 90                      nop
+:004547A8 90                      nop
+:004547A9 90                      nop
+:004547AA 90                      nop
+:004547AB 90                      nop
+:004547AC 90                      nop
+:004547AD 90                      nop
+:004547AE 90                      nop
+:004547AF 90                      nop
+:004547B0 90                      nop
+:004547B1 90                      nop
+:004547B2 90                      nop
+:004547B3 90                      nop
+:004547B4 90                      nop
+:004547B5 90                      nop
+:004547B6 90                      nop
+:004547B7 90                      nop
+:004547B8 90                      nop
+:004547B9 90                      nop
+:004547BA 90                      nop
+:004547BB 90                      nop
+:004547BC 90                      nop
+:004547BD 90                      nop
+:004547BE 90                      nop
+:004547BF 90                      nop
+:004547C0 90                      nop
+
+* Possible StringData Ref from Data Obj ->"Ancient Tome"
+                                  |
+:004547C1 6814594B00              push 004B5914
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004547A5(U)
+|
+:004547C6 E984000000              jmp 0045484F
+
+* Possible StringData Ref from Data Obj ->"Library Book"
+                                  |
+:004547CB 6804594B00              push 004B5904
+:004547D0 EB7D                    jmp 0045484F
+
+* Possible StringData Ref from Data Obj ->"Blood Fountain"
+                                  |
+:004547D2 68F4584B00              push 004B58F4
+:004547D7 EB76                    jmp 0045484F
+
+* Possible StringData Ref from Data Obj ->"Decapitated Body"
+                                  |
+:004547D9 68E0584B00              push 004B58E0
+:004547DE EB6F                    jmp 0045484F
+
+* Possible StringData Ref from Data Obj ->"Book of the Blind"
+                                  |
+:004547E0 68CC584B00              push 004B58CC
+:004547E5 EB68                    jmp 0045484F
+
+* Possible StringData Ref from Data Obj ->"Steel Tome"
+                                  |
+:004547E7 68C0584B00              push 004B58C0
+:004547EC EB61                    jmp 0045484F
+
+* Possible StringData Ref from Data Obj ->"Book of Blood"
+                                  |
+:004547EE 68B0584B00              push 004B58B0
+:004547F3 EB5A                    jmp 0045484F
+
+* Possible StringData Ref from Data Obj ->"Purifying Spring"
+                                  |
+:004547F5 689C584B00              push 004B589C
+:004547FA EB53                    jmp 0045484F
+
+* Possible StringData Ref from Data Obj ->"Armor"
+                                  |
+:004547FC 68D3D24B00              push 004BD2D3
+:00454801 EB4C                    jmp 0045484F
+
+* Possible StringData Ref from Data Obj ->"Goat Shrine"
+                                  |
+:00454803 6890584B00              push 004B5890
+:00454808 EB45                    jmp 0045484F
+
+* Possible StringData Ref from Data Obj ->"Cauldron"
+                                  |
+:0045480A 6884584B00              push 004B5884
+:0045480F EB3E                    jmp 0045484F
+
+* Possible StringData Ref from Data Obj ->"Murky Pool"
+                                  |
+:00454811 6878584B00              push 004B5878
+:00454816 EB37                    jmp 0045484F
+
+* Possible StringData Ref from Data Obj ->"Fountain of Tears"
+                                  |
+:00454818 6864584B00              push 004B5864
+:0045481D EB30                    jmp 0045484F
+
+* Possible StringData Ref from Data Obj ->"Pedestal of Blood"
+                                  |
+:0045481F 6850584B00              push 004B5850
+:00454824 EB29                    jmp 0045484F
+:00454826 8B8720E66D00            mov eax, dword ptr [edi+006DE620]
+:0045482C FF348570024900          push dword ptr [4*eax+00490270]
+:00454833 EB1A                    jmp 0045484F
+
+* Possible StringData Ref from Data Obj ->"Weapon Rack"
+                                  |
+:00454835 6844584B00              push 004B5844
+:0045483A EB13                    jmp 0045484F
+
+* Possible StringData Ref from Data Obj ->"Mushroom Patch"
+                                  |
+:0045483C 6834584B00              push 004B5834
+:00454841 EB0C                    jmp 0045484F
+
+* Possible StringData Ref from Data Obj ->"Vile Stand"
+                                  |
+:00454843 6828584B00              push 004B5828
+:00454848 EB05                    jmp 0045484F
+
+* Possible StringData Ref from Data Obj ->"Slain Hero"
+                                  |
+:0045484A 681C584B00              push 004B581C
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045466F(U), :0045469F(U), :004546B1(U), :004546BB(U), :004546DF(U)
+|:00454722(U), :0045472C(U), :00454736(U), :00454740(U), :0045474A(U)
+|:00454754(U), :0045475E(U), :00454768(U), :0045477F(U), :00454791(U)
+|:0045479B(U), :004547C6(U), :004547D0(U), :004547D7(U), :004547DE(U)
+|:004547E5(U), :004547EC(U), :004547F3(U), :004547FA(U), :00454801(U)
+|:00454808(U), :0045480F(U), :00454816(U), :0045481D(U), :00454824(U)
+|:00454833(U), :0045483A(U), :00454841(U), :00454848(U)
+|
+:0045484F 56                      push esi
+:00454850 E8DB540200              call 00479D30
+:00454855 59                      pop ecx
+:00454856 59                      pop ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00454630(C), :0045463F(U), :00454665(U), :0045467E(C), :0045468B(C)
+|:004546A6(C), :004546C6(C), :00454717(C)
+|
+:00454857 A1E8AD6E00              mov eax, dword ptr [006EADE8]
+:0045485C 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:00454862 69C0C8550000            imul eax, 000055C8
+:00454868 03C1                    add eax, ecx
+:0045486A E9D11A2B00              jmp 00706340

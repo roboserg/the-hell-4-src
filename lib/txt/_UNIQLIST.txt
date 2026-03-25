@@ -1,0 +1,10334 @@
+Diablo: The Hell
+unique item list, by Mordor
+for version 1.186+
+
+
+===============================
+
+#000 (00h)
+
+offset 1D1C00
+
+Empty
+
+====================================
+
+#01
+
+empty
+
+====================================
+
+#02
+
+empty
+
+====================================
+
+#03
+
+empty
+
+====================================
+
+#04
+
+empty
+
+====================================
+
+#05
+
+empty
+
+====================================
+
+#06
+
+empty
+
+====================================
+
+#07
+
+empty
+
+====================================
+
+#08
+
+empty
+
+====================================
+
+#09
+
+empty
+
+====================================
+
+#10
+
+The Harp, it 1 (30), 8
+4k
+1) Random Speed Arrows / 0
+2) +(240-250)% dmg, low dur / 1
+3) KB / 1
+4) multishot / 1,5
+5) -5 Slvl / -1,5
+6) up: 3h
+
+===========================================
+
+#11
+
+Forbidden Atgard, it 74 (60), 11
+80k (13880h)
+1) ARD
+2) -[25-30] DFE
+3) +[25-35]% resist all
+4) -1 SLVL
+5) -[50-70] mana
+6) UP: 424h
+
+===========================================
+
+Fleshstinger
+short battle bow, long battle bow
+1-45 dmg (uBd)
++(70-95)% dmg done
++(10-20) Damage
+KTB
+10% of 200% dmg
+UP: h
+
+================================
+
+#13
+
+Gladiator's Crossbow (set), it 75 (63), 62
+64k
++(350~400)% DAMAGE 
+AP 2 
+- [5~10] DFE 
+- 40 AC 
++ [10~15] Magic
+6) UP: 5B0h
+
+================================
+
+Diamondyne
+short war bow, long war bow
++(125-175)% Dmg done
++(20-30) DMG
+15-85 lghtn arr dmg
+-20% accuracy
+-(2-4) dfe
+UP: 
+
+================================
+The Redeemer, it 4 (54), 35
++(150-200)% DMG / 0,75
++(30-45) Damage / 0,3
+Multiple Arrows / 1
++[1-2] DFE
+UP: BFh
+================================
+Infernal Scourger
+war xbow
+0 Dmg (uBd)
+4000 Fireball dmg
+Multiple arrows
+no STR req
++(16-20) DEX
+UP
+================================
+#17 (11h)
+
+Goldstring, it 5 (55), 2
+48k
+1) dread
+2) +[250-300]% ED
+3) -[70-90] mana
+4) ruin
+5) UP: 516h
+
+================================
+#18 (12h)
+
+Sierra, it 5 (55), 21
+64k
+1) KB
+2) +[150-200]
+3) AS: 3
+4) -3 SLVL
+5) -[10-12] all attr.
+6) UP: 559h
+
+=======================
+#19 (13h)
+
+Bow of Maxjoin, it 6 (61), 1
+56k (DAC0h)
+1) -[43-45] HP / -0,5
+2) +[360-400]% ED / 1,5
+3) +[211-250] damage / 1,5
+4) KB / 1
+5) -[33-35] STR / -1,5
+6) UP: 35Eh
+
+======================
+
+Doomspike
+stiletto
+7-11 DMG (uBd)
+Armor Piercing (more powerful, ~25% of monster AC)
+-15% THC
+Random 0-300% dmg
+10% of 200% dmg
+UP: 394h
+
+Ajimanta's Edge
+scimitar
+AS: 1
++(50-70) %DMG
++(10-15) DEX
+-(20-30) Mana
++(75-85)% res Lightning
+UP
+
+Diamond Blade
+long sword
+10-60 DMG (uBd)
++(21-30)% Chance to hit
++50% damage vs demons
+AS: 1
+-(20-40)% Lightning res
+UP
+
+========================
+
+#23 (17h)
+
+Gift of the Dead, it 10 (20), 2
+56k
+1) +[235-295]% ED
+2) +[105-135] damage
+3) +[10-15] AC
+4) AS: 2
+5) +6 DFE
+6) UP: 5D8h
+
+==========================
+
+Dark Prophet
+broad sword
+AS: 1
++(100-200)% DMG
++(10-35) DMG
+10% of +200% dmg
++(5-15) Mag
+UP
+
+The Carver
+thorn sword
+30-40 Dmg (uBd)
++(27-33)% Chance to hit
+Armor Piercing (weaker)
+KTB
++(20-25) Str
+up
+
+The Executioner's Blade
+claymore
++(225-275)% DMG
+AS: 2
+1% lifesteal
+Armor Piercing
++(3-7) DFE
+UP
+
+==============================
+
+Bloodsucker
+thorn sword
++(50-90)% dmg
++[9-10] DFE
+10% for +200% dmg
+Increased Life Steal
+2% life steal
+up: D8h
+
+==============================
+
+Gorewhipper
+barbaric sword
+1) +(125-175)% DMG
+2) +(40-50) DMG
+3) KTB
+4) as: 2
+5) -[30-40]% magic resist
+6) up: 25Eh
+
+=============================
+
+#29 (1Dh)
+
+Mindpiercer, it 16 (43), 48
+1) 10-85 dmg (ubd)
+2) as: 2
+3) 1% life Steal
+4) +(25-45) hp
+5) +(10-15)% Res all
+6) UP: ?h
+
+
+
+Black Defender
+broad sword
+No strenght requirements
+-100% Dmg
+AC: 15-25
+-(4-6) dfe
++(12-18)% res all
+UP
+
+Angelic Justice
+great sword
++81% to hit +125 % to dmg
+-1 slvl
+AS: 2
+1-95 LIGHTNING DMG
++(30-40) Mana
+UP: C4h
+
+Shadow Prince
+long sword
++% to Hit, +40% to dmg
++(50-60) dmg
+-(25-35)% res fire
+-10% Light Radius
++(8-12) dfe
+UP: E5h
+
+================================
+
+#33 (21h)
+
+Akaviri, it 30 (56), 9
+64k
+1) +[276-285]% ED / 1,2
+2) +[126-135] dam / 1
+3) +50% damage vs. demons / 1
+4) +[6-8] all attrib. / 0,75
+5) -[165-175] HP / -1,2
+6) UP: 52Ch //1156
+
+=================================
+
+Immortal King
+brute sword
+75 dmg (ubd)
++(46-55)% chance to hit
+ktb
++[100-150] damage
+AC: -20
+UP
+
+===============================
+
+#35 (23h)
+
+Stormbringer, it 33 (60), 9
+128k (1F400h)
+1) +[243-270]% damage
+2) 150% damage vs demons
+3) 2% life steal
+4) 33-79 lightning damage
+5) -[16-20] AC
+6) up: 3EEh
+
+=================================
+
+#36 (24h)
+
+Coat of Levitation, it 71 (lev 53) lev 11
+64k (FA00h)
+1) -[27-30] STR / -1,5
+2) ARD / 1
+3) AP: 3 / 0,5
+4) HR: 3 / 1
+5) +[120-145] damage / 1
+6) up: 436h
+
+=================================
+
+#37 (25h)
+
+Dreamlyre, it 32 (60), 15
+70k 
+1) +(200-250)% dmg
+2) +50% dmg vs undead
+3) 10% for 200% dmg
+4) AS: 2
+5) -10 all attr.
+UP: 15Dh
+
+=================================
+
+#38 (26h)
+
+Sanctus Interno, it 76 (lev 63), 13
+320k (4E200h)
+1) +10% LR
+2) +[80-100] MAG
+3) +[4-5] SLVL
+4) -[15-20] DFE
+5) -[35-45] STR
+6) up: 32Bh
+
+
+=================================
+
+#39 (27h)
+
+Death Song, it 67 (29), 1
+32000
+1) dread
+2) ruin
+3) slvl: +[6-7]
+4) 40% life moved to mana
+5) -25% manacost
+6) UP: 583h
+
+=================================
+
+Emperor's Mail
+linked mail
++10% light radius
++(15-25)% res all
++(5-9) all attributes
+-(10-18) dfe
++(30-50) hp
+UP
+
+=================================
+
+#41 (29h)
+
+Staff of Meditation, it 18 (10), 13
+64k
+1) +(1-2) slvl
+2) +(10-15) mag
+3) -(30-40) mana
+4) 50 charges of mana
+5) (100-200) Unusual Durability 
+6) UP: 46Ch
+
+===================================
+
+#42 (2Ah)
+
+Executioner of Hell, it 22 (60), 16
+320k (4E200h) / - ~3
+1) Fire damage: 200 / ~5
+2) thc: +66% / 1
+3) AC: -66 / -3
+4) +666 damage / 4
+5) +6 DFE / -0,5
+6) UP: 539h
+
+==================================
+
+Gnarled Root, it 23 (21), 3
+40000
+1) +[276-340]% ED
+2) AS: 2
+3) dread
+4) +[20-35] DEX
+5) Lose All Regeneration
+6) UP: 115h
+
+==================================
+
+Krondor's Cudgel
+bludgeon, moning star, war hammer
++% Chance to hit,+300% dmg
+10% for 200%
++50% dmg vs demons
+kb
+-15 STR
+UP: 11Ah
+
+Legacy of Blood
+war sallet
+it 95 (41), 11
+1) +1 slvl
+2) -[13-17] dfe
+3) 1% lifesteal
+4) -[10-12] DEX
+5) +[20-30]% resist all
+6) UP: 265h
+
+Bone Hunter
+triple flail
+10% of 200% dmg
++(125-175)% dmg
++50% damage vs Undead
++15 AC vs Undead
+-(5-10) Mag
+UP
+
+====================================
+
+#47 (2Fh)
+
+Infernal Hatred, it 28 (57), 10
+160k (27100h)
+1> +[250-300]% damage 
+2> +50% vs undead 
+3> Faster mana regeneration 
+4> steal 1% mana 
+5> -10 STR 
+6> UP: 5B8h
+
+============================
+
+#48 (30h)
+
+Scepter of Engart, it 26 (45), 15
+50000, (C350h)
+30 Fire DaMaGe
++(40-55)% Chance to Hit
++(160-220)% DMG
+Faster Attack Speed
+(5-10) AC
+UP: BCh
+
+==========================
+
+#49 (31h)
+
+Mortelecht, it 28 (57), 11
+128k (1F400h)
+1) +[240-300]% damage
+2) 2% life steal
+3) 15-75 fire damage
+4) 150% damage vs undead
+5) -[26-30] AC
+6) UP: 548h
+
+=============================
+
+#50 (32h)
+
+Spirit Ward, it 49 (6), 3
+7000
+1) no STR required
+2) AP: 1
+3) 2% lifesteal
+4) RUIN
+5) fast block
+6) UP: 2B6h
+
+============================
+
+#51 (33h)
+
+Stalker's Cloak
+cloak
++20% Light Radius
++(1-5) All Attributes
+-33% ard
+-(1-4) DFE
+Fast Hit Recovery
+UP
+
+============================
+
+#52 (34h)
+
+Arkaine's Wrath, it 21 (45), 11
+96k (17700h)
+1) +[126-145]% THC & ED
+2) +[30-50] damage
+3) faster mana regeneration
+4) +15 STR
+5) KB
+6) 1% mana stolen per hit
+
+===========================
+
+#53 (35h)
+
+offs ?
+Arcslasher, it 13 (35), 4
+40k
+1) +[60-75]% accuracy
+2) [43-67] lite damage
+3) +[50-75]% lite resistance
+4) -15 AC
+5) +[121-200]% ED
+6) up: 446h
+
+==========================
+
+#54 (36h)
+
+Pride of the Ancients, it 36 (19), 11
+1) Increased Life Stealing
+2) -33% ARD
+3) -(16-18) DFE
+4) Faster Hit Recovery
+5) -(10-13) Vit
+6) UP: C6h
+
+==============================
+
+#55 (37h)
+
+Fool's Luck, it 34 (1), 4
+1) +10% LR
+2) -(3-6) all Attributes
+3) +(67-73)% Res All
+4) +(10-15) dfe
+5) +(100-200) hp
+6) UP: 107h
+
+================================
+#56 (38h)
+Morbid Sight, it 98h (21), 2
+24k (5DC0h)
+1) AC: -20 / -1
+2) +5 slvl / 2,5
+3) lose regeneration / -1
+4) -[33-35] MAG / -2,5
+5) -[32-40] DFE / 3
+6) up: 340h
+================================
+Sallet of Xentur
+light helmet
+11-12 AC 
+-(6-10) DFE
+Fast Hit Recovery
+Steal 1% mana
++(40-80) Mana
+UP
+
+Mask of Anger
+crown
+11-13 AC
+-(7-13) DFE
+-10% Light Radius
++(50-60) % dmg
+-1 slvl
+UP
+
+Dreadvisor
+full crown
+-(50-75)% AC
++(14-20) Str
++(14-20) Vit
++100% life reg
++(20-30)% Res All
+UP: 55h
+
+Gotterdamerung
+full helm
+-10% Light Radius
++(30-40)% Res All
++(6-8) All Attributes
+-(20-30)DFE
+-8 SLVL
+UP
+
+Baldur's Bane
+guardian helm
++15 AC vs Undead
+-(6-10) DFE
++(50-70)% Res Mag
++(50-150) hp
++(10-12) STR
+UP: h
+
+=====================
+
+#62 (3Eh)
+
+Grotto, it 73 (61), 11
+37k
+1) -5 all attributes
+2) +[175-200] damage
+3) -[26-28] DFE
+4) AP: 2
+5) UP: 41Eh
+
+
+=====================
+
+#63 (3Fh)
+
+Immolator, it 32 (62), 54
+72k (11940h)
+1) +[125-175]% damage
+2) -30% THC
+3) [30-100] fire damage
+4) 1-260% random
+5) fast attack
+6) up: 44Ah
+
+====================
+
+#64 (40h)
+
+Civerb's Vestments, it 42 (6), 8
+1) +(100-200)% Dur (high Dur)
+2) AC vs Demons
+3) -(4-10) DFE
+4) +(13-17)% Res All
+5) UP: ?
+
+====================
+
+Leather of Aut
+leather armor
++(10-20)% AC
++(10-40)% Res Mag
++(12-18)Vit
++(10-20)Dex
+-(7-13) DFE
+
+Velessar's Hauberk
+studded leather
++(7-23)% Res All
+-(10-15) DFE
+Move 50% Mana to life
+HR: 1
++(10-15) Vit
+UP: F4h
+
+Grace of Death
+studded leather
+-(40-45) DFE
+Lose All Regeneration
+All Res = 0%
+-10% Light Radius
+dur: 225
+UP
+
+Templar's Outfit
+chain mail, scale mail, thick mail
++(10-30)% Dmg
+-(11-15) DFE
++(10-20)% res all
++(10-15) Str
+Faster Hit Recovery
+UP
+
+Wyrmscale Armour, it 43 (24), 26
+29k
+1) 10% for +200%
+2) -(14-19) DFE
+3) +(20-25)% Res all
+4) -[9-12] DEX
+5) HR: 3
+6) UP: 40Dh
+
+==================
+
+#70 (46h)
+Sparking Mail 
+32k (7D00h), it 61 (15), 7
+1) +[50-150] lightning hit damage
+2) +[50-60]% lightning resist
+3) +[20-25] DEX
+4) fast attack speed
+5) fastest hit recovery
+6) UP: 236h
+
+==================
+
+#71 (47h)
+The Conquistador
+28k (?h), it 45 (24), 28
+breast plate
+dur: 250
++(6-9) All Attributes
+-33% ARD
+-(12-16) DFE
++(53-57)% Res Mag
+UP: 40Bh
+
+==================
+
+#72 (48h)
+
+Tal-Rasha's Duress, it 46 (60), 15
+64k
+1) +4 SLVL / 2
+2) -[20-22] VIT / -1
+3) -[31-33] DFE / 1,5
+4) ARD / 1
+5) -[31-33] MAG / -1,5
+6) UP: 530h
+
+==========================
+
+#73 (49h)
+
+Winter Suit, it 47 (29), 5
+96k (17700h)
+1) +[81-85] VIT
+2) +100% life regeneration
+3) +100% mana regeneration
+4) -[26-30] DFE
+5) -[161-205] HP
+6) UP: 568h
+
+=============================
+
+Leviathan's Cage
+gothic plate
++(80-120) HP
++(70-110) Mana
+-(17-23) DFE
+-(6-10) DEX
++(10-20)% Res All
+UP
+
+=============================
+
+Aldur's Legacy, it 70 (50), 7
+59k
+1) ARD / 1
+2) -(19-23) DFE / 0,75
+3) +(20-25)% Res All / 0,8
+4) +(15-25) Vit / 1
+5) -(29-33) Mag / -1,8
+6) UP: 2Bh
+
+================================
+
+#76 (4Ch)
+
+offs 1D34F0
+
+Scales of Terror, it 48 (36), 6
+80k (13880h)
+1) +[20-30]% AC
+2) -(31-35) DFE
+3) +(25-30) VIT
+4) -(25-30) STR
+5) -[22-25]% resist lightning
+6) up: C1h
+
+=================================
+
+#77 (4Dh)
+
+offs 1D3544
+
+Insomnia, it 48 (36), 8
+80k (13880h)
+1) -[28-30] DFE
+2) +[225-275] HP
+3) -[30-40]% fire resist
+4) -[25-35]% lite resist
+5) -[35-45]% magic resist
+6) up: 5A3h
+
+=================================
+
+#78 (4Eh)
+
+Undead Hunter
+buckler
+7-8 AC
++(20-60)% AC
++15 AC vs Undead
+-(1-3) DFE
++(10-20) % Res all
+UP
+
+=================================
+
+Holy Defender
+griffin shield
++(50-150)% Dur (high Dur)
++15 AC vs Undead
+-33% ARD
+-(4-8) DFE
++(15-25)% res all
+UP
+
+Reign of Kaamos
+Unkown Shield
++(20-30)% AC
+-20% Light Radius
+-(6-9) DFE
++(15-20) Str
+Fast Block
+UP
+
+Dragongaze
+Unknown Shield
++(4-8) Dex
++(20-40) DMG
+-(7-10) DFE
++(40-50)% res fire
++(30-60) Hp
+UP
+
+Phaseguard, it 52 (38), 38
+31k
++(5-10)% AC
+-(11-19) DFE
++(10-40)% Res Mag
++(55-65)% res fire
++(50-70) hp
+UP: 116h
+
+Munmar's Grin, it 52 (38), 49
+38k
++(70-90)% Dur (High Dur)
++(7-9) All Att
+-(9-12) DFE
++(15-35)% Res Lghtn
++(55-65)% res Mag
+UP
+
+===================================
+
+#84 (54h)
+
+Infernal Aegis (set), it 53 (62), 15
+128k (1F400h)
+-33% ARD 
+-[12-15] DFE 
++[60-70]% resist magic 
+-2 slvl
++15 STR 
+6) up: ?h
+
+===============================
+
+Deathshelter, it 55 (55), 3
+63k
+1) +(40-45) Vit
+2) +15 AC vs Undead
+3) -33% ARD
+4) -(30-35) DFE
+5) 0% All Res
+6) UP: 20h
+
+====================
+
+#86 (56h)
+
+Shield of Reflections, it 53 (62), 17
+128k (1F400h)
+1) +[36-40]% AC
+2) -[18-20] DFE
+3) HR: 2
+4) +[20-25]% resist all
+5) -[22-25]% THC
+6) up: 3DDh
+
+====================
+
+Soulhaven
+ring
+AC: 1-3
++(2-6) DMG
+-33% ARD
+-1 DFE
++(25-35) HP
+UP
+
+Morana's Demise, level 7
+ring
++(30-50) hp
++20 ac vs demons
++(5-7) DMg
+-(35-45)% Res Mag
+-25% Spell Cost
+UP: 
+
+Nosferatu Bangle
+ring
+-20% Light Radius
+Infravision
+Increased Life Steal
+Steal Life 1%
+-[15-20] AC
+UP
+
+==========================
+#90 (5Ah)
+
+Giant's Knuckle
+ring (that requires 20 MAG)
++(15-25) Str
++(45-55) DMg
+10% of 200% Dmg
+-3 slvl
+UP: Eh
+
+==========================
+
+Mercurial Ring
+Ring
+-[17-21]% accuracy
++(20-25) DEX
+Fastest Hit Recovery
+-33% ARD
+-1 slvl
+UP: h
+
+Warrior's Band
+Ring
++(6-10)% to hit
++(20-40)% DMG
++(5-10)% Res all
++(2-5) All Attr
+-(2-3) DFE
+UP
+
+Frost Signet
+Ring
++100% Mana reg
++(15-20) Mag
++(60-70)% Lightn res
+-(90-140) Mana
+10% of 200% dmg
+UP: 12h
+
+Hoop of Magma
+ring
++(60-70)% Res Fire 
++(60-100) fire damage (melee)
++(30-40) DMG
++(9-12) DFE
+-(10-13) vit
+up: B8h
+
+Magistrate Ring
+Ring
+-33% ARD
++(6-10) DFE
++(60-70)% Res All
+AC: -[20-30]
+UP
+
+Survivor's Bracelet
+Ring
+-(4-8)All att
+HR: 2
+- [3-4] dfe
++(10-15)% res all
+Fast Block
+UP: 8h
+
+Pacification Bracer
+Ring
++(10-14)% To hit
+3-6 AC
++(10-25) str
+1% Steal Mana
++(4-5) DFE
+UP: BAh
+
+Executioner's Oath
+Ring
++(30-60) DMG
+Armor Piercing (weak)
+Faster Attack Speed
+10% of 200% DMg
+-(50-60)% Lightn Res
+UP
+
+============================================================
+
+#99 (63h)
+
+Ring of Mammoth, it 77 (30), 15
+160k, (27100h)
+1) +[150-200] HP
+2) -[8-12] DFE
+3) +[50-75] damage
+4) -[40-50] AC
+5) -[40-45]% tohit
+6) up: 473h
+
+===========================================================
+Storm Shield, it 59 (49), 15
+48k (BB80h)
+1) +[25-165] lightning damage / 1
+2) -[34-35] DFE / 2
+3) +[71-74]% lightning resist / 1
+4) +30% LR / -1
+5) -[13-15] MAG / -1
+6) up: 290h
+
+
+Amulet of Solstice
+Amulet
+(5-10)+Strenght
+(5-10)+Dex
+-1 DFE
++(5-10) Damage Done
+-(7-8) Vitality
+UP: 2Ch
+
+Rakabis
+amulet
+1-4 AC
+-(1-2) DFE
++(1-10)% Res All
++(10-15) Dex
+-(20-24) Hp
+UP
+
+Pendragon
+amulet
++100% Fury Dur
++(10-15) Dmg
++(4-6) All Attr
+-2 DFE
+-(10-15) Res All
+UP
+
+Demon Hunter's Ankh
+amulet
++50% dmg vs Demons
++20 Ac vs Demons
++[2-4] AC
++(7-8) All Attr
++2 DFE
+UP
+
+Gorget of the huntress
+amulet
++(23-30) Damage
+Multiple Arrows
+KTB
+-(23-25) Strength
+UP
+
+Anduril's Heritage
+amulet
+[40-45] AC
+UP: AFh
+
+Stone of the Dark Sea
+amulet
++(60-70) Mana
++(15-20) Mag
+-10% Light Rad
++(6-9) DFE
++(2-3) slvl
+UP: 47Ah
+
+Pendant of Deceit
+amulet
+0-300% Random DMG
++(15-25) DMG
+-33% ARD
+-4 DFE
+-(60-75) Mana
+UP
+
+Scarab of Slumber
+amulet
+-(4-5) DFE
++(9-10) Att
++(16-25)% Res All
+-(38-39) life
+-(13-16) mana
+UP: 2Fh
+
+
+
+Medallion of the Dead
+amulet (qlvl_34)
++15 AC Vs Undead
+-33% ARD
++(10-12) All Attributes
+Move 50% Mana to Life
+-[13-17]% RA
+UP: 12Dh
+
+Viper Soul , lev 19
+amulet (qlvl_34)
++(25-30)% to hit
+11-15 AC
+AS: 2
+-(40-55)% Dmg
++(3-6) DFE
+UP: 12Fh
+
+=========================================
+
+112 (70h)
+Civerb's Icon
+amulet (qlvl_34)
+AS: 2
+HR: 2
++(5-9)% To hit
+-(1-3) DFE
+-(40-50) HP
+up: 146h
+
+
+Optic Amulet, it ? (?), ?
+amulet (qlvl_34)
+Infravision
++100% Mana Reg
+UP: 135h
+
+
+Torn Flesh of Souls
+rags
+16k
+dur: 175
+AC: 0
+-(5-10) DFE
++(6-10) Vit
+-(2-5) Mag
+up: 134h
+
+Baphomet's Heart
+amulet (qlvl_34)
++100% Life Reg
++100% Mana reg
++(5-7) All Attr
+-[30-50]% Res magic
+UP: h
+
+
+Executioner's Mask
+mask (qlvl_33, ac 12-14, dur 23, req: 57 STR + 170 DEX)
++[70-90]% ED
+-[50-75]% AC
++(30-50)Dmg
+-(20-25) DFE
++(20-25) Str
+UP
+
+Ring of Truth
+bangle silver (lvl 40)
++(75-85) HP
+-(3-6) DFE
++(25-30)% Res All
+-[12-15] STR
+UP: 130h
+
+======================
+
+#118 (76h)
+
+Constricting Ring
+bangle silver (lvl 40)
+-[8-10] DFE / 1
++85% Res All / 3.5
+Lose All Regeneration / -1
+-(7-8) all attr. / -0,75
+-(41-60) HP / 
+UP: 537h
+
+======================
+
+Xorine's Ring
+bangle silver (lvl 40)
++(200-250)Mana / 2,66
++100% Mana Reg / 1
+-2 slvl / -0,66
+-(14-20) Mag / -1
+UP: 12Ch
+
+Soulcage
+bangle silver (lvl 40)
++(18-24) All Attr / 2
+-3 slvl / -1
+Move 50% mana To life / 1
++10% Light Rad
+-[25-30] mana
+UP: 12Eh
+
+Ring of the Essence
+bangle silver (lvl 40)
+ILS / 1
++100% Life Reg / 1
++(8-11) Vit / 0.5
++(35-65) HP / 0,5
++(10-15) Mana / 0.2
+UP: 4DFh
+
+Joker's Cap (set), it 90 (55), 24
+56k
+SPELLS ARE INCREASED 2 LEVELS 
+-(6~8) DAMAGE FROM ENEMIES 
+FASTER HIT RECOVERY 
+MANA : -(50~60) 
+RESIST Fire : 80% 
+UP: 5ABh
+
+Blood Visor
+mask (qlvl_33, ac 12-14, dur 23, req: 57 STR + 170 DEX)
+-(10-15) DFE / 0,7
++(15-20) STR / 1
++(15-20) Dex / 1
++(20-25) Vit / 1
+-(30-35) MAG / -1,6
+UP: h
+
+Wizardspike
+Heavy dagger (lev 4)
+6-48 DMG (ubd)
+12-15 Durability (Alt Dur)
++(14-16) MAG
++(30-40) Mana
++(10-15)% Res All
+UP
+
+Crackrust
+Spiked club (lev 15)
++(7-8) All Attributes 
+-(4-5) DFE
++(250-300)% Dmg 
++(11-15)% Res All
+-2 slvl
+UP: 42h
+
+==================================
+
+#127 (7Eh)
+
+Joker's Folly, it 52 (38), 62
+40000 
+No Str requirement 
++ [40-50] mana
+-10 DAMAGE FROM ENEMIES 
++15 TO MAGIC 
+-25% MANA COST 
+UP: 5AAh
+
+==================================
+
+#128 (7Fh)
+
+Crown of Spirits, it 86 (6), 1
+16k
+1) -[10-13] DFE 
+2) +100% Life Reg
+3) +2% Life Steal
+4) +20 Vit
+5) -20 HP
+6) UP: 144h
+
+=====================================================   LAST CHECKED HERE =======================================
+
+#129 (80h)
+
+The Mangler, it 87 (lev 5), lev 6
+
+1) +[159-189]% ED
+2) -[5-8] str
+3) -[5-7] mag
+4) -10 mana
+5) UP: 13Bh
+
+==================
+
+#130 (81h)
+
+Clawhand, it 88 (50), lev 5
+72k
+1) damage: 17-30
+2) -dfe [1-2]
+3) ac: [4-8]
+4) AP: 2
+5) -[5-9]% accuracy
+6) UP: 133h
+
+=================
+
+#131 (82h)			
+
+Wicked Axe, it 87 (l 5), lev 21
+
+1) +dex [5-10]
+2) fast attack
+3) -dfe [12-14]
+4) -AC: [11-13]
+5) unipic: 129h
+
+=================
+
+#132 (83h)			
+
+Civerb's Club, it 89 (lev24), lev 24
+
+1) damage: [12-28]
+2) +%damage [320-360]
+3) -[13-15]% accuracy
+4) unipic: 133
+
+=================
+
+#133 (84h)
+
+Demonspike Coat, it 81 (lev 12, hard leather), lev 1
+14k
+1) AC: [65-75]
+2) +20 AC vs demons
+3) -DFE [11-16]
+4) +[32-37] Vit
+5) up: 208
+
+===============
+
+#134 (85h)
+
+Deadly hunter, it 83, lev 1
+
+1) no str req
+2) dam: 8-12
+3) dread
+4) ard
+5) -str [4-8]
+6) up: 440h
+
+===============
+
+#135 (86h)
+
+Harlequin's Crest, it 91 (lev 7), lev 1
+
+1) -AC: [3-4]		
+2) no str req
+3) -dfe: [1-4]
+4) +17 hp
+5) +17 mana
+6) unipic: 329
+
+===============
+
+#136 (87h)
+
+Bonespan, it 92 (lev 1) lev 1
+
+1) dam: 8-16
+2) +[75-95]% ED
+3) -str [8-10]
+4) unipic: 4C2h
+
+===============
+
+#137 (88h)
+
+Desert Dragon, it 93 (25), 1
+
+1) noSTR
+2) +%AC: [37-75]
+3) -[10-12] dfe
+4) HR: 3
+5) +[21-25] vit
+6) unipic: 331
+
+===============
+
+#138 (89h)
+
+Stoneskin, it 93 (25), 16
+
+1) AC: [80-90]
+2) -dfe: [26-30]
+3) +res fire [30-40]
+4) +res lite [30-40]
+5) -res magic [10-20]
+6) unipic: 332
+
+===============
+
+#139 (8Ah)
+
+Infernal Power (set), it 97 (56), 11
+
+fast attack 
++[15-20] fire damage 
++[4-10] all resist 
++15 STR 
+2) UP: 5BCh
+
+===============
+
+#140 (8Bh)
+
+Infernal Might (set), it 97 (56), 12
+
+faster hit recovery 
++[15-20] lighting damage 
++[20-25]% THC 
++20 DEX 
+-10 MAG
+UP: 592h
+
+===============
+
+#141 (8Ch)
+
+Celestial Print (set), it 97 (56), 13
+64k
+1 AC:10 
+2 +50% vs demons 
+3 Fastest hit recovery 
+4 -[15-20]% Magic resist 
+5 +[30-45] HP 
+6) UP: 5CCh
+
+===============
+
+#142 (8Dh)
+
+Celestial Weird (set), it 97 (56), 14
+1) -(3-5) DFE 
+2) ARD 
+3) +50% vs undead 
+4) +[15-25] all resist 
+5) -[10-15] mana
+6) UP: 5CDh
+
+===============
+
+#143 (8Eh)
+
+Renegade's Halo (set), it 97 (56), 15
++ [3-5] DFE 
+ARD 
+2% life steal 
++10 MAG 
+-5 STR 
+6) UP: 5a6h
+
+===============
+
+#144 (8Fh)
+
+ofs ?
+
+Boneflesh, it 98 (25), 5
+     based on Acolyte's Mail
+1) +15 AC vs undead
+2) +[1-2] SLVL
+3) -[10-20] DFE
+4) no STR requirements
+5) -25% manacost
+6) up: 24Dh
+
+================
+
+#145 (90h)
+
+ofs ?
+
+Vizjerei Outfit, it 98 (25), 25
+1) +[20-30]% AC
+2) +1 SLVL
+3) faster mana regeneration
+4) -33% ARD
+5) -[2-8] DFE
+6) UP: 29Ah
+
+================
+
+#146 (91h)
+
+offset 1D4B94
+
+Token of Terror, it 99 (56), 1
+1) -30% light radius
+2) lose all regeneration
+3) lose all resistance
+4) -[10-20] STR
+5) -[10-20] DEX
+6) up: 29Bh
+
+=================
+
+#147 (92h)
+
+offset 001D4BE8
+
+Infernal Deception (set), it 99 (56), 24
+-[4-5] DFE 
++1 SLVL 
+150% Fury duration 
++20 STR
+5) UP: 5B6h
+
+=================
+
+#148 (93h)
+
+
+Celestial Star (set), it 99 (56), 25 
+1) +10% LR 
+2) +[15-20]% THC 
+3) AS:2
+4) +25% all resist
+5) -[8-10] MAG
+6) UP: 5CB?
+
+==================
+
+#149 (94h)
+
+offset ?
+
+Renegade's Icon (set), it 99 (56), 26
+- (33-48)% dmg 
+- [4-6] DFE 
++ [20-26]% Res All 
+Steal 2% mana 
++10 MAG 
+6) up: 59Ah
+
+====================
+
+#150 (95h)	- unfindable, quest unique
+
+offset 1D4CE4
+
+Ring of Purity (weak)
+1) +15 HP
+2) -1 DFE
+3) +10% resist all
+4) +10% LR
+
+===================
+
+#151 (96h)	- unfindable, quest unique
+
+offset ???
+
+Ring of Purity (standard)
+1) +40 life
+2) +20 mana
+3) -3 DFE
+4) +20% resist all
+5) +10% LR
+
+===================
+
+#152 (97h)	- unfindable, quest unique
+
+offset ???
+
+Ring of Purity (strong)
+1) +60 life
+2) +30 mana
+3) -5 DFE
+4) +30% resist all
+5) +10 AC
+6) +10% LR
+diablothehell@gmail.com gshaav223 whatsapp
+======================
+
+#153 (98h)	- unfindable, quest unique
+
+offset ???
+
+Empyrean Band (weak)
+1) ARD
+2) +2 all
+3) HR: 1
+4) +10% LR
+5) up: 2A4h
+
+===================
+
+#154 (99h)	- unfindable, quest unique
+
+offset ???
+
+Empyrean Band (standard)
+1) ARD
+2) +5 all
+3) HR: 2
+4) +20% LR
+5) up: 2A4h
+
+===================
+
+#155 (9Ah)	- unfindable, quest unique
+
+offset ???
+
+Empyrean Band (strong)
+1) ARD
+2) +8 all
+3) HR: 3
+4) +10% resist all
+5) +30% LR
+6) up: 2A4h
+
+======================
+
+#156 (9Bh)
+
+offset 1D4EDC
+
+Bul-Kathos' Raiment, it 44 (10), 40
+leather armor
+1) +[20-30]% AC
+2) ARD
+3) +[4-8] all attrib
+4) fast block
+5) +[15-25]% resist all
+6) up: 402h
+
+======================
+
+#157 (9Ch)
+
+offset ?
+
+Greyform, it 44 (10), 60
+leather armor
+1) +[30-40]% AC
+2) -[14-18] DFE
+3) ARD
+4) as: 1
+5) -[15-18]% THC
+6) up: 414h
+
+======================
+
+#158 (9Dh)
+
+offset 1D4F84
+
+Belphegor's Ravager, it 57 (?), 3
+? (?h)
+1) +[36-80]% To hit, +% Damage
+2) 1-50 Lightning Dmg
+3) (30-60) Altered Durability
+4) +[5-15] +Vitality
+5) ubd: [15-21]
+6) up: F3h
+
+
+=======================
+
+#159 (9Eh)
+
+offset 1D4FD8
+
+
+The Gnasher, it 57 (1), 11
+12k
+1) AP: [2-3]
+2) +[20-35] damage
+3) -[5-10] AC
+4) up: ?h
+
+
+=======================
+
+#160 (9Fh)
+
+offset ?
+
+Rakescar, it 57 (1), 18
+hatchet, balanced axe
+1) +[71-85]% damage
+2) 1% lifesteal per hit
+3) +[6-13] VIT
+4) up: 282h
+
+
+
+
+=======================
+
+#161 (A0h)
+
+offset 1D5080
+
+Peasant Cap (weak), it 101 (0), 1
+1) +100% AC
+2) -5 DFE
+3) +2 all attrib.
+4) +7 life
+5) +7 mana
+
+=======================
+
+#162 (A1h)
+
+offset 1D50D4
+
+Peasant Cap (med), it 101 (0), 1
+1) +200% AC
+2) -10 DFE
+3) +4 all attrib.
+4) +17 life
+5) +17 mana
+
+=======================
+
+#163 (A2h)
+
+offset 1D5128
+
+Peasant Cap (strng), it 101 (0), 1
+1) +300% AC
+2) -15 DFE
+3) +6 all attrib.
+4) +27 life
+5) +27 mana
+
+========================
+
+#164 (A3h)
+
+offs ?
+
+Dragonwing, it 4 (54), 61
+1) no STR req
+2) +[200-250]% dam
+3) +[5-7] all attr.
+4) KB
+5) -[30-40] life
+6) up: 292h
+
+=========================
+
+#165 (A4h)
+
+offset 1D51D0
+
+Lorus' Honor, it 17 (?), 53
+1) -[15-19] DFE
+2) +[4-6] all.attr.
+3) -2 Slvl
+4) +[14-24]% all resists
+5) +[6-12] mana
+6) up: 
+
+=========================
+
+#166 (A5h)
+
+offset ?
+
+Duskdeep, it 35(?), 50
+1) +[80-120]% AC
+2) ARD
+3) +[4-6] DFE
+4) +[12-15] all.attrib
+5) -10% LR
+6) up: 2B0h
+
+=========================
+
+#167 (A6h)
+
+offset ?
+
+Gladiator's Bane, it 35 (?), 63
+1) -[100-200]% AC
+2) -[36-37] DFE
+3) +30% Tohit, +30% damage
+4) +[14-18] DEX
+5) +20% LR
+6) up: 2B1h
+
+===========================
+
+#168 (A7h)
+
+offs ?
+
+Pelta Lunata, it 25 (?), 25
+1) AC vs demons
+2) dam vs demons
+3) +2 SLVL
+4) -[4-6] DFE
+5) -[16-22] STR
+6) up: 2B7h (695)
+
+============================
+
+#169 (A8h)
+
+offs ?
+
+Umbral Disk, it 25 (?), 36
+1) +[80-120]% AC
+2) -[7-9] DFE
+3) -[10-20] STR
+4) +[10-20] DEX
+5) +[10-20] VIT
+6) up: 313h
+
+============================
+
+#170 (A9h)
+
+offs ?
+
+Gloomspire, it 25 (?), 47
+1) -[50-100]% AC
+2) -[10-11] DFE
+3) +[12-24] damage
+4) +[16-21]% resist all
+5) up: 2CEh
+
+=============================
+
+#171 (AAh)
+
+offs ?
+
+Steelclash, it 25 (?), 59
+1) +[140-200]% AC
+2) -[11-12] DFE
+3) AS: 1
+4) +[16-28] damage
+5) up: 2D0h
+
+=============================
+
+#172 (ABh)
+
+offs ?
+
+Enferum, it 25 (?), 63
+1) -2 SLVL
+2) ARD
+3) -[12-13] DFE
+4) +[17-22]% all resists
+5) fast block
+6) up: 2BDh
+
+============================
+
+#173 (ACh)
+
+offset 1D5470
+
+Amulet of the Brume (weak), it 103 (0), 1 <<< quest item
+1) -10% LR
+2) +5 MAG
+3) -3 DFE
+4) +20% Lightning resistance
+
+============================
+
+#174 (ADh)
+
+offset ?
+
+Amulet of the Brume (standard), it 103 (0), 1 <<< quest item
+1) -10% LR
+2) +10 MAG
+3) -4 DFE
+4) +20% Lightning resistance
+5) +20% Fire resistance
+
+============================
+
+#175 (AEh)
+
+offset ?
+
+Amulet of the Brume (strong), it 103 (0), 1 <<< quest item
+1) -10% LR
+2) +15 MAG
+3) -5 DFE
+4) +20% Lightning resistance
+5) +20% Fire resistance
+6) +20% Magic resistance
+
+============================
+
+#176 (AFh)
+
+offset ?
+
+Spiritual Treasure (weak), it 103 (0), 1 <<< quest item
+1) +1 SLVL
+2) 10% chance for +200% damage
+3) -25% manacost
+4) +10 mana
+5) -5 STR
+6) up: 1B3h
+
+============================
+
+#177 (B0h)
+
+offset ?
+
+Spiritual Treasure (standard), it 103 (0), 1 <<< quest item
+1) +2 SLVL
+2) 10% chance for +200% damage
+3) -25% manacost
+4) +20 mana
+5) -10 STR
+6) up: 1B3h
+
+============================
+
+#178 (B1h)
+
+offset ?
+
+Spiritual Treasure (strong), it 103 (0), 1 <<< quest item
+1) +3 SLVL
+2) 10% chance for +200% damage
+3) -25% manacost
+4) +30 mana
+5) -15 STR
+6) up: 1B3h
+
+=============================
+
+#179 (B2h)
+
+offs ?
+
+Arkaine's Valor (leather), it 104 (0), 1 <<< quest item
+1) ARD
+2) +5 VIT
+3) -5 DFE
+4) +5% resist all
+5) +10% LR
+str: 50, dex: 15
+pic: 3F1h
+=============================
+
+#180 (B3h)
+
+offs ?
+
+Arkaine's Valor (mail), it 105 (0), 1 <<< quest item
+1) ARD
+2) +10 VIT
+3) -10 DFE
+4) +10% resist all
+5) LR: +10%
+6) HR: 1
+str: 115, dex: 45
+=============================
+
+#181 (B4h)
+
+offs ?
+
+Arkaine's Valor (plate), it 106 (0), 1 <<< quest item
+1) ARD
+2) +15 VIT
+3) -15 DFE
+4) +15% resist all
+5) LR: +10%
+6) HR: 2
+str: 180, dex: 75
+
+===============================
+
+#182 (B5h)
+
+offs ?
+
+Griswold's Edge (lite), it 107 (0), 1 <<< quest
+1) 5-50 fire hit damage
+2) +25% tohit
+3) dam vs undead
+4) 0-300%..
+5) -25 life
+
+===============================
+
+#183 (B6h)
+
+offs ?
+
+Griswold's Edge (med), it 108 (0), 1 <<< quest
+1) 10-100 fire hit damage
+2) +40% tohit
+3) dam vs undead
+4) 0-300%..
+5) -50 life
+6) fast att.
+
+===============================
+
+#184 (B7h)
+
+offs ?
+
+Griswold's Edge (heavy), it 109 (0), 1 <<< quest
+1) 20-200 fire hit damage
+2) +55% tohit
+3) dam vs undead
+4) 0-300%..
+5) -75 life
+6) faster att.
+
+===============================
+
+#185 (B8h)
+
+offs ?
+
+Veil of Steel (lite), it 110 (0), 1 <<< quest
+1) +30% res.all
+2) -10% LR
+3) +30% AC
+4) -15 mana
+5) +5 STR
+6) +5 VIT
+
+===============================
+
+#186 (B9h)
+
+offs ?
+
+Veil of Steel (med), it 111 (0), 1 <<< quest
+1) +35% res.all
+2) -10% LR
+3) +50% AC
+4) -25 mana
+5) +10 STR
+6) +10 VIT
+
+===============================
+
+#185 (BAh)
+
+offs ?
+
+Veil of Steel (heavy), it 112 (0), 1 <<< quest
+1) +40% res.all
+2) -10% LR
+3) +70% AC
+4) -35 mana
+5) +15 STR
+6) +15 VIT
+
+===============================
+
+
+#186 (BBh)
+
+offs ?
+
+Stonekeep, it 113 (17), 4
+1) +[40-60]% AC
+2) -33% ARD
+3) -[13-15] DFE
+4) +[16-22] DEX
+5) -[10-16] STR
+6) up: 2DFh
+
+===============================
+
+#187 (BCh)
+
+Lorus' Parry, it 113 (17), 17
+1) +[20-40]% AC
+2) +[6-9]% res.all
+3) -[5-8] DFE
+4) +[6-9] DEX
+5) -[6-9] MAG
+6) up: 293h
+
+===============================
+
+#188 (BDh)
+
+Dreg'atar Tower, it 113 (17), 63
+1) knockback
+2) -33% ARD
+3) -[12-13] DFE
+4) +[3-6] all attr.
+5) -[8-14] mana
+6) up: 2DFh
+
+===============================
+
+#189 (BEh)
+
+Bloodsipper, it 114 (30), 12
+1) +[51-75]% AC
+2) AS: 2 / +1
+3) 2% lifesteal / +1
+4) -[16-20] DFE
+5) -[15-17]% resist all
+6) up: 2DBh
+
+===============================
+
+#190 (BFh)
+
+Berserker's Rust, it 114 (30), 15
+1) AS: 3 / 1,25
+2) +[33-66] damage / 0,6
+3) -[43-66]% AC / -1
+4) +[18-19] DFE / -1
+5) ARD / 1
+6) up: 2CBh
+
+===============================
+
+#191 (C0h)
+
+Deathgaze, it 114 (30), 30
+1) -10% LR / 0,5
+2) -[25-30] DFE / 1
+3) ARD / 1
+4) +[70-80]% Fire resistance / 1
+5) -[55-70]% Magic resist / -1
+6) up: 2B5h
+
+===============================
+
+#192 (C1h)
+
+Warlord's Helmet, it 114 (30), 63
+1) +[15-30]% AC / 0,5
+2) -[16-17] DFE / 0,65
+3) +[14-18]% resist all / 0,6
+4) +[20-30] life / 0,35
+5) +[10-20] mana / 0,2
+6) up: 2D7h
+
+===============================
+
+#193 (C2h)
+
+Night Scorpion, it 58 (22), 6
+1) -10% LR
+2) AS: 2
+3) +[280-300]% dam
+4) +[4-7] all.attr
+5) -[8-9] DFE
+6) up: 185h
+
+===============================
+
+
+#194 (C3h)
+
+Recluse Warrior, it 58 (22), 7
+1) AS: 1
+2) ARD
+3) +[200-280]% dam
+4) -[5-7] DFE
+5) -[5-9] MAG
+6) up: 185h
+
+
+===============================
+
+#195 (C4h)
+
+Ambidexter, it 58 (22), 22
+1) +[20-40]%dam
+2) +[15-20] DEX
+3) AS: 2
+4) -5 AC
+5) -35% THC
+6) up: 2E5h
+
+===============================
+
+#196 (C5h)
+
+Stormchaser, it 58 (22), 60
+1) +[40-45]%tohit
+2) +[120-200]%dam
+3) 100 lightning hit damage
+4) up: 2E9h
+
+===============================
+
+#197 (C6h)
+
+The Protector, it 58 (22), 63
+1) +[15-25]% res.all
+2) ARD
+3) -[3-6] dfe
+4) HR: 2
+5) AC: [14-20]
+6) up: 2E6h
+
+===============================
+
+#198 (C7h)
+
+Mindcry, it 115 (31), 2
+48k price
+1) 5 Identify charges / 0,1
+2) +6 SLVL / 2
+3) -[50-75] mana / -0,75
+4) +[20-30] life / 0,16
+5) up: 2E4h
+
+===============================
+
+#199 (C8h)
+
+Gravenspine, it 115 (31), 15
+1) 150 HB charges / 0
+2) Alt.Dur.: 200 / 0,25
+3) +3 SLVL / 1
+4) extra AC vs undead / 0,25
+5) +15 MAG / 0,5
+6) up: 2E8h
+
+===============================
+
+#200 (C9h)
+
+Lich Wand, it 115 (31), 31
+1) 30 SC charges / 0
+2) -[8-10] DFE / 0,4
+3) +85% resis magic / 1,25
+4) -25% resist fire / -0,33
+5) +2 slvl / 0,66
+6) up: 2E2h
+
+===============================
+
+#201 (CAh)
+
+Bloodscourge, it 115 (31), 50
+1) 80 Fireblast charges
+2) Al.Dur.: 100
+3) +[55-75]% resis fire / 1
+4) +[20-24] MAG / 1
+5) +1 SLVL / 0,33
+6) up: 2E3h
+
+===============================
+
+#202 (CBh)
+
+Wand of Jester, it 115 (31), 56
+1) +1 SLVL / 0,33
+2) random 0-300% damage / 1
+3) 10 Warp charges
+4) +[1-20] MAG / 0,66
+5) +[1-20] mana / ~0
+6) up: 212h
+
+===============================
+
+#203 (CCh)
+
+Dragonfire, it 115 (31), 59
+1) 200 Inferno charges
+2) +[2-3] SLVL / 1
+3) +[10-16] MAG / 0,5
+4) +[11-15]% res.all / 0,5
+5) up: 1ACh
+
+===============================
+
+#204 (CDh)
+
+Widowmaker, it 1 (30), 15
+22k
+1) +[143-171]% damage / 1
+2) +[12-15] DEX / 1
+3) AS: 4 / ~1,75
+4) -[52-55]% accuracy / -1,6
+5) up: 2D6h
+
+===============================
+
+#205 (CEh)
+
+Eaglehorn, it 1 (30), 30
+16k
+1) +[188-206]% damage / 1
+2) knockback / 1
+3) +[20-30] dam / 0,2
+4) 10% chance for +200% damage/ 1
+5) AC: -[17-20] / -1,2
+6) up: 2AAh
+
+===============================
+
+#206 (CFh)
+
+Prismatic Bow, it 1 (30), 55
+21k
+1) +[209-235]% damage
+2) 1-61 lightning arrow damage
+3) ARD
+4) +[3-5] DFE
+5) +[30-40] dam
+6) up: 261h
+
+===============================
+
+#207 (D0h)
+
+Riphook, it 1 (30), 63
+27k
+1) +[566-750] damage / 5
+2) knockback / 1
+3) -[80-100] DEX / -4?
+4) -[70-90]% durability / 0
+5) +[6-9] DFE / -0,5
+6) up: 296h
+
+===============================
+
+#208 (D1h)
+
+Ring of Tower, it 117 (2), 1
+140,8k (22600h) >4400
+1) AC: [11-17]
+2) -[11-17] DFE
+3) +[11-17]% resist all
+4) -[11-17] STR
+5) up: 366h
+
+===============================
+
+
+#209 (D2h)
+
+offs ?
+
+Ring of Illumination, it 117 (2), 2
+8k
+1) +30% LR
+2) +[9-13]% res.all
+3) +[2-5] all.attr.
+4) up: 1E8h
+
+===============================
+
+
+#210 (D3h)
+
+offs ?
+
+Lut Gholein Echo, it 117 (2), 3
+8k
+1) -3 DFE
+2) +3 all attr.
+3) +3 AC
+4) +3 damage
+5) up: 13Fh
+
+===============================
+
+
+#211 (D4h)
+
+Band of Untold Secrets, it 117 (2), 4
+8k
+1) +100% LIFE REGEN
+2) ILS
+3) +3 DFE
+4) +[11-15]% accuracy
+5) up: 13Eh
+
+===============================
+
+
+#212 (D5h)
+
+Ring of Zenda, it 117 (2), 5
+8k
+1) AC: 10
+2) +10% all resists
+3) +10 damage
+4) -5 DFE
+5) lose all regen
+6) up: 1EAh
+
+===============================
+
+
+#213 (D6h)
+
+Band of Readiness, it 117 (2), 6
+8k
+1) AS: 1
+2) HR: 1
+3) AC: [4-7]
+4) -[15-18] STR
+5) -[9-12]% THC
+6) up: 22Fh
+
+===============================
+
+
+#214 (D7h)
+
+Bronzehorse, it 117 (2), 7
+8k
+1) bonus damage to undead
+2) longer fury
+3) -[12-16] mana
+4) ruin
+5) -10% LR
+6) up: 365h
+
+===============================
+
+
+#215 (D8h)
+
+Ring of Engagement, it 117 (2), 8
+16k
+1) 2% lifesteal
+2) 2% manasteal
+3) AP: 2
+4) AS: 2
+5) +[13-17] DFE
+6) up: 2A2h
+
+===============================
+#216 (D9h)
+
+Conjure of Sacrifice, it 117 (2), 9
+8k
+1) +200% ED
+2) -20 DEX
+3) +12 DFE
+4) HP: +[30-45]
+5) up: 578h
+
+===============================
+#217 (DAh)
+
+Grudge, it 117 (2), 10
+8k
+1) AC: -100
+2) lose all resistance
+3) lose all regen
+4) -[25-30] DFE
+5) -20% LR
+6) up: 1E5h
+
+
+===============================
+#218 (DBh)
+
+Death Hunter's Ring, it 117 (2), 11
+8k
+1) seeing
+2) extra damage vs undead
+3) -10% LR
+4) AP: 1
+5) -[5-10] AC
+6) up: 570h
+
+===============================
+
+
+#219 (DCh)
+
+Ring of the Pits, it 117 (2), 12
+8k
+1) ARD
+2) +1 SLVL
+3) DREAD
+4) -15 MAG
+5) +[20-25]% tohit
+6) up: 56Dh
+
+==============================
+#220 (DDh)
+
+Templar's Relic, it 117 (2), 13
+8k
+1) AC: [16-20]
+2) +[16-20] damage
+3) -[6-10]% accuracy
+4) +[7-10] STR
+5) -[3-5] DEX
+6) up: 2A0h
+
+===============================
+#221 (DEh)
+Griswold's Try, it 117 (2), 14
+8k
+1) +[53-78]% ED
+2) +[9-16] AC
+3) up: 2A1h
+===============================
+#222 (DFh)
+Naj's Crown, it 119 (15), 42
+11000 (2AF8h)
+1) +1 slvl / 1
+2) -[7-9] DFE / 0,8
+3) +[12-17] MAG / 1
+4) -[25-44] mana / -0,8
+5) up: 3C3h
+===============================
+#223 (E0h)
+Cryptic Diadem, it 119 (15), 54
+13000 (32C8h)
+1) +2 slvl / 1,5
+2) -[10-13] DFE / 1
+3) +[4-9] ALL / 1
+4) -[45-55] mana / -1,35
+5) up: 2DDh
+===============================
+#224 (E1h)
+Veil of Shadows, it 118 (34), 11
+25000 (61A8h)
+1) RUIN / 1
+2) +150% FURY duration / 0,25
+3) -[41-55]% all resist / -2,5
+4) +5 SLVL / 2.5
+5) +[50-75] mana / 1
+6) up: 57Dh
+===============================
+#225 (E2h)
+The Strafer, it 120 (42), 12
+40000 (9c40h)
+1) AP: 2
+2) +[80-105]% ED
+3) AS: 2
+4) +[50-75] damage
+5) +[11-12] DFE
+6) UP: 53Eh
+
+===============================
+
+#226 (E3h)
+
+Lightforge, it 121 (12), 3
+15000 (3a98h)
+1) LR: +30% / -0,75
+2) AS: 2 / 1,5
+3) +[150-200]% damage / 1,25
+4) +8 all.attr. / 1,25
+5) -[41-60]% fire resistance / -1,25
+6) up: 2B4h
+
+===============================
+
+#227 (E4h)
+
+Dreamflange, it 121 (12), 9
+16000 (3E80h)
+1) +25 MAG
+2) -70 mana
+3) +50% resist magic
+4) +20% LR
+5) +2 slvl
+6) up: 2CDh
+
+===============================
+
+#228 (E5h)
+
+Zakarum's Hand, it 121 (12), 12
+5000 (1388h)
+1) +10% CTH
+2) +[60-80]% damage
+3) bonus dam vs undead
+4) +10% LR
+5) -[10-13] mana
+6) up: 2C4h
+
+===============================
+
+#229 (E6h)
+
+Royal Striker, it 121 (12), 57
+12000 (2EE0h)
+1) UD: 10-36
+2) AS: 1
+3) bonus dam vs demons
+4) +1 DFE
+5) -[20-30] life
+6) up: 2ABh
+
+===============================
+
+#230 (E7h)
+
+The Cranium Basher, it 122 (36), 63
+24000 (5DC0h)
+1) +[140-180]% damage
+2) bonus damage vs undead
+3) random 0-300% damage
+4) -2 SLVL
+5) up: 1BDh
+
+===============================
+
+#231 (E8h)
+
+Black Razor, it 123 (6), 35
+7000 (1B58h)
+1) +[300-400]% damage
+2) +[10-15] VIT
+3) Durability: 5
+4) up: 5D3h
+
+===============================
+
+#232 (E9h)
+
+The Backstabber, it 124 (3), 2
+13000 (32C8h)
+1) +[100-120] damage
+2) AP: 3
+3) AS: 2
+4) -10% LR
+5) -[25-29]% ToHit
+6) UP: 300h
+
+===============================
+
+#233 (EAh)
+
+Flamedart, it 125 (12), 15
+8000 (1F40h)
+1) +[20-40]% damage
+2) fire arrows damage: 1-33
+3) CTH: +[20-40]%
+4) +[30-40]% fire resist
+5) up: 306h
+
+===============================
+
+#234 (EBh)
+
+Chillshank, it 125 (12), 30
+14000 (36B0h)
+1) +[40-60]% damage
+2) lite arrows damage: 1-45
+3) kb
+4) +[30-40]% lite resist
+5) up: 307h
+
+===============================
+
+#235 (ECh)
+
+offs ?
+
+Obliterator, it 125 (12), 45
+18000 (4650h)
+1) +[60-80]% damage
+2) +[20-30] damage
+3) kb
+4) +[10-15]% resist all
+5) +20% LR
+6) up: 308h
+
+===============================
+
+#236 (EDh)
+
+offs ?
+
+The Blackoak Bow, it 125 (12), 60
+22000 (55F0h)
+1) +[81-100]% damage
+2) +[35-40] damage
+3) +[10-20] STR
+4) +[10-20] DEX
+5) -4 SLVL
+6) up: 309h
+
+===============================
+
+#237 (EEh)
+
+offs ?
+
+Starbeamer, it 126 (19), 60
+8000 (1F40h)
+1) 77 Arcane Sta charges
+2) +7 all attrib.
+3) +77% magic resist
+4) -7 DFE
+5) up: 30Ch
+
+===============================
+
+#238 (EFh)
+
+offs ?
+
+Banemaster, it 126 (19), 61
+12000 (2EE0h)
+1) +[2-3] slvl
+2) +100% mana regeneration
+3) +[25-29]% resist all
+4) +[3-5] DFE
+5) up: 2E1h
+
+===============================
+
+#239 (F0h)
+
+offs ?
+
+Naj's Staff, it 126 (19), 62
+16000 (3E80h)
+1) +[3-4] slvl
+2) +[20-23] MAG
+3) +[88-97] mana
+4) -[11-13] STR
+5) up: 30Dh
+
+===============================
+
+#240 (F1h)
+
+offs ?
+
+Angelwrath, it 126 (19), 63
+22000 (55F0h)
+1) +[5-6] slvl
+2) +[23-25] MAG
+3) +[108-147] mana
+4) -[20-23] STR
+5) -[20-23] DEX
+6) up: 30Bh
+
+===============================
+
+#241 (F2h)
+
+offs ?
+
+Spiritual Tower, it 127 (33), 4
+48000 (BB80h)
+1) no STR requirement
+2) -[200-250]% AC
+3) -[42-50] DFE
+4) +[20-25]% all resists
+5) -[24-34] STR
+6) up: 28Eh
+
+===============================
+
+#242 (F3h)
+
+offs 1d6bbc
+
+Berserker's Buckler, it 127 (33), 7
+40000 (9C40h)
+1) +[54-75]% AC
+2) +[351-400]% damage
+3) +[15-20] STR
+4) -[6-8] DFE
+5) lose all resistance
+6) up: 2D1h
+
+===============================
+
+#243 (F4h)
+
+offs ?
+
+Adema, it 127 (33), 9
+36000 (8CA0h)
+1) 10% for +200% dam
+2) 0-300%
+3) faster life regeneration
+4) +[15-19]% all resists
+5) -[27-30] MAG
+6) up: 2FCh
+===============================
+
+#244 (F5h)
+
+offs ?
+
+Goreshine, it 127 (33), 18
+30000 (7530h)
+1) +[40-50]% AC
+2) -[15-18] DFE
+3) +[16-18]% all resists
+4) +[14-18]% THC
+5) up: 2BAh
+
+===============================
+
+#245 (F6h)
+
+offs ?
+
+Dawn of Anger, it 127 (33), 33
+16000 (3E80h)
+1) AS: 1
+2) -[40-80]% AC
+3) AP: 2
+4) +[30-50] mana
+5) +[50-60] life
+6) up: 2fbh
+
+===============================
+
+#246 (F7h)
+
+offs ?
+
+Dragonbreath, it 127 (33), 61
+24000 (5DC0h)
+1) ARD
+2) +[40-50]% AC
+3) -[11-12] DFE
+4) +[20-25]% all resists
+5) -[10-15] STR
+6) up: 1BCh
+
+===============================
+
+#247 (F8h)
+
+offs ?
+
+Ancestral Call, it 127 (33), 62
+26000 (6590h)
+1) +[20-35]% AC
+2) -[13-14] DFE
+3) +5 all attributes
+4) faster mana regeneration
+5) -[50-60]% magic resistance
+6) up: 2FDh
+
+===============================
+
+#248 (F9h)
+
+offs ?
+
+Bloodmoon, it 127 (33), 63
+28000 (6D60h)
+1) increased lifestealing
+2) -[5-7] DFE
+3) -[11-14]% all resistance
+4) faster life regenerate
+5) faster mana regenerate
+6) up: 2EBh
+
+===============================
+
+#249 (FAh)
+
+offs ?
+
+Mantle of Silver, it 128 (20, 29), 50
+24000 (5DC0h)
+1) +[20-25]% AC / 1
+2) -[11-13] DFE / 1
+3) +[15-20]% resist all / 1
+4) -[32-75] mana / -1
+5) up: 318h
+
+===============================
+
+#250 (FBh)
+
+Mantle of Gore, it 128 (20, 29), 62
+32000 (7D00h)
+1) +[30-35]% AC / 1,5
+2) -[17-18] DFE / 1,5
+3) ARD / 1
+4) +[21-25]% resist all / 1,25
+5) -[170-240] mana
+6) up: 319h
+
+===============================
+
+#251 (FCh)
+
+Legacy of Blood, it 129 (50), 20
+72000 (11940h)
+1) +1 slvl / 0,5
+2) -[20-24] DFE / 0,8
+3) ARD / 1
+4) increased lifestealing / 1
+5) -[90-105] mana / - 1,3
+6) up: 31Fh
+
+===============================
+
+#252 (FDh)
+
+Krondor's Defense, it 129 (50), 35
+32000 (7D00h)
+1) +[10-15]% AC / 0,5
+2) -[15-19] DFE / 0,66
+3) ARD / 1
+4) +[20-25]% resist all / 0,9
+5) -[60-80] mana / 
+6) up: 31Eh
+
+===============================
+
+#253 (FEh)
+
+Gotterzorn, it 130 (49), 26
+32000 (7D00h)
+1) +[161-200]% ED / 0,75
+2) -[16-19] AC / -1
+3) +50% dam vs undead / 0,75
+4) +50% dam vs demons / 1
+5) 50% mana -> to life / 0,75
+6) up: 317h
+
+===============================
+
+#254 (FFh)
+
+Bul-Kathos' Child, it 130 (49), 34
+16000 (3E80h)
+1) dread / 1
+2) +[120-150]% damage / 0,6
+3) +[35-55] damage / 0,4
+4) +[10-15]% resist all / 0,5
+5) -[30-40] mana / -0,5
+6) up: 2C5h
+
+===============================
+
+#255 (100h)
+
+offs 1D7000
+
+The Butcher's Cleaver, it 131 (55), 25
+96k
+1) UBD: 166-333
+2) AP: 4
+3) -[57-66]% resist all
+4) AS: 4
+5) longer Fury
+6) up: 367h
+
+===============================
+
+#256 (101h)
+
+offs ?
+
+Messerschmidt's Reaver, it 131 (55), 30
+40000 (9C40h)
+1) +[10-25]% tohit
+2) +[200-250]% damage
+3) +[25-50] damage
+4) +[30-90] fire damage
+5) -5 all attributes
+6) up: 314h
+
+===============================
+
+#257 (102h)
+
+offs ?
+
+Hellslayer, it 131 (55), 40
+32000 (7D00h)
+1) +[95-155]% damage
+2) 2% lifesteal
+3) -[25-27] STR
+4) AP: 2
+5) faster attack
+6) up: 30Eh
+
+===============================
+
+#258 (103h)
+
+offs ?
+
+Prismatic Axe, it 131 (55), 55
+16000 (3e80h)
+1) +[50-90]% damage
+2) 1-36 lightning damage
+3) ARD
+4) AP: 2
+5) fast attack
+6) up: 2A9h
+
+===============================
+
+#259 (104h)
+
+offs ?
+
+Voidslasher, it 131 (55), 58
+20000 (4E20h)
+1) +[96-105]% damage
+2) +[30-45]% tohit
+3) 10% for +200%
+4) KB
+5) -[35-55]% resist magic
+6) up: 2BFh
+
+===============================
+
+#260 (105h)
+
+offs ?
+
+Death Cleaver, it 131 (55), 61
+24000 (5DC0h)
+1) +[110-145]% damage
+2) +[40-55]% tohit
+3) +[80-120] damage
+4) up: 2A8h
+
+===============================
+
+#261 (106h)
+
+offs ?
+
+Hexen, it 131 (55), 63
+28000 (6D60h)
+1) +[90-110]% damage
+2) +[30-40]% tohit
+3) ILS
+4) AS: 2
+5) -[50-60] mana
+6) up: 320h
+
+===============================
+
+#262 (107h)
+
+offs ?
+
+Naj's Heavy Plate, it 132 (50), 13
+64000 (FA00h)
+1) -[18-20] STR / -1
+2) +[40-50]% AC / +2
+3) -[37-41] DFE / +1,5
+4) +[30-40]% resist all / +1,5
+5) -4 Slvl / -2
+6) up: 262h
+
+===============================
+
+#263 (108h)
+
+Plate of Infinity, it 132 (50), 35
+48000 (BB80h)
+1) dur: 230
+2) +[4-5] to all attr.
+3) faster mana regen.
+4) +1 slvl
+5) +[40-50] mana
+6) up: 276h
+
+===============================
+
+#264 (109h)
+
+Steel Carapace, it 132 (50), 50
+32000 (7D00h)
+1) -150% AC
+2) -[40-42] DFE
+3) ARD
+4) +[30-35]% res.all
+5) +[120-150] mana
+6) up: 2BEh
+
+===============================
+
+#265 (10Ah)
+
+Stormplate, it 132 (50), 60
+36000 (8CA0h)
+1) +[45-50]% AC / 2
+2) +[5-9] DFE / -0,5
+3) ARD / 1
+4) +85% resist lite / 1
+5) -[90-135] mana / -1,5
+6) up: 244h
+
+===============================
+
+#266 (10Bh)
+
+Tyrael's Blessing, it 132 (50), 63
+44000 (ABE0h)
+1) +[15-25]% AC / 1
+2) -[18-22] DFE / 1
+3) +[15-20] MAG / 1
+4) +2 slvl / 1
+5) -[140-150] mana / -2
+6) up: 2D5h
+
+===============================
+
+#267 (10Ch)
+
+Baranar's Plate, it 133 (31), 8
+50000 (C350h)
+1) +[30-40]% AC / 1,5
+2) -[11-15] DFE / 0,5
+3) +[12-16] STR / 0,9
+4) +[60-90] life / 0,8
+5) -[24-28] Dex / -1,7
+6) up: 40Eh
+
+===============================
+
+#268 (10Dh)
+
+Royal Plate, it 133 (31), 16
+48000 (BB80h)
+1) +[16-18] All attr. / 1,5
+2) -[8-10] DFE / 0,3
+3) ARD / 1
+4) +[10-12]% all resists / 0,5
+5) -[36-40]% THC / -1,3
+6) up: 40Fh
+
+===============================
+
+#269 (10Eh)
+
+Bhaltavir's Garb, it 133 (31), 23
+40000 (9C40h)
+1) ruin
+2) +life regen
+3) -[15-18] DFE
+4) +[25-55] mana
+5) up: 332h
+
+===============================
+
+#270 (10Fh)
+
+Plate of Engart, it 133 (31), 31
+32k (7D00h)
+1) +[10-15]% AC
+2) ARD
+3) -[17-23] DFE
+4) +[60-70]% fire resist
+5) -[40-50]% lightning resist
+6) up: 419h
+
+===============================
+
+#271 (110h)
+
+Berserker's Faith, it 133 (31), 61
+36k (8CA0h)
+1) +[75-80]% AC / 3
+2) +[16-20] DFE / -0,8
+3) +[40-60]% damage / 0,33
+4) +[80-100] life / 1
+5) up: 335h
+
+===============================
+
+#272 (111h)
+
+Lorus' Valour, it 133 (31), 62
+36k (8CA0h)
+1) -[10-15]% AC / -0,5
+2) +1 slvl / +0,5
+3) -[20-24] DFE / 1
+4) HR: 3 / 1
+5) up: 408h
+
+===============================
+
+#273 (112h)
+
+Adamantine Armour, it 133 (31), 63
+38k (9470h)
+1) +[8-13]% AC / 0,8
+2) -3 slvl / -1,5
+3) -[25-28] DFE / 1
+4) HR: 3 / 1
+5) +[55-75] life / 0,7
+6) up: 2AFh
+
+===============================
+
+#274 (113h)
+
+Spirit Forge, it 133 (32), 2
+16k (3e80h)
+1) 50% mana moved to life
+2) -[8-12]% AC
+3) -[17-19] DFE
+4) +[30-40] Vitality
+5) up: 14Ch
+
+===============================
+
+#275 (114h)
+
+offs ?
+
+Skullward, it 88 (?), 52
+58k (e290h)
+1) AC: 5
+2) 2% lifesteal
+3) 2% manasteal
+4) lose regeneration
+5) +7 DFE
+6) up: 315h
+
+===============================
+
+#276 (115h)
+
+offs ?
+
+Gloomsong, it 88 (?), 54
+64k (FA00h)
+1) KB
+2) +[6-10] AC
+3) +[10-15]% THC
+4) up: 312h
+
+===============================
+
+#277 (116h)
+
+offs ?
+
+Ring of Solicitude, it 88 (?), 56
+68k (109A0h)
+1) faster life regen
+2) faster mana regen
+3) -[5-6] All.attrib.
+4) +[55-75] life
+5) +[45-65] mana
+6) up: 341h
+
+===============================
+
+#278 (117h)
+
+offs ?
+
+Mind Eclipse, it 88 (?), 58
+72k (11940h)
+1) fast attack
+2) +[23-25] STR
+3) +[23-25] VIT
+4) -[7-10] DEX
+5) -3 SLVL
+6) up: 38Ch
+
+===============================
+
+#279 (118h)
+
+offs ?
+
+Blind Guardian, it 88 (?), 60
+76k (128E0h)
+1) AC: [60-75]
+2) +[250-300] damage
+3) -[10-15] DFE
+4) -[50-60] DEX
+5) -20 SLVL
+6) up: 365h
+
+===============================
+
+#280 (119h)
+
+offs ?
+
+Blackjade, it 88 (?), 61
+80k (13880h)
+1) ILS
+2) 1% lifesteal
+3) +[40-60] mana
+4) ARD
+5) -2 SLVL
+6) up: 33Dh
+
+===============================
+
+#281 (11Ah)
+
+offs ?
+
+Belial's Word, it 88 (?), 63
+96k (17700h)
+1) +[21-25] all attributes / 2
+2) +[8-9] DFE / -1,5
+3) +[10-25]% all resistance / 1-2
+4) ARD / 1
+5) lose all regeneration / -1
+6) up: 34Ch
+
+===============================
+
+#282 (11Bh)
+
+offs ?
+
+The Undead Crown, it 135 (9), 1
+32k (7D00h)
+1) +[60-80]% durability
+2) -[17-19] DFE / 1
+3) 2% mana steal / 1
+4) +[40-50]% magic resist / 0,75
+5) -1 slvl / -0,5
+6) up: 325h
+
+===============================
+
+#283 (11Ch)
+
+offs ?
+
+Crown of Thorns, it 135 (9), 8
+3,2k (C80h)
+1) +[2-3] DFE
+2) -[17-19] mana
+3) +1 slvl
+4) +[3-5] magic
+5) up: 368h
+
+=============================== 
+
+#284 (11Dh)
+
+offs ?
+
+Darklight, it 135 (9), 17
+8k (1F40h)
+1) -[50-75]% AC
+2) dur: 1
+3) +2 slvl
+4) +[6-10] magic
+5) -10% LR
+6) up: 369h
+
+===============================
+#285 (11Eh)
+Eaglecrown, it 135 (9), 32
+12k (2EE0h)
+1) ARD / 1
+2) -[7-11] dfe / 0,9
+3) +[11-13]% res.all / 0,7
+4) -[22-30] mana / 0,6
+5) up: 36Ah
+===============================
+#286 (11Fh)
+Everdyme, it 135 (9), 54
+16k (3E80h)
+1) -[12-13] dfe / 1
+2) +[14-18]% res.all / 0,9
+3) +[12-15] magic / 1
+4) -[33-45] mana / -0,9
+5) up: 36Bh
+===============================
+#287 (120h)
+Gold Burden, it 135 (9), 63
+24k (5DC0h)
+1) +[125-150]% AC / 0,25
+2) -[13-15] dfe / 1
+3) +[19-20]% res.all / 1,25
+4) +[9-11] magic / 0,5
+5) -[10-12] STR / -1
+6) up: 36Ch
+
+===============================
+
+#288 (121h)
+
+offs ?
+
+Mjollnir, it 136 (48), 11
+40k (9C40h)
+1) +[40-50]% THC
+2) +[206-225]% ED
+3) +[113-150] damage
+4) +70 lightning damage
+5) -[12-13] all attr.
+6) up: 361h
+
+===============================
+
+#289 (122h)
+
+offs ?
+
+Hammer of Jholm, it 136 (48), 33
+32k (7D00h)
+1) +[30-40]% THC
+2) +[130-150]% ED
+3) +[40-60] damage
+4) KB
+5) +[20-30] mana
+6) up: 2CCh
+
+===============================
+
+#290 (123h)
+
+offs ?
+
+Martel de Fer, it 136 (48), 41
+34k (84D0h)
+1) unusual damage: 60-100
+2) durability: 60
+3) AS: 4
+4) KB
+5) -[54-71] HP
+6) up: 2B3h
+
+===============================
+
+#291 (124h)
+
+offs ?
+
+Witchslayer, it 136 (48), 48
+16k (3E80h)
+1) fast attack
+2) +[100-120]% ED
+3) +[50-65]% mag.resist
+4) +[30-40] HP
+5) +[20-30] mana
+6) up: 35Dh
+
+===============================
+
+#292 (125h)
+
+offs ?
+
+Hammer of Frenzy, it 136 (48), 58
+24k (5DC0h)
+1) fast attack
+2) +[130-150]% ED
+3) +[20-35]% THC
+4) KB
+5) ILS
+6) up: 350h
+
+===============================
+
+#293 (126h)
+
+offs ?
+
+Maul of Quake, it 136 (48), 61
+45k (AFC8h)
+1) +[175-205] damage
+2) +[20-25]% resist all
+3) +50% dam vs undead
+4) AP: 2
+5) -[25-27] DEX
+6) up: 353h
+
+===============================
+
+#294 (127h)
+
+offs ?
+
+Hellforge Hammer, it 136 (48), 63
+30k (7530h)
+1) +100% THC, +100% ED
+2) +[40-50] damage
+3) +50% dam vs demons
+4) KB
+5) -25 STR
+6) up: 378h
+
+===============================
+
+#? (4h)
+
+offs ?
+
+Steelfence, it 60 (25), 01
+12k (2EE0h)
+1) +[40-50]% AC
+2) -[16-20] DFE
+3) +[3-6] all attr.
+4) +[12-15]% res.all
+5) -[20-25] mana
+6) up: 2ADh
+
+===============================
+
+#? (3Dh)
+
+offs ?
+
+The Deflector, it 60 (25), 07
+12k (2EE0h)
+1) +[50-60]% AC
+2) -[17-21] DFE
+3) +[4-7] all attr.
+4) +[22-32] HP
+5) up: 326h
+
+===============================
+
+#297 (128h)
+
+offs ?
+
+Steelshade, it 60 (25), 09
+32k (3E80h)
+1) +[60-70]% AC
+2) -[21-25] DFE
+3) -5 all attr.
+4) +[25-30]% res.all
+5) +[60-70] HP
+6) up: 3A0h
+
+===============================
+
+#298 (129h)
+
+offs ?
+
+Rockstopper, it 60 (25), 10
+10k (2710h)
+1) +[20-25]% AC
+2) -[18-22] DFE
+3) +[2-4] all attr.
+4) +[10-12]% res.all
+5) +[16-19] HP
+6) up: 327h
+
+===============================
+
+#299 (12Ah)
+
+offs ?
+
+Steelskull, it 60 (25), 15
+10k (2710h)
+1) +[25-30]% AC
+2) -[19-23] DFE
+3) +[4-7] STR
+4) +[10-12]% res.all
+5) +[22-26] HP
+6) up: 329h
+
+===============================
+
+#300 (12Bh)
+
+offs ?
+
+Steelviper, it 60 (25), 17
+10k (2710h)
+1) +[25-30]% AC
+2) -[17-18] DFE
+3) +[10-12] DEX
+4) +[10-12]% res.all
+5) +[20-25] HP
+6) up: 3A3h
+
+===============================
+
+#301 (12Ch)
+
+offs ?
+
+Helm of Shimmering, it 60 (25), 19
+10k (2710h)
+1) +[25-30]% AC
+2) -[17-19] DFE
+3) +[10-12] MAG
+4) +[10-12]% res.all
+5) +[20-24] mana
+6) up: 31Dh
+
+===============================
+
+#302 (12Dh)
+
+offs ?
+
+Giant skull, it 60 (25), 22
+10k (2710h)
+1) +[25-35]% AC
+2) -[17-20] DFE
+3) +[20-25] VIT
+4) +[11-13]% res.all
+5) +5 life
+6) up: 399h
+
+===============================
+
+#303 (130h)
+
+offs ?
+
+Darksight, it 60 (25), 42
+10k (2710h)
+1) -[10-15]% AC
+2) -[6-11] DFE
+3) -10% LR
+4) +[6-12]% res.all
+5) +[72-98] life
+6) up: 387h
+
+===============================
+
+#304 (131h)
+
+offs ?
+
+Iron Bonnet, it 60 (25), 45
+10k (2710h)
+1) +[50-70]% durab.
+2) -[7-12] DFE
+3) +[8-10] VIT
+4) +[22-26]% res.all
+5) +[15-20] life
+6) up: 3A2h
+
+===============================
+
+#305 (132h)
+
+offs ?
+
+Steel Bonnet, it 60 (25), 47
+11k (2AF8h)
+1) +[80-100]% durab.
+2) -[14-18] DFE
+3) +[11-13] VIT
+4) +[10-15]% res.all
+5) +[20-25] life
+6) up: 35Fh
+
+===============================
+
+#306 (133h)
+
+offs ?
+
+Morlag's Helmet, it 60 (25), 50
+12k (2EE0h)
+1) +[15-20]% damage
+2) -[8-14] DFE
+3) ARD
+4) +10% LR
+5) +[55-75] mana
+6) up: 2AEh
+
+===============================
+
+#307 (134h)
+
+offs ?
+
+Avenger Helmet, it 60 (25), 53
+12k (2EE0h)
+1) +[100-125]% durab.
+2) -[9-14] DFE
+3) AS: 2
+4) +10% LR
+5) +[64-81] mana
+6) up: 38Ah
+
+===============================
+
+#308 (135h)
+
+offs ?
+
+Beakvisor, it 60 (25), 55
+12k (2EE0h)
+1) +[20-25]% damage
+2) -[9-15] DFE
+3) +[6-9] all.attr.
+4) -10% LR
+5) +[15-30] life
+6) up: 342h
+
+===============================
+
+#309 (136h)
+
+Bul-Kathos' Helm, it 60 (25), 58
+12k (2EE0h)
+1) +[30-45]% damage
+2) -[10-16] DFE
+3) +[50-60]% fire resist
+4) fast hit recovery
+5) -[20-30] life
+6) up: 349h
+
+===============================
+
+#310 (137h)
+
+War Artist, it 60 (25), 60
+12k (2EE0h)
+1) +[20-25]% tohit
+2) -[11-17] DFE
+3) +[50-60]% lightning resist
+4) faster hit recovery
+5) -[20-35] life
+6) up: 345h
+
+===============================
+
+#311 (138h)
+
+Helm of Zeal, it 60 (25), 61
+12k (2EE0h)
+1) +[15-25]% AC
+2) -[12-18] DFE
+3) +[50-60]% magic resist
+4) fastest hit recovery
+5) -[25-35] life
+6) up: 346h
+
+===============================
+
+#312 (139h)
+
+Coif of Iron, it 60 (25), 62
+13k (32C8h)
+1) +[20-30]% AC
+2) -[13-19] DFE
+3) +[12-16] DEX
+4) -[6-8] STR
+5) +[30-45] life
+6) up: 360h
+
+===============================
+
+#313 (13Ah)
+
+offs ?
+Steelface, it 60 (25), 63
+14k (36B0h)
+1) +[35-45]% AC
+2) +[140-200]% durab.
+3) -[15-20] DFE
+4) ARD
+5) +[10-15]% res.all
+6) up: 31Bh
+
+===============================
+
+#314 (13Bh) - unfindable, quest unique
+
+offset 1D835C
+Griswold's Caster, it 137 [89h]
+6k (1770h)
+1) +15% accuracy
+2) +20 damage
+3) KB
+4) -20 HP
+5) +10 mana
+6) AC: -5
+
+===============================
+
+#315 (13Ch) - unfindable, quest unique
+
+offset ?
+Griswold's Caster, it 138 [8Ah]
+16k (3E80h)
+1) +25% accuracy
+2) +40 damage
+3) KB
+4) -40 HP
+5) +25 mana
+6) AC: -10
+
+===============================
+
+#316 (13Dh) - unfindable, quest unique
+
+offset ?
+Griswold's Caster, it 139 [8Bh]
+26k (6590h)
+1) +35% accuracy
+2) +60 damage
+3) KB
+4) -60 HP
+5) +40 mana
+6) AC: -15
+
+===============================
+
+#317 (13Eh) - unfindable, quest unique
+
+offset ?
+Griswold's Tool, it 140 [8Ch]
+6k (1770h)
+1) +15% accuracy
+2) +50% damage
+3) KB
+4) -20 HP
+5) -10 mana
+
+
+===============================
+
+#318 (13Fh) - unfindable, quest unique
+
+offset ?
+Griswold's Tool, it 141 [8Dh]
+16k (3E80h)
+1) +30% accuracy
+2) +100% damage
+3) KB
+4) -35 HP
+5) -20 mana
+6) fast attack
+
+===============================
+
+#319 (140h) - unfindable, quest unique
+
+offset ?
+Griswold's Tool, it 142 [8Eh]
+26k (6590h)
+1) +45% accuracy
+2) +150% damage
+3) KB
+4) -50 HP
+5) -30 mana
+6) faster attack
+
+===============================
+
+#320 (141h) - unfindable, quest unique
+
+offset ?
+Griswold's Crusher, it 143 [8Fh]
+6k (1770h)
+1) +15% accuracy
+2) +50% damage
+3) -1 DFE
+4) -25 HP
+5) +15 mana
+6) +5% resist all
+
+===============================
+
+#321 (142h) - unfindable, quest unique
+
+offset ?
+Griswold's Crusher, it 144 [90h]
+16k (3E80h)
+1) +25% accuracy
+2) +75% damage
+3) -3 DFE
+4) -40 HP
+5) +20 mana
+6) +10% resist all
+
+===============================
+
+#322 (143h) - unfindable, quest unique
+
+offset ?
+Griswold's Crusher, it 145 [91h]
+26k (6590h)
+1) +35% accuracy
+2) +100% damage
+3) -5 DFE
+4) -55 HP
+5) +25 mana
+6) +20% resist all
+
+===============================
+
+#323 (144h) - unfindable, quest unique
+
+offset ?
+Griswold's slasher, it 146 [92h]
+6k (1770h)
+1) +15% accuracy
+2) +50% damage
+3) -2 DFE
+4) -30 HP
+5) -10 mana
+
+
+===============================
+
+#324 (145h) - unfindable, quest unique
+
+offset ?
+Griswold's slasher, it 147 [93h]
+16k (3E80h)
+1) +25% accuracy
+2) +75% damage
+3) -4 DFE
+4) -45 HP
+5) -15 mana
+6) fast attack
+
+===============================
+
+#325 (146h) - unfindable, quest unique
+
+offset ?
+Griswold's slasher, it 148 [94h]
+26k (6590h)
+1) +35% accuracy
+2) +100% damage
+3) -6 DFE
+4) -60 HP
+5) -20 mana
+6) faster attack
+
+===============================
+
+#326 (147h) - unfindable, quest unique
+
+offset ?
+Griswold's enchanter, it 149 [95h]
+16k (3e80h)
+1) +1 slvl
+2) +10 MAG
+3) -1 DFE
+4) -20 mana
+5) -10 life
+
+
+===============================
+
+#327 (148h) - unfindable, quest unique
+
+offset ?
+Griswold's enchanter, it 150 [96h]
+32k (7d00h)
+1) +1 slvl
+2) +15 MAG
+3) -2 DFE
+4) -35 mana
+5) +5% resist all
+6) -20 life
+
+===============================
+
+#328 (149h) - unfindable, quest unique
+
+offset ?
+Griswold's enchanter, it 151 [97h]
+48k (bb80h)
+1) +1 slvl
+2) +20 MAG
+3) -3 DFE
+4) -50 mana
+5) +10% resist all
+6) -30 life
+
+
+===============================
+
+#329 (14Ah)
+
+Infernal Rage, it 33 (60), 29
+160k (27100h)
+1) +[250-300]% damage 
+2) +50% vs demons 
+3) Faster mana regeneration 
+4) steal 1% mana 
+5) -10 STR 
+6) up: 5BBh
+
+===============================
+
+#330 (14Bh)
+
+Devastation Edge, it 33 (60), 30
+128k (1F400h)
+1) +[50-65]% accuracy
+2) +[320-350]% damage
+3) +[190-225] damage
+4) ruin
+5) -[42-45] STR
+6) up: 3BEh
+
+===============================
+
+#331 (14Ch)
+
+Frostmourne, it 33 (60), 40
+160k (27100h)
+1) +[400-450]% damage
+2) -[35-40]% accuracy
+3) +[5-7] all attrib.
+4) -[6-8] DFE
+5) +[10-12] AC
+6) up: 219h
+
+===============================
+
+#332 (14Dh)
+
+Doombringer, it 33 (60), 45
+640k (9C400h)
+1) +[400-450]% damage
+2) +[250-300] damage
+3) -(11-15) AC
+4) -[18-20] DEX
+5) -[11-15]% resist all
+6) up: 466h
+
+===============================
+
+#333 (14Eh)
+
+Gleamscythe, it 33 (60), 60
+64k (FA00h)
+1) +[40-60]% accuracy
+2) +[210-260] damage
+3) KB
+4) +[4-5] DFE
+5) +[101-175]% durability
+6) UP: 3DBh
+
+===============================
+
+#334 (14Fh)
+
+offset ?
+Heart Seeker
+staff, composite staff
++(20-60) % DMG
+2-8 Fire DMG
++[3-6] damage
+-(1-2) DFE
++(10-20) HP
+UP: 10Bh
+
+===============================
+
+#335 (150h)
+
+offset ?
+Mindflayer, it 19 (5), 8
+7k
+1) +[15-25]% accuracy
+2) 1% manasteal
+3) +[20-30] mana
+4) -[6-10] HP
+5) up: 3E8h
+
+===============================
+
+#336 (151h)
+
+offset ?
+Staff of Shadows, it 19 (5), 12
+8k
+1) -10% LR
+2) +[25-30]% accuracy
+3) +[20-30] damage
+4) AC: -[5]
+5) up: 3E9h
+
+===============================
+
+#337 (152h)
+
+offset ?
+The Salamander, it 19 (5), 16
+9k
+1) +[50-60]% fire resist
+2) [2-20] fire hit damage
+3) +[80-160]% damage
+4) +[20-30] damage
+5) -[2-4] DFE
+6) up: 3CBh
+
+===============================
+
+#338 (153h)
+
+offset ?
+Maelstrom, it 19 (5), 20
+10k
+1) KB
+2) 1-260% damage
+3) ruin
+4) +[30-40] damage
+5) AS: 1
+6) -[15-20]% accuracy
+
+===============================
+
+#339 (154h)
+
+offset ?
+Bane Ash, it 19 (5), 25
+11k
+1) +[121-150]% damage
+2) +[41-45] damage
+3) -[11-15] STR
+4) up: 3CCh
+
+===============================
+
+#340 (155h)
+
+offset ?
+Razorswitch, it 19 (5), 30
+12k
+1) +1 slvl
+2) -[3-4] dfe
+3) +[10-15]% all resists
+4) +[20-35] mana
+5) +[20-30] life
+6) -20 AC
+
+===============================
+
+#341 (156h)
+
+offset ?
+Ribcracker, it 19 (5), 35
+14k
+1) +[151-200]% ED
+2) +[51-65] damage
+3) AS: 1
+4) AP: 2
+5) +[20-30] VIT
+6) lose all resists
+
+===============================
+
+#342 (157h)
+
+offset ?
+Pacification Rod, it 19 (5), 40
+16k
+1) 1% lifesteal
+2) 1% manasteal
+3) AP: 2
+4) AC: [25-35]
+5) -[10-20] STR
+6) up: 3CEh
+
+===============================
+
+#343 (158h)
+
+offset ?
+Spellwarp, it 19 (5), 45
+18k
+1) +2 slvl
+2) +[16-18] MAG
+3) +[25-45] mana
+4) -5 DEX
+5) -5 STR
+6) up: 3CFh
+
+===============================
+
+#344 (159h)
+
+offset ?
+Skull Collector, it 19 (5), 50
+19k
+1) +[66-77] damage
+2) KB
+3) +[50-60] life
+4) incr.lifesteal
+5) -5 slvl
+6) up: 3D0h
+===============================
+#345 (15Ah)
+Thundercall, it 19 (5), 55
+20k
+1) +[50-60]% accuracy
+2) [1-60] lightning damage
+3) 70 lightning charges
+4) +[60-70]% resist lightning
+5) +[1-2] SLVL
+6) +[200-230]% durability
+===============================
+#346 (15Bh)
+The Black Sun, it 19 (5), 60
+24k
+1) +3 slvl
+2) +[19-22] mag
+3) +[50-75] mana
+4) +[20-25]% resist all
+5) -80% accuracy
+6) up: 3CDh
+===============================
+#348 (15Ch)
+Mask of Palantir, it 98h (21), 21
+AC = 0 / -0,5
++(1-2) slvl / 1,5
+Permanent Seeing / 1
++(13-15) magic / 1
+-(36-50) Mana / -1
+UP: 21h
+===============================
+#349 (15Dh)
+Ghoulflay, it 98h (21), 43
+16k (3e80h)
+1) dread / 1
+2) ruin / 1
+3) +1 slvl / 1
+4) -[9-11] DFE / 1
+5) -[20-49]% all resistance / -2
+6) up: 33Fh
+===============================
+#350 (15Eh)
+Wormskull, it 98h (21), 58
+18k (4650h)
+1) AC: [14-15] / 0,25
+2) extra AC vs Undead / 0,25
+3) -[12-14] DFE / 1,25
+4) -1 SLVL / 1
+5) +[16-22]% resist all / 1,25
+6) up: 388h
+===============================
+#351 (15Fh)
+Abysmal Mask, it 98h (21), 61
+20k (4E20h)
+1) extra AC vs Demons / 0,25
+2) -[120-150]% AC / -0,75
+3) -[14-15] DFE / 1.25
+4) +[18-25]% resist all / 1,25
+5) up: 32Ah
+===============================
+#352 (160h)
+Galleon, it 98h (21), 63
+22k (55F0h)
+2) -[20-25] DFE / 1,7
+3) +1 slvl / 1
+4) +[25-30]% resist all / 1,6
+5) -[120-150] mana / -2,3
+4) up: 3A1h
+
+===============================
+
+#353 (161h)
+
+Stormwave, it 32 (62), 57
+72k
+1) +(145-165)% Dmg
+2) +[30-60] damage
+3) [30] lite damage
+4) AS: 2
+5) UP: 3DEh
+
+===============================
+
+#354 (162h)
+
+Sirius' Bo (set), it 32 (62), 59
+144k (23280h)
+add (270-320) dmg 
+1% LS 
++50% DAMAGE VS DEMONS 
++15 AC VS UNDEAD 
+-10 DEX 
+up: 5C8h
+
+===============================
+
+#355 (163h)
+
+Underworld Spine, it 32 (62), 60
+96k
+1) +[46-65]% accuracy
+2) +[231-310]% damage
+3) AS: 4
+4) -[29-33]% all resists
+5) -[12-15] AC
+6) UP: 3EAh
+
+===============================
+
+#356 (164h)
+
+Bane Shaft, it 32 (62), 61
+72k
+1) +[200-250]% damage
+2) +[70-90] damage
+3) attack speed: 2
+4) KB
+5) -(41-50) mana
+6) UP: 3EBh
+
+===============================
+#357 (165h)
+Rod of Mana Rain, it 32 (62), 62
+1) +[10-20]% accuracy
+2) -(71-80)% Dmg
+3) +[110-120] damage
+4) 2% manasteal
+5) Attack speed: 2
+6) up: 3ECh
+===============================
+#358 (166h)
+Rattlecage
+it 153 (60), 1
+96k (17700h)
+1) +2 slvl / 1
+2) +[5-7] all attrib. / 0,6
+3) -[20-22] DFE / 0,8
+4) hr: 3 / 1
+5) -[26-32]% resist all / -1,4
+6) UP: 465h
+===============================
+#359 (167h)
+Steelskin
+it 153 (60), 31
+48k (BB80h)
+1) -[20-40]% ED / -0,35
+2) +[16-20]% AC / 0,85
+3) -[5-10] DFE / 0,3
+4) -10% LR / 0,5
+5) +[75-100] HP / 0,75
+6) UP 46Dh
+===============================
+#360 (168h)
+Ikzelion's Rig
+it 153 (60), 45
+64k (FA00h)
+1) ARD / 1
+2) +[6-10]% AC / 0,38
+3) -[16-20] DFE / 0,7
+4) HR: 2 / 0,75
+5) -[30-45] HP / -0,4
+6) UP: 4BEh
+===============================
+#361 (169h)
+Goreblink
+it 153 (60), 60
+56k (DAC0h)
+1) 1% manasteal / 0,5
+2) -[10-15]% AC / -0,6
+3) -[29-35] DFE / 1,25
+4) UBD: [20-45] / 0,7
+5) UP: 4D7h
+===============================
+#362 (16Ah)
+Renegade's Guise (set), it 153 (60), 61
+192k (2EE00h)
+1) -10% LR 
+2) +[28-35]% resist all 
+3) +[60-80] HP 
+4) move 50% mana to life 
+5) +5 all attributes
+6) UP: 59Bh
+
+===============================
+#363 (16Bh)
+Nightscape
+it 153 (60), 62
+60k (ea60h)
+1) -10% LR / 0,5
+2) +[11-15]% AC / 0,6
+3) -[12-15] DFE / 0,5
+4) +[15-19]% resist all / 0,6
+5) -[50-60]% damage
+6) UP: 27Bh
+===============================
+
+#364 (16Ch)
+
+Silks of the Victor
+it 61 (15), 15
+28k (6d60h)
+1) ARD
+2) -[12-14] DFE
+3) +[10-15]% resist all
+4) +[20-30] life
+5) +[10-15] mana
+6) UP: 235h
+
+==============================
+
+#365 (16Dh)
+
+Sabiru's Hideout
+it 61 (15), 35
+43k
+1) +[5-10]% AC
+2) +[5-8] All Attributes
+3) -33% ARD
+4) -[15-20] DFE
+5) +[5-25]% Res All
+6) UP
+
+===============================
+
+#366 (16Eh)
+
+Guardian Angel
+it 61 (15), 58
+44k (ABE0h)
+1) +1 slvl
+2) -[16-22] DFE
+3) +[70-75]% resist magic
+4) +[30-40]% resist lightning
+5) -[30-40]% resist fire
+6) UP: 3C4h
+
+===============================
+
+#367 (16Fh)
+
+Armor of Domination
+it 61 (15), 63
+48k (BB80h)
+1) ARD
+2) +[9-12] all attributes
+3) -[20-25] DFE
+4) 2% lifestealing
+5) -[20-30] mana
+6) UP: 3C5h
+
+================================
+
+#368 (170h)
+
+offs 1D94C0
+Arkaine's Valor (leather), it 154 (0), 1 <<< quest item
+1) ARD
+2) +5 VIT
+3) -5 DFE
+4) +5% resist all
+5) +10% LR
+str: 25, dex: 45
+pic: 3F2h
+=============================
+
+#369 (171h)
+
+offs ?
+Arkaine's Valor (mail), it 155 (0), 1 <<< quest item
+1) ARD
+2) +10 VIT
+3) -10 DFE
+4) +10% resist all
+5) LR: +10%
+6) HR: 1
+str: 45, dex: 115
+pic: 3F3h
+=============================
+
+#370 (172h)
+
+offs ?
+Arkaine's Valor (plate), it 156 (0), 1 <<< quest item
+1) ARD
+2) +15 VIT
+3) -15 DFE
+4) +15% resist all
+5) LR: +10%
+6) HR: 2
+str: 75, dex: 180
+pic: 3F4h
+
+===============================
+
+#371 (173h)
+
+offs 1D95BC
+Arkaine's Valor (leather), it 154 (0), 1 <<< quest item
+1) ARD
+2) +5 VIT
+3) -5 DFE
+4) +5% resist all
+6) pic: 3F5h
+str: 25, dex: 45
+
+=============================
+
+#372 (174h)
+
+offs ?
+Arkaine's Valor (mail), it 155 (0), 1 <<< quest item
+1) ARD
+2) +10 VIT
+3) -10 DFE
+4) +10% resist all
+5) HR: 1
+6) pic: 3F7h
+str: 45, dex: 115
+
+=============================
+
+#373 (175h)
+
+offs ?
+Arkaine's Valor (plate), it 156 (0), 1 <<< quest item
+1) ARD
+2) +15 VIT
+3) -15 DFE
+4) +15% resist all
+5) HR: 2
+6) pic: 3F9h
+str: 75, dex: 180
+
+===============================
+
+#374 (176h)
+
+offs ?
+Arkaine's Valor (leather), it 157 (0), 1 <<< quest item
+1) ARD
+2) +1 slvl
+3) -5 DFE
+4) +5% resist all
+str: 15, mag: 55
+pic: 3F6h
+=============================
+
+#375 (177h)
+
+offs ?
+Arkaine's Valor (mail), it 158 (0), 1 <<< quest item
+1) ARD
+2) +1 slvl
+3) -10 DFE
+4) +10% resist all
+5) HR: 1
+str: 40, dex: 125
+pic: 3F8h
+=============================
+
+#376 (178h)
+
+offs ?
+Arkaine's Valor (plate), it 159 (0), 1 <<< quest item
+1) ARD
+2) +1 slvl
+3) -15 DFE
+4) +15% resist all
+5) HR: 2
+str: 65, dex: 195
+pic: 3FAh
+
+=============================
+
+#377 (179h)
+
+offs ?
+Will of the Ancients, it 45 (24), 51
+30k
+1) UBD: [10-20]
+2) -[10-17] DFE
+3) fast attack
+4) +[10-20] VIT
+5) -[10-15] STR
+6) up: 40Ch
+
+=============================
+
+#378 (17Ah)
+
+offs ?
+Insecutor, it 45 (24), 62
+36k
+1) ARD
+2) -[14-26] DFE
+3) +[21-29]% resist all
+4) +[20-25] DEX
+5) -[11-13] STR
+6) up: 418h
+
+=============================
+
+#379 (17Bh)
+
+offs ?
+Peasant Straps, it 81 (12), 12
+8k
+1) AC: [20-23]
+2) -[4-7] DFE
+3) +[6-12] STR
+4) +[8-12] VIT
+5) +[33-35] DEX
+6) up: 405h
+
+=============================
+
+#380 (17Ch)
+
+offs ?
+Secutor Straps, it 81 (12), 18
+12k
+1) AC: [36-40]
+2) -[7-10] DFE
+3) +[9-15] STR
+4) +[11-15] VIT
+5) +[4-6] DEX
+6) up: 416h
+
+=============================
+
+#381 (17Dh)
+
+offs ?
+Scissores Armor, it 81 (12), 24
+16k
+1) -[9-12] DFE
+2) +[11-17] STR
+3) +[13-17] VIT
+4) HR: 1
+5) +[4-14] hp
+6) up: 415h
+
+=============================
+
+#382 (17Eh)
+
+offs ?
+Stiched Leather, it 81 (12), 30
+18k
+1) -[30-40]% dur
+2) +[10-15]% AC
+3) -[10-13] DFE
+4) +[13-16] STR
+5) +[15-19] VIT
+6) up: 411h
+
+=============================
+
+#383 (17Fh)
+
+offs ?
+Mercurial Armor, it 81 (12), 37
+24k
+1) +[15-20] DEX
+2) +[16-20]% AC
+3) AS: 1
+4) fast block
+5) -[15-19] STR
+6) up: 524h
+
+=============================
+
+#384 (180h)
+
+offs ?
+The Centurion, it 81 (12), 44
+28k
+1) faster life regen
+2) +[4-6] all attr.
+3) -[12-15] DFE
+4) +[8-16]% all resists
+5) -[22-26] life
+6) up: 404h
+
+=============================
+
+#385 (181h)
+
+offs ?
+Twitchthroe, it 81 (12), 51
+32k
+1) +[30-40]% AC
+2) -[13-16] DFE
+3) +[6-7] all attr.
+4) lose regeneration
+5) +10% LR
+6) up: 401h
+
+=============================
+
+#386 (182h)
+
+offs ?
+Lightburn, it 81 (12), 62
+36k
+1) +[50-60]% AC
+2) -[14-17] DFE
+3) +[8-10] all attr.
+4) lose regeneration
+5) +20% LR
+6) up: 403h
+
+=============================
+
+#387 (183h)
+
+offs ?
+Vorpal Vest, it 41 (4), 17
+9k
+1) 2% lifesteal
+2) up: 428h
+
+=============================
+
+#388 (184h)
+
+offs ?
+Ceremonial Cloak, it 41 (4), 33
+13k
+1) +[20-30]% AC
+2) mana regen
+3) +[5-10] MAG
+4) +[30-40] mana
+5) up: 427h
+
+=============================
+
+#389 (185h)
+
+offs ?
+The Rainbow Cloak, it 41 (4), 53
+20k
+1) +1 slvl
+2) +[5-10] all attrib
+3) -[5-10] DFE
+4) +[5-10]% resist all
+5) +[5-10] life
+6) up: 426h
+
+=============================
+#390 (186h)
+Thraex, it 160 (62), 48
+64k
+1) AC: [42-45] / 0,5
+2) -[42-45] DFE / 1.7
+3) Ruin / 1
+4) HR: 3 / 1
+5) -20 all attr. / -2
+6) up: 56B
+=============================
+
+#391 (187h)
+
+*Gladiator's Horns, it 160 (62), 58
+80k (13880h)
+Dread
+- [15~20] DFE 
++ [60-70]% resist magic 
++ [13-15] DEX 
+- 15 Vit 
+6) up: 5B3h
+
+=============================
+
+#392 (188h)
+
+offs ?
+offs ?
+Secutor, it 160 (62), 59
+64k
+1) -[20-30]% AC
+2) -[20-25] DFE
+3) HR: 3
+4) +[35-45] DEX
+5) -[15-20] STR
+6) up: 41Ch
+
+=============================
+
+#393 (189h)
+
+Murmillo, it 160 (62), 60
+72k
+1) -[26-29] DFE
+2) HR: 2
+3) +[20-25] STR
+4) -[10-15] DEX
+5) +[10-15]% resist all
+6) up: 421h
+
+=============================
+
+#394 (18Ah)
+
+offs ?
+Goldseeker, it 161 (33), 44
+24k
+1) ARD
+2) +[2-4] all attrib.
+3) -[12-16] DFE
+4) +[10-15]% resist all
+5) -[15-30] HP
+6) up: 32Fh
+
+=============================
+
+#395 (18Bh)
+
+offs ?
+Adamantine Rig, it 161 (33), 54
+48k
+1) -[31-33] DFE
+2) +[110-150] HP
+3) -[5-6] all attr.
+4) up: 417h
+
+=============================
+
+#396 (18Ch)
+
+offs ?
+Ornate Guise, it 161 (33), 60
+48k
+1) +[20-30]% AC
+2) +[35-45]% resist all
+3) up: 3D4h
+
+=============================
+
+#397 (18Dh)
+
+offs ?
+Brainward, it 162 (15), 5
+12k
+1) mana regeneration
+2) +[10-30]% all resist
+3) -25% manacost
+4) up: 42Ah
+
+=============================
+
+#398 (18Eh)
+
+Wisdom's Wrap, it 162 (15), 18
+16k
+1) +2 slvl / 1
+2) +[5-10] MAG / 0,5
+3) +[15-35] mana / 0,5
+4) +[20-35]% magic resist / 0,75
+5) -[20-30]% fire resist / 
+6) up: 429h
+
+=============================
+
+#399 (18Fh)
+
+Sand Robe, it 162 (15), 33
+20k
+1) -[62-104]% AC / -4
+2) ARD / 1
+3) -[9-10] DFE / 1
+4) +[34-56]% resist all / 3
+5) HR: 2 / 1
+6) up: 42Ch
+
+=============================
+
+#400 (190h)
+
+Cape of Roses, it 162 (15), 48
+32k
+1) +[4-5] SLVL / 3
+2) mana regen / 1
+3) +[30-110] mana / 1
+4) -[30-35] STR
+5) -[30-35] DEX
+6) up: 42Dh
+
+=============================
+
+#401 (191h)
+
+Arctic Headgear, it 95 (41), 26
+24k
+1) ARD
+2) -[15-23] DFE
+3) -2 SLVL
+4) +[30-35]% resist all
+5) +[20-25] HP
+6) UP: 3D3h
+
+=============================
+
+#402 (192h)
+
+offs ?
+The Rift Bow, it 83 (1), 6
+6k
+1) +10% LR
+2) +[3-13] damage
+3) random speed arrows
+4) AP: 1
+5) -[8-10]% tohit
+6) up: 43Dh
+
+=============================
+
+#403 (193h)
+
+offs ?
+Gnat Sting, it 83 (1), 15
+8k
+1) quick attack
+2) +[80-110]% ED
+3) +[3-5] damage
+4) KB
+5) AC: -[15]
+6) up: 43Eh
+
+=============================
+
+#404 (194h)
+
+offs ?
+Firespit, it 83 (1), 25
+12k
+1) fire arrows: [10-17]
+2) +[140-240]% ED
+3) AP: 2
+4) +[30-45]% fire resist
+5) up: 43Fh
+
+=============================
+
+#405 (195h)
+
+offs ?
+Sparkbite, it 83 (1), 35
+14k
+1) lite arrows: [1-35]
+2) +[11-17] damage
+3) fast attack
+4) +[35-50]% lite resist
+5) up: 442h
+
+=============================
+
+#406 (196h)
+
+offs ?
+Black Spider, it 83 (1), 50
+18k
+1) +[18-25] damage
+2) triple shot
+3) +10% LR
+4) -20 DEX
+5) up: 443h
+
+=============================
+
+#407 (197h)
+
+offs ?
+Doomslinger, it 4 (54), 63
+32k
+1) +[300-350]% ED / 1,37
+2) +[60-80] dam / 0,53
+3) KB / 1
+4) +10% LR
+5) -[13-15] STR
+6) up: 35Bh
+
+=============================
+
+#408 (198h)
+
+offs ?
+Hellrack, it 164 (45), 2
+40k
+1) +[266-300]% ED
+2) +[130-160] dam
+3) [1-70] lite arrows
+4) Ruin
+5) -[46-70]% lightning resist
+6) up: 31Ah
+
+=============================
+
+#409 (199h)
+
+offs ?
+Ballista, it 164 (45), 30
+32k
+1) -[21-37]% ED
+2) +[20-30] dam
+3) AP: 2
+4) AS: 3
+5) KB
+6) up: 371h
+
+=============================
+
+#410 (19Ah)
+
+offs ?
+Lancethrow, it 164 (45), 45
+12k
+1) +[60-80]% ED
+2) +[20-40] dam
+3) +[15-20] STR
+4) KB
+5) up: 372h
+
+=============================
+
+#411 (19Bh)
+
+offs ?
+Stormcast, it 164 (45), 60
+24k
+1) +[80-150]% ED
+2) +[30-60] dam
+3) lite arrows [1-100]
+4) +[30-40]% lite resist
+5) up: 3D5h
+
+=============================
+
+#412 (19Ch)
+
+offs ?
+Heart Carver, it 7 (5), 25
+6k
+1) +[100-120]% ED
+2) +[10-33] dam
+3) AS: 1
+4) dread
+5) -[12-14] DEX
+6) up: 444h
+
+=============================
+
+#413 (19Dh)
+
+offs ?
+Soul Carver, it 7 (5), 45
+9k (2328h)
+1) +[140-180]% ED
+2) +[41-60] dam
+3) AS: 1
+4) AP: 3
+5) -[10-12] STR
+6) up: 347h
+
+=============================
+
+#414 (19Eh)
+
+offs ?
+
+Helm of Glory.
+horned barbute, kabuto helm
++[4-7] All Attributes
+-(10-13) DFE
++(10-15)% Res All
++(25-35) HP
+Fastest Hit Recovery
+UP: 
+
+=============================
+
+#415 (19Fh)
+
+offs ?
+Inferno, it 13 (35), 20
+32k
+1) +[100-120]% ED
+2) -[5-10] DFE
+3) AC: [5-10]
+4) +100 fire damage
+5) up: 447h
+
+=============================
+
+#416 (1A0h)
+
+The Chameleon, it 13 (35), 35
+-[19-22]% magic resist
++50% vs Demons
+1-260% Random Dmg
+Steal 1% Mana
+AS: 1
+UP: E9h
+
+=============================
+#417 (1A1h)
+
+Ice Shank, it 13 (35), 55
+28k
+1) UBD: [100]
+2) -[50-70]% damage
+3) AP: 2
+4) +1 slvl
+5) up: 3BBh
+
+=============================
+#418 (1A2h)
+
+Gibbous Moon, it 13 (35), 62
+30k
+1) +[140-180]% ED
+2) +[2-3] slvl
+3) 2% manasteal
+4) faster mana regen
+5) -[50-70] mana
+6) up: 39Eh
+
+=============================
+#419 (1A3h)
+
+offs ?
+
+Empyrean Axe, it 69 (?), 16
+? (?h)
+1) bonus dmg vs undead
+2) 27-31 Fire Damage
+3) Penetrate Armor: 2
+4) 1% Steal Life
+5) +100% Fury Duration
+6) up: FCh
+
+
+===============
+
+1A4h - 1A8h:
+
+gladius-based uniques
+
+===============
+
+#425 (1A9h)
+
+offset	?		
+
+?, it 92 (lev 1) lev 14
+8k
+1) dam: 2-10
+2) ruin
+3) dread
+4) up: 1D4h
+
+===============
+
+#426 (1AAh)
+
+offset	?		
+
+?, it 92 (lev 1) lev 32
+9k
+1) dam: 2-18
+2) +10% LR
+3) fast attack
+4) +[35-45] Vitality
+5) up: 37Eh
+
+===============
+
+#427 (1ABh)
+
+offset	?		
+
+Stoutnail, it 92 (lev 1) lev 57
+12k
+1) dam: 4-24
+2) +[100-130]% ED
+3) +[20-25] damage
+4) -[3-5] DFE
+5) up: 37Dh
+
+===============
+
+#428 (1ACh)
+
+offset	?		
+
+Mail of Duality, it 72 (lev 23) lev 48
+56k (dac0h)
+1) fire dam: 25-75
+2) +85% fire resist
+3) life regen
+4) -[19-25] DFE
+5) HR: 1
+6) up: 44Fh
+
+===============
+
+#429 (1ADh)
+
+offset	?		
+
+Mail of Sulfur, it 72 (lev 23) lev 55
+56k (dac0h)
+1) lite dam: 1-95
+2) +85% lite resist
+3) mana regen
+4) -[26-29] DFE
+5) -[9-12] DEX
+6) up: 44Eh
+
+===============
+
+#430 (1AEh)
+
+Retiarius' Bondage, it 72 (lev 23) lev 63
+24k (5dc0h)
+1) AC: [50-55]
+2) +[51-60]% THC & %ED
+3) +[100-120] damage
+4) +[30-40] DEX
+5) -[20-23] STR
+6) up: 2B2h
+
+===============
+
+#431 (1AFh)
+
+offset	?		
+
+Tainted circle, it 166 (lev 44) lev 8
+24k (5dc0h)
+1) +[10-12] to all attributes
+2) fastest hit recovery
+3) no STR req
+4) -1 SLVL
+5) -[6-8] DFE
+6) up: 358h
+
+===============
+
+#432 (1B0h)
+
+offset	?		
+
+Dark Quasar, it 166 (lev 44) lev 15
+24k (5dc0h)
+1) +[30-40]% CTH
+2) +[75-100]% ED
+3) faster attack
+4) -[17-19] DEX
+5) up: 357h
+
+===============
+
+#433 (1B1h)
+
+offset	?		
+
+Elemental Barrier, it 166 (lev 44) lev 18
+24k (5dc0h)
+1) +[20-30]% AC
+2) ARD
+3) +[40-55]% resist all
+4) -[50-60]% ED
+5) up: 356h
+
+===============
+
+#434 (1B2h)
+
+offset	?		
+
+Kabraxis' Sentry, it 166 (lev 44) lev 21
+24k (5dc0h)
+1) +[70-90] HP
+2) +[75-95] mana
+3) +[15-20] VIT
+4) +[10-15] MAG
+5) lose regen
+6) up: 354h
+
+===============
+
+#435 (1B3h)
+
+offset	?		
+
+Keel's Pride, it 166 (lev 44) lev 24
+24k (5dc0h)
+1) -[40-50]% AC
+2) 2x Fury Dur
+3) +[15-20] STR
+4) ruin
+5) -[20-24] DFE
+6) up: 4F3h
+
+===============
+
+#436 (1B4h)
+
+offset	?		
+
+Balrogue, it 166 (lev 44) lev 29
+24k (5dc0h)
+1) Fire hit damage: [65]
+2) -[18-20] DFE
+3) Resist fire: 85%
+4) +[70-75] HP
+5) -[9-13] Mana
+6) up: 34Ah
+
+===============
+
+#437 (1B5h)
+
+offset	?		
+
+Xilexta's Vision, it 166 (lev 44) lev 37
+24k (5dc0h)
+1) Seeing
+2) +[20-35]% AC
+3) -[19-21] DFE
+4) AP: 1
+5) up: 343h
+
+===============
+
+#438 (1B6h)
+
+offset	?		
+
+Zakarum Shield, it 166 (lev 44) lev 44
+24k (5dc0h)
+1) AC vs Undead
+2) damage vs undead
+3) -25% manacost
+4) +1 slvl
+5) +[40-50] mana
+6) up: 322h
+
+===============
+
+#439 (1B7h)
+
+offset	?		
+
+Warpspider, it 166 (lev 44) lev 56
+24k (5dc0h)
+1) +[40-100]% ED
+2) ruin
+3) dread
+4) +[4-5] DFE
+5) -100% AC
+6) up: 2C0h
+
+===============
+
+#440 (1B8h)
+
+offset	?		
+
+Ghoulblood, it 166 (lev 44) lev 63
+24k (5dc0h)
+1) +[241-275]% ED
+2) ruin
+3) dread
+4) -[66-71]% resist all
+5) +[50-85] damage
+6) up: 4A0h
+
+===============================
+
+#441 (1B9h)
+
+offs ?
+
+Veil of Steel (lite, dex), it 167 (0), 1 <<< quest
+1) +30% res.all
+2) -10% LR
+3) +30% AC
+4) -15 mana
+5) +5 DEX
+6) +5 VIT
+
+===============================
+
+#442 (1BAh)
+
+offs ?
+
+Veil of Steel (med, dex), it 168 (0), 1 <<< quest
+1) +35% res.all
+2) -10% LR
+3) +50% AC
+4) -25 mana
+5) +10 DEX
+6) +10 VIT
+
+===============================
+
+#443 (1BBh)
+
+offs ?
+
+Veil of Steel (heavy, dex), it 169 (0), 1 <<< quest
+1) +40% res.all
+2) -10% LR
+3) +70% AC
+4) -35 mana
+5) +15 DEX
+6) +15 VIT
+
+===============================
+
+#444 (1BCh)
+
+offs ?
+
+Veil of Steel (lite, mag), it 167 (0), 1 <<< quest
+1) +30% res.all
+2) -10% LR
+3) +30% AC
+4) -15 mana
+5) +5 MAG
+6) +5 VIT
+
+===============================
+
+#445 (1BDh)
+
+offs ?
+
+Veil of Steel (med, mag), it 168 (0), 1 <<< quest
+1) +35% res.all
+2) -10% LR
+3) +50% AC
+4) -25 mana
+5) +10 MAG
+6) +10 VIT
+
+===============================
+
+#446 (1BEh)
+
+offs ?
+
+Veil of Steel (heavy, mag), it 169 (0), 1 <<< quest
+1) +40% res.all
+2) -10% LR
+3) +70% AC
+4) -35 mana
+5) +15 MAG
+6) +15 VIT
+
+=================================
+
+#447 (1BFh)
+
+Scout's Dress (set), it 71 (lev 53), 24
+128k (1F400h)
+-[170-190] mana
+ARD 
+-[31-35] DFE 
++(66-70)% res lightning 
++15 STR 
+UP: 5C1h
+
+===============================
+
+#448 (1C0h)
+
+Alteration Ward, it 71 (lev 53) lev 25
+64k (FA00h)
+1) -[5-10]% AC
+2) ARD
+3) -[40-45] DFE
+4) all resists = 0
+5) +[220-250] mana
+6) up: 4C3h
+
+===============================
+
+#449 (1C1h)
+
+Quaxor's Cover, it 71 (lev 53) lev 38
+64k (FA00h)
+1) +[20-30]% AC / 1
+2) -[28-32] DFE / 1
+3) -[26-30]% fire resist / -0,5
+4) -[26-30]% lightning resist / -0,5
+5) +[63-71] HP / 0,75
+6) up: 4CBh
+
+===============================
+
+#450 (1C2h)
+
+Galesong, it 71 (lev 53) lev 53
+80k (13880h)
+1) AC: -50
+2) ARD
+3) +[65-70]% resist all
+4) FHR: 3
+5) -[20-25] DFE
+6) up: 4CCh
+
+===============================
+
+#451 (1C3h)
+
+Labyrinthine Suit, it 71 (53), 58
+56k (DAC0h)
+1) UBD: [10-30] / 0,5
+2) ruin / 1
+3) faster life regeneration / 1?
+4) faster mana regeneration / 1?
+5) -[10-12] DFE / 0,5
+6) UP: 4C5h
+
+===============================
+
+#452 (1C4h)
+
+Mirage, it 71 (53), 60
+72k (11940h)
+1) +1 SLVL
+2) -[18-27] DFE
+3) +[30-50]% resist magic
+4) +[10-15] MAG
+5) -25% manacost
+6) UP: 4D6h
+
+===============================
+
+#453 (1C5h)
+
+Windfury, it 71 (53), 62
+96k (17700h)
+1) -[11-13] DEX
+2) triple shot
+3) +[30-50]% THC
+4) +[11-15] STR
+5) -[13-17] DFE
+6) UP: 526h
+
+===============================
+
+#454 (1C6h)
+
+Korax' Devotion, it 48 (36), 14
+64k (FA00h)
+1) AC: [170-175]
+2) +[66-70]% tohit, damage
+3) -[14-20] DFE
+4) dread
+5) +[45-65] damage
+6) up: 450h
+
+===============================
+
+#455 (1C7h)
+
+Grief, it 48 (36), 21
+70k (11170h)
+1) +[41-45]% THC / 0,75
+2) dread / 1
+3) ruin / 1
+4) -[20-22] DFE / 0,75
+5) -[23-25] DEX / -1
+6) up: 590h
+
+===============================
+
+#456 (1C8h)
+
+Splendour, it 48 (36), 36
+60k (EA60h)
+1) +[7-9] all attrib.
+2) -[31-34] DFE
+3) up: 274h
+
+===============================
+
+#457 (1C9h)
+
+Bovine Armor, it 48 (36), 56
+1) -33% ARD
+2) -(25-28) DFE
+3) +(25-30)% Res All
+4) -3 slvl
+5) UP: 31h
+
+===============================
+
+#458 (1CAh)
+
+Celestial Shelter (set), it 48 (36), 60
+288k (46500h)
+1) +20% LR 
+2) +[13-15] all attr. 
+3) -[38-40] DFE 
+4) -[50-60]% ED 
+5) -[15-20]% lite resist 
+6) UP: 589h
+
+===============================
+
+#459 (1CBh)
+
+Baranar's Skull, it 73 (61), 39
+46k
+1) -[23-25] MAG / -1,25
+2) -[25-33] DFE / 1,25
+3) fastest hit recovery / 1
+4) +[20-30]% resist fire / 0,4
+5) +[35-40]% resist magic / 0,6
+6) UP: 4F2h
+
+==============================
+
+#460 (1CCh)
+
+Underworld Rage, it 73 (61), 50
+56k (BB80h)
+1) -[30-35] DFE
+2) -[25-30]% ToHit
+3) 10% chance of doing +200% damage
+4) +[30-35]% resist all
+5) UP: 54Ch
+
+==============================
+1DB344
+#461 (1CDh)	
+
+Wand of Zhar the Mad, it 76 (63), 33
+256k (3E800h) 
+1) One-handed 
+2) 10% chance for +200% damage 
+3) fastest hit recovery 
+4) +5 SLVL 
+5) -[100-125] mana 
+6) UP: 363h
+
+==============================
+
+#462 (1CEh)
+
+Immovable Plate, it 74 (60), 31
+80k (13880h)
+1) +[31-35]% AC / 1,25
+2) -[35-40] DFE / 1,25
+3) -[70-80]% damage / -0,5
+4) +[15-20] VIT / 1
+5) -[25-30] DEX / - 1
+6) UP: 243h
+
+================================
+
+#463 (1CFh)
+
+Sirius' Garment, it 74 (60), 44
+192k (2ee00h)
+15-20% armor 
+-30-35 dfe 
+RESIST LIGHTNING 55-65 % 
+magic +10 
+-15 DEX 
+up: 5C7h
+
+=================================
+
+#464 (1D0h)
+
+Rising Moon, it 74 (60), 45
+80k (13880h)
+1) -[10-15]% AC
+2) -[10-15] DFE
+3) ARD
+4) +[40-50]% resist all
+5) +[30-50] HP
+6) UP: 359h
+
+=================================
+
+#465 (1D1h)
+
+Eaglecry, it 74 (60), 60
+64k (FA00h)
+1) ILS
+2) +[100-120]% durability
+3) -[14-18] DFE
+4) +[70-80]% magic resist
+5) -[10-15] MAG
+6) UP: 3D2h
+
+==============================
+
+#466 (1D2h)
+
+Voidspawn, it 74 (60), 62
+88k (157C0h)
+1) ARD
+2) -[16-18] DFE
+3) +[10-15]% resist all
+4) HR: [2-3]
+5) +[20-30] HP
+6) UP: 11Dh
+
+==============================
+
+#467 (1D3h)
+
+Libra, it 178 (1), 1
+1600 (640h)
+1) ARD
+2) +1 SLVL
+3) +1 DFE
+4) +[2-4] MAG
+5) -[4-8] mana
+
+==============================
+
+#468 (1D4h)
+
+Bentwood, it 178 (1), 3
+3200 (C80h)
+1) AC: [5-7]
+2) +1 all attributes
+3) bonus damage vs undead
+4) -1 DFE
+5) -[40-60]% damage
+
+==============================
+
+#469 (1D5h)
+
+Lifespring, it 178 (1), 4
+3200 (C80h)
+1) life regen
+2) +[8-10] STR
+3) HR: 1
+4) -25% manacost
+5) +[1-10] HP
+
+==============================
+
+#470 (1D6h)
+
+Heretic, it 178 (1), 5
+3200 (C80h)
+1) -[5-10]% tohit
+2) 50% mana moved to health
+3) -10% LR
+4) +[200-250]% durability
+5) +[5-10] damage
+
+==============================
+#471 (1D7h)
+Flamebite, it 178 (1), 6
+3200 (C80h)
+1) AC: -10
+2) fire hit damage: [1-20]
+3) +[8-20] damage
+4) +[50-100]% damage
+5) -[5-7] mana
+6) UP: 513h
+==============================
+
+#472 (1D8h)
+
+Rainbow Staff, it 178 (1), 7
+3200 (C80h)
+1) +1 all attributes
+2) +[3-5]% all resists
+3) +[36-50]% tohit, damage
+4) +1 slvl
+5) +20% LR
+6) up: 456h
+
+==============================
+
+#473 (1D9h)
+
+Staff of Dreams, it 178 (1), 8
+3200 (C80h)
+1) +[8-12] MAG
+2) +[25-40]% magic resist
+3) -[1-3] DFE
+4) +[10-20] mana
+5) -20% LR
+6) up: 453h
+
+==============================
+
+#474 (1DAh)
+
+Staff of Darkness, it 178 (1), 9
+3200 (C80h)
+1) -30% LR
+2) +[1-2] DFE
+3) all resists = 0%
+4) AC: -20
+5) AS: 4
+6) up: 458h
+
+==============================
+
+#475 (1DBh)
+
+Death Whisper, it 178 (1), 11
+3200 (C80h)
+1) +[23-56] damage
+2) +[3-4] DFE
+3) up: 4FDh
+
+==============================
+
+#476 (1DCh)
+
+Staff of Fear, it 178 (1), 14
+3200 (C80h)
+1) lose regeneration
+2) -20% LR
+3) +2 slvl
+4) +[5-10] HP
+5) +[30-50] mana
+6) AC: -5
+
+==============================
+
+#477 (1DDh)
+
+Eclipse, it 178 (1), 17
+3200 (C80h)
+1) -10 MAG
+2) +10% THC
+3) +60% damage
+4) -20% LR
+5) fast attack
+6) AC: -5
+
+==============================
+
+#478 (1DEh)
+
+Black Hawk, it 178 (1), 21
+3200 (C80h)
+1) -10% LR
+2) 2% lifesteal
+3) +[40-60]% damage
+4) +15% THC
+5) resist all: +5%
+6) +1 DFE
+
+==============================
+
+#479 (1DFh)
+
+Siege Staff, it 178 (1), 25
+3200 (C80h)
+1) +[30-35] damage
+2) KB
+3) UP: 4FDh
+
+==============================
+
+#480 (1E0h)
+
+Stormbash, it 178 (1), 30
+4800 (12C0h)
+1) +[150-200]% damage
+2) +[10-15] damage
+3) +[1-50] lightning damage
+4) -10% THC
+5) +[30-35]% lightning resist
+6) up: 455h
+
+==============================
+
+#481 (1E1h)
+
+Luna, it 178 (1), 40
+6400 (1900h)
+1) +[200-250]% damage
+2) +[16-25] damage
+3) AP: 2
+4) -15% THC
+5) -10% LR
+6) up: 4F7h
+
+==============================
+
+#482 (1E2h)
+
+Grey Staff, it 178 (1), 50
+9600 (2580h)
+1) +3 slvl
+2) -100% damage
+3) -50% THC
+4) +10% LR
+5) +[80-120] mana
+6) up: 457h
+
+==============================
+
+#483 (1E3h)
+
+Bloodcall, it 178 (1), 55
+12800 (3200h)
+1) +[155-200]% damage
+2) +[40-55] damage
+3) 1% lifesteal
+4) -20 MAG
+5) up: 454h
+
+==============================
+
+#484 (1E4h)
+
+Eagleclaw, it 178 (1), 60
+16000 (3E80h)
+1) +[200-250]% damage / 0,5
+2) AS: 2 / 2
+3) HR: 3 / 1,5
+4) ILS / 1
+5) -[50-60] HP / -1
+6) -[30-50] mana / -1
+
+==============================
+
+#485 (1E5h)
+
+Kobra, it 177 (55), 2
+32k (7D00h)
+1) [55-88] UBD
+2) 2% Life Stealing
+3) 2% Mana Stealing
+4) AS: 2
+5) -[50-70]% fire resist
+6) up: 4ECh
+
+==============================
+#486 (1E6h)
+Thunderbuzz, it 177 (55), 25
+32k (7D00h)
+1) Damage +[251-280]%
+2) Lightning Hit Damage: 1-100
+3) 2% lifesteal
+4) +[101-150] damage
+5) -[45-65]% lite resist
+6) UP: 4E4h
+==============================
+#487 (1E7h)
+Flamebuster, it 177 (55), 32
+32k (7D00h)
+1) Damage +[251-280]% / 1.12
+2) Fire Hit Damage: 11-115 / 0
+3) +50% dmg vs undead / 1
+4) +[101-150] damage / 0,95
+5) -[40-60]% fire resist
+6) up: 4DAh
+==============================
+
+#488 (1E8h)
+
+Prismatic Star, it 177 (55), 40
+32k
+1) Damage +100-115%
+2) Chance to Hit +20-30%
+3) 1% Mana Stealing
+4) -25% Mana Cost
+5) Spell Levels +[1-2]
+6) up: 4D9h
+
+==============================
+
+#489 (1E9h)
+
+Renegade's Claw, it 177 (55), 53
+128k
+AS: 2
++5 DEX 
++[150-185]% ED 
++[70-95] dam 
+- 5 MAG 
+6) up: 59Ch
+
+==============================
+
+#490 (1EAh)
+
+Renegade's Frenzy, it 177 (55), 54
+128k
+add 200-210 dmg 
++50% vs undead 
+ILS 
++ [4-6] DFE 
+-5 MAG
+6) up: 59Dh
+
+==============================
+
+#491 (1EBh)
+
+Judgement Edge, it 176 (41), 57
+24k (5DC0h)
+1) AS: 3
+2) +[11-14] all attr.
+3) 2x Fury Duration
+4) AP: 1
+5) UP: 459h
+
+==============================
+
+#492 (1ECh)
+
+Inner Sight, it 176 (41), 61
+24k (5DC0h)
+1) Infravision
+2) +[100-120]% THC
+3) +[10-20] DEX
+4) -[20-30]% damage
+5) UP: 3BCh
+
+==============================
+
+#493 (1EDh)
+
+Bonesaw, it 176 (41), 62
+48k (BB80h)
+1) +50% damage vs undead
+2) +[151-275]% THC, ED
+3) +[60-90] damage
+4) KB
+5) -[20-25] MAG
+6) UP: 39Fh
+
+==============================
+
+#494 (1EEh)
+
+Azurewrath, it 176 (41), 63
+64k (FA00h)
+1) AS: 3
+2) AP: 3
+3) +[300-350]% ED
+4) +[1-200] lightning damage
+5) -[25-30] STR
+6) UP: 451h
+
+===
+
+#495 (1EFh)
+
+Scout's line (set), it 6 (61), 30
+96k (17700h)
+UBD: [1-135] 
++[230-250]% ED 
+AS: 3 
+KB 
+-25% Accuracy 
+up: 5C2h
+
+===
+
+#496 (1F0h)
+
+Painwing, it 6 (61), 31
+56k (DAC0h)
+1) +[400-500]% ED
+2) +[150-175] damage
+3) +10 DFE
+4) -20 AC
+5) UP: 542h
+
+===
+
+#497 (1F1h)
+
+Bonestring, it 6 (61), 46
+56k (DAC0h)
+1) +[120-250]% ED
+2) +[60-100] damage
+3) dread
+4) ruin
+5) -[8-10] all attributes
+6) UP: 362h
+
+==
+
+#498 (1F2h)
+
+Dark Moon, it 6 (61), 61
+56k (DAC0h)
+1) +(300-400) % DMG / 1,5
+2) +[200-250] damage / 1.5
+3) RUIN / 1
+4) -[41-45]% tohit / -1
+5) -20 DEX / -1
+6) UP: 355h
+
+============
+
+#499 (1F3h)
+
+Exodus, it 77 (30), 17
+64000, (FA00h)
+1) +[50-60] DEX
+2) ARD
+3) -[2-4] DFE
+4) -[20-25] STR
+5) -[50-65]% fire resist
+6) up: 47Bh
+
+==================================================
+
+#500 (1F4h)
+
+Darkness of Despair, it 77 (30), 30
+64000, (FA00h)
+1) -10% LR
+2) +[15-25] MAG
+3) +[50-70] mana
+4) +3 slvl
+5) -[15-20] STR
+6) up: 479h
+
+==================================================
+
+#501 (1F5h)
+
+Ring of Sacrifice, it 77 (30), 40
+64000, (FA00h)
+1) damage to demons
+2) damage to undead
+3) -[6-8] DFE
+4) -[5-6] STR
+5) up: 480h
+==================================================
+
+#502 (1F6h)
+
+Ring of Resource, it 77 (30), 50
+64k, (FA00h)
+1) +[70-85] life
+2) +[70-85] mana
+5) up: 478h
+
+==================================================
+
+#503 (1F7h)
+
+Nether Coil, it 77 (30), 60
+1) +(5-10) All attr / 0,75
+2) +(10-20) DMG / 0,35
+3) -5 DFE / 0,75
+4) +(20-25)% res all / 1
+5) -(70-85)mana
+6) UP: B6h
+
+==================
+
+#504 (1F8h)
+
+Ring of the Core, it 180 (20), 1
+64000, (FA00h)
+1) life regen
+2) 1% lifesteal
+3) AP: 2
+4) up: 3D8h
+
+=================
+
+#505 (1F9h)
+
+Velitus, it 180 (20), 12
+64000, (FA00h)
+1) +[80-100]% Tohit
+2) +[100-150]% ED
+3) -3 SLVL
+4) lose all resists
+5) up: 3D9h
+
+=================
+
+#506 (1FAh)
+
+Golden Gaia, it 180 (20), 15
+32000, (7D00h)
+1) -[9-10] DFE
+2) +[22-25] STR
+3) -[6-7] DEX
+4) up: 477h
+
+=================
+
+#507 (1FBh)
+
+Cyclone, it 180 (20), 31
+48000, (BB80h)
+1) HR: [2-3]
+2) +[10-14] all attrib.
+3) up: 481h
+
+=================
+
+#508 (1FCh)
+
+Ignis Demonica, it 180 (20), 43
+64000, (FA00h)
+1) +[15-20] all attributes
+2) +[2-3] SLVL
+3) HR: 3
+4) -[60-75]% magic resist
+5) -[60-75]% lightning resist
+6) up: 488h
+
+=================
+
+#509 (1FDh)
+
+Ring of Sobbing, it 180 (20), 51
+48000, (BB80h)
+1) +[11-12] DFE
+2) -[35-40] AC
+3) lose all resistance
+4) -3 SLVL
+5) +[150-175] VIT
+6) up: 485h
+
+=================
+
+#510 (1FEh)
+
+Elysian Ring, it 180 (20), 56
+64000, (FA00h)
+1) damage vs demons
+2) ac vs demons
+3) -[2-3] DFE
+4) +[3-4] all attributes
+5) +[10-12]% resist all
+6) up: 483h
+
+=================
+
+#511 (1FFh)
+
+Gloom of Oblivion, it 180 (20), 60
+128000, (1F400h)
+1) +6 SLVL
+2) -30 MAG
+3) -[30-35] AC
+4) -[25-35] mana
+5) up: 487h
+
+=================
+#512 (200h)
+
+Underworld Curse, it 180 (20), 63
+256000, (3E800h)
+1) AC: [80-90]
+2) +85% resist all
+3) -[20-25] DFE
+4) -[18-20] SLVL
+5) -200% tohit
+6) up: 486h
+
+=================
+
+#513 (201h)
+
+Xentur's Vision, it 179 (10), 2
+64000, (FA00h)
+1) +[16-25] MAG
+2) +[2-3] SLVL
+3) up: 4A7h
+
+=================
+
+#514 (202h)
+
+Athael's Rage, it 179 (10), 4
+64000, (FA00h)
+1) +[16-20] STR
+2) +100% life regen
+3) -[3-5] DFE
+4) +[11-15]% resist all
+5) -[2-3] SLVL
+6) up: 48Bh
+
+=================
+
+#515 (203h)
+
+Sorrow, it 179 (10), 6
+64000, (FA00h)
+1) lose all resists
+2) ARD
+3) -[10-12] DFE
+4) +[7-13] AA
+5) +[5-10] AC
+6) up: 49Ah
+
+=================
+
+#516 (204h)
+
+Horned God, it 179 (10), 8
+64000, (FA00h)
+1) AS: 2 / 1
+2) ARD / 1
+3) -[5-6] DFE / 0,75
+4) +[10-12] AA / 0,5
+5) -[91-110] HP / -1,25
+6) up: 4AAh
+
+=================
+
+#517 (205h)
+
+Bravery of the Fallen, it 179 (10), 9
+64000, (FA00h)
+1) +40% tohit, +40% ED
+2) +[20-40] damage
+3) +100% fury duration
+4) +[3-4] DFE
+5) +[10-15]% magic resistance
+6) up: 4A4h
+
+=================
+			Below Can be dropped on Horror:
+#518 (206h)
+
+Eden Ring, it 179 (10), 10
+32000, (7D00h)
+1) +[4-7] MAG
+2) +1 SLVL
+3) -25% manacost
+4) up: 4A8h
+
+=================
+
+#519 (207h)
+
+Black Crusade, it 179 (10), 13
+48000, (BB80h)
+1) +10% LR
+2) ARD
+3) -[2-4] DFE
+4) +[4-6]% resist all
+5) +1 HR
+6) up: 498h
+
+=================
+
+#520 (208h)
+
+The Overseer's Might, it 179 (10), 17
+64000, (FA00h)
+1) +[20-25] STR
+2) -[3-4] DFE
+3) +[10-15] VIT
+4) +[10-15]% resist all
+5) -30% Accuracy
+6) up: 499h
+
+=================
+
+#521 (209h)
+
+Anathema, it 179 (10), 22
+64000, (FA00h)
+1) AC: [12-15]
+2) +[20-35] damage
+3) up: 4A9h
+
+=================
+
+#522 (20Ah)
+
+Solar Eclipse, it 179 (10), 28
+64000, (FA00h)
+1) +100% life regen
+2) ard
+3) +[8-10] ac
+4) -[8-10] str
+5) -10% LR
+6) up: 4A5h
+
+=================
+			
+#523 (20Bh)
+
+Lunar Eclipse, it 179 (10), 34
+64000, (FA00h)
+1) +100% mana regen
+2) ard
+3) +[8-10] ac
+4) -[8-10] dex
+5) -10% LR
+6) up: 4A6h
+
+=================
+
+#524 (20Ch)
+
+Spiritual Band, it 179 (10), 40
+64000, (FA00h)
+1) +[2-3] SLVL
+2) +[60-90] mana
+3) -[6-10] MAG
+4) up: 4ADh
+
+=================
+
+#525 (20Dh)
+
+Hell's Blessing, it 179 (10), 42
+64000, (FA00h)
+1) bonus AC vs demons
+2) extra damage to demons
+3) +[25-30] damage
+4) up: 4A2h
+
+=================
+
+#526 (20Eh)
+
+Heaven's Curse, it 179 (10), 49
+64000, (FA00h)
+1) bonus ac vs undead
+2) extra damage vs undead
+3) +[25-30] damage
+4) up: 4A1h
+
+=================
+#527 (20Fh)
+Enigma, it 179 (10), 53
+64000, (FA00h)
+1) +[52-55]% RA
+2) up: 490h
+=================
+#528 (210h)
+Postmortem, it 179 (10), 54
+64000, (FA00h)
+1) +[56-60]% resist all
+2) AC: -[20-30]
+3) +[20-30] HP
+4) up: 4A3h
+=================
+#529 (211h)
+Call of Gehenna, it 179 (10), 55
+64000, (FA00h)
+1) +85% lightning resistance
+2) +85% magic resistance
+3) -[25-35]% fire resistance
+4) up: 48Dh
+=================
+#530 (212h)
+Death of Hope, it 179 (10), 56
+64000, (FA00h)
+1) AC: [21-25] / 1,25
+2) -[9-10] DFE / 1,25
+3) -[10-15]% resist magic
+4) -[10-15]% resist fire
+5) -[10-15]% resist lightning
+6) up: 48Eh
+=================
+#531 (213h)
+Lucifer's Hate, it 179 (10), 57
+64000, (FA00h)
+1) +[20-25] DEX / 1
+3) -[25-30] STR / -1,25
+4) +[20-25] VIT / 1
+5) ILS / 1
+6) up: 4ACh
+=================
+#532 (214h)
+South of Heaven, it 179 (10), 58
+64000, (FA00h)
+1) +[10-15] AA
+2) AS: 2
+3) -[10-15]% THC
+4) up: 48Ch
+=================
+#533 (215h)
+Zealous Band, it 179 (10), 59
+64000, (FA00h)
+1) +[1-3] SLVL
+2) +[7-15] AA
+3) up: 495h
+=================
+#534 (216h)
+Drainer of souls, it 179 (10), 60
+64000, (FA00h)
+1) 1% lifesteal
+2) 1% manasteal
+3) +[40-50] damage
+4) up: 48Fh
+
+=================
+
+#535 (217h)
+
+Velocity, it 179 (10), 61
+64000, (FA00h)
+1) HR: 3
+2) AS: 3
+3) -[5-6] all attributes
+4) up: 496h
+
+=================
+#536 (218h)
+Suffering of the Damned, it 179 (10), 62
+64000, (FA00h)
+1) -1 SLVL / -0,5
+2) +[4-5] AA / 0,5
+3) HR: 2 / 1
+4) +[6-10]% RA / 0,5
+5) -25% manacost / 0,5
+6) up: 497h
+=================
+
+#537 (219h)
+Binding of Tal-Rasha, it 179 (10), 63
+64000, (FA00h)
+1) +7 SLVL
+2) -[225-250] mana
+3) up: 4ABh
+
+=================
+
+#538 (21Ah)
+Skull of Oppression, it 181 (21), 2
+64000, (FA00h)
+1) +6 SLVL
+2) -[75-85] mana
+3) up: 47Ch
+
+=================
+
+#539 (21Bh)
+Amulet of War, it 181 (21), 6
+64000, (FA00h)
+1) +[30-45]% ED
+2) +[30-40] damage
+3) +[11-14] all attrib.
+4) ARD
+5) -4 SLVL
+6) up: 472h
+
+=================
+
+#540 (21Ch)
+The Black Eye, it 181 (21), 12
+64000, (FA00h)
+1) +[2-3] SLVL
+2) +100% mana regeneration
+3) +[10-12] all attributes
+4) -25% manacost
+5) -[155-175] mana
+6) up: 476h
+
+=================
+
+#541 (21Dh)
+Bloodstar, it 181 (21), 17
+64000, (FA00h)
+1) +[25-35]% resist all
+2) -[12-14] DFE
+3) -[10-15] AC
+4) up: 47Dh
+
+=================
+
+#542 (21Eh)
+Shimmering Stone, it 181 (21), 21
+32000, (7D00h)
+1) 1% manasteal
+2) +[10-15] MAG
+3) +[10-15] DEX
+4) +[10-15] VIT
+5) -[16-20] STR
+6) up: 4B0h
+
+=================
+
+#543 (21Fh)
+Frozen Heart, it 181 (21), 31
+48000, (BB80h)
+1) +[10-15] MAG
+2) +100% mana regen
+3) +1 SLVL
+4) ARD
+5) -[35-40]% fire resist
+6) up: 4AFh
+
+=================
+
+#544 (220h)
+Amulet of Concentration, it 181 (21), 40
+64000, (FA00h)
+1) fast attack
+2) AP:1
+3) fast hit recovery
+4) +1 slvl
+5) -[20-25] mana
+6) up: 4B7h
+
+=================
+
+#545 (221h)
+Xorine's Amulet, it 181 (21), 45
+64000, (FA00h)
+1) +[110-160] mana
+2) +100% mana regeneration
+3) -1 SLVL
+4) -[10-20] MAG
+5) up: 4BDh
+
+=================
+
+#546 (222h)
+Amulet of the Mystics, it 181 (21), 50
+64000, (FA00h)
+1) +3 SLVL
+2) +85% resist magic
+3) +[55-65]% resist lite
+4) -85% resist fire
+5) up: 4B8h
+
+=================
+
+#547 (223h)
+Collar of Resource, it 181 (21), 55
+64000, (FA00h)
+1) +[70-90] life
+2) +[70-90] mana
+3) up: 4E3h
+
+=================
+
+#548 (224h)
+Mortuus Archangelus, it 181 (21), 60
+64000, (FA00h)
+1) AC: 15-20
+2) +[45-55] damage
+3) up: 4E5h
+
+=================
+
+#549 (225h)
+Rain of Blood, it 181 (21), 61
+64000, (FA00h)
+1) 2% lifesteal / 1
+2) ILS / 1
+4) faster life regen / 1
+5) -[80-90]% ED / -1
+6) up: 49Eh
+
+=================
+
+#550 (226h)
+Azmodan's Power, it 181 (21), 63
+96000, (17700h)
+1) +1 SLVL / 0,5
+2) +[16-20] all attributes / 1,5
+3) ARD / 1
+4) +[20-30]% resist all / 1,25
+5) AC: -[43-49] / ~2,5
+6) up: 4AEh
+=================
+#551 (227h)
+Groundshifter, it 26 (45), 30
+50000, (C350h)
+1) +[25-35]% accuracy
+2) +[125-200]% ED
+3) +[35-75] damage
+4) +[10-20] VIT
+5) -[10-20]% fire resist
+6) up: 35Ch
+=================
+#552 (228h)
+Dark Star, it 26 (45), 45
+32000, (7D00h)
+1) +10% LR
+2) +[201-255]% ED
+3) +[8-9] all attr.
+4) bonus damage to Demons
+5) lose all regen
+6) up: A9h
+
+=================
+
+#553 (229h)
+Scepter of Mammon, it 26 (45), 55
+64000, (FA00h)
+1) +50% damage vs Undead
+2) +[256-300]% ED
+3) +[120-150] damage
+4) -[14-17] STR
+5) -[5-11]% accuracy
+6) up: 192h
+
+==========================
+
+#554 (22Ah)
+
+Dwarven Helm, it 36 (19), 19
+1) +[40-60]% AC
+2) fast attack
+3) fast hit recovery
+4) -[8-12] DFE
+5) -[5-10] MAG
+6) UP: 41Bh
+
+==========================
+
+#555 (22Bh)
+
+Attika Grande, it 36 (19), 41
+1) ARD
+2) +[40-45]% resist all
+3) UP: 422h
+
+==========================
+
+#556 (22Ch)
+
+Sarbadhar, it 36 (19), 61
+1) +[11-15] STR
+2) +[6-10] DEX
+3) +[11-15] VIT
+4) -[13-15] DFE
+5) +[30-35] mana
+6) UP: 470h
+
+==========================
+
+#557 (22Dh)
+
+Severus, it 36 (19), 63
+96k
+1) -[24-28] DFE
+2) +[70-100] life
+3) -[10-15]% resist all
+4) UP: 494h
+
+==========================
+
+#558 (22Eh)
+
+offset ?
+
+Berserker's Rage, it 20 (?), 25
+price: ? (FA00h)
+1) AP: 4
+2) +[300-350]% damage
+3) kb
+4) AS: 3
+5) -[45-50] VIT
+6) up: E8h
+
+==========================
+
+#559 (22Fh)
+
+offset 1DD36C
+
+Ghoulslayer, it 57 (1), 23
+13k
+1) +50% damage vs Undead
+2) KB
+3) AP: 3
+4) -[25-45]% THC, ED /// effect 05
+5) +[16-25] damage
+6) up: 37Ch
+
+
+==========================
+
+#560 (230h)
+
+Nosferatu Axe, it 69 (15), 32
+24k (5dc0h)
+1) -10% LR
+2) +[20-30]% accuracy
+3) 2% manasteal
+4) -[10-15] STR
+5) +[20-30] mana
+6) up: 1ABh
+
+==============================
+
+#561 (231h)
+
+Ward of Infinity, it 56 (?), 63
+amulet
+-33% ARD
++(8-10) DFE
+Increased Life Stealing
+1% Life Steal
+1% Mana Steal
+UP: 2Eh
+
+===============================
+
+#562 (232h)			other uniques on this uID were displaced and don't reside in the same slots as described in this list
+
+offs ?
+Steelface, it 60 (25), 63
+14k (36B0h)
+1) +[35-45]% AC
+2) +[140-200]% durab.
+3) -[15-20] DFE
+4) ARD
+5) +[20-25]% res.all
+6) up: 31Bh
+
+==============================
+
+#563 (233h)
+
+Murmillo Chains, it 38 (12), 7
+price: 32k
+1) ARD
+2) -(15-25) DFE
+3) +[4-6] all attr.
+4) +[10-15] all res.
+5) HR: 2
+6) UP: 3A8h
+
+==============================
+
+#564 (234h)
+
+Grasp of Oblivion
+skull crown
++(11-15) Mag
++3 SLvl
+Infravision
++(10-20) dex
+-(15-25) Str
+UP: F9h
+
+================================
+
+#565 (235h)
+
+Crown of Thieves, it 64 (22/16), 50
+41k
+1) -[25-35]% AC
+2) -[17-21] DFE
+3) faster mana regen
+4) +[8-10] all attr.
+5) +10% LR
+6) up: 389h
+
+================================
+
+#566 (236h)
+
+Spectral Slasher
+Tomahawk
+10-100 dmg (UBD)
++50% vs Demons
+Armor Piercing
+Fast Hit
+10% for +200% dmg
+UP: 19h
+
+===============================
+
+#567 (237h)
+
+The Grandfather, it 19 (5), 63
+32k
+1) +3 slvl
+2) faster mana regenerate
+3) +[23-25] mag
+4) +[40-60] mana
+5) -[12-14] STR
+6) -[12-14] DEX
+
+==============================
+
+#568 (238h)
+
+Split Skull Shield, it 53 (62), 47
+64k (FA00h)
+1) +15 AC vs Undead
+2) +50% damage vs Undead
+3) -[18-20] DFE
+4) UBD: [20-30]
+5) -[6-8]% resist all
+6) up: 4CFh
+
+==============================
+
+#569 (239h)
+
+Doom Keeper, it 53 (62), 56
+1) +100% Life Reg
+2) -(11-14)Dfe
+3) +[55-65]% res Lightn
+4) +[30-50]% Res Fire
+5) UP: 461h
+
+============================
+
+#570 (23Ah)
+
+offset ?
+
+Spiritual Treasure (weak), it 103 (0), 1 <<< quest item, 4 Paladin
+1) -2 DFE
+2) 10% chance for +200% damage
+3) +25% damage
+4) +10 DEX
+5) -5 MAG
+6) up: 1B3h
+
+============================
+
+#571 (23Bh)
+
+offset ?
+
+Spiritual Treasure (standard), it 103 (0), 1 <<< quest item, 4 Paladin
+1) -3 DFE
+2) 10% chance for +200% damage
+3) +40% damage
+4) +15 DEX
+5) -10 MAG
+6) up: 1B3h
+
+============================
+
+#572 (23Ch)
+
+offset ?
+
+Spiritual Treasure (strong), it 103 (0), 1 <<< quest item, 4 Paladin
+1) -4 DFE
+2) 10% chance for +200% damage
+3) +55% damage
+4) +20 DEX
+5) -15 MAG
+6) up: 1B3h
+
+============================
+
+#573 (23Dh)
+
+offset ?
+
+Spiritual Treasure (weak), it 103 (0), 1 <<< quest item, 4 Scout
+1) -1 DFE
+2) 10% chance for +200% damage
+3) +35% damage
+4) +10 DEX
+5) -5 VIT
+6) up: 1B3h
+
+============================
+
+#574 (23Eh)
+
+offset ?
+
+Spiritual Treasure (standard), it 103 (0), 1 <<< quest item, 4 Scout
+1) -2 DFE
+2) 10% chance for +200% damage
+3) +50% damage
+4) +15 DEX
+5) -10 VIT
+6) up: 1B3h
+
+============================
+
+#575 (23Fh)
+
+offset ?
+
+Spiritual Treasure (strong), it 103 (0), 1 <<< quest item, 4 Scout
+1) -3 DFE
+2) 10% chance for +200% damage
+3) +65% damage
+4) +20 DEX
+5) -15 VIT
+6) up: 1B3h
+
+============================
+
+#576 (240h)
+
+offset ?
+
+Spiritual Treasure (weak), it 103 (0), 1 <<< quest item, 4 Monk
+1) +10 damage
+2) 10% chance for +200% damage
+3) +10% resist all
+4) +10 STR
+5) -5 DEX
+6) up: 1B3h
+
+============================
+
+#577 (241h)
+
+offset ?
+
+Spiritual Treasure (standard), it 103 (0), 1 <<< quest item, 4 Monk
+1) +20 damage
+2) 10% chance for +200% damage
+3) +15% resist all
+4) +15 STR
+5) -10 DEX
+6) up: 1B3h
+
+============================
+
+#578 (242h)
+
+offset ?
+
+Spiritual Treasure (strong), it 103 (0), 1 <<< quest item, 4 Monk
+1) +30 damage
+2) 10% chance for +200% damage
+3) +20% resist all
+4) +20 STR
+5) -15 DEX
+6) up: 1B3h
+
+============================
+
+#579 (243h)
+
+offset ?
+
+Spiritual Treasure (weak), it 103 (0), 1 <<< quest item, 4 Assassin
+1) +6 all attributes
+2) 10% chance for +200% damage
+3) +5% resist all
+4) +15 HP
+5) -10 mana
+6) up: 1B3h
+
+============================
+
+#580 (244h)
+
+offset ?
+
+Spiritual Treasure (standard), it 103 (0), 1 <<< quest item, 4 Assassin
+1) +8 all attributes
+2) 10% chance for +200% damage
+3) +10% resist all
+4) +20 HP
+5) -40 mana
+6) up: 1B3h
+
+============================
+
+#581 (245h)
+
+offset ?
+
+Spiritual Treasure (strong), it 103 (0), 1 <<< quest item, 4 Assassin
+1) +10 all attributes
+2) 10% chance for +200% damage
+3) +15% resist all
+4) +25 HP
+5) -70 mana
+6) up: 1B3h
+
+============================
+
+#582 (246h)
+
+offset ?
+
+Spiritual Treasure (weak), it 103 (0), 1 <<< quest item, 4 Glad
+1) +10% THC, +10% ED
+2) 10% chance for +200% damage
+3) +5% resist all
+4) +15 VIT
+5) -5 STR
+6) up: 1B3h
+
+============================
+
+#583 (247h)
+
+offset ?
+
+Spiritual Treasure (standard), it 103 (0), 1 <<< quest item, 4 Glad
+1) +20% THC, +20% ED
+2) 10% chance for +200% damage
+3) +10% resist all
+4) +20 VIT
+5) -10 STR
+6) up: 1B3h
+
+============================
+
+#584 (248h)
+
+offset ?
+
+Spiritual Treasure (strong), it 103 (0), 1 <<< quest item, 4 Glad
+1) +30% THC, +30% ED
+2) 10% chance for +200% damage
+3) +15% resist all
+4) +25 VIT
+5) -15 STR
+6) up: 1B3h
+
+==============================
+
+#585 (249h)
+
+Abaziil's Promise, it 38 (12), 12
+1) +(33-44)% res Fire
+2) -(16-26) DFE
+3) HR: 2
+4) +(10-30) Damage
+5) +[20-22] VIT
+6) UP: 11Eh
+
+==============================
+
+#586 (24Ah)
+
+Armor of the Pits, it 38 (12), 29
+price 26k (6590h)
+1) -[73-74]% resist all
+2) -(37-42) DFE
+3) ARD
+4) AC: 130
+5) 2% lifesteal
+6) UP: 4C9h
+
+==============================
+
+#587 (24Bh)
+
+Obsidian Might, it 38 (12), 49
+price 26k (6590h)
+1) ARD
+2) -[11-14] DFE
+3) +[36-40]% res.all
+4) -[20-25]% AC
+5) UP: 471h
+
+=================================
+
+#588 (24Ch)
+
+Contemplator, it 76 (63), 48 
+64k (FA00h) 
+1) +3 slvl 
+2) +[12-15] MAG 
+3) One-handed 
+4) (5) Charges of 'Infravision' 
+5) +[10-15]% resist all 
+6) UP: 351h
+
+=================================
+
+#589 (24Dh)
+
+Joker's Beak, it 76 (63), 63
+130k (1FBD0h)
+1) +120-200 Mana
+2) -70 mag
+3) One-handed
+4) 15 Charges of Mana
+5) +[7-8] Slvl
+6) UP: 125h
+
+=================================
+
+#590 (24Eh)
+
+offs ?
+
+Spiritual Enchanter, it 115 (31), 61
+128k (1F400h)
+1) -1 SLVL
+2) -[10-15] MAG
+3) +[175-200] mana
+4) +[16-20]% resist all
+5) -[11-12] DFE
+6) up: 396h
+
+=================================
+
+#591 (24Fh)
+
+offs ?
+
+Deathweb, it 115 (31), 63
+128k (1F400h)
+1) +7 SLVL / 2,33
+2) +[15-20] MAG / 1
+3) AC: -[12-15] / -0,7
+4) +[7-10] DFE / -0,75
+5) -50 mana / 0,5
+6) up: 352h
+
+=================================
+
+#592 (250h)
+
+Blackoak Helm, it 34 (1), 24
+4000 (FA0h)
+1) ARD
+2) -[2-4] DFE
+3) life regen
+4) +[6-11] VIT
+5) +[3-6]% resist all
+6) UP: 324h
+
+=================================
+
+#593 (251h)
+
+Thinking Cap, it 34 (1), 39
+1) +2 slvl
+2) -[66-88]% durability
+3) +[14-15] MAG
+4) +[30-50] mana
+5) UP: 4B1h
+
+=================================
+
+#594 (252h)
+
+Shako, it 34 (1), 49
+1) AS: 1
+2) -[7-11] DFE
+3) +[40-58]% resist lightning
+4) +[1-6] STR
+5) -[9-13] DEX
+6) UP: 34Fh
+
+=================================
+
+#595 (253h)
+
+Biggin's Bonnet, it 34 (1), 56
+1) +400% AC
+2) -[8-11] DFE
+3) +50% damage vs undead
+4) +[9-20] life
+5) +[10-20] mana
+6) UP: 2DEh
+
+================================
+
+#596 (254h)
+
+Quaxor's Shelter, it 42 (6), 16
+12k (2EE0h)
+1) no STR req
+2) +[20-30]% AC
+3) -[8-10] DFE
+4) ARD
+5) HR: 1
+6) UP: 500h
+
+================================
+
+#597 (255h)
+
+Cultist Robe, it 42 (6), 24
+16k (3E80h)
+1) 2% manasteal
+2) -[4-8] DFE
+3) -1 slvl
+4) +[20-35] mana
+5) UP: 501h
+
+================================
+
+#598 (256h)
+
+Yeqon's Clothing, it 42 (6), 32
+24k (5DC0h)
+1) +50% damage vs demons
+2) +50% damage vs undead
+3) ruin
+4) +[25-75]% damage
+5) +[7-10] DFE
+6) UP: 502h
+
+================================
+
+#599 (257h)
+
+Butcher's Robe, it 42 (6), 40
+32k
+1) 1% lifesteal
+2) AS: 1
+3) +[40-60]% damage
+4) -[4-8] DFE
+5) -50% lightning resist
+6) UP: 503h
+
+================================
+
+#600 (258h)
+
+Robe of Transcendence, it 42 (6), 56
+64k (FA00h)
+1) +1 SLVL
+2) ARD
+3) -[10-15] DFE
+4) +[15-20]% resist all
+5) +10% LR
+6) UP: 509h
+
+================================
+
+#601 (259h)
+
+Acolyte Cape, it B6h (3), 6
+8k (1F40h)
+1) +50% AC
+2) -[1-2] DFE
+3) ARD
+4) +5% resist all
+5) +[10-15] HP
+6) UP: 504h
+
+================================
+
+#602 (25Ah)
+
+Hospitaller Cape, it B6h (3), 16
+8k (1F40h)
+1) +[10-13] STR
+2) -[6-8] DEX
+3) -[8-11] DFE
+4) +[50-60]% resist fire
+5) +[10-15] mana
+6) UP: 518h
+
+================================
+
+#603 (25Bh)
+
+Angelic Garment, it B6h (3), 26
+8k (1F40h)
+1) +1 slvl
+2) +[8-10] MAG
+3) mana regen
+4) -25% manacost
+5) +[20-30] mana
+6) UP: 505h
+
+================================
+
+#604 (25Ch)
+
+Crusader's Cape, it B6h (3), 36
+12k (2EE0h)
+1) +60% AC
+2) -[12-13] DFE
+3) +[4-5] all attr.
+4) +10% resist all
+5) +10% LR
+6) UP: 51Ch
+
+================================
+
+#605 (25Dh)
+
+Wolvenhide, it B6h (3), 44
+16k (3E80h)
+1) 1% lifesteal
+2) ARD
+3) AS: 2
+4) -[14-16] DFE
+5) -50% fire resist
+6) UP: 510h
+
+================================
+
+#606 (25Eh)
+
+Blood Omen, it B6h (3), 52
+20k (4E20h)
+1) life regen
+2) -[14-16] DFE
+3) HR: 2
+4) +[40-50]% fire resist
+5) -[60-75]% magic resist
+6) UP: 511h
+
+================================
+
+#607 (25Fh)
+
+Ormus' Robes, it B6h (3), 60
+24k (5DC0h)
+1) AC: 25
+2) -[15-18] DFE
+3) +[4-5] all attr.
+4) +[15-19]% resist all
+5) -[29-35] mana
+6) UP: 512h
+
+================================
+
+#608 (260h)
+
+Yeqon's Cudgel, it 85 (15), 15
+8k (1F40h)
+1) AC: -10
+2) KB
+3) +[15-25]% accuracy
+4) +[100-105]% damage
+5) -1 DFE
+6) UP: 348h
+
+================================
+
+#609 (261h)
+
+Xilan's Barb, it 85 (15), 35
+24k (5DC0h)
+1) +10% LR
+2) +[180-200]% durability
+3) UBD: 14
+4) random lifestealing
+5) +[125-165]% ED
+6) UP: 51Bh
+
+================================
+
+#610 (262h)
+
+Stonecrusher, it 85 (15), 56
+24k (5DC0h)
+1) +[226-240]% ED
+2) +[50-60] damage
+3) -5 AC
+4) -[3-5] DFE
+5) -[5-10]% accuracy
+6) UP: 142h
+
+================================
+================================
+
+#611 (263h)
+
+Mace of Discord, it 174 (39), 7
+96k (17700h)
+1) +[201-250]% ED
+2) +[76-100] dam
+3) AP: 3
+4) +50% dam vs undead
+5) -[12-15] STR
+6) UP: D5h
+
+================================
+
+#612 (264h)
+
+Kingslayer, it 174 (39), 19
+128k (1F400h)
+1) +[251-300]% ED
+2) +[101-150] dam
+3) AS: 3
+4) RUIN
+5) -[26-30] DEX
+6) UP: 520h
+
+================================
+
+#613 (265h)
+
+Eternity, it 174 (39), 24
+80k (13880h)
+1) +[176-200]% ED
+2) +[51-75] dam
+3) +200% durability
+4) fire damage: [28-42]
+5) -[25-30]% lightning resist
+6) UP: 521h
+
+================================
+
+#614 (266h)
+
+Crushflange, it 174 (39), 39
+16k (3E80h)
+1) +[181-215]% ED
+2) +[60-80] dam
+3) 1% manasteal
+4) AP: 3
+5) +[20-25]% magic resist
+6) UP: 380h
+
+================================
+
+#615 (267h)
+
+Flamesong, it 174 (39), 51
+32k (7D00h)
+1) +[135-165]% ED
+2) +[30-40] dam
+3) 1% lifesteal
+4) +[15-17] VIT
+5) -[5-9] MAG
+6) UP: 523h
+
+================================
+#616 (268h)
+Moonfall, it 174 (39), 63
+48k (BB80h)
+1) +[151-175]% ED
+2) +[35-50] dam
+3) lightning damage: 40
+4) +[45-55]% lightning resist
+5) -[15-25]% magic resist
+6) UP: 36Eh
+================================
+#617 (269h)
+Bankai, it 30 (56), 26
+180k (13880h)
+1) +[286-335]% ED
+2) +[136-165] dam
+3) +[12-15] MAG
+4) HR: 2
+5) -[35-37] DEX
+6) UP: 538h //1168
+================================
+#618 (26Ah)
+Blade of Divinity, it 30 (56), 33
+80k (13880h)
+1) +[245-265]% ED
+2) +[100-120] dam
+3) +[16-20] DEX
+4) KB
+5) AC: -[25-30]
+6) UP: 52Dh //1157
+================================
+#619 (26Bh)
+Lavadoom, it 30 (56), 37
+80k (13880h)
+1) +[255-275]% ED
+2) +[105-125] dam
+3) fire damage: [20-60] //10
+4) random lifesteal //49
+5) -[13-15] MAG
+6) UP: 528h //1152
+================================
+#620 (26Ch)
+Thunderblade, it 30 (56), 41
+70k (11170h)
+1) +[201-235]% ED
+2) +[76-90] dam
+3) lightning damage: [1-44]
+4) +[15-20] STR
+5) -15 DEX
+6) UP: 529h //1153
+
+================================
+
+#621 (26Dh)
+
+Serenity, it 30 (56), 48
+64k (FA00h)
+1) +[210-245]% ED
+2) +[21-25] VIT
+3) -[12-15] DFE
+4) AC: 25
+5) -[30-35]% all resists
+6) UP: 52Bh //1155
+
+================================
+
+#622 (26Eh)
+
+Shirotachi, it 30 (56), 56
+56k (DAC0h)
+1) +[100-150]% DMG
+2) AS: 3
+3) AP: 2
+4) +1 slvl
+5) -[1-3] dfe
+6) UP: E6h
+
+================================
+
+#623 (26Fh)
+
+Shino-Kege, it 30 (56), 60
+56k (DAC0h)
+1) AS: 4
+2) +[91-115]% ED
+3) UP: 587h
+
+================================
+
+#624 (270h)
+
+Renegade's Anger (set), it 30 (56), 61
+128k (1F400h)
+Fast attack 
++5 DEX 
++[130-165]% ED 
++[90-115] dam 
+-5 MAG 
+6) UP: 5A1h
+
+================================
+
+#625 (271h)
+
+Plate of Ether, it 46 (60), 30
+50k
+1) no STR req / ?
+2) +1 SLVL / 0,5
+3) +[11-12] MAG / 0,5
+4) -[18-19] DFE / 0,75
+5) +[10-15]% resist magic / 1
+6) UP: 10Ch
+
+================================
+
+#626 (272h)
+
+Arcane Fetters, it 46 (60), 38
+48k
+1) -2 SLVL / -1
+3) -[20-23] DFE / 1
+4) +[50-65]% resist lightning / 1
+5) +[80-90] mana / 1
+6) UP: 29h
+
+================================
+
+#627 (273h)
+
+Flame Confinement, it 46 (60), 45
+56k
+1) +3 SLVL / 1,5
+2) ARD / 1
+3) -[12-13] DFE / 0,5
+4) -[50-65]% fire resist / -1
+5) -[70-90] mana / -1
+6) UP: 531h
+
+================================
+
+#628 (274h)
+
+Plate of Meditation, it 46 (60), 53
+64k
+1) +5 SLVL / 2,5
+2) -[24-27] DFE / 1
+3) -[16-20]% all resistance / -1
+4) -[32-46] mana / -0,5
+5) UP: 4DDh
+
+================================
+
+#629 (275h)
+
+Gloom, it 46 (60), 58
+96k (17700h)
+1) AC: -75
+2) ARD / 1
+3) -[37-39] DFE / 1,5
+4) +[60-70]% resist all / 2,5
+5) +[70-100] mana / 1
+6) UP: 532h //blue
+
+================================
+
+#630 (276h)
+
+Joker's Jacket (set), it 46 (60), 61
+100k (186A0h)
+-(24~27) DAMAGE FROM ENEMIES 
++15 TO MAGIC 
+SPELLS ARE INCREASED 2 LEVELS 
+MANA : -(30~50) 
+UP: 5AEh
+
+========================
+
+#631 (277h)
+
+Silent Slayer, it 21 (45), 16
+80k
+1) +50% vs demons
+2) AP: 3
+3) +[125-150]% ED
+4) AS: 2
+5) +[10-11] DFE
+6) UP: 34Eh
+
+========================
+
+#632 (278h)
+
+Golembane, it 21 (45), 30
+64k
+1) +50% vs undead
+2) AC: [20-25]
+3) 10% chance for 300% damage
+4) +[325-350] damage
+5) lose all resistance
+6) UP: 533h
+
+========================
+
+#633 (279h)
+
+Rune Master, it 21 (45), 38
+64k
+1) ARD
+2) +[30-35]% resist all
+3) AS:2
+4) +[325-350] damage
+5) AC: -45
+6) UP: 13Ah
+
+========================
+
+#634 (27Ah)
+
+Bhaltavir's Decapitator, it 21 (45), 46
+61k (EE48h)
+1) +~[45]% THC, +~[111-135]% ED
+2) 0-300% random dmg
+3) Faster Attack Speed
+4) Steal 1% Life
+5) -15 AC
+6) UP: FDh
+
+===============================
+
+#635 (27Bh)
+
+Celestial Visor (set), it 73 (61), 60
+144k (23280h)
+KB 
+-[23-25] DFE 
+1% LS 
++[6-8] all attr. 
++10% LR
+6) UP: 5CEh
+
+==============================
+
+#636 (27Ch)
+
+Grim Reaper, it 73 (61), 61
+27k
+1) Infravision / 1
+2) -[24-27] dfe / 1
+3) +100% Fury Dur / 0,25
+4) -10% Light Radius / 0,5
+5) -[20-25] Vit / -1
+6) UP: B4h
+
+=========================================
+
+#637 (27Dh)
+
+The Gavel of Pain, it 28 (57), 27
+80k (13880h)
+1) RUIN
+2) +50% damage vs Demons
+3) +[220-300] %ED
+4) +[105-175]
+5) AC: -[35-40]
+6) UP: 161h
+
+=========================================
+
+#638 (27Eh)
+
+Skin of Suffering, it 80 (1), 9
+4k (FA0h)
+1) -[250-500]% AC
+2) +15 AC vs Undead
+3) -[11-20] DFE
+4) Lose all resistance
+5) +[50-70] HP
+6) UP: 4DCh
+
+=========================================
+
+#639 (27Fh)
+
+Ghoulskin, it 80 (1), 21
+8k (1F40h)
+1) ARD
+2) -[12-18] DFE
+3) +[35-40]% resist all
+4) -4 SLVL
+5) -[22-25]% accuracy
+6) UP: 4EDh
+
+========================================
+
+#640 (280h)
+
+Enemy of God, it 22 (60), 33
+192k (2EE00h)
+1) [166-233] Lightning damage
+2) +[40-65]% THC
+3) +[250-350]% ED
+4) AS: 2
+5) -[65-70]% fire resist
+6) UP: 53Ah
+
+==============================
+
+#641 (281h)
+
+Gladiator's Axe (set), it 22 (60), 38
+256k (3E800h)
+1) + [210~305]% ED 
+2) + [120~190] dam 
+3) ILS 
+4) - 40 AC 
+5) + [10~15] Magic 
+6) UP: 5B1h
+==========================
+
+#642 (282h)
+
+Brimstone, it 22 (60), 39
+128k (1F400h)
+1) +[100-175]% ED
+2) +[81-140] damage
+3) RUIN
+4) AP: [1-2]
+5) 1% manasteal
+6) UP: 53Bh
+
+===========================
+
+#643 (283h)
+
+Ethereal Edge, it 22 (60), 45
+80k (13880h)
+1) +[100-225]% ED
+2) ILS
+3) +50% vs Demons
+4) 2% lifesteal
+5) +[8-10] DFE
+6) UP: 4F9h    //glow rune
+
+=============================
+
+#644 (284h)
+
+Gridfence, it 95 (41), 41
+24k
+1) +10% LR
+2) -[36-40] DFE
+3) +[66-74]% fire resist
+4) faster life regen
+5) -[10-15]% tohit
+6) up: 423h
+
+=============================
+
+#645 (285h)
+
+Renegade's Teaching, it 95 (41), 54
+128k (1F400h)
+1) -10% LR
+2) +[40-85]% AC 
+3) HR: 2
+4) RUIN 
+5) +15 STR 
+6) UP: 59Eh
+
+=============================
+
+#646 (286h)
+
+Sirius' Zeal, it 95 (41), 55 <damage set stats>
+128k (1F400h)
+Dreadful 
+RESIST MAGIC 55-65 % 
+-[35-40]% thc
+Dex +10 
+-[25-30] dfe
+6) up: 5C6h
+
+=============================
+
+#647 (287h)
+
+Silent Moon, it 95 (41), 56
+48k (BB80h)
+1) 1% mana steal
+2) +(10-20) mana 
+3) -[25-30] DFE
+4) +[10-15]% resist all
+5) -[21-30]% THC
+6) up: 4F1h
+
+=============================
+
+#648 (288h)
+
+Curse Howler, it 120 (42), 27
+32000 (7D00h)
+1) KB
+2) +15 AC vs Undead
+3) +20 AC vs Demons
+4) -[15-30] DFE
+5) -[10-14]% resist all
+6) up: 550h
+
+=============================
+
+#649 (289h)
+
+Bone Guardian, it 49 (6), 6
+1) +(45-225)% AC
+7k
+2) -33% ard
+3) -(3-7) DFE
+4) +(50-90) HP
+5) Lose All Regeneration
+6) UP: FEh
+
+============================
+
+#650 (28Ah)
+
+Rust Mirror, it 49 (6), 25
+12k
+1) ARD
+2) +[60-65]% resist all
+3) +[7-9] DFE
+4) -1 SLVL
+5) UP: 2BBh
+
+============================
+
+#651 (28Bh)
+
+Civerb's Ward, it 49 (6), 44
+12k
+1) +50% damage vs demons
+2) +[13-19]% resist all
+3) -[12-14] DFE
+4) move 50% mana to life
+5) -50% ED
+6) UP: 4B2h
+
+============================
+
+#652 (28Ch)
+
+Isenhart's Parry, it 49 (6), 52
+12k
+1) +200% AC
+2) -3 SLVL
+3) -[15-16] DFE
+4) +5 all attrib.
+5) UP: 3CAh
+
+============================
+
+#653 (28Dh)
+
+Vega, it 49 (6), 61
+14k
+1) +[131-145] HP
+2) -1 DFE
+3) UP: 39Bh
+
+==================================
+
+#654 (28Eh)
+
+Yeqon's Horns, it 86 (6), 6
+4k
+1) AC: -[2-5]
+2) +[10-15]% ToHit
+3) +[5-9] damage
+4) -[2-3] DFE
+5) +[15-25] HP
+6) UP: 1D7h
+
+==================================
+
+#655 (28Fh)
+
+Milabrega's Diadem, it 86 (6), 26
+8k
+1) ARD
+2) +[30-40]% fire resist
+3) +[20-25]% magic resist
+4) -[10-15]% lightning resist
+5) +[45-55] HP
+6) UP: 1D6h
+
+==================================
+
+#656 (290h)
+
+Abaziil's Hideout, it 86 (6), 43
+12k
+1) UBD: [1-40]
+2) -[40-50]% ED
+3) Dread
+4) +20 STR
+5) UP: 53Fh
+
+===================================
+#657 (291h)
+Scout's Hat (set), it 120 (42), 41
+64k (FA00h)
+mana: -[80-90]
++25% THC, +25% ED 
++[160-200] damage 
+AP: 2 
++5 DEX 
+up: 5C0h
+===================================
+#658 (292h)
+Spellbend, it 120 (42), 42
+25000 (61A8h)
+1) +[14-18] MAG
+2) -[15-25] DFE
+3) faster mana regen
+4) +[60-80] life
+5) -[55-75] mana
+6) up: 54Fh
+===================================
+#659 (293h)
+Khalim's Will, it 184 (26), 1
+43000 (A7F8h)
+1) +[225-250]% ED / 1
+2) +[113-150] damage / 1
+3) -[6-7] DFE / 1
+4) +30% LR / -0,5
+5) up: 546h
+===================================
+#660 (294h)
+Shadow Thief, it 184 (26), 11
+26000 (6590h)
+1) 1% lifesteal
+2) 1% manasteal
+3) -10% LR
+4) AS: 2
+5) AC: -[17-20]
+6) up: 55Dh
+===================================
+#661 (295h)
+Serpent Slayer, it 184 (26), 26
+16000 (3e80h)
+1) +[10-15]% accuracy
+2) +[50-60] damage
+3) AS: 2
+4) +[10-15] HP
+5) up: 57Fh
+
+===================================
+
+#662 (296h)
+
+Knout of Torturing, it 184 (26), 35
+20000 (4e20h)
+1) +[50-75]% ED / 0,5
+2) +[23-30] damage / 1
+3) +[4-7] mana / 0,25
+4) +[12-21] HP / 0,25
+5) up: 580h
+
+===================================
+
+#663 (297h)
+
+Carrera, it 184 (26), 44
+24000 (5DC0h)
+1) +[23-30] damage / 1
+2) AS: 1 / 1
+3) up: 582h
+
+===================================
+
+#664 (298h)
+
+Blazelash, it 184 (26), 53
+30000 (7530h)
+1) +[56-65]% ED / 0,5
+2) +[31-37] damage / 1
+3) AS: 1 / 1
+4) fire damage: [20-25] / 0
+5) -[16-26] life / -0,5
+6) up: 57Eh
+
+===================================
+
+#665 (299h)
+
+Stormhand, it 184 (26), 59
+41000 (A028h)
+1) +[113-131]% ED / 1
+2) +[31-37] damage / 1
+3) faster mana regen / 1
+4) lightning damage: [11-53] / 0
+5) -[12-15] AC / -1
+6) up: 581h
+
+===================================
+
+#666 (29Ah)
+
+Chains of War, it 184 (26), 63
+32k
+1) +[131-145]% ED / 1
+2) +[36-40] damage / 1
+3) +50% damage vs undead / 1
+4) -[16-18]% resist all / -1
+5) up: 5EBh
+===================================
+#667 (29Bh)
+Colossus, it 10 (20), 5
+44k
+1) +[140-200]% ED
+2) +[60-100] damage
+3) KB
+4) AP: [1-2]
+5) -[10-15] DEX
+6) UP: E6h
+====================================
+#668 (29Ch)
+
+Hazard, it 10 (20), 13
+48k
+1) +[170-230]% ED
+2) +[80-120] damage
+3) AS: 3
+4) HR: 3
+5) +[8-10] DFE
+6) UP: 3Ah
+
+
+#669 (29Dh)
+
+Soulflayer, it 10 (20), 20
+17k
+1) +(25-105)% ED
+2) +(2-3) All Attributes
+3) AS: 1
+4) 1% Steal HP
+5) -10% Light Rad
+6) UP: E3h
+
+
+#670 (29Eh)
+
+Blade of Tracking, it 10 (20), 45            // 38
+23k
+1) +[85-100]% THC
+2) +1 SLVL
+3) 2% Manasteal
+4) AS: 1
+5) -[25-30] STR
+6) UP: 38Fh
+
+
+#671 (29Fh)
+
+Bloodharvest, it 10 (20), 49              // 4E
+26k
+1) ILS
+2) 1% lifesteal
+3) +[20-30] damage
+4) AP: 1
+5) -[15-20] MAG
+6) UP: 391h
+
+
+#672 (2A0h)
+
+Dreg'atar Shelter, it 10 (20), 53            // 61
+32k
+1) +[10-20] AC
+2) -[5-8] DFE
+3) +[30-40] HP
+4) +[15-25]% resist all
+5) -35% THC, %ED
+6) UP: 55Ch
+
+
+#673 (2A1h)
+
+Blizzard, it 10 (20), 58                    // 77
+36k
+1) +[85-170]% ED
+2) RUIN
+3) AS: 2
+4) Lightning hit: [1-100]
+5) -[20-25]% fire resist
+6) UP: 564h
+
+
+#674 (2A2h)
+
+Black Rogue, it 10 (20), 63               // 80
+40k
+1) +[100-200]% ED
+2) +[50-90] damage
+3) AS: 3
+4) -10% LR
+5) -[30-33] AC
+6) UP: 563h
+
+
+
+======================
+
+#675 (2A3h)
+
+Celestial Guard  (set), it 53 (62), 61
+64k
+-(18-20) DFE 
++[45-55]% Magic Resist 
++[45-55]% Lithting resist 
+-[15-20]% Fire resist 
+1% mana 
+6) UP: 5CFh
+
+==========================
+
+#676 (2A4h)
+
+Crowbeak, it 57 (1), 29
+16k
+1) +[100-125]% dur
+2) UBD: [5-125]
+3) AS: 2
+4) up: 37Ah
+
+==========================
+
+#677 (2A5h)
+
+Brainhew, it 57 (1), 36
+
+1) crystalline: [40-50]
+2) crushing effect
+3) +[30-40] mana
+4) -[5-6] all attrib.
+5) up: 20Eh
+
+==========================
+
+#678 (2A6h)
+
+Bloodspill, it 57 (1), 45
+
+1) -[5-7] all attr.
+2) +[200-250]% ED
+3) +50% damage vs demons
+4) +[50-60] HP
+5) -1 SLVL
+6) up: 377h
+
+==========================
+
+#679 (2A7h)
+
+Axe of Fechmar, it 57 (1), 54
+
+1) +[100-150]% dam
+2) KB
+3) +[60-80] dam
+4) up: 20Fh
+
+==========================
+
+#680 (2A8h)
+
+Inquisitor Devotion, it 57 (1), 59
+
+1) +[113-130]% ED
+2) +[30-37] dam
+3) ruin
+4) -[3-4] DFE
+5) -[25-30] AC
+6) up: 544h
+
+==========================
+
+#681 (2A9h)
+
+Biclops' Axe, it 57 (1), 63
+
+1) +[151-175]% ED
+2) +[101-125] dam
+3) KB
+4) AC: -10
+5) -1 SLVL
+6) up: 547h
+
+==========================
+
+#682 (2AAh)
+
+Thunderclap, it 28 (57), 57
+60-80 DMG (ubd)
++[60-80]% DMG
++[60-80] DMG
++[60-80] Lightning DMG
+UP: CDh
+
+==========================
+
+#682 (2ABh)
+
+Celestial Flagellator (set), it 28 (57), 60
+80k
+-5 DFE 
+AC:20 
++[150-190] damage 
++[45-55]% Fire Resist 
++100% durability 
+UP: 5C9h
+
+=================================
+
+#683 (2ACh)
+
+Aguinara's Vengeance, it 67 (29), 14
+33k
+1) +[81-50]% THC, ED%
+2) +50% vs demons
+3) faster attack speed
+4) 1% life steal
+5) +(8-9) dfe
+UP: 11Fh
+
+=================================
+
+#684 (2ADh)
+
+Staff of Domination, it 67 (29), 29
+32k
+1) +[145-195]% ED
+2) +[40-70] damage
+3) ruin
+4) dread
+5) -[25-30] AC
+6) -1 DFE
+
+=================================
+
+#685 (2AEh)
+
+Autumn's Call, it 67 (29), 41
+38400 (9600h)
+1) +1 SLVL
+2) +[4-5] all attr.
+3) -[2-3] DFE
+4) ARD
+5) +[8-10]% resist all
+6) +[15-20] mana
+
+=================================
+
+#686 (2AFh)
+
+The Grand Vizier, it 67 (29), 44
+16000 (3E8h)
+1) +2 SLVL
+2) -25% manacost
+3) +[13-15] MAG
+4) durability: 150
+5) 100 Fireblast charges
+6) -100% ED
+
+
+#689 (2B0h)
+
+*Gladiator's Chains (set), it 48 (36), 61
+256000 (3E800h)
+-30% AC 
+AP: 1 
+2% LS 
+-[31~35] DFE 
++ [91~130] HP 
+6) UP: 5B2h
+
+
+
+#690 (2B1h)
+
+Infernal Discipline (set), it 73 (61), 62
+160k (27100h)
+infravision 
+ILS 
+-[22-25] dfe 
++[60-70]% resist lighting 
+-20 MAG 
+6) UP: ?h
+
+
+#691 (2B2h)
+
+Damnable Tower, it 53 (62), 62
+64k
+1) +[100-120]% AC
+2) +[100-120]% ED
+3) +[4-5] DFE
+4) +[10-15]% THC
+5) UP: 56Eh
+
+
+#692 (2B3h)
+
+offset ?
+Celestial Redeemer (set), it 33 (60), 61
+80k (13880h)
+-5 DFE 
+AC:20 
++[150-190] damage 
++[45-55]% Fire Resist 
++100% durability 
+6) UP: 5CAh
+
+
+#693 (2B4h)
+
+offset ?
+Stormbite, it 33 (60), 62
+80k (13880h)
+1) +[140-190]% damage
+2) Armor Piercing: 2
+3) AS: 2
+4) [1-150] Lightning DMG
+5) UP: 3C6h
+
+==========================
+
+#694 (2B5h)
+
+Baranar's Maul, it 28 (57), 61
+72k
+1) UBD: [200]
+2) +[300-350] damage
+3) AS: 2
+4) AP: 3
+5) -(66-70) STR
+6) UP: 28h
+
+==========================
+
+#695 (2B6h)
+
+Mallet of Striking, it 28 (57), 62
+76000
+1) +[126-180]% THC, ED
+2) +[100-150] damage
+3) 2% manasteal
+4) +[60-80] mana
+5) -30 DEX
+UP: 584h
+
+===============================
+
+#696 (2B7h)
+
+Black Talon
+it 153 (60), 63
+68k (109A0h)
+1) ruin / 1
+2) lose regen / -1
+3) +[40-50]% ED / 0,5
+4) -[19-22] DFE / 0,8
+5) AS: 2 / 1
+6) UP: 46Eh
+
+=============================
+
+#697 (2B8h)
+
+The Steel Lion, it 95 (41), 61
+48k (BB80h)
+1) +[40-55]% AC
+2) ARD
+3) -[26-32] DFE
+4) +[15-20]% resist all
+5) -[76-80] HP
+6) up: 53Ch
+
+=============================
+
+#698 (2B9h)
+
+Cranium of Zeal, it 95 (41), 63
+64k (FA00h)
+1) AS: 2 / 1
+2) HR: 3 / 1
+3) +150% Fury Duration / 0,5
+4) AP: [1-2] / 0,25
+5) +[9-10] DFE / -0.5
+6) up: 53Dh
+
+===========================
+
+#699 (2BAh)
+
+Stigmatizer, it 22 (60), 61
+70k (11170h)
+1) +[111-200]% THC, %ED
+2) +[75-95] damage
+3) AS: 2
+4) +[10-12] DFE
+5) KB
+6) UP: B5h
+
+=============================
+
+#700 (2BBh)
+
+Renegade's Wrath (set), it 30 (56), 62
+128k (1F400h)
+add 200-210 dmg 
++50% vs demons 
+ILS 
++ [4-6] DFE 
+-5 MAG 
+6) UP: 5A2h
+
+=============================
+
+#701 (2BCh)
+
+Bushi-un, it 30 (56), 63
+64k (FA00h)
+1) +[163-199]% ED
+2) +[54-99]
+3) AS: 3
+4) AP: 1
+5) +[12-14] DFE
+6) UP: 52Fh
+
+==============================
+#702 (2BDh)
+Lash of Doomsday, it 177 (55), 55
+64k
+1) +[220-250]% ED / 1
+2) +[113-150] dmg / 1
+3) +50% dmg vs undead / 1
+4) ruin / 1
+5) -[6-7] SLVL / -2
+6) up: 56Fh
+==============================
+#703 (2BEh)
+Devourer of Souls, it 177 (55), 63
+80k
+1) +[351-400]% ED / 1,5
+2) +[171-220] damage / 1,4
+3) KB / 0,75
+4) -[13-18]% all resistance / -1
+5) -[24-29] MAG / -1
+6) up: 4CDh
+==============================
+#704 (2BFh)
+Infernal Cage (set), it 48 (36), 62
+320000 (4E200)
+1% LS 
+-[27-30] DFE 
+specified armor class 250 
++[60-70]% resist fire 
+-30 STR 
+5) UP: ?h
+==============================
+#705 (2C0h)
+Hoplomacus, it 160 (62), 61
+80k
+1) +[20-30]% AC
+2) -[30-33] DFE
+3) +[35-40] STR
+4) -[22-24] DEX
+5) +[16-20]% resist all
+6) up: 41Ah
+
+==============================
+
+#706 (2C1h)
+
+Amazon's Corset, it 71 (53), 63
+1) -33% ARD/ 1
+2) -(20-25) DFE / 1
+3) +(15-25)% res all / 1
+4) +(15-20) Vit / 1
+5) -30 dex / -2
+6) UP: 263h
+
+==============================
+
+#707 (2C2h)
+
+Cagemuzzle, it 120 (42), 63
+40000 (9c40h)
+1) longer fury
+2) -[19-23] DFE
+3) +[20-25]% res.all
+4) +[60-80] life
+5) -[15-18] DEX
+6) up: 304h
+
+==============================
+
+#708 (2C3h)
+
+Windforce, it 6 (61), 63
+1) +(200-250) % DMG / 1
+2) 1-200 Lightning Arrow Dmg / 0,5
+3) Kb / 1
+4) Multiple Arrows / 1
+5) -[77-82]% fire resistance / -1,5
+6) UP: C9h
+
+==============================
+
+#709 (2C4h)
+
+Doomsayer, it 75 (63), 63
+56k
+1) +[50-75]% THC / 1 / cancelled
+2) +[360-400]% ED / 1,5
+3) 100-200 Lightning Arrows DMG / 0,5
+4) Ruin / 1
+5) -[18-20] STR / -1
+6) UP: 155h
+
+==============================
+
+#710 (2C5h)
+
+Inner Sanctuary, it 74 (60), 63
+88k (157C0h)
+1) -3 SLVL
+2) +(5-8) all attributes / 00,75
+3) -33% ard / 1
+4) -(21-25) dfe / 0,8
+5) +[17-25]% all resistance / 0,8
+6) UP: 56Ch
+==============================
+#711 (2C6h)
+Chaos Bringer
+it 32 (62), 63
+1) +[200-250]% ED
+2) 10% of 200% dmg
+3) +50% dmg vs demons
+4) AS: 2
+5) -10 all attr.
+6) UP: 126h
+============================
+#712 (2C7h)
+Emptyface, it 118 (34), 34
+25000 (61A8h)
+1) +2 slvl / 1
+2) -[14-19] DFE / 1
+3) +[8-9] ALL / 1
+4) -[90-95] mana / -1
+6) up: 302h
+============================
+#713 (2C8h)
+Faceguard, it 118 (34), 47
+25000 (61A8h)
+1) -[71-80]% AC / 0.5
+2) ARD / 1
+3) -[31-35] DFE / 1,8
+4) -5 SLVL / -2,5
+5) +[36-40]% resist all / 1.8
+6) up: 576h
+================================
+#714 (2C9h)
+Spiritual Fortress, it 46 (60), 62
+100k (186A0h)
++(30-40) Mana
++(2-5)% AC
+-(14-17) DFE
++(10-20)% Res All
++2 Slvl
+UP: 4E7h
+============================
+#715 (2CAh)
+Spiritcoif, it 90 (55), 25
+66k
++4 Slvl / 2
+-25% Spell Cost / 0,5
+-(10-12) Mag / -0,5
+UP: 551h
+
+============================
+
+#716 (2CBh)
+
+Shield of mirrors
+gothic shield, castiron shield
+-(14-16) DFE
+-33% ARD
++(10-20)% Res All
+-50% Dur (Dec Dur)
+UP: ?h
+
+=============================
+
+#717 (2CCh)
+
+Underworld Heart, it 48 (36), 63
+1) +1 SLVL
+2) +(4-5) All Attrib
+3) -(22-24) DFE
+4) +(12-15)% All Res
+5) UP: 2h
+
+================================
+
+#718 (2CDh)
+
+Helm of Rosary, it 73 (61), 63
+56k (BB80h)
+1) +2 SLVL / 0,5
+2) ARD / 1
+3) -[25-28] DFE / 1,05
+4) +[16-24]% resist all / 0,75
+5) -[10-12] all attr. / -1,2
+6) UP: 420h
+
+=====================================
+
+#719 (2CEh)
+
+Wall of Spears, it 53 (62), 63
+full shield
++15 AC vs Demons
++(6-8) All Attributes
+-(12-15) DFE
+Faster HR
+-(25-33) Mana
+UP: 1Bh
+
+======================================
+
+#720 (2CFh)
+
+Blazing Wrath, it 33 (60), 63
+84k
+
+2) Armor Piercing: 2 / 0,5
+3) Faster Attack speed / 1
+4) [70-90] Fire DaMaGe
+5) +50% dmg vs Demons / 1
+6) UP: 463h
+
+================================
+
+#721 (2D0h)
+
+Pandemonium Crusher, it 28 (57), 63
+80000
+1) +[250-300]% ED
+2) +[160-200] damage
+3) +50 fire damage
+4) RUIN
+5) -35 STR
+UP: 3A7h
+
+=================
+
+#722 (2D1h)
+
+Scout's Flower (set), it 99 (56), 27
+160k
++[21-25] VIT 
++[71-90]% ED 
+UBD: 10
+-[70-80] mana
++[30-40] life
+UP: 5BDh
+
+========================
+
+#723 (2D2h)
+
+Gladiator's Burn (set), it 99 (56), 28
+160k
++ [60-70]% resist fire 
+Ruin 
+fastest hit recovery 
++ [30-35] Vit
+-[100-105] hp
+UP: 5AFh
+
+=======================================
+
+#724 (2D3h)
+
+Sirius' Seal (set), it 99 (56), 29
+To hit -(20-25) 
+RESIST FIRE 55-65 % 
+DEX +10 
+ILS 
+up: 5C3h
+
+===============================================
+
+#725 (2D4h)
+
+Joker's Cackle (set), it 99 (56), 30
++15 TO MAGIC 
++5 DAMAGE FROM ENEMIES 
+SPELLS ARE INCREASED 3 LEVELS 
+RESIST Magic : 80% 
+UP: 5A9h
+
+========================================
+
+#726 (2D5h)
+
+Amulet of the Cat, it 99 (56), 31
+1) +[35-40] DEX
+2) UP: 29Ch
+
+=================
+
+#727 (2D6h)
+
+Amulet of the Bull, it 99 (56), 36
+1) +[35-40] STR
+2) UP: 29Dh
+
+==================
+
+#728 (2D7h)
+
+Inquisitor Zeal, it 99 (56), 41
+1) 150% dam vs undead
+2) +[20-40]% damage
+3) +[15-25] damage
+4) extra AC vs undead
+5) +[20-30] mana
+6) up: 29Eh
+
+
+===============
+
+#729 (2D8h)
+
+Renegade's Sign (set), it 97 (56), 16
+AC: 20
++ [3-5] DFE 
+AP 1 
++ [12-16]% Res All 
++10 MAG 
+6) UP: 59Fh
+
+
+Scout's Ring (set), it 97 (56), 17
+64k
++1 SLVL 
+Faster life regeneration 
++[61-65]% resist magic 
++[21-30]% ED 
+UBD: 10 
+6) UP: 5BE h
+
+Scout's Bangle (set), it 97 (56), 18
+64k
+UBD: 10 
++150% Fury duration 
+Fastest hit recovery 
++[51-55]% resist fire 
++[21-30]% ED
+6) UP: 5BFh
+
+Gladiator's Will (set), it 97 (56), 19
+64k
++[50~55]% to hit 
+AS: 2
+- [20~30%] ED 
++[20-25] mana
+UP: 5B5h
+
+===================
+
+#733 (2DCh)
+
+Gladiator's Morale (set), it 97 (56), 20
+64k
++ [60-70]% resist lighting 
+Faster mana regeneration 
++ 15 STR 
+ARD 
+-20 AC
+UP: 5B4h
+
+===================
+
+#734 (2DDh)
+
+Sirius' Wisdom (set), it 97 (56), 21
+64k
+-[20-25]% THC
+2% mana steal 
+fast attack 
+Dex +10 
+UP: 5C4h
+
+=======================
+
+#735 (2DEh)
+
+Sirius' judging (set), it 97 (56), 22
+64k
++(45-65%)% dmg 
+ard 
+Str +15 
+fastest hit recovery 
+- [30-40] mana
+UP: 5C5h
+
+
+Joker's Giggle (set), it 97 (56), 23
+64k
++15 TO MAGIC 
+SPELLS ARE INCREASED 2 LEVEL 
+MANA : -(50~60) 
+10% CHANCE OF +200% DAMAGE 
+RESIST Lightning : 80% 
+UP: 5ACh
+
+
+Joker's Grin (set), it 97 (56), 24
+64k
++15 TO MAGIC 
+SPELLS ARE INCREASED 2 LEVELS 
++5 DAMAGE FROM ENEMIES 
+-33% ALL RANGED DAMAGE 
+MANA : +(35~50) 
+UP: 5ADh
+
+===============
+
+#738 (2E1h)
+
+Ring of Lore, it 97 (56), 25
+
+1) +4 SLVL
+2) UP: 230h
+
+===============
+
+#739 (2E2h)
+
+Leviathan's Soul, it 97 (56), 40
+
+1) +[150-180] life
+2) UP: 1E7h
+
+===============
+
+#740 (2E3h)
+
+Trollbite, it 97 (56), 55
+
+1) -[21-22] DFE
+2) -[10-15]% resist all
+3) UP: 1EBh
+
+===============
+
+
+Dodgecat, it 97 (56), 60
+1) +[40-45] AC
+2) UP: 1E9h
+
+===============
+
+#742 (2E5h)
+
+Ring of Aut, it 97 (56), 62
+1) +100% fury duration
+2) +[35-65]% damage
+3) +[10-30] STR
+4) -[10-20] DEX
+5) UP: 38Dh
+
+
+===================================
+
+#743 (2E6h)
+
+Bonepierce, it 185 (1), 1
+2000 (7D0h)
+1) +100% ED / 2
+2) RUIN / 1
+3) +[1-2] DFE / -1
+===================================
+#744 (2E7h)
+Bent Horn, it 185 (1), 6
+3000 (BB8h)
+1) UBD: 1-3 / 0,5
+2) +[50-60]% ED / 0,5
+3) AP: 1 / 0,25
+4) KB / 1
+5) random speed arrows / -0,25
+6) UP: 384h
+===================================
+
+#745 (2E8h)
+
+Nail Feeder, it 185 (1), 11
+4000 (FA0h)
+1) -50% ED / -1
+2) multishot / 1
+3) KB / 1
+4) +[7-13] damage / 1
+5) AC: -5 / -1
+6) UP: 3C1h
+
+===================================
+
+#746 (2E9h)
+
+Fire Screamer, it 185 (1), 17
+6000 (1770h)
+1) UBD: 0
+2) Fireball cast: [80-400]
+3) ARD
+4) +1 DFE
+5) +[21-60]% resist fire
+6) UP: 3C2h (~)
+
+===================================
+
+#747 (2EAh)
+
+Blight Mirror, it 185 (1), 28
+7000 (1B58h)
+1) +1 SLVL / 1
+2) AS: 1 / 1
+3) RUIN / 1
+4) +[11-25] damage / 0,5
+5) -[51-60] mana / 1
+6) UP: 4F4h
+
+
+===================================
+
+#748 (2EBh)
+
+Siege Bow, it 185 (1), 41
+8000 (1F40h)
+2) AS: 2 / 2
+3) -2 SLVL / -2
+4) dread / 1
+5) KB / 1
+6) UP: 601h
+
+===================================
+
+#749 (2ECh)
+
+Night Rogue, it 185 (1), 56
+9000 (2328h)
+1) -[41-50]% ED / -0,5
+2) -20 all attr. / -2,5
+3) AS: 4 / 4
+4) -10% LR
+5) KB / 1
+6) UP: E2h
+
+===================================
+
+#750 (2EDh)
+
+Betelgeuse, it 185 (1), 63
+16000 (3E80h)
+1) +[101-135]% ED / 1
+2) +[41-65] damage / 1
+3) AP: 2 / 0,5
+4) KB / 1
+5) +40% LR / -1,5
+6) UP: 385h
+
+===================================
+
+#751 (2EEh)
+
+Spiral Knife, it 186 (1), 2
+1600 (640h)
+1) +[3-5] MAG
+2) faster mana regeneration
+3) +1 SLVL
+4) +[3-4] DFE
+5) -[18-20]% accuracy
+6) UP: 5D6h
+
+===================================
+
+#752 (2EFh)
+
+Leechspike, it 186 (1), 4
+3200 (C80h)
+1) AP: 2
+2) LS: 1%
+4) +[2-10] damage
+5) -9 Ac
+6) UP: 5DEh
+
+===================================
+
+#753 (2F0h)
+
+Black Knife, it 186 (1), 7
+3700 (E74h)
+1) -25% manacost
+2) MS: 1%
+3) +[4-7] MAG
+4) +[1-5] mana
+5) -[70-80]% ED
+6) UP: 5DFh
+
+===================================
+
+#754 (2F1h)
+
+Mindbite, it 186 (1), 10
+4000 (FA0h)
+1) UBD: 5-11
+2) +[11-20]% accu
+3) +[31-50]% ED
+4) +[4-5] AC
+5) -[6-10] mana
+6) UP: 5DBh
+
+===================================
+
+#755 (2F2h)
+
+Gryphon's Claw, it 186 (1), 14
+4300 (10CCh)
+1) -50% ED
+2) AP: 1
+3) AS: 1
+4) +[11-15] damage
+5) +[2-3] DFE
+6) UP: ?h
+
+===================================
+
+#756 (2F3h)
+
+Edgewarp, it 186 (1), 20
+4800 (12C0h)
+1) +[276-315]% ED
+2) -[11-15] DEX
+6) UP: 5DAh
+
+===================================
+
+#757 (2F4h)
+
+Zenda's Opus, it 186 (1), 30
+5000 (1388h)
+1) +10% accu
+2) +50% ED
+3) AS: 2
+4) +10% resist all
+5) lose all regeneration
+6) UP: 5E2h
+
+===================================
+
+#758 (2F5h)
+
+Thorn of Sorcery, it 186 (1), 36
+5100 (13ECh)
+1) +[6-10] MAG
+2) RUIN
+3) +2 SLVL
+4) +[41-45] mana
+5) AC: -[26-30]
+6) UP: 5E3h
+
+===================================
+
+#759 (2F6h)
+
+The Victimizer, it 186 (1), 50
+5500 (157Ch)
+1) +[101-150]% ED
+2) +[16-34] damage
+3) dread
+4) KB
+5) -[51-55]% fire resist
+6) UP: 5E4h
+
+===================================
+
+#760 (2F7h)
+
+Knife of Herecy, it 186 (1), 58
+5600 (15E0h)
+1) +[151-175]% ED
+2) +[41-55] damage
+3) AS: 2
+4) AP: 1
+5) -[21-25] AC
+6) UP: 5D9h
+
+===================================
+
+#761 (2F8h)
+
+Knife of Doomsday, it 186 (1), 63
+6400 (1900h)
+1) +[176-195]% ED
+2) +[56-65] damage
+3) AS: 3
+4) AP: 3
+5) -[31-35] DEX
+6) UP: 5E1h
+
+===============================
+
+
+#762 (2F9h)
+
+offs ?
+
+Naj's Puzzle, it 117 (2), 15
+16k, >500
+1) +5 SLVL
+2) -[85-95] mana
+3) up: 316h
+
+===============================
+
+
+#763 (2FAh)
+
+offs ?
+
+Massaraksh, it 117 (2), 19
+19200, >600
+1) +[100-150]% damage
+2) -[20-25] % THC
+3) up: 2F4h
+
+===============================
+
+
+#764 (2FBh)
+
+offs ?
+
+Bramble, it 117 (2), 23
+20800, >650
+1) fast attack
+2) +[25-35]% tohit
+3) jester
+4) -[45-50]% damage
+5) up: 2F5h
+
+===============================
+
+
+#765 (2FCh)
+
+offs ?
+
+Inarius' Seal, it 117 (2), 26
+22400, >700
+1) AC: [25-35]
+2) +[30-40]% resist all
+3) -[5-7] DFE
+4) -[10-12] STR
+5) -[10-12] DEX
+6) up: 2F8h
+
+===============================
+
+
+#766 (2FDh)
+
+offs ?
+
+Doom Serpents, it 117 (2), 33
+25600, >800
+1) +[2-3] SLVL
+2) 40% health moved to mana
+3) +[14-20] MAG
+4) -[41-55]% Fire resistance
+5) 2x fury duration
+6) up: 2FAh
+
+===============================
+
+
+#767 (2FEh)
+
+offs ?
+
+Blessgyre, it 117 (2), 41
+28800, >900
+1) AC: [15-25]
+2) +[20-25]% resist all
+3) +[15-25] VIT
+4) -[10-15] DEX
+5) fast block
+6) up: 2FFh
+
+===============================
+
+
+#768 (2FFh)
+
+offs ?
+
+Bloomfade, it 117 (2), 49
+32000, >1000
+1) +10% LR
+2) +[9-10] all attributes
+3) +[23-25]% resist all
+4) faster mana regeneration
+5) AC: -[17-20]
+6) up: 2F2h
+
+===============================
+#769 (300h)
+
+Bloodrim, it 117 (2), 52
+48000, >1500
+1) +20% LR
+2) +[11-12] all attributes
+3) +[26-30]% resist all
+4) faster life regeneration
+5) AC: -[24-25]
+6) up: 2F3h
+===============================
+
+
+#770 (301h)
+
+offs ?
+
+Steel Terret, it 117 (2), 53
+24000, >750
+1) -[13-15] DFE
+2) UBD: 25
+3) -[22-25]% resist all
+4) up: 2F9h
+
+
+===============================
+
+
+#771 (302h)
+
+offs ?
+
+Dwarf Star, it 117 (2), 56
+27200, >850
+1) ARD / 1
+2) -[3-5] DFE / 0.5
+3) +[6-10] all attr. / 0.7
+4) -[10-15]% all resists / -0.6
+5) +[25-35] mana / 0,4
+6) up: 2EDh
+
+===============================
+#772 (303h)
+Ring of Regha, it 117 (2), 60
+38400, >1200
+1) +85% Magic resistance
+2) +[22-24] MAG
+3) AS: 2
+4) -[50-60]% lightning resist
+5) +[10-15] life
+6) up: 2FEh
+===============================
+
+
+#773 (304h)
+
+offs ?
+
+The Bleeder, it 117 (2), 61
+38400, >1200
+1) -[7-9] all attr.
+2) +[40-50]% damage
+3) +[25-35] damage
+4) +[60-90] life
+5) +[10-15] mana
+6) up: 2F7h
+
+===============================
+
+
+#774 (305h)
+
+Blueprint, it 117 (2), 62
+41600, >1300
+1) fastest hit recovery
+2) ruin
+3) -25% manacost
+5) -[65-75] mana
+6) up: 2F6h
+
+===============================
+#775 (306h)
+Ring of Tower, it 117 (2), 63
+140,8k (22600h) >4400
+1) AC: [11-17]
+2) -[11-17] DFE
+3) +[11-17]% resist all
+4) -[17-21] STR
+5) up: 366h
+
+==============================
+
+#776 (307h)
+
+Cagemuzzle, it 160 (62), 62
+80k
+1) +[15-25]% accuracy / 0,5
+2) -[34-35] DFE / 1,35
+3) 2x fury duration / 0,2
+4) +[61-75] HP / 0,66
+5) -[12-14] STR / -0,5
+6) up: 305h
+
+==============================
+
+#777
+
+Defender of Faith, it 55 (55), 27
+48k
+1) +(11-15)% accuracy
+2) -(11-15) DFE
+3) +(3-5) all attr.
+4) +(11-15)% resist all
+5) +(50-68) life
+6) UP: 4FBh
+
+==============================
+
+#778 (309h)
+
+The Red Serpent, it 55 (55), 55
+32k
+1) 2% lifesteal
+2) 2% manasteal
+3) AP: 2
+4) AC: -20
+5) -(17-20) DFE
+6) up: 4FAh
+
+==============================
+
+#779 (30Ah)
+
+Lucifer's Fortress, it 38 (12), 57
+32k
+1) -[61-65] DFE
+2) -50% THC
+3) -4 SLVL
+4) UP: 1AFh
+
+==============================
+
+#780 (30Bh)
+
+Mail of Agility, it 38 (12), 59
+32k
+1) +[32-40] DEX
+2) -[16-20] STR
+3) -[12-14] DFE
+4) +[35-40] life
+5) UP: 1AEh
+
+==============================
+
+#781 (30Ch)
+
+Armor of Blood, it 38 (12), 61
+40k
+1) -[49-52] DFE
+2) +[27-33]% all resist
+3) -[96-105] HP
+4) UP: 1ADh
+
+==============================
+
+#782 (30Dh)
+
+Stygian Guard, it 38 (12), 63
+99k
+1) ARD
+2) move 50% mana to life
+3) -[29-33] DFE
+4) +[29-33]% all resist
+5) -[9-12] all stats
+6) UP: 1B0h
+
+================================
+#783 (30Eh)
+
+Equalizer, it 5 (55), 35
+24k
+1) +[145-165]% ED
+2) +[75-85] damage
+3) +[13-15] DEX
+4) +[8-10] MAG
+5) -[31-35] HP
+6) UP: 386h
+
+================================
+#784 (30Fh)
+
+Fulminator, it 5 (55), 55
+37k
+1) ubd: 0-0
+2) 400 DMG lightning
+3) Multiple Arrows
+4) LR: -10%
+5) UP: 11Bh
+
+================================
+#785 (310h)
+
+The Incinerator, it 5 (55), 60
+40k
+1) +(175-225)% DMG
+2) +(35-50) DMG
+3) +[1-150] Fire Damage Arrows
+4) KTB
+5) -[11-12] DEX
+6) UP: 11Ch
+
+==========================
+
+#786 (311h)
+
+Rough Justice, it 47 (29), 11
+32k
+1) ARD
+2) -[21-28] DFE
+3) HR: 3
+4) +[21-27]% resist all
+5) -[21-25] DEX
+6) UP: 569h
+
+==========================
+
+#787 (312h)
+
+Black Hades, it 47 (29), 17
+72k
+1) +[200-220] HP
+2) +50% damage vs demons
+3) -4 SLVL
+4) -[10-12] DFE
+5) -20% LR
+6) UP: 565h
+
+==========================
+
+#788 (313h)
+
+Plate of Equilibrium, it 47 (29), 23
+64k
+1) +[14-17]% AC
+2) -[14-18] DFE
+3) +[4-6] all attr.
+4) +[31-35]% all resist
+5) -[16-21]% THC
+6) UP: 32Ch
+
+==========================
+
+#789 (314h)
+
+Condor, it 47 (29), 29
+32k
+1) +[26-35]% AC
+2) -[33-40] DFE
+3) -5 all attr.
+4) UP: 566h
+
+==========================
+
+#790 (315h)
+
+Viperyne, it 47 (29), 35
+56k
+1) 2% manasteal
+2) +[11-15]% AC
+3) -[23-27] DFE
+4) +[71-95] mana
+5) -[41-50] HP
+6) UP: 4EFh
+
+==========================
+
+#791 (316h)
+
+Duriel's Shell, it 47 (29), 57
+35k
+1) +(3-6)% AC
+2) -(15-18) DFE
+3) +(20-40) Damage
+4) +(50-250)% Dur (High Dur)
+5) HR: 2
+6) UP: 16h
+
+==================
+
+#792 (317h)
+
+Ring of the Vise, it 88 (50), lev 9
+72k
+1) -[15-18] DFE
+2) +[51-60]% resist all
+3) +[32-40] AC
+4) -[5-6] SLVL
+5) -[25-30] all attr.
+6) UP: 58Bh
+
+==================
+
+#793 (318h)
+
+Jewel of Discernment, it 88 (50), lev 11
+72k
+1) +7 SLVL
+2) +[17-19] MAG
+3) +[41-58] mana
+4) -[31-33] STR
+5) -[31-33] DEX
+6) UP: 58Ch
+
+==================
+
+#794 (319h)
+
+Ring of Oppression, it 88 (50), lev 18
+64k
+1) +6 SLVL
+2) -[150-175] mana
+3) UP: 315h
+
+==================
+
+#795 (320h)
+
+Mithril Infusion, it 88 (50), lev 25
+48k
+1) +[60-70]% accuracy
+2) hr: 3
+3) lose all regen
+4) +5 DFE
+5) UP: 5DDh
+
+==================
+
+#796 (321h)
+
+Yeqon's Curse, it 88 (50), lev 32
+48k
+1) ILS
+2) 2% lifesteal
+3) AS: 4
+4) lose all resistance
+5) -[30-40] AC
+6) UP: 2F0h
+
+==================
+
+#797 (322h)
+
+Ward of Insight, it 88 (50), lev 40
+48k
+1) +5 SLVL
+2) -[19-23] MAG
+3) UP: 2F1h
+
+==================
+
+#798 (323h)
+
+Band of Divination, it 88 (50), lev 50
+32k
+1) dread
+2) ruin
+3) +50% damage vs demons
+4) +50% damage vs undead
+5) -[20-23] all attr.
+6) UP: 4BCh
+
+==================
+
+#799 (324h)
+
+Condemned Aim, it 88 (50), lev 60
+32k
+1) AS: 1
+2) +[41-50] damage
+3) KB
+4) -15% accuracy
+5) UP: 4BBh
+
+==================
+
+#800 (325h)
+
+Ring of Bargaining, it 88 (50), lev 63
+32k
+1) +4 SLVL
+2) -25% manacost
+3) HR: 2
+4) -[7-8] all attr.
+5) UP: 5A0h
+
+==================================
+
+#801 (326h)
+
+Woundseeker, it 23 (21), 6
+32000
+1) +[201-275]% ED
+2) +[41-65] damage
+3) AS: 2
+4) +50% dmg vs undead
+5) -[8-9] all attr.
+6) UP: 5E6h
+
+==================================
+
+#802 (327h)
+
+Cudgel of Tears, it 23 (21), 21
+8000
+1) +[12-15]% THC
+2) +[51-75]% ED
+3) AS: 1
+4) -5 DEX
+5) -3 MAG
+6) UP: 5D5h
+
+==================================
+
+#803 (328h)
+
+Deathcrusher, it 23 (21), 29
+12000
+1) +[76-125]% ED
+2) +[11-15] dmg
+3) ruin
+4) -[1-2] DFE
+5) +[26-35] HP
+6) UP: 5E9h
+
+==================================
+
+#804 (329h)
+
+Whipclub, it 23 (21), 37
+16000
+1) +[126-150]% ED
+2) +[16-25] dmg
+3) KB
+4) AP: 3
+5) -[9-15]% THC
+6) UP: 5EAh
+
+==================================
+
+#805 (330h)
+
+Goldball, it 23 (21), 45
+16000
+1) +1 SLVL
+2) +[41-50]% lite resist
+3) faster mana regen
+4) +10% LR
+5) -25% manacost
+6) UP: 5E8h
+
+==================================
+
+#806 (331h)
+
+Fleshbrand, it 23 (21), 54
+20000
+1) +[151-175]% ED
+2) +[26-30] dmg
+3) +20 fire dmg
+4) AS: 1
+5) +5% THC
+6) UP: 37Fh
+
+==================================
+
+#807 (332h)
+
+The Rammer, it 23 (21), 63
+24000
+1) +[176-200]% ED
+2) +[31-40] dmg
+3) AS: 1
+4) ILS
+5) -[13-16] AC
+6) UP: 5E7h
+
+===============================
+
+#808 (333h)
+
+Gonnagal's Dirk, it 124 (3), 3
+1760
+1) -5 DEX
+2) +4 dmg
+3) +25% resist fire
+4) AS: 1
+5) -5 VIT
+6) UP: 5EEh
+
+===============================
+
+#809 (334h)
+
+Skin Piercer, it 124 (3), 7
+2400
+1) +[16-19]% THC
+2) UBD: [9-11]
+3) UP: 5F0h
+
+===============================
+
+#810 (335h)
+
+Prod of Sakhar, it 124 (3), 9
+3200
+1) +[57-72]% ED
+2) +[4-11] dmg
+3) +[3-5] STR
+4) -[2-3] VIT
+5) -[2-5] AC
+6) UP: 5EDh
+
+===============================
+
+#811 (336h)
+
+Sting, it 124 (3), 11
+4000
+1) +[18-20]% THC
+2) +[98-100]% ED
+3) UP: 5F1h
+
+===============================
+
+#812 (337h)
+
+Red Rondel, it 124 (3), 14
+4800
+1) 1% LS
+2) +[14-15] vitality
+3) UP: 5F2h
+
+===============================
+
+#813 (338h)
+
+Pig Sticker, it 124 (3), 23
+6400
+1) +[27-30] dmg
+2) AP: 4
+3) UP: 5F3h
+
+===============================
+
+#814 (339h)
+
+Kukri, it 124 (3), 36
+9600
+1) AS: 1
+2) +[37-40] dmg
+3) UP: 5F6h
+
+===============================
+
+#815 (33Ah)
+
+Skiver, it 124 (3), 42
+11200
+1) +[36-40]% THC
+2) +[111-135]% ED
+3) UP: 5F5h
+
+===============================
+
+#816 (33Bh)
+
+Spectral Poniard, it 124 (3), 56
+12000
+1) +[156-175]% ED
+2) Fire damage: 1-99
+3) UP: 5F4h
+
+===============================
+
+#817 (33Ch)
+
+Ghost Shard, it 124 (3), 63
+12800
+1) +[46-50] dmg
+2) 2% MS
+3) UP: 5EFh
+
+===============================
+
+#818 (33Dh)
+
+Veznan's Remorse, it 187 (3), 2
+5dc0h
+1) -10% LR
+2) -3 SLVL
+3) +[260-300] mana
+
+===============================
+
+#819 (33Eh)
+
+Traveller's Harness, it 187 (3), 3
+1600
+1) faster mana regen
+2) +1 DFE
+
+===============================
+
+#820 (33Fh)
+
+Mantle of the Dark, it 187 (3), 10
+3200
+1) -20% LR
+2) move life to mana
+3) -[3-4] DFE
+4) -[6-9]% resist all
+
+===============================
+
+#821 (340h)
+
+Bughul's Conjure, it 187 (3), 22
+3552 (DE0h)
+1) +1 SLVL
+2) longer fury
+3) -25% AC
+
+===============================
+
+#822 (341h)
+
+Sacrilege, it 187 (3), 39
+2140h, sell=266gp
+1) +3 SLVL
+2) +[15 MAG]
+3) -[73-77] mana
+
+===============================
+
+#823 (342h)
+
+Arcane Panoply, it 187 (3), 56
+3E80h
+1) +180% AC
+2) -[19-20] DFE
+3) ARD
+4) -5 all attr.
+5) +[21-30] mana
+
+=================================
+
+#824 (343h)
+
+Mountain of Doom
+100k (186A0h)
+1) +[11-150]% AC
+2) -[66-75] DFE
+3) +1 SLVL
+4) +[61-75] mana
+5) -[201-240] life
+6) up: 600h
+
+=================================
+
+#825 (344h)
+
+Lantern of Reduction, it 188 (17), 10 (available on purgatory and doom, from monsters level 10-16 or bosses level 6-12)
+16000k (3E80h)
+1) +[51-75]% AC / 0,5
+2) -[26-30] DFE / 2
+3) HR: 2 / 1
+4) -2 SLVL / -1
+5) +10% LR / -0,5
+6) up: 48Ah
+
+=================================
+
+#826 (345h)
+
+Darkness Robe, it 188 (17), 17 (available on horror, from dungeon level 10, mlvls 17-21), smallest mlvl on dlvl 10 is 22, so technically its available only on purgatory and doom...
+16000k (3E80h)
+1) 2% LS / 1
+2) 2% MS / 1
+3) -20% LR / 1
+4) AS: 2 / 1
+5) -[38-43]% resist all / -2
+6) up: 55Fh
+
+=================================
+
+#827 (346h)
+
+Bear Hide, it 188 (17), 22 (available on horror dlvl 10+) (lightest on horror...)
+4096k (1000h)
+1) +[21-40]% AC / 0,5
+2) -[14-16] DFE / 2
+3) +[33-53] life / 1
+4) -[22-35] mana / -0,5
+5) -1 SLVL / -1
+6) up: 14Dh
+
+=================================
+
+#828 (347h)
+
+Coat of Tolerance, it 188 (17), 36
+6000k (1770h)
+1) +[168-256] life / 4
+2) +[10-11] DFE / -1
+3) -[30-55]% magic resist / -1
+4) up: 491h
+
+=================================
+
+#829 (348h)
+
+Armor of Warmth, it 188 (17), 53 [quality 23]
+8000k (1F40h)
+1) +[30-38]% resist all / 2
+2) -[10-12] DFE / 1
+3) -1 SLVL / -0,7
+4) -[20-24] life / -0,3
+5) up: 492h
+
+=================================
+
+#830 (349h)
+
+Aguinara's Hatchet, it 175 (35), 12 (only on Doom)
+32k (?h)
+1) +[331-375]% ED / 1,5
+2) +[202-300] damage / 2
+3) AS: 2 / 1
+4) -[62-73]% resist all / -2
+5) -[13-17] AC / -0,5
+6) up: 3A4h
+
+=================================
+
+#831 (34Ah)
+
+Sharp Beak, it 175 (35), 20 
+12k (?h)
+1) AS: 4 / 1,5
+2) +[91-105]% ED / 0,5
+3) up: 3A5h
+
+=================================
+
+#832 (34Bh)
+
+Axe of Symmetry, it 175 (35), 35
+16k (?h)
+1) no STR req / 0
+2) +[201-235]% ED / 1
+3) AS: 2 / 1
+4) +[101-120] HP / 1
+5) -[91-100] mana / -1
+6) up: 1A9h
+
+=================================
+
+#833 (34Ch)
+
+Shockfire, it 175 (35), 50
+16k (?h)
+1) [40-120] fire damage
+2) [30-170] lightning damage
+3) -[31-45]% ED
+4) up: 3A6h
+
+=================================
+
+#834 (34Dh)
+
+Gold Apparel, it 189 (17), 2
+16k (?h)
+1) +[21-35]% AC / 1
+2) +1 SLVL / 0,5
+3) 2% mana steal / 1
+4) -[12-19] DFE / ~0,75
+5) +20% LR / -1
+6) up: 468h
+
+=================================
+
+#835 (34Eh)
+
+Trang-Oul's Tooth, it 189 (17), 17
+16k (?h)
+1) +[15-19] STR / 1
+2) -[13-20] DFE / 1
+3) move mana to life / 0
+4) + AC vs demons / 0
+5) up: 2EFh
+
+=================================
+
+#836 (34Fh)
+
+Armor of Deep Night, it 189 (17), 32
+9k (?h)
+1) -30% LR / 2
+2) -[11-22]% AC
+3) up: 24Bh
+
+=================================
+
+#837 (350h)
+
+Atra Morte, it 189 (17), 35
+16k (?h)
+1) -[31-40] DFE / 2
+2) -[101-150] HP / -2
+3) +[101-150] mana / 2
+4) up: 32Dh
+
+=================================
+
+#838 (351h)
+
+Decadence, it 189 (17), 49
+17k (?h)
+1) ARD / 1
+2) -[8-12] DFE / 0,5
+3) +[41-60]% magic resist / 1
+4) -[3-4] all attr. / -0,5
+5) up: 2EEh
+
+=================================
+
+#839 (352h)
+
+Storm Spire, it 190 (44), 13
+24k (5DC0h)
+1) AS: 4 / 1,5
+2) +[97-103]% ED / 0,5
+3) [29-71] lightning damage / 0,5
+4) -[13-16]% THC / -0,3
+5) up: 24Ch
+
+=================================
+
+#840 (353h)
+
+Staff of Cremation, it 190 (44), 29
+23k (59D8h)
+1) [30-130] fire damage / 1
+2) +[180-220]% ED / 1
+3) AS: 3 / 1,25
+4) -[50-61]% fire resist / -1
+5) up: 4FCh
+
+=================================
+
+#841 (354h)
+
+Hurricane, it 190 (44), 44
+22k (55F0h)
+1) -[28-30] all attrib. / -3
+2) +[400-480]% ED / 2
+3) +[220-280] damage / 2
+4) AS: 2 / 1
+5) AP: 2 / 0,5
+6) up: 5A4h
+
+=================================
+
+#842 (355h)
+
+Shield of Tyrants, it 59 (49), 34
+?k
+1) +(10-190)% Dur (high Dur)
+2) -(20-23) DFE
+3) +(19-24)% Res All
+4) +(15-20) Dex
+5) -(15-20) STR
+6) UP: 27h
+
+
+
+
+
+
+naginata uniqs:
+24C - blue
+4FC - inverted base
+5A4 - copper bladed one
+
+---------------------
+
+
+
+
+
+Free pixx:
+
+
+601 thick sword, curved
+616 shield
+721 plate
+745 sword (391h)
+746 sword
+972 shield
+982 light shield
+994 quilted armor
+1062 skull shield
+1093 brahmin hide
+1095 cuirass(?)
+1099 spiked shield
+1102 axe - yes!
+1110 hard leather
+
+1148 leather
+1176 bow
+1201 bow teeth
+1202 hlm
+1321-1322 plates dex/str
+

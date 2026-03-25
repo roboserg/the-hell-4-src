@@ -1,0 +1,5 @@
+Monsters with Fallen attack type gain less HP from warcries:
+
+:00440F46 C1E108                  shl ecx, 08
+into:
+:00440F46 C1E107                  shl ecx, 07

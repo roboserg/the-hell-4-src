@@ -1,0 +1,31 @@
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045A392(C)
+|
+:0045A3D0 3B0584084B00            cmp eax, dword ptr [004B0884]
+:0045A3D6 7518                    jne 0045A3F0
+:0045A3D8 803DD8B1600018          cmp byte ptr [0060B1D8], 18
+:0045A3DF 750E                    jne 0045A3EF
+:0045A3E1 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:0045A3E8 7405                    je 0045A3EF
+:0045A3EA B9BB030000              mov ecx, 000003BB
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045A3DF(C), :0045A3E8(C)
+|
+:0045A3EF C3                      ret
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045A3D6(C)
+|
+:0045A3F0 3B0584094B00            cmp eax, dword ptr [004B0984]
+:0045A3F6 7517                    jne 0045A40F
+:0045A3F8 803DD8B160000F          cmp byte ptr [0060B1D8], 0F
+:0045A3FF 750E                    jne 0045A40F
+:0045A401 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:0045A408 7405                    je 0045A40F
+:0045A40A B9C6030000              mov ecx, 000003C6
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045A3F6(C), :0045A3FF(C), :0045A408(C)
+|
+:0045A40F C3                      ret

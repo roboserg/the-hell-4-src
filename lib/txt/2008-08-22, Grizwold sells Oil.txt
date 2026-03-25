@@ -1,0 +1,16 @@
+Griz can sell Blacksmith Oil now:
+
+:0042A123 E88BFFFFFF              call 0042A0B3
+
+	>>>
+
+:0042A123 E88DC82D00              call 007069B5
+
+* Referenced by a CALL at Address:
+|:0042A123   
+|
+:007069B5 83F923                  cmp ecx, 00000023
+:007069B8 0F85F536D2FF            jne 0042A0B3
+:007069BE 6A01                    push 00000001
+:007069C0 58                      pop eax
+:007069C1 C3                      ret

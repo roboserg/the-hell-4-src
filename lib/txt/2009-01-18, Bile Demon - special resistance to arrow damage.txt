@@ -1,0 +1,33 @@
+Bile Demons resist 25% arrow damage on DLVL 9
+
+expanding arrow damage resist function...
+
+:007072FA 3D78000000              cmp eax, 00000078
+:007072FF 7505                    jne 00707306
+:00707301 E93A020000              jmp 00707540
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007072FF(C)
+|
+:00707306 83F834                  cmp eax, 00000034
+:00707309 75CB                    jne 007072D6
+:0070730B E9A0020000              jmp 007075B0
+
+
+extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070730B(U)
+|
+:007075B0 803DD8B1600009          cmp byte ptr [0060B1D8], 09
+:007075B7 7509                    jne 007075C2
+:007075B9 50                      push eax
+:007075BA 8BC7                    mov eax, edi
+:007075BC C1F802                  sar eax, 02
+:007075BF 2BF8                    sub edi, eax
+:007075C1 58                      pop eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007075B7(C)
+|
+:007075C2 E90FFDFFFF              jmp 007072D6

@@ -1,0 +1,1777 @@
+Итак. Начали:
+
+;006EB358 DungeonQuests[24] size of 1Сh
+;         uchar Status;                // 2
+
+==================================================================
+1. Изменение тайлов дома при активном квесте // done
+
+0047586C jmp @newLoc
+>>>
+@newLoc:
+call    sub_475155 ; затёртое
+
+mov edi, 17h ;23 индекс квеста
+imul edi, 1Сh
+add edi, offset 006EB358 ; в edi начало структуры lair квеста
+
+movzx eax, byte ptr [edi+2]; lair.Status
+cmp eax, 1
+jg @fillOpenDoor; если статус QS_2_IN_PROGRESS или QS_3_COMPLETE открываем
+
+test eax, eax
+jz @return ; если статус QS_0_NOT_ACCEPT (не будет квеста в игре)
+
+call 70A1D0; @getCurPlayerOffset
+add eax, 1f4h ; player.LevelVisitData[0]
+add eax, 1 ; выбрать уровень на который нужно прийти чтобы начался квест
+movzx eax, byte ptr [eax]
+test eax, eax
+jz @return ; ещё не достигли уровня который является триггером
+
+@fillOpenDoor:
+
+push   137h ; tileNumber
+push    4Eh ; col
+push    46h
+pop     edx  ; row
+mov     ecx, esi
+call    sub_475155
+
+push    136h ; tileNumber
+push    4Eh ; col
+push    48h
+pop     edx  ; row
+mov     ecx, esi
+call    sub_475155
+
+push    139h ; tileNumber
+push    4Eh ; col
+push    4Ah
+pop     edx  ; row
+mov     ecx, esi
+call    sub_475155
+
+push    135h ; tileNumber
+push    50h ; col
+push    48h
+pop     edx  ; row
+mov     ecx, esi
+call    sub_475155
+
+push    138h ; tileNumber
+push    50h ; col
+push    4Ah
+pop     edx  ; row
+mov     ecx, esi
+call    sub_475155
+
+mov dword ptr [edi+4], 49h
+mov dword ptr [edi+8], 50h ; координаты точки варпа
+
+@return:
+jmp  00475871 обратно
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0047586C(U)
+|
+:00714A40 E81007D6FF              call 00475155
+:00714A45 6A17                    push 00000017
+:00714A47 5F                      pop edi
+:00714A48 6BFF1C                  imul edi, 0000001C
+:00714A4B 81C758B36E00            add edi, 006EB358
+:00714A51 0FB64702                movzx eax, byte ptr [edi+02]
+:00714A55 83F801                  cmp eax, 00000001
+:00714A58 7F1C                    jg 00714A76
+:00714A5A 85C0                    test eax, eax
+:00714A5C 7460                    je 00714ABE
+:00714A5E E86D57FFFF              call 0070A1D0
+:00714A63 81C0F4010000            add eax, 000001F4
+:00714A69 83C001                  add eax, 00000001
+:00714A6C 0FB600                  movzx eax, byte ptr [eax]
+:00714A6F 85C0                    test eax, eax
+:00714A71 744B                    je 00714ABE
+:00714A73 90                      nop
+:00714A74 90                      nop
+:00714A75 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714A58(C)
+|
+:00714A76 6837010000              push 00000137
+:00714A7B 6A4E                    push 0000004E
+:00714A7D 6A46                    push 00000046
+:00714A7F 5A                      pop edx
+:00714A80 8BCE                    mov ecx, esi
+:00714A82 E8CE06D6FF              call 00475155
+:00714A87 90                      nop
+:00714A88 90                      nop
+:00714A89 6836010000              push 00000136
+:00714A8E 6A4E                    push 0000004E
+:00714A90 6A48                    push 00000048
+:00714A92 5A                      pop edx
+:00714A93 8BCE                    mov ecx, esi
+:00714A95 E8BB06D6FF              call 00475155
+:00714A9A 90                      nop
+
+:00714AA8 90                      nop
+:00714AA9 6839010000              push 00000139
+:00714AAE 6A4E                    push 0000004E
+:00714AB0 6A4A                    push 0000004A
+:00714AB2 5A                      pop edx
+:00714AB3 8BCE                    mov ecx, esi
+:00714AB5 E89B06D6FF              call 00475155
+:00714ABA 90                      nop
+:00714ABB EB0A                    jmp 00714AC7
+:00714ABD 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00714A5C(C), :00714A71(C)
+|
+:00714ABE EB4E                    jmp 00714B0E
+:00714AC0 90                      nop
+
+:00714AC6 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714ABB(U)
+|
+:00714AC7 90                      nop
+:00714AC8 90                      nop
+:00714AC9 6835010000              push 00000135
+:00714ACE 6A50                    push 00000050
+:00714AD0 6A48                    push 00000048
+:00714AD2 5A                      pop edx
+:00714AD3 8BCE                    mov ecx, esi
+:00714AD5 E87B06D6FF              call 00475155
+:00714ADA 90                      nop
+
+:00714AE8 90                      nop
+:00714AE9 6838010000              push 00000138
+:00714AEE 6A50                    push 00000050
+:00714AF0 6A4A                    push 0000004A
+:00714AF2 5A                      pop edx
+:00714AF3 8BCE                    mov ecx, esi
+:00714AF5 E85B06D6FF              call 00475155
+:00714AFA C7870400000049000000    mov dword ptr [edi+00000004], 00000049
+:00714B04 C7870800000050000000    mov dword ptr [edi+00000008], 00000050
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714ABE(U)
+|
+:00714B0E E95E0DD6FF              jmp 00475871
+:00714B13 90                      nop
+:00714B14 90                      nop
+
+==================================================================
+2. избавление от обрывков квеста Q_23_THE_JERSEYS_JERSEY которые могут помешать // done
+
+.text:00460558 004                 jnz     short loc_46057D ; Jump if Not Zero (ZF=0)
+на 
+ jmp     short loc_46057D
+
+
+;предотвращение переполнения при расширении квестов будущем
+
+00475C05 занопить. т.е. просто retn
+;Функция в принципе неверно работает. Там всего байт выделен на номер речи, в то время как речей уже за 300. и данные ей заполняемые уже не используются нигде
+
+==================================================================
+3. диалог с пэпином // in process
+
+004771EA  jmp @newLoc
+>>>
+@newLoc:
+
+call 70A1D0; @getCurPlayerOffset
+add eax, 1f4h ; player.LevelVisitData[0]
+add eax, 9 ; выбрать уровень на который нужно прийти чтобы начался квест
+movzx eax, byte ptr [eax]
+test eax, eax
+jz @return ; ещё не достигли уровня который является триггером
+
+push edi
+push esi
+
+mov edi, 17h ;23 индекс квеста
+imul edi, 1Сh
+add edi, offset 006EB358 ; в edi начало структуры lair квеста
+
+add esi, 006FF200 ; в esi начало pepinOffset + Cityzens pepinOffset + Cityzens 
+
+movzx eax, byte ptr [edi+2]; lair.Status
+cmp eax, 1 ; QS_1_ACCEPT
+jnz @nextCheck
+
+@startQuestSpeech:
+mov     dword ptr[esi+50h], 96h
+mov eax, dword ptr [006EADE8] ; CurrentPlayerIndex
+mov dword ptr[esi+0a8h], eax
+mov byte ptr [edi+2], 2 ; lairQuest.Status = QS_2_IN_PROGRESS;
+mov eax, 1
+mov dword ptr [edi+18h], eax ; lairQuest.TalkToFlag = 1;
+movzx byte ptr [edi+14h], al ; lairQuest.Status2 = 1;
+mov eax, @startPepinLairQuestSpeechIndex
+mov dword ptr [edi+14h], eax ; lairQuest.SpeechIndex = @startPepinLairQuestSpeechIndex
+mov ecx, eax
+call 0042E543 ; StartSpeech
+jmp @returnWithPop
+
+@nextCheck:
+cmp eax, 3 ; QS_3_COMPLETE
+jnz @returnWithPop
+mov eax, byte ptr [edi+14h]; lair.Status2
+cmp eax, 2
+jz @returnWithPop
+
+@endQuestSpeech:
+mov     dword ptr[esi+50h], 96h
+mov eax, dword ptr [006EADE8] ; CurrentPlayerIndex
+mov dword ptr[esi+0a8h], eax
+mov byte ptr [edi+14h], 2 ; lairQuest.Status2 = 2;
+mov ecx, @endPepinLairQuestSpeechIndex
+call 0042E543 ; StartSpeech
+call @dropLairQuestAward ; это уже потом будет решаться, что же кидать
+
+@returnWithPop:
+pop edi
+pop esi
+@return:
+mov     eax, dword ptr [006EAE14];Players ; затёртое
+jmp 004771EF ; обратно
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004771EA(U)
+|
+:007150D0 E8FB50FFFF              call 0070A1D0
+:007150D5 05F4010000              add eax, 000001F4
+:007150DA 83C009                  add eax, 00000009
+:007150DD 0FB600                  movzx eax, byte ptr [eax]
+:007150E0 85C0                    test eax, eax
+:007150E2 745E                    je 00715142
+:007150E4 90                      nop
+:007150E5 90                      nop
+:007150E6 90                      nop
+:007150E7 90                      nop
+:007150E8 57                      push edi
+:007150E9 56                      push esi
+:007150EA 6A17                    push 00000017
+:007150EC 5F                      pop edi
+:007150ED 6BFF1C                  imul edi, 0000001C
+:007150F0 81C758B36E00            add edi, 006EB358
+:007150F6 81C600F26F00            add esi, 006FF200
+:007150FC 0FB64702                movzx eax, byte ptr [edi+02]
+:00715100 83F801                  cmp eax, 00000001
+:00715103 754C                    jne 00715151
+:00715105 EB69                    jmp 00715170
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00715162(U)
+|
+:00715107 C7865000000096000000    mov dword ptr [esi+00000050], 00000096
+:00715111 90                      nop
+:00715112 90                      nop
+:00715113 A1E8AD6E00              mov eax, dword ptr [006EADE8]
+:00715118 8986A8000000            mov dword ptr [esi+000000A8], eax
+:0071511E 52                      push edx
+:0071511F 6A02                    push 00000002
+:00715121 5A                      pop edx
+:00715122 885714                  mov byte ptr [edi+14], dl
+:00715125 5A                      pop edx
+:00715126 B92D010000              mov ecx, 0000012D
+:0071512B E81394D1FF              call 0042E543
+:00715130 90                      nop
+:00715131 90                      nop
+:00715132 90                      nop
+:00715133 90                      nop
+:00715134 90                      nop
+:00715135 90                      nop
+:00715136 90                      nop
+:00715137 90                      nop
+:00715138 90                      nop
+:00715139 90                      nop
+:0071513A 90                      nop
+:0071513B 90                      nop
+:0071513C 90                      nop
+:0071513D 90                      nop
+:0071513E 90                      nop
+:0071513F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00715154(C), :00715160(C), :007151B1(U)
+|
+:00715140 5F                      pop edi
+:00715141 5E                      pop esi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007150E2(C)
+|
+:00715142 A114AE6E00              mov eax, dword ptr [006EAE14]
+:00715147 E9A320D6FF              jmp 004771EF
+:0071514C 90                      nop
+:0071514D 90                      nop
+:0071514E 90                      nop
+:0071514F 90                      nop
+:00715150 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00715103(C)
+|
+:00715151 83F803                  cmp eax, 00000003
+:00715154 75EA                    jne 00715140
+:00715156 0FB64714                movzx eax, byte ptr [edi+14]
+:0071515A 90                      nop
+:0071515B 90                      nop
+:0071515C 90                      nop
+:0071515D 83F802                  cmp eax, 00000002
+:00715160 74DE                    je 00715140
+:00715162 EBA3                    jmp 00715107
+:00715164 90                      nop
+:00715165 90                      nop
+:00715166 90                      nop
+:00715167 90                      nop
+:00715168 90                      nop
+:00715169 90                      nop
+:0071516A 90                      nop
+:0071516B 90                      nop
+:0071516C 90                      nop
+:0071516D 90                      nop
+:0071516E 90                      nop
+:0071516F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00715105(U)
+|
+:00715170 C7865000000096000000    mov dword ptr [esi+00000050], 00000096
+:0071517A 90                      nop
+:0071517B 90                      nop
+:0071517C A1E8AD6E00              mov eax, dword ptr [006EADE8]
+:00715181 8986A8000000            mov dword ptr [esi+000000A8], eax
+:00715187 90                      nop
+:00715188 52                      push edx
+:00715189 6A02                    push 00000002
+:0071518B 5A                      pop edx
+:0071518C 885702                  mov byte ptr [edi+02], dl
+:0071518F 5A                      pop edx
+:00715190 6A01                    push 00000001
+:00715192 58                      pop eax
+:00715193 90                      nop
+:00715194 90                      nop
+:00715195 90                      nop
+:00715196 894718                  mov dword ptr [edi+18], eax
+:00715199 90                      nop
+:0071519A 884714                  mov byte ptr [edi+14], al
+:0071519D 90                      nop
+:0071519E 90                      nop
+:0071519F 90                      nop
+:007151A0 B82C010000              mov eax, 0000012C
+:007151A5 894714                  mov dword ptr [edi+14], eax
+:007151A8 90                      nop
+:007151A9 90                      nop
+:007151AA 8BC8                    mov ecx, eax
+:007151AC E89293D1FF              call 0042E543
+:007151B1 EB8D                    jmp 00715140
+:007151B3 90                      nop
+:007151B4 90                      nop
+:007151B5 90                      nop
+
+
+
+==================================================================
+4. заполнение таблиц данных
+
+4.1. инфа о квесте
+; 004B6908 QuestsPtr
+;14h * 17h = 1CCh
+;4B6AD4 QuestsPtr[23]
+
+;        uchar  SPDangeonLevel;                        // 0
+;        uchar  MPDangeonLevel;                        // 1
+;        uchar  DungeonType;                                // 2
+;        uchar  QuestNumber;                                // 3
+;        uchar  Unknown2;                                // 4
+;        uchar  SPSpecialLevelSettings;        // 5
+;        ushort AlwaysZero;                                // 6
+;        int    MPTriggerFlag;                        // 8
+;        int    SpeechIndex;                                // 12
+;        char*  QuestNamePtr;                        // 16
+
+;        {0,                -1,        DT_3_CAVE_OR_ABYSS,                Q_23_THE_LAIR,                100,        3,0,0,SP_39,                                                "The lair"},        //23
+
+4B6AD4
+00h FFh 03h 17h 64h 03h 0000h 00000000h @startPepinLairQuestSpeechIndex(dword) @lairQuestNamePtr(dword)
+
+4.2. имя спецлоки
+004B6AF8     ; char *QuestPlaceNamesPtr[5]
+3й dword - @lairQuestLocationNamePtr
+
+4.3. имя спецлоки отображаемое на автокарте
+004B7310     ; char *QuestNameTable[6]
+4й dword - @lairQuestLocationNamePtr
+
+4.4. добавление в группу квестов  - do later!
+новый массив
+@QuestGroup1: ;A33E70h
+dword[3] = 0000000ch 0000000d 00000017h
+
+0045F6FB  jmp @newLoc
+>>>
+@newLoc:
+push    3
+xor     cl, cl          ; Logical Exclusive OR
+pop     edx
+call    00419F5A;RangeRND
+mov     eax, dword ptr [A33E70h+eax*4] // как записать это? и что за квест груп?
+imul    eax, 1Ch        ; Signed Multiply
+mov byte ptr [eax+006EB35A], bl
+@return:
+jmp 45F717
+
+
+  4.4 check:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045F6FB(U)
+|
+:00715530 6A03                    push 00000003
+:00715532 32C9                    xor cl, cl
+:00715534 5A                      pop edx
+:00715535 E8204AD0FF              call 00419F5A
+:0071553A 90                      nop
+:0071553B 90                      nop
+:0071553C 8B0485703EA300          mov eax, dword ptr [4*eax+00A33E70]
+:00715543 90                      nop
+:00715544 90                      nop
+:00715545 90                      nop
+:00715546 6BC01C                  imul eax, 0000001C
+:00715549 88985AB36E00            mov byte ptr [eax+006EB35A], bl
+:0071554F 90                      nop
+:00715550 90                      nop
+:00715551 90                      nop
+:00715552 90                      nop
+:00715553 E9BFA1D4FF              jmp 0045F717
+:00715558 90                      nop
+
+
+==================================================================
+5. установка точки возврата из квестовой локи // done
+; полностью переписываем функцию. Так как некуда влезть. Да и понимабельность улучшится
+
+.data:006EB66C     ; int SPQuestCol
+.data:006EB670     ; int SPQuestRow
+.data:006EB674     ; int SPQuestDungeonType
+.data:006EB67C     ; int SPQuestDangeonLevel
+
+46031F jmp @newLoc
+>>>
+@newLoc:
+movzx   eax, byte ptr [0061CB00]; SPQuestIndex 
+dec eax
+jz @questLoc1
+dec eax
+jz @questLoc2
+dec eax
+jz @questLoc3
+dec eax
+jz @questLoc4
+dec eax
+jz @questLoc5
+jmp @questLocOther
+
+@questLoc1:
+push edi
+mov edi, 0Ch ;12 индекс квеста
+imul edi, 1Сh
+add edi, offset 006EB358
+
+mov eax, dword ptr [edi+4]
+inc eax
+mov dword ptr [006EB670], eax ; SPQuestRow
+mov eax, dword ptr [edi+8]
+mov dword ptr [006EB66C], eax ; SPQuestCol
+movzx eax, byte ptr [edi]
+mov dword ptr [006EB67C], eax ; SPQuestDangeonLevel
+mov dword ptr [006EB674], 1     ; SPQuestDungeonType
+
+pop edi
+retn
+
+@questLoc2:
+push edi
+mov edi, 0Eh ;14 индекс квеста
+imul edi, 1Сh
+add edi, offset 006EB358
+
+mov eax, dword ptr [edi+4]
+inc eax
+mov dword ptr [006EB670], eax ; SPQuestRow
+mov eax, dword ptr [edi+8]
+mov dword ptr [006EB66C], eax ; SPQuestCol
+movzx eax, byte ptr [edi]
+mov dword ptr [006EB67C], eax ; SPQuestDangeonLevel
+mov dword ptr [006EB674], 2     ; SPQuestDungeonType
+
+pop edi
+retn
+
+@questLoc3:
+push edi
+mov edi, 17h ;23 индекс квеста
+imul edi, 1Сh
+add edi, offset 006EB358
+
+mov eax, dword ptr [edi+4]
+inc eax
+mov dword ptr [006EB670], eax ; SPQuestRow
+mov eax, dword ptr [edi+8]
+mov dword ptr [006EB66C], eax ; SPQuestCol
+movzx eax, byte ptr [edi]
+mov dword ptr [006EB67C], eax ; SPQuestDangeonLevel
+mov dword ptr [006EB674], 0     ; SPQuestDungeonType
+
+pop edi
+retn
+
+@questLoc4:
+push edi
+mov edi, 0Dh ;13 индекс квеста
+imul edi, 1Сh
+add edi, offset 006EB358
+
+mov eax, dword ptr [edi+4]
+mov dword ptr [006EB670], eax ; SPQuestRow
+mov eax, dword ptr [edi+8]
+inc eax
+mov dword ptr [006EB66C], eax ; SPQuestCol
+movzx eax, byte ptr [edi]
+mov dword ptr [006EB67C], eax ; SPQuestDangeonLevel
+mov dword ptr [006EB674], 1     ; SPQuestDungeonType
+
+pop edi
+retn
+
+@questLoc5:
+push edi
+mov edi, 0Fh ;15 индекс квеста
+imul edi, 1Сh
+add edi, offset 006EB358
+
+mov eax, dword ptr [edi+4]
+inc eax
+mov dword ptr [006EB670], eax ; SPQuestRow
+mov eax, dword ptr [edi+8]
+dec eax
+mov dword ptr [006EB66C], eax ; SPQuestCol
+
+movzx eax, byte ptr [edi]
+mov dword ptr [006EB67C], eax ; SPQuestDangeonLevel
+mov dword ptr [006EB674], 4     ; SPQuestDungeonType
+
+pop edi
+retn
+
+@questLocOther:
+; если планируются ещё локи, то стоит оставить место. Как минимум на джамп туда где будет продолжение
+retn
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0046031F(U)
+|
+:00714CC0 0FB60500CB6100          movzx eax, byte ptr [0061CB00]
+:00714CC7 48                      dec eax
+:00714CC8 0F8472000000            je 00714D40
+:00714CCE 48                      dec eax
+:00714CCF 0F84AB000000            je 00714D80
+:00714CD5 48                      dec eax
+:00714CD6 0F84E4000000            je 00714DC0
+:00714CDC 48                      dec eax
+:00714CDD 0F841D010000            je 00714E00
+:00714CE3 48                      dec eax
+:00714CE4 0F8416000000            je 00714D00
+:00714CEA E951010000              jmp 00714E40
+:00714CEF 90                      nop
+:00714CF0 90                      nop
+:00714CF1 90                      nop
+:00714CF2 90                      nop
+:00714CF3 90                      nop
+:00714CF4 90                      nop
+:00714CF5 90                      nop
+:00714CF6 90                      nop
+:00714CF7 90                      nop
+:00714CF8 90                      nop
+:00714CF9 90                      nop
+:00714CFA 90                      nop
+:00714CFB 90                      nop
+:00714CFC 90                      nop
+:00714CFD 90                      nop
+:00714CFE 90                      nop
+:00714CFF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714CE4(C)
+|
+:00714D00 57                      push edi
+:00714D01 6A0F                    push 0000000F
+:00714D03 5F                      pop edi
+:00714D04 6BFF1C                  imul edi, 0000001C
+:00714D07 81C758B36E00            add edi, 006EB358
+:00714D0D 8B4704                  mov eax, dword ptr [edi+04]
+:00714D10 40                      inc eax
+:00714D11 90                      nop
+:00714D12 90                      nop
+:00714D13 A370B66E00              mov dword ptr [006EB670], eax
+:00714D18 8B4708                  mov eax, dword ptr [edi+08]
+:00714D1B 48                      dec eax
+:00714D1C A36CB66E00              mov dword ptr [006EB66C], eax
+:00714D21 0FB607                  movzx eax, byte ptr [edi]
+:00714D24 90                      nop
+:00714D25 90                      nop
+:00714D26 A37CB66E00              mov dword ptr [006EB67C], eax
+:00714D2B 90                      nop
+:00714D2C 90                      nop
+:00714D2D 90                      nop
+:00714D2E 90                      nop
+:00714D2F 90                      nop
+:00714D30 C70574B66E0004000000    mov dword ptr [006EB674], 00000004
+:00714D3A 5F                      pop edi
+:00714D3B C3                      ret
+
+
+:00714D3C 90                      nop
+:00714D3D 90                      nop
+:00714D3E 90                      nop
+:00714D3F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714CC8(C)
+|
+:00714D40 57                      push edi
+:00714D41 6A0C                    push 0000000C
+:00714D43 5F                      pop edi
+:00714D44 6BFF1C                  imul edi, 0000001C
+:00714D47 81C758B36E00            add edi, 006EB358
+:00714D4D 8B4704                  mov eax, dword ptr [edi+04]
+:00714D50 40                      inc eax
+:00714D51 90                      nop
+:00714D52 90                      nop
+:00714D53 A370B66E00              mov dword ptr [006EB670], eax
+:00714D58 8B4708                  mov eax, dword ptr [edi+08]
+:00714D5B 90                      nop
+:00714D5C A36CB66E00              mov dword ptr [006EB66C], eax
+:00714D61 0FB607                  movzx eax, byte ptr [edi]
+:00714D64 90                      nop
+:00714D65 90                      nop
+:00714D66 A37CB66E00              mov dword ptr [006EB67C], eax
+:00714D6B 90                      nop
+:00714D6C 90                      nop
+:00714D6D 90                      nop
+:00714D6E 90                      nop
+:00714D6F 90                      nop
+:00714D70 C70574B66E0001000000    mov dword ptr [006EB674], 00000001
+:00714D7A 5F                      pop edi
+:00714D7B C3                      ret
+
+
+:00714D7C 90                      nop
+:00714D7D 90                      nop
+:00714D7E 90                      nop
+:00714D7F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714CCF(C)
+|
+:00714D80 57                      push edi
+:00714D81 6A0E                    push 0000000E
+:00714D83 5F                      pop edi
+:00714D84 6BFF1C                  imul edi, 0000001C
+:00714D87 81C758B36E00            add edi, 006EB358
+:00714D8D 8B4704                  mov eax, dword ptr [edi+04]
+:00714D90 40                      inc eax
+:00714D91 90                      nop
+:00714D92 90                      nop
+:00714D93 A370B66E00              mov dword ptr [006EB670], eax
+:00714D98 8B4708                  mov eax, dword ptr [edi+08]
+:00714D9B 90                      nop
+:00714D9C A36CB66E00              mov dword ptr [006EB66C], eax
+:00714DA1 0FB607                  movzx eax, byte ptr [edi]
+:00714DA4 90                      nop
+:00714DA5 90                      nop
+:00714DA6 A37CB66E00              mov dword ptr [006EB67C], eax
+:00714DAB 90                      nop
+:00714DAC 90                      nop
+:00714DAD 90                      nop
+:00714DAE 90                      nop
+:00714DAF 90                      nop
+:00714DB0 C70574B66E0002000000    mov dword ptr [006EB674], 00000002
+:00714DBA 5F                      pop edi
+:00714DBB C3                      ret
+
+
+:00714DBC 90                      nop
+:00714DBD 90                      nop
+:00714DBE 90                      nop
+:00714DBF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714CD6(C)
+|
+:00714DC0 57                      push edi
+:00714DC1 6A17                    push 00000017
+:00714DC3 5F                      pop edi
+:00714DC4 6BFF1C                  imul edi, 0000001C
+:00714DC7 81C758B36E00            add edi, 006EB358
+:00714DCD 8B4704                  mov eax, dword ptr [edi+04]
+:00714DD0 40                      inc eax
+:00714DD1 90                      nop
+:00714DD2 90                      nop
+:00714DD3 A370B66E00              mov dword ptr [006EB670], eax
+:00714DD8 8B4708                  mov eax, dword ptr [edi+08]
+:00714DDB 90                      nop
+:00714DDC A36CB66E00              mov dword ptr [006EB66C], eax
+:00714DE1 0FB607                  movzx eax, byte ptr [edi]
+:00714DE4 90                      nop
+:00714DE5 90                      nop
+:00714DE6 A37CB66E00              mov dword ptr [006EB67C], eax
+:00714DEB 90                      nop
+:00714DEC 90                      nop
+:00714DED 90                      nop
+:00714DEE 90                      nop
+:00714DEF 90                      nop
+:00714DF0 C70574B66E0000000000    mov dword ptr [006EB674], 00000000
+:00714DFA 5F                      pop edi
+:00714DFB C3                      ret
+
+
+:00714DFC 90                      nop
+:00714DFD 90                      nop
+:00714DFE 90                      nop
+:00714DFF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714CDD(C)
+|
+:00714E00 57                      push edi
+:00714E01 6A0D                    push 0000000D
+:00714E03 5F                      pop edi
+:00714E04 6BFF1C                  imul edi, 0000001C
+:00714E07 81C758B36E00            add edi, 006EB358
+:00714E0D 8B4704                  mov eax, dword ptr [edi+04]
+:00714E10 90                      nop
+:00714E11 90                      nop
+:00714E12 90                      nop
+:00714E13 A370B66E00              mov dword ptr [006EB670], eax
+:00714E18 8B4708                  mov eax, dword ptr [edi+08]
+:00714E1B 40                      inc eax
+:00714E1C A36CB66E00              mov dword ptr [006EB66C], eax
+:00714E21 0FB607                  movzx eax, byte ptr [edi]
+:00714E24 90                      nop
+:00714E25 90                      nop
+:00714E26 A37CB66E00              mov dword ptr [006EB67C], eax
+:00714E2B 90                      nop
+:00714E2C 90                      nop
+:00714E2D 90                      nop
+:00714E2E 90                      nop
+:00714E2F 90                      nop
+:00714E30 C70574B66E0001000000    mov dword ptr [006EB674], 00000001
+:00714E3A 5F                      pop edi
+:00714E3B C3                      ret
+
+
+:00714E3C 90                      nop
+:00714E3D 90                      nop
+:00714E3E 90                      nop
+:00714E3F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714CEA(U)
+|
+:00714E40 C3                      ret
+:00714E41 90                      nop
+:00714E42 90                      nop
+
+
+
+
+==================================================================
+6. установка варпа в квестовой локе // done
+@AddWarpFromLair:
+; копируем 004783D1
+; в копии меняем 1Eh и 53h на 2Bh и 40h соответственно (это при текущем дуне. Если будет другой, то надо будет другие значения подбирать)
+
+==================================================================
+7. отображение надписи при наведении на тайлы открытой двери в городе // done
+
+
+.text:004785D1 00C                 cmp     Bool4Array+8, 0 ; Compare Two Operands
+.text:004785D8 00C                 jz      short loc_478624 ; Jump if Zero (ZF=1)
+.text:004785DA 00C                 imul    eax, 70h        ; Signed Multiply
+
+004785D1 jmp @newLoc
+>>>
+@newLoc:
+mov     edx, eax
+imul    edx, 70h
+add     edx, ecx
+mov     edx, dword ptr [005F5BB0+edx*4] ; DMap112x112
+mov     esi, 46Eh;1134
+
+loop:
+cmp     edx, esi
+jz      @showLairDescription
+inc     esi
+cmp     esi, 47Fh ;1151
+jle     @loop
+@hellEnterCheck:
+cmp     Bool4Array+8, 0 ; затёртое
+jmp 004785D8
+
+@showLairDescription:
+push    offset @toTheLair ; "To the lair" или другая строчка описания
+push    004D12F0 ;offset SomeString Dest
+call    00479D30 ;_strcpy
+pop     ecx
+mov   dword ptr [004D1650], 49h;  CursRow
+pop     ecx
+mov  dword ptr [004D1654], 50h  ; CursCol
+jmp     47861F
+
+       сheck:
+       
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004785D1(U)
+|
+:00714C50 8BD0                    mov edx, eax
+:00714C52 6BD270                  imul edx, 00000070
+:00714C55 03D1                    add edx, ecx
+:00714C57 8B1495B05B5F00          mov edx, dword ptr [4*edx+005F5BB0]
+:00714C5E BE6E040000              mov esi, 0000046E
+:00714C63 90                      nop
+:00714C64 90                      nop
+:00714C65 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714C71(C)
+|
+:00714C66 3BD6                    cmp edx, esi
+:00714C68 741A                    je 00714C84
+:00714C6A 46                      inc esi
+:00714C6B 81FE7F040000            cmp esi, 0000047F
+:00714C71 7EF3                    jle 00714C66
+:00714C73 833D1802700000          cmp dword ptr [00700218], 00000000
+:00714C7A E95939D6FF              jmp 004785D8
+:00714C7F 90                      nop
+:00714C80 90                      nop
+:00714C81 90                      nop
+:00714C82 90                      nop
+:00714C83 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714C68(C)
+|
+:00714C84 68CD37A300              push 00A337CD
+:00714C89 68F0124D00              push 004D12F0
+:00714C8E E89D50D6FF              call 00479D30
+:00714C93 59                      pop ecx
+:00714C94 C70550164D0049000000    mov dword ptr [004D1650], 00000049
+:00714C9E 59                      pop ecx
+:00714C9F C70550164D0054000000    mov dword ptr [004D1654], 00000050
+:00714CA9 90                      nop
+:00714CAA 90                      nop
+:00714CAB E96F39D6FF              jmp 0047861F
+:00714CB0 90                      nop
+
+
+==================================================================
+8. проверка завершения квеста // done
+;.text:0045F956 00C                 mov     ecx, SomeDword_56 ; a2
+;.text:0045F95C 00C                 cmp     ecx, ebx_zero   ; Compare Two Operands
+
+0045F956 jmp @newLoc
+>>>
+@newLoc:
+push edi
+mov edi, 17h ;23 индекс квеста
+imul edi, 1Сh
+add edi, offset 006EB358 ; в edi начало структуры lair квеста
+
+mov al, byte ptr [0061CB00]; QuestFloorIndex
+cmp byte ptr [edi+0Ch], al
+jnz @return
+
+cmp byte ptr [edi+2h], 03h ; QS_3_COMPLETE
+jz @return
+
+cmp dword ptr [0069DC80], 4 ; monsterCount
+jnz @return
+
+@setLairQuestComplete:
+mov byte ptr [edi+2h], 03h ; QS_3_COMPLETE
+; тут ещё место. Если я правильно понял, перс говорит после очистки 
+; Player Character: The Town is safe from this foul spawn.
+
+@return:
+pop edi
+mov ecx, dword ptr [006EB668]; затёртое
+jmp 0045F95C ; обратно
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045F956(U)
+|
+:00715200 57                      push edi
+:00715201 6A17                    push 00000017
+:00715203 5F                      pop edi
+:00715204 6BFF1C                  imul edi, 0000001C
+:00715207 81C758B36E00            add edi, 006EB358
+:0071520D A000CB6100              mov al, byte ptr [0061CB00]
+:00715212 38470C                  cmp byte ptr [edi+0C], al
+:00715215 90                      nop
+:00715216 90                      nop
+:00715217 90                      nop
+:00715218 757F                    jne 00715299
+:0071521A 807F0203                cmp byte ptr [edi+02], 03
+:0071521E 7479                    je 00715299
+:00715220 90                      nop
+:00715221 90                      nop
+:00715222 833D80DC690004          cmp dword ptr [0069DC80], 00000004
+:00715229 756E                    jne 00715299
+:0071522B 50                      push eax
+:0071522C 6A03                    push 00000003
+:0071522E 58                      pop eax
+:0071522F 884702                  mov byte ptr [edi+02], al
+:00715232 58                      pop eax
+:00715233 E8984FFFFF              call 0070A1D0
+:00715238 0FBE8060010000          movsx eax, byte ptr [eax+00000160]
+:0071523F 85C0                    test eax, eax
+:00715241 7416                    je 00715259
+:00715243 83F805                  cmp eax, 00000005
+:00715246 7411                    je 00715259
+:00715248 83F801                  cmp eax, 00000001
+:0071524B 7423                    je 00715270
+:0071524D 83F804                  cmp eax, 00000004
+:00715250 741E                    je 00715270
+:00715252 83F802                  cmp eax, 00000002
+:00715255 7425                    je 0071527C
+:00715257 EB47                    jmp 007152A0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00715241(C), :00715246(C)
+|
+:00715259 C70518A257002B030000    mov dword ptr [0057A218], 0000032B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071527A(U), :00715286(U)
+|
+:00715263 B81E000000              mov eax, 0000001E
+:00715268 A314A25700              mov dword ptr [0057A214], eax
+:0071526D EB31                    jmp 007152A0
+:0071526F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071524B(C), :00715250(C)
+|
+:00715270 C70518A25700BE020000    mov dword ptr [0057A218], 000002BE
+:0071527A EBE7                    jmp 00715263
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00715255(C)
+|
+:0071527C C70518A25700D3030000    mov dword ptr [0057A218], 000003D3
+:00715286 EBDB                    jmp 00715263
+:00715288 90                      nop
+:00715289 90                      nop
+:0071528A 00000000000000000000    BYTE 10 DUP(0)
+:00715294 0000000000              BYTE  5 DUP(0)
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00715218(C), :0071521E(C), :00715229(C)
+|
+:00715299 90                      nop
+:0071529A 90                      nop
+:0071529B 90                      nop
+:0071529C 90                      nop
+:0071529D 90                      nop
+:0071529E 90                      nop
+:0071529F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00715257(U), :0071526D(U)
+|
+:007152A0 5F                      pop edi
+:007152A1 8B0D68B66E00            mov ecx, dword ptr [006EB668]
+:007152A7 E9B0A6D4FF              jmp 0045F95C
+:007152AC 90                      nop
+:007152AD 90                      nop
+
+
+also:
+:0042DD32 750A                    jne 0042DD3E
+           changed into
+ :0042DD32 EB0A                    jmp 0042DD3E
+
+
+==================================================================
+9. Надпись внутри квестовой локи для выхода из локи // done
+
+9.1
+@ShowDungeonEnteriesDiscriptionsLair:
+; Делаем копию 479248
+
+В копии следующие изменения:
+1)
+movzx   eax, DungeonQuests.DangeonLevel+16Ch ; занопить
+push    eax ; занопить
+push    offset aBackToLevelI ; "Back to Level %i"  "back to town" новая строка либо старая "up to town" которая по адресу 004CBE64
+push    offset SomeString ; Dest
+call    _sprintf 
+mov     eax, WarpsArray.XPos
+add     esp, 0Ch меняем на 08h
+2) в двух местах 4CBB78 меняем на 4CBB38
+
+
+* Referenced by a CALL at Address:
+|:007150AA   
+|
+:00715000 A138BB4C00              mov eax, dword ptr [004CBB38]
+:00715005 83F8FF                  cmp eax, FFFFFFFF
+:00715008 742A                    je 00715034
+:0071500A 8B0D50164D00            mov ecx, dword ptr [004D1650]
+:00715010 6BC970                  imul ecx, 00000070
+:00715013 030D54164D00            add ecx, dword ptr [004D1654]
+:00715019 8B148DB05B5F00          mov edx, dword ptr [4*ecx+005F5BB0]
+
+* Possible StringData Ref from Data Obj ->"?"
+                                  |
+:00715020 B938BB4C00              mov ecx, 004CBB38
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00715032(C)
+|
+:00715025 3BD0                    cmp edx, eax
+:00715027 740E                    je 00715037
+:00715029 8B4104                  mov eax, dword ptr [ecx+04]
+:0071502C 83C104                  add ecx, 00000004
+:0071502F 83F8FF                  cmp eax, FFFFFFFF
+:00715032 75F1                    jne 00715025
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00715008(C)
+|
+:00715034 33C0                    xor eax, eax
+:00715036 C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00715027(C)
+|
+:00715037 90                      nop
+:00715038 90                      nop
+:00715039 90                      nop
+:0071503A 90                      nop
+:0071503B 90                      nop
+:0071503C 90                      nop
+:0071503D 90                      nop
+:0071503E 90                      nop
+
+* Possible StringData Ref from Data Obj ->"Up to town"
+                                  |
+:0071503F 6864BE4C00              push 004CBE64
+:00715044 68F0124D00              push 004D12F0
+:00715049 E8724AD6FF              call 00479AC0
+:0071504E A128027000              mov eax, dword ptr [00700228]
+:00715053 83C408                  add esp, 00000008
+:00715056 A350164D00              mov dword ptr [004D1650], eax
+:0071505B A12C027000              mov eax, dword ptr [0070022C]
+:00715060 6A01                    push 00000001
+:00715062 A354164D00              mov dword ptr [004D1654], eax
+:00715067 58                      pop eax
+:00715068 C3                      ret
+
+
+
+9.2.
+не влезаем, опять на новом месте переписываю
+
+00479326 jmp @newLoc
+>>>
+@newLoc:
+movzx   eax, byte ptr [0061CB00]; SPQuestIndex 
+dec eax
+jz @questLoc1
+dec eax
+jz @questLoc2
+dec eax
+jz @questLoc3
+dec eax
+jz @questLoc4
+jmp @questLocOther
+
+@questLoc1:
+call sub_479176
+jmp @return
+
+@questLoc2:
+call sub_4791DF
+jmp @return
+
+@questLoc3:
+call @ShowDungeonEnteriesDiscriptionsLair
+jmp @return
+
+@questLoc4:
+call sub_479248
+jmp @return
+
+@questLocOther:
+; если планируются ещё локи, то стоит оставить место. Как минимум на джамп туда где будет продолжение
+@return:
+jmp 47934A
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00479326(U)
+|
+:00715080 0FB60500CB6100          movzx eax, byte ptr [0061CB00]
+:00715087 48                      dec eax
+:00715088 7416                    je 007150A0
+:0071508A 48                      dec eax
+:0071508B 7418                    je 007150A5
+:0071508D 48                      dec eax
+:0071508E 741A                    je 007150AA
+:00715090 48                      dec eax
+:00715091 7421                    je 007150B4
+:00715093 E917000000              jmp 007150AF
+:00715098 90                      nop
+:00715099 90                      nop
+:0071509A 90                      nop
+:0071509B 90                      nop
+:0071509C 90                      nop
+:0071509D 90                      nop
+:0071509E 90                      nop
+:0071509F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00715088(C)
+|
+:007150A0 E9A042D6FF              jmp 00479345
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071508B(C)
+|
+:007150A5 E99442D6FF              jmp 0047933E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071508E(C)
+|
+:007150AA E851FFFFFF              call 00715000
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00715093(U)
+|
+:007150AF E99642D6FF              jmp 0047934A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00715091(C)
+|
+:007150B4 E97E42D6FF              jmp 00479337
+:007150B9 90                      nop
+
+
+==================================================================
+10. собственно настройка квестовой локи // done
+
+46B358 jmp @newLoc ; смело затираем код лабиринта. Я потом заного могу написать
+>>>
+@newLoc:
+
+; если квест ещё не помечен активным (разговором с пэпином), то помечаем его активным при загрузке доп локи
+push edi
+mov edi, 17h ;23 индекс квеста
+imul edi, 1Сh
+add edi, offset 006EB358 ; в edi начало структуры lair квеста
+cmp byte ptr [edi+2h], 01h ; QS_1_ACCEPT
+jnz @F
+mov byte ptr [edi+2h], 02h ; QS_2_IN_PROGRESS
+@@:
+pop edi
+
+; разнообразие в зависимости от сложности или ещё чего то сам сделаешь
+; оставь достаточно места для этого
+
+
+call @selectRandomDunForWyrmQuest
+mov esi, eax ;offset "Levels\\L3Data\\lair.DUN"
+
+
+
+
+mov ecx, esi
+mov edx, 32h
+call 00414BC7 ; альтернативный дун
+
+mov ecx, esi
+mov edx, 32h
+call 00414A7C ; главный дун
+
+mov ecx, offset "Levels\\L3Data\\L3pfoul.pal" ; или другая спец палитра
+call 0045552B
+
+call @AddWarpFromLair ; см 6.
+
+; виртуальный dlvl локи. Можно опять таки разный от сложности
+mov ecx, 0Ch 
+mov byte ptr [0060B1D8], cl ; меняем dlvl
+call 70A1D0; @getCurPlayerOffset
+mov dword ptr [eax+34h], ecx ; меняем dlvl игрока иначе получим черный экран
+
+; координаты появления игрока на карте
+mov dword ptr [0061F334h], 2Ch
+mov dword ptr [0061F338h], 40h
+
+pop     esi
+retn
+
+     сode to check:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0046B358(U)
+|
+:00714B60 57                      push edi
+:00714B61 6A17                    push 00000017
+:00714B63 5F                      pop edi
+:00714B64 6BFF1C                  imul edi, 0000001C
+:00714B67 81C758B36E00            add edi, 006EB358
+:00714B6D 807F0201                cmp byte ptr [edi+02], 01
+:00714B71 7508                    jne 00714B7B
+:00714B73 90                      nop
+:00714B74 6A02                    push 00000002
+:00714B76 58                      pop eax
+:00714B77 884702                  mov byte ptr [edi+02], al
+:00714B7A 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714B71(C)
+|
+:00714B7B 5F                      pop edi
+:00714B7C E84F0A0000              call 007155D0
+:00714B81 8BF0                    mov esi, eax
+
+:00714B9F 90                      nop
+:00714BA0 BEF037A300              mov esi, 00A337F0
+:00714BA5 8BCE                    mov ecx, esi
+:00714BA7 90                      nop
+:00714BA8 6A32                    push 00000032
+:00714BAA 6A14                    push 00000014
+:00714BAC 5A                      pop edx
+:00714BAD E81500D0FF              call 00414BC7
+:00714BB2 90                      nop
+
+:00714BBD 90                      nop
+:00714BBE 6A32                    push 00000032
+:00714BC0 8BCE                    mov ecx, esi
+:00714BC2 6A13                    push 00000013
+:00714BC4 5A                      pop edx
+:00714BC5 E8B2FECFFF              call 00414A7C
+:00714BCA 90                      nop
+:00714BCB 90                      nop
+:00714BCC 90                      nop
+:00714BCD 90                      nop
+:00714BCE 90                      nop
+:00714BCF 90                      nop
+
+* Possible StringData Ref from Data Obj ->"Levels\L3Data\L3pfoul.pal"
+                                  |
+:00714BD0 B9246D4B00              mov ecx, 004B6D24
+:00714BD5 E85109D4FF              call 0045552B
+:00714BDA 90                      nop
+:00714BDB 90                      nop
+:00714BDC 90                      nop
+:00714BDD 90                      nop
+:00714BDE 90                      nop
+:00714BDF 90                      nop
+:00714BE0 83251C02700000          and dword ptr [0070021C], 00000000
+:00714BE7 C7052002700001000000    mov dword ptr [00700220], 00000001
+:00714BF1 C705280270002B000000    mov dword ptr [00700228], 0000002B
+:00714BFB C7052C02700040000000    mov dword ptr [0070022C], 00000040
+:00714C05 C7053002700004040000    mov dword ptr [00700230], 00000404
+:00714C0F 90                      nop
+:00714C10 90                      nop
+:00714C11 90                      nop
+:00714C12 90                      nop
+:00714C13 90                      nop
+:00714C14 6A0C                    push 0000000C
+:00714C16 59                      pop ecx
+:00714C17 880DD8B16000            mov byte ptr [0060B1D8], cl
+:00714C1D E8AE55FFFF              call 0070A1D0
+:00714C22 894834                  mov dword ptr [eax+34], ecx
+:00714C25 90                      nop
+:00714C26 90                      nop
+:00714C27 90                      nop
+:00714C28 90                      nop
+:00714C29 C70534F361002C000000    mov dword ptr [0061F334], 0000002C
+:00714C33 C70538F3610040000000    mov dword ptr [0061F338], 00000040
+:00714C3D 5E                      pop esi
+:00714C3E C3                      ret
+
+
+
+=================================================================
+11. заполнение таблицы разговоров о квесте у горожан // done
+;004CB258 ; int CitizensSpeechAboutQwestArray[24*14]
+;+23*4 = 4CB2B4
+; +96d (60h) для получения последующего адреса
+
+dword ptr [4CB2B4] ;//        Grizwold/ done
+dword ptr [4CB314] ;//        Pepin / done
+dword ptr [4CB374] ;//        Cow / wtf??
+dword ptr [4CB3D4] ;//        Ogden / done
+dword ptr [4CB434] ;//        Cain / done
+dword ptr [4CB494] ;//        Farnham / done
+dword ptr [4CB4F4] ;//        Adria / done
+dword ptr [4CB554] ;//        Gillian / done
+dword ptr [4CB5B4] ;//        Wirt / done
+
+По этим адресам нужно задать индекс речи либо оставить -1
+
+=================================================================
+12. остальное
+
+12.1.-надо будет сделать локу тоже невыходябельной. Сейчас из неё можно будет выйти до завершения очистки
+UPD выйти нельзя, но отход неверно работает
+
+12.2.-картинка загрузки локи
+
+.text:0041E3CA 004                 mov     al, SPQuestIndex ; jumptable 0041E2E7 cases 2,3
+.text:0041E3CF 004                 cmp     al, 2           ; Compare Two Operands
+
+0041E3CA jmp @newLocнаписать
+>>>
+@newLoc:
+mov     al, SPQuestIndex ; затёртое
+cmp al, 3
+jz 41E488
+jmp 0041E3CF
+; тут больше места. На случай увеличения количества квестовых лок
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0041E3CA(U)
+|
+:00715300 A000CB6100              mov al, byte ptr [0061CB00]
+:00715305 3C03                    cmp al, 03
+:00715307 0F847B91D0FF            je 0041E488
+:0071530D 90                      nop
+:0071530E 90                      nop
+:0071530F E9BB90D0FF              jmp 0041E3CF
+:00715314 90                      nop
+
+
+
+=================================================================
+13. Награда
+13.1.Копируем 42B8DC
+
+В копии
+.text:0042B913 018                 push    1Ah; 19h
+.text:0042B915 01C                 pop     edx
+.text:0042B916 018                 mov     (Dword128Array+4)[eax], esi
+.text:0042B91C 018                 mov     ecx, [ecx]
+.text:0042B91E 018                 push    0Dh ; 0Ch
+
+.text:0042B95D 014                 jnz     short loc_42B965 ; Jump if Not Zero (ZF=0)
+на jmp
+
+
+13.2.
+; эту часть желательно в 1. до вызова функции дописать.
+mov     ecx, dword ptr  [esi+0A4h]
+call 00419F27
+.text:00477901 01C                 mov     edx, dword ptr  [esi+0Ch]
+.text:00477907 01C                 mov     ecx, dword ptr  [esi+08h]
+
+
+
+call @dropAwardRing
+>>>
+@dropAwardRing
+push 1
+push 0
+cmp dword ptr [006070C0], 0
+jg @F:
+
+push @horrorDlvl
+jmp @drop
+
+@@:
+cmp dword ptr [006070C0], 1
+jnz @F:
+
+push @purgDlvl
+jmp @drop
+
+@@:
+push @doomDlvl
+
+@drop:
+call @13.1.
+retn
+
+;; эту с dlvl в зависимости от сложности в функцию
+;.text:0047790D 01C                 push    ebx ; 1
+;.text:0047790E 020                 push    0
+;.text:00477910 024                 push    13 ; dlvl
+;.text:00477912 028                 call    _drom_amulet    ; наша копия
+
+
+
+
+
+
+check:
+
+* Referenced by a CALL at Address:
+|:00715520   
+|
+:00715400 55                      push ebp
+:00715401 8BEC                    mov ebp, esp
+:00715403 51                      push ecx
+:00715404 8065FF00                and byte ptr [ebp-01], 00
+:00715408 833DDC2069007F          cmp dword ptr [006920DC], 0000007F
+:0071540F 0F8DAE000000            jnl 007154C3
+:00715415 57                      push edi
+:00715416 56                      push esi
+:00715417 8B3518576800            mov esi, dword ptr [00685718]
+:0071541D 53                      push ebx
+:0071541E 56                      push esi
+:0071541F E860FDD0FF              call 00425184
+:00715424 A1DC206900              mov eax, dword ptr [006920DC]
+:00715429 8B5D08                  mov ebx, dword ptr [ebp+08]
+:0071542C C1E002                  shl eax, 02
+:0071542F B910596800              mov ecx, 00685910
+:00715434 53                      push ebx
+:00715435 2BC8                    sub ecx, eax
+:00715437 6A19                    push 00000019
+:00715439 5A                      pop edx
+:0071543A 89B018556800            mov dword ptr [eax+00685518], esi
+:00715440 8B09                    mov ecx, dword ptr [ecx]
+:00715442 6A0C                    push 0000000C
+:00715444 890D18576800            mov dword ptr [00685718], ecx
+:0071544A 59                      pop ecx
+:0071544B E8F31AD1FF              call 00426F43
+:00715450 894508                  mov dword ptr [ebp+08], eax
+:00715453 8BC6                    mov eax, esi
+:00715455 69C074010000            imul eax, 00000174
+:0071545B 8DB840636800            lea edi, dword ptr [eax+00686340]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071549C(C)
+|
+:00715461 FF7510                  push [ebp+10]
+:00715464 8D041B                  lea eax, dword ptr [ebx+ebx]
+:00715467 6A00                    push 00000000
+:00715469 6A01                    push 00000001
+:0071546B 6A01                    push 00000001
+:0071546D 50                      push eax
+:0071546E E8C84AD0FF              call 00419F3B
+:00715473 8B5508                  mov edx, dword ptr [ebp+08]
+:00715476 8BCE                    mov ecx, esi
+:00715478 50                      push eax
+:00715479 E8501ED1FF              call 004272CE
+:0071547E 833F2D                  cmp dword ptr [edi], 0000002D
+:00715481 EB06                    jmp 00715489
+:00715483 C645FF01                mov [ebp-01], 01
+:00715487 EB0F                    jmp 00715498
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00715481(U)
+|
+:00715489 53                      push ebx
+:0071548A 6A1A                    push 0000001A
+:0071548C 5A                      pop edx
+:0071548D 6A0D                    push 0000000D
+:0071548F 59                      pop ecx
+:00715490 E8AE1AD1FF              call 00426F43
+:00715495 894508                  mov dword ptr [ebp+08], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00715487(U)
+|
+:00715498 807DFF00                cmp byte ptr [ebp-01], 00
+:0071549C 74C3                    je 00715461
+:0071549E 837D0C00                cmp dword ptr [ebp+0C], 00000000
+:007154A2 7409                    je 007154AD
+:007154A4 8BD6                    mov edx, esi
+:007154A6 33C9                    xor ecx, ecx
+:007154A8 E8561FD3FF              call 00447403
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007154A2(C)
+|
+:007154AD 837D1000                cmp dword ptr [ebp+10], 00000000
+:007154B1 7407                    je 007154BA
+:007154B3 8BCE                    mov ecx, esi
+:007154B5 E8FF11D3FF              call 004466B9
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007154B1(C)
+|
+:007154BA FF05DC206900            inc dword ptr [006920DC]
+:007154C0 5B                      pop ebx
+:007154C1 5E                      pop esi
+:007154C2 5F                      pop edi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071540F(C)
+|
+:007154C3 C9                      leave
+:007154C4 C20C00                  ret 000C
+
+
+:007154C7 90                      nop
+:007154C8 90                      nop
+:007154C9 90                      nop
+:007154CA 90                      nop
+:007154CB 90                      nop
+:007154CC 90                      nop
+:007154CD 90                      nop
+:007154CE 90                      nop
+:007154CF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00715130(U)
+|
+:007154D0 8B4E08                  mov ecx, dword ptr [esi+08]
+:007154D3 8B560C                  mov edx, dword ptr [esi+0C]
+:007154D6 90                      nop
+:007154D7 90                      nop
+:007154D8 90                      nop
+:007154D9 90                      nop
+:007154DA 90                      nop
+:007154DB 90                      nop
+:007154DC E80F000000              call 007154F0
+:007154E1 E94FFCFFFF              jmp 00715135
+:007154E6 90                      nop
+:007154E7 90                      nop
+:007154E8 90                      nop
+:007154E9 90                      nop
+:007154EA 90                      nop
+:007154EB 90                      nop
+:007154EC 90                      nop
+:007154ED 90                      nop
+:007154EE 90                      nop
+:007154EF 90                      nop
+
+* Referenced by a CALL at Address:
+|:007154DC   
+|
+:007154F0 6A01                    push 00000001
+:007154F2 6A00                    push 00000000
+:007154F4 833DC070600000          cmp dword ptr [006070C0], 00000000
+:007154FB 7F0C                    jg 00715509
+:007154FD 90                      nop
+:007154FE 90                      nop
+:007154FF 90                      nop
+:00715500 6A0E                    push 0000000E
+:00715502 EB1C                    jmp 00715520
+:00715504 90                      nop
+:00715505 90                      nop
+:00715506 90                      nop
+:00715507 90                      nop
+:00715508 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007154FB(C)
+|
+:00715509 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00715510 750C                    jne 0071551E
+:00715512 90                      nop
+:00715513 90                      nop
+:00715514 90                      nop
+:00715515 6A13                    push 00000013
+:00715517 EB07                    jmp 00715520
+:00715519 90                      nop
+:0071551A 90                      nop
+:0071551B 90                      nop
+:0071551C 90                      nop
+:0071551D 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00715510(C)
+|
+:0071551E 6A18                    push 00000018
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00715502(U), :00715517(U)
+|
+:00715520 E8DBFEFFFF              call 00715400
+:00715525 C3                      ret
+
+
+=================================================================
+14. Косяк близзов с отсутствием проверки на квестовость локи
+
+
+.text:004605D1     loc_4605D1:                             ; ...
+.text:004605D1 00C                 push    7
+.text:004605D3 010                 pop     ecx
+.text:004605D4 00C                 call    CheckDangeonLevel ; Call Procedure
+.text:004605D9 00C                 test    eax, eax        ; Logical Compare
+
+
+004605D1 jmp @newLoc
+>>>
+@newLoc:
+cmp byte ptr [0061F314], 1; isQuestFloor
+jnz @nextChecks
+
+@return:
+jmp 4608AE
+
+@nextChecks:
+push    7 ; затёртое
+pop     ecx
+call    CheckDangeonLevel ; Call Procedure
+jmp 004605D9
+
+
+    chekk:
+    
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004605D4(U)
+|
+:007155A0 803D14F3610001          cmp byte ptr [0061F314], 01
+:007155A7 7505                    jne 007155AE
+:007155A9 E900B3D4FF              jmp 004608AE
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007155A7(C)
+|
+:007155AE 6A07                    push 00000007
+:007155B0 59                      pop ecx
+:007155B1 E8DDA4D4FF              call 0045FA93
+:007155B6 E91EB0D4FF              jmp 004605D9
+:007155BB 90                      nop
+:007155BC 90                      nop
+
+
+=================================================================
+15. выбор дуна
+@wyrmDunNamePtrTable
+
+@selectRandomDunForWyrmQuest:
+movzx   eax, byte ptr [60B1D8]
+mov     ecx, dword ptr [575230+eax*4]
+call    sub_419F27 ; настраиваем рэндом сид сидом текущего длвл (скорее всего dlvl 0 будет)
+
+movzx     eax, byte ptr 6070C0 ; сложность
+imul eax, 3; количество дунов для сложности; максимальное
+push eax
+xor cl, cl
+mov edx, 3 ;опять таки количество дунов для сложности; сколько уже готово для каждой
+call 00419F5A ; rng
+pop ecx
+add eax, ecx
+shl eax, 2 ;домножение на 4 так как таблица двордовая
+add eax, @wyrmDunNamePtrTable
+mov eax, dword ptr [eax]
+retn
+
+
+
+check:
+
+
+* Referenced by a CALL at Address:
+|:00714B7C   
+|
+:007155D0 0FB605D8B16000          movzx eax, byte ptr [0060B1D8]
+:007155D7 8B0C8530525700          mov ecx, dword ptr [4*eax+00575230]
+:007155DE 90                      nop
+:007155DF 90                      nop
+:007155E0 E84249D0FF              call 00419F27
+:007155E5 90                      nop
+:007155E6 90                      nop
+:007155E7 0FB605C0706000          movzx eax, byte ptr [006070C0]
+:007155EE 6BC003                  imul eax, 00000003
+:007155F1 50                      push eax
+:007155F2 32C9                    xor cl, cl
+:007155F4 6A02                    push 00000002
+:007155F6 5A                      pop edx
+:007155F7 E85E49D0FF              call 00419F5A
+:007155FC 59                      pop ecx
+:007155FD 03C1                    add eax, ecx
+:007155FF C1E002                  shl eax, 02
+:00715602 05003FA300              add eax, 00A33F00
+:00715607 90                      nop
+:00715608 90                      nop
+:00715609 90                      nop
+:0071560A 90                      nop
+:0071560B 90                      nop
+:0071560C 90                      nop
+:0071560D 8B00                    mov eax, dword ptr [eax]
+:0071560F C3                      ret
+
+horr: lair, lair 02, lair 09
+purg: lair 03, lair 04, lair 05
+doom: lair 06, lair 07, lair 08
+
+=================================================================
+16. сообщение. вызов см. 8
+ 
+@sayMessageOnWyrmQuestComplete:
+call 70A1D0; @getCurPlayerOffset
+mov eax, dword ptr [eax+160h] ; 352d playerClass
+movzx eax, byte ptr [eax+160h] одно из двух
+test eax, eax
+jz @palAndGlad ;PC_0_PALADIN
+cmp eax, 5
+je @palAndGlad;PC_5_GLADIATOR 
+cmp eax, 1
+je @scoutAndAss;PC_1_SCOUT
+cmp eax, 4
+je @scoutAndAss;PC_4_ASSASSIN 
+cmp eax, 2
+je @mage;PC_2_MAGE 
+retn ; если монк у которого увы нет речи;
+ 
+@palAndGlad:
+mov eax, 32Bh;811d
+jmp @setSound
+ 
+@scoutAndAss:
+mov eax, 2BEh;702d
+jmp @setSound
+ 
+@mage:
+mov eax, нет пока sorc81.wav среди файлов
+@setSound:
+ 
+mov dword ptr [0057A218], eax ; SoundMessage
+mov eax, @soundLen
+mov dword ptr [0057A214], eax; SpeechCounter
+retn
+ 
+; всё на одном регистре eax. в месте вызова он меняется, можно не сохранять
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,47 @@
+Scout had her base damage altered:
+
+(CLVL*(STR+DEX))/150 with bow
+(CLVL*(STR+DEX))/500 with bare hands/feet
+(CLVL*(STR+DEX))/600 with all other weapon types
+
+
+	code:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070566A(U)
+|
+:00708646 3C01                    cmp al, 01
+:00708648 0F8591B7D1FF            jne 00423DDF
+:0070864E 8B9164090000            mov edx, dword ptr [ecx+00000964]
+:00708654 8B81D80A0000            mov eax, dword ptr [ecx+00000AD8]
+:0070865A 83FA03                  cmp edx, 00000003
+:0070865D 7426                    je 00708685
+:0070865F 83FAFF                  cmp edx, FFFFFFFF
+:00708662 7504                    jne 00708668
+:00708664 3BC2                    cmp eax, edx
+:00708666 7410                    je 00708678
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708662(C)
+|
+:00708668 8B8174010000            mov eax, dword ptr [ecx+00000174]
+:0070866E BF58020000              mov edi, 00000258
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00708683(U), :00708690(U)
+|
+:00708673 E951B7D1FF              jmp 00423DC9
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708666(C)
+|
+:00708678 8B8174010000            mov eax, dword ptr [ecx+00000174]
+:0070867E BFF4010000              mov edi, 000001F4
+:00708683 EBEE                    jmp 00708673
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070865D(C)
+|
+:00708685 8B8174010000            mov eax, dword ptr [ecx+00000174]
+:0070868B BF96000000              mov edi, 00000096
+:00708690 EBE1                    jmp 00708673
+:00708692 90                      nop

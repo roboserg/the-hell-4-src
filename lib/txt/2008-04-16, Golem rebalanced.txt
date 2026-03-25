@@ -1,0 +1,12 @@
+Golem:
+
+ToHit  40 + 2·clvl + 5·slvl  ->  32 + 2*clvl + 4*slvl 					
+
+:00445014 B305                    mov bl, 05
+into
+:00445014 B304                    mov bl, 04
+
+This is done to prevent tohit overflow for high level mages. Maximum now 32+2*50+4*30=32+100+120=252. Nice and glitchless. Only strongest of Mages wil have such a golem.
+
+_______________________________________________________
+

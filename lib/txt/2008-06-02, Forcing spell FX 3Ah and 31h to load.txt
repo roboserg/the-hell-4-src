@@ -1,0 +1,34 @@
+Forcing the loading of effects 3a and 31:
+(note: this was done while creating SB spell)
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043B07E(C), :0043B08B(C)
+|
+:0043B09A 3975FC                  cmp dword ptr [ebp-04], esi
+:0043B09D 7500                    jne 0043B09F					<- set to skip zero bytes
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043B09D(C)
+|
+:0043B09F B800200000              mov eax, 00002000
+:0043B0A4 850538D66900            test dword ptr [0069D638], eax
+:0043B0AA 750D                    jne 0043B0B9
+:0043B0AC 090538D66900            or dword ptr [0069D638], eax
+:0043B0B2 B13A                    mov cl, 3A
+:0043B0B4 E9D7A22C00              jmp 00705390
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043B0AA(C), :0070539C(U)
+|
+:0043B0B9 837DFC6E                cmp dword ptr [ebp-04], 0000006E		<- jmp 2 extra code
+
+
+Extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043B0B4(U)
+|
+:00705390 E88FA7D2FF              call 0042FB24
+:00705395 B131                    mov cl, 31
+:00705397 E888A7D2FF              call 0042FB24
+:0070539C E9185DD3FF              jmp 0043B0B9

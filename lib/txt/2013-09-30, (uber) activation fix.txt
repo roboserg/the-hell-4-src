@@ -1,0 +1,97 @@
+﻿Правка цепной активации
+
+00713270 ChainActivation
+
+
+; Оформляем функцией
+
+@MonsterGreetings: / e9340
+; esi - monsterOffset
+mov     eax, dword ptr [esi+69DD64h] ;Monsters.SpritePtr[esi]
+mov eax, dword ptr [eax] ; monsterBaseIndex
+cmp     eax, 51 ; BM_51_THE_BUTCHER
+jz @bucherSound
+cmp     eax, 195; BM_195_UBER_BUTCHER
+jz @bucherSound
+cmp     eax, 137; BM_137_UBER_DIABLO
+jz @uberDSound
+cmp     eax, 50; BM_50_SKELETON_LORD
+jz @leoSound
+call 004512D2; GetUniqMonsterSound (input - esi, output - ecx)
+test    ecx, ecx
+jz @return
+@playSound:
+call    0041850D ; PlayGlobalSound
+@return:
+retn
+@bucherSound:
+mov ecx, 951 ;S_951_SFX_MONSTERS_BUTCHER
+jmp @playSound
+@uberDSound:
+mov ecx, 997 ;S_997_SFX_MONSTERS_UBERGRT
+jmp @playSound
+@leoSound: 
+mov ecx, 959 ; S_959_SFX_MONSTERS_LEO
+jmp @playSound
+
+ сhek:
+* Referenced by a CALL at Address:
+|:00713270   
+|
+:0071C740 8B8664DD6900            mov eax, dword ptr [esi+0069DD64]
+:0071C746 8B00                    mov eax, dword ptr [eax]
+:0071C748 83F833                  cmp eax, 00000033
+:0071C74B 742E                    je 0071C77B
+:0071C74D 81F8C3000000            cmp eax, 000000C3
+:0071C753 7426                    je 0071C77B
+:0071C755 81F889000000            cmp eax, 00000089
+:0071C75B 7425                    je 0071C782
+:0071C75D 83F832                  cmp eax, 00000032
+:0071C760 7427                    je 0071C789
+:0071C767 E8664BD3FF              call 004512D2
+:0071C76C 85C9                    test ecx, ecx
+:0071C76E 7400                    je 0071C770
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071C76E(C), :0071C780(U), :0071C787(U), :0071C78E(U)
+|
+:0071C770 E898BDCFFF              call 0041850D
+:0071C775 C3                      ret
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071C74B(C), :0071C753(C)
+|
+:0071C77B B9B7030000              mov ecx, 000003B7
+:0071C780 EBEE                    jmp 0071C770
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071C75B(C)
+|
+:0071C782 B9E5030000              mov ecx, 000003E5
+:0071C787 EBE7                    jmp 0071C770
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071C760(C)
+|
+:0071C789 B9BF030000              mov ecx, 000003BF
+:0071C78E EBE0                    jmp 0071C770
+
+==================================================
+
+;.mod:00713270 A1 80 DC 69 00                          mov     eax, MonstersCount
+;.mod:00713275 83 E8 04                                sub     eax, 4
+
+00713270 >>>
+>>>
+call @MonsterGreetings
+A1 80 DC 69 00                          mov     eax, MonstersCount
+jmp 00713275
+
+
+
+
+
+
+
+
+

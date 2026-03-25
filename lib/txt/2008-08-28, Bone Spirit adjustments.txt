@@ -1,0 +1,30 @@
+Set BS effect to physical nature (no resistance)
+
+A6A5D:
+03 -> 00
+
+
+
+=========================================
+
+TD:
+
+Lower damage for Bone Spirit (1/6 -> 1/8):
+
+File Offset 00031A21
+
+:00432621 6A06                    push 00000006
+wordt
+:00432621 6A08                    push 00000008
+
+File Offset 0002EC45
+
+:0042F845 6A06                    push 00000006
+wordt
+:0042F845 6A08                    push 00000008
+
+File Offset 0002E856
+
+:0042F456 6A06                    push 00000006
+wordt
+:0042F456 6A08                    push 00000008

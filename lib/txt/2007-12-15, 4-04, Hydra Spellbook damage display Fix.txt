@@ -1,0 +1,5 @@
+Set Fiery Blast damage for Hydra in spellbook:
+
+0042EF2B  08
+into
+0042EF2B  07

@@ -1,0 +1,26 @@
+﻿.text:00430380                 add     [eax+Player.CountOfReflectCharges], di
+.text:00430387                 pop     edx
+
+
+
+00430380 >>>
+>>>
+mov dx, word ptr [eax + 5570h] ; CountOfReflectCharges
+test dx, dx
+jz @applyReflect
+@despellReflect:
+mov word ptr   [eax+5570h], 0 ; обнуляем количество зарядов. Имеющийся рефлект сам удавится
+pop     edx
+pop edi
+imul esi. 0B0h
+mov dword ptr [esi+697A8Ch], 1 ; заклинание удалено
+pop esi
+jmp 004303A5
+
+@applyReflect:
+add   word ptr   [eax+5570h], di
+jmp 00430387
+
+
+
+

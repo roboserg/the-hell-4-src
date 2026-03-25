@@ -1,0 +1,131 @@
+Monster archers now attack with varying accuracy:
+50% to attack with +[0-10]% bonus to accuracy
+and
+50% to attack with +[0-10]% penalty to accuracy
+
+
+:0042F6D4 8D5C501E                lea ebx, dword ptr [eax+2*edx+1E]
+:0042F6D8 8B4508                  mov eax, dword ptr [ebp+08]
+:0042F6DB 03C0                    add eax, eax
+:0042F6DD 2BD8                    sub ebx, eax
+:0042F6DF EB0C                    jmp 0042F6ED
+
+	into:
+
+:0042F6D4 8D5C501E                lea ebx, dword ptr [eax+2*edx+1E]
+:0042F6D8 E913AA2D00              jmp 0070A0F0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070A10F(U)
+|
+:0042F6DD 2BD8                    sub ebx, eax
+:0042F6DF EB0C                    jmp 0042F6ED
+
+
+	extra:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F6D8(U)
+|
+:0070A0F0 6A02                    push 00000002
+:0070A0F2 5A                      pop edx
+:0070A0F3 51                      push ecx
+:0070A0F4 E861FED0FF              call 00419F5A
+:0070A0F9 59                      pop ecx
+:0070A0FA 85C0                    test eax, eax
+:0070A0FC 7416                    je 0070A114
+:0070A0FE 6A0B                    push 0000000B
+:0070A100 5A                      pop edx
+:0070A101 51                      push ecx
+:0070A102 E853FED0FF              call 00419F5A
+:0070A107 59                      pop ecx
+:0070A108 03D8                    add ebx, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070A120(U)
+|
+:0070A10A 8B4508                  mov eax, dword ptr [ebp+08]
+:0070A10D 03C0                    add eax, eax
+:0070A10F E9C955D2FF              jmp 0042F6DD
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070A0FC(C)
+|
+:0070A114 6A0B                    push 0000000B
+:0070A116 5A                      pop edx
+:0070A117 51                      push ecx
+:0070A118 E83DFED0FF              call 00419F5A
+:0070A11D 59                      pop ecx
+:0070A11E 2BD8                    sub ebx, eax
+:0070A120 EBE8                    jmp 0070A10A
+:0070A122 90                      nop
+
+
+================================================================
+
+More accuracy variations on Purgatory and Doom modes:
+Horror: 50% chance for Rnd[11] decrease in accuracy, 50% chance for Rnd[11] increase in accuracy
+Purgat: -110, +Rnd[121]
+Doom:   -210, +Rnd[221]
+
+
+
+
+	code:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F6D8(U)
+|
+:0070A0D0 833DC070600001          cmp dword ptr [006070C0], 00000001
+:0070A0D7 7449                    je 0070A122
+:0070A0D9 833DC070600002          cmp dword ptr [006070C0], 00000002
+:0070A0E0 750E                    jne 0070A0F0
+:0070A0E2 81EBD2000000            sub ebx, 000000D2
+:0070A0E8 68DD000000              push 000000DD
+:0070A0ED EB11                    jmp 0070A100
+:0070A0EF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070A0E0(C)
+|
+:0070A0F0 6A02                    push 00000002
+:0070A0F2 5A                      pop edx
+:0070A0F3 51                      push ecx
+:0070A0F4 E861FED0FF              call 00419F5A
+:0070A0F9 59                      pop ecx
+:0070A0FA 85C0                    test eax, eax
+:0070A0FC 7416                    je 0070A114
+:0070A0FE 6A0B                    push 0000000B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070A0ED(U), :0070A127(U)
+|
+:0070A100 5A                      pop edx
+:0070A101 51                      push ecx
+:0070A102 E853FED0FF              call 00419F5A
+:0070A107 59                      pop ecx
+:0070A108 03D8                    add ebx, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070A120(U)
+|
+:0070A10A 8B4508                  mov eax, dword ptr [ebp+08]
+:0070A10D 03C0                    add eax, eax
+:0070A10F E9C955D2FF              jmp 0042F6DD
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070A0FC(C)
+|
+:0070A114 6A0B                    push 0000000B
+:0070A116 5A                      pop edx
+:0070A117 51                      push ecx
+:0070A118 E83DFED0FF              call 00419F5A
+:0070A11D 59                      pop ecx
+:0070A11E 2BD8                    sub ebx, eax
+:0070A120 EBE8                    jmp 0070A10A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070A0D7(C)
+|
+:0070A122 83EB6E                  sub ebx, 0000006E
+:0070A125 6A79                    push 00000079
+:0070A127 EBD7                    jmp 0070A100
+:0070A129 90                      nop

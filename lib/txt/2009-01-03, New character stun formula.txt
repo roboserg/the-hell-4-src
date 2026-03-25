@@ -1,0 +1,199 @@
+Characters now will be stunned according to this new formula: (CLVL/2) + (baseVIT/4) - 3
+This formula gives advantage to melee classes, who need higher stun threshold badly (Gladiator, especially)
+On average, it's much more realistic than previous formula
+
+===
+Planning..................................
+
+New stun formula: (CLVL/2) + (bVIT/4) - 3
+
+eax = clvl
+push ebx
+eax/2
+mov ebx, eax
+eax = bvit
+eax/4
+add eax, ebx
+pop ebx
+sub eax, 03
+
+
+Doing:
+-----------
+
+Old:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00459EE8(C)
+|
+:00459EFA A114AE6E00              mov eax, dword ptr [006EAE14]
+:00459EFF C705400E4D0001000000    mov dword ptr [004D0E40], 00000001
+:00459F09 80BC306001000005        cmp byte ptr [eax+esi+00000160], 05
+:00459F11 8D0C30                  lea ecx, dword ptr [eax+esi]
+:00459F14 7522                    jne 00459F38
+:00459F16 0FBE81B8010000          movsx eax, byte ptr [ecx+000001B8]
+:00459F1D 6A02                    push 00000002
+:00459F1F 99                      cdq
+:00459F20 5F                      pop edi
+:00459F21 F7FF                    idiv edi
+:00459F23 8BD0                    mov edx, eax
+:00459F25 0FBE81B8010000          movsx eax, byte ptr [ecx+000001B8]
+:00459F2C 03D0                    add edx, eax
+:00459F2E 8B45FC                  mov eax, dword ptr [ebp-04]
+:00459F31 C1F806                  sar eax, 06
+:00459F34 3BC2                    cmp eax, edx
+:00459F36 EB0C                    jmp 00459F44
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00459F14(C)
+|
+:00459F38 0FBE81B8010000          movsx eax, byte ptr [ecx+000001B8]
+:00459F3F C1FF06                  sar edi, 06
+:00459F42 3BF8                    cmp edi, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00459F36(U)
+|
+:00459F44 7D0A                    jge 00459F50
+
+
+New:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00459EE8(C)
+|
+:00459EFA A114AE6E00              mov eax, dword ptr [006EAE14]
+:00459EFF C705400E4D0001000000    mov dword ptr [004D0E40], 00000001
+:00459F09 8D0C30                  lea ecx, dword ptr [eax+esi]
+:00459F0C 0FBE81B8010000          movsx eax, byte ptr [ecx+000001B8]		eax = clvl
+:00459F13 53                      push ebx
+:00459F14 C1F801                  sar eax, 01					clvl/2
+:00459F17 8BD8                    mov ebx, eax					store in ebx
+:00459F19 0FB68180010000          movzx eax, byte ptr [ecx+00000180]		eax = base vit
+:00459F20 C1F802                  sar eax, 02					base vit/4
+:00459F23 03C3                    add eax, ebx					eax = (Base vit/4) + (clvl/2)
+:00459F25 5B                      pop ebx
+:00459F26 83E803                  sub eax, 00000003				eax = (Base vit/4) + (clvl/2) - 3
+:00459F29 EB14                    jmp 00459F3F
+:00459F2B 90                      nop
+:00459F2C 90                      nop
+:00459F2D 90                      nop
+:00459F2E 90                      nop
+:00459F2F 90                      nop
+:00459F30 90                      nop
+:00459F31 90                      nop
+:00459F32 90                      nop
+:00459F33 90                      nop
+:00459F34 90                      nop
+:00459F35 90                      nop
+:00459F36 90                      nop
+:00459F37 90                      nop
+:00459F38 90                      nop
+:00459F39 90                      nop
+:00459F3A 90                      nop
+:00459F3B 90                      nop
+:00459F3C 90                      nop
+:00459F3D 90                      nop
+:00459F3E 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00459F29(U)
+|
+:00459F3F C1FF06                  sar edi, 06
+:00459F42 3BF8                    cmp edi, eax
+:00459F44 7D0A                    jge 00459F50
+
+------------over-----------
+New formula:
+Rnd[CLVL]+(baseVIT/8)+(CLVL/2)-2
+
+:00459EFA A114AE6E00              mov eax, dword ptr [006EAE14]
+:00459EFF C705400E4D0001000000    mov dword ptr [004D0E40], 00000001
+:00459F09 8D0C30                  lea ecx, dword ptr [eax+esi]
+:00459F0C 0FBE81B8010000          movsx eax, byte ptr [ecx+000001B8]
+:00459F13 53                      push ebx
+:00459F14 C1F801                  sar eax, 01				eax = clvl/2
+:00459F17 8BD8                    mov ebx, eax				ebx = clvl/2
+:00459F19 0FB68180010000          movzx eax, byte ptr [ecx+00000180]
+:00459F20 C1F803                  sar eax, 03				eax = baseVIT/8
+:00459F23 03C3                    add eax, ebx				eax = (baseVIT/8) + (CLVL/2)
+:00459F25 83E802                  sub eax, 00000002			eax = ( (baseVIT/8) + (CLVL/2) ) - 2
+:00459F28 8BD3                    mov edx, ebx				edx = (CLVL/2)
+:00459F2A D1E2                    shl edx, 1				edx = CLVL
+:00459F2C 8BD8                    mov ebx, eax				ebx = ( (baseVIT/8) + (CLVL/2) ) - 2
+:00459F2E 90                      nop
+:00459F2F 51                      push ecx
+:00459F30 E82500FCFF              call 00419F5A
+:00459F35 59                      pop ecx
+:00459F36 03D8                    add ebx, eax				ebx = Rnd[CLVL] + ( (baseVIT/8) + (CLVL/2) ) - 2
+:00459F38 8BC3                    mov eax, ebx
+:00459F3A 5B                      pop ebx
+:00459F3B 90                      nop
+:00459F3C 90                      nop
+:00459F3D 90                      nop
+:00459F3E 90                      nop
+:00459F3F C1FF06                  sar edi, 06
+:00459F42 3BF8                    cmp edi, eax
+
+(0-33) + (80 / 8) - 2 + 17 = 25-58
+120 - 23 - 20 = 77 - 25 = 52
+=========================================================
+Revision 2:
+16:39 26.05.2010
+now there's always 1/120 chance to be stunned regardless of damage*
+*-this applies to all types of damage, even per-frame magic attacks
+
+
+:00459EFA A114AE6E00              mov eax, dword ptr [006EAE14]
+:00459EFF C705400E4D0001000000    mov dword ptr [004D0E40], 00000001
+:00459F09 8D0C30                  lea ecx, dword ptr [eax+esi]
+:00459F0C 0FBE81B8010000          movsx eax, byte ptr [ecx+000001B8]		eax = clvl
+:00459F13 53                      push ebx
+:00459F14 C1F801                  sar eax, 01					eax = clvl/2
+:00459F17 8BD8                    mov ebx, eax					ebx = clvl/2
+:00459F19 0FB68180010000          movzx eax, byte ptr [ecx+00000180]		eax = baseVIT
+:00459F20 C1F803                  sar eax, 03					eax = baseVIT/8
+:00459F23 03C3                    add eax, ebx					eax = (baseVIT/8) + (clvl/2)
+:00459F25 83E802                  sub eax, 00000002				eax = (baseVIT/8) + (clvl/2) - 2
+:00459F28 8BD3                    mov edx, ebx					edx = clvl/2
+:00459F2A D1E2                    shl edx, 1					edx = (clvl/2)*2
+:00459F2C 8BD8                    mov ebx, eax					ebx = (baseVIT/8) + (clvl/2) - 2
+:00459F2E 51                      push ecx
+:00459F2F E82600FCFF              call 00419F5A
+:00459F34 59                      pop ecx
+:00459F35 03D8                    add ebx, eax					
+:00459F37 8BC3                    mov eax, ebx					eax = [(baseVIT/8) + (clvl/2) - 2] + Rnd[(clvl/2)*2]
+:00459F39 5B                      pop ebx
+:00459F3A C1FF06                  sar edi, 06
+:00459F3D 3BF8                    cmp edi, eax
+:00459F3F 7D0F                    jge 00459F50
+:00459F41 E99A222B00              jmp 0070C1E0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070C1F3(U)
+|
+:00459F46 837D0800                cmp dword ptr [ebp+08], 00000000
+:00459F4A 0F8490000000            je 00459FE0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00459F3F(C), :0070C1ED(C)
+|
+:00459F50 8B7970                  mov edi, dword ptr [ecx+70]
+
+
+
+	and:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00459F41(U)
+|
+:0070C1E0 6A78                    push 00000078
+:0070C1E2 5A                      pop edx
+:0070C1E3 51                      push ecx
+:0070C1E4 E871DDD0FF              call 00419F5A
+:0070C1E9 59                      pop ecx
+:0070C1EA 83F832                  cmp eax, 00000032
+:0070C1ED 0F845DDDD4FF            je 00459F50
+:0070C1F3 E94EDDD4FF              jmp 00459F46
+:0070C1F8 90                      nop
+:0070C1F9 90                      nop

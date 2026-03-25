@@ -1,0 +1,20 @@
+base items that trigger character comments:
+
+
+9	magic rock		this must be what griswold wanted
+15	gold elixir		i need to take this to lachdanan		light helmet   <- FIX!
+16	anvil of fury		i need to take this to griswold
+17	black mushroom		now that is a big mushroom			huge axe  <- FIX!
+22	cathedral map		uh-huh
+28	arkaine's valor		may the spirit of arkaine protect me		full crown  <- FIX!
+
+========================
+
+Items 0F, 11 and 1C still trigger comments but these comments were made play 'silent' WAVs.
+The problem is these silent WAVs still can influence other things like discontinuing other events.
+Setting their flags to not interfering would help but it's a still  weak decision, these sounds could be hndy at a certain occasions.
+
+
+1. Find checks on these items
+2. Decide where to apply them
+3. Do so

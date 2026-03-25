@@ -1,0 +1,29 @@
+* Referenced by a CALL at Address:
+|:004091C9   
+|
+:00407A46 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"Data\Inv\invobj1.CEL"
+                                  |
+:00407A48 B940524900              mov ecx, 00495240
+:00407A4D E8DD250100              call 0041A02F
+:00407A52 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"Data\Inv\invobj2.CEL"
+                                  |
+:00407A54 B928524900              mov ecx, 00495228
+:00407A59 A334164D00              mov dword ptr [004D1634], eax
+:00407A5E E8CC250100              call 0041A02F
+:00407A63 A328164D00              mov dword ptr [004D1628], eax
+:00407A68 E9B5F80500              jmp 00467322
+
+* Referenced by a CALL at Address:
+|:00409233   
+|
+:00407A6D 8B0D34164D00            mov ecx, dword ptr [004D1634]
+:00407A73 832534164D0000          and dword ptr [004D1634], 00000000
+:00407A7A E880250100              call 00419FFF
+:00407A7F 8B0D28164D00            mov ecx, dword ptr [004D1628]
+:00407A85 832528164D0000          and dword ptr [004D1628], 00000000
+:00407A8C E86E250100              call 00419FFF
+:00407A91 E98CF80500              jmp 00467322

@@ -1,0 +1,32 @@
+Это надо указать где-то:
+"Под Windows 8 в свойствах екзешника в закладке совместимость поставить:
+- запустить программу в режиме Windows 98
+- использовать разрешение экрана 640 x 480"
+
+
+	jump:
+
+:00417D91 E9DABB3000              jmp 00723970
+
+
+	extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00417D91(U)
+|
+:00723970 813DA402700002060000    cmp dword ptr [007002A4], 00000602
+:0072397A 7504                    jne 00723980
+:0072397C 6A08                    push 00000008
+:0072397E EB02                    jmp 00723982
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0072397A(C)
+|
+:00723980 6A13                    push 00000013
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0072397E(U)
+|
+:00723982 56                      push esi
+:00723983 8B08                    mov ecx, dword ptr [eax]
+:00723985 E90C44CFFF              jmp 00417D96

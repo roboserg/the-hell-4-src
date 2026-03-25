@@ -1,0 +1,27 @@
+Zhar activation sound fix:
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00451350(C)
+|
+:00451358 3B05041C4B00            cmp eax, dword ptr [004B1C04]
+:0045135E 7506                    jne 00451366
+:00451360 E9BB702B00              jmp 00708420
+:00451365 90                      nop
+
+
+
+`	and:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00451360(U)
+|
+:00708420 803DD8B160000F          cmp byte ptr [0060B1D8], 0F
+:00708427 7505                    jne 0070842E
+:00708429 B9C9030000              mov ecx, 000003C9
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708427(C)
+|
+:0070842E C3                      ret

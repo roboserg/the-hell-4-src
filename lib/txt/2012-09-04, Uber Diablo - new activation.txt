@@ -1,0 +1,50 @@
+Uber Diablo new activation:
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00454BA2(U)
+|
+:00713640 A17C735700              mov eax, dword ptr [0057737C]
+:00713645 69C0E4000000            imul eax, 000000E4
+:0071364B 0588DC6900              add eax, 0069DC88
+:00713650 8088A0000000FF          or byte ptr [eax+000000A0], FF
+:00713657 51                      push ecx
+:00713658 EB06                    jmp 00713660
+:0071365A 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00713686(U)
+|
+:0071365B E99B87D0FF              jmp 0041BDFB
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00713658(U)
+|
+:00713660 B9E5030000              mov ecx, 000003E5
+:00713665 E8A34ED0FF              call 0041850D
+:0071366A 90                      nop
+:0071366B 90                      nop
+:0071366C 90                      nop
+:0071366D 90                      nop
+:0071366E 90                      nop
+:0071366F 8B0D7C735700            mov ecx, dword ptr [0057737C]
+:00713675 E85492D2FF              call 0043C8CE
+:0071367A 59                      pop ecx
+:0071367B 90                      nop
+:0071367C 90                      nop
+:0071367D 90                      nop
+:0071367E 90                      nop
+:0071367F 90                      nop
+:00713680 90                      nop
+:00713681 90                      nop
+:00713682 90                      nop
+:00713683 90                      nop
+:00713684 90                      nop
+:00713685 90                      nop
+:00713686 EBD3                    jmp 0071365B
+:00713688 90                      nop
+:00713689 90                      nop
+:0071368A 90                      nop
+
+
+

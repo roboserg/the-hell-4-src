@@ -1,0 +1,223 @@
+﻿Fleshdoom quest
+
+
+если квест выбран для данной игры, то в городе появляется Тримэйн, когда герой побывал на уровне 13
+
+на 14м уровне находится необычный дун с проходом на 1ю локу где есть Флэшдум в конце уровня
+убивает герой этого демона, рядом с проходом на 2й уровень этого квеста - Hellforge
+перед спуском вниз, вероятно, можно пойти в город. подлататься и поговорить с Тримэйном. Он скажет что мол хорошо что Флэшдума убил. теперь иди и достань клинок
+герой идет назад через портал в 1ю локу и спускается на 2ю...
+там одному мне  известно что будет твориться и в конце наковальня... рядом с которой какойто босс, из которого вывалится пресловутый клинок
+
+ейро несет клинок к Тримэйну. тот сгорает и просит уничтожить клинок в кузне
+герой поднимает меч и говорит фразу "This blade must be destroyed"
+идет в кузню и уничтожает там клинок (как?  )
+по уничтожении клинка квест заканчивается и герой получает награду ( как? какую? - надо придумать)
+
+
+1й уровень квеста: Pit of Flame
+2й уровень квеста: Hellforge
+
+enum QUEST: uchar {
+ #define QUEST_( e )\
+ e( Q_0_THE_MAGIC_ROCK , 0)\
+ e( Q_1_BLACK_MUSHROOM , 1)\
+ e( Q_2_GHARBAD_THE_WEAK , 2)\
+ e( Q_3_ZHAR_THE_MAD , 3)\
+ e( Q_4_LACHDANAN , 4)\
+ e( Q_5_DIABLO , 5)\
+ e( Q_6_THE_BUTCHER , 6)\
+ e( Q_7_OGDENS_SIGN , 7)\
+ e( Q_8_HALLS_OF_THE_BLIND , 8)\
+ e( Q_9_VALOR , 9)\
+ e( Q_10_ANVIL_OF_FURY , 10)\
+ e( Q_11_WARLORD_OF_BLOOD , 11)\
+ e( Q_12_THE_CURSE_OF_KING_LEORIC , 12)\
+ e( Q_13_POISONED_WATER_SUPPLY , 13)\
+ e( Q_14_THE_CHAMBER_OF_BONE , 14)\
+ e( Q_15_ARCHBISHOP_LAZARUS , 15)\
+ e( Q_16_HORAZON_S_DEMONS , 16)\
+ e( Q_17_IZUAL , 17)\
+ e( Q_18_LITTLE_GIRL , 18)\
+ e( Q_19_LOST_TREASURE , 19)\
+ e( Q_20_ISLAND , 20)\
+ e( Q_21_UBER_DIABLO , 21)\
+ e( Q_22_MAIDEN_OF_ANGUISH , 22)\
+ e( Q_23_THE_LAIR , 23)
+ ENUM( QUEST )
+ #undef QUEST_
+};
+
+список квестовых локаций:
+ e( QF_M1 , -1)\
+ e( QF_0 , 0)\
+ e( QF_1_KING_LEORICS_TOMB , 1)\
+ e( QF_2_BONE_CHAMBER , 2)\
+ e( QF_3_THE_INFESTED_CELLAR , 3)\
+ e( QF_4_POISONED_WATER_SUPPLY , 4)\
+ e( QF_5_ARCHBISHOP_LAZARUS_LAIR , 5)\
+ e( QF_6_HALLS_OF_ANGUISH , 6)\
+ e( QF_7_ANDARIELS_THRONE , 7)\
+ e( QF_8_HORAZONS_HAVEN , 8)\
+ e( QF_9_SUMMONING_ROOMS , 9)\
+ e( QF_10_THE_PIT , 10)\
+ e( QF_11_PASSAGE_OF_FIRE , 11)\
+ e( QF_12_VALLEY_OF_DESPAIR , 12)\
+ e( QF_13_DISUSED_RELIQUARY , 13)\
+ e( QF_14_GLACIAL_CAVERNS , 14)\
+ e( QF_15_FROZEN_LOCH , 15)\
+ e( QF_16_ISLAND , 16)\
+ e( QF_17 , 17)\
+ e( QF_18 , 18)\
+ e( QF_19 , 19)\
+ e( QF_20 , 20)\
+ e( QF_21 , 21)\
+ e( QF_22 , 22)\
+ e( QF_23 , 23)\
+ e( QF_24 , 24)\
+ e( QF_25_RAVENHOLM , 25)
+============
+
+1. setup квестовых данных
+
+BaseQuests 004B6908h ( B5308 )
+24 записи по 20 байт
+
+Каждая запись о квесте:
+
+byte  spDungeonLevel   // 0 // На каком dlvl считается активным квест в сп (-1 (FF) = off)
+byte    mpDungeonLevel   // 1 // На каком dlvl считается активным квест в мп (-1 (FF) = off)
+byte   dungeonType    // 2 //  если у квеста есть доп лока, то  какой данжеон тайп
+byte    questNumber    // 3 // указывается какой этот квест по счету.
+byte    align     // 4 // unused
+byte    questFloorNumber  // 5 // номер квестовой локи
+word align2     // 6 // unused
+dword    isQuestBeInMp   // 8 // если квест доступен для mp, то тут 1, если нет то 0
+dword     speechIndex    // 12
+dword  questName    // 16
+
+квест флешдума на месте бывшего Убера: B54AC ( 4B6AAC )
+
+cтарые данные:
+15
+15
+FF
+15
+64
+00
+0000
+01000000
+23010000
+43A14B00
+
+новые:
+0E
+FF
+04
+15
+64
+00
+0000
+00000000
+85010000
+6095A300
+
+==========================================
+
+2. loading Tremain
+
+.text:00475EB6 ; void LoadGilian()
+.text:00475EB6 LoadGilian      proc near               ; CODE XREF: LoadTowners+3Fp
+.text:00475EB6                 push    esi
+.text:00475EB7                 push    edi
+.text:00475EB8                 push    0Ah             ; always10
+.text:00475EBA                 mov     ecx, TownersCount ; citizenIndex
+
+; это индекс порядка анимации горожанина. Пока неизвестно какой подойдет, ставит -1. Потом можно попробовать другие
+.text:00475EC0                 push    0FFFFFFFFh      ; framesOrderTypeIndex
+
+; координаты установки
+.text:00475EC2                 push    44              ; col
+.text:00475EC4                 push    55              ; row
+
+; берем 10 вместо фермера
+;        TI_0_GRISWOLD =  0,
+;        TI_1_PEPIN =  1,
+;        TI_2_WOUNDED_GUY =  2,
+;        TI_3_OGDEN =  3,
+;        TI_4_CAIN =  4,
+;        TI_5_FARNHAM =  5,
+;        TI_6_ADRIA =  6,
+;        TI_7_GILIAN =  7,
+;        TI_8_WIRT =  8,
+;        TI_9_COWS =  9,
+;        TI_10_LESTER =  10,
+;        TI_11_CELIA =  11,
+;        TI_12_NUT =  12,
+;        TI_13_NONE =  13,
+.text:00475EC6                 push    7               ; citizenNumber
+
+.text:00475EC8                 push    1               ; maybeHasDialog
+.text:00475ECA                 push    60h
+.text:00475ECC                 pop     edx
+.text:00475ECD                 call    InitCitizenStruct
+.text:00475ED2                 mov     ecx, TownersCount ; citizenIndex
+.text:00475ED8                 call    SetCitizenQuestInfo
+.text:00475EDD                 mov     esi, TownersCount
+.text:00475EE3                 xor     edx, edx        ; byteReaded
+
+; очевидно путь до анимации
+.text:00475EE5                 mov     ecx, offset aTownersTownw_0 ; "Towners\\TownWmn1\\WmnN.CEL"
+
+.text:00475EEA                 shl     esi, 8
+.text:00475EED                 call    LoadFile
+.text:00475EF2                 mov     dword_6FF2FC[esi], eax
+.text:00475EF8                 lea     eax, citizenAnimationPtr[esi]
+.text:00475EFE                 push    8
+.text:00475F00                 mov     ecx, eax
+.text:00475F02                 pop     edx
+.text:00475F03
+.text:00475F03 loc_475F03:                             ; CODE XREF: LoadGilian+59j
+.text:00475F03                 mov     edi, dword_6FF2FC[esi]
+.text:00475F09                 mov     [ecx], edi
+.text:00475F0B                 add     ecx, 4
+.text:00475F0E                 dec     edx
+.text:00475F0F                 jnz     short loc_475F03
+
+; важная штука. Количество кадров в анимации
+.text:00475F11                 push    12h
+.text:00475F13                 pop     ecx
+
+.text:00475F14                 push    6               ; delayFrameCount
+.text:00475F16                 mov     dword_6FF2F8[esi], ecx
+.text:00475F1C                 mov     edx, [eax]      ; citizenAnimationPtr
+.text:00475F1E                 push    ecx             ; stayFrameCount
+.text:00475F1F                 mov     ecx, TownersCount ; citizenIndex
+.text:00475F25                 call    InitCitizenAnimation
+.text:00475F2A                 mov     eax, TownersCount
+.text:00475F2F                 shl     eax, 8
+.text:00475F32                 add     eax, offset unk_6FF2B8
+
+; ну кагбе тоже понятно что это
+.text:00475F37                 push    offset aGillianTheStas ; "Gillian the Stasher"
+
+.text:00475F3C                 push    eax             ; Dest
+.text:00475F3D                 call    _strcpy
+.text:00475F42                 inc     TownersCount
+.text:00475F48                 pop     ecx
+.text:00475F49                 pop     ecx
+.text:00475F4A                 pop     edi
+.text:00475F4B                 pop     esi
+.text:00475F4C                 retn
+.text:00475F4C LoadGilian      endp
+
++
+прописывать вызов тут в любом месте
+[23:11:20] Ярик: 004764F7
+[23:11:29] Ярик: Сейчас напрямую без условий
+[23:11:42] Ярик: А потом с условием срабатывания квеста
+
+копия тут: 71E500
+
+координаты Тримейна: 68, 55
+

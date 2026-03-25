@@ -1,0 +1,265 @@
+====================================================
+
+26. ƒобавление в квест группу
+
+новый массив
+@QuestGroup5: 
+dword[3] = 00000004h 0000000Bh 00000016h
+
+@offRandQuestFromTable:
+; в ecx - индекс выбранной группы
+
+1
+push eax
+push edx
+push esi
+
+shl ecx, 3 ;(imul ecx, 08h)
+add ecx, @randomizeSPQuestsTable
+mov esi, ecx
+@loop:
+movzx edx, byte ptr [esi + 4]
+xor ecx, ecx
+call 00419F5A ;rng
+shl eax, 2 ;(imul eax, 04h)
+add eax, dword ptr [esi]
+mov eax, dword ptr [eax]; индекс квеста который нужно отключить
+imul    eax, 1Ch
+add eax, 006EB358
+
+mov dl, byte ptr [eax+2]
+test dl, dl
+jz @loop ; уже отключенный квест, выбираем другой
+
+xor edx, edx
+mov byte ptr [eax+2], dl
+
+pop esi
+pop edx
+pop eax
+retn 
+
+          chekk:
+* Referenced by a CALL at Address:
+|:007164A7   
+|
+:00716400 50                      push eax
+:00716401 52                      push edx
+:00716402 56                      push esi
+:00716403 6BC908                  imul ecx, 00000008
+:00716406 EB2E                    jmp 00716436
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00716427(C), :0071643D(U)
+|
+:00716408 0FB65604                movzx edx, byte ptr [esi+04]
+:0071640C 31C9                    xor ecx, ecx
+:0071640E E8473BD0FF              call 00419F5A
+:00716413 6BC004                  imul eax, 00000004
+:00716416 0306                    add eax, dword ptr [esi]
+:00716418 8B00                    mov eax, dword ptr [eax]
+:0071641A 6BC01C                  imul eax, 0000001C
+:0071641D 0558B36E00              add eax, 006EB358
+:00716422 8A5002                  mov dl, byte ptr [eax+02]
+:00716425 84D2                    test dl, dl
+:00716427 74DF                    je 00716408
+:00716429 90                      nop
+:0071642A 90                      nop
+:0071642B 90                      nop
+:0071642C 90                      nop
+:0071642D 31D2                    xor edx, edx
+:0071642F 885002                  mov byte ptr [eax+02], dl
+:00716432 5E                      pop esi
+:00716433 5A                      pop edx
+:00716434 58                      pop eax
+:00716435 C3                      ret
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716406(U)
+|
+:00716436 B9A050A300              mov ecx, 00A350A0
+:0071643B 89CE                    mov esi, ecx
+:0071643D EBC9                    jmp 00716408
+
+2
+@countOnQuestInGroup:
+; в ecx - индекс группы. в eax количество
+push edx
+push esi
+push edi
+push ebx
+
+shl ecx, 3 ;(imul ecx, 08h)
+add ecx, @randomizeSPQuestsTable
+mov esi, ecx
+
+movzx ebx, byte ptr [esi + 4] ; количество квестов в группе
+mov edi, dword ptr [esi] ; указатель на квесты
+xor eax, eax
+xor ecx, ecx
+
+@loop:
+mov edx, dword ptr [edi+ 4*ecx]; индекс квеста
+imul    edx, 1Ch
+add edx, 006EB358
+mov dl, byte ptr [edx+2]; включен ли
+test dl, dl
+jz @F
+inc eax: если да, увеличиваем
+@@:
+inc ecx
+cmp ecx, ebx
+jl @loop
+
+pop ebx
+pop edi
+pop esi
+pop edx
+retn
+
+             chekk:
+* Referenced by a CALL at Address:
+|:0071649C   
+|
+:00716440 52                      push edx
+:00716441 56                      push esi
+:00716442 57                      push edi
+:00716443 53                      push ebx
+:00716444 C1E103                  shl ecx, 03
+:00716447 81C1A050A300            add ecx, 00A350A0
+:0071644D 89CE                    mov esi, ecx
+:0071644F 0FB65E04                movzx ebx, byte ptr [esi+04]
+:00716453 8B3E                    mov edi, dword ptr [esi]
+:00716455 31C0                    xor eax, eax
+:00716457 31C9                    xor ecx, ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716474(C)
+|
+:00716459 8B148F                  mov edx, dword ptr [edi+4*ecx]
+:0071645C 90                      nop
+:0071645D 90                      nop
+:0071645E 90                      nop
+:0071645F 90                      nop
+:00716460 6BD21C                  imul edx, 0000001C
+:00716463 81C258B36E00            add edx, 006EB358
+:00716469 8A5202                  mov dl, byte ptr [edx+02]
+:0071646C 84D2                    test dl, dl
+:0071646E 7401                    je 00716471
+:00716470 40                      inc eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071646E(C)
+|
+:00716471 41                      inc ecx
+:00716472 39D9                    cmp ecx, ebx
+:00716474 7CE3                    jl 00716459
+:00716476 5B                      pop ebx
+:00716477 5F                      pop edi
+:00716478 5E                      pop esi
+:00716479 5A                      pop edx
+:0071647A C3                      ret
+
+
+3
+@randomizeSPQuests:
+push eax
+push edx
+push ecx
+push ebx
+xor ebx, ebx
+
+@nextQuestGroup:
+mov ecx, ebx
+shl ecx, 3 ;(imul ecx, 08h)
+add ecx, @randomizeSPQuestsTable
+movzx edx, byte ptr [ecx + 5]; количество квестов которое требуетс€
+cmp dl, 0FFh
+jz @return ; достинут конец таблицы
+
+@nextOff:
+mov ecx, ebx
+call @countOnQuestInGroup
+cmp eax, edx
+jle @nextQuestGroup1
+
+; если больше
+mov ecx, ebx
+call @offRandQuestFromTable
+
+jmp @nextOff
+@nextQuestGroup1:
+inc ebx
+jmp @nextQuestGroup
+
+@return:
+pop ebx
+pop ecx
+pop edx
+pop eax
+retn
+
+          chekk:
+* Referenced by a CALL at Address:
+|:0045F6FB   
+|
+:00716480 50                      push eax
+:00716481 52                      push edx
+:00716482 51                      push ecx
+:00716483 53                      push ebx
+:00716484 31DB                    xor ebx, ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007164C1(U)
+|
+:00716486 89D9                    mov ecx, ebx
+:00716488 C1E103                  shl ecx, 03
+:0071648B 81C1A050A300            add ecx, 00A350A0
+:00716491 0FB65105                movzx edx, byte ptr [ecx+05]
+:00716495 80FAFF                  cmp dl, FF
+:00716498 7414                    je 007164AE
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007164AC(U)
+|
+:0071649A 89D9                    mov ecx, ebx
+:0071649C E89FFFFFFF              call 00716440
+:007164A1 39D0                    cmp eax, edx
+:007164A3 7E1B                    jle 007164C0
+:007164A5 89D9                    mov ecx, ebx
+:007164A7 E854FFFFFF              call 00716400
+:007164AC EBEC                    jmp 0071649A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716498(C)
+|
+:007164AE 5B                      pop ebx
+:007164AF 59                      pop ecx
+:007164B0 5A                      pop edx
+:007164B1 58                      pop eax
+:007164B2 C3                      ret
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007164A3(C)
+|
+:007164C0 43                      inc ebx
+:007164C1 EBC3                    jmp 00716486
+:007164C3 90                      nop
+
+¬ызов:
+0045F6FB call @randomizeSPQuests
+jmp 0045F785
+ћожно пр€м там перезаписыва€. 
+
+  chekk
+:0045F6FB E8806D2B00              call 00716480
+
+@randomizeSPQuestsTable:
+00A33E70h 03h 01h 0000h ; Q_12_LEORIC, Q_13_POISONED_WATER, Q_23_LAIR 
+004B6B10h 03h 02h 0000h ; Q_6_BUTCHER, Q_7_OGDENS_SIGN, Q_2_GHARBAD
+004B6B20h 03h 02h 0000h ; Q_8_HALLS_BLIND, Q_0_MAGIC_ROCK, Q_9_VALOR
+004B6B30h 03h 02h 0000h ; Q_1_MUSHROOM, Q_3_ZHAR, Q_10_ANVIL_OF_FURY
+@QuestGroup5 03h 01h 0000h ; Q_4_LOGLAN, Q_11_WARLORD_OF_BLOOD, Q_22_ANDARIEL
+00000000h FFh FFh FFFFh 

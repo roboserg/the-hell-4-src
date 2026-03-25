@@ -1,0 +1,5 @@
+Vitality bonus to damage for Glads: Vit*clvl / 75
+
+file offset 00023349
+
+:00423F49 6A4B                    push 0000004B

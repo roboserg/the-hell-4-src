@@ -1,0 +1,21 @@
+Sound FX used in TH:
+
+mage100.WAV is free for use
+
+using Effect #26B: Mage101.WAV sound
+using Effect #260: ex-Mage90.WAV sound -> sfx\Monsters\XC.wav
+using Effect #25C: ex-Mage86.WAV sound -> sfx\Monsters\BZ.wav
+using Effect #25B: ex-Mage85.WAV sound -> sfx\Monsters\DN.wav
+using Effect #25A: ex-Mage84.WAV sound -> sfx\Monsters\Du.wav
+using Effect #257: ex-Mage81.WAV sound -> sfx\Monsters\50cent.wav
+using Effect #253: ex-Mage77.WAV sound -> sfx\Monsters\gspike.wav
+using Effect #252: ex-Mage76.WAV sound -> sfx\Monsters\Xorene.wav
+using Effect #251: ex-Mage75.WAV sound -> sfx\Monsters\Malant.wav
+using Effect #250: ex-Mage74.WAV sound -> X\tntrs.wav
+using Effect #24F: ex-Mage73.WAV sound -> SFX\Assassin\dlvl1.wav
+using Effect #248: ex-Mage67.WAV sound -> SFX\Monsters\Amduci.wav
+using Effect #246: ex-Mage65.WAV sound -> SFX\Monsters\RFGFST.wav
+using Effect #245: ex-Mage64.WAV sound -> SFX\Monsters\Gyfax.wav
+using Effect #241: ex-Mage60.WAV sound -> SFX\Monsters\Leo.wav
+using Effect #240: ex-Mage59.WAV sound -> SFX\Monsters\Izualx.wav
+using Effect #23F: ex-Mage58.WAV sound -> SFX\Monsters\lfbaal.wav

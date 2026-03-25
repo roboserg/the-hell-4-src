@@ -1,0 +1,151 @@
+Some function related to TP:
+
+
+
+
+
+* Referenced by a CALL at Address:
+|:00408B5A   
+|
+:00407B2F 51                      push ecx
+:00407B30 51                      push ecx
+:00407B31 8364240400              and dword ptr [esp+04], 00000000
+:00407B36 833D48D0690000          cmp dword ptr [0069D048], 00000000
+:00407B3D 0F8E2D010000            jle 00407C70
+:00407B43 8B0D50164D00            mov ecx, dword ptr [004D1650]
+:00407B49 A154164D00              mov eax, dword ptr [004D1654]
+:00407B4E 57                      push edi
+:00407B4F 56                      push esi
+:00407B50 55                      push ebp
+:00407B51 53                      push ebx
+:00407B52 C744241068766900        mov [esp+10], 00697668
+:00407B5A BBC0114D00              mov ebx, 004D11C0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00407C66(C)
+|
+:00407B5F 8B542410                mov edx, dword ptr [esp+10]
+:00407B63 8B32                    mov esi, dword ptr [edx]
+:00407B65 69F6B0000000            imul esi, 000000B0
+:00407B6B 83BE587A69000A          cmp dword ptr [esi+00697A58], 0000000A
+:00407B72 0F85DB000000            jne 00407C53
+:00407B78 8B965C7A6900            mov edx, dword ptr [esi+00697A5C]
+:00407B7E 8D7AFF                  lea edi, dword ptr [edx-01]
+:00407B81 3BCF                    cmp ecx, edi
+:00407B83 7508                    jne 00407B8D
+:00407B85 3B86607A6900            cmp eax, dword ptr [esi+00697A60]
+:00407B8B 745F                    je 00407BEC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00407B83(C)
+|
+:00407B8D 3BCA                    cmp ecx, edx
+:00407B8F 750B                    jne 00407B9C
+:00407B91 8BAE607A6900            mov ebp, dword ptr [esi+00697A60]
+:00407B97 4D                      dec ebp
+:00407B98 3BC5                    cmp eax, ebp
+:00407B9A 7450                    je 00407BEC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00407B8F(C)
+|
+:00407B9C 3BCF                    cmp ecx, edi
+:00407B9E 750B                    jne 00407BAB
+:00407BA0 8BBE607A6900            mov edi, dword ptr [esi+00697A60]
+:00407BA6 4F                      dec edi
+:00407BA7 3BC7                    cmp eax, edi
+:00407BA9 7441                    je 00407BEC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00407B9E(C)
+|
+:00407BAB 8D7AFE                  lea edi, dword ptr [edx-02]
+:00407BAE 3BCF                    cmp ecx, edi
+:00407BB0 751B                    jne 00407BCD
+:00407BB2 8BAE607A6900            mov ebp, dword ptr [esi+00697A60]
+:00407BB8 4D                      dec ebp
+:00407BB9 3BC5                    cmp eax, ebp
+:00407BBB 742F                    je 00407BEC
+:00407BBD 3BCF                    cmp ecx, edi
+:00407BBF 750C                    jne 00407BCD
+:00407BC1 8BBE607A6900            mov edi, dword ptr [esi+00697A60]
+:00407BC7 4F                      dec edi
+:00407BC8 4F                      dec edi
+:00407BC9 3BC7                    cmp eax, edi
+:00407BCB 741F                    je 00407BEC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00407BB0(C), :00407BBF(C)
+|
+:00407BCD 8D7AFF                  lea edi, dword ptr [edx-01]
+:00407BD0 3BCF                    cmp ecx, edi
+:00407BD2 750C                    jne 00407BE0
+:00407BD4 8BBE607A6900            mov edi, dword ptr [esi+00697A60]
+:00407BDA 4F                      dec edi
+:00407BDB 4F                      dec edi
+:00407BDC 3BC7                    cmp eax, edi
+:00407BDE 740C                    je 00407BEC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00407BD2(C)
+|
+:00407BE0 3BCA                    cmp ecx, edx
+:00407BE2 756F                    jne 00407C53
+:00407BE4 3B86607A6900            cmp eax, dword ptr [esi+00697A60]
+:00407BEA 7567                    jne 00407C53
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00407B8B(C), :00407B9A(C), :00407BA9(C), :00407BBB(C), :00407BCB(C)
+|:00407BDE(C)
+|
+:00407BEC 6A01                    push 00000001
+:00407BEE 5F                      pop edi
+:00407BEF 893D1C027000            mov dword ptr [0070021C], edi
+:00407BF5 E882C9FFFF              call 0040457C
+
+* Possible StringData Ref from Data Obj ->"Town Portal"
+                                  |
+:00407BFA 6860524900              push 00495260
+:00407BFF 68F0124D00              push 004D12F0
+:00407C04 E827210700              call 00479D30
+:00407C09 8B86CC7A6900            mov eax, dword ptr [esi+00697ACC]
+:00407C0F 59                      pop ecx
+:00407C10 69C0C8550000            imul eax, 000055C8
+:00407C16 59                      pop ecx
+:00407C17 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:00407C1D 8D840840010000          lea eax, dword ptr [eax+ecx+00000140]
+:00407C24 50                      push eax
+
+* Possible StringData Ref from Data Obj ->"from %s"
+                                  |
+:00407C25 6858524900              push 00495258
+:00407C2A 53                      push ebx
+:00407C2B E8901E0700              call 00479AC0
+:00407C30 83C40C                  add esp, 0000000C
+:00407C33 8BD7                    mov edx, edi
+:00407C35 8BCB                    mov ecx, ebx
+:00407C37 E80EC9FFFF              call 0040454A
+:00407C3C 8B8E5C7A6900            mov ecx, dword ptr [esi+00697A5C]
+:00407C42 8B86607A6900            mov eax, dword ptr [esi+00697A60]
+:00407C48 890D50164D00            mov dword ptr [004D1650], ecx
+:00407C4E A354164D00              mov dword ptr [004D1654], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00407B72(C), :00407BE2(C), :00407BEA(C)
+|
+:00407C53 FF442414                inc [esp+14]
+:00407C57 8344241004              add dword ptr [esp+10], 00000004
+:00407C5C 8B542414                mov edx, dword ptr [esp+14]
+:00407C60 3B1548D06900            cmp edx, dword ptr [0069D048]
+:00407C66 0F8CF3FEFFFF            jl 00407B5F
+:00407C6C 5B                      pop ebx
+:00407C6D 5D                      pop ebp
+:00407C6E 5E                      pop esi
+:00407C6F 5F                      pop edi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00407B3D(C)
+|
+:00407C70 59                      pop ecx
+:00407C71 59                      pop ecx
+:00407C72 C3                      ret

@@ -1,0 +1,96 @@
+
+
+
+
+* Referenced by a CALL at Address:
+|:0042D479   
+|
+:0044417C 8BC1                    mov eax, ecx
+:0044417E 3DC8000000              cmp eax, 000000C8
+:00444183 0F8324010000            jnb 004442AD
+:00444189 85C0                    test eax, eax
+:0044418B 0F8C1C010000            jl 004442AD
+:00444191 69C0E4000000            imul eax, 000000E4
+:00444197 8B9088DC6900            mov edx, dword ptr [eax+0069DC88]
+:0044419D 8D8888DC6900            lea ecx, dword ptr [eax+0069DC88]
+:004441A3 69D250010000            imul edx, 00000150
+:004441A9 81C2B08E6A00            add edx, 006A8EB0
+:004441AF 899064DD6900            mov dword ptr [eax+0069DD64], edx		<- EDX = monster slot number (dword)
+:004441B5 8B09                    mov ecx, dword ptr [ecx]
+:004441B7 69C950010000            imul ecx, 00000150
+:004441BD 8B89F88F6A00            mov ecx, dword ptr [ecx+006A8FF8]
+:004441C3 898868DD6900            mov dword ptr [eax+0069DD68], ecx		<- ECX = addres to full data
+:004441C9 8A9044DD6900            mov dl, byte ptr [eax+0069DD44]		<- DL = monster type
+:004441CF 84D2                    test dl, dl					
+:004441D1 740E                    je 004441E1					<- jump if type = 0 (not a boss)
+:004441D3 0FB6CA                  movzx ecx, dl					<- 
+:004441D6 C1E105                  shl ecx, 05
+:004441D9 8B8964084B00            mov ecx, dword ptr [ecx+004B0864]
+:004441DF EB03                    jmp 004441E4
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004441D1(C)
+|
+:004441E1 8B4950                  mov ecx, dword ptr [ecx+50]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004441DF(U)
+|
+:004441E4 898860DD6900            mov dword ptr [eax+0069DD60], ecx
+:004441EA 8B908CDC6900            mov edx, dword ptr [eax+0069DC8C]
+:004441F0 8B88D0DC6900            mov ecx, dword ptr [eax+0069DCD0]
+:004441F6 83FA11                  cmp edx, 00000011
+:004441F9 0F8785000000            ja 00444284
+:004441FF FF2495AE424400          jmp dword ptr [4*edx+004442AE]
+:00444206 8B9064DD6900            mov edx, dword ptr [eax+0069DD64]
+:0044420C 8B4C8A38                mov ecx, dword ptr [edx+4*ecx+38]
+:00444210 EB43                    jmp 00444255
+:00444212 8B9064DD6900            mov edx, dword ptr [eax+0069DD64]
+:00444218 8B4C8A64                mov ecx, dword ptr [edx+4*ecx+64]
+:0044421C EB37                    jmp 00444255
+:0044421E 8B9064DD6900            mov edx, dword ptr [eax+0069DD64]
+:00444224 8B8C8A90000000          mov ecx, dword ptr [edx+4*ecx+00000090]
+:0044422B EB28                    jmp 00444255
+:0044422D 8B9064DD6900            mov edx, dword ptr [eax+0069DD64]
+:00444233 8B8C8ABC000000          mov ecx, dword ptr [edx+4*ecx+000000BC]
+:0044423A EB19                    jmp 00444255
+:0044423C 8B9064DD6900            mov edx, dword ptr [eax+0069DD64]
+:00444242 8B8C8AE8000000          mov ecx, dword ptr [edx+4*ecx+000000E8]
+:00444249 EB0A                    jmp 00444255
+:0044424B 8B9064DD6900            mov edx, dword ptr [eax+0069DD64]
+:00444251 8B4C8A0C                mov ecx, dword ptr [edx+4*ecx+0C]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00444210(U), :0044421C(U), :0044422B(U), :0044423A(U), :00444249(U)
+|
+:00444255 8988DCDC6900            mov dword ptr [eax+0069DCDC], ecx
+:0044425B C3                      ret
+
+
+:0044425C 8B9064DD6900            mov edx, dword ptr [eax+0069DD64]
+:00444262 8B4C8A64                mov ecx, dword ptr [edx+4*ecx+64]
+:00444266 8988DCDC6900            mov dword ptr [eax+0069DCDC], ecx
+:0044426C C780ECDC690001000000    mov dword ptr [ebx+0069DCEC], 00000001
+:00444276 8B8864DD6900            mov ecx, dword ptr [eax+0069DD64]
+:0044427C 8B8984000000            mov ecx, dword ptr [ecx+00000084]
+:00444282 EB23                    jmp 004442A7
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004441F9(C)
+|
+:00444284 8B9064DD6900            mov edx, dword ptr [eax+0069DD64]
+:0044428A 8B4C8A0C                mov ecx, dword ptr [edx+4*ecx+0C]
+:0044428E 8988DCDC6900            mov dword ptr [eax+0069DCDC], ecx
+:00444294 C780ECDC690001000000    mov dword ptr [ebx+0069DCEC], 00000001
+:0044429E 8B8864DD6900            mov ecx, dword ptr [eax+0069DD64]
+:004442A4 8B492C                  mov ecx, dword ptr [ecx+2C]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00444282(U)
+|
+:004442A7 8988E8DC6900            mov dword ptr [eax+0069DCE8], ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00444183(C), :0044418B(C)
+|
+:004442AD C3                      ret

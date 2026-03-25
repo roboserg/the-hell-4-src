@@ -1,0 +1,170 @@
+Shared XP disabled: restoring HF original code >>>
+
+:0045860E 6A01                    push 00000001
+:00458610 5F                      pop edi
+:00458611 8B0DE8AD6E00            mov ecx, dword ptr [006EADE8]
+:00458617 EB1B                    jmp 00458634
+:00458619 90                      nop
+:0045861A 90                      nop
+:0045861B 90                      nop
+:0045861C 7CF0                    jl 0045860E
+:0045861E 85FF                    test edi, edi
+:00458620 741A                    je 0045863C
+:00458622 8B0DE8AD6E00            mov ecx, dword ptr [006EADE8]
+:00458628 6A01                    push 00000001
+:0045862A 99                      cdq
+:0045862B F7FF                    idiv edi
+:0045862D 5A                      pop edx
+:0045862E D3E2                    shl edx, cl
+:00458630 85D6                    test esi, edx
+:00458632 7408                    je 0045863C
+
+INTO >>>
+
+:0045860E 6A01                    push 00000001
+:00458610 5A                      pop edx
+:00458611 D3E2                    shl edx, cl
+:00458613 85D6                    test esi, edx
+:00458615 7401                    je 00458618
+:00458617 47                      inc edi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00458615(C)
+|
+:00458618 41                      inc ecx
+:00458619 83F904                  cmp ecx, 00000004
+:0045861C 7CF0                    jl 0045860E
+:0045861E 85FF                    test edi, edi
+:00458620 741A                    je 0045863C
+:00458622 8B0DE8AD6E00            mov ecx, dword ptr [006EADE8]
+:00458628 6A01                    push 00000001
+:0045862A 99                      cdq
+:0045862B F7FF                    idiv edi
+:0045862D 5A                      pop edx
+:0045862E D3E2                    shl edx, cl
+:00458630 85D6                    test esi, edx
+:00458632 7408                    je 0045863C
+
+=====================================================================
+In Friendly mode, XP is shared now
+not sure, needs testing
+
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045860E(U)
+|
+:0070B700 833D5C53490001          cmp dword ptr [0049535C], 00000001
+:0070B707 740A                    je 0070B713
+:0070B709 6A01                    push 00000001
+:0070B70B 5A                      pop edx
+:0070B70C D3E2                    shl edx, cl
+:0070B70E E900CFD4FF              jmp 00458613
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B707(C)
+|
+:0070B713 6A01                    push 00000001
+:0070B715 5F                      pop edi
+:0070B716 8B0DE8AD6E00            mov ecx, dword ptr [006EADE8]
+:0070B71C E913CFD4FF              jmp 00458634
+
+=====================================================================
+
+Revision 3:
+now chance to get shared XP is (CLVL)%
+
+PLAN:
+
+push ebx
+push eax
+push edx
+call X
+movsx edx, byte ptr [eax+000001B8]
+mov ebx, edx
+push 65
+pop edx
+push ecx
+call 419F5A
+pop ecx
+pop edx
+cmp eax, ebx
+jb "SHARE XP"
+jmp "SHARE NOT"
+
+share xp:
+pop eax
+pop ebx
+jmp 0070B713
+
+SHARE NOT:
+pop eax
+pop ebx
+jmp 0070B709
+
+
+DOING:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045860E(U)
+|
+:0070B700 833D5C53490001          cmp dword ptr [0049535C], 00000001
+:0070B707 7418                    je 0070B721
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070FF2B(U)
+|
+:0070B709 6A01                    push 00000001
+:0070B70B 5A                      pop edx
+:0070B70C D3E2                    shl edx, cl
+:0070B70E E900CFD4FF              jmp 00458613
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070FF24(U)
+|
+:0070B713 6A01                    push 00000001
+:0070B715 5F                      pop edi
+:0070B716 8B0DE8AD6E00            mov ecx, dword ptr [006EADE8]
+:0070B71C E913CFD4FF              jmp 00458634
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B707(C)
+|
+:0070B721 E9DA470000              jmp 0070FF00
+
+	ex:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B721(U)
+|
+:0070FF00 53                      push ebx
+:0070FF01 50                      push eax
+:0070FF02 52                      push edx
+:0070FF03 E8C8A2FFFF              call 0070A1D0
+:0070FF08 0FBE90B8010000          movsx edx, byte ptr [eax+000001B8]
+:0070FF0F 8BDA                    mov ebx, edx
+:0070FF11 6A64                    push 00000064
+:0070FF13 5A                      pop edx
+:0070FF14 51                      push ecx
+:0070FF15 E840A0D0FF              call 00419F5A
+:0070FF1A 59                      pop ecx
+:0070FF1B 5A                      pop edx
+:0070FF1C 3BC3                    cmp eax, ebx
+:0070FF1E 7202                    jb 0070FF22
+:0070FF20 EB07                    jmp 0070FF29
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070FF1E(C)
+|
+:0070FF22 58                      pop eax
+:0070FF23 5B                      pop ebx
+:0070FF24 E9EAB7FFFF              jmp 0070B713
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070FF20(U)
+|
+:0070FF29 58                      pop eax
+:0070FF2A 5B                      pop ebx
+:0070FF2B E9D9B7FFFF              jmp 0070B709
+:0070FF30 90                      nop
+:0070FF31 90                      nop

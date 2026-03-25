@@ -1,0 +1,74 @@
+
+Rotting Carcasses resist 50% arrow damage in Multiplayer games on Purgatory mode, if Purgatory level 5 then they resist 75% arrow damage
+If Multiplayer Doom mode then arrow damage resistance is 75%, if Doom mode level 5 then arrow damage resistance is 87,5%
+Note that bosses still get their additional 50% arrow damage resistance on top of that, but there are no Rotting Carcass boss on DLVL 5, so no big deal
+Note that in Single-Player Rotting Carcasses get no extra resistance of this type
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004095AE(U)
+|
+:007072C0 8B8664DD6900            mov eax, dword ptr [esi+0069DD64]
+:007072C6 8B00                    mov eax, dword ptr [eax]
+:007072C8 3D89000000              cmp eax, 00000089
+:007072CD 7413                    je 007072E2
+:007072CF 83F86D                  cmp eax, 0000006D
+:007072D2 740E                    je 007072E2
+:007072D4 EB11                    jmp 007072E7
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007072EA(C), :007072F3(C), :0070753A(U)
+|
+:007072D6 80BE44DD690000          cmp byte ptr [esi+0069DD44], 00
+:007072DD 7403                    je 007072E2
+:007072DF C1FF01                  sar edi, 01
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007072CD(C), :007072D2(C), :007072DD(C)
+|
+:007072E2 E9D381D2FF              jmp 0042F4BA
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007072D4(U)
+|
+:007072E7 83F802                  cmp eax, 00000002
+:007072EA 75EA                    jne 007072D6
+:007072EC 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:007072F3 74E1                    je 007072D6
+:007072F5 E916020000              jmp 00707510
+:007072FA 90                      nop
+
+...................OTHER STUFF.....................
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007072F5(U)
+|
+:00707510 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00707517 7417                    je 00707530
+:00707519 833DC070600002          cmp dword ptr [006070C0], 00000002
+:00707520 7413                    je 00707535
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00707533(U), :00707538(U)
+|
+:00707522 803DD8B1600005          cmp byte ptr [0060B1D8], 05
+:00707529 750F                    jne 0070753A
+:0070752B C1FF01                  sar edi, 01
+:0070752E EB0A                    jmp 0070753A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707517(C)
+|
+:00707530 C1FF01                  sar edi, 01
+:00707533 EBED                    jmp 00707522
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707520(C)
+|
+:00707535 C1FF02                  sar edi, 02
+:00707538 EBE8                    jmp 00707522
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00707529(C), :0070752E(U)
+|
+:0070753A E997FDFFFF              jmp 007072D6

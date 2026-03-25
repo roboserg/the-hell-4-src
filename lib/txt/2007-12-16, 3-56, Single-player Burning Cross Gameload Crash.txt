@@ -1,0 +1,20 @@
+Game crashes with the report below when sometimes standing under burning cross, taking damage and then loading game. No clear idea what might cause this.
+
+Exception code: C0000005 ACCESS_VIOLATION
+Fault address:	00479DCB 01:00078DCB J:\Games\_D I A B L O_\????? Hell v1.56l_18.exe
+
+Registers:
+EAX:007074B8
+EBX:00000000
+ECX:007074B8
+EDX:7EFEFEFF
+ESI:004D12F0
+EDI:004D12F0
+CS:EIP:001B:00479DCB
+SS:ESP:0023:0012FB14	EBP:00000000
+DS:0023	ES:0023	FS:003B	GS:0000
+Flags:00210246
+
+Call stack:
+Address	Frame	 Logical addr	Module
+00479DCB	00000000	0001:00078DCB J:\Games\_D I A B L O_\????? Hell v1.56l_18.exe

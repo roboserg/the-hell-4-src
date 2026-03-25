@@ -1,0 +1,75 @@
+Gladiator now has innate bonus of + 15% tohit chance in PvM Melee
+
+
+Old code:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045B94A(C), :0045B966(C)
+|
+:0045B96A 0FBE87B8010000          movsx eax, byte ptr [edi+000001B8]
+:0045B971 8B8F74010000            mov ecx, dword ptr [edi+00000174]
+:0045B977 90                      nop
+:0045B978 90                      nop
+:0045B979 03C1                    add eax, ecx
+:0045B97B 8B4DF0                  mov ecx, dword ptr [ebp-10]
+:0045B97E 2BC3                    sub eax, ebx
+:0045B980 80BF6001000000          cmp byte ptr [edi+00000160], 00
+:0045B987 8D5C011E                lea ebx, dword ptr [ecx+eax+1E]
+:0045B98B 7503                    jne 0045B990
+:0045B98D 83C305                  add ebx, 00000005
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045B98B(C)
+|
+:0045B990 039F28550000            add ebx, dword ptr [edi+00005528]
+
+
+New code:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045B94A(C), :0045B966(C)
+|
+:0045B96A 0FBE87B8010000          movsx eax, byte ptr [edi+000001B8]
+:0045B971 8B8F74010000            mov ecx, dword ptr [edi+00000174]
+:0045B977 90                      nop
+:0045B978 90                      nop
+:0045B979 03C1                    add eax, ecx
+:0045B97B 8B4DF0                  mov ecx, dword ptr [ebp-10]
+:0045B97E 2BC3                    sub eax, ebx
+:0045B980 E9CBBC2A00              jmp 00707650
+:0045B985 90                      nop
+:0045B986 90                      nop
+:0045B987 90                      nop
+:0045B988 90                      nop
+:0045B989 90                      nop
+:0045B98A 90                      nop
+:0045B98B 90                      nop
+:0045B98C 90                      nop
+:0045B98D 90                      nop
+:0045B98E 90                      nop
+:0045B98F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070766E(U)
+|
+:0045B990 039F28550000            add ebx, dword ptr [edi+00005528]
+
+extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045B980(U)
+|
+:00707650 80BF6001000000          cmp byte ptr [edi+00000160], 00
+:00707657 8D5C011E                lea ebx, dword ptr [ecx+eax+1E]
+:0070765B 7511                    jne 0070766E				<- changed to 75 05
+:0070765D 83C305                  add ebx, 00000005
+:00707660 EB0C                    jmp 0070766E
+:00707662 80BF6001000005          cmp byte ptr [edi+00000160], 05
+:00707669 7503                    jne 0070766E
+:0070766B 83C30F                  add ebx, 0000000F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070765B(C), :00707660(U), :00707669(C)
+|
+:0070766E E91D43D5FF              jmp 0045B990
+:00707673 90                      nop

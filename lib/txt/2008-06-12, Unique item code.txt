@@ -1,0 +1,120 @@
+Unique item code for base items:
+
+1		short bow, hunter's bow, tight bow
+2		short battle bow, long battle bow
+3		short war bow, long war bow
+4		xbow, war xbow
+5		tight war bow, long heavy bow
+6		elite bow
+7		stiletto
+8		scimitar
+9		long sword
+10		sabre
+11		broad sword
+12		thorn sword
+13		falchion
+14		claymore
+15		barbaric sword
+16		wakizashi
+17		full helm
+18		long staff
+19		staff, composite staff
+20		cleaver
+21		large axe
+22		huge axe
+23		huge mace, mace
+24		bludgeon, moning star, war hammer
+25		buckler
+26		large mace, heavy mace
+27		triple flail
+28		maul
+29		great sword
+30		katana
+31		brute sword
+32		double-bladed staff
+33		huge sword
+34		leather cap, steel cap
+35		full crown, gladiator's helmet
+36		centurion
+37		crown
+38		ring mail
+39		gothic plate
+40		studded leather
+41		cloak
+42		robe, barbaric armor
+43		chain mail, scale mail, thick mail
+44		leather armor
+45		breast plate
+46		..spiritual fortress is based on it... sorceror's plate ???
+47		plate mail
+48		full plate
+49		targe
+50		griffin shield
+51 (33h) 	used for Mangler, in bugged unique slot(80h). should NOT be used for other uniques or base items
+52		gothic shield, castiron shield
+53		full shield
+54 (36h)	rings
+55		tower shield
+56		amulets
+57		hatchet, balanced axe
+58 (3Ah)	war staff (22), 22-22, 7-22, 1-22
+59		power shield
+60		guardian helm
+61		full length scalemail
+62		crypt map
+63		light helmet
+64		horned barbute, kabuto helm
+65		skull crown
+66		tomahawk
+67		quarter staff
+68		staff of lazarus
+69		heavy axe, broad axe
+70		thin plate
+71		corset
+72 (48h)	embossed mail, apprentice's mail
+73		elite close helmet
+74		balanced plate, assassin's plate
+75 (4Bh)	heavy xbow
+76 (4Ch)	rod (joker's beak)
+77 (4Dh)	ring (that requires 20 MAG)
+78 (4Eh)	mask (qlvl_33, ac 12-14, dur 23, req: 57 STR + 170 DEX)
+79 (4Fh)	amulet (qlvl_34)
+80 (50h)	rags (lev 1 cloth armor)
+81 (51h)	hard leather armor (lev 12)
+82 (52h)	bangle silver (lvl 40)
+83 (53h)	small bow (lev 1)
+84 (54h)	Heavy dagger (lev 4)
+85 (55h)	Spiked club (lev 15)
+86 (56h)	Circlet (lev 6)
+87 (57h)	Small axe (lev 5)
+88 (58h)	Bang copper (lev 50)
+89 (59h)	Heavy club (lev 24)
+90 (5Ah)	Alpha Helm (lev 55)
+91 (5Bh)	Skull cap (7)
+92 (5Ch)	Stick (1)
+93 (5Dh)	Splint Mail (25)
+94 (5Eh)	Golden Elixir
+95 (5Fh)	War Sallet
+96 (60h)	Ring (61), 61-61, 46-61, 31-61
+97 (61h)	Ring (56), 56-56, 41-56, 26-56
+98 (62h)	Acolyte's Mail (25), 25-25, 10-25, 1-25
+99 (63h)	Amulet (56), 56-56, 41-56, 26-56
+100(64h)	Ring (quest, unfindable, level 0)
+101(65h)	Peasant Cap (quest, unfindable, 0)
+102(66h)	Pigface basset (37), 37-37, 22-37, 7-37 | no uniqs yet.
+103(67h)	Amulet (quest), halls and celia
+104(68h)	Ark.Valor (quest) light
+105(69h)	Ark.Valor (quest) mail
+106(6Ah)	Ark.Valor (quest) plate
+107(6Bh)	GrisEdge (quest), lite
+108(6Ch)	GrisEdge (quest), medium
+109(6Dh)	GrisEdge (quest), heavy
+110(6Eh)	Veil of Steel (quest), lite
+111(6Fh)	Veil of Steel (quest), medium
+112(70h)	Veil of Steel (quest), heavy
+113(71h)	Scutum (17), 17-17, 2-17, 1-17
+114(72h)	Gothic Sallet (30), 30-30, 15-30, 1-30
+115(73h)	Wand (31), 31-31, 16-31, 1-31
+116(74h)	Great Staff (unused)
+
+=============================================================================

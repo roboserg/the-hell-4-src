@@ -1,0 +1,14 @@
+Sweeter CLVL based XP cap in MP:
+if problems arise, should be reverted back, or set to 250
+capped at 1000*clvl now
+applied in 1.68t RC4
+
+JG:
+The maximum experience you can obtain for killing a monster in multi player (both in Diablo and Hellfire) is 200·clvl or the total experience points needed for advancing to the next clvl divided by 20, whichever is the lowest. In single player there is no such a cap.
+
+
+:00458552 69C9C8000000            imul ecx, 000000C8
+
+into
+
+:00458552 69C9E8030000            imul ecx, 000003E8

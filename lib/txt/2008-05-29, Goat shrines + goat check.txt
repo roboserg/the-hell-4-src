@@ -1,0 +1,55 @@
+Hell clan and Moon clan appear in rooms with goat shrines too.
+
+
+* Referenced by a CALL at Address:
+|:00471D9B   
+|
+:00444BDD 83F921                  cmp ecx, 00000021
+:00444BE0 7C05                    jl 00444BE7
+:00444BE2 83F925                  cmp ecx, 00000025
+:00444BE5 7E0A                    jle 00444BF1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00444BE0(C)
+|
+:00444BE7 83F92A                  cmp ecx, 0000002A
+:00444BEA 7C09                    jl 00444BF5
+:00444BEC E90F052C00              jmp 00705100
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00444BE5(C), :0070510A(U)
+|
+:00444BF1 6A01                    push 00000001
+:00444BF3 58                      pop eax
+:00444BF4 C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00444BEA(C), :0070510F(U)
+|
+:00444BF5 33C0                    xor eax, eax
+:00444BF7 C3                      ret
+
+
+
+Extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00444BEC(U)
+|
+:00705100 83F82D                  cmp eax, 0000002D
+:00705103 7E05                    jle 0070510A
+:00705105 83F839                  cmp eax, 00000039
+:00705108 7505                    jne 0070510F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705103(C)
+|
+:0070510A E9E2FAD3FF              jmp 00444BF1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705108(C)
+|
+:0070510F E9E1FAD3FF              jmp 00444BF5
+:00705114 90                      nop

@@ -1,0 +1,75 @@
+Trap damage code: Nova
+
+Now modified according to both DLVL and Diff_mode
+dmg = ((Rnd[10]+Rnd[10]+Rnd[10]+1+DLVL)*Diff)+10, Diff = Horror 1x, Purgy 2x, Doom 4x
+
+	Old code:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00434BD3(C)
+|
+:00434C6F 6A1E                    push 0000001E				Rnd[30]
+:00434C71 B142                    mov cl, 42
+:00434C73 5A                      pop edx
+:00434C74 E8E152FEFF              call 00419F5A
+:00434C79 B142                    mov cl, 42
+:00434C7B 8BF8                    mov edi, eax
+:00434C7D 6A1E                    push 0000001E				Rnd[30]
+:00434C7F 5A                      pop edx
+:00434C80 E8D552FEFF              call 00419F5A
+:00434C85 B142                    mov cl, 42
+:00434C87 03F8                    add edi, eax
+:00434C89 6A1E                    push 0000001E				Rnd[30]
+:00434C8B 5A                      pop edx
+:00434C8C E8C952FEFF              call 00419F5A
+:00434C91 03F8                    add edi, eax
+:00434C93 0FB605D8B16000          movzx eax, byte ptr [0060B1D8]	EAX = DLVL
+:00434C9A D1E8                    shr eax, 1				EAX = DLVL/2
+:00434C9C 03F8                    add edi, eax				(Dlvl/2)+damage
+:00434C9E 89BED47A6900            mov dword ptr [esi+00697AD4], edi	spell damage = edi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00434C60(C), :00434C6D(U)
+|
+:00434CA4 C786C87A690001000000    mov dword ptr [esi+00697AC8], 00000001
+:00434CAE 5F                      pop edi
+:00434CAF 5E                      pop esi
+:00434CB0 5B                      pop ebx
+:00434CB1 5D                      pop ebp
+:00434CB2 C21C00                  ret 001C
+
+ >>>>>>>>>>>>>
+
+	New code:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00434BD3(C)
+|
+:00434C6F 6A0A                    push 0000000A
+:00434C71 B142                    mov cl, 42
+:00434C73 5A                      pop edx
+:00434C74 E8E152FEFF              call 00419F5A
+:00434C79 B142                    mov cl, 42
+:00434C7B 8BF8                    mov edi, eax
+:00434C7D 6A0A                    push 0000000A
+:00434C7F 5A                      pop edx
+:00434C80 E8D552FEFF              call 00419F5A
+:00434C85 B142                    mov cl, 42
+:00434C87 03F8                    add edi, eax
+:00434C89 6A0A                    push 0000000A
+:00434C8B 5A                      pop edx
+:00434C8C E8C952FEFF              call 00419F5A
+:00434C91 40                      inc eax
+:00434C92 03F8                    add edi, eax
+:00434C94 E858A10100              call 0044EDF1
+:00434C99 03FA                    add edi, edx
+:00434C9B 83C70A                  add edi, 0000000A
+:00434C9E 89BED47A6900            mov dword ptr [esi+00697AD4], edi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00434C60(C), :00434C6D(U)
+|
+:00434CA4 C786C87A690001000000    mov dword ptr [esi+00697AC8], 00000001
+:00434CAE 5F                      pop edi
+:00434CAF 5E                      pop esi
+:00434CB0 5B                      pop ebx
+:00434CB1 5D                      pop ebp
+:00434CB2 C21C00                  ret 001C

@@ -1,0 +1,73 @@
+
+* Possible StringData Ref from Data Obj ->"Monsters\Monsters\%s.TRN"
+                                  |
+:0043BF0E 6860384B00              push 004B3860
+
+--------------------------------------------------------------------------------------------------------------
+
+	The following should make the game use different TRNs for bosses on various modes and difficulties:
+
+
+	MOD:
+:0043BF0E E9CDC52C00              jmp 007084E0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708535(U)
+|
+:0043BF13 50                      push eax
+
+
+	EXTRA:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043BF0E(U)
+|
+:007084E0 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:007084E7 7527                    jne 00708510
+:007084E9 833DC070600001          cmp dword ptr [006070C0], 00000001
+:007084F0 7410                    je 00708502
+:007084F2 833DC070600002          cmp dword ptr [006070C0], 00000002
+:007084F9 740E                    je 00708509
+:007084FB 6896EB9F00              push 009FEB96
+:00708500 EB33                    jmp 00708535
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007084F0(C)
+|
+:00708502 68A3EB9F00              push 009FEBA3
+:00708507 EB2C                    jmp 00708535
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007084F9(C)
+|
+:00708509 68B0EB9F00              push 009FEBB0
+:0070850E EB25                    jmp 00708535
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007084E7(C)
+|
+:00708510 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00708517 7410                    je 00708529
+:00708519 833DC070600002          cmp dword ptr [006070C0], 00000002
+:00708520 740E                    je 00708530
+
+* Possible StringData Ref from Data Obj ->"Monsters\Monsters\%s.TRN"
+                                  |
+:00708522 6860384B00              push 004B3860
+:00708527 EB0C                    jmp 00708535
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708517(C)
+|
+:00708529 68BDEB9F00              push 009FEBBD
+:0070852E EB05                    jmp 00708535
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708520(C)
+|
+:00708530 68CAEB9F00              push 009FEBCA
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00708500(U), :00708507(U), :0070850E(U), :00708527(U), :0070852E(U)
+|
+:00708535 E9D939D3FF              jmp 0043BF13
+:0070853A 90                      nop

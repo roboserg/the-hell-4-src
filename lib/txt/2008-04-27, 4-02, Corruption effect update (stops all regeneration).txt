@@ -1,0 +1,649 @@
+Effect of corruption now stops all regeneration (both life and mana):
+This was tested and showed no problems. However, online tests are needed!
+Implemented in 1.59q_14
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045DBB4(C), :0045DBC6(C)
+|
+:0045DBD2 3B2DE8AD6E00            cmp ebp, dword ptr [006EADE8]
+:0045DBD8 0F8592000000            jne 0045DC70
+:0045DBDE A114AE6E00              mov eax, dword ptr [006EAE14]
+:0045DBE3 90                      nop
+:0045DBE4 90                      nop
+:0045DBE5 F7843098010000C0FFFFFF  test dword ptr [eax+esi+00000198], FFFFFFC0
+:0045DBF0 7E3B                    jle 0045DC2D
+:0045DBF2 E865B8FAFF              call 0040945C
+:0045DBF7 891D0C114D00            mov dword ptr [004D110C], ebx
+:0045DBFD 90                      nop
+:0045DBFE 90                      nop
+:0045DBFF 90                      nop
+:0045DC00 90                      nop
+:0045DC01 90                      nop
+:0045DC02 90                      nop
+:0045DC03 90                      nop
+:0045DC04 90                      nop
+:0045DC05 90                      nop
+:0045DC06 90                      nop
+:0045DC07 90                      nop
+:0045DC08 90                      nop
+:0045DC09 90                      nop
+:0045DC0A 90                      nop
+:0045DC0B 90                      nop
+:0045DC0C 90                      nop
+:0045DC0D 90                      nop
+:0045DC0E 90                      nop
+:0045DC0F 90                      nop
+:0045DC10 90                      nop
+:0045DC11 90                      nop
+:0045DC12 90                      nop
+:0045DC13 90                      nop
+:0045DC14 90                      nop
+:0045DC15 90                      nop
+:0045DC16 90                      nop
+:0045DC17 90                      nop
+:0045DC18 90                      nop
+:0045DC19 90                      nop
+:0045DC1A 90                      nop
+:0045DC1B 90                      nop
+:0045DC1C 90                      nop
+:0045DC1D 90                      nop
+:0045DC1E 90                      nop
+:0045DC1F 90                      nop
+:0045DC20 90                      nop
+:0045DC21 90                      nop
+:0045DC22 90                      nop
+:0045DC23 90                      nop
+:0045DC24 90                      nop
+:0045DC25 90                      nop
+:0045DC26 90                      nop
+:0045DC27 90                      nop
+:0045DC28 90                      nop
+:0045DC29 90                      nop
+:0045DC2A 90                      nop
+:0045DC2B 90                      nop
+:0045DC2C 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045DBF0(C)
+|
+:0045DC2D 891D400E4D00            mov dword ptr [004D0E40], ebx
+:0045DC33 A114AE6E00              mov eax, dword ptr [006EAE14]
+:0045DC38 F684304355000008        test byte ptr [eax+esi+00005543], 08
+:0045DC40 8D0C30                  lea ecx, dword ptr [eax+esi]
+:0045DC43 742B                    je 0045DC70
+:0045DC45 8B81A4010000            mov eax, dword ptr [ecx+000001A4]
+:0045DC4B 8D91A4010000            lea edx, dword ptr [ecx+000001A4]
+:0045DC51 85C0                    test eax, eax
+:0045DC53 7E1B                    jle 0045DC70
+:0045DC55 2B81AC010000            sub eax, dword ptr [ecx+000001AC]
+:0045DC5B 8902                    mov dword ptr [edx], eax
+:0045DC5D A114AE6E00              mov eax, dword ptr [006EAE14]
+:0045DC62 83A430AC01000000        and dword ptr [eax+esi+000001AC], 00000000
+:0045DC6A 891D0C114D00            mov dword ptr [004D110C], ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045DBD8(C), :0045DC43(C), :0045DC53(C)
+|
+:0045DC70 33FF                    xor edi, edi
+
+
+
+INTO >>>>
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045DBB4(C), :0045DBC6(C)
+|
+:0045DBD2 3B2DE8AD6E00            cmp ebp, dword ptr [006EADE8]
+:0045DBD8 0F8592000000            jne 0045DC70
+:0045DBDE A114AE6E00              mov eax, dword ptr [006EAE14]
+:0045DBE3 EB48                    jmp 0045DC2D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045DC43(C)
+|
+:0045DBE5 F7843098010000C0FFFFFF  test dword ptr [eax+esi+00000198], FFFFFFC0
+:0045DBF0 7E3B                    jle 0045DC2D
+:0045DBF2 E865B8FAFF              call 0040945C
+:0045DBF7 EB71                    jmp 0045DC6A
+:0045DBF9 90                      nop
+:0045DBFA 90                      nop
+:0045DBFB 90                      nop
+:0045DBFC 90                      nop
+:0045DBFD 90                      nop
+:0045DBFE 90                      nop
+:0045DBFF 90                      nop
+:0045DC00 90                      nop
+:0045DC01 90                      nop
+:0045DC02 90                      nop
+:0045DC03 90                      nop
+:0045DC04 90                      nop
+:0045DC05 90                      nop
+:0045DC06 90                      nop
+:0045DC07 90                      nop
+:0045DC08 90                      nop
+:0045DC09 90                      nop
+:0045DC0A 90                      nop
+:0045DC0B 90                      nop
+:0045DC0C 90                      nop
+:0045DC0D 90                      nop
+:0045DC0E 90                      nop
+:0045DC0F 90                      nop
+:0045DC10 90                      nop
+:0045DC11 90                      nop
+:0045DC12 90                      nop
+:0045DC13 90                      nop
+:0045DC14 90                      nop
+:0045DC15 90                      nop
+:0045DC16 90                      nop
+:0045DC17 90                      nop
+:0045DC18 90                      nop
+:0045DC19 90                      nop
+:0045DC1A 90                      nop
+:0045DC1B 90                      nop
+:0045DC1C 90                      nop
+:0045DC1D 90                      nop
+:0045DC1E 90                      nop
+:0045DC1F 90                      nop
+:0045DC20 90                      nop
+:0045DC21 90                      nop
+:0045DC22 90                      nop
+:0045DC23 90                      nop
+:0045DC24 90                      nop
+:0045DC25 90                      nop
+:0045DC26 90                      nop
+:0045DC27 90                      nop
+:0045DC28 90                      nop
+:0045DC29 90                      nop
+:0045DC2A 90                      nop
+:0045DC2B 90                      nop
+:0045DC2C 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045DBE3(U), :0045DBF0(C)
+|
+:0045DC2D 891D400E4D00            mov dword ptr [004D0E40], ebx
+:0045DC33 03C6                    add eax, esi
+:0045DC35 90                      nop
+:0045DC36 90                      nop
+:0045DC37 90                      nop
+:0045DC38 F684304355000008        test byte ptr [eax+esi+00005543], 08
+:0045DC40 8D0C30                  lea ecx, dword ptr [eax+esi]
+:0045DC43 74A0                    je 0045DBE5
+:0045DC45 8B81A4010000            mov eax, dword ptr [ecx+000001A4]
+:0045DC4B 8D91A4010000            lea edx, dword ptr [ecx+000001A4]
+:0045DC51 85C0                    test eax, eax
+:0045DC53 7E1B                    jle 0045DC70
+:0045DC55 2B81AC010000            sub eax, dword ptr [ecx+000001AC]
+:0045DC5B 8902                    mov dword ptr [edx], eax
+:0045DC5D A114AE6E00              mov eax, dword ptr [006EAE14]
+:0045DC62 83A430AC01000000        and dword ptr [eax+esi+000001AC], 00000000
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045DBF7(U)
+|
+:0045DC6A 891D0C114D00            mov dword ptr [004D110C], ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045DBD8(C), :0045DC53(C)
+|
+:0045DC70 33FF                    xor edi, edi
+
+-----------------------------------------------
+
+Step 2:
+Mana was set to zero with corruption effect, fixing..
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045DBE3(U), :0045DBF0(C)
+|
+:0045DC2D 891D400E4D00            mov dword ptr [004D0E40], ebx
+:0045DC33 03C6                    add eax, esi
+:0045DC35 90                      nop
+:0045DC36 90                      nop
+:0045DC37 90                      nop
+:0045DC38 F684304355000008        test byte ptr [eax+esi+00005543], 08
+:0045DC40 8D0C30                  lea ecx, dword ptr [eax+esi]
+:0045DC43 74A0                    je 0045DBE5
+:0045DC45 EB23                    jmp 0045DC6A
+:0045DC47 90                      nop
+:0045DC48 90                      nop
+:0045DC49 90                      nop
+:0045DC4A 90                      nop
+:0045DC4B 90                      nop
+:0045DC4C 90                      nop
+:0045DC4D 90                      nop
+:0045DC4E 90                      nop
+:0045DC4F 90                      nop
+:0045DC50 90                      nop
+:0045DC51 90                      nop
+:0045DC52 90                      nop
+:0045DC53 90                      nop
+:0045DC54 90                      nop
+:0045DC55 90                      nop
+:0045DC56 90                      nop
+:0045DC57 90                      nop
+:0045DC58 90                      nop
+:0045DC59 90                      nop
+:0045DC5A 90                      nop
+:0045DC5B 90                      nop
+:0045DC5C 90                      nop
+:0045DC5D 90                      nop
+:0045DC5E 90                      nop
+:0045DC5F 90                      nop
+:0045DC60 90                      nop
+:0045DC61 90                      nop
+:0045DC62 90                      nop
+:0045DC63 90                      nop
+:0045DC64 90                      nop
+:0045DC65 90                      nop
+:0045DC66 90                      nop
+:0045DC67 90                      nop
+:0045DC68 90                      nop
+:0045DC69 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045DBF7(U), :0045DC45(U)
+|
+:0045DC6A 891D0C114D00            mov dword ptr [004D110C], ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045DBD8(C)
+|
+:0045DC70 33FF                    xor edi, edi
+
+Note: this leaves 45dc47 - 45dc6a as free space, + some more bytes elsewhere. Needs to be rewritten later for optimizing free space.
+
+---------------------------
+Step 3: death game freeze fixing:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045DBB4(C), :0045DBC6(C)
+|
+:0045DBD2 3B2DE8AD6E00            cmp ebp, dword ptr [006EADE8]
+:0045DBD8 0F8592000000            jne 0045DC70
+:0045DBDE A114AE6E00              mov eax, dword ptr [006EAE14]
+:0045DBE3 EB48                    jmp 0045DC2D					<- this jump should be made only after check for character's death
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045DC43(C)
+|
+:0045DBE5 F7843098010000C0FFFFFF  test dword ptr [eax+esi+00000198], FFFFFFC0	<- character death check
+:0045DBF0 7E3B                    jle 0045DC2D						<- if dead go to...
+:0045DBF2 E865B8FAFF              call 0040945C						<- else continue from regeneration routine
+:0045DBF7 EB71                    jmp 0045DC6A
+:0045DBF9 90                      nop
+:0045DBFA 90                      nop
+:0045DBFB 90                      nop
+:0045DBFC 90                      nop
+:0045DBFD 90                      nop
+:0045DBFE 90                      nop
+:0045DBFF 90                      nop
+:0045DC00 90                      nop
+:0045DC01 90                      nop
+:0045DC02 90                      nop
+:0045DC03 90                      nop
+:0045DC04 90                      nop
+:0045DC05 90                      nop
+:0045DC06 90                      nop
+:0045DC07 90                      nop
+:0045DC08 90                      nop
+:0045DC09 90                      nop
+:0045DC0A 90                      nop
+:0045DC0B 90                      nop
+:0045DC0C 90                      nop
+:0045DC0D 90                      nop
+:0045DC0E 90                      nop
+:0045DC0F 90                      nop
+:0045DC10 90                      nop
+:0045DC11 90                      nop
+:0045DC12 90                      nop
+:0045DC13 90                      nop
+:0045DC14 90                      nop
+:0045DC15 90                      nop
+:0045DC16 90                      nop
+:0045DC17 90                      nop
+:0045DC18 90                      nop
+:0045DC19 90                      nop
+:0045DC1A 90                      nop
+:0045DC1B 90                      nop
+:0045DC1C 90                      nop
+:0045DC1D 90                      nop
+:0045DC1E 90                      nop
+:0045DC1F 90                      nop
+:0045DC20 90                      nop
+:0045DC21 90                      nop
+:0045DC22 90                      nop
+:0045DC23 90                      nop
+:0045DC24 90                      nop
+:0045DC25 90                      nop
+:0045DC26 90                      nop
+:0045DC27 90                      nop
+:0045DC28 90                      nop
+:0045DC29 90                      nop
+:0045DC2A 90                      nop
+:0045DC2B 90                      nop
+:0045DC2C 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045DBE3(U), :0045DBF0(C)
+|
+:0045DC2D 891D400E4D00            mov dword ptr [004D0E40], ebx
+:0045DC33 03C6                    add eax, esi
+:0045DC35 90                      nop
+:0045DC36 90                      nop
+:0045DC37 90                      nop
+:0045DC38 F684304355000008        test byte ptr [eax+esi+00005543], 08
+:0045DC40 8D0C30                  lea ecx, dword ptr [eax+esi]
+:0045DC43 74A0                    je 0045DBE5
+:0045DC45 EB23                    jmp 0045DC6A
+:0045DC47 90                      nop
+:0045DC48 90                      nop
+:0045DC49 90                      nop
+:0045DC4A 90                      nop
+:0045DC4B 90                      nop
+:0045DC4C 90                      nop
+:0045DC4D 90                      nop
+:0045DC4E 90                      nop
+:0045DC4F 90                      nop
+:0045DC50 90                      nop
+:0045DC51 90                      nop
+:0045DC52 90                      nop
+:0045DC53 90                      nop
+:0045DC54 90                      nop
+:0045DC55 90                      nop
+:0045DC56 90                      nop
+:0045DC57 90                      nop
+:0045DC58 90                      nop
+:0045DC59 90                      nop
+:0045DC5A 90                      nop
+:0045DC5B 90                      nop
+:0045DC5C 90                      nop
+:0045DC5D 90                      nop
+:0045DC5E 90                      nop
+:0045DC5F 90                      nop
+:0045DC60 90                      nop
+:0045DC61 90                      nop
+:0045DC62 90                      nop
+:0045DC63 90                      nop
+:0045DC64 90                      nop
+:0045DC65 90                      nop
+:0045DC66 90                      nop
+:0045DC67 90                      nop
+:0045DC68 90                      nop
+:0045DC69 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045DBF7(U), :0045DC45(U)
+|
+:0045DC6A 891D0C114D00            mov dword ptr [004D110C], ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045DBD8(C)
+|
+:0045DC70 33FF                    xor edi, edi
+
+
+INTO >>>
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045DBB4(C), :0045DBC6(C)
+|
+:0045DBD2 3B2DE8AD6E00            cmp ebp, dword ptr [006EADE8]
+:0045DBD8 0F8592000000            jne 0045DC70
+:0045DBDE A114AE6E00              mov eax, dword ptr [006EAE14]
+:0045DBE3 EB48                    jmp 0045DC2D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045DC43(C)
+|
+:0045DBE5 F7843098010000C0FFFFFF  test dword ptr [eax+esi+00000198], FFFFFFC0
+:0045DBF0 7E7E                    jle 0045DC70				<- repointered this, else it started circular jumping (thus locking itself)
+:0045DBF2 E865B8FAFF              call 0040945C
+:0045DBF7 EB71                    jmp 0045DC6A
+:0045DBF9 90                      nop
+:0045DBFA 90                      nop
+:0045DBFB 90                      nop
+:0045DBFC 90                      nop
+:0045DBFD 90                      nop
+:0045DBFE 90                      nop
+:0045DBFF 90                      nop
+:0045DC00 90                      nop
+:0045DC01 90                      nop
+:0045DC02 90                      nop
+:0045DC03 90                      nop
+:0045DC04 90                      nop
+:0045DC05 90                      nop
+:0045DC06 90                      nop
+:0045DC07 90                      nop
+:0045DC08 90                      nop
+:0045DC09 90                      nop
+:0045DC0A 90                      nop
+:0045DC0B 90                      nop
+:0045DC0C 90                      nop
+:0045DC0D 90                      nop
+:0045DC0E 90                      nop
+:0045DC0F 90                      nop
+:0045DC10 90                      nop
+:0045DC11 90                      nop
+:0045DC12 90                      nop
+:0045DC13 90                      nop
+:0045DC14 90                      nop
+:0045DC15 90                      nop
+:0045DC16 90                      nop
+:0045DC17 90                      nop
+:0045DC18 90                      nop
+:0045DC19 90                      nop
+:0045DC1A 90                      nop
+:0045DC1B 90                      nop
+:0045DC1C 90                      nop
+:0045DC1D 90                      nop
+:0045DC1E 90                      nop
+:0045DC1F 90                      nop
+:0045DC20 90                      nop
+:0045DC21 90                      nop
+:0045DC22 90                      nop
+:0045DC23 90                      nop
+:0045DC24 90                      nop
+:0045DC25 90                      nop
+:0045DC26 90                      nop
+:0045DC27 90                      nop
+:0045DC28 90                      nop
+:0045DC29 90                      nop
+:0045DC2A 90                      nop
+:0045DC2B 90                      nop
+:0045DC2C 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045DBE3(U)
+|
+:0045DC2D 891D400E4D00            mov dword ptr [004D0E40], ebx
+:0045DC33 03C6                    add eax, esi
+:0045DC35 90                      nop
+:0045DC36 90                      nop
+:0045DC37 90                      nop
+:0045DC38 F684304355000008        test byte ptr [eax+esi+00005543], 08
+:0045DC40 8D0C30                  lea ecx, dword ptr [eax+esi]
+:0045DC43 74A0                    je 0045DBE5
+:0045DC45 EB23                    jmp 0045DC6A
+:0045DC47 90                      nop
+:0045DC48 90                      nop
+:0045DC49 90                      nop
+:0045DC4A 90                      nop
+:0045DC4B 90                      nop
+:0045DC4C 90                      nop
+:0045DC4D 90                      nop
+:0045DC4E 90                      nop
+:0045DC4F 90                      nop
+:0045DC50 90                      nop
+:0045DC51 90                      nop
+:0045DC52 90                      nop
+:0045DC53 90                      nop
+:0045DC54 90                      nop
+:0045DC55 90                      nop
+:0045DC56 90                      nop
+:0045DC57 90                      nop
+:0045DC58 90                      nop
+:0045DC59 90                      nop
+:0045DC5A 90                      nop
+:0045DC5B 90                      nop
+:0045DC5C 90                      nop
+:0045DC5D 90                      nop
+:0045DC5E 90                      nop
+:0045DC5F 90                      nop
+:0045DC60 90                      nop
+:0045DC61 90                      nop
+:0045DC62 90                      nop
+:0045DC63 90                      nop
+:0045DC64 90                      nop
+:0045DC65 90                      nop
+:0045DC66 90                      nop
+:0045DC67 90                      nop
+:0045DC68 90                      nop
+:0045DC69 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045DBF7(U), :0045DC45(U)
+|
+:0045DC6A 891D0C114D00            mov dword ptr [004D110C], ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045DBD8(C), :0045DBF0(C)
+|
+:0045DC70 33FF                    xor edi, edi
+
+This works, and character's death with or without corruption and with/without fury enabled don't crash the game.
+--------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------
+
+Step 4: Life & Mana regeneration happened only for the character who created game in MP. Fixing:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045DBB4(C), :0045DBC6(C)
+|
+:0045DBD2 3B2DE8AD6E00            cmp ebp, dword ptr [006EADE8]
+:0045DBD8 0F8592000000            jne 0045DC70
+:0045DBDE A114AE6E00              mov eax, dword ptr [006EAE14]
+:0045DBE3 EB48                    jmp 0045DC2D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045DC43(C)
+|
+:0045DBE5 F7843098010000C0FFFFFF  test dword ptr [eax+esi+00000198], FFFFFFC0
+:0045DBF0 7E7E                    jle 0045DC70
+:0045DBF2 E865B8FAFF              call 0040945C
+:0045DBF7 EB71                    jmp 0045DC6A
+:0045DBF9 90                      nop
+:0045DBFA 90                      nop
+:0045DBFB 90                      nop
+:0045DBFC 90                      nop
+:0045DBFD 90                      nop
+:0045DBFE 90                      nop
+:0045DBFF 90                      nop
+:0045DC00 90                      nop
+:0045DC01 90                      nop
+:0045DC02 90                      nop
+:0045DC03 90                      nop
+:0045DC04 90                      nop
+:0045DC05 90                      nop
+:0045DC06 90                      nop
+:0045DC07 90                      nop
+:0045DC08 90                      nop
+:0045DC09 90                      nop
+:0045DC0A 90                      nop
+:0045DC0B 90                      nop
+:0045DC0C 90                      nop
+:0045DC0D 90                      nop
+:0045DC0E 90                      nop
+:0045DC0F 90                      nop
+:0045DC10 90                      nop
+:0045DC11 90                      nop
+:0045DC12 90                      nop
+:0045DC13 90                      nop
+:0045DC14 90                      nop
+:0045DC15 90                      nop
+:0045DC16 90                      nop
+:0045DC17 90                      nop
+:0045DC18 90                      nop
+:0045DC19 90                      nop
+:0045DC1A 90                      nop
+:0045DC1B 90                      nop
+:0045DC1C 90                      nop
+:0045DC1D 90                      nop
+:0045DC1E 90                      nop
+:0045DC1F 90                      nop
+:0045DC20 90                      nop
+:0045DC21 90                      nop
+:0045DC22 90                      nop
+:0045DC23 90                      nop
+:0045DC24 90                      nop
+:0045DC25 90                      nop
+:0045DC26 90                      nop
+:0045DC27 90                      nop
+:0045DC28 90                      nop
+:0045DC29 90                      nop
+:0045DC2A 90                      nop
+:0045DC2B 90                      nop
+:0045DC2C 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045DBE3(U)
+|
+:0045DC2D 891D400E4D00            mov dword ptr [004D0E40], ebx
+:0045DC33 90                      nop
+:0045DC34 90                      nop
+:0045DC35 90                      nop
+:0045DC36 90                      nop
+:0045DC37 90                      nop
+:0045DC38 F684304355000008        test byte ptr [eax+esi+00005543], 08
+:0045DC40 8D0C30                  lea ecx, dword ptr [eax+esi]
+:0045DC43 74A0                    je 0045DBE5
+:0045DC45 EB23                    jmp 0045DC6A
+:0045DC47 90                      nop
+:0045DC48 90                      nop
+:0045DC49 90                      nop
+:0045DC4A 90                      nop
+:0045DC4B 90                      nop
+:0045DC4C 90                      nop
+:0045DC4D 90                      nop
+:0045DC4E 90                      nop
+:0045DC4F 90                      nop
+:0045DC50 90                      nop
+:0045DC51 90                      nop
+:0045DC52 90                      nop
+:0045DC53 90                      nop
+:0045DC54 90                      nop
+:0045DC55 90                      nop
+:0045DC56 90                      nop
+:0045DC57 90                      nop
+:0045DC58 90                      nop
+:0045DC59 90                      nop
+:0045DC5A 90                      nop
+:0045DC5B 90                      nop
+:0045DC5C 90                      nop
+:0045DC5D 90                      nop
+:0045DC5E 90                      nop
+:0045DC5F 90                      nop
+:0045DC60 90                      nop
+:0045DC61 90                      nop
+:0045DC62 90                      nop
+:0045DC63 90                      nop
+:0045DC64 90                      nop
+:0045DC65 90                      nop
+:0045DC66 90                      nop
+:0045DC67 90                      nop
+:0045DC68 90                      nop
+:0045DC69 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045DBF7(U), :0045DC45(U)
+|
+:0045DC6A 891D0C114D00            mov dword ptr [004D110C], ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045DBD8(C), :0045DBF0(C)
+|
+:0045DC70 33FF                    xor edi, edi

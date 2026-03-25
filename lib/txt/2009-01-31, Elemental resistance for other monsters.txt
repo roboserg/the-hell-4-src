@@ -1,0 +1,78 @@
+Goat Lords, Biclops, Reapers, Golems (except Mud), Grim Demons, Lash Worm, and Overlord resist elemental damage in Multiplayer mode
+Resistance adjusted for difficulty modes: 25% for Horror, 37,5% for Purg., and 43,75% for Doom;
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007077F5(C)
+|
+:007078DB 83F821                  cmp eax, 00000021
+:007078DE 7440                    je 00707920
+:007078E0 83F837                  cmp eax, 00000037
+:007078E3 743B                    je 00707920
+:007078E5 83F839                  cmp eax, 00000039
+:007078E8 7436                    je 00707920
+:007078EA 83F853                  cmp eax, 00000053
+:007078ED 7431                    je 00707920
+:007078EF 83F857                  cmp eax, 00000057
+:007078F2 742C                    je 00707920
+:007078F4 83F863                  cmp eax, 00000063
+:007078F7 7427                    je 00707920
+:007078F9 83F86F                  cmp eax, 0000006F
+:007078FC 7422                    je 00707920
+:007078FE 83F873                  cmp eax, 00000073
+:00707901 741D                    je 00707920
+:00707903 83F87B                  cmp eax, 0000007B
+:00707906 7418                    je 00707920
+:00707908 83F87D                  cmp eax, 0000007D
+:0070790B 7413                    je 00707920
+:0070790D 3D82000000              cmp eax, 00000082
+:00707912 740C                    je 00707920
+:00707914 3D88000000              cmp eax, 00000088
+:00707919 7405                    je 00707920
+:0070791B E902FAFFFF              jmp 00707322
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007078DE(C), :007078E3(C), :007078E8(C), :007078ED(C), :007078F2(C)
+|:007078F7(C), :007078FC(C), :00707901(C), :00707906(C), :0070790B(C)
+|:00707912(C), :00707919(C)
+|
+:00707920 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00707927 0F84F5F9FFFF            je 00707322
+:0070792D 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00707934 7413                    je 00707949
+:00707936 833DC070600002          cmp dword ptr [006070C0], 00000002
+:0070793D 7418                    je 00707957
+:0070793F 50                      push eax
+:00707940 8BC7                    mov eax, edi
+:00707942 C1F802                  sar eax, 02
+:00707945 2BF8                    sub edi, eax
+:00707947 EB1E                    jmp 00707967
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707934(C)
+|
+:00707949 50                      push eax
+:0070794A 8BC7                    mov eax, edi
+:0070794C C1F802                  sar eax, 02
+:0070794F 2BF8                    sub edi, eax
+:00707951 D1F8                    sar eax, 1
+:00707953 2BF8                    sub edi, eax
+:00707955 EB10                    jmp 00707967
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070793D(C)
+|
+:00707957 50                      push eax
+:00707958 8BC7                    mov eax, edi
+:0070795A C1F802                  sar eax, 02
+:0070795D 2BF8                    sub edi, eax
+:0070795F D1F8                    sar eax, 1
+:00707961 2BF8                    sub edi, eax
+:00707963 D1F8                    sar eax, 1
+:00707965 2BF8                    sub edi, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00707947(U), :00707955(U)
+|
+:00707967 58                      pop eax
+:00707968 E9B5F9FFFF              jmp 00707322

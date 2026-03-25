@@ -1,0 +1,141 @@
+
+
+to enable Church-like room generation in Crypt, NOP this:
+
+:0040B3DD 803DD8B1600011          cmp byte ptr [0060B1D8], 11
+:0040B3E4 7305                    jnb 0040B3EB
+
+tested, seems OK
+but some images beg to be replaced by something that suits crypt looks better
+
+===============================
+
+object images::
+
+dword ptrs
+
+4B5090 - dlvls [1-16], B3A90
+4B5170 - dlvlvs [21-24], B3B70
+4B5250 - dlvls [17-20], B3C20
+
+
+bshelf analogue for crypt...
+parameters: w96 x h128, 4 frames: 1 - left empty, 2 - right empty, 3 - left full, 4 - right full
+offset pointer: B3BFC
+
+
+======================
+cauldrons allowed in crypt:
+
+
+	code:
+:00471F0E E99B072A00              jmp 007126AE
+
+
+
+	and:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00471F0E(U)
+|
+:007126AE 90                      nop
+:007126AF 90                      nop
+:007126B0 803DD4B1600004          cmp byte ptr [0060B1D4], 04
+:007126B7 7509                    jne 007126C2				
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007126CC(C), :007126D5(C), :007126DE(C), :007126E9(U)
+|
+:007126B9 833D24F06F0000          cmp dword ptr [006FF024], 00000000
+:007126C0 7502                    jne 007126C4
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007126E7(C), :007126B7(C)
+|
+:007126C2 33C0                    xor eax, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007126C0(C)
+|
+:007126C4 C3                      ret
+
+----
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address: << cancelled!
+|:?
+|
+:007126C5 803DD8B1600015          cmp byte ptr [0060B1D8], 15
+:007126CC 74EB                    je 007126B9
+:007126CE 803DD8B1600016          cmp byte ptr [0060B1D8], 16
+:007126D5 74E2                    je 007126B9
+:007126D7 803DD8B1600017          cmp byte ptr [0060B1D8], 17
+:007126DE 74D9                    je 007126B9
+:007126E0 803DD8B1600018          cmp byte ptr [0060B1D8], 18
+:007126E7 75D9                    jne 007126C2
+:007126E9 EBCE                    jmp 007126B9
+:007126EB 90                      nop
+
+
+
+====================
+
+3th room type removal: (skeleton tomes)
+
+“ут
+[16:44:23] ярик: 
+.text:00471EB0 000                 push    2
+.text:00471EB2 004                 pop     edx
+.text:00471EB3 000                 sub     ecx, edx        ; ecx 7 (-3)
+ jnz 00471F22 ;обратно, это не 3й тип комнаты
+cmp DLVL, 1
+jl @ 471F20
+cmp DLVL, 8
+jg @471F20
+jmp 471F22 ; если проверку прошли, то всЄ ок
+
+
+
+========================
+
+room types:
+
+[19:03:40] ярик:  e( RT_0_BARRELS      , 0 )\
+ e( RT_1_SHRINE      , 1 )\
+ e( RT_2_MAGIC_ITEM      , 2 )\
+ e( RT_3_ANCIENT_TOMES      , 3 )\
+ e( RT_4_GOLD      , 4 )\
+ e( RT_5_LIBRYARY      , 5 )\
+ e( RT_6      , 6 )\
+ e( RT_7_BLOOD_FOUNTAN      , 7 )\
+ e( RT_8_DECAPITATED_BODIES      , 8 )\
+ e( RT_9_PURIFYING_SPRING      , 9 )\
+ e( RT_10     , 10 )\
+ e( RT_11_GOAT_SHRINE     , 11 )\
+ e( RT_12_CAULDRON     , 12 )\
+ e( RT_13_MURKY_POOL     , 13 )\
+ e( RT_14_FOUNTAIN_OF_TEARS     , 14 )\
+ e( RT_15     , 15 )\
+ e( RT_16     , 16 )
+
+=========================
+update:
+0:43 06.09.2012
+abyss levels (17-20) excluded to prevent possible complications in room generation
+
+
+	code:
+	
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0040B3DD(U)
+|
+:00713AE0 803DD8B1600011          cmp byte ptr [0060B1D8], 11
+:00713AE7 7C0E                    jl 00713AF7
+:00713AE9 803DD8B1600014          cmp byte ptr [0060B1D8], 14
+:00713AF0 7F05                    jg 00713AF7
+:00713AF2 E9F478CFFF              jmp 0040B3EB
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00713AE7(C), :00713AF0(C)
+|
+:00713AF7 E9EA78CFFF              jmp 0040B3E6

@@ -1,0 +1,100 @@
+
+
+Old:
+
+
+:0045BAEC 90                      nop
+:0045BAED 90                      nop
+:0045BAEE 90                      nop
+:0045BAEF 90                      nop
+:0045BAF0 90                      nop
+:0045BAF1 90                      nop
+:0045BAF2 90                      nop
+:0045BAF3 90                      nop
+:0045BAF4 90                      nop
+:0045BAF5 90                      nop
+:0045BAF6 90                      nop
+:0045BAF7 90                      nop
+:0045BAF8 90                      nop
+:0045BAF9 90                      nop
+:0045BAFA 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007064D8(U)
+|
+:0045BAFB F6804355000040          test byte ptr [eax+00005543], 40
+:0045BB02 740B                    je 0045BB0F
+:0045BB04 80FB01                  cmp bl, 01
+:0045BB07 7506                    jne 0045BB0F
+:0045BB09 8BCF                    mov ecx, edi
+:0045BB0B D1F9                    sar ecx, 1
+:0045BB0D 03F9                    add edi, ecx
+
+===========================================================================================
+
+New:
+
+
+:0045BADB 90                      nop
+:0045BADC 90                      nop
+:0045BADD 90                      nop
+:0045BADE 90                      nop
+:0045BADF 90                      nop
+:0045BAE0 90                      nop
+:0045BAE1 90                      nop
+:0045BAE2 90                      nop
+:0045BAE3 90                      nop
+:0045BAE4 90                      nop
+:0045BAE5 90                      nop
+:0045BAE6 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007064D8(U)
+|
+:0045BAE7 F6804355000004          test byte ptr [eax+00005543], 04
+:0045BAEE 740B                    je 0045BAFB
+:0045BAF0 80FB00                  cmp bl, 00
+:0045BAF3 7506                    jne 0045BAFB
+:0045BAF5 8BCF                    mov ecx, edi
+:0045BAF7 D1F9                    sar ecx, 1
+:0045BAF9 03F9                    add edi, ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045BAEE(C), :0045BAF3(C)
+|
+:0045BAFB F6804355000040          test byte ptr [eax+00005543], 40
+:0045BB02 740B                    je 0045BB0F
+
+
+===========================================================================================
+
+Revision 2:
+
+It didn't work because bl couldn't be compared to zero (?), so I compared it to 1 and made JNB check
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007064D8(U)
+|
+:0045BAE7 F6804355000004          test byte ptr [eax+00005543], 04
+:0045BAEE 740B                    je 0045BAFB
+:0045BAF0 80FB01                  cmp bl, 01
+:0045BAF3 7306                    jnb 0045BAFB
+:0045BAF5 8BCF                    mov ecx, edi
+:0045BAF7 D1F9                    sar ecx, 1
+:0045BAF9 03F9                    add edi, ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045BAEE(C), :0045BAF3(C)
+|
+:0045BAFB F6804355000040          test byte ptr [eax+00005543], 40
+:0045BB02 740B                    je 0045BB0F
+:0045BB04 80FB01                  cmp bl, 01
+:0045BB07 7506                    jne 0045BB0F
+:0045BB09 8BCF                    mov ecx, edi
+:0045BB0B D1F9                    sar ecx, 1
+:0045BB0D 03F9                    add edi, ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045BB02(C), :0045BB07(C)
+|
+:0045BB0F F6808855000001          test byte ptr [eax+00005588], 01

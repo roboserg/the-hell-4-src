@@ -1,0 +1,264 @@
+Changes related to special bosses in preset places:
+
+
+
+	Code:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043BC34(C), :0043BC3C(U), :0043BC5B(C)
+|
+:0043BC65 E916AF2C00              jmp 00706B80
+
+* Referenced by a CALL at Address:
+|:00706BA5   
+|
+:0043BC6A 33D2                    xor edx, edx
+:0043BC6C 33DB                    xor ebx, ebx
+:0043BC6E B9B05B5F00              mov ecx, 005F5BB0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043BC99(C)
+|
+:0043BC73 85D2                    test edx, edx
+:0043BC75 7524                    jne 0043BC9B
+:0043BC77 33FF                    xor edi, edi
+:0043BC79 8BC1                    mov eax, ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043BC8D(C)
+|
+:0043BC7B 85D2                    test edx, edx
+:0043BC7D 7510                    jne 0043BC8F
+:0043BC7F 3930                    cmp dword ptr [eax], esi
+:0043BC81 0F94C2                  sete dl
+:0043BC84 47                      inc edi
+:0043BC85 05C0010000              add eax, 000001C0
+:0043BC8A 83FF70                  cmp edi, 00000070
+:0043BC8D 7CEC                    jl 0043BC7B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043BC7D(C)
+|
+:0043BC8F 83C104                  add ecx, 00000004
+:0043BC92 43                      inc ebx
+:0043BC93 81F9705D5F00            cmp ecx, 005F5D70
+:0043BC99 7CD8                    jl 0043BC73
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043BC75(C)
+|
+:0043BC9B 47                      inc edi
+:0043BC9C 43                      inc ebx
+:0043BC9D C3                      ret
+
+
+:0043BC9E 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706BAB(U)
+|
+:0043BC9F 837DFC0C                cmp dword ptr [ebp-04], 0000000C
+:0043BCA3 8B0D80DC6900            mov ecx, dword ptr [0069DC80]
+:0043BCA9 7514                    jne 0043BCBF
+:0043BCAB E850AF2C00              call 00706C00
+:0043BCB0 0F8416030000            je 0043BFCC
+:0043BCB6 8D78FE                  lea edi, dword ptr [eax-02]
+:0043BCB9 890D7C735700            mov dword ptr [0057737C], ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043BCA9(C)
+|
+:0043BCBF E952AF2C00              jmp 00706C16
+:0043BCC4 90                      nop
+:0043BCC5 90                      nop
+:0043BCC6 90                      nop
+:0043BCC7 90                      nop
+:0043BCC8 90                      nop
+:0043BCC9 90                      nop
+:0043BCCA 90                      nop
+:0043BCCB 90                      nop
+:0043BCCC 90                      nop
+:0043BCCD 90                      nop
+:0043BCCE 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706C38(U)
+|
+:0043BCCF 8B55F4                  mov edx, dword ptr [ebp-0C]
+
+
+
+
+
+
+	Extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043BC65(U)
+|
+:00706B80 83FA09                  cmp edx, 00000009
+:00706B83 7508                    jne 00706B8D
+:00706B85 56                      push esi
+:00706B86 BE6F010000              mov esi, 0000016F
+:00706B8B EB18                    jmp 00706BA5
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706B83(C)
+|
+:00706B8D 83FA50                  cmp edx, 00000050
+:00706B90 7508                    jne 00706B9A
+:00706B92 56                      push esi
+:00706B93 BE3D010000              mov esi, 0000013D
+:00706B98 EB0B                    jmp 00706BA5
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706B90(C)
+|
+:00706B9A 83FA20                  cmp edx, 00000020
+:00706B9D 750C                    jne 00706BAB
+:00706B9F 56                      push esi
+:00706BA0 BE3F010000              mov esi, 0000013F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00706B8B(U), :00706B98(U)
+|
+:00706BA5 E8C050D3FF              call 0043BC6A
+:00706BAA 5E                      pop esi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706B9D(C)
+|
+:00706BAB E9EF50D3FF              jmp 0043BC9F
+:00706BB0 90                      nop
+.....................
+:00706BFF 90                      nop
+
+* Referenced by a CALL at Addresses:
+|:0043BCAB   , :00706C1C   , :00706C2E   
+|
+:00706C00 A160735700              mov eax, dword ptr [00577360]
+:00706C05 85C0                    test eax, eax
+:00706C07 740C                    je 00706C15
+:00706C09 8B1564735700            mov edx, dword ptr [00577364]
+:00706C0F 85D2                    test edx, edx
+:00706C11 7402                    je 00706C15
+:00706C13 8BDA                    mov ebx, edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00706C07(C), :00706C11(C)
+|
+:00706C15 C3                      ret
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043BCBF(U)
+|
+:00706C16 837DFC4F                cmp dword ptr [ebp-04], 0000004F
+:00706C1A 750C                    jne 00706C28
+:00706C1C E8DFFFFFFF              call 00706C00
+:00706C21 7415                    je 00706C38
+:00706C23 8D7806                  lea edi, dword ptr [eax+06]
+:00706C26 EB10                    jmp 00706C38
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706C1A(C)
+|
+:00706C28 837DFC63                cmp dword ptr [ebp-04], 00000063
+:00706C2C 750A                    jne 00706C38
+:00706C2E E8CDFFFFFF              call 00706C00
+:00706C33 7403                    je 00706C38
+:00706C35 8D7806                  lea edi, dword ptr [eax+06]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00706C21(C), :00706C26(U), :00706C2C(C), :00706C33(C)
+|
+:00706C38 E99250D3FF              jmp 0043BCCF
+
+
+
+==============================================================================================================================
+
+Old:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043BC34(C), :0043BC3C(U), :0043BC5B(C)
+|
+:0043BC65 83FA09                  cmp edx, 00000009
+:0043BC68 7535                    jne 0043BC9F
+:0043BC6A 33D2                    xor edx, edx
+:0043BC6C 33DB                    xor ebx, ebx
+:0043BC6E B9B05B5F00              mov ecx, 005F5BB0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043BC9D(C)
+|
+:0043BC73 85D2                    test edx, edx
+:0043BC75 7528                    jne 0043BC9F
+:0043BC77 33FF                    xor edi, edi
+:0043BC79 8BC1                    mov eax, ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043BC91(C)
+|
+:0043BC7B 85D2                    test edx, edx
+:0043BC7D 7514                    jne 0043BC93
+:0043BC7F 81386F010000            cmp dword ptr [eax], 0000016F
+:0043BC85 0F94C2                  sete dl
+:0043BC88 47                      inc edi
+:0043BC89 05C0010000              add eax, 000001C0
+:0043BC8E 83FF70                  cmp edi, 00000070
+:0043BC91 7CE8                    jl 0043BC7B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043BC7D(C)
+|
+:0043BC93 83C104                  add ecx, 00000004
+:0043BC96 43                      inc ebx
+:0043BC97 81F9705D5F00            cmp ecx, 005F5D70
+:0043BC9D 7CD4                    jl 0043BC73
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043BC68(C), :0043BC75(C)
+|
+:0043BC9F 837DFC0C                cmp dword ptr [ebp-04], 0000000C
+:0043BCA3 8B0D80DC6900            mov ecx, dword ptr [0069DC80]
+:0043BCA9 7524                    jne 0043BCCF
+:0043BCAB A160735700              mov eax, dword ptr [00577360]
+:0043BCB0 85C0                    test eax, eax
+:0043BCB2 0F8414030000            je 0043BFCC
+:0043BCB8 8B1D64735700            mov ebx, dword ptr [00577364]
+:0043BCBE 85DB                    test ebx, ebx
+:0043BCC0 0F8406030000            je 0043BFCC
+:0043BCC6 8D78FE                  lea edi, dword ptr [eax-02]
+:0043BCC9 890D7C735700            mov dword ptr [0057737C], ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043BCA9(C)
+|
+:0043BCCF 8B55F4                  mov edx, dword ptr [ebp-0C]
+
+====================================================
+====================================================
+
+14:19 11.10.2012
+Cornerstone rooms are placed at levels 21, 22 and 23 now
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0040E3A1(U)
+|
+:00714400 803DD8B1600015          cmp byte ptr [0060B1D8], 15
+:00714407 7C12                    jl 0071441B
+:00714409 803DD8B1600017          cmp byte ptr [0060B1D8], 17
+:00714410 7F09                    jg 0071441B
+:00714412 E9979FCFFF              jmp 0040E3AE
+:00714417 90                      nop
+:00714418 90                      nop
+:00714419 90                      nop
+:0071441A 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00714407(C), :00714410(C)
+|
+:0071441B E936A1CFFF              jmp 0040E556
+:00714420 90                      nop

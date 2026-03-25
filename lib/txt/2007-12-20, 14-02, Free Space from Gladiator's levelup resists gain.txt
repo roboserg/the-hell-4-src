@@ -1,0 +1,59 @@
+Free space from cleaning up obsolete code from barbarian's levelup resists gain:
+
+___
+:0042404D 03C6                    add eax, esi
+:0042404F 80B86001000005          cmp byte ptr [eax+00000160], 05
+:00424056 EB16                    jmp 0042406E
+:00424058 0FBEB8B8010000          movsx edi, byte ptr [eax+000001B8]
+:0042405F 8B4DC8                  mov ecx, dword ptr [ebp-38]
+:00424062 8B55C4                  mov edx, dword ptr [ebp-3C]
+:00424065 03CF                    add ecx, edi
+:00424067 03D7                    add edx, edi
+:00424069 017DE4                  add dword ptr [ebp-1C], edi
+:0042406C EB06                    jmp 00424074
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00424056(U)
+|
+:0042406E 8B4DC8                  mov ecx, dword ptr [ebp-38]
+:00424071 8B55C4                  mov edx, dword ptr [ebp-3C]
+
+into:
+
+:0042404D 03C6                    add eax, esi
+:0042404F EB1D                    jmp 0042406E
+:00424051 90                      nop
+:00424052 90                      nop
+:00424053 90                      nop
+:00424054 90                      nop
+:00424055 90                      nop
+:00424056 90                      nop
+:00424057 90                      nop
+:00424058 90                      nop
+:00424059 90                      nop
+:0042405A 90                      nop
+:0042405B 90                      nop
+:0042405C 90                      nop
+:0042405D 90                      nop
+:0042405E 90                      nop
+:0042405F 90                      nop
+:00424060 90                      nop
+:00424061 90                      nop
+:00424062 90                      nop
+:00424063 90                      nop
+:00424064 90                      nop
+:00424065 90                      nop
+:00424066 90                      nop
+:00424067 90                      nop
+:00424068 90                      nop
+:00424069 90                      nop
+:0042406A 90                      nop
+:0042406B 90                      nop
+:0042406C 90                      nop
+:0042406D 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042404F(U)
+|
+:0042406E 8B4DC8                  mov ecx, dword ptr [ebp-38]
+:00424071 8B55C4                  mov edx, dword ptr [ebp-3C]

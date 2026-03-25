@@ -1,0 +1,297 @@
+* Referenced by a CALL at Address:
+|:0041DFAA   
+|
+:0041E2D5 56                      push esi
+:0041E2D6 8D81FEFBFFFF            lea eax, dword ptr [ecx+FFFFFBFE]
+:0041E2DC 33F6                    xor esi, esi
+:0041E2DE 83F809                  cmp eax, 00000009
+:0041E2E1 0F8762020000            ja 0041E549
+:0041E2E7 FF24855CE54100          jmp dword ptr [4*eax+0041E55C]
+:0041E2EE 8A0DD8B16000            mov cl, byte ptr [0060B1D8]
+:0041E2F4 0FB6C1                  movzx eax, cl
+:0041E2F7 8B0485C0515700          mov eax, dword ptr [4*eax+005751C0]
+:0041E2FE 2BC6                    sub eax, esi
+:0041E300 0F841C020000            je 0041E522
+:0041E306 48                      dec eax
+:0041E307 0F8499000000            je 0041E3A6
+:0041E30D 48                      dec eax
+:0041E30E 0F84A7010000            je 0041E4BB
+:0041E314 48                      dec eax
+:0041E315 746B                    je 0041E382
+:0041E317 48                      dec eax
+:0041E318 0F85C9010000            jne 0041E4E7
+:0041E31E 80F90F                  cmp cl, 0F
+:0041E321 0F8241010000            jb 0041E468
+:0041E327 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"Gendata\Cutgate.CEL"
+                                  |
+:0041E329 B9D40D4A00              mov ecx, 004A0DD4
+:0041E32E E8FCBCFFFF              call 0041A02F
+:0041E333 A3F8546800              mov dword ptr [006854F8], eax
+
+* Possible StringData Ref from Data Obj ->"Gendata\Cutgate.pal"
+                                  |
+:0041E338 B9C00D4A00              mov ecx, 004A0DC0
+:0041E33D E9F6010000              jmp 0041E538
+:0041E342 8A0DD8B16000            mov cl, byte ptr [0060B1D8]
+:0041E348 0FB6C1                  movzx eax, cl
+:0041E34B 393485BC515700          cmp dword ptr [4*eax+005751BC], esi
+:0041E352 8D0485C0515700          lea eax, dword ptr [4*eax+005751C0]
+:0041E359 0F84C3010000            je 0041E522
+:0041E35F 8B00                    mov eax, dword ptr [eax]
+:0041E361 2BC6                    sub eax, esi
+:0041E363 0F84B9010000            je 0041E522
+:0041E369 48                      dec eax
+:0041E36A 743A                    je 0041E3A6
+:0041E36C 48                      dec eax
+:0041E36D 0F8448010000            je 0041E4BB
+:0041E373 48                      dec eax
+:0041E374 740C                    je 0041E382
+:0041E376 48                      dec eax
+:0041E377 0F856A010000            jne 0041E4E7
+:0041E37D E9E6000000              jmp 0041E468
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0041E315(C), :0041E374(C)
+|
+:0041E382 80F911                  cmp cl, 11
+:0041E385 0F82FD000000            jb 0041E488
+:0041E38B 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"Nlevels\cutl6.CEL"
+                                  |
+:0041E38D B9AC0D4A00              mov ecx, 004A0DAC
+:0041E392 E898BCFFFF              call 0041A02F
+:0041E397 A3F8546800              mov dword ptr [006854F8], eax
+
+* Possible StringData Ref from Data Obj ->"Nlevels\cutl6.pal"
+                                  |
+:0041E39C B9980D4A00              mov ecx, 004A0D98
+:0041E3A1 E992010000              jmp 0041E538
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0041E307(C), :0041E36A(C)
+|
+:0041E3A6 80F911                  cmp cl, 11
+:0041E3A9 0F8238010000            jb 0041E4E7
+:0041E3AF 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"Nlevels\cutl5.CEL"
+                                  |
+:0041E3B1 B9840D4A00              mov ecx, 004A0D84
+:0041E3B6 E874BCFFFF              call 0041A02F
+:0041E3BB A3F8546800              mov dword ptr [006854F8], eax
+
+* Possible StringData Ref from Data Obj ->"Nlevels\cutl5.pal"
+                                  |
+:0041E3C0 B9700D4A00              mov ecx, 004A0D70
+:0041E3C5 E96E010000              jmp 0041E538
+:0041E3CA A000CB6100              mov al, byte ptr [0061CB00]
+:0041E3CF 3C02                    cmp al, 02
+:0041E3D1 0F84E4000000            je 0041E4BB
+:0041E3D7 3C05                    cmp al, 05
+:0041E3D9 0F8508010000            jne 0041E4E7
+:0041E3DF 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"Gendata\Cutportl.CEL"
+                                  |
+:0041E3E1 B9580D4A00              mov ecx, 004A0D58
+:0041E3E6 E844BCFFFF              call 0041A02F
+:0041E3EB A3F8546800              mov dword ptr [006854F8], eax
+
+* Possible StringData Ref from Data Obj ->"Gendata\Cutportl.pal"
+                                  |
+:0041E3F0 B9400D4A00              mov ecx, 004A0D40
+:0041E3F5 E93E010000              jmp 0041E538
+:0041E3FA 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"Gendata\Cutportr.CEL"
+                                  |
+:0041E3FC B9280D4A00              mov ecx, 004A0D28
+:0041E401 E829BCFFFF              call 0041A02F
+:0041E406 A3F8546800              mov dword ptr [006854F8], eax
+
+* Possible StringData Ref from Data Obj ->"Gendata\Cutportr.pal"
+                                  |
+:0041E40B B9100D4A00              mov ecx, 004A0D10
+:0041E410 E923010000              jmp 0041E538
+:0041E415 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"Gendata\Cutstart.CEL"
+                                  |
+:0041E417 B9F80C4A00              mov ecx, 004A0CF8
+:0041E41C E80EBCFFFF              call 0041A02F
+:0041E421 A3F8546800              mov dword ptr [006854F8], eax
+
+* Possible StringData Ref from Data Obj ->"Gendata\Cutstart.pal"
+                                  |
+:0041E426 B9E00C4A00              mov ecx, 004A0CE0
+:0041E42B E908010000              jmp 0041E538
+:0041E430 A1E8AD6E00              mov eax, dword ptr [006EADE8]
+:0041E435 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0041E43B 69C0C8550000            imul eax, 000055C8
+:0041E441 8B4C0834                mov ecx, dword ptr [eax+ecx+34]
+:0041E445 8B048DC0515700          mov eax, dword ptr [4*ecx+005751C0]
+:0041E44C 2BC6                    sub eax, esi
+:0041E44E 0F84CE000000            je 0041E522
+:0041E454 48                      dec eax
+:0041E455 0F8487000000            je 0041E4E2
+:0041E45B 48                      dec eax
+:0041E45C 745D                    je 0041E4BB
+:0041E45E 48                      dec eax
+:0041E45F 7422                    je 0041E483
+:0041E461 48                      dec eax
+:0041E462 0F85EC000000            jne 0041E554
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0041E321(C), :0041E37D(U)
+|
+:0041E468 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"Gendata\Cut4.CEL"
+                                  |
+:0041E46A B9CC0C4A00              mov ecx, 004A0CCC
+:0041E46F E8BBBBFFFF              call 0041A02F
+:0041E474 A3F8546800              mov dword ptr [006854F8], eax
+
+* Possible StringData Ref from Data Obj ->"Gendata\Cut4.pal"
+                                  |
+:0041E479 B9B80C4A00              mov ecx, 004A0CB8
+:0041E47E E9B5000000              jmp 0041E538
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0041E45F(C)
+|
+:0041E483 83F911                  cmp ecx, 00000011
+:0041E486 7D1B                    jge 0041E4A3
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0041E385(C)
+|
+:0041E488 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"Gendata\Cut3.CEL"
+                                  |
+:0041E48A B9A40C4A00              mov ecx, 004A0CA4
+:0041E48F E89BBBFFFF              call 0041A02F
+:0041E494 A3F8546800              mov dword ptr [006854F8], eax
+
+* Possible StringData Ref from Data Obj ->"Gendata\Cut3.pal"
+                                  |
+:0041E499 B9900C4A00              mov ecx, 004A0C90
+:0041E49E E995000000              jmp 0041E538
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0041E486(C)
+|
+:0041E4A3 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"Nlevels\Cutl6.CEL"
+                                  |
+:0041E4A5 B97C0C4A00              mov ecx, 004A0C7C
+:0041E4AA E880BBFFFF              call 0041A02F
+:0041E4AF A3F8546800              mov dword ptr [006854F8], eax
+
+* Possible StringData Ref from Data Obj ->"Nlevels\Cutl6.pal"
+                                  |
+:0041E4B4 B9680C4A00              mov ecx, 004A0C68
+:0041E4B9 EB7D                    jmp 0041E538
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0041E30E(C), :0041E36D(C), :0041E3D1(C), :0041E45C(C)
+|
+:0041E4BB 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"Gendata\Cut2.CEL"
+                                  |
+:0041E4BD B9540C4A00              mov ecx, 004A0C54
+:0041E4C2 E868BBFFFF              call 0041A02F
+
+* Possible StringData Ref from Data Obj ->"Gendata\Cut2.pal"
+                                  |
+:0041E4C7 B9400C4A00              mov ecx, 004A0C40
+:0041E4CC A3F8546800              mov dword ptr [006854F8], eax
+:0041E4D1 E855700300              call 0045552B
+:0041E4D6 C7050055680002000000    mov dword ptr [00685500], 00000002
+:0041E4E0 EB72                    jmp 0041E554
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0041E455(C)
+|
+:0041E4E2 83F911                  cmp ecx, 00000011
+:0041E4E5 7D23                    jge 0041E50A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0041E318(C), :0041E377(C), :0041E3A9(C), :0041E3D9(C)
+|
+:0041E4E7 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"Gendata\Cutl1d.CEL"
+                                  |
+:0041E4E9 B92C0C4A00              mov ecx, 004A0C2C
+:0041E4EE E83CBBFFFF              call 0041A02F
+
+* Possible StringData Ref from Data Obj ->"Gendata\Cutl1d.pal"
+                                  |
+:0041E4F3 B9180C4A00              mov ecx, 004A0C18
+:0041E4F8 A3F8546800              mov dword ptr [006854F8], eax
+:0041E4FD E829700300              call 0045552B
+:0041E502 893500556800            mov dword ptr [00685500], esi
+:0041E508 EB4A                    jmp 0041E554
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0041E4E5(C)
+|
+:0041E50A 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"Nlevels\Cutl5.CEL"
+                                  |
+:0041E50C B9040C4A00              mov ecx, 004A0C04
+:0041E511 E819BBFFFF              call 0041A02F
+:0041E516 A3F8546800              mov dword ptr [006854F8], eax
+
+* Possible StringData Ref from Data Obj ->"Nlevels\Cutl5.pal"
+                                  |
+:0041E51B B9F00B4A00              mov ecx, 004A0BF0
+:0041E520 EB16                    jmp 0041E538
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0041E300(C), :0041E359(C), :0041E363(C), :0041E44E(C)
+|
+:0041E522 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"Gendata\Cuttt.CEL"
+                                  |
+:0041E524 B9DC0B4A00              mov ecx, 004A0BDC
+:0041E529 E801BBFFFF              call 0041A02F
+:0041E52E A3F8546800              mov dword ptr [006854F8], eax
+
+* Possible StringData Ref from Data Obj ->"Gendata\Cuttt.pal"
+                                  |
+:0041E533 B9C80B4A00              mov ecx, 004A0BC8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0041E33D(U), :0041E3A1(U), :0041E3C5(U), :0041E3F5(U), :0041E410(U)
+|:0041E42B(U), :0041E47E(U), :0041E49E(U), :0041E4B9(U), :0041E520(U)
+|
+:0041E538 E8EE6F0300              call 0045552B
+:0041E53D C7050055680001000000    mov dword ptr [00685500], 00000001
+:0041E547 EB0B                    jmp 0041E554
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0041E2E1(C)
+|
+
+* Possible StringData Ref from Data Obj ->"Unknown progress mode"
+                                  |
+:0041E549 68B00B4A00              push 004A0BB0
+:0041E54E E81234FEFF              call 00401965
+:0041E553 59                      pop ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0041E462(C), :0041E4E0(U), :0041E508(U), :0041E547(U)
+|
+:0041E554 8935FC546800            mov dword ptr [006854FC], esi
+:0041E55A 5E                      pop esi
+:0041E55B C3                      ret

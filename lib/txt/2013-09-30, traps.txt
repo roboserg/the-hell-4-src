@@ -1,0 +1,168 @@
+﻿TRAPS!
+
+Физ.дамаг от стрел огня из ловушек
+Переписываю формулу на:
+
+  Horror:
+min = (DLVL*4)+15
+max = (DLVL*6)+15 // 159
+  Purgat:
+min = (DLVL*4)+155
+max =  (DLVL*8)+155 // 347
+  Doom:
+min = (DLVL*5)+345
+max = (DLVL*8)+345
+
+=========
+
+Код:
+
+    435D81 >>>>  e5f40
+movzx eax, byte ptr [0060B1D8h] // e5f40
+shl eax, 1 ; dlvl *2
+movzx edi, byte ptr [0060B1D8h] ; dlvl
+cmp dword ptr [006070C0h], 01
+je @Purg
+jg @Doom
+@Horr:
+add eax, 10 ; dlvl*2 + 10 min
+@return:
+add edi, eax // e5f63 ; dlvl*3 + 10 max
+mov dword ptr [ebp-8], eax
+jmp 00435DAE
+
+@Purg:
+shl edi, 1 ; dlvl * 2
+add eax, 78 ; dlvl * 2 + 78 min
+; dlvl * 4 + 78 max
+jmp @return
+
+@Doom:
+imul edi, 3 ; dlvl * 3
+add eax, 183 ; dlvl * 2 + 183 min
+; dlvl * 5 + 183 max
+jmp @return
+
+
+  chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00435D81(U)
+|
+:00719340 0FB605D8B16000          movzx eax, byte ptr [0060B1D8]
+:00719347 C1E002                  shl eax, 02
+:0071934A 0FB63DD8B16000          movzx edi, byte ptr [0060B1D8]
+:00719351 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00719358 7413                    je 0071936D
+:0071935A 7F1B                    jg 00719377
+:0071935C D1E7                    shl edi, 1
+:0071935E 90                      nop
+:0071935F 90                      nop
+:00719360 83C00F                  add eax, 0000000F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00719375(U), :00719381(U)
+|
+:00719363 01C7                    add edi, eax
+:00719365 8945F8                  mov dword ptr [ebp-08], eax
+:00719368 E941CAD1FF              jmp 00435DAE
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719358(C)
+|
+:0071936D 6BFF04                  imul edi, 00000004
+:00719370 059B000000              add eax, 0000009B
+:00719375 EBEC                    jmp 00719363
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071935A(C)
+|
+:00719377 01F8                    add eax, edi
+:00719379 6BFF03                  imul edi, 00000003
+:0071937C 0559010000              add eax, 00000159
+:00719381 EBE0                    jmp 00719363
+
+==================================================
+
+ Огненный урон от стрел огня из ловушек
+
+Формула будет, по аналогии со стрелами молнии, такова:
+
+Horr:
+min: Rnd[Dlvl*2]+(Dlvl*4)+1
+max: Rnd[Dlvl*4]+(Dlvl*4)+10
+
+Purg: 
+min: Rnd[Dlvl*4]+(Dlvl*8)+30
+max: Rnd[Dlvl*8]+(Dlvl*8)+50
+
+Doom: 
+min: Rnd[Dlvl*8]+(Dlvl*8)+60
+max: Rnd[Dlvl*16]+(Dlvl*16)+125
+
+========================
+
+ebx = min.dmg
+edi = max.dmg
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00435F86(U)
+|
+:00719390 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00719397 0F844D000000            je 007193EA
+:0071939D 833DC070600002          cmp dword ptr [006070C0], 00000002
+:007193A4 0F847D000000            je 00719427
+:007193AA 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:007193B1 C1E201                  shl edx, 01
+:007193B4 B144                    mov cl, 44
+:007193B6 E89F0BD0FF              call 00419F5A
+:007193BB 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:007193C2 C1E102                  shl ecx, 02
+:007193C5 8D5C0801                lea ebx, dword ptr [eax+ecx+01]
+:007193C9 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:007193D0 C1E202                  shl edx, 02
+:007193D3 B144                    mov cl, 44
+:007193D5 E8800BD0FF              call 00419F5A
+:007193DA 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:007193E1 8D7C880A                lea edi, dword ptr [eax+4*ecx+0A]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00719425(U), :00719465(U)
+|
+:007193E5 E9C6CBD1FF              jmp 00435FB0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719397(C)
+|
+:007193EA 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:007193F1 C1E202                  shl edx, 02
+:007193F4 B144                    mov cl, 44
+:007193F6 E85F0BD0FF              call 00419F5A
+:007193FB 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:00719402 C1E103                  shl ecx, 03
+:00719405 8D5C081E                lea ebx, dword ptr [eax+ecx+1E]
+:00719409 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:00719410 C1E203                  shl edx, 03
+:00719413 B144                    mov cl, 44
+:00719415 E8400BD0FF              call 00419F5A
+:0071941A 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:00719421 8D7CC832                lea edi, dword ptr [eax+8*ecx+32]
+:00719425 EBBE                    jmp 007193E5
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007193A4(C)
+|
+:00719427 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:0071942E C1E203                  shl edx, 03
+:00719431 B144                    mov cl, 44
+:00719433 E8220BD0FF              call 00419F5A
+:00719438 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:0071943F C1E103                  shl ecx, 03
+:00719442 8D5C083C                lea ebx, dword ptr [eax+ecx+3C]
+:00719446 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:0071944D C1E204                  shl edx, 04
+:00719450 B144                    mov cl, 44
+:00719452 E8030BD0FF              call 00419F5A
+:00719457 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:0071945E C1E101                  shl ecx, 01
+:00719461 8D7CC87D                lea edi, dword ptr [eax+8*ecx+7D]
+:00719465 E97BFFFFFF              jmp 007193E5

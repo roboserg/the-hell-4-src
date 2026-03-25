@@ -1,0 +1,83 @@
+Introducing new base items.
+
+Ring:			2D5598
+Mask:			2D55E4
+Amulet:			2D5630
+Bangle (silver):		2D567C
+Bang (copper):		2D56C8, uni id 88 (58h)
+Alpha Helm:		2D5714, uni 90 (5Ah)
+Shadow Cloak:		2D5760,
+
+=====================================
+
+atm, their line is:
+
+35-70, brigandine
+60-150, embossed mail
+85-195, thin plate
+175-225, balanced plate (if they manags STR to wear it)
+115-255, corset (if they manage DEX to wear it)
+___________________
+I think it would be best to add armors that require MAG and DEX. for example,,
+
+45-50-90,
+50-75-110
+55-90-130
+
+then, after embossed:
+70-100-170
+75-120-180
+
+after thin:
+90-130-210
+
+still, balanced might do well as an ultimate armor, objections?
+
+======================================
+War Blade (Assassin class blade, between wakizashi and katana)
+
+price: 1300
+dex: 177
+str: 60
+dam: 19-69
+ac: 1-2
+lev: 49
+dur: 52
+======================================
+Battle Mace (assassin class)
+
+price: 930 (a203)
+dam: 16-42 (10, 2a)
+str: 88 (58)
+dex: 159 (9F)
+lev 43
+dur 37
+ac 0
+======================================
+
+Rune blade (Assassin class, best sword)
+
+price 2100
+dex 220
+str 140
+mag 140
+lev 62
+dur 60
+ac 2-4
+dam 29-77
+======================================
+Slayer's maul (assy class, ultimate weapon blunt, after triple flail)
+
+price 1400
+ac -5
+======================================
+Frost blade (best Pal sword)
+
+price 2500
+str 250
+dex 185
+mag 75
+dam 40-120
+lev 63
+dur 30
+======================================

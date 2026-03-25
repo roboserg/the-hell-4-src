@@ -1,0 +1,1125 @@
+"Berserker`s Cleaver"
+Cleaver
+ +% to hit, +125% to Dmg
+10% of 200% Dmg
+(FAST-FASTER) aTTACK
+KNOCK TARGET BACK
++(20-30) vITALITY
+UNIQUE PICTURE
+
+"Belphegor's Ravager"
+hatchet, balanced axe
++% To hit +80% To Damage
+1-50 Lightning Dmg
+(30-60) Altered Durability
+15 +Vitality
+Unique Picture
+
+"Empyrean Axe"
+heavy axe, broad axe
+No Strenght Requirements
+40-80 Fire Damage
+Penetrate Armor
+1% Steal Life
++100% Fury Duration
+Unique Picture
+
+Amulet of Solstice
+Amulet
+(5-15)+Strenght
+(5-15)+Dex
+-1 DFE
++(5-10) Damage Done
+UP
+
+Winged Helmet
+guardian helm
++(50-75)% AC
++(10-15)% res all
++(1-5) All Attr
+-(13-18) dmg taken
+No strenght Req
+UP
+
+Abaziil's Promise
+Ring Mail
++(33-44)% res Fire
+-(9-13) DFE
+Fast Hit Recovery
++(10-30) Damage
++(20-40) Vitality
+UP
+
+Grasp of Oblivion
+skull crown
++(11-15) Mag
++(4-5) SLvl
+Infravision
++(10-20) dex
+-(15-25) Str
+UP
+
+Helm of Glory.
+horned barbute, kabuto helm
++5-8 All Attributes
+-(10-16) DFE
++(10-20)% Res All
++(25-65) HP
+Fastest Hit Recovery
+UP
+
+Spectral Slasher
+Tomahawk
+10-100 dmg (UID)
++50% vs Demons
+Armor Piercing
+Fast Hit
+10% for +200% dmg
+UP
+
+Heart Seeker
+staff, composite staff
++(100-250) % DMG
+10-50 Fire DMG
+-(1-3) DFE
++(10-30) HP
+-(20-30) Mana
+UP
+
+The Harp
+short bow, hunter's bow, tight bow
+Random Speed Arrows
++(270-330)% dmg, low dur
+knock targ back
+multishot
+-3 Slvl
+up
+
+Internal Sanctuary
+balanced plate, assassin's plate
++(15-35)% DMG
++(5-8) all attributes
+-33% ard
+-(21-25) dfe
++(15-25) res all
+UP
+
+Black Marsh Bow
+short battle bow, long battle bow
+1-60 dmg (uid)
++(100-125)% dmg done
++(10-20) Damage
+KTB
+10% of 200% dmg
+UP
+
+Doomsayer
+heavy xbow
+100-900 dmg (uid)
++(80-100) % chance to hit
+100-250 Lightning Arrows DMG
+10% of 200% DMG
+-(10-20) Dex
+UP
+
+Diamondyne
+short war bow, long war bow
++(125-175)% Dmg done
++(20-30) DMG
+1-100 lghtn arr dmg
+ktb
+-(2-4) dfe
+UP
+
+The Redeemer
+xbow, war xbow
++(148-200)% DMG
++(30-45) Damage
+Multiple Arrows
+-(3-6) DFE
++(5-10) % res all
+UP
+
+Infernal Scourger
+xbow, war xbow
+0 Dmg (uid)
+4000 Fireball dmg
+Multiple arrows
++(14-16) Magic
+-(20-30) %Res Fire
+
+Fulminator
+tight war bow, long heavy bow
+0 Dmg (uid)
+400 DMG
+Multiple Arrows
+Indestructible
+-10% light
+UP
+
+The Incinerator
+tight war bow, long heavy bow
++(175-225)% DMG
++(45-55) DMG
+1-150 Fire Damage
+KTB
+Armor Piercing
+UP
+
+Windforce
+elite bow
++(200-250) % DMG
++(50-60) DMG
+1-200 Lightning Arrow Dmg
+ktb
+Multiple Arrows
+UP
+
+Doomspike
+stiletto
+2-6 DMG (uid)
+Armor Piercing (more powerful, ~25% of monster AC)
+Faster Attack
+Random 0-300% dmg
+10% of 200% dmg
+UP
+
+Ajimanta's Edge
+scimitar
+Quick-Fast Attack Speed
++(80-120) %DMG
++(10-15) DEX
++(20-30) Mana
++(75-85)% res Lightning
+UP
+
+Diamond Blade
+long sword
+10-60 DMG (uid)
++(21-30)% Chance to hit
++50% damage vs demons
+Fast Attack Speed
+-(20-40)% Lightning res
+UP
+
+Soulflayer
+sabre
++(25-75) % dmg
++(2-3) All Attributes
+Faster Attack Speed
+2% Steal HP
+-10% Light Rad
+UP
+
+Dark Prophet
+broad sword
+Fast-Faster Hit Attack
++(100-200)% DMG
++(10-35) DMG
+10% of +200% dmg
++(5-15) Mag
+UP
+
+The Carver
+thorn sword
+80-100 Dmg (uid)
++(36-45)% Chance to hit
+Armor Piercing (weaker)
+KTB
++(20-25) Str
+up
+
+The Executioner's Blade
+claymore
++(225-275)% DMG
+Faster Attack Speed
+2% HP Steal
+Armor Piercing
++(3-7) DFE
+UP
+
+Bloodsucker
+thorn sword
++(100-150)% dmg
+Armor Piercing (weaker)
+10% for +200% dmg
+Increased Life Steal
+2% life steal
+up
+
+Gorewhipper
+barbaric sword
++(125-175)% DMG
++(40-80) DMG
+KTB
+Faster Attack Speed
+-(20-30) Mag
+up
+
+Mindpiercer
+sabre
+10-215 dmg (uid)
+Faster Attack Speed
+1% life Steal
++(20-40) hp
++(5-15)% Res all
+UP
+
+Black Defender
+broad sword
+No strenght requirements
+-100% Dmg
+AC: 15-25
+-(4-6) dfe
++(12-18)% res all
+UP
+
+Celestial Justice
+great sword
++% to hit +160 % to dmg
++(25-50) dmg
+Faster Attack Speed
+1-200 LIGHTNING DMG
++(50-100) Mana
+UP
+
+Shadow Prince
+long sword
++% to Hit, +50% to dmg
++(80-100) dmg
+-(25-35)% res fire
+-30% Light Radius
++(8-12) dfe
+UP
+
+Shirotachi
+katana
++(100-150)% DMG
+Faster Attack Speed
+Armor Piercing
++1 slvl
+-(1-3) dfe
+UP
+
+Immortal King
+brute sword
+175 dmg (uid)
++(46-55)% chance to hit
+ktb
+-(2-3) dfe
+AC: 10-15
+UP
+
+Blazing Wrath
+huge sword
++(150-200) % DMG
+Armor Piercing
+Faster Attack speed
+200 Fire DMG
++50% dmg vs Demons
+UP
+
+Amazon's Corset
+corset
+-33% ARD
+-(20-25) DFE
++(15-25)% res all
++(15-20) Vit
+-(10-15) dex
+UP
+
+Dreamlyre
+double-bladed staff
++(200-250)% dmg
++50% dmg vs demons
+10% for 200% dmg
+faster attack speed
+Fast Block
+UP
+
+Joker's Beak
+rod (joker's beak)
++100-400 Mana
+-(40-50) mag
+One-handed
+(38-40)Charges
++(2-10) Slvl
+UP
+
+Aguinara's Vengeance
+quarter staff
++% Chance to hit,+165% dmg
++50% vs demons
+faster attack speed
+1% life steal
+-(4-8) dfe
+UP
+
+Arkaine's Valor
+embossed mail
++10% light radius
++(15-25)% res all
++(5-9) all attributes
+-(10-18) dfe
++(30-50) hp
+UP
+
+Staff of Meditation
+long staff
++(1-2) slvl
++(10-15) mag
++(30-50) mana
+(37-50) Charges
+(100-200) Unusual Durability 
+UP
+
+Stigmatizer
+huge axe
++% chance to hit,+250% dmg 
++50% dmg vs demons
+Faster attack speed
+-(5-10) dmg
+ktb
+UP
+
+Gnarled Root
+huge mace, mace
+-(21-40)% dmg
+Fast attack speed
+random dmg 0-300%
++(20-50) DEX
+Loose All Regeneration
+up
+
+Krondor's Cudgel
+bludgeon, moning star, war hammer
++% Chance to hit,+300% dmg
+10% for 200%
++50% dmg vs demons
+ktb
++(51-100)% Durability (HIGH DUR)
+UP
+
+Dark Star
+huge mace, mace
++(6-10)% Chance to hit
++260-310% damage, low durability
+Armor Piercing (weaker)
+Quick Attack Speed
+-20% Light Radius
+UP
+
+Bone Hunter
+triple flail
+10% of 200% dmg
++(125-175)% dmg
++50% damage vs Undead
++10 AC vs Undead
+-(5-10) Mag
+UP
+
+Thunderclap
+maul
+90 DMG (uid)
++90% DMG
++90 DMG
+90 Lightn DMG
+Attacker Takes DMG
+UP
+
+Scepter of Engart
+large mace, heavy mace
+100 Fire DMG
++(40-55)% Chance to Hit
++(160-220)% DMG
+Faster Attack Speed
+(5-10) AC
+UP
+
+Baranar's Maul
+maul
+250 DMG (uid)
+Faster Attack Speed
+KTB
+Armor Piercing
+-(50-60) to str
+UP
+
+Bone Guardian
+targe
++(25-325)% AC
+-33% ard
+-(3-6) DFE
++(50-150) HP
+Lose All Regeneration
+UP
+
+Stalker's Cloak
+cloak
++20% Light Radius
++(1-5) All Attributes
+-33% ard
+-(1-4) DFE
+Fast Hit Recovery
+UP
+
+Nikhlatak's Decapitator
+barbaric sword
++% to hit,135% to dmg
+0-300% random dmg
+Faster Attack Speed
+Steal 2% Life
+10-20 AC
+UP
+
+The Chameleon
+falchion
++(51-100)% Dur (High Durability)
++50% vs Demons
+0-300% Random Dmg
+Steal 1% Mana
+Faster Attack Speed
+UP
+
+Pride of the Ancients
+centurion helmet
+Increased Life Stealing
+-33% ARD
+-(9-15) DFE
+Faster Hit Recovery
++(10-50) Vit
+UP
+
+Fool's Luck
+leather cap, steel cap
+No strenght Requirements
++(3-6) all Attributes
++(67-73)% Res All
++(10-15) dfe
++(100-200) hp
+UP
+
+Mask of Palantir
+leather cap, steel cap
+No Strenght Requirements
++(1-2) slvl
+Infravision
++(5-10) magic
++(26-50) Mana
+UP
+
+Sallet of Xentur
+light helmet
+11-12 AC 
+-(6-10) DFE
+Fast Hit Recovery
+Steal 2% mana
++(40-80) Mana
+UP
+
+Mask of Anger
+crown
+11-13 AC
+-(7-13) DFE
+-10% Light Radius
++(50-90) % dmg
+-1 slvl
+UP
+
+Veil of Steel
+full crown, gladiator's helmet
++(100-150)% AC
++(10-20) Str
++(30-40) Vit
++100% life reg
++(20-30)% Res All
+UP
+
+Gotterdamerung
+full helm
+-20% Light Radius
++(15-25)% Res All
++(6-9) All Attributes
+-(17-21)DFE
+-1 SLVL
+UP
+
+Baldur's Bane
+guardian helm
++10 AC vs Undead
+-(19-23) DFE
++(50-70)% Res Mag
++(50-150) hp
+-(15-25) STR
+UP
+
+Grim Reaper
+elite close helmet
+Infravision
+-(21-24) dfe
++100% Fury Dur
+-10% Light Radius
++(11-20) Vit
+UP
+
+Chaos Bringer
+double-bladed staff
++(150-200)% Dmg
+10% of 200% dmg
++50% dmg vs demons
+KTB
+Faster Attack Speed
+UP
+
+Civerb's Vestments
+robe, barbaric armor
++(100-200)% Dur (high Dur)
++50% AC vs Demons
+-(4-10) DFE
++(13-17)% Res All
+UP
+
+Leather of Aut
+leather armor
++(10-20)% AC
++(10-40)% Res Mag
++(12-18)Vit
++(10-20)Dex
+-(7-13) DFE
+
+Velessar's Hauberk
+studded leather
++(7-33)% Res All
+-(11-15) DFE
+Move 50% Mana to life
+Fastest Hit Recovery
++(20-25) Vit
+UP
+
+Grace of Death
+studded leather
+-(35-45) DFE
+Lose All Regeneration
+All Res = 0%
+-40% Light Radius
+Indestructible
+UP
+
+Templar's Outfit
+chain mail, scale mail, thick mail
++(10-30)% Dmg
+-(11-15) DFE
++(10-20)% res all
++(10-15) Str
+Faster Hit Recovery
+UP
+
+Wyrmscale Armour
+chain mail, scale mail, thick mail
+10% for +200%
+-(13-18) DFE
++(40-50)% Res Fire
++(15-20) Dex
+Fastest Hit Recovery
+UP
+
+Sabiru's Hideout
+full length scalemail
++(5-10)% AC
++(5-8) All Attributes
+-33% ARD
+-(15-20) DFE
++(5-25)% Res All
+UP
+
+The Conquistador
+breast plate
+Indestructible
++(6-9) All Attributes
+-33% ARD
+-(12-16) DFE
++(53-57)% Res Mag
+UP
+
+Spiritual Fortress
+Sorceror`s Plate
++(100-150) Mana
++(15-25)% AC
+-(15-20) DFE
++(5-35)% Res All
++(2-3) Slvl
+UP
+
+Duriel's Shell
+plate mail
++(3-6)% AC
+-(15-18) DFE
++(20-40) Damage
++(50-250)% Dur (High Dur)
+Faster Hit Recovery
+UP
+
+Leviathan's Cage
+gothic plate
++(80-120) HP
++(70-110) Mana
+-(17-23) DFE
+-(25-35) MAG
++(10-20)% Res All
+UP
+
+Aldur's Legacy
+thin plate
+-33% ARD
+-(19-23) DFE
++(10-25)% Res All
++(15-25) Vit
+-(5-15) Mag
+UP
+
+Bovine Armor
+full plate
+-33% ARD
+-(27-30) DFE
++(25-35)% Res A;;
+-(2-3) slvl
+-(30-50) Mana
+UP
+
+Underworld Heart
+full plate
++1 SLVL
++(7-10) All Attrib
+-(22-26) DFE
+Fastest Hit Recovery
++(15-35)% All Res
+
+Undead Hunter
+buckler
+7-8 AC
++(20-60)% AC
++10 AC vs Undead
+-(1-3) DFE
++(10-20) % Res all
+UP
+
+Holy Defender
+griffin shield
++(50-150)% Dur (high Dur)
++50% AC vs Undead
+-33% ARD
+-(4-8) DFE
++(15-25)% res all
+UP
+
+Reign of Kaamos
+Unkown Shield
++(20-30)% AC
+-20% Light Radius
+-(6-9) DFE
++(15-20) Str
+Fast Block
+UP
+
+Dragongaze
+Unknown Shield
++(4-8) Dex
++(20-40) DMG
+-(7-10) DFE
++(40-50)% res fire
++(30-60) Hp
+UP
+
+Phaseguard
+gothic shield, castiron shield
++(5-10)% AC
+-(8-11) DFE
++(10-40)% Res Mag
++(55-65)% res fire
++(50-70) hp
+UP
+
+Munmar's Grin
+gothic shield, castiron shield
++(70-90)% Dur (High Dur)
++(7-9) All Att
+-(9-12) DFE
++(15-35)% Res Lghtn
++(55-65)% res Mag
+UP
+
+Doom Keeper
+full shield
++100% Life Reg
+-(11-14)Dfe
++(55-65)% res Lightn
++(20-40)% Res Fire
+Fast Block
+UP
+
+Deathshelter
+tower shield
++(20-30) Vit
++10 AC vs Undead
+-33% ARD
+-(21-25) DFE
+0% All Res
+UP
+
+Wall of Spears
+full shield
++15 AC vs Demons
++(6-8) All Attributes
+-(12-15) DFE
+Fast Block
++(30-50) Mana
+UP
+
+Soulhaven
+ring
+AC: 1-3
++(2-6) DMG
+-33% ARD
+-1 DFE
++(25-35) HP
+UP
+
+Morana's Demise
+ring
++(60-80) hp
++10 ac vs demons
++(5-7) DMg
+-(55-65)% Res Mag
+-25% Spell Cost
+UP
+
+Nosferatu Bangle
+ring
+-20% Light Radius
+Infravision
+Increased Life Steal
+Steal Life 2%
+Armor Piercing (weaker)
+UP
+
+Giant's Knuckle
+ring (that requires 20 MAG)
++(15-25) Str
++(15-25) DMg
+-(3-4) DFE
+10% of 200% Dmg
+-1 slvl
+UP
+
+Mercurial Ring
+Ring
+2-4 AC
++(15-25) DEX
+Fastest Hit Recovery
+-33% ARD
+-1 slvl
+UP
+
+Warrior's Band
+Ring
++(6-10)% to hit
++(20-40)% DMG
++(5-10)% Res all
++(2-5) All Attr
+-(2-3) DFE
+UP
+
+Frost Signet
+Ring
++100% Mana reg
++(15-20) Mag
++(60-70)% Lightn res
++(30-60) Mana
+10% of 200% dmg
+
+Hoop of Magma
+ring
++(60-70)% Res Fire 
++(15-25) str
++(80-100) DMG
++(9-14) DFE
++(10-20) vit
+
+Renegade's Ring
+Ring
+-33% ARD
++(6-10) DFE
++(60-70)% Res All
+UP
+
+Survivor's Bracelet
+Ring
++(6-10)All att
+Fastest Hit Recovery
+- 4 dfe
++(10-14)% res all
+Fast Block
+UP
+
+Pacification Bracer
+Ring
++(10-14)% To hit
+3-6 AC
++(10-30) str
+2% Steal Mana
+-(4-5) DFE
+UP
+
+Executioner's Oath
+Ring
++(30-60) DMG
+Armor Piercing (weak)
+Faster Attack Speed
+10% of 200% DMg
+-(50-60)% Lightn Res
+UP
+
+Nether Coil
+ring (that requires 20 MAG)
++(5-10) All attr
++(10-20) DMG
+-5 DFE
++(20-25)% res all
+-(10-15)mana
+up
+
+Shield of Tyrants
+power shield
++(10-190)% Dur (high Dur)
+-(10-13) DFE
++(10-20)% Res All
++(15-20) Dex
+Fast Block
+UP
+
+Rakabis
+amulet
+1-4 AC
+-(1-2) DFE
++(1-10)% Res All
++(15-20) Dex
++(40-60) Hp
+UP
+
+Pendragon
+amulet
++100% Fury Dur
++(10-15) Dmg
++(4-6) All Attr
+-2 DFE
++(10-15) Res All
+UP
+
+Demon Hunter's Ankh
+amulet
++50% dmg vs Demons
++50% Ac vs Demons
+2-4 AC
++(7-8) All Attr
+-(2-3) DFE
+UP
+
+Gorget of the huntress
+amulet
++(20-40) Damage
+Multiple Arrows
+KTB
+-(15-25) Strength
+UP
+
+Anduril's Heritage
+amulet
+25-35 AC
++(2-4) DFE
+UP
+
+Stone of the Dark Sea
+amulet
++(100-120) Mana
++(15-20) Mag
+-10% Light Rad
+-(3-4) DFE
++(2-3) slvl
+UP
+
+Pendant of Deceit
+amulet
+0-300% Random DMG
++(15-25) DMG
+-33% ARD
+-4 DFE
+-(20-30) Mana
+UP
+
+Scarab of Slumber
+amulet
+-(4-5) DFE
++(9-10) Att
++(16-25)% Res All
+UP
+
+Ward of Infinity
+amulet
+-33% ARD
+-(3-5) DFE
+Increased Life Stealing
+2% Life Steal
+2% mana Steal
+UP
+
+Medallion of the Dead
+amulet (qlvl_34)
++10 AC Vs Undead
+-33% ARD
++(10-12) All Attributes
+Move 50% Mana to Life
+Faster Hit Recovery
+UP
+
+Viper Soul
+amulet (qlvl_34)
++(40-50)% to hit
+11-15 AC
+Faster Attack Speed
+-(30-50)% Dmg
++(3-4) DFE
+UP
+
+Optic Amulet
+amulet (qlvl_34)
++100% Fury Dur
+Infravision
++100% Mana Reg
+Steal 1% Mana
+-25% Spell Cost
+
+Civerb's Icon
+amulet (qlvl_34)
+Faster Attack Speed
+Fastest Hit Recovery
++(20-25)% To hit
+-(3-5) DFE
++(40-60) HP
+
+Torn Flesh of Souls
+rags
+Indestructible
+AC: 0
+-(5-10) DFE
++(20-30) Vit
+-(2-5) Mag
+
+Dragon Heart
+amulet (qlvl_34)
++100% Life Reg
++100% Mana reg
+-33% ARD
++(5-7) All Attr
++85% Res Fire
+UP
+
+Executioner's Mask
+mask (qlvl_33, ac 12-14, dur 23, req: 57 STR + 170 DEX)
++(101-200)% Dur (high Dur)
+Infravision
++(30-50)Dmg
+-(20-25) DFE
++(20-25) Str
+UP
+
+Ring of Truth
+bangle silver (lvl 40)
++(90-110) HP
+-(3-6) DFE
++(25-35)% Res All
+UP
+
+Constricting Ring
+bangle silver (lvl 40)
++85% Res All
+Lose All Regeneration
+-(10-20) Str
+-(10-20) Dex
+UP
+
+Xorine's Ring
+bangle silver (lvl 40)
++(300-400)Mana
++100% Mana Reg
+-1 slvl
+-(10-20) Mag
+UP
+
+Soulcage
+bangle silver (lvl 40)
++(18-24) All Attr
+-3 slvl
+Move 50% mana To life
+-30% Light Rad
+UP
+
+Ring of the Essence
+bangle silver (lvl 40)
++100% Life Reg
++(15-25) Vit
++(50-70) HP
+-(15-25) Mag
+UP
+
+Overlord's Helm
+Alpha Helm (lev 55)
+-33% ARD
+-(15-20) DFE
++(2-4) Slvl
+-25% Spell Cost
+-(20-30) Mag
+UP
+
+Blood Visor
+mask (qlvl_33, ac 12-14, dur 23, req: 57 STR + 170 DEX)
+-(10-15) DFE
++(15-20) STR
++(15-20) Dex
++(20-25) Vit
+-(10-15) MAG
+UP
+
+Wizardspike
+Heavy dagger (lev 4)
+6-48 DMG (uid)
+12-15 Durability (Alt Dur)
++(14-16) Mag
++(30-40) Mana
++(10-15)% Res All
+UP
+
+Crackrust
+Spiked club (lev 15)
++(2-4) All Attributes 
+-(2-3) DFE
++(150-200)% Dmg 
++(5-10)% Res All
+-1 slvl
+UP
+
+Shield of mirrors
+gothic shield, castiron shield
+-(14-16) DFE
+-33% ARD
++(10-20)% Res All
+-50% Dur (Dec Dur)
+UP
+
+Crown of Spirits
+Circlet (lev 6)
+5 AC 
++100% Life Reg
++2% Life Steal
++20 Vit
+-20 HP
+UP

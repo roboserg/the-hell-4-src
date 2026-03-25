@@ -1,0 +1,63 @@
+
+Attempt 1:
+setting Fury's life dropdown to 25 instead of 1
+
+
+
+	WAS:
+:00439A79 6A40                    push 00000040
+:00439A7B 8D843098010000          lea eax, dword ptr [eax+esi+00000198]
+:00439A82 59                      pop ecx
+
+---
+
+	NOW:
+:00439A79 E912092D00              jmp 0070A390
+:00439A7E 90                      nop
+:00439A7F 90                      nop
+:00439A80 90                      nop
+:00439A81 90                      nop
+:00439A82 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070A39D(U)
+|
+:00439A83 A114AE6E00              mov eax, dword ptr [006EAE14]
+
+
+	EXP:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00439A79(U)
+|
+:0070A390 6840060000              push 00000640
+:0070A395 59                      pop ecx
+:0070A396 8D843098010000          lea eax, dword ptr [eax+esi+00000198]
+:0070A39D E9E1F6D2FF              jmp 00439A83
+:0070A3A2 90                      nop
+:0070A3A3 90                      nop
+
+====================================================
+
+1:34 10.09.2012
+
+sound of ending Fury is heard only by its caster
+
+
+	needs check!
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00439B48(U)
+|
+:00713B80 8B0DE8AD6E00            mov ecx, dword ptr [006EADE8]
+:00713B86 394DF8                  cmp dword ptr [ebp-08], ecx
+:00713B89 7512                    jne 00713B9D
+:00713B8B 03C6                    add eax, esi
+:00713B8D 0FBE8060010000          movsx eax, byte ptr [eax+00000160]
+:00713B94 8B4C85E0                mov ecx, dword ptr [ebp+4*eax-20]
+:00713B98 E87049D0FF              call 0041850D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00713B89(C)
+|
+:00713B9D E9BE5FD2FF              jmp 00439B60
+:00713BA2 90                      nop

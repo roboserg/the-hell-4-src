@@ -1,0 +1,42 @@
+PvM Melee criticals rewritten
+Monk & Assy score criticals at CLVL% chance and deal +200% damage
+All other classes score criticals at CLVL% chance and deal +100% damage
+
+
+Jmp to free space:
+
+:0045BA6D E98E9F2A00              jmp 00705A00
+
+
+Extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BA6D(U)
+|
+:00705A00 8A8160010000            mov al, byte ptr [ecx+00000160]
+:00705A06 3C03                    cmp al, 03
+:00705A08 7404                    je 00705A0E
+:00705A0A 3C04                    cmp al, 04
+:00705A0C 751D                    jne 00705A2B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705A08(C)
+|
+:00705A0E 0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]
+:00705A15 6A64                    push 00000064
+:00705A17 B106                    mov cl, 06
+:00705A19 5A                      pop edx
+:00705A1A E83B45D1FF              call 00419F5A
+:00705A1F 3BC3                    cmp eax, ebx
+:00705A21 7D03                    jge 00705A26
+:00705A23 8D3C7F                  lea edi, dword ptr [edi+2*edi]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705A21(C)
+|
+:00705A26 E96760D5FF              jmp 0045BA92
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705A0C(C)
+|
+:00705A2B E94B60D5FF              jmp 0045BA7B

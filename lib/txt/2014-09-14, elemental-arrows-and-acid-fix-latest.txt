@@ -1,0 +1,80 @@
+﻿Элементальные стрелы
+
+00435E1D:
+mov     dword ptr [esi+697ADCh], 0; обнуление расстояния для взрыва
+mov eax, dword ptr [esi+697AD8h]; isHitTarget
+test eax, eax
+jnz @hitTarget
+.text:00435E1D 8B 86 6C 7A 69 00                       mov     eax, Missiles.DeltaY[esi]
+.text:00435E23 29 86 7C 7A 69 00                       sub     Missiles.WholeDeltaY[esi], eax
+.text:00435E29 8B 86 70 7A 69 00                       mov     eax, Missiles.DeltaX[esi]
+.text:00435E2F 8B 4D FC                                mov     ecx, [ebp+missileIndex] ; missileIndex
+.text:00435E32 29 86 80 7A 69 00                       sub     Missiles.WholeDeltaX[esi], eax
+.text:00435E38 E8 76 BB FF FF                          call    MoveMissile
+00435E3D @hitTarget: 435e3d ?
+
+asm:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00435E1D(U)
+|
+:0071F950 C786DC7A690000000000    mov dword ptr [esi+00697ADC], 00000000
+:0071F95A 90                      nop
+:0071F95B 90                      nop
+:0071F95C 8B86D87A6900            mov eax, dword ptr [esi+00697AD8]
+:0071F962 90                      nop
+:0071F963 90                      nop
+:0071F964 90                      nop
+:0071F965 85C0                    test eax, eax
+:0071F967 0F85D064D1FF            jne 00435E3D
+:0071F96D 90                      nop
+:0071F96E 90                      nop
+:0071F96F 90                      nop
+:0071F970 90                      nop
+:0071F971 90                      nop
+:0071F972 8B866C7A6900            mov eax, dword ptr [esi+00697A6C]
+:0071F978 E9A664D1FF              jmp 00435E23
+
+-------------------
+Кислотные плевки
+
+004362A5:
+.text:004362A2 8B 45 F4                                mov     eax, [ebp+var_C]
+.text:004362A5 C7 86 8C 7A 69 00 01 00+                mov     Missiles.IsDeleted[esi], 1
+mov eax, dword ptr [esi+697AD8h]; isHitTarget
+test eax, eax
+jnz @hitTarget
+.text:004362A2 8B 45 F4                                mov     eax, [ebp+var_C]
+.text:004362AF 89 86 7C 7A 69 00                       mov     Missiles.WholeDeltaY[esi], eax
+.text:004362B5 8B 45 F0                                mov     eax, [ebp+var_10]
+.text:004362B8 8B CF                                   mov     ecx, edi        ; missileIndex
+.text:004362BA 89 86 80 7A 69 00                       mov     Missiles.WholeDeltaX[esi], eax
+.text:004362C0 E8 EE B6 FF FF                          call    MoveMissile
+004362C5 @hitTarget:
+
+asm:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004362A5(U)
+|
+:0071F990 C7868C7A690001000000    mov dword ptr [esi+00697A8C], 00000001
+:0071F99A 90                      nop
+.....
+:0071F99F 90                      nop
+:0071F9A0 8B86D87A6900            mov eax, dword ptr [esi+00697AD8]
+:0071F9A6 90                      nop
+:0071F9A7 90                      nop
+:0071F9A8 85C0                    test eax, eax
+:0071F9AA 90                      nop
+......
+:0071F9AF 90                      nop
+:0071F9B0 0F850F69D1FF            jne 004362C5
+:0071F9B6 90                      nop
+:0071F9B7 90                      nop
+:0071F9B8 8B45F4                  mov eax, dword ptr [ebp-0C]
+:0071F9BB E9EF68D1FF              jmp 004362AF
+
+поменять джмамп на безусловный
+
+.text:00438509 75 13                                   jnz jmp    short loc_43851E
+

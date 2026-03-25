@@ -1,0 +1,67 @@
+﻿Theses shrines can appear on dlvls 3-4 in MP mode:
+
+mysterious
+Quote: "Some grow weaker as one grows strong."
+Effect: Two stats lose a point, one other gains two point.
+
+stone
+Quote: "The power of mana refocused renews."
+Effect: All staves are recharged.
+
+religious
+Quote: "Time cannot deminish the power of steel."
+Effect: All items are repaired.
+
+cryptic	Quote: "Arcane power brings destruction."
+Effect: Nova erupts from shrine, mana orb is refilled.
+
+magical
+Quote: "While the spirit is vigilant, the body thrives."
+Effect: The shrine casts the Mana Shield spell.
+
+eerie
++1 MAG
+
+divine
+Quote: "Drink and be refreshed."
+Effect: Fills both orbs, gives two potions of full rejuvenation.
+
+spooky
+Quote: "When avarice fails, patience grows."
+Effect: All players get full life.
+
+abandoned
++1 DEX
+
+creepy
++1 STR
+
+quiet
++1 VIT
+
+glimmering
+Quote: "Mysteries are revealed in the light of reason."
+Effect: Identifies entire inventory.
+
+oily ?
+Quote: "That which does not kill you..."
+Effect: +2 to primary stats:
+    Monk = +1 to strength and dexterity.
+    Warrior = +2 to strength.
+    Rogue = +1 dexterity and magic.
+    Sorcerer = +2 magic.
+    Bard = +1 dexterity and magic.
+    Barbarian = +2 to vitality.
+
+sparkling
+Quote: "Some experience is gained by touch."
+Effect: Player is attacked with an electrical charge and gains (1000 x current level) experience.
+
+town
+Quote: "There's no place like home."
+Effect: Casts a Town Portal spell.
+
+shimmering
+Quote: "Spiritual energy is restored."
+Effect: Fills the mana orb.
+

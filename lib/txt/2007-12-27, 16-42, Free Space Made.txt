@@ -1,0 +1,58 @@
+Found unused code below, it is near and above the formulas of character-based mana bonuses
+noped the area:
+
+:00429B7C 03F8                    add edi, eax
+:00429B7E D1F8                    sar eax, 1
+:00429B80 03F8                    add edi, eax
+:00429B82 C1E706                  shl edi, 06
+:00429B85 A114AE6E00              mov eax, dword ptr [006EAE14]
+:00429B8A 03C6                    add eax, esi
+:00429B8C C3                      ret
+
+
+:00429B8D 90                      nop
+:00429B8E 90                      nop
+:00429B8F 7502                    jne 00429B93
+:00429B91 D1E7                    shl edi, 1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00429B8F(C)
+|
+:00429B93 80F901                  cmp cl, 01
+
+INTO:
+
+:00429B7C 03F8                    add edi, eax
+:00429B7E D1F8                    sar eax, 1
+:00429B80 03F8                    add edi, eax
+:00429B82 C1E706                  shl edi, 06
+:00429B85 A114AE6E00              mov eax, dword ptr [006EAE14]
+:00429B8A 03C6                    add eax, esi
+:00429B8C C3                      ret
+
+
+:00429B8D 90                      nop
+:00429B8E 90                      nop
+:00429B8F 90                      nop
+:00429B90 90                      nop
+:00429B91 90                      nop
+:00429B92 90                      nop
+:00429B93 90                      nop
+:00429B94 90                      nop
+:00429B95 90                      nop
+:00429B96 90                      nop
+:00429B97 90                      nop
+:00429B98 90                      nop
+:00429B99 90                      nop
+:00429B9A 90                      nop
+:00429B9B 90                      nop
+:00429B9C 90                      nop
+:00429B9D 90                      nop
+
+=======================================================
+=======================================================
+=======================================================
+
+Free space from Small potions:
+
+00429961 - 00429988 (39 bytes)

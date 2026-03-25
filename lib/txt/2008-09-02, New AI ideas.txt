@@ -1,0 +1,24 @@
+1.  Doom 3 Imp inspired this one. Weak melee, dual attacks, firebolt ranged attacks and occasional charges (from limited distance)
+
+2.  HGL ravagers: charges, then retreats to charge again
+
+3.  Hidden archers. Stay hidden and behave like hidden in general, but use ranged attacks, arrows.
+
+4.  Melee dual attacks, charges, when HP below 50% retreats and uses magical ranged attack
+
+
+	v1.120+ AI combos:
+
+1. Shooter AI: Fireblast, Charged Bolt, Lightning, 
+2. Magma AI: Firebolt, Fireblast, Charged Bolt, Bloodstar, 
+
+Torchants: melee + fiery blast
+Satyr Lords: melee + charged bolt
+Winged Skeletons: melee + frozen blast
+melee + flash
+melee + nova ?
+
+
+
+
+3. fire circle

@@ -1,0 +1,400 @@
+﻿Дополнительное запрещение сохранять игру, заходить в портал и переходить на следующий уровень для неквестовых уровней синглплеер режима.
+
+Пункт меню SAVE GAME деактивирован если:
+
+1. на уровне есть хоть один активированный монстр, (Голый - не в счет)
+2. на уровне используются в данный момент заклы (стрелы в том числе)
+2. игрок выполняет любое действие кроме стояния на месте (идет, кастует, умирает лол)
+
+Если сохраняться запрещено, то пункт меню сохранение игры недоступен. Никаких особенных надписей для тупых о том что нельзя сохраняться.
+
+
+=============================================================
+Проверка на активированность монстров
+@IsSomeMonstersActivated: / ( 777777 ) 144377
+; цикл по всем монстрам. Если индекс больше или равен 4м и он активирован, то 
+; возвращаем 1, если прошли по всем, возвращаем 0
+
+xor eax, eax; curMonsterIndexIndex
+mov ecx, dword ptr [0069DC80h]; MonstersCount
+
+test ecx, ecx
+jz @return0
+
+@loop: / 144382 
+
+mov edx, dword ptr [0069D960h + 4*eax] ; monsterIndex
+cmp edx, 4
+jl @continue ; голем
+
+imul edx, 228
+mov dl, byte ptr [0069DD28h + edx];ActivationCounter
+cmp dl, 00h
+jnz @return1 ; нашли монстра активированного
+
+@continue:
+inc eax
+dec ecx
+jnz @loop
+
+@return0:
+xor eax, eax
+retn
+
+@return1:
+mov eax, 1
+retn
+
+ chek:
+:00777777 31C0                    xor eax, eax
+:00777779 8B0D80DC6900            mov ecx, dword ptr [0069DC80]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007777AB(C)
+|
+:00777782 8B148560D96900          mov edx, dword ptr [4*eax+0069D960]
+:00777789 83FA04                  cmp edx, 00000004
+:0077778C 7C1B                    jl 007777A9
+:00777794 69D2E4000000            imul edx, 000000E4
+:0077779A 8A9228DD6900            mov dl, byte ptr [edx+0069DD28]
+:007777A2 80FAFF                  cmp dl, FF
+:007777A5 750D                    jne 007777B4
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0077778C(C)
+|
+:007777A9 90                      nop
+:007777AA 49                      dec ecx
+:007777AB 75D5                    jne 00777782
+:007777AD 31C0                    xor eax, eax
+:007777AF C3                      ret
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007777A5(C)
+|
+:007777B4 6A01                    push 00000001
+:007777B6 58                      pop eax
+:007777B7 C3                      ret
+
+-------------------------------------------------------------------------------------------------------------------------
+
+@IsSaveAndLeavingEnabled: / 144488 ( 777888 )
+; если это сп и не квестовая лока оставлю для вызывающего кода
+; если монстр активирован или игрок не стоит то запрет
+
+
+call 0070A1D0 ; GetCurrentPlayerOffset
+xor ecx, ecx
+cmp dword ptr [eax], ecx
+jnz @return0 ; игрок не стоит
+
+call @IsSomeMonstersActivated
+test eax, eax
+jz @return1 ; ни один из монстров не активирован, все ок
+
+@return0:
+xor eax, eax
+retn
+@return1:
+mov eax, 1
+retn
+
+==============================================================
+
+; добавление условия в проверку на доступность сейва
+
+; если игрок мертв или умирает, то запрет
+; если квестовая локация, то запрет
+; если не квестовая локация (и сп, но это менюшка для сп онли ) и условия не совпадают то запрет
+
+;.mod:00712753                 jmp     loc_41B2CB
+
+00712753 >>>
+>>>
+call @IsSaveAndLeavingEnabled
+xor edx, edx
+test eax, eax
+jz 41B2D6
+jmp     loc_41B2CB
+
+
+============================================================
+
+push edx
+mov edx, 2
+.mod:00716DBB                 call    CannotEnterBeforeClearing
+pop edx
+.mod:00716DC0                 jmp     loc_4794D0
+
+
+
+.mod:00716CA5                 push    2 edx
+.mod:00716CA7                 pop     ecx
+
+============================================================
+
+.dat2:00A09970                 dd offset aNotAvailableIn ; "Not available in shareware version"
+
+> 00A09970 "not until the battle is over..." / 4A012C
+
+============================================================
+
+.mod:0071397E                 jz      l_713A90_succes
+.mod:00713984                 mov     ax, word ptr dword_697ACC[esi]
+.mod:0071398B                 cmp     eax, [ebp+playerIndex]
+.mod:0071398E                 jz      l_713A90_succes
+.mod:00713994                 imul    eax, 24
+.mod:00713997                 add     eax, (offset PlayersEntryPoint+0Ch)
+.mod:0071399C                 mov     eax, [eax]
+.mod:0071399E                 cmp     byte ptr DungeonLevel, 0
+.mod:007139A5                 jnz     l_713A90_succes
+.mod:007139AB                 nop
+.mod:007139AC                 nop
+.mod:007139AD                 nop
+.mod:007139AE                 dec     eax
+.mod:007139AF                 shr     eax, 2
+.mod:007139B2                 mov     ecx, Difficulty
+.mod:007139B8                 imul    ecx, 6
+.mod:007139BB                 add     eax, ecx
+.mod:007139BD                 nop
+.mod:007139BE                 nop
+.mod:007139BF                 nop
+.mod:007139C0                 mov     edx, eax
+.mod:007139C2                 mov     cl, ds:ClvlReqsForEnterInDungeonTable[eax]
+.mod:007139C8                 call    GetCurrentPlayerOffset
+.mod:007139CD                 movsx   eax, byte ptr [eax+Player.CharLevel]
+.mod:007139D4                 nop
+.mod:007139D5                 nop
+.mod:007139D6                 nop
+.mod:007139D7                 nop
+.mod:007139D8                 cmp     al, cl
+.mod:007139DA                 jge     l_713A90_succes
+
+4 прыжка на 713A90 перенаправить на @newLoc v
+
+@newLoc:
+; если это сингл и неквестовая лока
+; то вызываем доп проверку, иначе все ок
+
+cmp byte ptr [006DDFC8h], 01 ; MaxCountOfPlayers
+jnz @tpEnabled
+
+cmp byte ptr [0061F314h], 01 ; IsQuestFloor
+jz @tpEnabled
+
+call @IsSaveAndLeavingEnabled
+test eax, eax
+jz @tpDisabled
+
+@tpEnabled:
+jmp 713A90
+
+@tpDisabled:
+mov ecx, 3 ; идти вниз от тп
+mov edx, 4 ; 4е сообщение
+call 00716CA0
+
+jmp 437650
+
+=============================================================
+ away from stairs.....
+ 
+от лестницы вверх и вних в церкви нкадо отходить  на ЮЗ
+
+[20:56:39] Mordor: в катакомбах всегда на ЮЗ тоже
+
+[20:57:38] Mordor: в пещерах от прохода вверх на ЮЗ, от прохода вниз на ЮВ
+
+[20:58:24] Mordor: в аду: от лестницы наверх - на ЮЗ, от прохода вниз - на ЮВ
+[20:58:53] Mordor: от звезды на 15м уровне - на Юг
+
+===========================================================
+
+;Следующий уровень
+
+;row++ - ЮВ 1
+;col++ - ЮЗ 2
+
+;церквосклеп 2
+;ката 2
+;пещеробездна 1
+;ад 1
+;ад 15 длвл 3
+
+;.text:004794BA loc_4794BA:                             ; CODE XREF: CheckPlayersOnDunEnteries+14Dj
+;.text:004794BA                 movzx   eax, byte ptr DungeonLevel
+;.text:004794C1                 inc     eax
+
+004794BA >> / 144500 ( 777900 )
+>>>
+cmp byte ptr [006DDFC8h], 01 ; MaxCountOfPlayers
+jnz @enabled
+
+call @IsSaveAndLeavingEnabled
+test eax, eax
+jnz @enabled
+@disabled:
+
+movzx eax, byte ptr [0060B1D4h] ; DungeonType
+cmp eax, 2
+jle @ЮЗ
+cmp byte ptr [0060B1D8h], 15 ; dungeonLevel
+jz @Ю
+; иначе ЮВ
+@ЮВ:
+mov ecx, 1
+jmp @F
+@ЮЗ:
+mov ecx, 2
+jmp @F
+@Ю:
+mov ecx, 3
+@@:
+mov edx, 4 ; 4е сообщение
+call 00716CA0
+jmp 0047954E
+
+@enabled:
+movzx   eax, byte ptr DungeonLevel ; затертое
+jmp 004794C1
+
+==============================================================
+
+; предыдущий уровень
+
+;церквосклеп 2
+;ката 2
+;пещеробездна 2
+;ад 2
+;ад 15 длвл 3
+
+;.text:0047949A                 movzx   eax, byte ptr DungeonLevel
+;.text:004794A1                 dec     eax
+
+0047949A >>> / 144599 ( 777999 )
+>>>
+cmp byte ptr [006DDFC8h], 01 ; MaxCountOfPlayers
+jnz @enabled
+
+call @IsSaveAndLeavingEnabled
+test eax, eax
+jnz @enabled
+@disabled:
+cmp byte ptr [0060B1D8h], 15 ; dungeonLevel
+jz @Ю
+; иначе ЮЗ
+@ЮЗ:
+mov ecx, 2
+jmp @F
+@Ю:
+mov ecx, 3
+@@:
+mov edx, 4 ; 4е сообщение
+call 00716CA0
+jmp 0047954E
+
+@enabled:
+movzx   eax, byte ptr DungeonLevel ; затертое
+jmp 004794A1
+
+ check
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0047949A(U)
+|
+:00777999 90                      nop
+:007779A3 E8E0FEFFFF              call 00777888
+:007779A8 90                      nop
+:007779A9 90                      nop
+:007779AA 85C0                    test eax, eax
+:007779AC 7529                    jne 007779D7
+:007779AE EB10                    jmp 007779C0
+:007779B0 803DD8B160000F          cmp byte ptr [0060B1D8], 0F
+:007779B7 7410                    je 007779C9
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007779AE(U)
+|
+:007779C0 6A02                    push 00000002
+:007779C2 59                      pop ecx
+:007779C3 EB08                    jmp 007779CD
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007779B7(C)
+|
+:007779C9 6A03                    push 00000003
+:007779CB 59                      pop ecx
+:007779CC 59                      pop ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007779C3(U)
+|
+:007779CD EB81                    jmp 00777950
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007779AC(C)
+|
+:007779D7 0FB605D8B16000          movzx eax, byte ptr [0060B1D8]
+:007779DE 90                      nop
+:007779DF 90                      nop
+:007779E0 E9BC1AD0FF              jmp 004794A1
+================================================================
+
+; в город
+
+; все 2
+
+;.text:004793FB                 movzx   eax, byte ptr DungeonLevel
+;.text:00479402                 mov     PrewDlvl, eax
+
+cmp byte ptr [006DDFC8h], 01 ; MaxCountOfPlayers
+jnz @enabled
+
+call @IsSaveAndLeavingEnabled / 144600 ( 777A00 )
+test eax, eax
+jnz @enabled
+@disabled:
+mov ecx, 2 ; всегда на ЮЗ
+mov edx, 4 ; 4е сообщение
+call 00716CA0
+jmp 0047954E
+
+@enabled:
+movzx   eax, byte ptr DungeonLevel ; затертое
+jmp 00479402
+
+==============================================================
+
+; в квест локи
+
+.text:0045F9D3 0F B6 C1                                movzx   eax, cl
+.text:0045F9D6 50                                      push    eax
+.text:0045F9D7 BA 05 04 00 00                          mov     edx, 1029
+.text:0045F9DC 8B CF                                   mov     ecx, edi
+
+0045F9D3 >>> / 144640
+>>>
+push ecx
+call @IsSaveAndLeavingEnabled
+pop ecx
+test eax, eax
+jnz @enabled
+@disabled:
+mov ecx, 3 ; всегда на Ю
+mov edx, 4 ; 4е сообщение
+call 00716CA0
+jmp 45F9E3
+
+@enabled:
+movzx   eax, cl ; затертое
+push    eax
+mov     edx, 1029
+jmp 0045F9DC
+
+
+
+
+
+
+
+
+

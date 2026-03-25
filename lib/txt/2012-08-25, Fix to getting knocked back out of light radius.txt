@@ -1,0 +1,73 @@
+--=============================================
+лайт радиус фикс
+--=============================================
+
+Значения регистров:
+esi playerIndex * sizeof Player
+edi - newPlayerRow
+ebx - newPlayerCol
+
+
+.text:0043E6BD 024                 mov     eax, 006EAE14
+.text:0043E6C2 024                 mov     ecx, dword ptr [ebp+playerIndex] ; arglist
+.text:0043E6C5 024                 mov     [eax+esi+38h], edi
+.text:0043E6C9 024                 mov     eax, Players
+.text:0043E6CE 024                 mov     [eax+esi+3Ch], ebx
+.text:0043E6D2 024                 mov     eax, Players
+.text:0043E6D7 024                 mov     edx, [eax+esi+70h]
+.text:0043E6DB 024                 call    FixPlayerLocation ; Call Procedure
+---------------------------------------------------------------------------------------------------------------
+ВОТ ФИКС
+
+0043E6BD   jmp @lightRadiusFix
+
+
+@lightRadiusFix:
+
+mov eax, esi
+add eax, 006EAE14 ; оффсет текущего игрока
+push ebx ; newPlayerCol
+mov     edx, edi ; newPlayerRow
+mov     ecx, [eax+9Ch] ; player.LightIndex
+call    sub_42C956 ; MoveObjectLight(player.LightIndex, player.Row, player.Col)
+
+mov eax, esi
+add eax, 006EAE14 ; оффсет текущего игрока
+push ebx  ; newPlayerCol
+mov     edx, edi  ; newPlayerRow
+mov     ecx, [eax+0A0h] ; player.lightRadiusIdentificator
+call    sub_42CC8C ; MovePlayerVisibility(player.lightRadiusIdentificator, player.Row, player.Col)
+
+; затёртое
+mov     eax, 006EAE14
+ jmp 0043E6C2
+
+===============
+
+working code:
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043E6BD(U)
+|
+:00712960 A114AE6E00              mov eax, dword ptr [006EAE14]
+:00712965 03C6                    add eax, esi
+:00712967 90                      nop
+:00712968 8BD3                    mov edx, ebx
+:0071296A 52                      push edx
+:0071296B 8BD7                    mov edx, edi
+:0071296D 8B889C000000            mov ecx, dword ptr [eax+0000009C]
+:00712973 90                      nop
+:00712974 E8DD9FD1FF              call 0042C956
+:00712979 A114AE6E00              mov eax, dword ptr [006EAE14]
+:0071297E 03C6                    add eax, esi
+:00712980 90                      nop
+:00712981 8BD3                    mov edx, ebx
+:00712983 52                      push edx
+:00712984 8BD7                    mov edx, edi
+:00712986 8B88A0000000            mov ecx, dword ptr [eax+000000A0]
+:0071298C E8FBA2D1FF              call 0042CC8C
+:00712991 A114AE6E00              mov eax, dword ptr [006EAE14]
+:00712996 E927BDD2FF              jmp 0043E6C2
+:0071299B 90                      nop
+:0071299C 90                      nop

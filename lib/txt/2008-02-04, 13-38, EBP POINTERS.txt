@@ -1,0 +1,1 @@
+ebp+14, 0003f < bone spirit spell check in mvp missile routine, 3f = bone spirit effect slot

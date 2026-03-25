@@ -1,0 +1,14 @@
+item name		min_ dmg	max_dmg 	dur 	str 	mag 	dex 	qlvl 	price
+Light Staff 		3 		11 		22 	5 	0 	5 	1 	80
+Staff 			5 		15 		24 	10 	0 	15 	5 	150
+Short Staff 		1 		22 		27 	15 	0 	25 	7 	250
+Long Staff 		6 		25 		30 	20 	0 	30 	10 	400
+Combat Staff 		7		31 		31 	25 	0 	40 	13 	550
+Composite Staff 	8 		36 		36 	30 	0 	45 	16 	700
+Gnarled Staff 		1 		49 		32 	35 	0 	50 	19 	850
+War Staff (3Ah)		9 		47 		42 	40 	0 	60 	22 	1000
+Battle Staff 		10 		52 		33 	41 	0 	70 	26 	1250
+Quarter Staff 		11 		58 		48 	50 	0 	75 	29 	1500
+Naginata 		24 		57 		51 	94 	0 	181 	44 	2500
+Double-Bladed Staff 	12 		82 		55 	153 	0 	218 	62 	3000
+Great Staff 		33 		97 		35 	169 	0 	224 	40 	4500 

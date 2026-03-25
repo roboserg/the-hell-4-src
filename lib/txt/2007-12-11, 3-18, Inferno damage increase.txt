@@ -1,0 +1,57 @@
+:0043503F 69C0C8550000            imul eax, 000055C8
+:00435045 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0043504B 0FBE9408B8010000        movsx edx, byte ptr [eax+ecx+000001B8]
+:00435053 B14F                    mov cl, 4F
+:00435055 E8004FFEFF              call 00419F5A
+:0043505A B14F                    mov cl, 4F
+:0043505C 8BF8                    mov edi, eax
+:0043505E 6A02                    push 00000002
+:00435060 5A                      pop edx
+:00435061 E8F44EFEFF              call 00419F5A
+:00435066 03F8                    add edi, eax
+:00435068 8D04FD10000000          lea eax, dword ptr [8*edi+00000010]
+:0043506F 8BC8                    mov ecx, eax
+:00435071 D1F9                    sar ecx, 1
+:00435073 03C8                    add ecx, eax
+:00435075 898ED47A6900            mov dword ptr [esi+00697AD4], ecx
+:0043507B EB2F                    jmp 004350AC
+
+into:
+
+:0043503F 69C0C8550000            imul eax, 000055C8
+:00435045 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0043504B 0FBE9408B8010000        movsx edx, byte ptr [eax+ecx+000001B8]
+:00435053 B14F                    mov cl, 4F
+:00435055 E8004FFEFF              call 00419F5A
+:0043505A B14F                    mov cl, 4F
+:0043505C 8BF8                    mov edi, eax
+:0043505E 6A64                    push 00000064				02 > 64
+:00435060 5A                      pop edx
+:00435061 E8F44EFEFF              call 00419F5A
+:00435066 03F8                    add edi, eax
+:00435068 8D04FD10000000          lea eax, dword ptr [8*edi+00000010]
+:0043506F 8BC8                    mov ecx, eax
+:00435071 D1E1                    shl ecx, 1					sar > shl
+:00435073 03C8                    add ecx, eax
+:00435075 898ED47A6900            mov dword ptr [esi+00697AD4], ecx
+:0043507B EB2F                    jmp 004350AC
+
+into:
+
+:0043503F 69C0C8550000            imul eax, 000055C8
+:00435045 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0043504B 0FBE9408B8010000        movsx edx, byte ptr [eax+ecx+000001B8]
+:00435053 B14F                    mov cl, 4F
+:00435055 E8004FFEFF              call 00419F5A
+:0043505A B14F                    mov cl, 4F
+:0043505C 8BF8                    mov edi, eax
+:0043505E 6A64                    push 00000064
+:00435060 5A                      pop edx
+:00435061 E8F44EFEFF              call 00419F5A
+:00435066 03F8                    add edi, eax
+:00435068 8D04FD10000000          lea eax, dword ptr [8*edi+00000010]
+:0043506F 8BC8                    mov ecx, eax
+:00435071 C1E104                  shl ecx, 04				ecx*16
+:00435074 90                      nop
+:00435075 898ED47A6900            mov dword ptr [esi+00697AD4], ecx
+:0043507B EB2F                    jmp 004350AC

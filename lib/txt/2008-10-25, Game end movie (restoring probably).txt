@@ -1,0 +1,149 @@
+
+Now game will end if Uber Diablo is killed, in SP mode only
+
+
+
+
+	new:
+
+:0043D19F E9799E2C00              jmp 0070701D
+
+:0043DE60 E9D8912C00              jmp 0070703D
+
+:0043F0A7 E9B47F2C00              jmp 00707060
+
+
+
+	extra chunks:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D19F(U)
+|
+:0070701D 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00707024 0F858661D3FF            jne 0043D1B0
+:0070702A 813889000000            cmp dword ptr [eax], 00000089
+:00707030 0F857A61D3FF            jne 0043D1B0
+:00707036 E96961D3FF              jmp 0043D1A4
+:0070703B 90                      nop
+:0070703C 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043DE60(U)
+|
+:0070703D 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00707044 0F85276ED3FF            jne 0043DE71
+:0070704A 813889000000            cmp dword ptr [eax], 00000089
+:00707050 0F851B6ED3FF            jne 0043DE71
+:00707056 E90A6ED3FF              jmp 0043DE65
+:0070705B 90                      nop
+:0070705C 90                      nop
+:0070705D 90                      nop
+:0070705E 90                      nop
+:0070705F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043F0A7(U)
+|
+:00707060 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00707067 8B00                    mov eax, dword ptr [eax]
+:00707069 0F858F80D3FF            jne 0043F0FE
+:0070706F 813989000000            cmp dword ptr [ecx], 00000089
+:00707075 0F858380D3FF            jne 0043F0FE
+:0070707B E92E80D3FF              jmp 0043F0AE
+
+
+
+
+
+changing checks:
+
+813889000000            cmp dword ptr [eax], 00000089
+
+813989000000            cmp dword ptr [ecx], 00000089
+
+
+======================================================================
+Revision 2:
+14:01 14.12.2009
+Game ends only in SP mode,  to make Uber runs on Purg/Doom somewhat useful
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D19F(U)
+|
+:0070701D 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00707024 7511                    jne 00707037
+:00707026 813889000000            cmp dword ptr [eax], 00000089
+:0070702C 7509                    jne 00707037
+:0070702E 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00707035 7205                    jb 0070703C
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00707024(C), :0070702C(C)
+|
+:00707037 E97461D3FF              jmp 0043D1B0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707035(C)
+|
+:0070703C E96361D3FF              jmp 0043D1A4
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043DE60(U)
+|
+:00707041 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00707048 7511                    jne 0070705B
+:0070704A 813889000000            cmp dword ptr [eax], 00000089
+:00707050 7509                    jne 0070705B
+:00707052 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00707059 7205                    jb 00707060
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00707048(C), :00707050(C)
+|
+:0070705B E9116ED3FF              jmp 0043DE71
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707059(C)
+|
+:00707060 E9006ED3FF              jmp 0043DE65
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043F0A7(U)
+|
+:00707065 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:0070706C 8B00                    mov eax, dword ptr [eax]
+:0070706E 7511                    jne 00707081
+:00707070 813989000000            cmp dword ptr [ecx], 00000089
+:00707076 7509                    jne 00707081
+:00707078 833DC070600001          cmp dword ptr [006070C0], 00000001
+:0070707F 7205                    jb 00707086
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070706E(C), :00707076(C)
+|
+:00707081 E97880D3FF              jmp 0043F0FE
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070707F(C)
+|
+:00707086 E92380D3FF              jmp 0043F0AE
+:0070708B 90                      nop
+:0070708C 90                      nop
+:0070708D 90                      nop
+:0070708E 90                      nop
+:0070708F 90                      nop
+
+
+
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+
+	Old game end prevent code:
+
+
+0043D1A1 6E E6
+
+0043DE62 6E E6
+
+0043F0A9 6E E6

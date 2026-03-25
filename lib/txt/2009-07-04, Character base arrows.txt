@@ -1,0 +1,119 @@
+The code:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00431339(C), :0043133E(C)
+|
+:00431355 807D1800                cmp byte ptr [ebp+18], 00
+:00431359 6A1C                    push 0000001C					<- push base arrow default speed
+:0043135B 0F8599000000            jne 004313FA
+:00431361 8B7D1C                  mov edi, dword ptr [ebp+1C]
+:00431364 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0043136A 69FFC8550000            imul edi, 000055C8
+:00431370 58                      pop eax
+:00431371 F684394055000004        test byte ptr [ecx+edi+00005540], 04		<- random speed arrows flag check
+:00431379 740C                    je 00431387
+:0043137B 8BD0                    mov edx, eax
+:0043137D B140                    mov cl, 40
+:0043137F E8D68BFEFF              call 00419F5A
+:00431384 83C010                  add eax, 00000010				<-Rnd[base speed]+16
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00431379(C)
+|
+:00431387 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0043138D 03CF                    add ecx, edi
+:0043138F 8A9160010000            mov dl, byte ptr [ecx+00000160]		
+:00431395 80FA01                  cmp dl, 01					<- if Scout
+:00431398 750D                    jne 004313A7
+:0043139A 0FBE91B8010000          movsx edx, byte ptr [ecx+000001B8]
+:004313A1 4A                      dec edx
+:004313A2 C1FA02                  sar edx, 02					<- edx = (clvl-1)/4 <- bonus to speed
+:004313A5 EB14                    jmp 004313BB
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00431398(C)
+|
+:004313A7 84D2                    test dl, dl
+:004313A9 7405                    je 004313B0
+:004313AB 80FA05                  cmp dl, 05
+:004313AE 750D                    jne 004313BD
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004313A9(C)
+|
+:004313B0 0FBE91B8010000          movsx edx, byte ptr [ecx+000001B8]
+:004313B7 4A                      dec edx
+:004313B8 C1FA03                  sar edx, 03					<- for pal and glad bonus is (clvl-1)/8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004313A5(U)
+|
+:004313BB 03C2                    add eax, edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004313AE(C)
+|
+:004313BD 8B8940550000            mov ecx, dword ptr [ecx+00005540]		<- quick attack?
+:004313C3 F7C100000200            test ecx, 00020000
+:004313C9 7401                    je 004313CC
+:004313CB 40                      inc eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004313C9(C)
+|
+:004313CC F7C100000400            test ecx, 00040000				<- fast attack?
+:004313D2 7402                    je 004313D6
+:004313D4 40                      inc eax
+:004313D5 40                      inc eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004313D2(C)
+|
+:004313D6 F7C100000800            test ecx, 00080000				<- faster attack?
+:004313DC 7403                    je 004313E1
+:004313DE 83C004                  add eax, 00000004
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004313DC(C)
+|
+:004313E1 F7C100001000            test ecx, 00100000				<- fastest attack?
+:004313E7 7403                    je 004313EC
+:004313E9 83C008                  add eax, 00000008
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004313E7(C)
+|
+:004313EC 8B55F8                  mov edx, dword ptr [ebp-08]
+:004313EF 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:004313F2 50                      push eax
+:004313F3 53                      push ebx
+:004313F4 56                      push esi
+:004313F5 FF7508                  push [ebp+08]
+:004313F8 EB05                    jmp 004313FF
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043135B(C)
+|
+:004313FA 53                      push ebx
+:004313FB 56                      push esi
+:004313FC FF7508                  push [ebp+08]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004313F8(U)
+|
+:004313FF E85DF2FFFF              call 00430661
+:00431404 8B75FC                  mov esi, dword ptr [ebp-04]
+:00431407 8B5508                  mov edx, dword ptr [ebp+08]
+:0043140A 8B4DF8                  mov ecx, dword ptr [ebp-08]
+:0043140D 53                      push ebx
+:0043140E FF750C                  push [ebp+0C]
+:00431411 69F6B0000000            imul esi, 000000B0
+:00431417 E877F8FFFF              call 00430C93
+:0043141C 40                      inc eax
+:0043141D 8986B47A6900            mov dword ptr [esi+00697AB4], eax
+:00431423 C786C87A690000010000    mov dword ptr [esi+00697AC8], 00000100
+:0043142D 5F                      pop edi
+:0043142E 5E                      pop esi
+:0043142F 5B                      pop ebx
+:00431430 C9                      leave
+:00431431 C21C00                  ret 001C

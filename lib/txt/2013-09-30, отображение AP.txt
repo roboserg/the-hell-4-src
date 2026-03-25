@@ -1,0 +1,162 @@
+﻿AP show mod:
+
+428C52 >>>
+>>>
+
+mov ecx,    dword ptr [esi+328d]
+imul ecx, 6
+
+; в идеале
+; imul ecx, 100
+; sar ecx, 4 ; всего на пару байт больше, зато мне приятно
+
+push ecx ; простое домножение на 6 только для мили. Формулу рейнджа пока не знаю
+
+push    "armor piercing: +%d%%"
+jmp     loc_428DFE
+
+              code:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00428C52(U)
+|
+:00719170 8B8E48010000            mov ecx, dword ptr [esi+00000148]
+:00719176 6BC964                  imul ecx, 00000064
+:00719179 EB05                    jmp 00719180
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719189(U)
+|
+:0071917B E97EFCD0FF              jmp 00428DFE
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719179(U)
+|
+:00719180 C1F904                  sar ecx, 04
+:00719183 51                      push ecx
+
+* Possible StringData Ref from Data Obj ->"armor piercing: +%d%%"
+                                  |
+:00719184 6898624A00              push 004A6298
+:00719189 EBF0                    jmp 0071917B
+
+=============================================================
+
+@getMonsterAcAfterAp: // E5D90
+; ecx - playerIndex
+; edx - monsterAC
+imul ecx, 55C8h
+add ecx, dword ptr [006EAE14]; player
+
+movzx eax, byte ptr [ecx + 352d] ; class // не пиши D в конце. в иде стирать надо
+; если не буду писать
+, то велик шанс на то что ты h поставишь и будет совсем другое число я в иду десятичные  числа пишу только так
+mov ecx, dword ptr [ecx + 5550h] ; AP
+cmp eax, 5
+jnz @F
+inc ecx ; AP глада увеличивается на 1. вот и весь его бонус
+@@:
+test ecx, ecx
+jz @return
+
+mov eax, edx
+
+imul eax, ecx; умножили AC монстра на AP
+sar eax, 4 ;поделили результат на 16; местами поменять. вот и весь фикс
+
+sub edx, eax; вычли
+test edx, edx
+jge @return
+xor edx, edx ; если загнали броню в минуса, обнуляем её
+
+@return:
+mov eax, edx
+retn
+
+          chekk:
+* Referenced by a CALL at Address:
+|:007191D5   
+|
+:00719190 69C9C8550000            imul ecx, 000055C8
+:00719196 030D14AE6E00            add ecx, dword ptr [006EAE14]
+:0071919C 0FB68160010000          movzx eax, byte ptr [ecx+00000160]
+:007191A3 8B8950550000            mov ecx, dword ptr [ecx+00005550]
+:007191A9 83F805                  cmp eax, 00000005
+:007191AC 7501                    jne 007191AF
+:007191AE 41                      inc ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007191AC(C)
+|
+:007191AF 85C9                    test ecx, ecx
+:007191B1 7410                    je 007191C3
+:007191B3 89D0                    mov eax, edx
+:007191B5 0FAFC1                  imul eax, ecx
+:007191B8 C1F804                  sar eax, 04
+:007191BB 29C2                    sub edx, eax
+:007191BD 85D2                    test edx, edx
+:007191BF 7D02                    jge 007191C3
+:007191C1 31D2                    xor edx, edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007191B1(C), :007191BF(C)
+|
+:007191C3 89D0                    mov eax, edx
+:007191C5 C3                      ret
+=============================================================
+;PvM_Melee
+0045B938 >>> // E5DD0
+>>>
+mov ecx, dword ptr [ebp - 8]
+mov edx, ebx ; monsterAC
+call @getMonsterAcAfterAp
+mov ebx, eax
+jmp 45B965
+
+        chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045B938(U)
+|
+:007191D0 8B4DF8                  mov ecx, dword ptr [ebp-08]
+:007191D3 89DA                    mov edx, ebx
+:007191D5 E8B6FFFFFF              call 00719190
+:007191DA 89C3                    mov ebx, eax
+:007191DC E98427D4FF              jmp 0045B965
+=============================================================
+;PvM_NonMelee
+
+;.text:0042F3B7 E9 94 06 2E 00                          jmp     loc_70FA50
+
+0042F3B7 >>> E5E00
+>>>
+push edx
+push eax
+mov edx, ecx ; monsterAC
+mov ecx, dword ptr [ebp - 4] ; playerIndex
+call @getMonsterAcAfterAp
+mov ecx, eax
+pop eax
+pop edx
+jmp     loc_70FA50
+-----------------------------------------------------------------
+занопить
+.text:0042F3CA 2B 90 50 55 00 00                       sub     edx, [eax+5550h] ??
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F3B7(U)
+|
+:00719200 52                      push edx
+:00719201 50                      push eax
+:00719202 89CA                    mov edx, ecx
+:00719204 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:00719207 E884FFFFFF              call 00719190
+:0071920C 89C1                    mov ecx, eax
+:0071920E 58                      pop eax
+:0071920F 5A                      pop edx
+:00719210 E93B68FFFF              jmp 0070FA50
+
+
+
+
+
+

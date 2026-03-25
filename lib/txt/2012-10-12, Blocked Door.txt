@@ -1,0 +1,23 @@
+blocked door highlights
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0044E857(U)
+|
+:00714420 C781FCE56D0001000000    mov dword ptr [ebx+006DE5FC], 00000001
+:0071442A 83FA02                  cmp edx, 00000002
+:0071442D 7409                    je 00714438
+:0071442F C68100E66D0002          mov byte ptr [ecx+006DE600], 02
+:00714436 EB07                    jmp 0071443F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071442D(C)
+|
+:00714438 C68100E66D0000          mov byte ptr [ecx+006DE600], 00
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00714436(U)
+|
+:0071443F 899124E66D00            mov dword ptr [ecx+006DE624], edx
+:00714445 5B                      pop ebx
+:00714446 C3                      ret

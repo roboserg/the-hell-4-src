@@ -1,0 +1,208 @@
+Skeleton AI updated
+
+Attak, walk and other delays are difficulty dependant now, making horror even easier than before, but Purgatory and (especially) Doom harder
+
+Below extra code that creates variable behavior, depending on difficulty mode
+Various delay timings and action probabilities handled here
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043FE9C(U)
+|
+:00705B40 8B0DC0706000            mov ecx, dword ptr [006070C0]
+:00705B46 83F901                  cmp ecx, 00000001
+:00705B49 741A                    je 00705B65
+:00705B4B 83F902                  cmp ecx, 00000002
+:00705B4E 742A                    je 00705B7A
+:00705B50 0FB68E99000000          movzx ecx, byte ptr [esi+00000099]
+:00705B57 6A08                    push 00000008
+:00705B59 5A                      pop edx
+:00705B5A 2BD1                    sub edx, ecx
+:00705B5C 8D1450                  lea edx, dword ptr [eax+2*edx]
+:00705B5F EB28                    jmp 00705B89
+:00705B61 90                      nop
+:00705B62 90                      nop
+:00705B63 90                      nop
+:00705B64 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705B49(C)
+|
+:00705B65 0FB68E99000000          movzx ecx, byte ptr [esi+00000099]
+:00705B6C 6A03                    push 00000003
+:00705B6E 5A                      pop edx
+:00705B6F 2BD1                    sub edx, ecx
+:00705B71 8D1450                  lea edx, dword ptr [eax+2*edx]
+:00705B74 EB13                    jmp 00705B89
+:00705B76 90                      nop
+:00705B77 90                      nop
+:00705B78 90                      nop
+:00705B79 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705B4E(C)
+|
+:00705B7A 0FB68E99000000          movzx ecx, byte ptr [esi+00000099]
+:00705B81 6A01                    push 00000001
+:00705B83 5A                      pop edx
+:00705B84 2BD1                    sub edx, ecx
+:00705B86 8D1450                  lea edx, dword ptr [eax+2*edx]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00705B5F(U), :00705B74(U)
+|
+:00705B89 E969A3D3FF              jmp 0043FEF7
+:00705B8E 90                      nop
+:00705B8F 90                      nop
+:00705B90 90                      nop
+:00705B91 90                      nop
+:00705B92 90                      nop
+:00705B93 90                      nop
+:00705B94 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043FE83(U)
+|
+:00705B95 8B0DC0706000            mov ecx, dword ptr [006070C0]
+:00705B9B 83F901                  cmp ecx, 00000001
+:00705B9E 7416                    je 00705BB6
+:00705BA0 83F902                  cmp ecx, 00000002
+:00705BA3 7422                    je 00705BC7
+:00705BA5 0FB68E99000000          movzx ecx, byte ptr [esi+00000099]
+:00705BAC 8D4C090A                lea ecx, dword ptr [ecx+ecx+0A]
+:00705BB0 EB20                    jmp 00705BD2
+:00705BB2 90                      nop
+:00705BB3 90                      nop
+:00705BB4 90                      nop
+:00705BB5 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705B9E(C)
+|
+:00705BB6 0FB68E99000000          movzx ecx, byte ptr [esi+00000099]
+:00705BBD 8D4C0923                lea ecx, dword ptr [ecx+ecx+23]
+:00705BC1 EB0F                    jmp 00705BD2
+:00705BC3 90                      nop
+:00705BC4 90                      nop
+:00705BC5 90                      nop
+:00705BC6 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705BA3(C)
+|
+:00705BC7 0FB68E99000000          movzx ecx, byte ptr [esi+00000099]
+:00705BCE 8D4C093C                lea ecx, dword ptr [ecx+ecx+3C]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00705BB0(U), :00705BC1(U)
+|
+:00705BD2 E9B7A2D3FF              jmp 0043FE8E
+:00705BD7 90                      nop
+:00705BD8 90                      nop
+:00705BD9 90                      nop
+:00705BDA 90                      nop
+:00705BDB 90                      nop
+:00705BDC 90                      nop
+:00705BDD 90                      nop
+:00705BDE 90                      nop
+:00705BDF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043FEE7(U)
+|
+:00705BE0 A1C0706000              mov eax, dword ptr [006070C0]
+:00705BE5 83F801                  cmp eax, 00000001
+:00705BE8 7416                    je 00705C00
+:00705BEA 83F802                  cmp eax, 00000002
+:00705BED 7422                    je 00705C11
+:00705BEF 0FB68699000000          movzx eax, byte ptr [esi+00000099]
+:00705BF6 6A14                    push 00000014
+:00705BF8 D1E0                    shl eax, 1
+:00705BFA 59                      pop ecx
+:00705BFB EB20                    jmp 00705C1D
+:00705BFD 90                      nop
+:00705BFE 90                      nop
+:00705BFF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705BE8(C)
+|
+:00705C00 0FB68699000000          movzx eax, byte ptr [esi+00000099]
+:00705C07 6A08                    push 00000008
+:00705C09 D1E0                    shl eax, 1
+:00705C0B 59                      pop ecx
+:00705C0C EB0F                    jmp 00705C1D
+:00705C0E 90                      nop
+:00705C0F 90                      nop
+:00705C10 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705BED(C)
+|
+:00705C11 0FB68699000000          movzx eax, byte ptr [esi+00000099]
+:00705C18 6A00                    push 00000000
+:00705C1A D1E0                    shl eax, 1
+:00705C1C 59                      pop ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00705BFB(U), :00705C0C(U)
+|
+:00705C1D E9D1A2D3FF              jmp 0043FEF3
+:00705C22 90                      nop
+:00705C23 90                      nop
+:00705C24 90                      nop
+:00705C25 90                      nop
+:00705C26 90                      nop
+:00705C27 90                      nop
+:00705C28 90                      nop
+:00705C29 90                      nop
+:00705C2A 90                      nop
+:00705C2B 90                      nop
+:00705C2C 90                      nop
+:00705C2D 90                      nop
+:00705C2E 90                      nop
+:00705C2F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043FEC8(U)
+|
+:00705C30 8B0DC0706000            mov ecx, dword ptr [006070C0]
+:00705C36 83F901                  cmp ecx, 00000001
+:00705C39 7418                    je 00705C53
+:00705C3B 83F902                  cmp ecx, 00000002
+:00705C3E 7426                    je 00705C66
+:00705C40 0FB68E99000000          movzx ecx, byte ptr [esi+00000099]
+:00705C47 6A32                    push 00000032
+:00705C49 C1E102                  shl ecx, 02
+:00705C4C 5A                      pop edx
+:00705C4D EB24                    jmp 00705C73
+:00705C4F 90                      nop
+:00705C50 90                      nop
+:00705C51 90                      nop
+:00705C52 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705C39(C)
+|
+:00705C53 0FB68E99000000          movzx ecx, byte ptr [esi+00000099]
+:00705C5A 6A1E                    push 0000001E
+:00705C5C C1E102                  shl ecx, 02
+:00705C5F 5A                      pop edx
+:00705C60 EB11                    jmp 00705C73
+:00705C62 90                      nop
+:00705C63 90                      nop
+:00705C64 90                      nop
+:00705C65 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705C3E(C)
+|
+:00705C66 0FB68E99000000          movzx ecx, byte ptr [esi+00000099]
+:00705C6D 6A0A                    push 0000000A
+:00705C6F C1E102                  shl ecx, 02
+:00705C72 5A                      pop edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00705C4D(U), :00705C60(U)
+|
+:00705C73 E95DA2D3FF              jmp 0043FED5

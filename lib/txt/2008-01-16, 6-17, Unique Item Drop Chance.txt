@@ -1,0 +1,118 @@
+* Referenced by a CALL at Address:
+|:004273C8   
+|
+:00426FDD 55                      push ebp
+:00426FDE 8BEC                    mov ebp, esp
+:00426FE0 81EC84000000            sub esp, 00000084
+:00426FE6 53                      push ebx
+:00426FE7 56                      push esi
+:00426FE8 57                      push edi
+:00426FE9 8955FC                  mov dword ptr [ebp-04], edx
+:00426FEC 8BF1                    mov esi, ecx
+:00426FEE 6A64                    push 00000064
+:00426FF0 5A                      pop edx
+:00426FF1 B11C                    mov cl, 1C
+:00426FF3 E8622FFFFF              call 00419F5A
+:00426FF8 3B4504                  cmp eax, dword ptr [ebp+04]	< this value determines how much % it is for monsters and bosses to drop unique item, default is 8 (mnstr=2%, boss=16%)
+:00426FFB 7F7C                    jg 00427079
+:00426FFD 33DB                    xor ebx, ebx
+:00426FFF 6880000000              push 00000080
+:00427004 8D857CFFFFFF            lea eax, dword ptr [ebp+FFFFFF7C]
+:0042700A 53                      push ebx
+:0042700B 50                      push eax
+:0042700C E8BF2C0500              call 00479CD0
+:00427011 A004DB4800              mov al, byte ptr [0048DB04]
+:00427016 83C40C                  add esp, 0000000C
+:00427019 3CFF                    cmp al, FF
+:0042701B 7458                    je 00427075
+:0042701D 69F674010000            imul esi, 00000174
+:00427023 BFD81E6900              mov edi, 00691ED8
+:00427028 8B8EE8636800            mov ecx, dword ptr [esi+006863E8]
+:0042702E BE04DB4800              mov esi, 0048DB04
+:00427033 6BC94C                  imul ecx, 0000004C
+:00427036 8A91D51B4A00            mov dl, byte ptr [ecx+004A1BD5]
+:0042703C 8D8D7CFFFFFF            lea ecx, dword ptr [ebp+FFFFFF7C]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00427073(C)
+|
+:00427042 3AC2                    cmp al, dl
+:00427044 7521                    jne 00427067
+:00427046 0FBE4601                movsx eax, byte ptr [esi+01]
+:0042704A 3945FC                  cmp dword ptr [ebp-04], eax
+:0042704D 7C18                    jl 00427067
+:0042704F 837D0C00                cmp dword ptr [ebp+0C], 00000000
+:00427053 750E                    jne 00427063
+:00427055 833F00                  cmp dword ptr [edi], 00000000
+:00427058 7409                    je 00427063
+:0042705A 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00427061 7404                    je 00427067
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00427053(C), :00427058(C)
+|
+:00427063 C60101                  mov byte ptr [ecx], 01
+:00427066 43                      inc ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00427044(C), :0042704D(C), :00427061(C)
+|
+:00427067 8A4654                  mov al, byte ptr [esi+54]
+:0042706A 83C654                  add esi, 00000054
+:0042706D 83C704                  add edi, 00000004
+:00427070 41                      inc ecx
+:00427071 3CFF                    cmp al, FF
+:00427073 75CD                    jne 00427042
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042701B(C)
+|
+:00427075 85DB                    test ebx, ebx
+:00427077 7505                    jne 0042707E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00426FFB(C)
+|
+:00427079 83C8FF                  or eax, FFFFFFFF
+:0042707C EB29                    jmp 004270A7
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00427077(C)
+|
+:0042707E 6A0A                    push 0000000A
+:00427080 B11D                    mov cl, 1D
+:00427082 5A                      pop edx
+:00427083 E8D22EFFFF              call 00419F5A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004270A5(U)
+|
+:00427088 33C0                    xor eax, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004270A3(C)
+|
+:0042708A 85DB                    test ebx, ebx
+:0042708C 7E19                    jle 004270A7
+:0042708E 80BC057CFFFFFF00        cmp byte ptr [ebp+eax-00000084], 00
+:00427096 7401                    je 00427099
+:00427098 4B                      dec ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00427096(C)
+|
+:00427099 85DB                    test ebx, ebx
+:0042709B 7E0A                    jle 004270A7
+:0042709D 40                      inc eax
+:0042709E 3D80000000              cmp eax, 00000080
+:004270A3 75E5                    jne 0042708A
+:004270A5 EBE1                    jmp 00427088
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0042707C(U), :0042708C(C), :0042709B(C)
+|
+:004270A7 5F                      pop edi
+:004270A8 5E                      pop esi
+:004270A9 5B                      pop ebx
+:004270AA C9                      leave
+:004270AB C20800                  ret 0008

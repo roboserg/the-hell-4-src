@@ -1,0 +1,93 @@
+
+
+
+
+Class_bonus*(baseVIT + slvl + 1)
+максимум
+Class_bonus*(4 + 2*(baseVIT + slvl))
+
+Class_bonus
+0 Pal: 1,5x,
+1 Scout: 1x,
+2 Mage: 0,25x,
+3 Monk: 1,25x,
+4 Assa: 1x,
+5 Glad: 1x;
+1.---------------------------------------------------------------
+@getHealCount:
+mov edx, ecx; перемещаем индекс закла
+mov ecx, dword ptr [006EADE8]; currentPlayerIndex
+call 0042F055; int PlayerCastSummaryLevel(int playerIndex, int spellIndex)
+mov ecx, eax ; slvl
+call 70A1D0; @getCurPlayerOffset
+add ecx, dword ptr [eax + 180h] ; baseVIT + slvl
+mov edx, ecx
+shl edx, 2
+inc ecx
+add edx, 4
+; теперь классовые бонусы
+mov eax, dword ptr [eax + 160h]
+cmp eax, 4
+jge @return ;Assa Glad 1x
+cmp, eax, 1
+jz @return ; Scout: 1x,
+cmp eax, 0
+jz @pal
+cmp eax, 2
+jz @mage
+cmp eax, 3
+jnz @return
+
+@monk:Monk: 1,25x,
+mov eax, ecx
+shr eax, 2
+add ecx, eax
+mov eax, edx
+shr eax, 2
+add edx, eax
+jmp @return
+
+@mage: ;Mage: 0,25x,
+shr ecx, 2
+shr edx, 2
+jmp @return
+
+@pal: ; 1,5x,
+mov eax, ecx
+shr eax, 1
+add ecx, eax
+mov eax, edx
+shr eax, 1
+add edx, eax
+
+@return
+retn
+
+
+2. -----------------------------------------------------------------------
+.text:00406E12                 push    offset byte_4D11C0
+.text:00406E17                 push    0
+
+00406E12 jmp @newLoc
+>>>>>>>>>>
+@newLoc:
+push    offset byte_4D11C0 ;затёртое
+
+
+cmp     esi, 2 ; PS_2_HEALING
+jz  @printHeal
+cmp     esi, 22h ; PS_34_HEAL_OTHER
+jnz @return
+@printHeal:
+mov ecx, esi
+call @getHealCount
+push  edx
+push ecx
+push    [esp+2Ch-0Ch]
+push    offset aManaIDmg18TgtH ; "Mana %i  heal %i-%i"
+push    offset byte_4D11C0 ; Dest
+call  00479AC0;  _sprintf
+add     esp, 0Ch
+
+@return:
+jmp 00406E17 ; обратно

@@ -1,0 +1,177 @@
+Lightning demons' lightning damage increase:
+
+:00437133 0FB64500                movzx eax, byte ptr [ebp+00]
+:00437137 03F8                    add edi, eax
+:00437139 D1E7                    shl edi, 1
+:0043713B EB18                    jmp 00437155
+into:
+:00437133 E8B5310200              call 0045A2ED
+:00437138 C1E702                  shl edi, 02
+:0043713B EB18                    jmp 00437155
+
+new code placed at free space from "no drops at death":
+:0045A2ED 0FB64500                movzx eax, byte ptr [ebp+00]
+:0045A2F1 03F8                    add edi, eax
+:0045A2F3 C3                      ret
+
+____________________________
+Reworked in new version (1.59a). Min Damage + Max Damage, divide by 16. Hits 10 times per second, every 0.05 sec:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004370DB(C)
+|
+:0043710D 69C0E4000000            imul eax, 000000E4
+:00437113 B150                    mov cl, 50
+:00437115 0FB6904EDD6900          movzx edx, byte ptr [eax+0069DD4E]
+:0043711C 8DA84DDD6900            lea ebp, dword ptr [eax+0069DD4D]
+:00437122 0FB6804DDD6900          movzx eax, byte ptr [eax+0069DD4D]
+:00437129 03D0                    add edx, eax					< add minDmg to maxDmg
+:0043712B 42                      inc edx
+:0043712C E8292EFEFF              call 00419F5A
+:00437131 8BF8                    mov edi, eax
+:00437133 E8B5310200              call 0045A2ED
+:00437138 C1E702                  shl edi, 02					< mltiply by 4
+:0043713B EB18                    jmp 00437155
+
+called procedure:
+:0045A2ED 0FB64500                movzx eax, byte ptr [ebp+00]
+:0045A2F1 03F8                    add edi, eax
+:0045A2F3 C3                      ret
+____________________________
+Reworked in 1.59c: Lightning damage = ((AC+3)*4), lightning attempts to hit every 0,05 sec for a total of 10 times.
+Note: AC is used because it's scaling very nice - from 1 to 85 on horror, from 86 to 170 on purgatory and from 171 to 255 on doom.
+It's a quickfix. Probably, some free space could be gained from clearing up this chunk of code.
+
+:0043710D 69C0E4000000            imul eax, 000000E4
+:00437113 B150                    mov cl, 50
+:00437115 0FB69052DD6900          movzx edx, byte ptr [eax+0069DD52]
+:0043711C 8DA852DD6900            lea ebp, dword ptr [eax+0069DD52]
+:00437122 0FB68052DD6900          movzx eax, byte ptr [eax+0069DD52]
+:00437129 42                      inc edx
+:0043712A 42                      inc edx
+:0043712B 42                      inc edx
+:0043712C E8292EFEFF              call 00419F5A
+:00437131 8BF8                    mov edi, eax
+:00437133 E8B5310200              call 0045A2ED
+:00437138 C1E702                  shl edi, 02
+:0043713B EB18                    jmp 00437155
+
+============================================================================
+Revision 4:
+Previous revision worked incorrectly and produced too high damage.
+Ex-formula of (Rnd[mAC-3]*8)+mAC replaced with new formula: Rnd[mAC-3]*8
+
+	Old code:
+
+:0043710D 69C0E4000000            imul eax, 000000E4
+:00437113 B150                    mov cl, 50
+:00437115 0FB69052DD6900          movzx edx, byte ptr [eax+0069DD52]
+:0043711C 8DA852DD6900            lea ebp, dword ptr [eax+0069DD52]
+:00437122 0FB68052DD6900          movzx eax, byte ptr [eax+0069DD52]
+:00437129 4A                      dec edx
+:0043712A 4A                      dec edx
+:0043712B 4A                      dec edx
+:0043712C E8292EFEFF              call 00419F5A
+:00437131 8BF8                    mov edi, eax
+:00437133 E8B5310200              call 0045A2ED
+:00437138 C1E703                  shl edi, 03
+:0043713B EB18                    jmp 00437155
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004370D2(C)
+|
+:0043713D E893310200              call 0045A2D5
+:00437142 40                      inc eax
+:00437143 41                      inc ecx
+:00437144 B151                    mov cl, 51
+:00437146 E80F2EFEFF              call 00419F5A
+:0043714B 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:00437152 8D3CC8                  lea edi, dword ptr [eax+8*ecx]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043710B(U), :0043713B(U)
+|
+:00437155 8B866C7A6900            mov eax, dword ptr [esi+00697A6C]
+
+	
+	New modified:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004370DB(C)
+|
+:0043710D 69C0E4000000            imul eax, 000000E4
+:00437113 B150                    mov cl, 50
+:00437115 0FB69052DD6900          movzx edx, byte ptr [eax+0069DD52]
+:0043711C 8DA852DD6900            lea ebp, dword ptr [eax+0069DD52]
+:00437122 0FB68052DD6900          movzx eax, byte ptr [eax+0069DD52]
+:00437129 4A                      dec edx
+:0043712A 4A                      dec edx
+:0043712B 4A                      dec edx
+:0043712C E8292EFEFF              call 00419F5A
+:00437131 8BF8                    mov edi, eax
+:00437133 C1E703                  shl edi, 03
+:00437136 EB1D                    jmp 00437155
+:00437138 90                      nop
+:00437139 90                      nop
+:0043713A 90                      nop
+:0043713B 90                      nop
+:0043713C 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004370D2(C)
+|
+:0043713D E893310200              call 0045A2D5
+:00437142 40                      inc eax
+:00437143 41                      inc ecx
+:00437144 B151                    mov cl, 51
+:00437146 E80F2EFEFF              call 00419F5A
+:0043714B 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:00437152 8D3CC8                  lea edi, dword ptr [eax+8*ecx]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043710B(U), :00437136(U)
+|
+:00437155 8B866C7A6900            mov eax, dword ptr [esi+00697A6C]
+
+
+7 bytes at 45a2ed are free space now (as if it could be used for something, lol)
+
+========================================================================================
+
+Revision 5:
+Previous revision gave too low damage
+Ex-formula of Rnd[mAC-3]*8 changed to Rnd[mAC]*16
+Note: lightning from monsters is still less aggressive than flash and inferno because lightning can be used from long range and those two are short-range spells. I think this is the most balanced revision of lightning damage from monsters so far...
+
+
+	mod:
+
+:0043710D 69C0E4000000            imul eax, 000000E4
+:00437113 B150                    mov cl, 50
+:00437115 0FB69052DD6900          movzx edx, byte ptr [eax+0069DD52]
+:0043711C 8DA852DD6900            lea ebp, dword ptr [eax+0069DD52]
+:00437122 0FB68052DD6900          movzx eax, byte ptr [eax+0069DD52]
+:00437129 E82C2EFEFF              call 00419F5A
+:0043712E 8BF8                    mov edi, eax
+:00437130 C1E704                  shl edi, 04
+:00437133 EB20                    jmp 00437155
+:00437135 90                      nop
+===========================================================================================
+Revision 6:
+Previous version gave a bit lower damage still.
+Now damage formula is:
+((Rnd[mAC]+1)*16)+(mAC/4)
+
+
+:0043710D 69C0E4000000            imul eax, 000000E4
+:00437113 B150                    mov cl, 50
+:00437115 0FB69052DD6900          movzx edx, byte ptr [eax+0069DD52]
+:0043711C 8DA852DD6900            lea ebp, dword ptr [eax+0069DD52]
+:00437122 E8332EFEFF              call 00419F5A
+:00437127 40                      inc eax			// eax=AC+1
+:00437128 8BF8                    mov edi, eax		// edi = Rnd [AC] +1
+:0043712A C1E704                  shl edi, 04		// (Rnd[AC]+1 )*16
+:0043712D 8BC2                    mov eax, edx		
+:0043712F C1F802                  sar eax, 02		// AC/4
+:00437132 03F8                    add edi, eax		// (AC/4) + {(Rnd[AC]+1 )*8}
+:00437134 EB1F                    jmp 00437155

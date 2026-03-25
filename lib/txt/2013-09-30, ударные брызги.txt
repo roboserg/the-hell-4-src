@@ -1,0 +1,266 @@
+﻿Ударные брызги
+
+
+Название охуенно
+
+Имеющиес ресурсы:
+1) кровь и кишки
+2) металлические ошметки
+3) костяные куски
+
+По 3 разновидности на вариацию
+
+Крови 4 но 1 юзается под фури.  Фуре уберем
+
+Проявляться эффект будет при критическом попадании НЕ магическим уроном ( у магии итак эффекты свои есть). То есть 1. стрелы и 2. мили.
+
+Инициация: при критическом попадании, с вероятностью Х% (процент я сбалансирую, оценив эффект на практике).
+
+Вариации степени удара:
+так как степени фактически 3, то третья будет юзаться только если удар - смертельный (да, и критический одновременно!)
+1и2 вариация используются вне зависимости от того смертелен удар или нет.
+Шанс на отображение анимации един при проверке на тип (смертельная или нет.
+
+Тип анимации пойдет по монстр-слотам, т.к. прямой зависимости от типа монстра - нет.
+
+Окрас брызгов КРАЙНЕ желательно синхронизировать с TRN цветом монстра. Иначе будет цветовой бардак.
+При текущей системе организации это невозможно
+Значит надо ограничить тип монстров, для которых цвета брызгов по дефолту будут уместны.
+Кровь будет для всех уместна. ну разве что кроме насекомых у которых хз какого цвета кровь
+Это тупо по монстр слотам делать надо
+Разумеется. По тем же големам иначе какую анимацию? Камня ж нету. А кости кровь и метал не подходят
+Им металл кстати и подойдет идеально. Вот только черный металл отлетающий от золотых големов..
+Кости какие то розоватые. Таких скелетов то и нету сейчас вроде. Лучше наверно черные сделать.
+Все скелеты по дефолту розоваты. Это я их перекрасом сделал разными.
+
+В общем будет далеко не у всех монстров, а только у избранных пока. Тем кому подойдет анимация и цвет.
+Ага
+
+Ты давно хотел гуро такое. При критах. Брутал дум не переплюнуть, но хоть что то
+----------------------------------------------------------------------------------------------------------------
+
+Итого при крите:
+Шаг 1 проверяем есть ли у данного монстра анимация брызгов
+Шаг 2 делаем проверку на смертельность атаки (уже имеется, надо только вклиниться)
+Шаг 3 делаем проверку на шанс проигрыша анимации (разный у смертельной и несмертельной)
+Шаг 4 запускаем анимацию выбранную по координатам монстра
+
+===========================================================================================
+45BDF6 - melee до проверки на живость монстра
+esi - 15
+eax - affixFlag
+
+ebx - monsterOffset
+edx, ecx свободны
+edi - damage
+dword ptr [ebp-0Ch] - monsterIndex
+
+;.text:0045BDF6 F7 83 1C DD 69 00 C0 FF+                test    Monsters.CurrentLife[ebx], 0FFFFFFC0h
+;.text:0045BE00 6A 0F                                   push    15
+;.text:0045BE02 5E                                      pop     esi
+;.text:0045BE03 7F 1C                                   jg      short loc_45BE21
+;.text:0045BE05 39 B3 8C DC 69 00                       cmp     Monsters.CurAction[ebx], esi
+
+0045BE00 >>> EA440 ( 71D840 )
+>>>
+push 15
+pop esi
+mov ecx, dword ptr [ebp-0Ch]
+jg @aliveMonster
+
+@deadMonster:
+push eax
+mov edx, 1 ; heavy
+call @CastMonsterHasCritSplash
+pop eax
+jmp 0045BE05
+
+@aliveMonster: / ea468
+push eax
+mov edx, 0 ; lite
+call @CastMonsterHasCritSplash
+pop eax
+jmp 0045BE21
+-----
+===========================================================================================
+42F50C - nonmelee
+
+; esi - monsterOffset
+; dword ptr [ebp-8] - monsterIndex
+; edi - damage
+; byte ptr [ebp+19] ; флаг стрела не стрела. 0 - стрела
+; edx, ecx свободны
+: eax - affixFlag
+
+;.text:0042F50C F7 86 1C DD 69 00 C0 FF+                test    Monsters.CurrentLife[esi], 0FFFFFFC0h
+;.text:0042F516 7F 25                                   jg      short loc_42F53D
+;.text:0042F518 8B 55 FC                                mov     edx, [ebp+playerIndex] ; playerIndex
+
+0042F50C >>> / 71daa0 ( ea6a0 )
+>>>
+test    Monsters.CurrentLife[esi], 0FFFFFFC0h
+mov ecx, dword ptr [ebp-08h]
+jg @aliveMonster
+
+@deadMonster:
+cmp byte ptr [ebp+19], 0
+jnz @F
+
+push eax
+mov edx, 1 ; heavy
+call @CastMonsterHasCritSplash
+pop eax
+
+@@:
+jmp 0042F518
+
+@aliveMonster:
+cmp byte ptr [ebp+19], 0
+jnz @F
+
+push eax
+mov edx, 0 ; lite
+call @CastMonsterCritSplash
+pop eax
+
+@@:
+jmp 0042F53D
+
+===========================================================================================
+@critSplashNumbers: - новая табличка из ~500 байт. Каждый байт будет обозначать какую анимацию крит сплеша монстр имеет, если имеет  / A38B00 ( 405700 )
+
+@IsMonsterHasCritSplash: / EA490
+; ecx - индекс монстра
+; eax - 0 - нет, 1 - кровь MI_17_BLOOD, 2 кость MI_18_BONE, 3 - металл MI_19_METLHIT
+imul ecx, 228
+mov ecx, dword ptr [69DD64h + ecx] ; monsterSpritePtr
+mov ecx, dword ptr [ecx] ; baseMonsterIndex
+movzx eax, byte ptr [@critSplashNumbers + ecx]
+; место для особенных проверок
+retn
+---------------
+===========================================================================================
+@CritAnimationsIndexTable: - новая табличка из 9 байт. Чтобы не городить мега проверки / A38D20
+2, 1, 2, ; blood3, bone2, metlhit3,  - heavy
+1, 0, 0, ; blood2, bone1, metlhit1-metlhit2,  - lite
+1, 0, 1,
+
+@CastMonsterCritSplash: / EA500 ( 71D900 )
+; ecx - индекс монстра
+; edx - смертельный ли удар
+push esi
+push edi
+push ebx
+xor ebx, ebx
+
+mov esi, ecx
+mov edi, edx
+call @IsMonsterHasCritSplash
+test eax, eax
+jz @return ; нет анимации
+
+push eax
+mov edx, 100
+call 00419F5A ; rng
+mov edx, eax
+pop eax
+
+test edi, edi
+jz @liteHitChanceCheck
+@heavyHitChanceCheck:
+mov ecx, 10
+jmp @F
+@liteHitChanceCheck:
+mov ecx, 20
+@@:
+cmp edx, ecx
+jg @return ; звезды всчтали так, что анимация не нужна в этот раз
+
+cmp eax, 3
+jg @return ; неизвестная анимация
+
+push ebx; spellLevel 
+push ebx; damage
+push esi; casterIndex
+push 1 ; casterType
+
+lea ecx, [eax + 16] ; 
+push ecx ; baseMissileIndex
+
+push ebx; casterDirection_missileIndex
+push ebx; targetCol
+
+dec eax
+
+test edi, edi
+jz @lite
+@heavy:
+movzx ecx, byte ptr [@CritAnimationsIndexTable + eax]
+jmp @F
+
+@lite:
+mov edi, eax
+mov edx, 2
+call 00419F5A ; rng
+test eax, eax
+jz @firstLiteVariation:
+
+@secondLiteVariation:
+movzx ecx, byte ptr [@CritAnimationsIndexTable + 6 + edi]
+jmp @F
+
+@firstLiteVariation:
+movzx ecx, byte ptr [@CritAnimationsIndexTable + 3 + edi]
+@@:
+
+push ecx ; animationIndex
+
+mov eax, esi
+imul eax, 228
+mov ecx, dword ptr [0069DCA8h + eax]; row
+mov edx, dword ptr [0069DCACh + eax]; col
+
+call 0043572F ; CastMissile
+
+@return:
+pop ebx
+pop edi
+pop esi
+retn
+
+==================================================================
+
+Фикс длительности анимации крови и кости
+
+;.text:004334D2 C7 80 C8 7A 69 00 FA 00+                mov     dword_697AC8[eax], 250
+;.text:004334DC C2 1C 00                                retn    1Ch
+
+004334D2 >>> / ea600
+>>>
+mov     ecx, [eax+697AA0h]
+mov     [eax+697AC8h], ecx
+C2 1C 00                                retn    1Ch
+
+-----------------------------------------
+
+;.text:0043350F C7 80 C8 7A 69 00 FA 00+                mov     dword_697AC8[eax], 250
+;.text:00433519 C2 1C 00                                retn    1Ch
+
+0043350F >>> / ea620
+>>>
+mov     ecx, [eax+697AA0h]
+mov     [eax+697AC8h], ecx
+C2 1C 00                                retn    1Ch
+
+=============================================================
+см. 143 @CritAnimationsIndexTable
+blood1 это 0й индекс, blood2 - 1й и т.п. Все числа уменьшить на 1
+
+=============================================================
+
+см. 162, рэендомизация выпадения крит сплеша
+
+
+
+
+

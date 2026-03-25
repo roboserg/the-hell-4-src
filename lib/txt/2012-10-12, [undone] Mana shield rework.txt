@@ -1,0 +1,113 @@
+[19:13:52] Ярик: вычисляем сколько брать маны, сколько жизни
+[19:16:08] Ярик: int deltaLife = lastCurLife - curLife;
+pointsToMp = (deltaLife*percentsToMp)/100 ; надеюсь переполнения не выйдет
+pointsToHp = deltaLife - pointsToMp
+[19:17:34] Ярик: Если маны меньше, чем собираемся отнимать, то меняем соотношение
+if (pointsToMp > curMana) {
+pointsToMp = curMana
+pointsToHp = deltaLife - pointsToMp
+[19:18:49] Ярик: hp к этому моменту уже снято, так что надо даже наоборот сделать
+pointsToHeal = pointsToMp
+[19:19:16 | Изменены 19:19:36] Ярик: Отнимаем ману
+прибавляем жизни
+
+проверяем жизни
+[19:19:49] Ярик: если меньше 0, то начинаем умирать
+[19:22:31] Ярик: Если маны меньше чем надо то отмечаем щит как подлежащий удалению
+[19:22:58] Ярик: если игрок помер то тоже
+[19:25:24] Ярик: Гы
+[19:26:27] Ярик: если удар снёс игроку хп до минуса (до восстановления их щитом), то игрока кидает в стан
+[19:26:40] Ярик: Тоже не надо?
+[19:28:20] Ярик: А так сделано просто ужасно. ещё близзами
+[19:28:27] Ярик: Путаница страшнейшая
+[19:28:48] Ярик: Придётся кусок кода писать полностью
+[19:29:06] Ярик: Интересно как ты тестить будешь. Точные цифры всё равно фиг узнаешь
+[19:29:31] Mordor: со станом нормально все..
+[19:30:14] Ярик: Что нормально?
+[19:30:22] Ярик: После перезаписи куда его?
+[19:31:07] Ярик: Я новый код буду писать. То как там он использовался уже не выйдет использовать
+[19:33:42] Ярик: И как фури починили?
+[19:34:00] Mordor: ой не трогай все сразу
+[19:34:18] Ярик: Что всё сразу?
+[19:34:37] Mordor: сделай только распределение дамага сначала
+[19:35:08] Ярик: В месте распределения дамага как раз вгон в стан и есть сейчас
+[19:35:20] Ярик: При новой системе его оставлять?
+
+
+percentsToMp = 50+slvl
+LimitToMax (percentsToMp , 95)
+deltaLife = lastCurLife - curLife
+pointsToMp = (deltaLife*percentsToMp)/100
+if (pointsToMp > curMana) {
+    pointsToMp =     curMana
+    isDeleted = 1
+}
+
+if( curLife <= 0 ) {
+     StartPlayerHit(playerIndex, 0, 0);
+}
+
+player.CurMana -= pointsToMp
+player.BaseMana -= pointsToMp
+player.CurLife += pointsToMp
+player.BaseLife += pointsToMp
+
+; тут уже можно назад ради этого прыгнуть
+if( player.CurLife < 0 ){
+     SetPlayerHitPoints(playerIndex, 0);
+     isDeleted = 1;
+}
+if( !(player.CurLife & (-64)) && playerIndex == CurrentPlayerIndex ) {
+     TryToDie(playerIndex, spell.field_AC);
+ }
+ 
+ 
+ -------------------------------------------------------------------------------
+
+1. вычисляем сколько маны нужно отнять. настолько же игрока вылечим (поскольку жизни отняты уже к этому моменту)
+
+00437B4B                 mov     eax, [esi+697A88h]
+
+00437B4B jmp @newLoc
+>>>>>>>
+@newLoc:
+mov eax, dword ptr [esi+697A88h] ; spellLevel
+add eax, 32h; 
+cmp eax, 5Fh
+jle @F:
+mov eax, 5Fh
+@@:
+; eax - percentsToMp 
+; ebx уже выше по коду deltaLife 
+imul eax, ebx
+cdq
+idiv   64h
+xor edx, edx
+
+; pointsToMp
+cmp eax, dword ptr [ecx+1ACh]
+jl @F:
+mov eax, dword ptr [ecx+1ACh]
+@@:
+mov ebx, eax
+jmp 437B7F ; обратно.
+
+
+2. не восстанавливаем что были, а просто добавляем часть хп
+
+.text:00437B8C                 mov     edx, [esi+697AE8h] ; lastCurLife
+.text:00437B92                 mov     [ecx+198h], edx
+.text:00437B98                 mov     edx, Dst
+.text:00437B9E                 mov     ecx, [esi+697AECh] ; lastBaseLife
+.text:00437BA4                 mov     [edx+edi+190h], ecx
+.text:00437BAB                 pop     eax             ; curLife
+
+00437B8C add dword ptr [esi+00697AE8], ebx // 019E5C7A6900            add dword ptr [esi+00697A5C], ebx
+add dword ptr [esi+697AECh], ebx
+.text:00437BAB                 pop     eax             ; curLife
+
+
+3. поскольку жизни снимаются уже всегда, то перенапрвляем эту ветку на проверку смерти
+
+.text:00437BEC                 lea     ecx, [ecx+edi+1A4h]
+.text:00437BF3                 jmp     loc_437C7B 00437C3B

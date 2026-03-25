@@ -1,0 +1,51 @@
+I have run into a problem. After the number of bosses exceeded 255, boss in slot for number 256 boss didn't work correctly and caused various bugs in-game. This slot is unusable. Absolutely. This slot is at offset B1270
+
+After this boss slots kind of repeat previous boss slot names. In SP mode after activating a boss in such a slot, saving the game, and then loading the game, this boss' name will morph into his -256 slots corresponding boss name. Thus, my recently added bosses morphed into the butcher, the defiler (this one even dropped crypt map after dying!), aym lord of torment, etc.
+
+I have a workaround plan on this matter.
+
+Mark all the bosses with the same names (Xorene, Harlequin, etc.) and place them so that if their name morphs it would morph into the very same name.
+_____________
+
+Table of Bosses in TH:		Replace corresponding bosses with:
+(finished marked 'V')
+
+v Gharbad the Weak		> leave blank, dont mess with this stuff	B1280 cleared
+v Skeleton King			> leave blank
+v Zhar the Mad			> empty, B12C0 ???
+v Baranordes			> Baranordes, replaced with non-working (DLVL=0), Baranordeses used up now
+v Arch-bishop Lazarus		> leave blank b1300
+v Red Vex			> empty, B1320
+v Dark Jade			> blank, B1340
+v Baranordes			> Baranordes, corresponding one at B1360
+v Warlor of Blood		> corresponding empty b1380
+v The Butcher			> leave blank, The Consumer moved to unused Warlord slot (B09E0), works fine
+v Aym the Lord of Torment	> empty
+v Defiler			> leave blank ffs   B13E0
+v Uber D			> leave  B1400
+v Xorene			> Xorene, corresponding at B1420, fix b1420 because base monster is changed from Hellion to Toad Demon
+v Xorene			> Xorene, corresponding at B1440
+v Xorene			> Xorene, corresponding at B1460, Xorenes are used up now
+v Ordoseris Plaguebones		> Ordoseris Plaguebones, corresponding at B1480
+v Caballot			> Caballot, corresponding at B14A0
+v Slantar			> Slantar, at B14C0
+v Balthazar			> Balthazar, at B14E0
+V Dizmikur			> Dizmikur, at B1500
+
+________________________________
+problems:
+
+B14A0 <- corresponding slot from Caballot, DLVL13 Chaos Knigh boss with Charge attack, currently free, but name is tied to Caballot, could be freed later on
+__
+To change:
+dlvl 24: Hatebrood Soulslasher (not needed)
+
+
+__
+
+Currently free slots for random bosses:
+
+free corresponder slots
+b1500
+b1520
+b1540

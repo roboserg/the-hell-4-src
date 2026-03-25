@@ -1,0 +1,147 @@
+Note: PvM Missile Elemental damage  reduction fixed also applied here!
+----------------------------------------------------------------------
+Nightmares will now resist elemental damage in multiplayer mode. Resistance level will depend on DLVL:
+
+Horror & Purgatory:
+DLVL 8: 12,5%
+DLVL 9: 18,75%
+DLVL 10: 25%
+DLVL 11: 31,25%
+DLVL 12: 37,5%
+
+Doom:
+DLVL 8: 56,25%
+DLVL 9: 59,375%
+DLVL 10: 62,5%
+DLVL 11: 65,625%
+DLVL 12: 68,75%
+
+
+
+Something makes me believe that uber and soulburners are not being checked for elemental damage reduction, at least, properly. Gotta check.
+Right. Elemental damage reductio in PvM Missile never worked! Will have to fix that.
+
+not working:
+:00707310 8B8664DD6900            mov eax, dword ptr [esi+0069DD64]
+
+working:
+:007072C0 8B8664DD6900            mov eax, dword ptr [esi+0069DD64]
+:007072C6 8B00                    mov eax, dword ptr [eax]
+
+----------------------------
+
+	Doing:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042F4B5(U)
+|
+:00707310 EB9E                    jmp 007072B0
+:00707312 90                      nop
+:00707313 90                      nop
+:00707314 90                      nop
+:00707315 90                      nop
+
+	Extra1:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707310(U)
+|
+:007072B0 8B8664DD6900            mov eax, dword ptr [esi+0069DD64]
+:007072B6 8B00                    mov eax, dword ptr [eax]
+:007072B8 EB5C                    jmp 00707316
+
+	Mod:
+:00707338 752F                    jne 00707369
+
+	Mod:
+:00707369 E982040000              jmp 007077F0
+
+	Main routine, handling Nightmares' resistance:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707369(U)
+|
+:007077F0 3D20000000              cmp eax, 00000020
+:007077F5 0F850D000000            jne 00707808
+:007077FB 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00707802 0F8505000000            jne 0070780D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007077F5(C), :0070784E(U)
+|
+:00707808 E915FBFFFF              jmp 00707322
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707802(C)
+|
+:0070780D 803DD8B1600008          cmp byte ptr [0060B1D8], 08
+:00707814 0F8436000000            je 00707850
+:0070781A 803DD8B1600009          cmp byte ptr [0060B1D8], 09
+:00707821 0F8433000000            je 0070785A
+:00707827 803DD8B160000A          cmp byte ptr [0060B1D8], 0A
+:0070782E 0F8435000000            je 00707869
+:00707834 803DD8B160000B          cmp byte ptr [0060B1D8], 0B
+:0070783B 0F8432000000            je 00707873
+:00707841 803DD8B160000C          cmp byte ptr [0060B1D8], 0C
+:00707848 0F8434000000            je 00707882
+:0070784E EBB8                    jmp 00707808
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707814(C)
+|
+:00707850 50                      push eax
+:00707851 8BC7                    mov eax, edi
+:00707853 C1F803                  sar eax, 03
+:00707856 2BF8                    sub edi, eax
+:00707858 EB35                    jmp 0070788F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707821(C)
+|
+:0070785A 50                      push eax
+:0070785B 8BC7                    mov eax, edi
+:0070785D C1F803                  sar eax, 03
+:00707860 2BF8                    sub edi, eax
+:00707862 C1F801                  sar eax, 01
+:00707865 2BF8                    sub edi, eax
+:00707867 EB26                    jmp 0070788F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070782E(C)
+|
+:00707869 50                      push eax
+:0070786A 8BC7                    mov eax, edi
+:0070786C C1F802                  sar eax, 02
+:0070786F 2BF8                    sub edi, eax
+:00707871 EB1C                    jmp 0070788F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070783B(C)
+|
+:00707873 50                      push eax
+:00707874 8BC7                    mov eax, edi
+:00707876 C1F802                  sar eax, 02
+:00707879 2BF8                    sub edi, eax
+:0070787B C1F802                  sar eax, 02
+:0070787E 2BF8                    sub edi, eax
+:00707880 EB0D                    jmp 0070788F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707848(C)
+|
+:00707882 50                      push eax
+:00707883 8BC7                    mov eax, edi
+:00707885 C1F802                  sar eax, 02
+:00707888 2BF8                    sub edi, eax
+:0070788A C1F801                  sar eax, 01
+:0070788D 2BF8                    sub edi, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00707858(U), :00707867(U), :00707871(U), :00707880(U)
+|
+:0070788F 58                      pop eax
+:00707890 833DC070600002          cmp dword ptr [006070C0], 00000002
+:00707897 7502                    jne 0070789B
+:00707899 D1FF                    sar edi, 1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707897(C)
+|
+:0070789B E982FAFFFF              jmp 00707322

@@ -1,0 +1,64 @@
+﻿.text:0046EF1E 38 98 E0 53 00 00                       cmp     [eax+Player.ItemOnCursor.MagicLevel], bl
+.text:0046EF24 74 04                                   jz      short loc_46EF2A
+.text:0046EF26 C6 45 FC 01                             mov     [ebp+color], 1
+.text:0046EF2A
+.text:0046EF2A                         loc_46EF2A:                             ; CODE XREF: sub_46EEE5+3Fj
+.text:0046EF2A 39 98 08 55 00 00                       cmp     [eax+Player.ItemOnCursor.IsReqMet], ebx
+
+0046EF1E >>> // E6560
+>>>
+mov dl, byte ptr [eax+53E0h] ; item.magicLevel
+test dl, dl 
+jz @return
+cmp dl, 1 ; ML_1_MAGIC
+jz @blue
+cmp dl, 2 ; ML_2_UNIQUE
+jz @gold
+cmp dl, 3 ; ML_3_SET
+jnz @return
+
+@orange:
+mov byte ptr [ebp-4], 4 
+jmp @return
+@blue:
+mov byte ptr [ebp-4], 1 
+jmp @return
+@gold:
+mov byte ptr [ebp-4], 3 
+
+@return:
+jmp 46EF2A
+
+
+ chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0046EF1E(U)
+|
+:00719960 8A90E0530000            mov dl, byte ptr [eax+000053E0]
+:00719966 84D2                    test dl, dl
+:00719968 741F                    je 00719989
+:0071996A 80FA01                  cmp dl, 01
+:0071996D 7410                    je 0071997F
+:0071996F 80FA02                  cmp dl, 02
+:00719972 7411                    je 00719985
+:00719974 80FA03                  cmp dl, 03
+:00719977 7510                    jne 00719989
+:00719979 C645FC04                mov [ebp-04], 04
+:0071997D EB0A                    jmp 00719989
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071996D(C)
+|
+:0071997F C645FC01                mov [ebp-04], 01
+:00719983 EB04                    jmp 00719989
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719972(C)
+|
+:00719985 C645FC03                mov [ebp-04], 03
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00719968(C), :00719977(C), :0071997D(U), :00719983(U)
+|
+:00719989 E99C55D5FF              jmp 0046EF2A
+

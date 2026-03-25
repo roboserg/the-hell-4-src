@@ -1,0 +1,168 @@
+Fallen retreat code
+
+
+
+* Referenced by a CALL at Addresses:
+|:0043D26B   , :0043DF4E   
+|
+:004442F6 55                      push ebp
+:004442F7 8BEC                    mov ebp, esp
+:004442F9 83EC10                  sub esp, 00000010
+:004442FC 8365F800                and dword ptr [ebp-08], 00000000
+:00444300 833D80DC690000          cmp dword ptr [0069DC80], 00000000
+:00444307 8955F4                  mov dword ptr [ebp-0C], edx
+:0044430A 894DF0                  mov dword ptr [ebp-10], ecx
+:0044430D 0F8EC7000000            jle 004443DA
+:00444313 57                      push edi
+:00444314 56                      push esi
+:00444315 53                      push ebx
+:00444316 BBA8DC6900              mov ebx, 0069DCA8
+:0044431B C745FC60D96900          mov [ebp-04], 0069D960
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004443D1(C)
+|
+:00444322 8B45FC                  mov eax, dword ptr [ebp-04]
+:00444325 33FF                    xor edi, edi
+:00444327 8B30                    mov esi, dword ptr [eax]
+:00444329 69F6E4000000            imul esi, 000000E4
+:0044432F 8B8664DD6900            mov eax, dword ptr [esi+0069DD64]
+:00444335 8B00                    mov eax, dword ptr [eax]		eax = monster slot
+:00444337 83C0FC                  add eax, FFFFFFFC			add -4
+:0044433A 83F80B                  cmp eax, 0000000B			cmp to slot 15 (11 here...)
+:0044433D 7716                    ja 00444355				etc...
+:0044433F FF2485DC434400          jmp dword ptr [4*eax+004443DC]
+:00444346 6A06                    push 00000006
+:00444348 EB0A                    jmp 00444354
+:0044434A 6A04                    push 00000004
+:0044434C EB06                    jmp 00444354
+:0044434E 6A03                    push 00000003
+:00444350 EB02                    jmp 00444354
+:00444352 6A02                    push 00000002
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00444348(U), :0044434C(U), :00444350(U)
+|
+:00444354 5F                      pop edi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0044433D(C)
+|
+:00444355 80BE20DD690008          cmp byte ptr [esi+0069DD20], 08
+:0044435C 755D                    jne 004443BB
+:0044435E 85FF                    test edi, edi
+:00444360 7459                    je 004443BB
+:00444362 8B45F0                  mov eax, dword ptr [ebp-10]
+:00444365 2B86A8DC6900            sub eax, dword ptr [esi+0069DCA8]
+:0044436B 50                      push eax
+:0044436C E85F680300              call 0047ABD0
+:00444371 83F805                  cmp eax, 00000005
+:00444374 59                      pop ecx
+:00444375 7D44                    jge 004443BB
+:00444377 8B45F4                  mov eax, dword ptr [ebp-0C]
+:0044437A 2B86ACDC6900            sub eax, dword ptr [esi+0069DCAC]
+:00444380 50                      push eax
+:00444381 E84A680300              call 0047ABD0
+:00444386 83F805                  cmp eax, 00000005
+:00444389 59                      pop ecx
+:0044438A 7D2F                    jge 004443BB
+:0044438C F7861CDD6900C0FFFFFF    test dword ptr [esi+0069DD1C], FFFFFFC0
+:00444396 7E23                    jle 004443BB
+:00444398 8B55F4                  mov edx, dword ptr [ebp-0C]
+:0044439B 8B4DF0                  mov ecx, dword ptr [ebp-10]
+:0044439E C68690DC690002          mov byte ptr [esi+0069DC90], 02
+:004443A5 89BE94DC6900            mov dword ptr [esi+0069DC94], edi
+:004443AB FF7304                  push [ebx+04]
+:004443AE FF33                    push dword ptr [ebx]
+:004443B0 E8055BFDFF              call 00419EBA
+:004443B5 8986D0DC6900            mov dword ptr [esi+0069DCD0], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0044435C(C), :00444360(C), :00444375(C), :0044438A(C), :00444396(C)
+|
+:004443BB FF45F8                  inc [ebp-08]
+:004443BE 8345FC04                add dword ptr [ebp-04], 00000004
+:004443C2 8B45F8                  mov eax, dword ptr [ebp-08]
+:004443C5 81C3E4000000            add ebx, 000000E4
+:004443CB 3B0580DC6900            cmp eax, dword ptr [0069DC80]
+:004443D1 0F8C4BFFFFFF            jl 00444322
+:004443D7 5B                      pop ebx
+:004443D8 5E                      pop esi
+:004443D9 5F                      pop edi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0044430D(C)
+|
+:004443DA C9                      leave
+:004443DB C3                      ret
+
+
+
+:004443DC 4A434400                DWORD 0044434A
+:004443E0 46434400                DWORD 00444346
+:004443E4 4E434400                DWORD 0044434E
+:004443E8 52434400                DWORD 00444352
+:004443EC 55434400                DWORD 00444355
+:004443F0 55434400                DWORD 00444355
+:004443F4 55434400                DWORD 00444355
+:004443F8 55434400                DWORD 00444355
+:004443FC 4E434400                DWORD 0044434E
+:00444400 52434400                DWORD 00444352
+:00444404 4E434400                DWORD 0044434E
+:00444408 52434400                DWORD 00444352
+
+
+==============================================================================
+==============================================================================
+
+Newly added Fallen One (red, w/sword) needed retreat support
+adding...
+
+	code:
+:00444335 E9268A2C00              jmp 0070CD60
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070CDF2(U)
+|
+:0044433A 83F80B                  cmp eax, 0000000B
+
+
+	ex:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00444335(U)
+|
+:0070CD60 8B00                    mov eax, dword ptr [eax]
+:0070CD62 81F89B000000            cmp eax, 0000009B
+:0070CD68 7507                    jne 0070CD71
+:0070CD6A 6A05                    push 00000005
+:0070CD6C E9E375D3FF              jmp 00444354
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070CD68(C)
+|
+:0070CD71 EB7C                    jmp 0070CDEF
+:0070CD73 90                      nop
+...................
+:0070CDEE 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070CD71(U)
+|
+:0070CDEF 83C0FC                  add eax, FFFFFFFC
+:0070CDF2 E94375D3FF              jmp 0044433A
+:0070CDF7 90                      nop
+
+==========================================
+14:49 24.09.2012
+Fallen AI retreats are forbidden after Horror:
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00444355(U)
+|
+:00713C80 80BE20DD690008          cmp byte ptr [esi+0069DD20], 08
+:00713C87 0F852E07D3FF            jne 004443BB
+:00713C8D 833DC070600000          cmp dword ptr [006070C0], 00000000
+:00713C94 0F852107D3FF            jne 004443BB
+:00713C9A E9BF06D3FF              jmp 0044435E
+:00713C9F 90                      nop

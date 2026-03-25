@@ -1,0 +1,25 @@
+
+
+Mana damage code:
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043E3DF(C)
+|
+:0043E41F 8D81AC010000            lea eax, dword ptr [ecx+000001AC]	EAX = curMana
+:0043E425 8B89AC010000            mov ecx, dword ptr [ecx+000001AC]	ECX = curMana
+:0043E42B 81F940000000            cmp ecx, 00000040			compare ECX to 64
+:0043E431 0F8E84000000            jle 0043E4BB				jump if not greater than 1 mana
+:0043E437 53                      push ebx				store EBX
+:0043E438 8BD9                    mov ebx, ecx				EBX = curMana
+:0043E43A C1FB02                  sar ebx, 02				EBX = curMana/4
+:0043E43D 2BCB                    sub ecx, ebx				ECX = curMana*0,75
+:0043E43F 8908                    mov dword ptr [eax], ecx		-25% to curMana
+:0043E441 A114AE6E00              mov eax, dword ptr [006EAE14]
+:0043E446 8D8430A4010000          lea eax, dword ptr [eax+esi+000001A4]	EAX = baseMana
+:0043E44D 2BCB                    sub ecx, ebx				ECX = curMana*0,5
+:0043E44F 2BCB                    sub ecx, ebx				ECX = curMana*0,25
+:0043E451 F7D9                    neg ecx				ECX = -(curMana*0,25)
+:0043E453 0108                    add dword ptr [eax], ecx		baseMana+ECX (iow, baseMana - 25% of curMana)
+:0043E455 5B                      pop ebx				restore EBX
+:0043E456 EB63                    jmp 0043E4BB

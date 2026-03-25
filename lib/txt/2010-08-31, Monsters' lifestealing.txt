@@ -1,0 +1,74 @@
+Monster lifestealing code
+
+Added lifesteal support to monster A6h today: works in SP as well, steals 800%
+
+
+
+* Referenced by a CALL at Address:
+|:0043E5DC   
+|
+:0070B550 F68725DD690010          test byte ptr [edi+0069DD25], 10
+:0070B557 753B                    jne 0070B594
+:0070B559 8B8764DD6900            mov eax, dword ptr [edi+0069DD64]
+:0070B55F 833803                  cmp dword ptr [eax], 00000003
+:0070B562 7C30                    jl 0070B594
+:0070B564 833806                  cmp dword ptr [eax], 00000006
+:0070B567 742B                    je 0070B594
+:0070B569 83380F                  cmp dword ptr [eax], 0000000F
+:0070B56C 7426                    je 0070B594
+:0070B56E 83381C                  cmp dword ptr [eax], 0000001C
+:0070B571 7421                    je 0070B594
+:0070B573 833826                  cmp dword ptr [eax], 00000026
+:0070B576 741C                    je 0070B594
+:0070B578 833832                  cmp dword ptr [eax], 00000032
+:0070B57B 7417                    je 0070B594
+:0070B57D 83383A                  cmp dword ptr [eax], 0000003A
+:0070B580 7412                    je 0070B594
+:0070B582 83386E                  cmp dword ptr [eax], 0000006E
+:0070B585 740D                    je 0070B594
+:0070B587 83387E                  cmp dword ptr [eax], 0000007E
+:0070B58A 7408                    je 0070B594
+:0070B58C 813889000000            cmp dword ptr [eax], 00000089
+:0070B592 752A                    jne 0070B5BE
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070B557(C), :0070B562(C), :0070B567(C), :0070B56C(C), :0070B571(C)
+|:0070B576(C), :0070B57B(C), :0070B580(C), :0070B585(C), :0070B58A(C)
+|
+:0070B594 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:0070B59B 7420                    je 0070B5BD
+:0070B59D 019F1CDD6900            add dword ptr [edi+0069DD1C], ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B5D3(U)
+|
+:0070B5A3 8B871CDD6900            mov eax, dword ptr [edi+0069DD1C]
+:0070B5A9 52                      push edx
+:0070B5AA 8B9718DD6900            mov edx, dword ptr [edi+0069DD18]
+:0070B5B0 3BC2                    cmp eax, edx
+:0070B5B2 7608                    jbe 0070B5BC
+:0070B5B4 8BC2                    mov eax, edx
+:0070B5B6 89871CDD6900            mov dword ptr [edi+0069DD1C], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B5B2(C)
+|
+:0070B5BC 5A                      pop edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070B59B(C), :0070B5C4(C)
+|
+:0070B5BD C3                      ret
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B592(C)
+|
+:0070B5BE 8138A6000000            cmp dword ptr [eax], 000000A6
+:0070B5C4 75F7                    jne 0070B5BD
+:0070B5C6 8BC3                    mov eax, ebx
+:0070B5C8 C1E303                  shl ebx, 03
+:0070B5CB 019F1CDD6900            add dword ptr [edi+0069DD1C], ebx
+:0070B5D1 8BD8                    mov ebx, eax
+:0070B5D3 EBCE                    jmp 0070B5A3
+:0070B5D5 90                      nop
+:0070B5D6 90                      nop

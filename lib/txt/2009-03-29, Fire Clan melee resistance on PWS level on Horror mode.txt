@@ -1,0 +1,22 @@
+37,5% resistance given
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007085B2(C)
+|
+:00708AF8 813823000000            cmp dword ptr [eax], 00000023
+:00708AFE 0F855130D5FF            jne 0045BB55
+:00708B04 803DD8B1600004          cmp byte ptr [0060B1D8], 04
+:00708B0B 0F8205000000            jb 00708B16
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708B23(U)
+|
+:00708B11 E93F30D5FF              jmp 0045BB55
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708B0B(C)
+|
+:00708B16 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00708B1D 0F8295FAFFFF            jb 007085B8
+:00708B23 EBEC                    jmp 00708B11
+

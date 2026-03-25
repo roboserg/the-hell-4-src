@@ -1,0 +1,102 @@
+Lightning damage increased
+
+new formula: Rnd[clvl]+ Rnd[50] + 15
+
+
+
+:004370FC 6A02                    push 00000002
+
+into:
+
+:004370FC 6A32                    push 00000032
+
+_______________
+
+Spellbook: damage increase
+
+
+42e9ba
+2DDBA:
+6A02 > 6A19
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0042E99F(C), :0042E9AB(U)
+|
+:0042E9AF 830AFF                  or dword ptr [edx], FFFFFFFF
+:0042E9B2 8309FF                  or dword ptr [ecx], FFFFFFFF
+:0042E9B5 E9CE040000              jmp 0042EE88
+:0042E9BA 6A19                    push 00000019
+:0042E9BC 58                      pop eax
+:0042E9BD 8902                    mov dword ptr [edx], eax
+:0042E9BF 8B0DE8AD6E00            mov ecx, dword ptr [006EADE8]
+:0042E9C5 69C9C8550000            imul ecx, 000055C8
+:0042E9CB 8B1514AE6E00            mov edx, dword ptr [006EAE14]
+:0042E9D1 0FBE8C11B8010000        movsx ecx, byte ptr [ecx+edx+000001B8]
+:0042E9D9 E91B020000              jmp 0042EBF9
+:0042E9DE 0FBE80B8010000          movsx eax, byte ptr [eax+000001B8]
+:0042E9E5 85F6                    test esi, esi
+:0042E9E7 8902                    mov dword ptr [edx], eax
+:0042E9E9 7E0E                    jle 0042E9F9
+
+=========================================================
+new formula: Rnd[(clvl/2)]+ Rnd[6] + 4
+
+:004370E9 0FBE9408B8010000        movsx edx, byte ptr [eax+ecx+000001B8]
+:004370F1 B14F                    mov cl, 4F
+:004370F3 E8622EFEFF              call 00419F5A
+:004370F8 B14F                    mov cl, 4F
+:004370FA 8BF8                    mov edi, eax
+:004370FC 6A04                    push 00000004
+:004370FE 5A                      pop edx
+:004370FF E8562EFEFF              call 00419F5A
+:00437104 8D7C0704                lea edi, dword ptr [edi+eax+04]
+:00437108 C1E709                  shl edi, 09
+:0043710B EB48                    jmp 00437155
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004370DB(C)
+|
+:0043710D 69C0E4000000            imul eax, 000000E4
+:00437113 B150                    mov cl, 50
+:00437115 0FB69052DD6900          movzx edx, byte ptr [eax+0069DD52]
+:0043711C 8DA852DD6900            lea ebp, dword ptr [eax+0069DD52]
+:00437122 E8332EFEFF              call 00419F5A
+:00437127 40                      inc eax
+:00437128 8BF8                    mov edi, eax
+:0043712A C1E704                  shl edi, 04
+:0043712D 8BC2                    mov eax, edx
+:0043712F C1F802                  sar eax, 02
+:00437132 03F8                    add edi, eax
+:00437134 EB1F                    jmp 00437155
+
+into
+
+:004370E9 0FBE9408B8010000        movsx edx, byte ptr [eax+ecx+000001B8]
+:004370F1 D1FA                    sar edx, 1
+:004370F3 B14F                    mov cl, 4F
+:004370F5 E8602EFEFF              call 00419F5A
+:004370FA B14F                    mov cl, 4F
+:004370FC 8BF8                    mov edi, eax
+:004370FE 6A06                    push 00000006
+:00437100 5A                      pop edx
+:00437101 E8542EFEFF              call 00419F5A
+:00437106 8D7C0704                lea edi, dword ptr [edi+eax+04]
+:0043710A C1E709                  shl edi, 09
+:0043710D EB46                    jmp 00437155
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004370DB(C)
+|
+:0043710F 69C0E4000000            imul eax, 000000E4
+:00437115 B150                    mov cl, 50
+:00437117 0FB69052DD6900          movzx edx, byte ptr [eax+0069DD52]
+:0043711E 8DA852DD6900            lea ebp, dword ptr [eax+0069DD52]
+:00437124 E8312EFEFF              call 00419F5A
+:00437129 40                      inc eax
+:0043712A 8BF8                    mov edi, eax
+:0043712C C1E704                  shl edi, 04
+:0043712F 8BC2                    mov eax, edx
+:00437131 C1F802                  sar eax, 02
+:00437134 03F8                    add edi, eax
+:00437136 EB1D                    jmp 00437155

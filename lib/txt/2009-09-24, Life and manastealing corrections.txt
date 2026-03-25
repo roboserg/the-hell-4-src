@@ -1,0 +1,104 @@
+Life and Mana stealing corrections:
+
+
+New code:
+
+
+
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BCA2(U)
+|
+:0045BCA7 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0045BCAD 03CE                    add ecx, esi
+:0045BCAF 8B9140550000            mov edx, dword ptr [ecx+00005540]
+:0045BCB5 F6C660                  test dh, 60
+:0045BCB8 0F8487000000            je 0045BD45
+:0045BCBE F7C200000008            test edx, 08000000			<- corruption check, now disabled
+:0045BCC4 7500                    jne 0045BCC6
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BCC4(C)
+|
+:0045BCC6 F6C620                  test dh, 20
+:0045BCC9 740C                    je 0045BCD7
+:0045BCCB 8D4700                  lea eax, dword ptr [edi+00]
+:0045BCCE 6A64                    push 00000064
+:0045BCD0 99                      cdq
+:0045BCD1 5B                      pop ebx
+:0045BCD2 F7FB                    idiv ebx
+:0045BCD4 8B5DFC                  mov ebx, dword ptr [ebp-04]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BCC9(C)
+|
+:0045BCD7 F6814155000040          test byte ptr [ecx+00005541], 40
+:0045BCDE 740C                    je 0045BCEC
+:0045BCE0 8D043F                  lea eax, dword ptr [edi+edi]		<- edi+edi now, which IS 2% now!
+:0045BCE3 6A64                    push 00000064
+:0045BCE5 99                      cdq
+:0045BCE6 5B                      pop ebx
+:0045BCE7 F7FB                    idiv ebx
+:0045BCE9 8B5DFC                  mov ebx, dword ptr [ebp-04]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BCDE(C)
+|
+:0045BCEC 0181AC010000            add dword ptr [ecx+000001AC], eax	< add value to curMana
+:0045BCF2 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0045BCF8 8D1431                  lea edx, dword ptr [ecx+esi]
+:0045BCFB 8D8AAC010000            lea ecx, dword ptr [edx+000001AC]	< 
+:0045BD01 8B92B0010000            mov edx, dword ptr [edx+000001B0]	
+:0045BD07 3911                    cmp dword ptr [ecx], edx		cmp curmana to maxcurmana
+:0045BD09 7E02                    jle 0045BD0D
+:0045BD0B 8911                    mov dword ptr [ecx], edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BD09(C)
+|
+:0045BD0D 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0045BD13 018431A4010000          add dword ptr [ecx+esi+000001A4], eax
+:0045BD1A 8D8C31A4010000          lea ecx, dword ptr [ecx+esi+000001A4]
+:0045BD21 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0045BD27 03CE                    add ecx, esi
+:0045BD29 8D91A4010000            lea edx, dword ptr [ecx+000001A4]
+:0045BD2F 8B89A8010000            mov ecx, dword ptr [ecx+000001A8]
+:0045BD35 390A                    cmp dword ptr [edx], ecx
+:0045BD37 7E02                    jle 0045BD3B
+:0045BD39 890A                    mov dword ptr [edx], ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BD37(C)
+|
+:0045BD3B C7050C114D0001000000    mov dword ptr [004D110C], 00000001
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BCB8(C)
+|
+:0045BD45 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0045BD4B 03CE                    add ecx, esi
+:0045BD4D 8B9140550000            mov edx, dword ptr [ecx+00005540]
+:0045BD53 F7C200800100            test edx, 00018000
+:0045BD59 747E                    je 0045BDD9
+:0045BD5B F6C680                  test dh, 80
+:0045BD5E 740C                    je 0045BD6C
+:0045BD60 8D4700                  lea eax, dword ptr [edi+00]
+:0045BD63 6A64                    push 00000064
+:0045BD65 99                      cdq
+:0045BD66 5B                      pop ebx
+:0045BD67 F7FB                    idiv ebx
+:0045BD69 8B5DFC                  mov ebx, dword ptr [ebp-04]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BD5E(C)
+|
+:0045BD6C F6814255000001          test byte ptr [ecx+00005542], 01
+:0045BD73 740C                    je 0045BD81
+:0045BD75 8D043F                  lea eax, dword ptr [edi+edi]			<- edi+edi, 2% works now!
+:0045BD78 6A64                    push 00000064
+:0045BD7A 99                      cdq
+:0045BD7B 5B                      pop ebx
+:0045BD7C F7FB                    idiv ebx
+:0045BD7E 8B5DFC                  mov ebx, dword ptr [ebp-04]

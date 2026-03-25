@@ -1,0 +1,1593 @@
+﻿Fleshdoom quest
+
+
+если квест выбран для данной игры, то в городе появляется Тримэйн, когда герой побывал на уровне 13
+
+толкает речевку I have had a most disturbing experience that I must share with you, my friend. Earlier that day I was called upon to help one of the men that escaped from the labyrinth. He was deranged, violent, and kept lashing out at all of those who tried to calm him. I suspected that he was possessed by some sort of demonic entity and so began to drive the evil from within him. After many hours I was able to exorcise a demon who called himself Fleshdoom, but the hellion fled into the labyrinth. You may think that I am mad, but after speaking with the man and battling with Fleshdoom I believe that the labyrinth has somehow become a gateway to the underworld. As you descend deeper you may find yourself upon the doorstep of Hell itself. Finally, the man who was possessed retained memories of an ancient demonblade named Shadowfang. If you find the demon Fleshdoom, beware this foul sword. While I fear the dangers below grow even greater, you must find Fleshdoom and slay him. Bring the sword to me and I can destroy it, but do not wield it for its power can corrupt absolutely.
+
+и открывает квест...
+
+при повторном клике по нему толкает речь why do you delay? time is of the essence!
+
+на 14м уровне находится необычный дун с проходом на 1ю локу где есть Флэшдум в конце уровня
+убивает герой этого демона, рядом с проходом на 2й уровень этого квеста,
+перед спуском вниз, вероятно, можно пойти в город. подлататься и поговорить с Тримэйном. Он скажет
+
+Fleshdoom's demise is a great good to the world, yet Shadowfang remains! It must be found and destroyed! Do not attempt to use the demonblade, champion. It will corrupt and madden any mortal who wields it. I alone can end its dark evil.
+
+при повторном клике по нему толкает речь all I can do now is pray for us all
+
+герой идет назад через портал в 1ю локу и спускается на 2ю...
+там 2й босс который дропнет меч. герой поднимая меч скажет:
+
+I can see why they fear this weapon.
+
+хироу несет клинок к Тримэйну. тот сгорает и просит уничтожить клинок в кузне. спич:
+
+Light be praised! You found the cursed demonblade! Only its destruction can ensure the safety of us all! Wait, what treachery is this? Ow! It burns! Hellfire...consuming me! You must take this to the Hellforge and cast it in before ... Noooo!
+
+герой поднимает меч и говорит фразу "This blade must be destroyed"
+идет в кузню (3й уровень) и уничтожает там клинок (прикасается к кузне и клинок в инвентаре уничтожается)
+по уничтожении клинка квест заканчивается и герой получает награду: ?
+
+1й уровень квеста: Pit of Flame
+2й City of the Damned
+3й Hellforge
+
+enum QUEST: uchar {
+ #define QUEST_( e )\
+ e( Q_0_THE_MAGIC_ROCK , 0)\
+ e( Q_1_BLACK_MUSHROOM , 1)\
+ e( Q_2_GHARBAD_THE_WEAK , 2)\
+ e( Q_3_ZHAR_THE_MAD , 3)\
+ e( Q_4_LACHDANAN , 4)\
+ e( Q_5_DIABLO , 5)\
+ e( Q_6_THE_BUTCHER , 6)\
+ e( Q_7_OGDENS_SIGN , 7)\
+ e( Q_8_HALLS_OF_THE_BLIND , 8)\
+ e( Q_9_VALOR , 9)\
+ e( Q_10_ANVIL_OF_FURY , 10)\
+ e( Q_11_WARLORD_OF_BLOOD , 11)\
+ e( Q_12_THE_CURSE_OF_KING_LEORIC , 12)\
+ e( Q_13_POISONED_WATER_SUPPLY , 13)\
+ e( Q_14_THE_CHAMBER_OF_BONE , 14)\
+ e( Q_15_ARCHBISHOP_LAZARUS , 15)\
+ e( Q_16_HORAZON_S_DEMONS , 16)\
+ e( Q_17_IZUAL , 17)\
+ e( Q_18_LITTLE_GIRL , 18)\
+ e( Q_19_LOST_TREASURE , 19)\
+ e( Q_20_ISLAND , 20)\
+ e( Q_21_UBER_DIABLO , 21)\
+ e( Q_22_MAIDEN_OF_ANGUISH , 22)\
+ e( Q_23_THE_LAIR , 23)
+ ENUM( QUEST )
+ #undef QUEST_
+};
+
+список квестовых локаций:
+ e( QF_M1 , -1)\
+ e( QF_0 , 0)\
+ e( QF_1_KING_LEORICS_TOMB , 1)\
+ e( QF_2_BONE_CHAMBER , 2)\
+ e( QF_3_THE_INFESTED_CELLAR , 3)\
+ e( QF_4_POISONED_WATER_SUPPLY , 4)\
+ e( QF_5_ARCHBISHOP_LAZARUS_LAIR , 5)\
+ e( QF_6_HALLS_OF_ANGUISH , 6)\
+ e( QF_7_ANDARIELS_THRONE , 7)\
+ e( QF_8_HORAZONS_HAVEN , 8)\
+ e( QF_9_SUMMONING_ROOMS , 9)\
+ e( QF_10_THE_PIT , 10)\
+ e( QF_11_PASSAGE_OF_FIRE , 11)\
+ e( QF_12_VALLEY_OF_DESPAIR , 12)\
+ e( QF_13_DISUSED_RELIQUARY , 13)\
+ e( QF_14_GLACIAL_CAVERNS , 14)\
+ e( QF_15_FROZEN_LOCH , 15)\
+ e( QF_16_ISLAND , 16)\
+ e( QF_17 , 17)\
+ e( QF_18 , 18)\
+ e( QF_19 , 19)\
+ e( QF_20 , 20)\
+ e( QF_21 , 21)\
+ e( QF_22 , 22)\
+ e( QF_23 , 23)\
+ e( QF_24 , 24)\
+ e( QF_25_RAVENHOLM , 25)
+============
+
+1. setup квестовых данных
+
+BaseQuests 004B6908h ( B5308 )
+24 записи по 20 байт
+
+Каждая запись о квесте:
+
+byte  spDungeonLevel   // 0 // На каком dlvl считается активным квест в сп (-1 (FF) = off)
+byte    mpDungeonLevel   // 1 // На каком dlvl считается активным квест в мп (-1 (FF) = off)
+byte   dungeonType    // 2 //  если у квеста есть доп лока, то  какой данжеон тайп
+byte    questNumber    // 3 // указывается какой этот квест по счету.
+byte    align     // 4 // unused
+byte    questFloorNumber  // 5 // номер квестовой локи
+word align2     // 6 // unused
+dword    isQuestBeInMp   // 8 // если квест доступен для mp, то тут 1, если нет то 0
+dword     speechIndex    // 12
+dword  questName    // 16
+
+квест флешдума на месте бывшего Убера: B54AC ( 4B6AAC )
+
+cтарые данные:
+15
+15
+FF
+15
+64
+00
+0000
+01000000
+23010000
+43A14B00
+
+новые:
+0E <-- return to 0Eh to reactivate quest !!!!! . . . . . . . . . . . . . .                
+FF
+04
+15
+64
+00 --> 11h(!!!!!!!)
+0000
+00000000
+85010000
+6095A300
+
+==========================================
+
+2. loading Tremain
+
+.text:00475EB6 ; void LoadGilian()
+.text:00475EB6 LoadGilian      proc near               ; CODE XREF: LoadTowners+3Fp
+.text:00475EB6                 push    esi
+.text:00475EB7                 push    edi
+.text:00475EB8                 push    0Ah             ; always10
+.text:00475EBA                 mov     ecx, TownersCount ; citizenIndex
+
+; это индекс порядка анимации горожанина. Пока неизвестно какой подойдет, ставит -1. Потом можно попробовать другие
+.text:00475EC0                 push    0FFFFFFFFh      ; framesOrderTypeIndex
+
+; координаты установки
+.text:00475EC2                 push    44              ; col
+.text:00475EC4                 push    55              ; row
+
+; берем 10 вместо фермера
+;        TI_0_GRISWOLD =  0,
+;        TI_1_PEPIN =  1,
+;        TI_2_WOUNDED_GUY =  2,
+;        TI_3_OGDEN =  3,
+;        TI_4_CAIN =  4,
+;        TI_5_FARNHAM =  5,
+;        TI_6_ADRIA =  6,
+;        TI_7_GILIAN =  7,
+;        TI_8_WIRT =  8,
+;        TI_9_COWS =  9,
+;        TI_10_LESTER =  10,
+;        TI_11_CELIA =  11,
+;        TI_12_NUT =  12,
+;        TI_13_NONE =  13,
+.text:00475EC6                 push    7               ; citizenNumber
+
+.text:00475EC8                 push    1               ; maybeHasDialog
+.text:00475ECA                 push    60h
+.text:00475ECC                 pop     edx
+.text:00475ECD                 call    InitCitizenStruct
+.text:00475ED2                 mov     ecx, TownersCount ; citizenIndex
+.text:00475ED8                 call    SetCitizenQuestInfo
+.text:00475EDD                 mov     esi, TownersCount
+.text:00475EE3                 xor     edx, edx        ; byteReaded
+
+; очевидно путь до анимации
+.text:00475EE5                 mov     ecx, offset aTownersTownw_0 ; "Towners\\TownWmn1\\WmnN.CEL"
+
+.text:00475EEA                 shl     esi, 8
+.text:00475EED                 call    LoadFile
+.text:00475EF2                 mov     dword_6FF2FC[esi], eax
+.text:00475EF8                 lea     eax, citizenAnimationPtr[esi]
+.text:00475EFE                 push    8
+.text:00475F00                 mov     ecx, eax
+.text:00475F02                 pop     edx
+.text:00475F03
+.text:00475F03 loc_475F03:                             ; CODE XREF: LoadGilian+59j
+.text:00475F03                 mov     edi, dword_6FF2FC[esi]
+.text:00475F09                 mov     [ecx], edi
+.text:00475F0B                 add     ecx, 4
+.text:00475F0E                 dec     edx
+.text:00475F0F                 jnz     short loc_475F03
+
+; важная штука. Количество кадров в анимации
+.text:00475F11                 push    12h
+.text:00475F13                 pop     ecx
+
+.text:00475F14                 push    6               ; delayFrameCount
+.text:00475F16                 mov     dword_6FF2F8[esi], ecx
+.text:00475F1C                 mov     edx, [eax]      ; citizenAnimationPtr
+.text:00475F1E                 push    ecx             ; stayFrameCount
+.text:00475F1F                 mov     ecx, TownersCount ; citizenIndex
+.text:00475F25                 call    InitCitizenAnimation
+.text:00475F2A                 mov     eax, TownersCount
+.text:00475F2F                 shl     eax, 8
+.text:00475F32                 add     eax, offset unk_6FF2B8
+
+; ну кагбе тоже понятно что это
+.text:00475F37                 push    offset aGillianTheStas ; "Gillian the Stasher"
+
+.text:00475F3C                 push    eax             ; Dest
+.text:00475F3D                 call    _strcpy
+.text:00475F42                 inc     TownersCount
+.text:00475F48                 pop     ecx
+.text:00475F49                 pop     ecx
+.text:00475F4A                 pop     edi
+.text:00475F4B                 pop     esi
+.text:00475F4C                 retn
+.text:00475F4C LoadGilian      endp
+
++
+прописывать вызов тут в любом месте
+[23:11:20] Ярик: 004764F7
+[23:11:29] Ярик: Сейчас напрямую без условий
+[23:11:42] Ярик: А потом с условием срабатывания квеста
+
+копия тут: 71E500
+
+координаты Тримейна: 68, 55 . . . . . . . . . . . . . . . . . . . << return to place him back / offset eb10c
+right now 6a02 6a2
+
+
+=========================================================
+
+.text:00476552 EB 08                                   jmp     short loc_47655C
+
+00476554 >>> // done!
+>>>
+cmp     byte ptr[006DDFC8], 1 ; доступен только в сингле
+jnz @notLoadTremain
+
+mov     eax, dword ptr [006EAE14] ; Players
+cmp     [eax+500d+13d], bl ; если игрок побывал на 13м этаже
+jz @notLoadTremain
+
+mov al, byte ptr[6EB5A4h + 2]; fleshdoom.status
+test al, al
+jz @notLoadTremain ; fleshdoomQuestStatus == QS_0_NOT_ACCEPT
+cmp al, 3
+jz @notLoadTremain ; fleshdoomQuestStatus == QS_3_COMPLETE
+
+mov al, byte ptr[6EB5A4h + 20d]; fleshdoom.status2
+cmp al, 7
+jge @notLoadTremain ; treamen is dead
+
+@loadTremain:
+jmp 0047655D
+@notLoadTremain:
+jmp 00476562
+
+=========================================================
+вход в аду. начало
+
+;.text:00416FB1                 cmp     al, Quests.dungeonLevel+134h
+;.text:00416FB7                 jnz     short loc_416FC2 ; next check
+;.text:00416FB9                 cmp     Quests.status+134h, 0
+;.text:00416FC0                 jnz     short loc_416FD3 ; make emply space square with 11 tiles width
+;.text:00416FC2 ; @nextCheck
+;.text:00416FC2 loc_416FC2:                             ; CODE XREF: ConstructHellRooms+13j
+;.text:00416FC2                 cmp     al, Quests.dungeonLevel+1A4h
+
+;006EB358 - Quests
+; 28h - sizeof Quest
+; uchar +0 dungeonLevel
+; uchar status;                // +2
+
+;Q_21_UBER_DIABLO -> Q_21_FLESHDOOM
+
+;Итак, адреса нужные это
+;006EB358 + 28 * 21 + 0   - fleshdoom.dlvl
+;006EB358 + 28 * 21 + 2   - fleshdoom.status
+
+-------------------------------
+
+00416FB1 jmp @newLoc >>> ; затирая что там есть
+>>>
+@newLoc:
+cmp     al, byte ptr [6EB880h];  fleshdoom.dlvl// 006EB5A4
+jnz    @return
+cmp  byte ptr [6EB882h], 00 ;  fleshdoom.status// 006EB5A6
+jz  @makeSquare, @ret
+@makeSquare:
+push    7
+jmp     416FF7h
+@return:
+; восстановили затертое
+3A 05 8C B4 6E 00                       cmp     al, Quests.dungeonLevel+134h
+jmp 00416FB7
+
+ chek:
+ 
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00416FB1(U)
+|
+:0071E9A0 
+---------------------------------------------------
+
+;.text:0041705D E8 31 8A 04 00                          call    IsQuestOnLevel
+;.text:00417062 85 C0                                   test    eax, eax
+
+0041705D  jmp @newLoc >>> ; затирая что там есть
+>>>
+@newLoc:
+call   0045FA93h; IsQuestOnLevel
+test    eax, eax
+jnz     short loc_41708F
+push 21 ;Q_21_FLESHDOOM
+pop ecx
+call   0045FA93h; IsQuestOnLevel
+jmp 00417062
+
+ chek:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0041705D(U)
+|
+:0071EA00 
+-------------------------------------------------------
+
+;.text:00415082 E8 0C AA 04 00                          call    IsQuestOnLevel
+;.text:00415087 85 C0                                   test    eax, eax
+
+00415082  jmp @newLoc >>> ; затирая что там есть
+>>>
+@newLoc:
+call   0045FA93h; IsQuestOnLevel
+test    eax, eax
+jnz     loc_4150A0
+push 21 ;Q_21_FLESHDOOM
+pop ecx
+call   0045FA93h; IsQuestOnLevel
+jmp 00415087
+
+chek:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00415082(U)
+|
+:0071EA20 
+-------------------------------------------------------
+
+;.text:00414C9B 80 3D D8 B1 60 00 0F                    cmp     byte ptr DungeonLevel, 0Fh
+;.text:00414CA2 75 1F                                   jnz     short loc_414CC3
+
+00414C9B  jmp @newLoc >>> ; затирая что там есть
+>>>
+@newLoc:
+
+push 21 ;Q_21_FLESHDOOM
+pop ecx
+call   0045FA93h; IsQuestOnLevel
+test    eax, eax
+jz   @return
+
+xor     edx, edx        ; byteReaded
+mov     ecx, offset "Levels\\L4Data\\FleshdoomEnter.DUN"
+call   0041A02F ; LoadFile
+mov  dword ptr [0061F30Ch], eax ; QuestPatternPtr
+mov  dword ptr[006050B0h], ebx ;LoadedQuestDungeonMap
+
+@return:
+; восстановили затертое
+80 3D D8 B1 60 00 0F                    cmp     byte ptr DungeonLevel, 0Fh
+jmp 00414CA2
+
+chek:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00414C9B(U)
+|
+:0071EA4D 
+==============================================================
+
+.dat2:00A3523C 30 89 A3 00                             dd offset aTheSunlessSeaI ; "the Sunless Sea Island"
+.dat2:00A35240 00 00 00 00                             dd 0 // a39840 // the pit of flame //  // at 401E40
+.dat2:00A35244 00 00 00 00                             dd 0
+
+Задаем указатели на строки которые будут отображаться при наведении на вход со стороны основного подземелья. 
+Надо учитывать, что будет писаться текст вида "to %s"
+Если их не будет, то при наведении на вход в локу мы доблестно упадем
+
+
+==============================================================
+
+.dat2:00A34040 50 89 A3 00                             dd offset aIslandOfTheS_0 ; "Island of the Sunless Sea"
+.dat2:00A34044 00 00 00 00                             dd 0
+.dat2:00A34048 00 00 00 00                             dd 0
+
+Эти строки будут писаться при нахождении в квестовых локах слева сверху.
+Если их не прописать и открыть на этих локах карту, то будет легкий пиздец
+
+====================================================
+
+.dat2:00A36040 0C                                      db 12
+.dat2:00A36041 00                                      db    0 // 16
+.dat2:00A36042 00                                      db    0 // 17
+
+; виртуальный dlvl для новых лок.
+
+====================================================
+
+@SetWarpToFleshdoomQuestFloor:
+imul    ecx, 28
+lea     eax, [edx+edx+16 + ?]; вначале 0, а потом подобрать до совпадения
+mov     dword ptr [6EB35Ch + ecx], eax ; Quests.row[ecx]
+mov     eax, [esp+4]; col
+lea     eax, [eax+eax+16 + ?]; вначале 0, а потом подобрать до совпадения
+mov     dword ptr [6EB360h + ecx], eax ; Quests.col[ecx]
+retn    4
+
+                       chk:
+
+* Referenced by a CALL at Address:
+|:0071EB4A   
+|
+:0071EB00
+====================================================
+
+.mod:00719F81 75 0E                                   jnz     short loc_719F91
+
+00719F81 jnz @newLoc >>>
+>>>
+sub eax, 4
+jnz @return
+
+push    esi             ; col
+mov     edx, edi        ; row
+mov     ecx, ebx        ; questIndex
+call    @SetWarpToFleshdoomQuestFloor
+
+@return:
+jmp     loc_46030E
+
+                   chk:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719F96(U)
+|
+:0071EB40 
+
+=====================================================
+
+0071CEBD ; тут сплошные нопы, просто там же делаем
+dec     eax / e9abd
+jz @fleshdoom1
+dec     eax
+jz @fleshdoom2
+dec     eax
+jz @fleshdoom3
+; продолжаем выполнение дальше
+
+====================================================
+
+;        e( QF_17        ,        17)\ FleshDoom1
+;        e( QF_18        ,        18)\ FleshDoom2
+;        e( QF_19        ,        19)\ FleshDoom3
+
+@addWarpToFleshDoom1: / eb790
+and     dword ptr [70021Ch], 0
+mov     dword ptr [700220h], 2 ; число ворпов
+
+mov   dword ptr [700228h], 30 / done
+mov  dword ptr [70022Ch], 40 ; координаты предстоит подбирать
+mov   dword ptr [700230h], 1028 ; ворп обратно
+
+mov     dword ptr [700238h], 31 / done
+mov   dword ptr [70023Ch], 40 ; координаты предстоит подбирать
+mov     dword ptr [700240h], 405h ; ворп на квестовую локу
+mov     byte ptr [700244h], 18 ; номер локи
+mov     byte ptr [700245h], 4 ; данжеон тайп ад
+ret
+
+  chk:
+:0071EB90 
+====================================
+@addWarpToFleshDoom2: / eb800
+and     dword_70021C, 0
+mov     dword_700220, 2 ; число ворпов
+
+mov     dword_700228, 30 / e8277 / done
+mov     dword_70022C, 40 ; координаты предстоит подбирать
+mov     dword_700230, 405h ; ворп на квестовую локу
+mov     byte ptr dword_700234, 17 ; номер локи
+mov     byte ptr dword_700235, 1 ; данжеон тайп церковь ????
+
+mov     dword_700238, 31 / e8392 / done
+mov     dword_70023C, 40 ; координаты предстоит подбирать
+mov     dword_700240, 405h ; ворп на квестовую локу
+mov     byte ptr dword_700244, 19 ; номер локи
+mov     byte ptr dword_700245, 4 ; данжеон тайп ад
+ret
+
+ chk:
+ :0071EC00
+=======================================
+
+@addWarpToFleshDoom3: / eb880
+and     dword_70021C, 0
+mov     dword_700220, 1 ; число ворпов
+
+mov     dword_700228, 30 / done
+mov     dword_70022C, 40 ; координаты предстоит подбирать
+mov     dword_700230, 405h ; ворп на квестовую локу
+mov     byte ptr dword_700234, 18 ; номер локи
+mov     byte ptr dword_700235, 4 ; данжеон тайп ад
+ret
+
+ chk:
+:0071EC80 
+=====================================================
+
+@fleshdoom1: / eb900
+; если зашли, то квест активирован
+push    edi
+push    21
+pop     edi
+imul    edi, 1Ch
+add     edi, 006EB358h ;offset Quests
+cmp     byte ptr [edi+2], 1
+jnz     @F
+push    2
+pop     eax
+mov     [edi+2], al
+@@:
+pop     edi
+
+;call    @fleshdoom1Randomization ; оставить место под рандомизированную загрузку двух дунов
+;mov     esi, eax
+mov     esi, "levels\\l4data\\fleshdoom1.dun"
+
+mov     ecx, esi
+push    32h; любой мусор
+push    14h; любой мусор
+pop     edx
+call    00715880;LoadQuestDungeonAltMapHell
+
+movzx eax, byte ptr [A352C0h];@PrevQuestLocIndex
+cmp eax, 18
+jz @enterFromFleshdoom2
+@enterFromHellDlvl:
+push    13h
+pop     edx
+push    32h; координаты появления
+jmp @F
+@enterFromFleshdoom2:
+push    13h
+pop     edx
+push    32h; координаты появления
+@@:
+
+mov     ecx, esi
+call    00715940;LoadQuestDungeonMainMapHell
+
+mov     ecx, "levels\\l4data\\fleshdoom1.pal"
+call   0045552B ; LoadPalette
+
+call @addWarpToFleshDoom1
+
+pop     esi
+retn
+
+  chk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071CEBE(C)
+|
+:0071ED00
+======================================================
+
+@fleshdoom2: / 71edd0
+;call    @fleshdoom2Randomization ; оставить место под рандомизированную загрузку двух дунов
+;mov     esi, eax
+mov     esi, "levels\\l4data\\fleshdoom2.dun"
+
+mov     ecx, esi
+push    32h; любой мусор
+push    14h; любой мусор
+pop     edx
+call    00715880;LoadQuestDungeonAltMapHell
+
+movzx eax, byte ptr [A352C0h];@PrevQuestLocIndex
+cmp eax, 17
+jz @enterFromFleshdoom1
+@enterFromFleshdoom3:
+push    13h
+pop     edx
+push    32h; координаты появления
+jmp @F
+@enterFromFleshdoom1:
+push    13h
+pop     edx
+push    32h; координаты появления
+@@:
+
+mov     ecx, esi
+call    00715940;LoadQuestDungeonMainMapHell
+
+mov     ecx, "levels\\l4data\\fleshdoom2.pal"
+call   0045552B ; LoadPalette
+
+call @addWarpToFleshDoom2
+
+pop     esi
+retn
+
+======================================================
+
+@fleshdoom3: / 71ee40
+;call    @fleshdoom2Randomization ; оставить место под рандомизированную загрузку двух дунов
+;mov     esi, eax
+mov     esi, "levels\\l4data\\fleshdoom3.dun"
+
+mov     ecx, esi
+push    32h; любой мусор
+push    14h; любой мусор
+pop     edx
+call    00715880;LoadQuestDungeonAltMapHell
+
+push    13h
+pop     edx
+push    32h; координаты появления
+mov     ecx, esi
+call    00715940;LoadQuestDungeonMainMapHell
+
+mov     ecx, "levels\\l4data\\fleshdoom3.pal"
+call   0045552B ; LoadPalette
+
+call @addWarpToFleshDoom3
+
+pop     esi
+retn
+
+===========================================================
+
+0071D10A >>>
+>>>
+dec eax
+jz @setReturnPointFromFleshdoomQuestLoc:
+retn
+; место под ещё хотя бы один джамп
+@setReturnPointFromFleshdoomQuestLoc:
+push    edi
+push    21
+pop     edi
+imul    edi, 1Ch
+add     edi, offset byte_6EB358
+mov     eax, [edi+4]
+inc     eax
+mov     dword_6EB670, eax
+mov     eax, [edi+8]
+nop
+mov     dword_6EB66C, eax
+movzx   eax, byte ptr [edi]
+mov     dword_6EB67C, eax
+mov     dword_6EB674, 4
+pop     edi
+retn
+
+==============================================================
+
+@ShowDungeonEnteriesDiscriptionsFleshdoom:
+копия 717440
+В копии / 71ee90 ( eba90 )
+.mod:00717491                 mov     eax, 16 ==> 21
+
+====================================
+
+;.mod:0071B948                 jmp     loc_47934F
+
+0071B948 >>> / ebb40
+>>>
+dec eax
+dec eax
+dec eax
+jle @ShowDungeonEnteriesDiscriptionsFleshdoom
+jmp     loc_47934F
+
+call @ShowDungeonEnteriesDiscriptionsFleshdoom
+jmp     loc_47934A
+
+===============================================================
+mnstr:
+rat
+grotesque - 98
+knight
+balrog
+hound
+black horn - 41
+overlord - C3
+gargoyle - #
+
+boss 1:
+Fleshdoom, in Pit of Flame
+lite demon gfx
+
+boss 2:
+Wielder of Shadow, in City of the Damned
+knight gfx
+
+boss 3:
+Hephasto the Armorer, in Hellforge
+byclop gfx
+
+Добавление босса
+
+1. само добавление
+
+;.mod:0071BF47 0F 85 28 07 D2 FF                       jnz     loc_43C675
+.mod:0071BF8C                 jnz     loc_43C675
+
+
+0071BF8C jnz @newLoc
+
+@newLoc: / ebd00
+cmp     byte ptr [61CB00h], 17 ; QuestFloorIndex
+jz @fleshdoom1Boss
+cmp     byte ptr [61CB00h], 18 ; QuestFloorIndex
+jz @fleshdoom2Boss
+cmp     byte ptr [61CB00h], 19 ; QuestFloorIndex
+jnz 43C675
+@fleshdoom3Boss:
+mov     ecx, @bossIndex3 // 249h
+jmp 71779D
+@fleshdoom1Boss:
+mov     ecx, @bossIndex1 // 24A
+jmp 71779D
+@fleshdoom2Boss:
+mov     ecx, @bossIndex2 // 24B
+jmp 71779D
+
+2. установка координат
+
+.mod:0071A976                 jnz     loc_71BF60
+
+меняем на @newLoc
+
+@newLoc: // ebe00
+cmp     edx, @bossIndex1
+jz @setBoss1Coords
+cmp     edx, @bossIndex2
+jz @setBoss2Coords
+cmp     edx, @bossIndex3
+jnz 71BF60
+
+@setBoss3Coords:
+push    50 ; координаты. Надо подбирать
+pop     edi
+push    50
+pop     ebx
+jmp     loc_43BC1B
+
+@setBoss1Coords:
+push    50 ; координаты. Надо подбирать
+pop     edi
+push    50
+pop     ebx
+jmp     loc_43BC1B
+
+@setBoss2Coords:
+push    50 ; координаты. Надо подбирать
+pop     edi
+push    50
+pop     ebx
+jmp     loc_43BC1B
+
+===========================================
+
+Лоадскрины / done
+
+;.mod:0071C0ED 0F 85 DC 22 D0 FF                       jnz     loc_41E3CF
+
+0071C0ED >>>
+>>> 71F070
+cmp     al, 17
+jz @hellLoadscreen
+cmp     al, 18
+jz @hellLoadscreen
+cmp     al, 19
+jnz 41E3CF
+
+@HellforgeCheck:
+cmp byte ptr [00A34170h], 19 ; 00A34170
+jnz @hellLoadscreen
+
+@HellforgeCut:
+xor     edx, edx
+mov     ecx, "Gendata\\HellforgeCut.cel"
+call    sub_41A02F
+mov     ecx, "Gendata\\HellforgeCut.pal"
+mov     dword ptr [6854F8h], eax
+call    sub_45552B
+mov     dword ptr [685500h], 1
+jmp     loc_41E554
+
+@hellLoadscreen:
+jmp 41E468
+
+==========================================================
+Добавление в квест группу
+Создать новый массив индексов квестов
+@QuestGroup2: dd 6 // offset 406d60 (A3A160)
+dd 7
+dd 2
+dd 21
+; тут еще место под пару индексов на случай расширения
+
+.dat2:00A350A8                 dd offset dword_4B6B10 <== @QuestGroup2
+.dat2:00A350AC                 db    3 <== 4
+.dat2:00A350AD                 db    2
+.dat2:00A350AE                 db    0
+.dat2:00A350AF                 db    0
+
+==========================================================
+
+ 
+ 
+ Отключение:
+ 476554 jmp 00476562
+ ========
+ 
+ Вместо 
+476554 jmp >>
+>>>
+A1 14 AE 6E 00                          mov     eax, Players
+cmp byte ptr [eax+201h], bl
+jz   @F
+; был игрок на 13м этаже
+mov eax, 21
+imul eax, 28; QuestSize
+add eax, 006EB358h
+cmp byte ptr [eax+2h], bl
+jz @F
+; квест есть в принципе
+cmp byte ptr [eax+20], 10; 10 - это индекс шага сценария, пока от балды
+jge @F
+; по сценария тримен ещё не помер
+call 71E500
+@@:
+jmp 476562
+
+ chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00476554(U)
+|
+:0071F270 
+
+=======================================
+
+План действий дальше:
+составить..
+1. первый диалог с тримейном (выдача квеста)
+2. полная логика диалога с трименом
+3. добавить госсибы тримену и остальным
+4. сделать логику инквизиции
+5. по смерти боссов сделать переход на следующий шаг квеста, бросание предмета и может какие то речи
+6. при финальном действии на кузнице, закрытие квеста и скидывание награды
+7. логика "вечных огней" сейчас уже забыл какая
+8. логика засад (опционально)
+9. 
+
+
+
+Тэкс.
+1. Квест еще не начался. Первая речь
+2. При повторном клике говорит про задержку
+3. Убийство флэшдума
+4. тримен толкает вторую речь
+5. при повторе говорит про то что будет молиться
+6. убийство босса, точнее поднятие клинка
+7. сгорание тримена
+8. уничтожение клинка
+
+Из речей
+На 0м шаге речь
+На 1м шаге короткая речь
+На 4м шаге речь
+На 5м короткая речь
+На 7м сгорание тримена
+
+=========================================================
+Присвоение Тримену не TI_3_OGDEN, а нового айдишника неиспользуемого
+
+.mod:0071E55E                 push    3 13; TI_13_TREMAIN
+
+=========================================================
+
+Функция поведения Тримена / EC000h ( 71F400h )
+
+@TremainGreeting (int playerIndex, int townerIndex)
+push ebp
+mov ebp, esp
+sub esp, 4
+; dword ptr [ebp - 4] - questItemInventoryIndex
+push edi; Player& player
+push esi; Towner& towner
+push ebx; Quest& fleshdoomQuest
+
+cmp byte ptr [00697654h], 00 ; Speech_IsPanelVisible
+jnz @return /
+
+mov edi, edx
+
+mov esi, ecx; playerIndex
+
+mov ebx, 21; Q_21_FLESHDOOM
+imul ebx, 28d; sizeof Quest
+add ebx,006EB358h; Quests
+
+lea eax, [ebp - 4]; questItemInventoryIndex
+push eax
+mov edx, @ShadowfangBaseItemIndex / ec057 /  ; 399 
+call 0047685D; FindItemInInventory
+test eax, eax
+jnz @treamenDeathActions /
+movzx al, byte ptr[ebx + 20d]
+test eax, eax
+jz @firstSpeech /
+dec eax
+jz @afterFirstSpeech /
+dec eax
+jz @secondSpeech /
+dec eax
+jz @afterSecondSpeech /
+jmp @return /
+
+
+@treamenDeathActions:
+
+cmp byte ptr[ebx + 20d], 07  
+jge @return ; after kill
+
+mov ecx, esi
+mov edx, dword ptr[ebp - 4]
+call 00420E7F; ClearInventorySlot
+
+mov ecx, @ShadowfangQuestItemIndex / ec0c0
+
+mov eax, edi
+imul eax, 256d; sizeof Towner
+add eax,006FF200; Towners
+
+push dword ptr[eax + 12d]
+mov edx, dword ptr [eax + 8]
+inc edx
+
+call 00427DC6 ; PutQuestItemOnMap
+
+mov byte ptr[ebx + 20d], 07; Tremain dead status
+mov byte ptr[ebx + 21d], 01; Tremain dead script just started
+mov dword ptr[00A35F58h], 10d ; HorazonGrimspikeDelay задержка перед первым шаго скрипта - бросанием меча и зажиганием. Подобрать. Измеряется в кадрах
+
+mov ecx, edi
+call @doTremainDeadEffect / ec0f0
+
+mov ecx, @TremainBeforeDeadSpeechIndex / ec100
+mov dword ptr [ebx + 16d], ecx
+jmp @doSpeech /
+
+@firstSpeech:
+mov byte ptr[ebx + 2], 2
+mov byte ptr[ebx + 20d], 1 ; after first speech
+mov dword ptr[ebx + 24d], 1
+mov ecx, @TremainFirstSpeechIndex / ec120
+mov dword ptr [ebx + 16d], ecx
+jmp @doSpeech /
+
+@afterFirstSpeech:
+mov ecx, @TremainAfterFirstSpeechIndex / ec132
+jmp @doSpeech
+
+@secondSpeech:
+mov byte ptr[ebx + 20d], 3 ; after second speech
+mov dword ptr[ebx + 24d], 1
+mov ecx, @TremainSecondSpeechIndex / ec14b
+mov dword ptr [ebx + 16d], ecx
+jmp @doSpeech
+
+@afterSecondSpeech:
+mov ecx, @TremainAfterSecondSpeechIndex / ec160
+
+@doSpeech:
+; ecx - speechIndex
+cmp ecx, ff ff ff ff
+jz @F
+call 0042E543;StartSpeech
+@@:
+cmp byte ptr [006DDFC8h], 01
+jz @return
+mov ecx. 1
+mov edx, 21d
+call 00446F48  ; SendCmdUpdateQuestStatus
+
+@return:
+pop ebx
+pop esi
+pop edi
+mov esp, ebp
+pop ebp
+return
+
+====================================================
+; вызов
+
+.text:00476986 6A 03                                   push    3
+.text:00476988 59                                      pop     ecx
+.text:00476989 E8 52 F1 FF FF                          call    SearchTownerWithIdentificator
+.text:0047698E 3B D8                                   cmp     ebx, eax
+
+00476986 jmp @newLoc >>> / written, checked!
+>>>
+@newLoc: / ec1b0
+mov ecx, ebx
+imul ecx, 256d; sizeof Towner
+add ecx,006FF200; Towners
+cmp dword ptr [ecx + 4], 13d ; TI_13_TREMAIN
+jnz @return
+mov ecx, edi
+mov edx, ebx
+call @TremainGreeting
+jmp 004779C8
+
+@return:
+push    3
+pop     ecx
+call  00475AE0 ; SearchTownerWithIdentificator
+jmp 0047698E
+
+========================================================
+
+Действие при убийстве первого босса:
+
+;.mod:0071C006 0F 85 B2 C1 FF FF                       jnz     loc_7181BE
+
+0071C006 jnz @newLoc
+>>>
+@newLoc:
+cmp edi, @bossIndex1
+jnz     loc_7181BE
+
+mov eax, 21d; Q_21_FLESHDOOM
+imul eax, 28d; sizeof Quest
+add eax,006EB358h; Quests
+cmp byte ptr [eax + 20d], 2
+jge @F
+mov byte ptr [eax + 20d], 2 ; after first boss kill
+@@:
+jmp     loc_45FF54
+
+асм
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071C006(C)
+|
+:00721D07 
+
+==========================================================
+
+Падение клинка из второго босса
+
+;.mod:0070E043                 jmp     short loc_70E07B
+
+0070E043 jmp @newLoc
+>>>
+@newLoc:
+cmp     eax, A17D44h
+jnz @return
+
+push dword ptr[esi + 20h] ; row
+mov edx, dword ptr[esi + 24h] ; col
+mov ecx, @swordIndex ; 399 ?
+call 00427DC6 ; PutQuestItemOnMap
+
+@return:
+jmp 70E07B
+
+=========================================================
+
+Действие при первом поднятии меча шадоуфанга
+
+;.text:0042141D                 jmp     loc_71E400
+
+0042141D jmp @newLoc
+>>> 
+@newLoc:
+
+cmp     dword ptr [esi+550Ch], @swordIndex ; 399 
+jnz 71E400h
+
+mov edx, 21d; Q_21_FLESHDOOM
+imul edx, 28d; sizeof Quest
+add edx,006EB358h; Quests
+cmp byte ptr [edx + 20d], 4
+jge @return
+mov byte ptr [edx+ 20d], 4 ; after shadowfang getup
+
+mov     edx, eax
+imul    edx, 55C8h
+mov     dl, [edx+ecx+160h]
+test    dl, dl
+jz @palGlad
+cmp dl, 1
+jz @scoutAssa
+cmp dl, 2
+jz @mag
+cmp dl, 3
+jz @monk; or @return
+cmp dl, 4
+jz @scoutAssa
+cmp dl, 5
+jz @palGlad
+@noSound:
+jmp @return
+@palGlad:
+mov  dword ptr[0057A214h], edi ; PlayerSoundMessageDelay
+mov dword ptr [0057A218h], @palGladSound ; PlayerSoundMessage
+jmp @return
+@scoutAssa:
+mov  dword ptr[0057A214h], edi ; PlayerSoundMessageDelay
+mov dword ptr [0057A218h], @scoutAssaSound ; PlayerSoundMessage
+jmp @return
+@mag:
+mov  dword ptr[0057A214h], edi ; PlayerSoundMessageDelay
+mov dword ptr [0057A218h], @magSound ; PlayerSoundMessage
+jmp @return
+@monk:
+mov  dword ptr[0057A214h], edi ; PlayerSoundMessageDelay
+mov dword ptr [0057A218h], @monkSound ; PlayerSoundMessage
+
+@return: 
+jmp 4217D0
+
+===========================================================
+
+Смотри скрипт тримена 1076
+
+==========================================================
+
+@doTremainDeadEffect: / done, needs polishing
+; ecx - towner index
+push esi
+push ebx
+push edi
+
+mov esi, ecx
+mov edi, edx
+
+xor ebx, ebx
+
+mov eax, esi
+imul eax, 256d; sizeof Towner
+add eax,006FF200; Towners
+
+push ebx ; slvl = 0
+push ebx ; damage = 0
+push ebx ; CasterIndex = 0
+push ebx ; caster type = 0(player)
+push edi
+push ebx ; orientation = 0
+
+mov ecx, dword ptr [eax + 8]; row
+mov edx, dword ptr[eax + 12d] ; col
+
+push edx
+push ecx
+
+call 0043572F   ; CastMissile
+
+; ещё место на переделки и добавления
+
+pop edi
+pop ebx
+pop esi
+retn
+
+  asm >>>>>>>>>
+
+* Referenced by a CALL at Address:
+|:0071F4F0   
+|
+:00721E00
+
+
+======================================================
+
+@InquisitionScript: // 724444  ( F1044 )
+cmp     dword ptr[00A35F58h], 0
+jle @checkStep
+dec  dword ptr[00A35F58h]
+retn
+@checkStep:
+push edi
+push esi
+push ebx
+
+mov edi, 21d; Q_21_FLESHDOOM
+imul edi, 28d; sizeof Quest
+add edi,006EB358h; Quests
+movzx eax, byte ptr [edi + 21d] / fixt
+cmp eax, 1
+jz @burn
+cmp eax, 2
+jz @dropSword
+cmp eax, 3
+jz @inferno
+cmp eax, 4
+jz @extinguishFireAndMakeCorpse        /
+jmp @return ; может ещё шаги добавятся, оставить место / F108A
+
+@burn: / F1111
+
+mov byte ptr [edi + 21d], 02
+mov dword ptr[00A35F58h], 66d ; время перед броском меча 316-250
+
+mov ecx, 13d; TI_13_TREMAIN
+call 00475AE0; SearchTownerWithIdentificator
+
+mov esi, eax
+
+imul eax, 256d; sizeof Towner
+add eax,006FF200; Towners
+
+mov dword ptr[eax + 40d], 0 ; нулевая задержка анимации. Должен корчиться в огне
+
+push dword ptr[eax + 12d]
+mov edx, dword ptr [eax + 8]
+inc edx
+mov ecx, @ShadowfangQuestItemIndex / F1160
+call 00427DC6 ; PutQuestItemOnMap
+
+mov edx, 5 ; MI_5_FIRE_WALL_SEGMENT
+mov ecx, esi
+call @doTremainDeadEffect
+
+jmp @return / F11A0
+
+@dropSword:
+
+mov byte ptr [edi + 21d], 03
+mov dword ptr[00A35F58h], 81d ; время перед инферно 397-316
+
+mov ecx, 13d; TI_13_TREMAIN
+call 00475AE0; SearchTownerWithIdentificator
+
+mov esi, eax
+
+imul eax, 256d; sizeof Towner
+add eax,006FF200; Towners
+
+push dword ptr[eax + 12d]
+mov edx, dword ptr [eax + 8]
+inc edx
+mov ecx, @ShadowfangQuestItemIndex / F1160
+call 00427DC6 ; PutQuestItemOnMap
+
+jmp @return
+
+@inferno:
+
+mov byte ptr [edi + 21d], 04
+mov dword ptr[00A35F58h], 3d ; время перед исчезновением и потуханием 400-397
+
+mov ecx, 13d; TI_13_TREMAIN
+call 00475AE0; SearchTownerWithIdentificator
+
+mov esi, eax
+
+mov edx, 48d ; MI_48_INFERNO_SEGMENT
+mov ecx, esi
+call @doTremainDeadEffect
+
+jmp @return
+
+@extinguishFireAndMakeCorpse: / 
+
+mov byte ptr [edi + 20d], 08
+
+mov ecx, 13d; TI_13_TREMAIN
+call 00475AE0; SearchTownerWithIdentificator
+
+mov esi, eax
+
+imul eax, 256d; sizeof Towner
+add eax,006FF200; Towners
+
+mov ecx, dword ptr [eax + 12d] ; col
+mov eax, dword ptr [eax + 8]; row
+imul eax, 112d
+add eax, ecx
+mov dword ptr[0057D1E0h + eax*4], 0
+
+mov ecx, 0
+call    713E20h ; clearPlayerSpells
+
+@return: / F11B0
+pop ebx
+pop esi
+pop edi
+retn
+
+===========================================================
+
+
+;.mod:0071CE2C loc_71CE2C:                             ; CODE XREF: QuestsActions:loc_71CD7Bj
+;.mod:0071CE2C                 mov     al, byte ptr DungeonLevel
+;.mod:0071CE31                 jmp     loc_45F81B
+
+
+0071CE2C jmp @newLoc
+>>>
+@newLoc: / F1200  - 724600
+
+mov     al, byte ptr [60b1d8h]
+jnz @return ; мы в городе / F1205
+mov eax, 21d; Q_21_FLESHDOOM
+imul eax, 28d; QuestSize
+add eax, 006EB358h
+cmp byte ptr [eax+2h], 00
+jz @return / F1220
+; квест есть в принципе
+cmp byte ptr [eax+20], 7
+jg @return
+; по сценарию тримен ещё не помер
+
+call @InquisitionScript
+
+@return:
+mov     al, byte ptr DungeonLevel
+jmp     loc_45F81B
+
+ asm:
+:00724600 
+
+
+
+Надо перенести и расширить 4 структурки
+[1:29:22] Ярик: 004B3F88 BaseObjects /                     done
+[1:30:02] Ярик: 99 строк по 44 байта
+[1:31:10] Ярик: 004B5090 FloorObjectsNamesOriginal /  done
+004B5170 FloorObjectsNamesCrypt
+004B5250 FloorObjectsNamesAbyss
+[1:31:31] Ярик: каждая содержит по 56 указателей на строки
+[1:32:22] Ярик: Эти 3 таблички переносить легко. Все 3 из одного места используются ровно одын раз
+[1:33:46] Ярик: А вот BaseObjects используется в 5ти функциях и по разным адресам, не только по начальному
+
+
+
+BaseObjects new:
+begin at: A3A988
+end at:    A3BA8C
+
+.text:0044D5A1                 mov     al, BaseObjects.RegularObject
+.text:0044D5AA                 mov     ecx, offset BaseObjects.SpriteIndex
+.text:0044D617                 movsx   ecx, BaseObjects.SpriteIndex[ecx]
+
+.text:0044D95F                 movsx   ecx, BaseObjects.SpriteIndex[edi]
+.text:0044D998                 mov     eax, BaseObjects.hasAnimation[edi]
+.text:0044D9A8                 mov     edx, BaseObjects.AnimationDelayFrameCount[edi] ; range
+.text:0044D9C1                 mov     eax, BaseObjects.FramesCount[edi]
+.text:0044D9DA                 mov     eax, BaseObjects.FramesCount[edi]
+.text:0044D9F6                 mov     eax, BaseObjects.AnimationDelayFrameCount[edi]
+.text:0044DA02                 mov     eax, BaseObjects.Width[edi]
+.text:0044DA0E                 mov     eax, BaseObjects.isBlockWalking[edi]
+.text:0044DA1A                 mov     eax, BaseObjects.objectAllowWalking[edi]
+.text:0044DA26                 mov     eax, BaseObjects.field_20[edi]
+.text:0044DA32                 mov     al, BaseObjects.destructable[edi]
+.text:0044DA44                 mov     al, BaseObjects.selectable[edi]
+
+.text:0044BD70                 cmp     BaseObjects.RegularObject, 0FFh
+.text:0044BD7D                 mov     eax, offset BaseObjects
+.text:0044BD89                 movsx   edx, BaseObjects.minDungeonLevel[esi]
+.text:0044BD93                 lea     eax, BaseObjects.maxDungeonLevel[esi]
+.text:0044BDA5                 movsx   eax, BaseObjects.SpriteIndex[esi]
+.text:0044BDB1                 mov     dl, BaseObjects.aloneRoomIndex[esi]
+.text:0044BDD1                 movsx   ebx, BaseObjects.SpriteIndex[esi]
+.text:0044BDE5                 cmp     BaseObjects.QuestIndex[ecx], 0FFh
+.text:0044BDEE                 movsx   ecx, BaseObjects.QuestIndex[esi] ; questIndex
+.text:0044BDFE                 movsx   eax, BaseObjects.SpriteIndex[esi]
+.text:0044BE0D                 cmp     byte ptr BaseObjects.RegularObject[esi], 0FFh
+.text:0044BE16                 lea     eax, BaseObjects.RegularObject[esi]
+
+.text:00454150                 movsx   esi, BaseObjects.SpriteIndex[edx]
+
+.text:0044CD85                 cmp     BaseObjects.CanBeTrappedWithWallTrap[eax], 0
+
+==========================================================
+
+Временное отключение квеста
+
+заводим новый массив двордов. Пока размером 1
+@QuestGroup6: 21d
+
+метку конца
+.dat2:00A350C8                 dd 0
+.dat2:00A350CC                 db 0FFh
+.dat2:00A350CD                 db 0FFh
+.dat2:00A350CE                 dw 0FFFFh
+переместить ниже. На адрес 00A350D0
+
+а по адресу 00A350C8h указать
+.dat2:00A350C8                 dd @QuestGroup6
+.dat2:00A350CC                 db 1 ; сколько квестов в группе
+.dat2:00A350CD                 db 0 ; сколько включено
+.dat2:00A350CE                 dw 0 ; не используется
+
+==========================================================
+
+Добавить картинку в 3 списка картинок для объектов / done
+
+
+.text:0044BE9E                 cmp     edi, offset off_A3FF50 0A3FF54
+
+.text:0044BD34 83 EC 5C                                sub     esp, 5Ch 5Dh
+
+.text:0044BD3C 6A 38                                   push    38h 39h
+
+В перечисленных местах вместо 5Ch - 5Dh
+
+.text:0044BD3E 8D 45 A4                                lea     eax, [ebp-5Ch]
+
+.text:0044BDAC C6 44 05 A4 01                          mov     byte ptr [ebp+eax-5Ch], 1
+
+.text:0044BDDA C6 44 1D A4 01                          mov     byte ptr [ebp+ebx-5Ch], 1
+
+.text:0044BE05 C6 44 05 A4 01                          mov     byte ptr [ebp+eax-5Ch], 1
+
+.text:0044BE2E 80 7C 1D A4 00                          cmp     byte ptr [ebp+ebx-5Ch], 0
+
+
+Новое:
+.text:0044D57D                 sub     esp, 64h 65h
+
+.text:0044D682                 cmp     [ebp+var_4], 38h 39h
+
+В перечисленных местах вместо 64h - 65h
+
+.text:0044D58F                 lea     edi, [ebp-64h]
+
+.text:0044D5C5                 mov     [ebp+eax-64h], 1
+
+.text:0044D61E                 mov     [ebp+ecx-64h], 1
+
+.text:0044D637                 cmp     [ebp+eax-64h], 0
+
+=========================================================
+
+/*struct BaseObject
+{
+        char RegularObject; 2
+        char SpriteIndex;56d
+        char minDungeonLevel;0
+        char maxDungeonLevel;0
+        uchar DungeonType;0
+        uchar aloneRoomIndex;-1
+        char QuestIndex;21d
+        uchar field_4_4;0
+        int  hasAnimation;0
+        int  AnimationDelayFrameCount;1
+        int  FramesCount;0
+        int  Width;64d
+        int  isBlockWalking;1
+        int  notBlockMissile;1
+        int  field_20;1
+        uchar destructable;0
+        uchar selectable;3
+        uchar field_24_3;0
+        uchar field_24_4;0
+        int  CanBeTrappedWithWallTrap;0
+};*/
+
+В конец 00A3A988 добавить строку. Нулевую строку скопировать ниже
+
+
+02 38 00 00 00 ff 15 00 
+00000000 00000001 // maybe inv bytes order
+00000000 00000040 
+00000001 00000001
+00000001 00 03 00 00
+00000000
+
+=======================================
+
+; Надпись на наковальне
+
+;.text:004546C6 0F 87 8B 01 00 00                       ja      loc_454857      ; jumptable 004546D3 default case
+
+004546C6 jmp @newLoc
+>>>
+@newLoc: eeac0
+add eax, 0FFFFFFC8h 
+jz @anvil
+jmp 454857; оставить тут чуть-чуть места. Вдруг не забросим и ещё объектов наделаем
+
+@anvil:
+push    offset "Anvil Name"
+jmp     45484F
+
+=====================================
+
+; Код активации наковальни
+@AnvilAction:
+; ecx - playerIndex
+; edx - objectIndex
+push ebp
+mov ebp, esp
+sub esp, 4
+; dword ptr [ebp - 4] - questItemInventoryIndex
+push edi; playerIndex
+push esi; objectIndex
+push ebx; Quest& fleshdoomQuest
+
+mov edi, ecx; playerIndex
+mov esi, edx; objectIndex
+
+lea eax, [ebp - 4]; questItemInventoryIndex
+push eax
+mov edx, @ShadowfangBaseItemIndex / ec057 /  ; 399 
+call 0047685D; FindItemInInventory
+test eax, eax
+jz @return
+
+; меч найден, уничтожаем его, играем звук, кидаем вещи и т.п.
+
+mov ecx, edi
+mov edx, dword ptr[ebp - 4]
+call 00420E7F; ClearInventorySlot
+
+;mov ebx, 21; Q_21_FLESHDOOM
+;imul ebx, 28d; sizeof Quest
+;add ebx,006EB358h; Questsmov ebx, 21; Q_21_FLESHDOOM
+;imul ebx, 28d; sizeof Quest
+;add ebx,006EB358h; Quests
+
+; тут место под выдачу награды, звуки и т.п.
+
+mov eax, esi
+imul eax, 78h
+mov    byte ptr [eax+6DE600h], 00 ; selectable = 0
+
+@return:
+pop ebx
+pop esi
+pop edi
+mov esp, ebp
+pop ebp
+retn
+
+=====================================
+
+; Вызов кода активации наковальни
+
+;.text:0045063A 0F 87 2B 01 00 00                       ja      loc_45076B
+
+0045063A jmp @newLoc
+>>>
+@newLoc:
+add eax, 0FFFFFFDCh ; -36
+jz @anvil
+jmp  45076B; оставить тут чуть-чуть места. Вдруг не забросим и ещё объектов наделаем
+
+@anvil:
+mov     edx, edi
+mov     ecx, esi
+call  @AnvilAction
+jmp     45076Bh
+
+====================================
+план доделки квеста.... 
+1. сделать надпись наковальне. 
+2. сделать так чтобы прикосновение к наковальне уничтожило лежащий в инвентаре клинок квестовый.
+3. сделать так, чтобы нельзя было спустить на следующий уровень квестовой локации пока не состоялся разговор с тримейном и, соответственно, апдейт сценария. т.е. после зачистки уровня локи №1, нельзя спуститься на уровень 2 пока не вернешься в город и не поговоришь с тримейном (с надписью NOT BEFORE YOU TALK TO TREMAIN).. после убийства всех на уровне №2, нельзя спуститься на уровень №3, пока опять не поговоришь с Тримейном (тут будет его инквизиция), после этой инквизиции, ходить можно свободно.
+4. сделать Гефасто дополнительно дроп масел:
+ хоррор : 4 банки 3 уровня и 2 банки увеличения прочности-1
+ пурга: 4 банки 5 уровня и 3 банки увеличения прочности-2
+ дум: 4 банки 7 уровня и 4 банки увеличения прочности-3
+5. (позже) спец. свойства гефасто и спец.свойства носителю клинка.
+6. 

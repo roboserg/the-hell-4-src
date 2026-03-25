@@ -1,0 +1,868 @@
+Бонусы сетам
+
+Тут полностью план. Какие примерно бонусы, как отображать, какими цветами и т.п.
+
+Итого 3 строки
+
+1. complete set bonus:
+2. + 100 AC
+3. 6 items of 7 equipped
+
+
+
+
+
+
+
+
+
+
+1. [19:10:46] Mordor: - synergy bonus needed for wearing full sets
+ at E5120
+;bool IsItemFromSet (Item& item, int setId)
+@IsItemFromSet:
+; ecx - указатель на шмотку
+; edx - дворд начала имени
+xor eax, eax
+
+cmp dword ptr [ecx + 8], 0ff ff ff ffh ; -1 обозначение отсутствия вещи
+jz @returnFalse
+
+cmp byte ptr [ecx + 60d], 3 ; сетовая шмотка
+jnz @returnFalse
+
+cmp dword ptr [ecx + 308d], eax ; item.UniqueItemIndex 
+jz @returnFalse ; если это не уник
+
+cmp dword ptr [ecx + 356d], eax ; item.IsReqMet 
+jz @returnFalse ; если это уник не подходящий по статам
+
+mov eax, dword ptr [ecx + 308d]; item.UniqueItemIndex 
+imul eax, 84d ; размер записи одного уника
+add eax, 00805000h ; начало таблицы уников
+mov eax, dword ptr [eax]
+cmp edx, dword ptr [eax] ; uniqName
+jnz @returnFalse; если имя уника начинается на другое
+
+@returnTrue:
+mov eax, 1
+jmp @return
+
+@returnFalse:
+xor eax, eax
+@return:
+
+retn
+
+          chekk:
+* Referenced by a CALL at Address:
+|:00718573   
+|
+:007186A0 31C0                    xor eax, eax
+:007186A2 837908FF                cmp dword ptr [ecx+08], FFFFFFFF
+:007186A6 742E                    je 007186D6
+:007186A8 80793C03                cmp byte ptr [ecx+3C], 03
+:007186AC 7528                    jne 007186D6
+:007186AE 398134010000            cmp dword ptr [ecx+00000134], eax
+:007186B4 7420                    je 007186D6
+:007186B6 398164010000            cmp dword ptr [ecx+00000164], eax
+:007186BC 7418                    je 007186D6
+:007186BE 8B8134010000            mov eax, dword ptr [ecx+00000134]
+:007186C4 6BC054                  imul eax, 00000054
+:007186C7 0500508000              add eax, 00805000
+:007186CC 8B00                    mov eax, dword ptr [eax]
+:007186CE 3B10                    cmp edx, dword ptr [eax]
+:007186D0 7504                    jne 007186D6
+:007186D2 6A01                    push 00000001
+:007186D4 58                      pop eax
+:007186D5 C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007186A6(C), :007186AC(C), :007186B4(C), :007186BC(C), :007186D0(C)
+|
+:007186D6 31C0                    xor eax, eax
+:007186D8 C3                      ret
+=====================================================
+
+int CountItemFromSet (int playerIndex, int setId) // at E5150
+@CountItemFromSet:
+; ecx - индекс игрока
+; edx - дворд начала имени
+
+push edi
+push esi
+push ebx
+push ebp
+
+xor ebp, ebp ; countOfItemsFromSet
+
+mov esi, ecx
+imul esi, 21960d
+add esi, dword ptr [006EAE14h] ; оффсет игрока
+
+mov edi, esi
+add edi, 908d ; оффсет первой вещи
+
+xor ebx, ebx ;currentOnBodyItemIndex
+
+@loop: e5170
+                              
+mov ecx, edi
+push edx
+call @IsItemFromSet
+pop edx
+test eax, eax
+jz @continue
+
+cmp ebx, 4 ; currentOnBodyItemIndex == OBS_4_LEFT_HAND
+jnz @NoTwoHandedWeapon
+
+cmp byte ptr [edi + 189d], 2 ; onBodySlot.EquippedLocation == EL_2_TWO_HANDED_WEAPON
+jnz @NoTwoHandedWeapon
+
+cmp byte ptr [esi + 352d], 5 ; player.ClassID != PC_5_GLADIATOR
+jnz @TwoHandedWeapon
+
+mov eax, dword ptr [edi + 8]; itemCode
+cmp eax, 1 ; onBodySlot.ItemCode != IC_1_SWORD
+jz @NoTwoHandedWeapon ; двуручные мечи у глада = одноручные
+
+mov eax, dword ptr [edi + 8]; itemCode
+cmp eax, 4 ; onBodySlot.ItemCode != IC_4_MACE
+jz @NoTwoHandedWeapon ; двуручные дубинки у глада = одноручные
+
+@TwoHandedWeapon:
+inc ebp
+@NoTwoHandedWeapon:
+inc ebp
+
+@continue:
+inc ebx
+add edi, 372d ; размер одной шмотки
+cmp ebx, 7
+jl @loop
+
+
+@return:
+
+mov eax, ebp
+pop ebp
+pop ebx
+pop esi
+pop edi
+retn
+
+               chekk:
+* Referenced by a CALL at Address:
+|:0071862E   
+|
+:00718550 57                      push edi
+:00718551 56                      push esi
+:00718552 53                      push ebx
+:00718553 55                      push ebp
+:00718554 31ED                    xor ebp, ebp
+:00718556 89CE                    mov esi, ecx
+:00718558 69F6C8550000            imul esi, 000055C8
+:0071855E 033514AE6E00            add esi, dword ptr [006EAE14]
+:00718564 89F7                    mov edi, esi
+:00718566 81C78C030000            add edi, 0000038C
+:0071856C 31DB                    xor ebx, ebx
+:0071856E 90                      nop
+:0071856F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071859C(C)
+|
+:00718570 89F9                    mov ecx, edi
+:00718572 52                      push edx
+:00718573 E8A6FFFFFF              call 0071851E
+:00718578 5A                      pop edx
+:00718579 85C0                    test eax, eax
+:0071857B 7415                    je 00718592
+:0071857D 83FB04                  cmp ebx, 00000004
+:00718580 750F                    jne 00718591
+:00718582 80BFBD00000002          cmp byte ptr [edi+000000BD], 02
+:00718589 7506                    jne 00718591
+:0071858B 90                      nop
+:0071858C 90                      nop
+:0071858D 90                      nop
+:0071858E 90                      nop
+:0071858F 90                      nop
+:00718590 45                      inc ebp
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00718580(C), :00718589(C)
+|
+:00718591 45                      inc ebp
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071857B(C)
+|
+:00718592 43                      inc ebx
+:00718593 81C774010000            add edi, 00000174
+:00718599 83FB07                  cmp ebx, 00000007
+:0071859C 7CD2                    jl 00718570
+:0071859E 90                      nop
+:0071859F 90                      nop
+:007185A0 89E8                    mov eax, ebp
+:007185A2 5D                      pop ebp
+:007185A3 5B                      pop ebx
+:007185A4 5E                      pop esi
+:007185A5 5F                      pop edi
+:007185A6 C3                      ret
+
+========================================================
+Добавляем 3 строки сетам
+
+00429267 >>>
+>>> at E51B0
+
+jle    @setItemCmp
+8A 8E 48 DB 48 00                       mov     cl, byte ptr ds:UniqueItemsPtr.Effect6Type[esi] ; a1
+8B D3                                   mov     edx, ebx        ; a2
+E8 25 F6 FF FF                          call    0042889B;PrintItemEffect
+8D 57 0A                                lea     edx, [edi+0Ah]
+33 C9                                   xor     ecx, ecx
+6A 00                                   push    0
+55                                      push    ebp             ; Str
+6A 01                                   push    1               ; int
+call    sub_42903B
+
+@setItemCmp:
+8B 8E 00 50 80 00                       mov     ecx, ds:off_805000[esi]
+0F B6 09                                movzx   ecx, byte ptr [ecx]
+80 F9 2A                                cmp     cl, 2Ah  ;'*' ?
+jnz   @return
+@setItemStrings:
+
+; вычислить количество отображаемых свойств. Оставить место на колл и передачу аргументов ему. Пока считаем что он вернул 6
+mov eax, 6
+
+shl eax, 1 ; *2
+add edi, eax
+mov edi, 19d
+
+@firstSetString:
+mov     edx, edi
+xor     ecx, ecx
+push    4 ; код цвета. оранж.
+push    "complete set bonus:"
+push    1               ; int
+call    sub_42903B
+inc edi
+inc edi
+
+@secondSetString:
+
+; определяем сколько шмоток надето
+mov ecx, dword ptr [006EADE8] ; CurrentPlayerIndex
+mov     edx, [esi+805000h]
+mov   edx, dword ptr [edx] ; берём дворд от имени уника
+push edx
+call @CountItemFromSet
+mov ebx, eax ; ebx уже не нужно, меняем его значение на количество сетовых вещей из комплекта
+
+; тут пока ещё не определено как будут хранится свойства сетовые и как отображаться
+
+call @ClearBufferItemForShowEffect
+pop ecx ; подняли дворд уника который раньше был в edx
+call @FindCompleteSetEffect
+mov ecx, dword ptr [eax + 4]
+mov edx, dword ptr [eax + 8]
+push ecx
+call @ApplyEffectToBufferItemForShowEffect
+pop ecx
+mov edx, @SetBufferItemForShowEffect 
+call 0042889B ; PrintItemEffectToStringBuffer
+
+mov eax, 2 ; красный цвет
+cmp ebx, 7
+jnz @F
+mov eax, 0; белый
+@@:
+mov     edx, edi ; позиция по вертикали
+xor     ecx, ecx
+push    eax ; код цвета
+push    ebp ; буфер в который собрали строку для вывода
+push    1               ; int
+call    sub_42903B
+
+; оставить достаточно места. Байт 50 думаю хватит
+inc edi
+inc edi
+
+@thirdSetString:
+
+push ebx
+push "%i items of 7 equipped"
+push ebp
+call 00479AC0 ; _sprintf
+add esp, 12d ; снимаем переданные 3 дворда
+
+mov     edx, edi ; позиция по вертикали
+xor     ecx, ecx
+push    4 ; код цвета. оранж.
+push    ebp ; буфер в который собрали строку для вывода
+push    1               ; int
+call    sub_42903B
+
+@return:
+jmp 00429285
+
+          chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00429260(U)
+|
+:007185B0 80BE0650800005          cmp byte ptr [esi+00805006], 05
+:007185B7 7E1C                    jle 007185D5
+:007185B9 8A8E48508000            mov cl, byte ptr [esi+00805048]
+:007185BF 8BD3                    mov edx, ebx
+:007185C1 E8D502D1FF              call 0042889B
+:007185C6 8D570A                  lea edx, dword ptr [edi+0A]
+:007185C9 33C9                    xor ecx, ecx
+:007185CB 6A00                    push 00000000
+:007185CD 55                      push ebp
+:007185CE 6A01                    push 00000001
+:007185D0 E8660AD1FF              call 0042903B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007185B7(C)
+|
+:007185D5 8B8E00508000            mov ecx, dword ptr [esi+00805000]
+:007185DB 0FB609                  movzx ecx, byte ptr [ecx]
+:007185DE 80F92A                  cmp cl, 2A
+:007185E1 0F85AC000000            jne 00718693
+:007185E7 90                      nop
+....
+:007185FF 90                      nop
+:00718600 6A06                    push 00000006
+:00718602 58                      pop eax
+:00718603 D1E0                    shl eax, 1
+:00718605 01C7                    add edi, eax
+:00718607 89FA                    mov edx, edi
+:00718609 31C9                    xor ecx, ecx
+:0071860B 6A04                    push 00000004
+:0071860D 683361A300              push 00A36133
+:00718612 6A01                    push 00000001
+:00718614 E8220AD1FF              call 0042903B
+:00718619 47                      inc edi
+:0071861A 90                      nop
+...
+:0071861F 90                      nop
+:00718620 8B0DE8AD6E00            mov ecx, dword ptr [006EADE8]
+:00718626 8B9600508000            mov edx, dword ptr [esi+00805000]
+:0071862C 8B12                    mov edx, dword ptr [edx]
+:0071862E 52                      push edx
+:0071862F E81CFFFFFF              call 00718550
+:00718634 89C3                    mov ebx, eax
+:00718636 90                      nop
+:00718637 90                      nop
+:00718638 90                      nop
+:00718639 90                      nop
+:0071863A 90                      nop
+:0071863B E8E0000000              call 00718720
+:00718640 59                      pop ecx
+:00718641 E8BA000000              call 00718700
+:00718646 8B4804                  mov ecx, dword ptr [eax+04]
+:00718649 8B5008                  mov edx, dword ptr [eax+08]
+:0071864C 51                      push ecx
+:0071864D E8FE000000              call 00718750
+:00718652 59                      pop ecx
+:00718653 BA0064A300              mov edx, 00A36400
+:00718658 E83E02D1FF              call 0042889B
+:0071865D 6A02                    push 00000002
+:0071865F 58                      pop eax
+:00718660 83FB07                  cmp ebx, 00000007
+:00718663 7503                    jne 00718668
+:00718665 6A00                    push 00000000
+:00718667 58                      pop eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718663(C)
+|
+:00718668 89FA                    mov edx, edi
+:0071866A 31C9                    xor ecx, ecx
+:0071866C 50                      push eax
+:0071866D 55                      push ebp
+:0071866E EB6A                    jmp 007186DA
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007186E1(U)
+|
+:00718670 47                      inc edi
+:00718671 90                      nop
+:00718672 90                      nop
+:00718673 90                      nop
+:00718674 53                      push ebx
+:00718675 685361A300              push 00A36153
+:0071867A 55                      push ebp
+:0071867B E84014D6FF              call 00479AC0
+:00718680 83C40C                  add esp, 0000000C
+:00718683 89FA                    mov edx, edi
+:00718685 31C9                    xor ecx, ecx
+:00718687 6A04                    push 00000004
+:00718689 55                      push ebp
+:0071868A 6A01                    push 00000001
+:0071868C E8AA09D1FF              call 0042903B
+:00718691 90                      nop
+:00718692 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007185E1(C)
+|
+:00718693 E9ED0BD1FF              jmp 00429285
+
+
+
+
+
+Табличка.
+1.дворд начала имени сета
+2. индекс еффекта двордовый
+3. значение еффекта
+
+Например
+6c65432ah ("*Cel")  0000 0000h (ту хит) 0000 0001h (1)
+
+
+
+
+Размещение 
+:00A36200 (offset 402E00)
+joker
+renegade
+gladiator
+sirius
+scout
+infernal
+celestial
+
+
+@FindCompleteSetEffect: // at E5300
+; ecx - ид сета
+mov edx, 00A36200h (начало таблицы)
+@loop:
+cmp dword ptr [edx], 0ff ff ff ffh
+jz @returnZero
+cmp dword ptr [edx], ecx
+jz @returnResult
+@continue:
+add edx, 12d
+jmp @loop
+@returnResult:
+mov eax, edx
+retn
+@returnZero:
+xor eax, eax
+retn
+
+           chekk:
+* Referenced by a CALL at Address:
+|:00718641   
+|
+:00718700 BA0062A300              mov edx, 00A36200
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718711(U)
+|
+:00718705 833AFF                  cmp dword ptr [edx], FFFFFFFF
+:00718708 740C                    je 00718716
+:0071870A 390A                    cmp dword ptr [edx], ecx
+:0071870C 7405                    je 00718713
+:0071870E 83C20C                  add edx, 0000000C
+:00718711 EBF2                    jmp 00718705
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071870C(C)
+|
+:00718713 89D0                    mov eax, edx
+:00718715 C3                      ret
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718708(C)
+|
+:00718716 31C0                    xor eax, eax
+:00718718 C3                      ret
+
+@SetBufferItemForShowEffect ; 372 байта буфер на новом месте // 00A36400
+
+
+@ClearBufferItemForShowEffect: // at E5320
+; функция по инициализации буфера. Ничего больше не меняет даже регистры
+push eax
+push ecx
+push edx
+push 372d
+push 0
+push @SetBufferItemForShowEffect
+call 00479CD0 ; memset
+add esp 12d
+mov dword ptr [@SetBufferItemForShowEffect + 8], 0ff ff ff ffh ; itemcode == -1
+pop edx
+pop ecx
+pop eax
+retn
+
+               chekk:
+* Referenced by a CALL at Address:
+|:0071863B   
+|
+:00718720 50                      push eax
+:00718721 51                      push ecx
+:00718722 52                      push edx
+:00718723 6874010000              push 00000174
+:00718728 6A00                    push 00000000
+:0071872A 680064A300              push 00A36400
+:0071872F E89C15D6FF              call 00479CD0
+:00718734 83C40C                  add esp, 0000000C
+:00718737 C7050864A300FFFFFFFF    mov dword ptr [00A36408], FFFFFFFF
+:00718741 5A                      pop edx
+:00718742 59                      pop ecx
+:00718743 58                      pop eax
+:00718744 C3                      ret
+
+; 0068610Ch + 174h ItemsOnMap[1] 00686280h
+@ApplyEffectToBufferItemForShowEffect: // at E5350
+; ecx - effectIndex
+; edx - effectValue
+push edx
+push ecx
+mov ecx, @SetBufferItemForShowEffect
+mov edx, 00686280h
+call 0042A17A ; SwapItems
+pop ecx
+pop edx
+
+push 1
+push 0
+push 0
+push edx 
+push edx
+mov edx, ecx
+xor ecx, ecx
+call 00425AC7 ; Item_ApplyAffix(int lastItemOnMap, int effectType, int effectMin, int effectMax, int goldMin, int goldMax, int multiplier)
+
+mov ecx, @SetBufferItemForShowEffect
+mov edx, 00686280h
+call 0042A17A ; SwapItems
+
+mov dword ptr [@SetBufferItemForShowEffect + 8], 00 00 00 00h ; itemcode == 0
+retn
+
+                 chekk:
+* Referenced by a CALL at Address:
+|:0071864D   
+|
+:00718750 52                      push edx
+:00718751 51                      push ecx
+:00718752 B90064A300              mov ecx, 00A36400
+:00718757 BA80626800              mov edx, 00686280
+:0071875C E8191AD1FF              call 0042A17A
+:00718761 59                      pop ecx
+:00718762 5A                      pop edx
+:00718763 90                      nop
+.........
+:00718767 90                      nop
+:00718768 6A01                    push 00000001
+:0071876A 6A00                    push 00000000
+:0071876C 6A00                    push 00000000
+:0071876E 52                      push edx
+:0071876F 52                      push edx
+:00718770 89CA                    mov edx, ecx
+:00718772 31C9                    xor ecx, ecx
+:00718774 E84ED3D0FF              call 00425AC7
+:00718779 B90064A300              mov ecx, 00A36400
+:0071877E BA80626800              mov edx, 00686280
+:00718783 E8F219D1FF              call 0042A17A
+:00718788 C7050864A300FFFFFFFF    mov dword ptr [00A36408], FFFFFFFF
+:00718792 C3                      ret
+
+
+262 и 268 дополнение
+
+===========================================================
+
+@ApplyFullSetEffectToBufferItem: // E53A0
+; ecx - playerIndex
+push esi
+push edi
+mov esi, ecx
+call @ClearBufferItemForShowEffect
+mov edi, 00A36200h (начало таблицы)
+
+@loop:  // e53ae
+mov edx, dword ptr [edi]
+cmp edx, 0ff ff ff ffh
+jz @return
+mov ecx, esi
+call @CountItemFromSet
+cmp eax, 7
+jnz @continue
+
+mov ecx, dword ptr [edi + 4]
+mov edx, dword ptr [edi + 8]
+call @ApplyEffectToBufferItemForShowEffect
+jmp @return
+
+@continue:
+add edi, 12d
+jmp @loop
+
+@return:
+pop edi
+pop esi
+retn
+
+           chekk:
+:007187A0 56                      push esi
+:007187A1 57                      push edi
+:007187A2 89CE                    mov esi, ecx
+:007187A4 E877FFFFFF              call 00718720
+:007187A9 BF0062A300              mov edi, 00A36200
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007187D1(U)
+|
+:007187AE 8B17                    mov edx, dword ptr [edi]
+:007187B0 83FAFF                  cmp edx, FFFFFFFF
+:007187B3 741E                    je 007187D3
+:007187B5 89F1                    mov ecx, esi
+:007187B7 E894FDFFFF              call 00718550
+:007187BC 83F807                  cmp eax, 00000007
+:007187BF 750D                    jne 007187CE
+:007187C1 8B4F04                  mov ecx, dword ptr [edi+04]
+:007187C4 8B5708                  mov edx, dword ptr [edi+08]
+:007187C7 E884FFFFFF              call 00718750
+:007187CC EB05                    jmp 007187D3
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007187BF(C)
+|
+:007187CE 83C70C                  add edi, 0000000C
+:007187D1 EBDB                    jmp 007187AE
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007187B3(C), :007187CC(U)
+|
+:007187D3 5F                      pop edi
+:007187D4 5E                      pop esi
+:007187D5 C3                      ret
+
+===========================================================
+
+
+.text:00423B05 090 0F 85 E3 FE FF FF                       jnz     loc_4239EE
+
+; вклиниваемся сюда
+
+.text:00423B0B 090 39 55 DC                                cmp     [ebp+minDamage], edx ; Compare Two Operands
+.text:00423B0E 090 75 61                                   jnz     short loc_423B71 ;
+
+========================================================
+
+;Вот код для вставки.
+
+; edi eax ecx свободно
+; edx - 0. можно использовать если затем обнулить обратно
+; ebx Players[playerIndex]
+
+mov ecx, dword ptr [ebp -20h] ; playerIndex
+call @ApplyFullSetEffectToBufferItem
+
+mov edi, @SetBufferItemForShowEffect
+cmp dword ptr [edi + 8], 0ff ff ff ffh ; ItemCode != -1
+jz @return
+
+xor edx, edx
+
+armorClass += bodyItem.ArmorClass;
+mov eax, dword ptr [edi + 212d]
+add dword ptr [ebp - 40h], eax
+
+damagePercent += bodyItem.DamagePercent;
+mov eax, dword ptr [edi + 244d]
+add dword ptr [ebp - 44h], eax
+
+toHitPercent += bodyItem.ToHitPercent;
+mov eax, dword ptr [edi + 248d]
+add dword ptr [ebp - 48h], eax
+
+addsDamage += bodyItem.AddsDamage;
+mov eax, dword ptr [edi + 292d]
+add dword ptr [ebp - 54h], eax
+
+damageFromEnemies += bodyItem.DamageFromEnemies;
+mov eax, dword ptr [edi + 296d]
+add dword ptr [ebp - 58h], eax
+
+addsHitPointsBy64 += bodyItem.AddsHitPointsBy64;
+mov eax, dword ptr [edi + 288d]
+add dword ptr [ebp - 28h], eax
+
+addsManaBy64 += bodyItem.AddsManaBy64;
+mov eax, dword ptr [edi + 284d]
+add dword ptr [ebp - 2ch], eax
+
+spellsIncreasedLevels += bodyItem.SpellsIncreasedLevels;
+movzx eax, byte ptr [edi + 304d]
+add dword ptr [ebp - 5ch], eax
+
+armorPiercing += bodyItem.ArmorPiercing;
+mov eax, dword ptr [edi + 328d]
+add dword ptr [ebp - 60h], eax
+
+@return:
+xor edx, edx
+
+
+Лишнее:
+
+minDamage += bodyItem.MinDamage;
+mov eax, dword ptr [edi + 204d]
+add dword ptr [ebp - 24h], eax
+
+maxDamage += bodyItem.MaxDamage;
+mov eax, dword ptr [edi + 208d]
+add dword ptr [ebp - 0Ch], eax
+
+int spell_ID = bodyItem.SpellIndex;
+if( spell_ID != 0 ){
+    staffSpellsSpeedbook |= 1 << (spell_ID - 1);
+} //не думаю что сделать заклинание доп свойством получится, но до кучи сделаю и это
+mov eax, dword ptr [edi + 224d]
+cmp eax, edx
+jz @F
+push    1
+lea     ecx, [eax-1]
+pop     eax
+xor     edx, edx
+call  0047A4E0;  __allshl
+or      dword ptr [ebp-80h], eax
+or      dword ptr [ebp-7Ch], edx
+xor     edx, edx
+@@:
+
+int armorPercent = bodyItem.ArmorPercent;
+                        if( armorPercent != 0 ){
+                                int ACFromItem = armorPercent * bodyItem.ArmorClass / 100;
+                                if( !ACFromItem ) {
+                                        ACFromItem = 1;
+                                }
+                                ACFromItems += ACFromItem;
+                        } бесполезное для сетового бонуса свойство, не хочу кодить
+
+spellEffectFlag |= bodyItem.affixFlag;
+mov eax, dword ptr [edi + 216d]
+or dword ptr [ebp - 34h], eax
+
+damageAndAcBonusFlag |= bodyItem.DamageAndAcBonusFlag;
+mov eax, dword ptr [edi + 368d]
+or dword ptr [ebp - 50h], eax
+
+addsStrength += bodyItem.AddsStrength;
+mov eax, dword ptr [edi + 256d]
+add dword ptr [ebp - 14h], eax
+
+addsMagic += bodyItem.AddsMagic;
+mov eax, dword ptr [edi + 260d]
+add dword ptr [ebp - 30h], eax
+
+addsDexterity += bodyItem.AddsDexterity;
+mov eax, dword ptr [edi + 264d]
+add dword ptr [ebp - 18h], eax
+
+addsVitality += bodyItem.AddsVitality;
+mov eax, dword ptr [edi + 268d]
+add dword ptr [ebp - 8h], eax
+
+fireResistPercent += bodyItem.FireResistPercent;
+mov eax, dword ptr [edi + 272d]
+add dword ptr [ebp - 3ch], eax
+
+lightningResistPercent += bodyItem.LightningResistPercent;
+mov eax, dword ptr [edi + 276d]
+add dword ptr [ebp - 1ch], eax
+
+magicResistPercent += bodyItem.MagicResistPercent;
+mov eax, dword ptr [edi + 280d]
+add dword ptr [ebp - 38h], eax
+
+lightRadiusDiv10 += bodyItem.LightRadiusDiv10; 
+mov eax, dword ptr [edi + 300d]
+add dword ptr [ebp - 10h], eax
+
+minFireDamage += bodyItem.MinFireDamage;
+mov eax, dword ptr [edi + 312d]
+add dword ptr [ebp - 64h], eax
+
+maxFireDamage += bodyItem.MaxFireDamage;]
+mov eax, dword ptr [edi + 316d]
+add dword ptr [ebp - 68h], eax
+
+minLightningDamage += bodyItem.MinLightningDamage;
+mov eax, dword ptr [edi + 320d]
+add dword ptr [ebp - 6ch], eax
+
+maxLightningDamage += bodyItem.MaxLightningDamage;
+mov eax, dword ptr [edi + 324d]
+add dword ptr [ebp - 70h], eax
+
+                     check:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00423B0B(U)
+|
+:00718800 8B4DE0                  mov ecx, dword ptr [ebp-20]
+:00718803 E898FFFFFF              call 007187A0
+:00718808 BF0064A300              mov edi, 00A36400
+:0071880D 837F08FF                cmp dword ptr [edi+08], FFFFFFFF
+:00718811 7455                    je 00718868
+:00718813 31D2                    xor edx, edx
+:00718815 8B87D4000000            mov eax, dword ptr [edi+000000D4]
+:0071881B 0145C0                  add dword ptr [ebp-40], eax
+:0071881E 8B87F4000000            mov eax, dword ptr [edi+000000F4]
+:00718824 0145BC                  add dword ptr [ebp-44], eax
+:00718827 8B87F8000000            mov eax, dword ptr [edi+000000F8]
+:0071882D 0145B8                  add dword ptr [ebp-48], eax
+:00718830 8B8724010000            mov eax, dword ptr [edi+00000124]
+:00718836 90                      nop
+:00718837 0145AC                  add dword ptr [ebp-54], eax
+:0071883A 8B8728010000            mov eax, dword ptr [edi+00000128]
+:00718840 0145A8                  add dword ptr [ebp-58], eax
+:00718843 8B8720010000            mov eax, dword ptr [edi+00000120]
+:00718849 0145D8                  add dword ptr [ebp-28], eax
+:0071884C 8B871C010000            mov eax, dword ptr [edi+0000011C]
+:00718852 0145D4                  add dword ptr [ebp-2C], eax
+:00718855 0FB68730010000          movzx eax, byte ptr [edi+00000130]
+:0071885C 0145A4                  add dword ptr [ebp-5C], eax
+:0071885F 8B8748010000            mov eax, dword ptr [edi+00000148]
+:00718865 0145A0                  add dword ptr [ebp-60], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718811(C)
+|
+:00718868 90                      nop
+:00718869 90                      nop
+:0071886A 31D2                    xor edx, edx
+:0071886C 90                      nop
+:0071886D 90                      nop
+:0071886E 90                      nop
+:0071886F 90                      nop
+:00718870 90                      nop
+:00718871 3955DC                  cmp dword ptr [ebp-24], edx
+:00718874 0F85F7B2D0FF            jne 00423B71
+:0071887A E991B2D0FF              jmp 00423B10
+
+========================================
+
+Set item synergy suggestion.
+
+Gladiator total set to hit is below 300%, so add '+50% to hit'
+Assasin has no hit recovery, so add 'fastest hit recovery', because assasin stun is critical.
+Mage very weak AC, -DFE, so '+2 spell' maybe compensate.
+Paladin set (both infernal & celestial) has low damage, but he should work as tanker, so add '+50 hit point'
+Scout is another glass canon character. but some add '-20 DFE' can playing more comfortable in doom.
+Monk also need more to hit for splash damage, so add '+50% to hit'
+

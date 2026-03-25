@@ -1,0 +1,30 @@
+
+Fixing a bug in morphing of items
+
+:00719B0C 66898688626800          mov word ptr [esi+00686288], ax
+
+=================================================================
+=================================================================
+
+[0:20:44] ярик: это антиморф карты
+
+
+.text:00427E55                 mov     dword_6862B8[esi], eax
+
+mov word ptr [esi+00686284], 0  ; сюды
+
+.text:00427E5B                 pop     esi
+.text:00427E5C                 pop     ebx
+.text:00427E5D                 leave
+.text:00427E5E                 retn    4
+
+
+
+  chek:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00427E55(U)
+|
+:0071B470 8986B8626B00            mov dword ptr [esi+006B62B8], eax
+:0071B478 66C786846268000000      mov word ptr [esi+00686284], 0000
+:0071B48B E9CBC9D0FF              jmp 00427E5B

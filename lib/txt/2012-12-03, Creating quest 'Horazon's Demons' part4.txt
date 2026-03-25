@@ -1,0 +1,1083 @@
+﻿21. Ставим накрула
+
+босс ID = 244h
+находиться он должен между двумя кубами для приковывания на локе 02, в комнате на севере. на карте находится всегда
+
+Особенности при активации не через ослабление: всегда +50 к Армор, +25 к меткости, +50 к урону.
+
+При активации двери через правильное прочтение книг (а не поворот рычага) - базовые параметры, которые я задал в данных босса.
+
+Если он убит без ослабления, то бросает +2 вещи, умирая.
+
+Про ослабление: перед комнатой стоят 2 рычага. Любой из них открывает дверь, и НаКрул получается не ослаблен. Если дверь открыта рычагом, то действие книг аннулируется. Если комната была открыта книгами, то использовать рычаги становится невозможно.
+
+21.1. точное позиционирование накрула и сохранение его индекса
+см http://titanpad.com/nl7O3bKcDj 408
+
+21.2. открытие двери накрула по образцу открытия дверей гс // checked
+@OpenNakrulRoom: // e4770
+; в ecx ; needPlaySound
+push ecx
+mov ecx, 40d
+mov edx, 24d
+call @OpenCryptQuestDoor ; 22.4.1.1.
+pop ecx
+test ecx, ecx
+jz @return
+mov ecx, 1020d ; S_1020_SFX_ITEMS_CROPEN
+mov edx, 40d
+push 24d
+call 004186C4
+
+@return:
+retn
+
+chekk:
+* Referenced by a CALL at Address:
+|:00717CB9   
+|
+:00717B70 51                      push ecx
+:00717B71 B928000000              mov ecx, 00000028
+:00717B76 BA18000000              mov edx, 00000018
+:00717B7B E890FCFFFF              call 00717810
+:00717B80 59                      pop ecx
+:00717B81 85C9                    test ecx, ecx
+:00717B83 7411                    je 00717B96
+:00717B85 B9FC030000              mov ecx, 000003FC
+:00717B8A BA28000000              mov edx, 00000028
+:00717B8F 6A18                    push 00000018
+:00717B91 E82E0BD0FF              call 004186C4
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00717B83(C)
+|
+:00717B96 C3                      ret
+
+21.3. основная функция открытия накрула
+@OpenNakrul: e4800
+; в ecx флаг isWeak
+push edi ; оффсет хоразон квеста 
+push esi ;оффсет накрула
+
+mov esi, dword ptr [@NakrulMonsterIndex] // 00A35F5C
+imul esi, 228d
+add esi, 0069DC88 ; оффсет гс
+
+push    10h
+pop     edi
+imul    edi, 1Ch
+add     edi, 6EB358 ; оффсет хоразон квеста
+ 
+test ecx, ecx
+jnz @weakNakrul
+
+@strongNakrul: // сделать это отдельно самому через средства без ограничения данных значением байта // offset E 48 24
+; усиливаем накрула. Без капа боюсь переполнение словим на думе
+mov eax, 30d
+add byte ptr [esi + 202d], 50d;ArmorClass
+add byte ptr [esi + 196d], 25d;ToHit
+add byte ptr [esi + 197d], eax;MinDamage
+add byte ptr [esi + 198d], eax;MaxDamage
+mov byte ptr [edi + 20d], 3 ; статус квеста по линии накрула - освободили сильного накрула
+jmp @F
+
+@weakNakrul:
+mov byte ptr [edi + 20d], 2 ; статус квеста по линии накрула - освободили хилого накрула
+@@:
+mov ecx, @индекс звука освобождения накрула
+mov edx, dword ptr [esi + 32d]; row
+push dword ptr [esi + 36d] ; col
+call 004186C4 ; PlayLocalSound(int sound, int row, int col)
+mov dword ptr [0057A214], 0; задержка // 20d
+mov dword ptr [0057A218], индекс звука
+pop esi ; больше эти значения не нужны
+pop edi
+; открываем дверь к накрулу со звуком
+mov ecx, 1
+call @OpenNakrulRoom ; 21.2.
+; делаем невыделяемыми все квестовые объекты
+
+mov ecx, 43d
+mov edx, 19d
+call 0046B092
+imul    eax, 78h
+and byte ptr [eax+6DE600h], 0 ; невыделяемость книги 1
+
+mov ecx, 43d
+mov edx, 20d
+call 0046B092
+imul    eax, 78h
+and byte ptr [eax+6DE600h], 0 ; невыделяемость книги 2
+
+mov ecx, 43d
+mov edx, 21d
+call 0046B092
+imul    eax, 78h
+and byte ptr [eax+6DE600h], 0 ; невыделяемость книги 3
+
+mov ecx, 44d
+mov edx, 24d
+call 0046B092
+imul    eax, 78h
+and byte ptr [eax+6DE600h], 0 ; невыделяемость рычага 1
+
+mov ecx, 44d
+mov edx, 26d
+call 0046B092
+imul    eax, 78h
+and byte ptr [eax+6DE600h], 0 ; невыделяемость рычага 2
+retn
+   
+   
+   check:
+   * Referenced by a CALL at Addresses:
+|:00717DBB   , :00717DF9   
+|
+:00717C00 57                      push edi
+:00717C01 56                      push esi
+:00717C02 8B355C5FA300            mov esi, dword ptr [00A35F5C]
+:00717C08 69F6E4000000            imul esi, 000000E4
+:00717C0E 81C688DC6900            add esi, 0069DC88
+:00717C14 6A10                    push 00000010
+:00717C16 5F                      pop edi
+:00717C17 6BFF1C                  imul edi, 0000001C
+:00717C1A 81C758B36E00            add edi, 006EB358
+:00717C20 85C9                    test ecx, ecx
+:00717C22 757C                    jne 00717CA0
+:00717C24 EB7A                    jmp 00717CA0
+...
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00717C22(C), :00717C24(U)
+|
+:00717CA0 C6471401                mov [edi+14], 01
+:00717CA4 B9D6030000              mov ecx, 000003D6
+:00717CA9 8B5620                  mov edx, dword ptr [esi+20]
+:00717CAC FF7624                  push [esi+24]
+:00717CAF E8100AD0FF              call 004186C4
+:00717CB4 5E                      pop esi
+:00717CB5 5F                      pop edi
+:00717CB6 6A01                    push 00000001
+:00717CB8 59                      pop ecx
+:00717CB9 E8B2FEFFFF              call 00717B70
+:00717CBE 90                      nop
+:00717CBF 90                      nop
+:00717CC0 6A2B                    push 0000002B
+:00717CC2 59                      pop ecx
+:00717CC3 6A13                    push 00000013
+:00717CC5 5A                      pop edx
+:00717CC6 E8C733D5FF              call 0046B092
+:00717CCB 6BC078                  imul eax, 00000078
+:00717CCE 80A000E66D0000          and byte ptr [eax+006DE600], 00
+..
+:00717CE0 6A2B                    push 0000002B
+:00717CE2 59                      pop ecx
+:00717CE3 6A14                    push 00000014
+:00717CE5 5A                      pop edx
+:00717CE6 E8A733D5FF              call 0046B092
+:00717CEB 6BC078                  imul eax, 00000078
+:00717CEE 80A000E66D0000          and byte ptr [eax+006DE600], 00
+..
+:00717D00 6A2B                    push 0000002B
+:00717D02 59                      pop ecx
+:00717D03 6A15                    push 00000015
+:00717D05 5A                      pop edx
+:00717D06 E88733D5FF              call 0046B092
+:00717D0B 6BC078                  imul eax, 00000078
+:00717D0E 80A000E66D0000          and byte ptr [eax+006DE600], 00
+..
+:00717D20 6A2C                    push 0000002C
+:00717D22 59                      pop ecx
+:00717D23 6A18                    push 00000018
+:00717D25 5A                      pop edx
+:00717D26 E86733D5FF              call 0046B092
+:00717D2B 6BC078                  imul eax, 00000078
+:00717D2E 80A000E66D0000          and byte ptr [eax+006DE600], 00
+..
+:00717D40 6A2C                    push 0000002C
+:00717D42 59                      pop ecx
+:00717D43 6A1A                    push 0000001A
+:00717D45 5A                      pop edx
+:00717D46 E84733D5FF              call 0046B092
+:00717D4B 6BC078                  imul eax, 00000078
+:00717D4E 80A000E66D0000          and byte ptr [eax+006DE600], 00
+:00717D55 C3                      ret
+
+
+21.4. открытие рычагами // e4960
+
+.text:00450928 80 F9 18                                cmp     cl, 24
+.text:0045092B 75 18                                   jnz     short loc_450945
+.text:0045092D E8 14 42 00 00                          call    sub_454B46
+
+00450928 >>
+>>
+80 F9 18                                cmp     cl, 24
+jnz @nakrulLeverCheck
+jmp 0045092D
+@nakrulLeverCheck:
+push ecx
+push edx
+cmp byte ptr [0061F314], 00
+jz @return ; если это не квестовая лока то нафиг
+cmp byte ptr [0061CB00], 9d
+jnz @return ; если это не лока хоразон 02 то тоже нафиг
+
+mov ecx, 44d
+mov edx, 24d
+call 0046B092
+imul    eax, 78h
+cmp byte ptr [eax+6DE600h], 0
+jnz @return; если первый рычаг ещё не активирован
+
+mov ecx, 44d
+mov edx, 26d
+call 0046B092
+imul    eax, 78h
+cmp byte ptr [eax+6DE600h], 0
+jnz @return; если второй рычаг ещё не активирован
+
+xor ecx, ecx
+call @OpenNakrul ; 21.3.
+
+@returnWithZeroEdx:
+pop edx
+xor edx, edx
+jmp @F:
+
+@return:
+pop edx
+@@:
+pop ecx
+jmp 00450945
+
+21.5. открытие книгами // e49d1
+21.5.1. переделка функции чтения книг убера
+.text:00454B04 83 E9 06                                sub     ecx, 6
+вычитаем 1 поскольку у нас индексы начинаются с 1 а не с 6
+
+21.5.2. непосредственно проверка на чтение книг
+
+717A87>>>
+>>
+cmp byte ptr [0061F314], 0; IsQuestFloor
+jz @return
+cmp byte ptr [0061CB00], 9; QuestFloorIndex
+jnz @return
+mov     ecx, [esi+6DE634h] ; object.bookIndex
+test ecx, ecx
+jz @return
+
+call 00454B04 ; ReadUberBook
+test eax, eax
+jz @return
+
+mov ecx, 1
+call @OpenNakrul ; 21.3.
+jmp 45393B ; не читаем речь книги когда открываем
+
+@return:
+jmp     loc_453926
+===========================================================
+21.6. выставление индекса при убийстве накрула done
+@nakrulKill: ; ссылка сюда из 892 прошлого блока
+push    10h
+pop     eax
+imul    eax, 1Ch
+add     eax, 6EB358
+mov     byte ptr [eax+20d], 4; накрул убит // 717BD2
+call @horazonQuestCompleteCheck ; 22.4.5.1.
+@return:
+jmp 0045FF54
+==================
+877 прошлого блока.
+
+===========================
+21.7. отображение открытой двери после перезахода на 02
+
+.mod:00716F69                 call    sub_7171C0
+
+push    10h
+pop     eax
+imul    eax, 1Ch
+add     eax, 6EB358
+cmp     byte ptr [eax+20d], 2 / 
+jl @F
+xor ecx, ecx
+call @OpenNakrulRoom ; 21.2.
+@@:
+
+.mod:00716F6E                 pop     esi
+.mod:00716F6F                 retn
+
+
+              сhekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716F69(U)
+|
+:00717E10 E8ABF3FFFF              call 007171C0
+:00717E15 90                      nop
+:00717E16 90                      nop
+:00717E17 90                      nop
+:00717E18 90                      nop
+:00717E19 90                      nop
+:00717E1A 6A10                    push 00000010
+:00717E1C 58                      pop eax
+:00717E1D 6BC01C                  imul eax, 0000001C
+:00717E20 0558B36E00              add eax, 006EB358
+:00717E25 80781401                cmp byte ptr [eax+14], 01
+:00717E29 7C07                    jl 00717E32
+:00717E2B 31C9                    xor ecx, ecx
+:00717E2D E83EFDFFFF              call 00717B70
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00717E29(C)
+|
+:00717E32 90                      nop
+:00717E33 90                      nop
+:00717E34 90                      nop
+:00717E35 90                      nop
+:00717E36 90                      nop
+:00717E37 5E                      pop esi
+:00717E38 C3                      ret
+
+Исправление статусов. Хз какой номер уже
+
+306 строка этот блок
+290 
+81 85
+877 прошлого
+
+===============================================================
+22. Рендомизация дунов
+
+@horazon01DunNamePtrTable
+@horazon02DunNamePtrTable ; таблицы имён по образцу квеста червя
+
+@selectRandomDunForHorazon01:
+movzx   eax, byte ptr [60B1D8]
+mov     ecx, dword ptr [575230+eax*4]
+call    sub_419F27 ; настраиваем рэндом сид сидом текущего длвл (скорее всего dlvl 0 будет)
+
+movzx     eax, byte ptr 6070C0 ; сложность
+imul eax, 3; количество дунов для сложности; максимальное
+push eax
+xor cl, cl
+mov edx, 3 ;опять таки количество дунов для сложности; сколько уже готово для каждой
+call 00419F5A ; rng
+pop ecx
+add eax, ecx
+shl eax, 2 ;домножение на 4 так как таблица двордовая
+add eax, @horazon01DunNamePtrTable ; отличаются только этим, но переписывать так чтобы передавать указатель аргументом не хочу
+mov eax, dword ptr [eax]
+retn
+
+@selectRandomDunForHorazon02:
+movzx   eax, byte ptr [60B1D8]
+mov     ecx, dword ptr [575230+eax*4]
+call    sub_419F27 ; настраиваем рэндом сид сидом текущего длвл (скорее всего dlvl 0 будет)
+
+movzx     eax, byte ptr 6070C0 ; сложность
+imul eax, 3; количество дунов для сложности; максимальное
+push eax
+xor cl, cl
+mov edx, 3 ;опять таки количество дунов для сложности; сколько уже готово для каждой
+call 00419F5A ; rng
+pop ecx
+add eax, ecx
+shl eax, 2 ;домножение на 4 так как таблица двордовая
+add eax, @horazon02DunNamePtrTable
+mov eax, dword ptr [eax]
+retn
+
+566 http://titanpad.com/g3dpBhgioh
+100 http://titanpad.com/UyTmUp9m6g
+
+===============================================================
+23. Человеческий запрет спелов // e4b50 (00717F50)
+
+23.1. функция определения доступен ли спелл тут
+               @isSpellEnableHere:               
+; в ecx номер спела
+cmp byte ptr [0061F314], 00 ; isQuestFloor
+jz @isNotQuestFloor
+@isQuestFloor:
+
+; запрет тп до очистки локи
+cmp dword ptr [0069DC80], 4
+jle @F:
+cmp ecx, 7d ; PS_7_TOWN_PORTAL
+jz @returnFalse
+@@:
+
+; запрет варпа и т.п. в локе хоразона
+mov al, byte ptr [0061CB00]; questFloorNumber
+cmp al, 8
+jl @F
+cmp al, 10d
+jg @F
+cmp ecx, 10d ; PS_10_PHASING
+jz @returnFalse
+cmp ecx, 23d ; PS_23_TELEPORT
+jz @returnFalse
+cmp ecx, 33d ; PS_33_TELEKINES
+jz @returnFalse
+cmp ecx, 42d ; PS_42_WARP
+jz @returnFalse
+@@:
+
+ ; тут место оставить ещё на проверки на запрет в доп локах
+jmp @returnTrue
+
+@isNotQuestFloor:
+; тут запрет заклинаний в городе
+cmp byte ptr [0060B1D8], 00 ; dlvl
+jnz @isDungeon
+
+@isTown:
+mov eax. ecx
+imul eax, 56d
+add eax, 004B75E8h ; оффсет текущего заклинания
+mov eax, dword ptr [eax + 24d]; isEnabledInTown
+jmp @return
+
+@isDungeon:
+; оставить место, мало ли на обычных уровнях тоже что то запрещать будем
+
+@returnTrue:
+mov eax, 1
+jmp @return
+
+@returnFalse:
+xor eax, eax
+
+@return:
+retn
+
+         chekk:
+:00717F50 803D14F3610000          cmp byte ptr [0061F314], 00
+:00717F57 743D                    je 00717F96
+:00717F59 833D80DC690004          cmp dword ptr [0069DC80], 00000004
+:00717F60 7E05                    jle 00717F67
+:00717F62 83F907                  cmp ecx, 00000007
+:00717F65 742A                    je 00717F91
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00717F60(C)
+|
+:00717F67 A000CB6100              mov al, byte ptr [0061CB00]
+:00717F6C 3C08                    cmp al, 08
+:00717F6E 7C18                    jl 00717F88
+:00717F70 3C0A                    cmp al, 0A
+:00717F72 7F14                    jg 00717F88
+:00717F74 83F90A                  cmp ecx, 0000000A
+:00717F77 7418                    je 00717F91
+:00717F79 83F917                  cmp ecx, 00000017
+:00717F7C 7413                    je 00717F91
+:00717F7E 83F921                  cmp ecx, 00000021
+:00717F81 740E                    je 00717F91
+:00717F83 83F92A                  cmp ecx, 0000002A
+:00717F86 7409                    je 00717F91
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00717F6E(C), :00717F72(C), :00717F9D(C)
+|
+:00717F88 90                      nop
+:00717F89 90                      nop
+:00717F8A 90                      nop
+:00717F8B 90                      nop
+:00717F8C 90                      nop
+:00717F8D 6A01                    push 00000001
+:00717F8F 58                      pop eax
+:00717F90 C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00717F65(C), :00717F77(C), :00717F7C(C), :00717F81(C), :00717F86(C)
+|
+:00717F91 31C0                    xor eax, eax
+:00717F93 C3                      ret
+
+
+:00717F94 90                      nop
+:00717F95 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00717F57(C)
+|
+:00717F96 803DD8B1600000          cmp byte ptr [0060B1D8], 00
+:00717F9D 75E9                    jne 00717F88
+:00717F9F 90                      nop
+:00717FA0 90                      nop
+:00717FA1 90                      nop
+:00717FA2 90                      nop
+:00717FA3 89C8                    mov eax, ecx
+:00717FA5 6BC038                  imul eax, 00000038
+:00717FA8 05E8754B00              add eax, 004B75E8
+:00717FAD 8B4018                  mov eax, dword ptr [eax+18]
+:00717FB0 C3                      ret
+
+========================================================
+23.2. вызов этой функции из кучи мест
+
+23.2.1. клик на реликтах RightClickOnItem
+00422F06 >>>
+>>>
+cmp     eax, 21d
+jz @isRelict
+cmp     eax, 22d
+jnz @isNotRelict  @continue ?
+
+@isRelict:
+mov ecx, dword ptr [edi+0E0h]
+mov esi, eax
+call @isSpellEnableHere 23.1.
+test eax, eax
+jz @relicNotAllow
+mov eax, esi
+xor edx, edx
+
+@continue:
+mov cl, byte ptr [0060B1D8]
+jmp 00422F48
+
+@relicNotAllow:
+jmp 004230C3
+
+         chek: (poka chto tak)
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00422F06(U)
+|
+:00717FD0 83F815                  cmp eax, 00000015
+:00717FD3 7405                    je 00717FDA
+:00717FD5 83F816                  cmp eax, 00000016
+:00717FD8 751B                    jne 00717FF5
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00717FD3(C)
+|
+:00717FDE 8B8FE0000000            mov ecx, dword ptr [edi+000000E0]
+:00717FE4 89C6                    mov esi, eax
+:00717FE6 E865FFFFFF              call 00717F50
+:00717FED 85C0                    test eax, eax
+:00717FEF 740F                    je 00718000
+:00717FF1 89F0                    mov eax, esi
+:00717FF3 31D2                    xor edx, edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00717FD8(C)
+|
+:00717FF5 8A0DD8B16000            mov cl, byte ptr [0060B1D8]
+:00717FFB E948AFD0FF              jmp 00422F48
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00717FEF(C)
+|
+:00718000 E9BEB0D0FF              jmp 004230C3
+
+23.2.2. каст заклинания (неважно с чего) Mouse_RButtonDown
+; ecx - playerIndex
+; edx - spellIndex
+; eax - Players[playerIndex]
+
+; esi - свободно
+; ebp - 0
+; edi - свободно
+
+0045E091 >>>
+>>>
+push eax
+push edx
+push ecx
+mov ecx, edx
+call @isSpellEnableHere 23.1.
+mov esi, eax
+pop ecx
+pop edx
+pop eax
+test esi, esi
+jnz 0045E0F1
+jmp 0045E0A7
+
+                            сhek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045E091(U)
+|
+:00718010 50                      push eax
+:00718011 52                      push edx
+:00718012 51                      push ecx
+:00718013 89D1                    mov ecx, edx
+:00718015 E836FFFFFF              call 00717F50
+:0071801A 89C6                    mov esi, eax
+:0071801C 59                      pop ecx
+:0071801D 5A                      pop edx
+:0071801E 58                      pop eax
+:0071801F 85F6                    test esi, esi
+:00718021 0F85CA60D4FF            jne 0045E0F1
+:00718027 E97B60D4FF              jmp 0045E0A7
+
+
+23.2.3. функция выбора типа заклинания в спеллбуке GetColorNumberWithSpellBook
+; ebp - spellIndex но можно менять
+; ecx - свободно
+; edx - свободно
+; eax - должен быть нуль
+
+00406C00 >>>
+>>>
+mov ecx, ebp
+call @isSpellEnableHere 23.1.
+test eax, eax
+jnz @F
+mov bl, 4
+@@:
+jmp 00406C1C
+
+           сhek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00406C00(U)
+|
+:00718031 89E9                    mov ecx, ebp
+:00718033 E818FFFFFF              call 00717F50
+:00718038 85C0                    test eax, eax
+:0071803A 7502                    jne 0071803E
+:0071803C B304                    mov bl, 04
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071803A(C)
+|
+:0071803E E9D9EBCEFF              jmp 00406C1C
+
+
+23.2.4. рисовка текущего закла на главной панели DrawCurrentSpellInfo
+; eax - свободно
+; edx - свободно
+; ecx - свободно
+; ebx - индекс спела
+; esi - свободно
+
+403E70 >>>
+>>>
+mov ecx, ebx
+call @isSpellEnableHere 23.1.
+test eax, eax
+jnz @F
+mov сl, 4
+call    sub_403AD6
+@@:
+jmp 00403E8E
+
+          сhekk:            
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00403E70(U)
+|
+:00718049 89D9                    mov ecx, ebx
+:0071804B E800FFFFFF              call 00717F50
+:00718050 85C0                    test eax, eax
+:00718052 7507                    jne 0071805B
+:00718054 B104                    mov cl, 04
+:00718056 E87BBACEFF              call 00403AD6
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718052(C)
+|
+:0071805B E92EBECEFF              jmp 00403E8E
+
+
+23.2.5. рисовка какой то кнопки спела DrawSpellButton
+
+; ebp - индекс спела
+; bl - номер цвета
+; eax ecx edx свободны
+
+00403C61 >>>
+>>>
+mov ecx, ebp
+call @isSpellEnableHere 23.1.
+test eax, eax
+jnz @F
+mov bl, 4
+@@:
+jmp  00403C7F
+
+                  сhekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00403C61(U)
+|
+:00718065 89E9                    mov ecx, ebp
+:00718067 E8E4FEFFFF              call 00717F50
+:0071806C 85C0                    test eax, eax
+:0071806E 7502                    jne 00718072
+:00718070 B304                    mov bl, 04
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071806E(C)
+|
+:00718072 E908BCCEFF              jmp 00403C7F
+
+
+23.2.6. без понятия что это IsHasChargesForSpell
+;ecx - Players
+;eax - CurrentPlayerIndex
+
+00422BD9 >>>
+>>>
+call 70A1D0; @getCurPlayerOffset
+mov ecx, [eax+0B4h]
+call @isSpellEnableHere 23.1.
+test eax, eax
+jz 00422C7E ; возвращаем нуль
+8B 0D 14 AE 6E 00                       mov     ecx, Players
+A1 E8 AD 6E 00                          mov     eax, CurrentPlayerIndex
+jmp  00422C08
+
+             сhekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00422BD9(U)
+|
+:00718080 E84B21FFFF              call 0070A1D0
+:00718085 8B88B4000000            mov ecx, dword ptr [eax+000000B4]
+:0071808B E8C0FEFFFF              call 00717F50
+:00718090 85C0                    test eax, eax
+:00718092 0F84E6ABD0FF            je 00422C7E
+:00718098 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0071809E A1E8AD6E00              mov eax, dword ptr [006EADE8]
+:007180A3 E960ABD0FF              jmp 00422C08
+
+; остались функции сетевые
+
+23.2.7. NetCommand7
+
+; eax edx свободны, в ecx должен быть индекс спела
+
+00447F5A >>>
+>>>
+0F B7 49 01                             movzx   ecx, word ptr [ecx+1]
+push ecx ; ещё пригодится этот индекс
+call @isSpellEnableHere 23.1.
+test eax, eax
+pop ecx
+jz 00447F75 ; пишем про попытку скастовать неверный закл
+jmp  00447F97
+
+         chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00447F5A(U)
+|
+:007180B0 0FB74901                movzx ecx, word ptr [ecx+01]
+:007180B4 51                      push ecx
+:007180B5 E896FEFFFF              call 00717F50
+:007180BA 85C0                    test eax, eax
+:007180BC 59                      pop ecx
+:007180BD 0F84B2FED2FF            je 00447F75
+:007180C3 E9CFFED2FF              jmp 00447F97
+              //
+
+23.2.8. NC92_CAST_NOT_ORIENTED_SPELL
+; edx - сохранить, там индекс игрока
+; ecx - eax свободны
+
+00448C4F >>>
+>>>
+movzx   ecx, word ptr [edi+3]
+push edx
+call @isSpellEnableHere 23.1.
+test eax, eax
+pop edx
+jz 00448C63; пишем про попытку скастовать неверный закл
+jmp  00448C78
+
+         chekk:         
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00448C4F(U)
+|
+:007180D0 0FB74F03                movzx ecx, word ptr [edi+03]
+:007180D4 52                      push edx
+:007180D5 E876FEFFFF              call 00717F50
+:007180DA 85C0                    test eax, eax
+:007180DC 5A                      pop edx
+:007180DD 0F84800BD3FF            je 00448C63
+:007180E3 E9900BD3FF              jmp 00448C78
+
+
+23.2.9. NC14_CAST_ORIENTED_SPELL
+; 1 в 1 как верхняя
+00448D30 >>>
+>>>
+movzx   ecx, word ptr [edi+3]
+push edx
+call @isSpellEnableHere 23.1.
+test eax, eax
+pop edx
+jz 00448D44; пишем про попытку скастовать неверный закл
+jmp  00448D59
+
+              chekk:          
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00448D30(U)
+|
+:00718100 0FB74F03                movzx ecx, word ptr [edi+03]
+:00718104 52                      push edx
+:00718105 E846FEFFFF              call 00717F50
+:0071810A 85C0                    test eax, eax
+:0071810C 5A                      pop edx
+:0071810D 0F84310CD3FF            je 00448D44
+:00718113 E9410CD3FF              jmp 00448D59
+
+
+23.2.10. NC15_CAST_ORIENTED_SPELL_2
+; ещё одна копия с изменениями
+00448E03 >>
+>>>
+movzx   ecx, word ptr [edi+3]
+push edx
+call @isSpellEnableHere 23.1.
+test eax, eax
+pop edx
+jz 00448E17; пишем про попытку скастовать неверный закл
+jmp  00448E2C
+
+          chekk:              
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00448E03(U)
+|
+:00718120 0FB74F03                movzx ecx, word ptr [edi+03]
+:00718124 52                      push edx
+:00718125 E826FEFFFF              call 00717F50
+:0071812A 85C0                    test eax, eax
+:0071812C 5A                      pop edx
+:0071812D 0F84E40CD3FF            je 00448E17
+:00718133 E9F40CD3FF              jmp 00448E2C
+
+
+23.2.11. NC22_CAST_ORIENTED_SPELL_TO_MONSTER  //  718140
+; копия
+004491D1 >>>
+>>>
+movzx   ecx, word ptr [edi+3]
+push edx
+call @isSpellEnableHere 23.1.
+test eax, eax
+pop edx
+jz 004491E5; пишем про попытку скастовать неверный закл
+jmp  004491FA
+
+             chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004491D1(U)
+|
+:00718140 0FB74F03                movzx ecx, word ptr [edi+03]
+:00718144 52                      push edx
+:00718145 E806FEFFFF              call 00717F50
+:0071814A 85C0                    test eax, eax
+:0071814C 5A                      pop edx
+:0071814D 0F849210D3FF            je 004491E5
+:00718153 E9A210D3FF              jmp 004491FA
+
+
+23.2.12. NC23_CAST_ORIENTED_SPELL_TO_PLAYER
+; копия
+00449296 >>>
+>>>
+movzx   ecx, word ptr [edi+3]
+push edx
+call @isSpellEnableHere 23.1.
+test eax, eax
+pop edx
+jz 004492AA; пишем про попытку скастовать неверный закл
+jmp  004492BF
+
+chek
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00449296(U)
+|
+:00718160 0FB74F03                movzx ecx, word ptr [edi+03]
+:00718164 52                      push edx
+:00718165 E8E6FDFFFF              call 00717F50
+:0071816A 85C0                    test eax, eax
+:0071816C 5A                      pop edx
+:0071816D 0F843711D3FF            je 004492AA
+:00718173 E94711D3FF              jmp 004492BF
+//
+
+23.2.13. NC24_CAST_ORIENTED_SPELL_TO_MONSTER
+; копия
+0044935B >>>
+>>>
+movzx   ecx, word ptr [edi+3]
+push edx
+call @isSpellEnableHere 23.1.
+test eax, eax
+pop edx
+jz 0044936F; пишем про попытку скастовать неверный закл
+jmp  00449384
+
+chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0044935B(U)
+|
+:00718180 0FB74F03                movzx ecx, word ptr [edi+03]
+:00718184 52                      push edx
+:00718185 E8C6FDFFFF              call 00717F50
+:0071818A 85C0                    test eax, eax
+:0071818C 5A                      pop edx
+:0071818D 0F84DC11D3FF            je 0044936F
+:00718193 E9EC11D3FF              jmp 00449384
+//
+
+23.2.14. NC25_CAST_ORIENTED_SPELL_TO_PLAYER
+; .... копия
+00449420 >>>
+>>>
+movzx   ecx, word ptr [edi+3]
+push edx
+call @isSpellEnableHere 23.1.
+test eax, eax
+pop edx
+jz 00449434; пишем про попытку скастовать неверный закл
+jmp  00449449
+
+chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00449420(U)
+|
+:007181A0 0FB74F03                movzx ecx, word ptr [edi+03]
+:007181A4 52                      push edx
+:007181A5 E8A6FDFFFF              call 00717F50
+:007181AA 85C0                    test eax, eax
+:007181AC 5A                      pop edx
+:007181AD 0F848112D3FF            je 00449434
+:007181B3 E99112D3FF              jmp 00449449
+//
+
+
+GetColorNumberWithSpellBook
+Mouse_RButtonDown
+RightClickOnItem
+DrawCurrentSpellInfo
+DrawSpellButton
+IsHasChargesForSpell
+NetCommand7
+NC92_CAST_NOT_ORIENTED_SPELL
+NC14_CAST_ORIENTED_SPELL
+NC15_CAST_ORIENTED_SPELL_2
+NC22_CAST_ORIENTED_SPELL_TO_MONSTER
+NC23_CAST_ORIENTED_SPELL_TO_PLAYER
+NC24_CAST_ORIENTED_SPELL_TO_MONSTER
+NC25_CAST_ORIENTED_SPELL_TO_PLAYER
+
+=====================================================
+
+24. запрет сидящих в засаде монстров на квестовых локах
+00444E05 39 35 98 B7 6A 00                       cmp     MonsterSlotsUsed, esi
+00444E0B 7E 20                                   jle     short loc_444E2D
+
+00444E05 >>>
+>>>
+cmp byte ptr [0061F314], 00 ; isQuestFloor
+jnz 00444E8F 
+39 35 98 B7 6A 00                       cmp     MonsterSlotsUsed, esi
+jmp 00444E0B
+
+             сhekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00444E05(U)
+|
+:00717F20 803D14F3610000          cmp byte ptr [0061F314], 00
+:00717F27 0F8562CFD2FF            jne 00444E8F
+:00717F2D 393598B76A00            cmp dword ptr [006AB798], esi
+:00717F33 E9D3CED2FF              jmp 00444E0B
+:00717F38 90                      nop
+
+
+
+
+==================================
+• туду для квеста:
+1. сдвинуть ворпы 
+2. сделать загрузку Gendata\Hellfire.smk при переходе с урв23 в локу
+3. расставить книги по локации, с заданными спичами
+4. прописать скрипты несрабатывания рычага в локе 03, в зав. от класса героя
+5. написать скрипты вызова гримпсайка в локе 03 (по прочтению любой из книг перед дверьми)
+6. расставить монстров по локе, создать боссов (это  мне)
+7. подредактировать сложность боссов программно
+8. изменить палитру для всех трек уровней (это мне)
+9. loadscreen для локации. готов. надо дать поддержку
+10. запретить в локе кастовать 1-телепорт, 2-фазу, 3-ворп и 4-телекинез
+11. убрать книги от коморки убера
+12. исправить искажение палитры на лоудскрине после ролика хоразона
+
+TO DO:
+
+- Horaz todo:
+4. make strong nk drop more stuff
+
+6. forbid casting TK, teleport and warp
+7. give randomize
+
+- Ещё при заходе на 17й только квест активируется
+[15:39:34] Ярик: А можно зайти сзади со склепа
+- когда ты 29 лвл, книга пишет что ограничение 32, но ее можно прочесть;
+- принудительно морфить шмот каждые ХХ секунд;
+
+- mage reflect & vita low
+
+- сделать защиту от потери предмета на курсоре при переходах;
+
+
+
+
+Закрытие дьяблоквеста
+
+00717B4E jnz @newLoc
+>>
+@newLoc:
+cmp edi, 9Аh
+jnz 0045FB6D
+@diabloKill:
+push    5
+pop     eax
+imul    eax, 1Ch
+add     eax, 6EB358
+mov     byte ptr [eax+2], 3 ; закрыть квест
+@return:
+jmp 0045FF54
+
+
+тестовая проверка на смерть при дамаге по монстру
+
+43D05D >>>
+>>>
+; 0069DC88 Monsters
+; +148d = 69DD1C Monsters->CurLife
+
+mov ecx, dword ptr [69DD1Ch + esi]
+test    ecx, 0FFFFFFC0h
+jg    @return
+mov ecx, ebx
+mov edx, edi
+call    sub_43D08C
+@return: ;всё затёртое
+5F                      pop     edi
+5E                      pop     esi
+5D                      pop     ebp
+5B                      pop     ebx
+C2 04 00                retn    4
+
+
+to do:
+
+1). разобраться с экраном загрузки
+2). загрузка экрана вначале прерывается и возобновляется сразу. это после вставки фикса палитры после ролика у хоразона на входе началось. исправить.
+3). 
+
+Фикс подвисания при загрузке квестовых лок
+http://titanpad.com/UyTmUp9m6g
+318 и 367
+
+фиксы и т.п. для нового релиза
+http://titanpad.com/VYFszn97b8
+

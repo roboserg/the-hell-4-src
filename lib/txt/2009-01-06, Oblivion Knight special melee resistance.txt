@@ -1,0 +1,102 @@
+Oblivion Knights resist 25% of initial melee damage on Purgatory and Doom
+Their bosses resist 50% of the rest of the damage (take 37,5% of initial damage only)
+BTW, I've left enough free space to expand this in future
+
+Old:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045BB16(C), :0045BB25(C)
+|
+:0045BB2A A114AE6E00              mov eax, dword ptr [006EAE14]
+:0045BB2F 8B5DFC                  mov ebx, dword ptr [ebp-04]
+:0045BB32 90                      nop
+.......................
+:0045BB3B 90                      nop
+:0045BB3C 8B8364DD6900            mov eax, dword ptr [ebx+0069DD64]
+:0045BB42 813889000000            cmp dword ptr [eax], 00000089
+:0045BB48 740B                    je 0045BB55
+:0045BB4A 80BB44DD690000          cmp byte ptr [ebx+0069DD44], 00
+:0045BB51 7414                    je 0045BB67
+:0045BB53 EB05                    jmp 0045BB5A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BB48(C)
+|
+:0045BB55 C1EF02                  shr edi, 02
+:0045BB58 EB0D                    jmp 0045BB67
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BB53(U)
+|
+:0045BB5A D1EF                    shr edi, 1
+:0045BB5C EB09                    jmp 0045BB67
+:0045BB5E 90                      nop
+..........................
+:0045BB66 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045BB51(C), :0045BB58(U), :0045BB5C(U)
+|
+:0045BB67 A114AE6E00              mov eax, dword ptr [006EAE14]
+
+=================================================================
+
+	Modded:
+
+:0045BB2A A114AE6E00              mov eax, dword ptr [006EAE14]
+:0045BB2F 8B5DFC                  mov ebx, dword ptr [ebp-04]
+:0045BB32 8B8364DD6900            mov eax, dword ptr [ebx+0069DD64]
+:0045BB38 813889000000            cmp dword ptr [eax], 00000089
+:0045BB3E 7420                    je 0045BB60
+:0045BB40 833DC070600001          cmp dword ptr [006070C0], 00000001
+:0045BB47 7C0C                    jl 0045BB55
+:0045BB49 E9E2B62A00              jmp 00707230
+:0045BB4E 90                      nop
+:0045BB4F 90                      nop
+:0045BB50 90                      nop
+:0045BB51 90                      nop
+:0045BB52 90                      nop
+:0045BB53 90                      nop
+:0045BB54 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045BB47(C), :00707243(U)
+|
+:0045BB55 80BB44DD690000          cmp byte ptr [ebx+0069DD44], 00
+:0045BB5C 7409                    je 0045BB67
+:0045BB5E EB05                    jmp 0045BB65
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BB3E(C)
+|
+:0045BB60 C1EF02                  shr edi, 02
+:0045BB63 EB02                    jmp 0045BB67
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BB5E(U)
+|
+:0045BB65 D1EF                    shr edi, 1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045BB5C(C), :0045BB63(U)
+|
+:0045BB67 A114AE6E00              mov eax, dword ptr [006EAE14]
+
+
+	Ex:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BB49(U)
+|
+:00707230 813801000000            cmp dword ptr [eax], 00000001
+:00707236 0F8507000000            jne 00707243
+:0070723C 8BC7                    mov eax, edi
+:0070723E C1F802                  sar eax, 02
+:00707241 2BF8                    sub edi, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707236(C)
+|
+:00707243 E90D49D5FF              jmp 0045BB55
+
+---------OVER-----------

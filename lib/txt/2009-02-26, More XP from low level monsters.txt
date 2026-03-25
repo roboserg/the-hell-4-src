@@ -1,0 +1,166 @@
+faster xp gain from low level monsters:
+
+	old:
+:004584C9 69C9C8550000            imul ecx, 000055C8
+:004584CF A114AE6E00              mov eax, dword ptr [006EAE14]
+:004584D4 83BC019801000000        cmp dword ptr [ecx+eax+00000198], 00000000
+:004584DC 0F8E15010000            jle 004585F7
+:004584E2 69F6C8550000            imul esi, 000055C8
+:004584E8 DB45F8                  fild dword ptr [ebp-08]
+:004584EB 8A9C30B8010000          mov bl, byte ptr [eax+esi+000001B8]		bl = clvl
+:004584F2 8D3C30                  lea edi, dword ptr [eax+esi]			edi = processed char
+:004584F5 0FBEC3                  movsx eax, bl					eax = clvl
+:004584F8 8945FC                  mov dword ptr [ebp-04], eax			[ebp-04] = clvl
+:004584FB DA65FC                  fisub dword ptr [ebp-04]			
+:004584FE DC0DC8034900            fmul qword ptr [004903C8]
+:00458504 DC25D0034900            fsub qword ptr [004903D0]
+:0045850A DA4D08                  fimul dword ptr [ebp+08]
+:0045850D E85E200200              call 0047A570
+:00458512 8BD0                    mov edx, eax
+:00458514 85D2                    test edx, edx
+:00458516 895508                  mov dword ptr [ebp+08], edx
+:00458519 7D05                    jge 00458520
+:0045851B 33D2                    xor edx, edx
+:0045851D 895508                  mov dword ptr [ebp+08], edx
+
+
+
+	new:
+:004584EB E930FC2A00              jmp 00708120
+:004584F0 90                      nop
+:004584F1 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070812A(U)
+|
+:004584F2 8D3C30                  lea edi, dword ptr [eax+esi]
+
+	and:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004584EB(U)
+|
+:00708120 8A9C30B8010000          mov bl, byte ptr [eax+esi+000001B8]
+:00708127 C0EB01                  shr bl, 01
+:0070812A E9C303D5FF              jmp 004584F2
+========================================
+
+Revision 2:
+cancels previous change and introduces a check for purg/doom levels 1-6 to allow XP there
+
+can be viewed in EXE if need be..
+address the same
+========================================
+
+Revision 3:
+formula is the same: {baseXP*(1.0+0.1*(MLVL-CLVL))}, but with a new rule:
+	on Purgatory, on DLVLs 1-6 the formula is {baseXP*(1.0+0.1*((MLVL+15)-((CLVL/2)+1)))}
+	on Purgatory, on DLVLs 7-9 the formula is {baseXP*(1.0+0.1*((MLVL+15)-((CLVL/2)+8)))}
+	on Purgatory, on DLVLs 10-12 the formula is {baseXP*(1.0+0.1*((MLVL+15)-((CLVL/2)+15)))}
+	on Doom, on DLVLs 1-5 the formula is {baseXP*(1.0+0.1*((MLVL+30)-((CLVL/2)+15)))}
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708127(U)
+|
+:0070819A 833DC070600002          cmp dword ptr [006070C0], 00000002
+:007081A1 751D                    jne 007081C0
+:007081A3 803DD8B1600001          cmp byte ptr [0060B1D8], 01
+:007081AA 7C0F                    jl 007081BB
+:007081AC 803DD8B1600006          cmp byte ptr [0060B1D8], 06
+:007081B3 7D06                    jge 007081BB
+:007081B5 C0EB01                  shr bl, 01
+:007081B8 80C30F                  add bl, 0F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007081AA(C), :007081B3(C), :007081C7(C), :007081D0(C), :007081E1(U)
+|:007081F2(U), :007081FB(C), :00708203(U)
+|
+:007081BB E96AFFFFFF              jmp 0070812A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007081A1(C)
+|
+:007081C0 833DC070600001          cmp dword ptr [006070C0], 00000001
+:007081C7 7CF2                    jl 007081BB
+:007081C9 803DD8B1600001          cmp byte ptr [0060B1D8], 01
+:007081D0 7CE9                    jl 007081BB
+:007081D2 803DD8B1600007          cmp byte ptr [0060B1D8], 07
+:007081D9 7D08                    jge 007081E3
+:007081DB C0EB01                  shr bl, 01
+:007081DE 80C301                  add bl, 01
+:007081E1 EBD8                    jmp 007081BB
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007081D9(C)
+|
+:007081E3 803DD8B160000A          cmp byte ptr [0060B1D8], 0A
+:007081EA 7D08                    jge 007081F4
+:007081EC C0EB01                  shr bl, 01
+:007081EF 80C308                  add bl, 08
+:007081F2 EBC7                    jmp 007081BB
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007081EA(C)
+|
+:007081F4 803DD8B160000D          cmp byte ptr [0060B1D8], 0D
+:007081FB 7DBE                    jge 007081BB
+:007081FD C0EB01                  shr bl, 01
+:00708200 80C30F                  add bl, 0F
+:00708203 EBB6                    jmp 007081BB
+:00708205 90                      nop
+
+============================================================================
+
+Revision 4:
+
+minimum XP = 1
+
+:004584F1 90                      nop
+
+	Old:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070812A(U)
+|
+:004584F2 8D3C30                  lea edi, dword ptr [eax+esi]
+:004584F5 0FBEC3                  movsx eax, bl
+:004584F8 8945FC                  mov dword ptr [ebp-04], eax
+:004584FB DA65FC                  fisub dword ptr [ebp-04]
+:004584FE DC0DC8034900            fmul qword ptr [004903C8]
+:00458504 DC25D0034900            fsub qword ptr [004903D0]
+:0045850A DA4D08                  fimul dword ptr [ebp+08]
+:0045850D E85E200200              call 0047A570
+:00458512 8BD0                    mov edx, eax
+:00458514 85D2                    test edx, edx
+:00458516 895508                  mov dword ptr [ebp+08], edx
+:00458519 7D05                    jge 00458520
+:0045851B 33D2                    xor edx, edx
+:0045851D 895508                  mov dword ptr [ebp+08], edx
+
+	>>>
+
+	New:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070812A(U)
+|
+:004584F1 8D3C30                  lea edi, dword ptr [eax+esi]
+:004584F4 0FBEC3                  movsx eax, bl
+:004584F7 8945FC                  mov dword ptr [ebp-04], eax
+:004584FA DA65FC                  fisub dword ptr [ebp-04]
+:004584FD DC0DC8034900            fmul qword ptr [004903C8]
+:00458503 DC25D0034900            fsub qword ptr [004903D0]
+:00458509 DA4D08                  fimul dword ptr [ebp+08]
+:0045850C E85F200200              call 0047A570
+:00458511 8BD0                    mov edx, eax
+:00458513 85D2                    test edx, edx
+:00458515 895508                  mov dword ptr [ebp+08], edx
+:00458518 7D06                    jge 00458520
+:0045851A 33D2                    xor edx, edx
+:0045851C 42                      inc edx
+:0045851D 895508                  mov dword ptr [ebp+08], edx
+
+============================================================================
+
+
+Horror: DLVL*2 + CLVL/2, 2-63
+Purgat: DLVL*2 + CLVL

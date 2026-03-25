@@ -1,0 +1,172 @@
+Diablo AI damage modify
+
+
+:00441EBE 6A00                    push 00000000
+:00441EC0 6A28                    push 00000028
+:00441EC2 6A00                    push 00000000
+:00441EC4 6A43                    push 00000043
+:00441EC6 5A                      pop edx
+:00441EC7 E8B6FCFFFF              call 00441B82
+:00441ECC C3                      ret
+
+
+Apoc damage varies for difficulty mode now
+
+Horror: 30 (15)
+Purgatory: 60 (30)
+Doom: 120 (60)
+
+= = = = = = = = = = = = = = = = == = = = = = = = == = = = = = = = = =  = = =
+
+	Modified:
+
+:00441EBE E9ED512C00              jmp 007070B0
+:00441EC3 90                      nop
+:00441EC4 90                      nop
+:00441EC5 90                      nop
+:00441EC6 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007070E1(U)
+|
+:00441EC7 E8B6FCFFFF              call 00441B82
+:00441ECC C3                      ret
+
+
+	Extra: (diff. chex)
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00441EBE(U)
+|
+:007070B0 833DC070600001          cmp dword ptr [006070C0], 00000001
+:007070B7 7414                    je 007070CD
+:007070B9 833DC070600002          cmp dword ptr [006070C0], 00000002
+:007070C0 7416                    je 007070D8
+:007070C2 6A00                    push 00000000
+:007070C4 6A1E                    push 0000001E
+:007070C6 6A00                    push 00000000
+:007070C8 6A43                    push 00000043
+:007070CA 5A                      pop edx
+:007070CB EB14                    jmp 007070E1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007070B7(C)
+|
+:007070CD 6A00                    push 00000000
+:007070CF 6A3C                    push 0000003C
+:007070D1 6A00                    push 00000000
+:007070D3 6A43                    push 00000043
+:007070D5 5A                      pop edx
+:007070D6 EB09                    jmp 007070E1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007070C0(C)
+|
+:007070D8 6A00                    push 00000000
+:007070DA 6A78                    push 00000078
+:007070DC 6A00                    push 00000000
+:007070DE 6A43                    push 00000043
+:007070E0 5A                      pop edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007070CB(U), :007070D6(U)
+|
+:007070E1 E9E1ADD3FF              jmp 00441EC7
+:007070E6 90                      nop
+:007070E7 90                      nop
+
+=================================================================================
+
+Revision 2:
+
+horror: 120
+purg: 240
+doom: 360
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00441EBE(U)
+|
+:007070B0 833DC070600001          cmp dword ptr [006070C0], 00000001
+:007070B7 7417                    je 007070D0
+:007070B9 833DC070600002          cmp dword ptr [006070C0], 00000002
+:007070C0 741C                    je 007070DE
+:007070C2 6A00                    push 00000000
+:007070C4 6878000000              push 00000078
+:007070C9 6A00                    push 00000000
+:007070CB 6A43                    push 00000043
+:007070CD 5A                      pop edx
+:007070CE EB1A                    jmp 007070EA
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007070B7(C)
+|
+:007070D0 6A00                    push 00000000
+:007070D2 68F0000000              push 000000F0
+:007070D7 6A00                    push 00000000
+:007070D9 6A43                    push 00000043
+:007070DB 5A                      pop edx
+:007070DC EB0C                    jmp 007070EA
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007070C0(C)
+|
+:007070DE 6A00                    push 00000000
+:007070E0 6868010000              push 00000168
+:007070E5 6A00                    push 00000000
+:007070E7 6A43                    push 00000043
+:007070E9 5A                      pop edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007070CE(U), :007070DC(U)
+|
+:007070EA E9D8ADD3FF              jmp 00441EC7
+
+=================================================================================
+
+Revision 3:
+
+horror: 120
+purg: 220
+doom: 300, (Doom Uber: 350)
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00441EBE(U)
+|
+:007070B0 833DC070600001          cmp dword ptr [006070C0], 00000001
+:007070B7 741A                    je 007070D3
+:007070B9 833DC070600002          cmp dword ptr [006070C0], 00000002
+:007070C0 741A                    je 007070DC
+:007070C2 6A00                    push 00000000
+:007070C4 6878000000              push 00000078
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007070DA(U), :007070EC(U), :007070F3(U)
+|
+:007070C9 6A00                    push 00000000
+:007070CB 6A43                    push 00000043
+:007070CD 5A                      pop edx
+:007070CE E9F4ADD3FF              jmp 00441EC7
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007070B7(C)
+|
+:007070D3 6A00                    push 00000000
+:007070D5 68DC000000              push 000000DC
+:007070DA EBED                    jmp 007070C9
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007070C0(C)
+|
+:007070DC 6A00                    push 00000000
+:007070DE 803DD8B1600018          cmp byte ptr [0060B1D8], 18
+:007070E5 7407                    je 007070EE
+:007070E7 682C010000              push 0000012C
+:007070EC EBDB                    jmp 007070C9
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007070E5(C)
+|
+:007070EE 685E010000              push 0000015E
+:007070F3 EBD4                    jmp 007070C9
+:007070F5 90                      nop
+:007070F6 90                      nop

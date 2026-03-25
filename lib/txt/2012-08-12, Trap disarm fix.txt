@@ -1,0 +1,250 @@
+trap disarming fail fix
+
+
+
+
+* Referenced by a CALL at Address:
+|:0045D34B   
+|
+:004503D1 55                      push ebp
+:004503D2 8BEC                    mov ebp, esp
+:004503D4 51                      push ecx
+:004503D5 51                      push ecx
+:004503D6 56                      push esi
+:004503D7 8BF1                    mov esi, ecx
+:004503D9 3B35E8AD6E00            cmp esi, dword ptr [006EADE8]
+:004503DF 57                      push edi
+:004503E0 8955FC                  mov dword ptr [ebp-04], edx
+:004503E3 7508                    jne 004503ED
+:004503E5 6A01                    push 00000001
+:004503E7 59                      pop ecx
+:004503E8 E80077FBFF              call 00407AED
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004503E3(C)
+|
+:004503ED 8B45FC                  mov eax, dword ptr [ebp-04]
+:004503F0 6BC078                  imul eax, 00000078
+:004503F3 83B808E66D0000          cmp dword ptr [eax+006DE608], 00000000
+:004503FA 8DB808E66D00            lea edi, dword ptr [eax+006DE608]
+:00450400 0F8490000000            je 00450496
+:00450406 69F6C8550000            imul esi, 000055C8
+:0045040C A114AE6E00              mov eax, dword ptr [006EAE14]
+:00450411 6A64                    push 00000064
+:00450413 5A                      pop edx
+:00450414 B19A                    mov cl, 9A
+:00450416 8BB40674010000          mov esi, dword ptr [esi+eax+00000174]
+:0045041D 0FB605D8B16000          movzx eax, byte ptr [0060B1D8]
+:00450424 D1E6                    shl esi, 1
+:00450426 8D0480                  lea eax, dword ptr [eax+4*eax]
+:00450429 2BF0                    sub esi, eax
+:0045042B E82A9BFCFF              call 00419F5A
+:00450430 3BC6                    cmp eax, esi
+:00450432 7F00                    jg 00450434
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00450432(C)
+|
+:00450434 A1B4E36D00              mov eax, dword ptr [006DE3B4]
+:00450439 85C0                    test eax, eax
+:0045043B 7E59                    jle 00450496
+:0045043D BEB8E16D00              mov esi, 006DE1B8
+:00450442 8945F8                  mov dword ptr [ebp-08], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00450494(C)
+|
+:00450445 8B06                    mov eax, dword ptr [esi]
+:00450447 32D2                    xor dl, dl
+:00450449 6BC078                  imul eax, 00000078
+:0045044C 8B88C0E56D00            mov ecx, dword ptr [eax+006DE5C0]
+:00450452 83F935                  cmp ecx, 00000035
+:00450455 7502                    jne 00450459
+:00450457 FEC2                    inc dl
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00450455(C)
+|
+:00450459 83F936                  cmp ecx, 00000036
+:0045045C 7502                    jne 00450460
+:0045045E B201                    mov dl, 01
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045045C(C)
+|
+:00450460 84D2                    test dl, dl
+:00450462 742A                    je 0045048E
+:00450464 8B8818E66D00            mov ecx, dword ptr [eax+006DE618]
+:0045046A 8B901CE66D00            mov edx, dword ptr [eax+006DE61C]
+:00450470 6BC970                  imul ecx, 00000070
+:00450473 0FBE8C11209C5800        movsx ecx, byte ptr [ecx+edx+00589C20]
+:0045047B 49                      dec ecx
+:0045047C 3B4DFC                  cmp ecx, dword ptr [ebp-04]
+:0045047F 750D                    jne 0045048E
+:00450481 C78024E66D0001000000    mov dword ptr [ebx+006DE624], 00000001
+:0045048B 832700                  and dword ptr [edi], 00000000
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00450462(C), :0045047F(C)
+|
+:0045048E 83C604                  add esi, 00000004
+:00450491 FF4DF8                  dec [ebp-08]
+:00450494 75AF                    jne 00450445
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00450400(C), :0045043B(C)
+|
+:00450496 5F                      pop edi
+:00450497 5E                      pop esi
+:00450498 C9                      leave
+:00450499 C3                      ret
+
+
+==============================================================================
+
+
+potential fix:
+
+
+mov     eax, [ebp-4]  //8B45FC
+imul    eax, 120        ; Signed Multiply   // 6B C0 78
+mov  esi, ObjectsOnMap[eax] // mov esi, dword ptr [eax+6DE5C0h] // 8BB0C0E56D00
+cmp esi, 44h ;сравнить с 68 BASE_OBJECT_TRAPED_SMALL_CHEST // 83FE44
+jb @return // 72 ??
+cmp esi, 46h ; сравнить с 70 BASE_OBJECT_TRAPED_LARGE_CHEST // 83FE46
+ja @return // 77 ??
+sub  ObjectsOnMap[eax], 3fh ; чтобы превратить диапазон 68-70 в диапазон 5-7   //      sub dword ptr [eax+6DE5C0], 3F  // 83A8C0E56D003F
+xor esi, esi // 33F6
+mov ObjectsOnMap.isTrapped[eax], esi // mov dword ptr [eax+6DE5C0], esi // 89B0C0E56D00
+jmp @return // EB ??
+
+================================================================================
+
+Doing:
+
+	Pointer CALL to the new function:
+:0045D34B E8D0432B00              call 00711720
+
+
+	New function:
+* Referenced by a CALL at Address:
+|:0045D34B   
+|
+:00711720 55                      push ebp
+:00711721 8BEC                    mov ebp, esp
+:00711723 51                      push ecx
+:00711724 51                      push ecx
+:00711725 56                      push esi
+:00711726 8BF1                    mov esi, ecx
+:00711728 3B35E8AD6E00            cmp esi, dword ptr [006EADE8]
+:0071172E 57                      push edi
+:0071172F 8955FC                  mov dword ptr [ebp-04], edx
+:00711732 7508                    jne 0071173C
+:00711734 6A01                    push 00000001
+:00711736 59                      pop ecx
+:00711737 E8B163CFFF              call 00407AED
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00711732(C)
+|
+:0071173C 8B45FC                  mov eax, dword ptr [ebp-04]
+:0071173F 6BC078                  imul eax, 00000078
+:00711742 83B808E66D0000          cmp dword ptr [eax+006DE608], 00000000
+:00711749 8DB808E66D00            lea edi, dword ptr [eax+006DE608]
+:0071174F 0F8492000000            je 007117E7
+:00711755 69F6C8550000            imul esi, 000055C8
+:0071175B A114AE6E00              mov eax, dword ptr [006EAE14]
+:00711760 6A64                    push 00000064
+:00711762 5A                      pop edx
+:00711763 B19A                    mov cl, 9A
+:00711765 8BB40674010000          mov esi, dword ptr [esi+eax+00000174]
+:0071176C 0FB605D8B16000          movzx eax, byte ptr [0060B1D8]
+:00711773 D1E6                    shl esi, 1
+:00711775 8D0480                  lea eax, dword ptr [eax+4*eax]
+:00711778 2BF0                    sub esi, eax
+:0071177A E8DB87D0FF              call 00419F5A
+:0071177F 3BC6                    cmp eax, esi
+:00711781 7F00                    jg 00711783
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00711781(C)
+|
+:00711783 A1B4E36D00              mov eax, dword ptr [006DE3B4]
+:00711788 85C0                    test eax, eax
+:0071178A 7E59                    jle 007117E5
+:0071178C BEB8E16D00              mov esi, 006DE1B8
+:00711791 8945F8                  mov dword ptr [ebp-08], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007117E3(C)
+|
+:00711794 8B06                    mov eax, dword ptr [esi]
+:00711796 32D2                    xor dl, dl
+:00711798 6BC078                  imul eax, 00000078
+:0071179B 8B88C0E56D00            mov ecx, dword ptr [eax+006DE5C0]
+:007117A1 83F935                  cmp ecx, 00000035
+:007117A4 7502                    jne 007117A8
+:007117A6 FEC2                    inc dl
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007117A4(C)
+|
+:007117A8 83F936                  cmp ecx, 00000036
+:007117AB 7502                    jne 007117AF
+:007117AD B201                    mov dl, 01
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007117AB(C)
+|
+:007117AF 84D2                    test dl, dl
+:007117B1 742A                    je 007117DD
+:007117B3 8B8818E66D00            mov ecx, dword ptr [eax+006DE618]
+:007117B9 8B901CE66D00            mov edx, dword ptr [eax+006DE61C]
+:007117BF 6BC970                  imul ecx, 00000070
+:007117C2 0FBE8C11209C5800        movsx ecx, byte ptr [ecx+edx+00589C20]
+:007117CA 49                      dec ecx
+:007117CB 3B4DFC                  cmp ecx, dword ptr [ebp-04]
+:007117CE 750D                    jne 007117DD
+:007117D0 C78024E66D0001000000    mov dword ptr [ebx+006DE624], 00000001
+:007117DA 832700                  and dword ptr [edi], 00000000
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007117B1(C), :007117CE(C)
+|
+:007117DD 83C604                  add esi, 00000004
+:007117E0 FF4DF8                  dec [ebp-08]
+:007117E3 75AF                    jne 00711794
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071178A(C)
+|
+:007117E5 EB04                    jmp 007117EB
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071174F(C), :007117FA(C), :007117FF(C), :00711810(U)
+|
+:007117E7 5F                      pop edi
+:007117E8 5E                      pop esi
+:007117E9 C9                      leave
+:007117EA C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007117E5(U)
+|
+:007117EB 8B45FC                  mov eax, dword ptr [ebp-04]
+:007117EE 6BC078                  imul eax, 00000078
+:007117F1 8BB0C0E56D00            mov esi, dword ptr [eax+006DE5C0]
+:007117F7 83FE44                  cmp esi, 00000044
+:007117FA 72EB                    jb 007117E7
+:007117FC 83FE46                  cmp esi, 00000046
+:007117FF 77E6                    ja 007117E7
+:00711801 83A8C0E56D003F          sub dword ptr [eax+006DE5C0], 0000003F
+:00711808 33F6                    xor esi, esi
+:0071180A 89B008E66D00            mov dword ptr [eax+006DE608], esi
+:00711810 EBD5                    jmp 007117E7
+:00711812 90                      nop
+:00711813 90                      nop
+:00711814 90                      nop
+:00711815 90                      nop

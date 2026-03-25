@@ -1,0 +1,23 @@
+
+
+:0041AA70 33D2                    xor edx, edx  << 0 = not skippable, 1 = skippable // mov dl, 01
+:0041AA72 8BCE                    mov ecx, esi
+:0041AA74 E82AA70200              call 004451A3 << after the function // after the call edx must be zero in any case (!!)
+
+
++
+
+after playing/skipping Laz cinematic, music no longer stops:
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0046BEA9(U)
+|
+:00714680 A1E4744B00              mov eax, dword ptr [004B74E4]
+:00714685 50                      push eax
+:00714686 E88377D5FF              call 0046BE0E
+:0071468B 58                      pop eax
+:0071468C A3E4744B00              mov dword ptr [004B74E4], eax
+:00714691 C3                      ret
+

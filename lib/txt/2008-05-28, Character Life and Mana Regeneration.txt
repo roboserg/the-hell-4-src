@@ -1,0 +1,1040 @@
+Hellfire Lifedrain code:
+
+:0045DBD2 cmp ebp, dword ptr [006EADE8]                      (1)
+:0045DBD8 jne 0045DC70                                              (2)
+:0045DBDE mov eax, dword ptr [006EAE14]                      (3)
+:0045DBE3 add eax, esi                                                 (3)
+:0045DBE5 test byte ptr [eax+00005540], 40                    (4)
+:0045DBEC je 0045DC33                                                (4)
+:0045DBEE cmp byte ptr [0060B1D8], 00                          (5)
+:0045DBF5 je 0045DC33                                                (5)
+:0045DBF7 add dword ptr [eax+00000198], FFFFFFFC        (6)
+:0045DBFE mov eax, dword ptr [006EAE14]                 
+:0045DC03 add dword ptr [eax+esi+00000190], FFFFFFFC    (6)
+:0045DC0B lea eax, dword ptr [eax+esi+00000190]
+:0045DC12 mov eax, dword ptr [006EAE14]
+:0045DC17 test dword ptr [eax+esi+00000198], FFFFFFC0   (7)
+:0045DC22 jg 0045DC2D                                                 (7)
+:0045DC24 xor edx, edx                                                  (8)
+:0045DC26 mov ecx, ebp                                                (8)
+:0045DC28 call 0045ABD7                                               (8)
+
+(1) check if processed character is local character
+(2) if not, skip the rest
+(3) make EAX the address to the data of the local character
+(4) if no Lifedrain item is worn, skip the rest
+(5) if in Town, skip the rest
+(6) substract 4 points of Base and Current Life
+(7) if character is still alive, skip the rest
+(8) handle character's death 
+
+========================================================
+========================================================
+
+Step 1: Passive Life regeneration in The Hell:
+
+it works, but stops when character's HP reach MaxHP -1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045DBB4(C), :0045DBC6(C)
+|
+:0045DBD2 3B2DE8AD6E00            cmp ebp, dword ptr [006EADE8]
+:0045DBD8 0F8592000000            jne 0045DC70
+:0045DBDE A114AE6E00              mov eax, dword ptr [006EAE14]
+:0045DBE3 03C6                    add eax, esi
+:0045DBE5 F7843098010000C0FFFFFF  test dword ptr [eax+esi+00000198], FFFFFFC0
+:0045DBF0 7E3B                    jle 0045DC2D
+:0045DBF2 8B8898010000            mov ecx, dword ptr [eax+00000198]
+:0045DBF8 83C102                  add ecx, 00000002
+:0045DBFB 39889C010000            cmp dword ptr [eax+0000019C], ecx
+:0045DC01 760E                    jbe 0045DC11
+:0045DC03 83809801000002          add dword ptr [eax+00000198], 00000002
+:0045DC0A 83809001000002          add dword ptr [eax+00000190], 00000002
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045DC01(C)
+|
+:0045DC11 8D8098010000            lea eax, dword ptr [eax+00000198]
+:0045DC17 90                      nop
+:0045DC18 90                      nop
+:0045DC19 90                      nop
+:0045DC1A 90                      nop
+:0045DC1B 90                      nop
+:0045DC1C 90                      nop
+:0045DC1D 90                      nop
+:0045DC1E 90                      nop
+:0045DC1F 90                      nop
+:0045DC20 90                      nop
+:0045DC21 90                      nop
+:0045DC22 90                      nop
+:0045DC23 90                      nop
+:0045DC24 90                      nop
+:0045DC25 90                      nop
+:0045DC26 90                      nop
+:0045DC27 90                      nop
+:0045DC28 90                      nop
+:0045DC29 90                      nop
+:0045DC2A 90                      nop
+:0045DC2B 90                      nop
+:0045DC2C 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045DBF0(C)
+|
+:0045DC2D 891D400E4D00            mov dword ptr [004D0E40], ebx
+
+=========================================================
+
+Step 2: Fixed regeneration stop at MaxHP -1:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045DBB4(C), :0045DBC6(C)
+|
+:0045DBD2 3B2DE8AD6E00            cmp ebp, dword ptr [006EADE8]
+:0045DBD8 0F8592000000            jne 0045DC70
+:0045DBDE A114AE6E00              mov eax, dword ptr [006EAE14]
+:0045DBE3 03C6                    add eax, esi
+:0045DBE5 F7843098010000C0FFFFFF  test dword ptr [eax+esi+00000198], FFFFFFC0
+:0045DBF0 7E3B                    jle 0045DC2D
+:0045DBF2 8B8898010000            mov ecx, dword ptr [eax+00000198]
+:0045DBF8 39889C010000            cmp dword ptr [eax+0000019C], ecx
+:0045DBFE 760E                    jbe 0045DC0E
+:0045DC00 83809801000002          add dword ptr [eax+00000198], 00000002
+:0045DC07 83809001000002          add dword ptr [eax+00000190], 00000002
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045DBFE(C)
+|
+:0045DC0E 8D8098010000            lea eax, dword ptr [eax+00000198]
+:0045DC14 90                      nop
+:0045DC15 90                      nop
+:0045DC16 90                      nop
+:0045DC17 90                      nop
+:0045DC18 90                      nop
+:0045DC19 90                      nop
+:0045DC1A 90                      nop
+:0045DC1B 90                      nop
+:0045DC1C 90                      nop
+:0045DC1D 90                      nop
+:0045DC1E 90                      nop
+:0045DC1F 90                      nop
+:0045DC20 90                      nop
+:0045DC21 90                      nop
+:0045DC22 90                      nop
+:0045DC23 90                      nop
+:0045DC24 90                      nop
+:0045DC25 90                      nop
+:0045DC26 90                      nop
+:0045DC27 90                      nop
+:0045DC28 90                      nop
+:0045DC29 90                      nop
+:0045DC2A 90                      nop
+:0045DC2B 90                      nop
+:0045DC2C 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045DBF0(C)
+|
+:0045DC2D 891D400E4D00            mov dword ptr [004D0E40], ebx
+
+=========================================================
+
+Step 3: Connecting HP regeneration rate to Base Vitality and Mana regeneration to Base Magic:
+works wonderful, but Mana bar doesn't show replenishment until something in inventory or on belt is touched
+Implemented in v1.57v
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045DBB4(C), :0045DBC6(C)
+|
+:0045DBD2 3B2DE8AD6E00            cmp ebp, dword ptr [006EADE8]
+:0045DBD8 0F8592000000            jne 0045DC70
+:0045DBDE A114AE6E00              mov eax, dword ptr [006EAE14]
+:0045DBE3 03C6                    add eax, esi
+:0045DBE5 F7843098010000C0FFFFFF  test dword ptr [eax+esi+00000198], FFFFFFC0
+:0045DBF0 7E3B                    jle 0045DC2D
+:0045DBF2 E865B8FAFF              call 0040945C							< call life'n'mana regeneration routine
+:0045DBF7 90                      nop								< nops are reserved for future changes
+:0045DBF8 90                      nop
+:0045DBF9 90                      nop
+:0045DBFA 90                      nop
+:0045DBFB 90                      nop
+:0045DBFC 90                      nop
+:0045DBFD 90                      nop
+:0045DBFE 90                      nop
+:0045DBFF 90                      nop
+:0045DC00 90                      nop
+:0045DC01 90                      nop
+:0045DC02 90                      nop
+:0045DC03 90                      nop
+:0045DC04 90                      nop
+:0045DC05 90                      nop
+:0045DC06 90                      nop
+:0045DC07 90                      nop
+:0045DC08 90                      nop
+:0045DC09 90                      nop
+:0045DC0A 90                      nop
+:0045DC0B 90                      nop
+:0045DC0C 90                      nop
+:0045DC0D 90                      nop
+:0045DC0E 90                      nop
+:0045DC0F 90                      nop
+:0045DC10 90                      nop
+:0045DC11 90                      nop
+:0045DC12 90                      nop
+:0045DC13 90                      nop
+:0045DC14 90                      nop
+:0045DC15 90                      nop
+:0045DC16 90                      nop
+:0045DC17 90                      nop
+:0045DC18 90                      nop
+:0045DC19 90                      nop
+:0045DC1A 90                      nop
+:0045DC1B 90                      nop
+:0045DC1C 90                      nop
+:0045DC1D 90                      nop
+:0045DC1E 90                      nop
+:0045DC1F 90                      nop
+:0045DC20 90                      nop
+:0045DC21 90                      nop
+:0045DC22 90                      nop
+:0045DC23 90                      nop
+:0045DC24 90                      nop
+:0045DC25 90                      nop
+:0045DC26 90                      nop
+:0045DC27 90                      nop
+:0045DC28 90                      nop
+:0045DC29 90                      nop
+:0045DC2A 90                      nop
+:0045DC2B 90                      nop
+:0045DC2C 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045DBF0(C)
+|
+:0045DC2D 891D400E4D00            mov dword ptr [004D0E40], ebx
+
+
+and at free space >>>>>>>>>>>>>>>>>>>>>>>>>>>>
+* Referenced by a CALL at Address:
+|:0045DBF2   
+|
+:0040945C 50                      push eax
+:0040945D 03C6                    add eax, esi
+:0040945F 53                      push ebx
+:00409460 51                      push ecx
+:00409461 8B9880010000            mov ebx, dword ptr [eax+00000180]
+:00409467 C1FB03                  sar ebx, 03
+:0040946A 43                      inc ebx
+:0040946B 803DD8B1600000          cmp byte ptr [0060B1D8], 00
+:00409472 7503                    jne 00409477
+:00409474 C1E301                  shl ebx, 01
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00409472(C)
+|
+:00409477 019898010000            add dword ptr [eax+00000198], ebx
+:0040947D 019890010000            add dword ptr [eax+00000190], ebx
+:00409483 8D8898010000            lea ecx, dword ptr [eax+00000198]
+:00409489 8B989C010000            mov ebx, dword ptr [eax+0000019C]
+:0040948F 3919                    cmp dword ptr [ecx], ebx
+:00409491 7E0E                    jle 004094A1
+:00409493 8919                    mov dword ptr [ecx], ebx
+:00409495 8B8894010000            mov ecx, dword ptr [eax+00000194]
+:0040949B 898890010000            mov dword ptr [eax+00000190], ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00409491(C)
+|
+:004094A1 8B9870010000            mov ebx, dword ptr [eax+00000170]
+:004094A7 C1FB03                  sar ebx, 03
+:004094AA 43                      inc ebx
+:004094AB 803DD8B1600000          cmp byte ptr [0060B1D8], 00
+:004094B2 7503                    jne 004094B7
+:004094B4 C1E301                  shl ebx, 01
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004094B2(C)
+|
+:004094B7 0198AC010000            add dword ptr [eax+000001AC], ebx
+:004094BD 0198A4010000            add dword ptr [eax+000001A4], ebx
+:004094C3 8D88AC010000            lea ecx, dword ptr [eax+000001AC]
+:004094C9 8B98B0010000            mov ebx, dword ptr [eax+000001B0]
+:004094CF 3919                    cmp dword ptr [ecx], ebx
+:004094D1 7E0E                    jle 004094E1
+:004094D3 8919                    mov dword ptr [ecx], ebx
+:004094D5 8B88A8010000            mov ecx, dword ptr [eax+000001A8]
+:004094DB 8988A4010000            mov dword ptr [eax+000001A4], ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004094D1(C)
+|
+:004094E1 59                      pop ecx
+:004094E2 5B                      pop ebx
+:004094E3 58                      pop eax
+:004094E4 C3                      ret
+
+=========================================================
+
+Step 4: Fixing Mana globe update:
+At last, this one seems to work OK
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045DBB4(C), :0045DBC6(C)
+|
+:0045DBD2 3B2DE8AD6E00            cmp ebp, dword ptr [006EADE8]
+:0045DBD8 0F8592000000            jne 0045DC70
+:0045DBDE A114AE6E00              mov eax, dword ptr [006EAE14]
+:0045DBE3 90                      nop
+:0045DBE4 90                      nop
+:0045DBE5 F7843098010000C0FFFFFF  test dword ptr [eax+esi+00000198], FFFFFFC0
+:0045DBF0 7E3B                    jle 0045DC2D
+:0045DBF2 E865B8FAFF              call 0040945C
+:0045DBF7 891D0C114D00            mov dword ptr [004D110C], ebx
+:0045DBFD 90                      nop
+:0045DBFE 90                      nop
+:0045DBFF 90                      nop
+:0045DC00 90                      nop
+:0045DC01 90                      nop
+:0045DC02 90                      nop
+:0045DC03 90                      nop
+:0045DC04 90                      nop
+:0045DC05 90                      nop
+:0045DC06 90                      nop
+:0045DC07 90                      nop
+:0045DC08 90                      nop
+:0045DC09 90                      nop
+:0045DC0A 90                      nop
+:0045DC0B 90                      nop
+:0045DC0C 90                      nop
+:0045DC0D 90                      nop
+:0045DC0E 90                      nop
+:0045DC0F 90                      nop
+:0045DC10 90                      nop
+:0045DC11 90                      nop
+:0045DC12 90                      nop
+:0045DC13 90                      nop
+:0045DC14 90                      nop
+:0045DC15 90                      nop
+:0045DC16 90                      nop
+:0045DC17 90                      nop
+:0045DC18 90                      nop
+:0045DC19 90                      nop
+:0045DC1A 90                      nop
+:0045DC1B 90                      nop
+:0045DC1C 90                      nop
+:0045DC1D 90                      nop
+:0045DC1E 90                      nop
+:0045DC1F 90                      nop
+:0045DC20 90                      nop
+:0045DC21 90                      nop
+:0045DC22 90                      nop
+:0045DC23 90                      nop
+:0045DC24 90                      nop
+:0045DC25 90                      nop
+:0045DC26 90                      nop
+:0045DC27 90                      nop
+:0045DC28 90                      nop
+:0045DC29 90                      nop
+:0045DC2A 90                      nop
+:0045DC2B 90                      nop
+:0045DC2C 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045DBF0(C)
+|
+:0045DC2D 891D400E4D00            mov dword ptr [004D0E40], ebx
+
+
+at free space: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+* Referenced by a CALL at Address:
+|:0045DBF2   
+|
+:0040945C 50                      push eax
+:0040945D 03C6                    add eax, esi
+:0040945F 53                      push ebx
+:00409460 51                      push ecx
+:00409461 8B9880010000            mov ebx, dword ptr [eax+00000180]
+:00409467 C1FB03                  sar ebx, 03
+:0040946A 43                      inc ebx
+:0040946B 803DD8B1600000          cmp byte ptr [0060B1D8], 00
+:00409472 7503                    jne 00409477
+:00409474 C1E301                  shl ebx, 01
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00409472(C)
+|
+:00409477 019898010000            add dword ptr [eax+00000198], ebx
+:0040947D 019890010000            add dword ptr [eax+00000190], ebx
+:00409483 8D8898010000            lea ecx, dword ptr [eax+00000198]
+:00409489 8B989C010000            mov ebx, dword ptr [eax+0000019C]
+:0040948F 3919                    cmp dword ptr [ecx], ebx
+:00409491 7E0E                    jle 004094A1
+:00409493 8919                    mov dword ptr [ecx], ebx
+:00409495 8B8894010000            mov ecx, dword ptr [eax+00000194]
+:0040949B 898890010000            mov dword ptr [eax+00000190], ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00409491(C)
+|
+:004094A1 8B9870010000            mov ebx, dword ptr [eax+00000170]
+:004094A7 C1FB03                  sar ebx, 03
+:004094AA 43                      inc ebx
+:004094AB 803DD8B1600000          cmp byte ptr [0060B1D8], 00
+:004094B2 7503                    jne 004094B7
+:004094B4 C1E301                  shl ebx, 01
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004094B2(C)
+|
+:004094B7 0198AC010000            add dword ptr [eax+000001AC], ebx
+:004094BD 0198A4010000            add dword ptr [eax+000001A4], ebx
+:004094C3 8D88AC010000            lea ecx, dword ptr [eax+000001AC]
+:004094C9 8B98B0010000            mov ebx, dword ptr [eax+000001B0]
+:004094CF 3919                    cmp dword ptr [ecx], ebx
+:004094D1 7E0E                    jle 004094E1
+:004094D3 8919                    mov dword ptr [ecx], ebx
+:004094D5 8B88A8010000            mov ecx, dword ptr [eax+000001A8]
+:004094DB 8988A4010000            mov dword ptr [eax+000001A4], ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004094D1(C)
+|
+:004094E1 59                      pop ecx
+:004094E2 5B                      pop ebx
+:004094E3 58                      pop eax
+:004094E4 C3                      ret
+
+=========================================================
+
+Step 5: Revised regeneration rate: every 8 points of BaseVit and BaseMag increase regeneration by 1/64HP per 0.05sec, and if the required stat is lower than 8, then there is no regeneration
+this also gives 2 free bytes, this could be later rewritten to free up some space
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045DBB4(C), :0045DBC6(C)
+|
+:0045DBD2 3B2DE8AD6E00            cmp ebp, dword ptr [006EADE8]
+:0045DBD8 0F8592000000            jne 0045DC70
+:0045DBDE A114AE6E00              mov eax, dword ptr [006EAE14]
+:0045DBE3 90                      nop
+:0045DBE4 90                      nop
+:0045DBE5 F7843098010000C0FFFFFF  test dword ptr [eax+esi+00000198], FFFFFFC0
+:0045DBF0 7E3B                    jle 0045DC2D
+:0045DBF2 E865B8FAFF              call 0040945C
+:0045DBF7 891D0C114D00            mov dword ptr [004D110C], ebx
+:0045DBFD 90                      nop
+:0045DBFE 90                      nop
+:0045DBFF 90                      nop
+:0045DC00 90                      nop
+:0045DC01 90                      nop
+:0045DC02 90                      nop
+:0045DC03 90                      nop
+:0045DC04 90                      nop
+:0045DC05 90                      nop
+:0045DC06 90                      nop
+:0045DC07 90                      nop
+:0045DC08 90                      nop
+:0045DC09 90                      nop
+:0045DC0A 90                      nop
+:0045DC0B 90                      nop
+:0045DC0C 90                      nop
+:0045DC0D 90                      nop
+:0045DC0E 90                      nop
+:0045DC0F 90                      nop
+:0045DC10 90                      nop
+:0045DC11 90                      nop
+:0045DC12 90                      nop
+:0045DC13 90                      nop
+:0045DC14 90                      nop
+:0045DC15 90                      nop
+:0045DC16 90                      nop
+:0045DC17 90                      nop
+:0045DC18 90                      nop
+:0045DC19 90                      nop
+:0045DC1A 90                      nop
+:0045DC1B 90                      nop
+:0045DC1C 90                      nop
+:0045DC1D 90                      nop
+:0045DC1E 90                      nop
+:0045DC1F 90                      nop
+:0045DC20 90                      nop
+:0045DC21 90                      nop
+:0045DC22 90                      nop
+:0045DC23 90                      nop
+:0045DC24 90                      nop
+:0045DC25 90                      nop
+:0045DC26 90                      nop
+:0045DC27 90                      nop
+:0045DC28 90                      nop
+:0045DC29 90                      nop
+:0045DC2A 90                      nop
+:0045DC2B 90                      nop
+:0045DC2C 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045DBF0(C)
+|
+:0045DC2D 891D400E4D00            mov dword ptr [004D0E40], ebx
+
+
+at free space: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+* Referenced by a CALL at Address:
+|:0045DBF2   
+|
+:0040945C 50                      push eax
+:0040945D 03C6                    add eax, esi
+:0040945F 53                      push ebx
+:00409460 51                      push ecx
+:00409461 8B9880010000            mov ebx, dword ptr [eax+00000180]
+:00409467 C1FB03                  sar ebx, 03
+:0040946A 90                      nop							< free byte
+:0040946B 803DD8B1600000          cmp byte ptr [0060B1D8], 00
+:00409472 7503                    jne 00409477
+:00409474 C1E301                  shl ebx, 01
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00409472(C)
+|
+:00409477 019898010000            add dword ptr [eax+00000198], ebx
+:0040947D 019890010000            add dword ptr [eax+00000190], ebx
+:00409483 8D8898010000            lea ecx, dword ptr [eax+00000198]
+:00409489 8B989C010000            mov ebx, dword ptr [eax+0000019C]
+:0040948F 3919                    cmp dword ptr [ecx], ebx
+:00409491 7E0E                    jle 004094A1
+:00409493 8919                    mov dword ptr [ecx], ebx
+:00409495 8B8894010000            mov ecx, dword ptr [eax+00000194]
+:0040949B 898890010000            mov dword ptr [eax+00000190], ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00409491(C)
+|
+:004094A1 8B9870010000            mov ebx, dword ptr [eax+00000170]
+:004094A7 C1FB03                  sar ebx, 03
+:004094AA 90                      nop							< free byte
+:004094AB 803DD8B1600000          cmp byte ptr [0060B1D8], 00
+:004094B2 7503                    jne 004094B7
+:004094B4 C1E301                  shl ebx, 01
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004094B2(C)
+|
+:004094B7 0198AC010000            add dword ptr [eax+000001AC], ebx
+:004094BD 0198A4010000            add dword ptr [eax+000001A4], ebx
+:004094C3 8D88AC010000            lea ecx, dword ptr [eax+000001AC]
+:004094C9 8B98B0010000            mov ebx, dword ptr [eax+000001B0]
+:004094CF 3919                    cmp dword ptr [ecx], ebx
+:004094D1 7E0E                    jle 004094E1
+:004094D3 8919                    mov dword ptr [ecx], ebx
+:004094D5 8B88A8010000            mov ecx, dword ptr [eax+000001A8]
+:004094DB 8988A4010000            mov dword ptr [eax+000001A4], ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004094D1(C)
+|
+:004094E1 59                      pop ecx
+:004094E2 5B                      pop ebx
+:004094E3 58                      pop eax
+:004094E4 C3                      ret
+
+=========================================================
+Step 6: Regeneration no longer depends on the dungeon level (read: town) and effects of increased life and mana regeneration are introduced.
+Plus, regeneration is now based on _current_ MAG & VIT and divided by 16 (used to be: by 8)
+
+* Referenced by a CALL at Address:
+|:0045DBF2   
+|
+:0040945C 50                      push eax
+:0040945D 03C6                    add eax, esi
+:0040945F 53                      push ebx
+:00409460 51                      push ecx
+:00409461 8B987C010000            mov ebx, dword ptr [eax+0000017C]
+:00409467 C1FB04                  sar ebx, 04
+:0040946A F6804055000040          test byte ptr [eax+00005540], 40
+:00409471 7404                    je 00409477
+:00409473 C1E301                  shl ebx, 01
+:00409476 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00409471(C)
+|
+:00409477 019898010000            add dword ptr [eax+00000198], ebx
+:0040947D 019890010000            add dword ptr [eax+00000190], ebx
+:00409483 8D8898010000            lea ecx, dword ptr [eax+00000198]
+:00409489 8B989C010000            mov ebx, dword ptr [eax+0000019C]
+:0040948F 3919                    cmp dword ptr [ecx], ebx
+:00409491 7E0E                    jle 004094A1
+:00409493 8919                    mov dword ptr [ecx], ebx
+:00409495 8B8894010000            mov ecx, dword ptr [eax+00000194]
+:0040949B 898890010000            mov dword ptr [eax+00000190], ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00409491(C)
+|
+:004094A1 8B986C010000            mov ebx, dword ptr [eax+0000016C]
+:004094A7 C1FB04                  sar ebx, 04
+:004094AA F6808855000004          test byte ptr [eax+00005588], 04
+:004094B1 7404                    je 004094B7
+:004094B3 C1E301                  shl ebx, 01
+:004094B6 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004094B1(C)
+|
+:004094B7 0198AC010000            add dword ptr [eax+000001AC], ebx
+:004094BD 0198A4010000            add dword ptr [eax+000001A4], ebx
+:004094C3 8D88AC010000            lea ecx, dword ptr [eax+000001AC]
+:004094C9 8B98B0010000            mov ebx, dword ptr [eax+000001B0]
+:004094CF 3919                    cmp dword ptr [ecx], ebx
+:004094D1 7E0E                    jle 004094E1
+:004094D3 8919                    mov dword ptr [ecx], ebx
+:004094D5 8B88A8010000            mov ecx, dword ptr [eax+000001A8]
+:004094DB 8988A4010000            mov dword ptr [eax+000001A4], ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004094D1(C)
+|
+:004094E1 59                      pop ecx
+:004094E2 5B                      pop ebx
+:004094E3 58                      pop eax
+:004094E4 C3                      ret
+
+=========================================================
+Step 7:
+Regeneration of life is altered in crypt in the following way:
+level 21: -0% speed
+level 22: -12,5% speed
+level 23: -25% speed 
+level 24: -50% speed
+
+	mod:
+* Referenced by a CALL at Address:
+|:0045DBF2   
+|
+:0040945C 50                      push eax
+:0040945D 03C6                    add eax, esi
+:0040945F 53                      push ebx
+:00409460 51                      push ecx
+:00409461 8B987C010000            mov ebx, dword ptr [eax+0000017C]
+:00409467 C1FB04                  sar ebx, 04
+:0040946A E969EC2F00              jmp 007080D8
+:0040946F 90                      nop
+:00409470 90                      nop
+:00409471 90                      nop
+:00409472 90                      nop
+:00409473 90                      nop
+:00409474 90                      nop
+:00409475 90                      nop
+:00409476 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007080FF(U)
+|
+:00409477 019898010000            add dword ptr [eax+00000198], ebx
+
+
+	and:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0040946A(U)
+|
+:007080D8 803DD8B1600016          cmp byte ptr [0060B1D8], 16
+:007080DF 7423                    je 00708104
+:007080E1 803DD8B1600017          cmp byte ptr [0060B1D8], 17
+:007080E8 7425                    je 0070810F
+:007080EA 803DD8B1600018          cmp byte ptr [0060B1D8], 18
+:007080F1 7424                    je 00708117
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070810D(U), :00708119(U)
+|
+:007080F3 F6804055000040          test byte ptr [eax+00005540], 40
+:007080FA 7403                    je 007080FF
+:007080FC C1E301                  shl ebx, 01
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007080FA(C)
+|
+:007080FF E97313D0FF              jmp 00409477
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007080DF(C)
+|
+:00708104 50                      push eax
+:00708105 8BC3                    mov eax, ebx
+:00708107 C1F803                  sar eax, 03
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708115(U)
+|
+:0070810A 2BD8                    sub ebx, eax
+:0070810C 58                      pop eax
+:0070810D EBE4                    jmp 007080F3
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007080E8(C)
+|
+:0070810F 50                      push eax
+:00708110 8BC3                    mov eax, ebx
+:00708112 C1F802                  sar eax, 02
+:00708115 EBF3                    jmp 0070810A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007080F1(C)
+|
+:00708117 D1FB                    sar ebx, 1
+:00708119 EBD8                    jmp 007080F3
+
+
+
+=========================================================
+Step 8:
+Characters with currentVIT below 16 will still regenerate life with avg speed 1 HP/ 12 sec
+
+the formula does the following:
+if curVIT < 16, and Rnd[4] = 0, add 1/64 HP to current life
+check made each 0,05 second
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0040946A(U)
+|
+:0070A4A0 83FB01                  cmp ebx, 00000001
+:0070A4A3 731F                    jnb 0070A4C4
+:0070A4A5 52                      push edx
+:0070A4A6 6A05                    push 00000005
+:0070A4A8 5A                      pop edx
+:0070A4A9 51                      push ecx
+:0070A4AA E8ABFAD0FF              call 00419F5A
+:0070A4AF 59                      pop ecx
+:0070A4B0 5A                      pop edx
+:0070A4B1 85C0                    test eax, eax
+:0070A4B3 7503                    jne 0070A4B8
+:0070A4B5 6A01                    push 00000001
+:0070A4B7 5B                      pop ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070A4B3(C)
+|
+:0070A4B8 A114AE6E00              mov eax, dword ptr [006EAE14]
+:0070A4BD 03C6                    add eax, esi
+:0070A4BF E9B3EFCFFF              jmp 00409477
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070A4A3(C)
+|
+:0070A4C4 E90FDCFFFF              jmp 007080D8
+
+
+=========================================================
+
+Life (and Mana?) regeneration in TheDark:
+_________________
+
+:0045DBD2 3B2DE8AD6E00            cmp ebp, dword ptr [006EADE8]		> check (compare) if processed character is local character 
+:0045DBD8 0F8592000000            jne 0045DC70				> if not, skip the rest and go to 45DC70
+:0045DBDE A114AE6E00              mov eax, dword ptr [006EAE14]		> make EAX the address to the data of the local character
+:0045DBE3 E82A47FFFF              call 00452312				> call 452312
+:0045DBE8 803DD8B1600000          cmp byte ptr [0060B1D8], 00		> check if in town (if DLVL = 0); NOTE 60B1D8 is pointer to DLVL
+:0045DBEF 7441                    je 0045DC32				> if yes, continue from 45DC32
+:0045DBF1 03C6                    add eax, esi				> 
+:0045DBF3 E9A7870100              jmp 0047639F				> jump to 47639f	(to Lose Life routine)
+
+* Referenced by a CALL at Address:
+|:0047640C   
+|
+:0045DBF8 50                      push eax
+:0045DBF9 C1E302                  shl ebx, 02
+:0045DBFC 299898010000            sub dword ptr [eax+00000198], ebx
+:0045DC02 A114AE6E00              mov eax, dword ptr [006EAE14]
+:0045DC07 299C3090010000          sub dword ptr [eax+esi+00000190], ebx
+:0045DC0E 8D843090010000          lea eax, dword ptr [eax+esi+00000190]
+:0045DC15 A114AE6E00              mov eax, dword ptr [006EAE14]
+:0045DC1A 83BC3098010000C0        cmp dword ptr [eax+esi+00000198], FFFFFFC0
+:0045DC22 58                      pop eax
+:0045DC23 C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00476412(C)
+|
+:0045DC24 33D2                    xor edx, edx
+:0045DC26 8BCD                    mov ecx, ebp
+:0045DC28 E8AACFFFFF              call 0045ABD7
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00476418(U)
+|
+:0045DC2D E85B44FFFF              call 0045208D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045DBEF(C)
+|										............if in town........
+
+:0045DC32 891D400E4D00            mov dword ptr [004D0E40], ebx		> 
+:0045DC38 A114AE6E00              mov eax, dword ptr [006EAE14]		> make EAX the address to local player ???
+:0045DC3D 03C6                    add eax, esi					> eax + esi
+:0045DC3F F6804355000008          test byte ptr [eax+00005543], 08		> check if local character has Corruption feat on !!!!
+:0045DC46 7422                    je 0045DC6A					> if he has it jump to 45DC6A
+:0045DC48 8B88AC010000            mov ecx, dword ptr [eax+000001AC]		> something about cur.mana.... not sure
+:0045DC4E 85C9                    test ecx, ecx					> compare current mana with ecx ???
+:0045DC50 7E18                    jle 0045DC6A					> if lowere or equal jump to 45dc6a
+:0045DC52 53                      push ebx					> 
+:0045DC53 6AF6                    push FFFFFFF6					> push -10 ???
+:0045DC55 5B                      pop ebx					> save -10 as ebx value
+:0045DC56 03CB                    add ecx, ebx					> add ebx to ecx (or ecx minus ebx)
+:0045DC58 7F02                    jg 0045DC5C					> jump if greater ??????????? wtf ??? where's the CMP ???
+:0045DC5A 8BD9                    mov ebx, ecx					> copy ecx to ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045DC58(C)
+|
+:0045DC5C E8645AFFFF              call 004536C5
+:0045DC61 5B                      pop ebx
+:0045DC62 EB06                    jmp 0045DC6A
+:0045DC64 90                      nop
+:0045DC65 90                      nop
+:0045DC66 90                      nop
+:0045DC67 90                      nop
+:0045DC68 90                      nop
+:0045DC69 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045DC46(C), :0045DC50(C), :0045DC62(U)
+|
+:0045DC6A 891D0C114D00            mov dword ptr [004D110C], ebx
+__________
+
+:00452312 F7843098010000C0FFFFFF  test dword ptr [eax+esi+00000198], FFFFFFC0	> test if character alive (if current life greater than -64)
+:0045231D 0F8F83120000            jg 004535A6					> if alive, jump to 4535A6
+:00452323 C3                      ret						> if character is dead jump to 45DBE8
+
+
+__________________						>>>>>> this routine seems to start working if the local character is alive (main regeneration routine) <<<<<<<
+:004535A6 50                      push eax						> push eax
+:004535A7 03C6                    add eax, esi						> copy esi to eax
+:004535A9 53                      push ebx						> push ebx
+:004535AA 51                      push ecx						> push ecx
+:004535AB 8B987C010000            mov ebx, dword ptr [eax+0000017C]			> make EBX the address to Cur.Vitality
+:004535B1 E8DE010000              call 00453794						> call 453794  (vitality regeneration data)
+:004535B6 E8AE010000              call 00453769						> call 453769
+:004535BB 8B986C010000            mov ebx, dword ptr [eax+0000016C]			> now make EBX the address to Cur.MAG
+:004535C1 E8014FFDFF              call 004284C7						> call 4284c7
+:004535C6 E8FA000000              call 004536C5						> call 4536c5
+:004535CB 59                      pop ecx
+:004535CC 5B                      pop ebx
+:004535CD 58                      pop eax
+:004535CE C3                      ret							> return to 45dbe8 ?
+
+____________________						>>>> regeneration routine, based on Cur.VIT <<<<<<
+:00453794 C1FB05                  sar ebx, 05						> ebx / 32
+:00453797 43                      inc ebx						> ebx + 1
+:00453798 803DD8B1600000          cmp byte ptr [0060B1D8], 00				> check if in town
+:0045379F 7503                    jne 004537A4						> if not in town, jump to 4537a4
+:004537A1 C1E301                  shl ebx, 01						> if in town, ebx * 2
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045379F(C)
+|
+:004537A4 C3                      ret							> return to 4535B6 ( right, no? )
+
+___________________						>>>>> continuing Cur.VIT-based routine ???
+:00453769 019898010000            add dword ptr [eax+00000198], ebx			> Cur.Life
+:0045376F 019890010000            add dword ptr [eax+00000190], ebx			> Base Life
+:00453775 8D8898010000            lea ecx, dword ptr [eax+00000198]			> something with current life
+:0045377B 8B989C010000            mov ebx, dword ptr [eax+0000019C]			> copy Cur.Life to ebx ???
+:00453781 3919                    cmp dword ptr [ecx], ebx				> compare ebx to ecx ??
+:00453783 7E0E                    jle 00453793						> if lower or equal, jump to 453793 ( = stop regeneration ??? )
+:00453785 8919                    mov dword ptr [ecx], ebx				> copy ebx to ecx ?
+:00453787 8B8894010000            mov ecx, dword ptr [eax+00000194]			> copy Cur.BaseLife to ecx ?
+:0045378D 898890010000            mov dword ptr [eax+00000190], ecx			> copy ecx to base life
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00453783(C)
+|
+:00453793 C3                      ret								> return to 4535bb
+_____________________					>> start of MAGIC regeneration routine <<<<
+:004284C7 E8C8B20200              call 00453794				> call 453794
+:004284CC F6808855000004          test byte ptr [eax+00005588], 04	> check if character has PERIL feat on (in TD it is "Mana Regeneration")
+:004284D3 7402                    je 004284D7				> if not, jump to 4284d7
+:004284D5 43                      inc ebx				> else increase mana regeneration by 2 points
+:004284D6 43                      inc ebx				> second point...
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004284D3(C)
+|
+:004284D7 C3                      ret						> return to 4535c6
+
+__________							>> called from 4284c7 (magic regen. routine <<<<
+:00453794 C1FB05                  sar ebx, 05				> ebx / 32
+:00453797 43                      inc ebx				> ebx + 1
+:00453798 803DD8B1600000          cmp byte ptr [0060B1D8], 00		> check if in town
+:0045379F 7503                    jne 004537A4				> if not, go to 4537a4 (return to 4284cc)
+:004537A1 C1E301                  shl ebx, 01				> ebx * 2 (double regeneration in town)
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045379F(C)
+|
+:004537A4 C3                      ret						> return to 4284cc
+
+__________________						>>>>> called from 4535c6 <<<<<
+:004536C5 0198AC010000            add dword ptr [eax+000001AC], ebx	> add ebx to Cur.Mana
+:004536CB 0198A4010000            add dword ptr [eax+000001A4], ebx	> add ebx to Base Mana
+:004536D1 8D88AC010000            lea ecx, dword ptr [eax+000001AC]	> load effective address.. something with cur.mana
+:004536D7 8B98B0010000            mov ebx, dword ptr [eax+000001B0]	> ebx = Max.Cur.Mana
+:004536DD 3919                    cmp dword ptr [ecx], ebx		> cmp ebx to ecx
+:004536DF 7E0E                    jle 004536EF				> if lower or equal, jump to 4536ef ( = return to 4535cb)
+:004536E1 8919                    mov dword ptr [ecx], ebx		> copy ebx to ecx
+:004536E3 8B88A8010000            mov ecx, dword ptr [eax+000001A8]	> move to ECX, Max.Base Mana
+:004536E9 8988A4010000            mov dword ptr [eax+000001A4], ecx	> move to ECX, Base Mana
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004536DF(C)
+|
+:004536EF C3                      ret					> return to 4535cb
+
+_____________________________________		>>> jumped from 45dbf3 <<<<
+:0047639F 53                      push ebx				> push ebx
+:004763A0 33DB                    xor ebx, ebx				> ?
+:004763A2 F6407840                test [eax+78], 40			> check if appearance is.. in armnor +40 ?
+:004763A6 7458                    je 00476400				> if yes, continue from 476400
+:004763A8 53                      push ebx
+:004763A9 8B989C010000            mov ebx, dword ptr [eax+0000019C]
+:004763AF C1FB02                  sar ebx, 02
+:004763B2 399898010000            cmp dword ptr [eax+00000198], ebx
+:004763B8 5B                      pop ebx
+:004763B9 7F06                    jg 004763C1
+:004763BB 836078BF                and dword ptr [eax+78], FFFFFFBF
+:004763BF EB3F                    jmp 00476400
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004763B9(C)
+|
+:004763C1 83C301                  add ebx, 00000001
+:004763C4 83787850                cmp dword ptr [eax+78], 00000050
+:004763C8 7C0C                    jl 004763D6
+:004763CA 83C301                  add ebx, 00000001
+:004763CD 83787860                cmp dword ptr [eax+78], 00000060
+:004763D1 7C03                    jl 004763D6
+:004763D3 83C301                  add ebx, 00000001
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004763C8(C), :004763D1(C)
+|
+:004763D6 80B83C01000001          cmp byte ptr [eax+0000013C], 01		> check if char can block
+:004763DD 7515                    jne 004763F4					> if not, continue from 4763f4
+:004763DF 83B86409000005          cmp dword ptr [eax+00000964], 00000005	> check first hand slot, if it has #5 item ?
+:004763E6 7409                    je 004763F1					> if yes, continue from 4763f1
+:004763E8 83B8D80A000005          cmp dword ptr [eax+00000AD8], 00000005	> check offhand for same item ?
+:004763EF 7503                    jne 004763F4					> if not, continue from 4763f4
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004763E6(C)
+|
+:004763F1 83C301                  add ebx, 00000001				> ebx + 1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004763DD(C), :004763EF(C)
+|
+:004763F4 83B86001000002          cmp dword ptr [eax+00000160], 00000002	> check if character class = Mage,
+:004763FB 7503                    jne 00476400					> if not, continue from 476400
+:004763FD C1E301                  shl ebx, 01					> if Mage, double EBX value
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:		>>>> this is not needed by far as there are no Lose Life feat in TH <<<
+|:004763A6(C), :004763BF(U), :004763FB(C)
+|
+:00476400 F6804055000040          test byte ptr [eax+00005540], 40		> check if players has Lose Life items on him
+:00476407 7403                    je 0047640C					> if yes, continue from 47640c
+:00476409 83C301                  add ebx, 00000001				> else add 1 to ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00476407(C)
+|
+:0047640C E8E777FEFF              call 0045DBF8					> call 45dbf8				(lose life routine?)
+:00476411 5B                      pop ebx					> write current value as ebx ?
+:00476412 0F8E0C78FEFF            jle 0045DC24					> if lower or equal, go to 45dc24
+:00476418 E91078FEFF              jmp 0045DC2D					> jump to 45dc2d
+
+____________________________________________________	>>>> jumped from 476418 <<<<
+
+:0045DC2D E85B44FFFF              call 0045208D					> call 45208d
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045DBEF(C)
+|
+:0045DC32 891D400E4D00            mov dword ptr [004D0E40], ebx
+:0045DC38 A114AE6E00              mov eax, dword ptr [006EAE14]
+:0045DC3D 03C6                    add eax, esi
+:0045DC3F F6804355000008          test byte ptr [eax+00005543], 08
+:0045DC46 7422                    je 0045DC6A
+:0045DC48 8B88AC010000            mov ecx, dword ptr [eax+000001AC]
+:0045DC4E 85C9                    test ecx, ecx
+:0045DC50 7E18                    jle 0045DC6A
+:0045DC52 53                      push ebx
+:0045DC53 6AF6                    push FFFFFFF6
+:0045DC55 5B                      pop ebx
+:0045DC56 03CB                    add ecx, ebx
+:0045DC58 7F02                    jg 0045DC5C
+:0045DC5A 8BD9                    mov ebx, ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045DC58(C)
+|
+:0045DC5C E8645AFFFF              call 004536C5
+:0045DC61 5B                      pop ebx
+:0045DC62 EB06                    jmp 0045DC6A
+____________________________________________________
+
+									>>> called from 45dc5c <<<<
+:004536C5 0198AC010000            add dword ptr [eax+000001AC], ebx
+:004536CB 0198A4010000            add dword ptr [eax+000001A4], ebx
+:004536D1 8D88AC010000            lea ecx, dword ptr [eax+000001AC]
+:004536D7 8B98B0010000            mov ebx, dword ptr [eax+000001B0]
+:004536DD 3919                    cmp dword ptr [ecx], ebx
+:004536DF 7E0E                    jle 004536EF
+:004536E1 8919                    mov dword ptr [ecx], ebx
+:004536E3 8B88A8010000            mov ecx, dword ptr [eax+000001A8]
+:004536E9 8988A4010000            mov dword ptr [eax+000001A4], ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004536DF(C)
+|
+:004536EF C3                      ret					> return to 45dc61
+___________________________________________________
+
+==============================
+
+hf:
+
+:0045DBD2 cmp ebp, dword ptr [006EADE8]                      (1)
+:0045DBD8 jne 0045DC70                                              (2)
+:0045DBDE mov eax, dword ptr [006EAE14]                      (3)
+:0045DBE3 add eax, esi                                                 (3)
+:0045DBE5 test byte ptr [eax+00005540], 40                    (4)
+:0045DBEC je 0045DC33                                                (4)
+:0045DBEE cmp byte ptr [0060B1D8], 00                          (5)
+:0045DBF5 je 0045DC33                                                (5)
+:0045DBF7 add dword ptr [eax+00000198], FFFFFFFC        (6)
+:0045DBFE mov eax, dword ptr [006EAE14]                 
+:0045DC03 add dword ptr [eax+esi+00000190], FFFFFFFC    (6)
+:0045DC0B lea eax, dword ptr [eax+esi+00000190]
+:0045DC12 mov eax, dword ptr [006EAE14]
+:0045DC17 test dword ptr [eax+esi+00000198], FFFFFFC0   (7)
+:0045DC22 jg 0045DC2D                                                 (7)
+:0045DC24 xor edx, edx                                                  (8)
+:0045DC26 mov ecx, ebp                                                (8)
+:0045DC28 call 0045ABD7                                               (8)
+
+(1) check if processed character is local character
+
+(2) if not, skip the rest
+
+(3) make EAX the address to the data of the local character
+
+(4) if no Lifedrain item is worn, skip the rest
+
+(5) if in Town, skip the rest
+
+(6) substract 4 points of Base and Current Life
+
+(7) if character is still alive, skip the rest
+
+(8) handle character's death 

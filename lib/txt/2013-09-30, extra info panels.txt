@@ -1,0 +1,264 @@
+﻿Extra character info panels
+
+В окне параметров ("с")  на манер мода Д2 PlugY есть стрелки влево и вправо, с помощью которых идет прокрутка доп.страниц инфы о персонаже.
+
+О том где взять картинки, волноваться незачем. Это на мне.
+
+Какую инфу отображать:
+
+1. Армор пирсинг: процент общий
+2. Урон по: демонам, зверям, андедам
+3. Шанс критического урона и отображение  того, каким будет урон при крите
+4. Поглощение процента мили урона, исходя из класса и живучести
+5. шанс на резист к КБ
+6. итд, добавлять по мере выдумывания
+
+
+
+
+============================================================================
+
+XP bar:
+
+@DrawXpBar: / eb400 ( 71E800 )
+; 1. get cur lvl
+call 0070A1D0 ;@GetCurrentPlayerOffset
+movzx ecx, byte ptr [eax + 440]; clvl
+cmp ecx, 50
+jz @return ; or full bar
+lea edx, [ecx*4 + 004B5E30h]; adress of next level xp
+mov ecx, edx
+mov edx, dword ptr [edx]; next level xp
+sub ecx, 4
+mov ecx, dword ptr [ecx]; cur lvl xp
+mov eax, dword ptr [eax + 444] ; cur xp
+sub edx, ecx ; total xp from cur lvl to next lvl
+sub eax, ecx ; xp gained from last lvlup
+
+jle @return
+
+imul eax, barWidth; width of bar in pixels / adjust! // 400...
+cmp ecx, 0
+jg @div
+mov eax, 0
+jmp @afterDiv
+@div:
+mov ecx, edx
+xor edx, edx
+div ecx ; eax/ecx
+@afterDiv:
+; eax - cur bar width
+mov ecx, 3 ; bar height in pixels
+mov edx, dword ptr [0057A1E0h] ;  WorkingSurface
+add edx, dword ptr [006EB688h + 4*500]; YOffsetHashTable
+add edx, left;
+
+@loop: / eb46c
+push ecx
+
+push    eax             ; len
+push    0               ; color code
+push    edx             ; Dst
+call    00479CD0                 ; _memset
+pop edx
+pop eax
+pop eax
+
+pop ecx
+add edx, 768; working widht
+dec ecx
+cmp ecx, 0
+jge @loop
+
+@return
+retn
+
+==============================================
+Вызов
+
+.text:0046AFEF loc_46AFEF:                             ; CODE XREF: MainDrawFunc+82j
+
+call @DrawXpBar ; впихнуть до проверки
+
+.text:0046AFEF                 cmp     NeedDrawLife, ebx
+.text:0046AFF5                 jz      short loc_46AFFC
+.text:0046AFF7                 call    DrawLifeGlobeBottom
+
+========================================================
+
+хак для отключения неперерисовки того что не изменялось. Каждый кадр рисуем все
+
+.text:0046AF72                 jz      loc_46B08D
+
+mov dword ptr [005753ACh], 0ffh
+
+.text:0046AF78                 mov     ecx, NeedRedrawAll
+
+===========================================================
+
+Additional char info
+
+по аналогии с этим скрином http://www.diablo1.ru/images/diablo/other/Diablo-HD-Remake-Mod-03.jpg
+делаем отображение доп. инфы о параметрах перса при наведении на соответствующие окошки параметров в панели инфы перса
+
+Oкно класса брони:
+1. melee damage resistance: %
+2. knock back resistance: %
+3. stun threshold: [x-y]
+4. 
+5. 
+
+Окно урона:
+1. crit chance: x.xx%
+2. crit damage: [xxxxx-yyyyy]
+3. DPS (x1.2 for ruin, x1.3 for dread)
+4. dmg vs undead: [x-y] , vs demons [x-y], vs beasts[x-y] (?)
+5.
+
+Окно меткости:
+1. total AP: %
+2. 
+3. 
+4. 
+5. 
+
+Окно ХП:
+1. life regeneration: x.xx HP/sec (с учетом бонуса к усилению регенерации)
+
+Окно маны:
+1. mana regeneration: x.xx mana/sec (с учетом бонуса к усилению регенерации)
+
+
+
+
+Как обычнот все начинается с табличек
+Структура нашей таблички такова:
+dword left
+dword top
+dword width
+dword height
+
+первые 4 значения определяют прямоугольник при наведении на который будет вывод. left == 0ffffffffh означает конец таблицы
+
+Итого для того чтобы все у нас было заибись нужна функция которая будет проверять один прямоугольник на вхождение
+вторая будет проходить по всем строкам и вызывать первую функцию для проверки на вхождение и вызывать активную функцию для первого подошедшего прямоугольника.
+третье - надо устроить вызов второй функции из onMouseMove
+
+ну и наконец потихоньку писать набор функций, которые будуть спамить в инфостроку
+
+Приступаю
+
+====================================================
+@CharPanelRectsTable:
+новая табличка для доп инфо
+
+byte @CharPanelRectID:
+тут будет писаться индекс поля для отображения
+
+====================================================
+
+@isCursorIntoRect:
+; ecx - rectParams
+
+mov eax, dword ptr [575228h]; cursorX
+mov edx, dword ptr [ecx] ; left
+cmp eax, edx
+jl @returnFalse
+add edx, dword ptr[ecx + 8]; right
+cmp eax, edx
+jg @returnFalse
+
+mov eax, dword ptr [575224h]; cursorY
+mov edx, dword ptr [ecx+4] ; top
+cmp eax, edx
+jl @returnFalse
+add edx, dword ptr[ecx + 12]; bottom
+cmp eax, edx
+jg @returnFalse
+
+@returnTrue:
+mov eax, 1
+retn
+
+@returnFalse:
+xor eax, eax
+retn
+
+===============================================
+
+@checkAllCharPanelRects:
+
+push edi
+push esi
+xor esi, esi
+mov edi, @CharPanelRectsTable
+@loop:
+
+cmp dword ptr [edi], 0; встретив маркер конца таблицы выходим
+jl @return
+
+mov ecx, edi
+call @isCursorIntoRect
+test eax, eax
+jz @continue
+
+mov eax, esi
+mov byte ptr [@CharPanelRectID], al
+jmp @return
+
+@continue:
+add edi, 16
+inc esi
+jmp @loop
+
+@return:
+pop esi
+pop edi
+retn
+
+==================================================
+
+loc_407F46:
+mov     esi, MonsterArrayIndex
+
+or byte ptr [@CharPanelRectID], 0ffh ; вставить между
+
+or      byte ptr ObjectUnderCursor.ObjectIndex, 0FFh
+
+====================================================
+
+собственно теперь надо придумать как это вызывать и откуда
+
+00408007 :
+
+cmp  dword ptr [4D12E0h]   , 0 ; IsCharPanelVisible
+jz   @spellPanelCheck
+cmp   dword ptr [575228h], eax ; CursorX
+jg @spellPanelCheck
+call @checkAllCharPanelRects
+jmp   00408BC8h  ; @return
+
+@spellPanelCheck:
+;.text:00408007                 cmp     IsSPELLPanelVisible, 0
+;.text:0040800E                 jz      short loc_40801C
+;.text:00408010                 cmp     CursorX, eax
+;.text:00408016                 jg      return
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

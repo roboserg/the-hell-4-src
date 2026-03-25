@@ -1,0 +1,34 @@
+Death Guardians hit on 9th frame when encountered in Pandemonium:
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00444630(C)
+|
+:00709A40 3D40000000              cmp eax, 00000040
+:00709A45 0F8542000000            jne 00709A8D
+:00709A4B 803DD8B1600010          cmp byte ptr [0060B1D8], 10
+:00709A52 0F8535000000            jne 00709A8D
+:00709A58 83BEECDC690009          cmp dword ptr [esi+0069DCEC], 00000009
+:00709A5F 752C                    jne 00709A8D
+:00709A61 0FB6864EDD6900          movzx eax, byte ptr [esi+0069DD4E]
+:00709A68 8B96D4DC6900            mov edx, dword ptr [esi+0069DCD4]
+:00709A6E 8BCF                    mov ecx, edi
+:00709A70 50                      push eax
+:00709A71 0FB6864DDD6900          movzx eax, byte ptr [esi+0069DD4D]
+:00709A78 50                      push eax
+:00709A79 0FB6864CDD6900          movzx eax, byte ptr [esi+0069DD4C]
+:00709A80 83C025                  add eax, 00000025
+:00709A83 E91546D3FF              jmp 0043E09D
+:00709A88 90                      nop
+:00709A89 90                      nop
+:00709A8A 90                      nop
+:00709A8B 90                      nop
+:00709A8C 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00709A45(C), :00709A52(C), :00709A5F(C)
+|
+:00709A8D E91A46D3FF              jmp 0043E0AC
+:00709A92 90                      nop
+:00709A93 90                      nop
+:00709A94 90                      nop

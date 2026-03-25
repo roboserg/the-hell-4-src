@@ -1,0 +1,860 @@
+﻿9. 2 и 3й этажи
+
+
+
+9.1. функции добавления ворпов
+9.1.1.                                E39F0h // checked
+@addWarpToHoraz2:
+
+; 00700228 warp[0]
+
+and dword ptr [0070021C], 00
+mov dword ptr [00700220], 02
+
+mov dword ptr [00700228], 27d
+mov dword ptr [0070022C], 84d
+mov dword ptr [00700230], 1029d
+mov byte ptr [00700234], 8
+mov byte ptr [00700235], 1
+-
+mov dword ptr [00700238], 43d
+mov dword ptr [0070023C], 40d ; 39d
+mov dword ptr [00700240], 1029d
+mov byte ptr [00700244], 10d
+mov byte ptr [00700245], 1
+
+retn
+
+
+                       chek:
+* Referenced by a CALL at Address:
+|:00716F64   
+|
+:00716DF0 83251C02700000          and dword ptr [0070021C], 00000000
+:00716DF7 C7052002700002000000    mov dword ptr [00700220], 00000002
+:00716E01 C705280270001B000000    mov dword ptr [00700228], 0000001B
+:00716E0B C7052C02700054000000    mov dword ptr [0070022C], 00000054
+:00716E15 C7053002700005040000    mov dword ptr [00700230], 00000405
+:00716E1F C6053402700008          mov byte ptr [00700234], 08
+:00716E26 C6053502700001          mov byte ptr [00700235], 01
+...
+:00716E32 C705380270002B000000    mov dword ptr [00700238], 0000002B
+:00716E3C C7053C02700028000000    mov dword ptr [0070023C], 00000028
+:00716E46 C7054002700005040000    mov dword ptr [00700240], 00000405
+:00716E50 C605440270000A          mov byte ptr [00700244], 0A
+:00716E57 C6054502700001          mov byte ptr [00700245], 01
+...
+:00716E63 C3                      ret
+
+
+9.1.2.                               E3A70h // checked
+@addWarpToHoraz3:
+
+; 00700228 warp[0]
+
+and dword ptr [0070021C], 00
+mov dword ptr [00700220], 02
+
+mov dword ptr [00700228], 25d
+mov dword ptr [0070022C], 22d
+mov dword ptr [00700230], 1029d
+mov byte ptr [00700234], 8
+mov byte ptr [00700235], 1
+
+mov dword ptr [00700238], 18d ; 17d
+mov dword ptr [0070023C], 45d
+mov dword ptr [00700240], 1029d
+mov byte ptr [00700244], 9
+mov byte ptr [00700245], 1
+
+retn
+
+
+                    chek:
+* Referenced by a CALL at Address:
+|:00716FE4   
+|
+:00716E70 83251C02700000          and dword ptr [0070021C], 00000000
+:00716E77 C7052002700002000000    mov dword ptr [00700220], 00000002
+:00716E81 C7052802700019000000    mov dword ptr [00700228], 00000019
+:00716E8B C7052C02700016000000    mov dword ptr [0070022C], 00000016
+:00716E95 C7053002700005040000    mov dword ptr [00700230], 00000405
+:00716E9F C6053402700008          mov byte ptr [00700234], 08
+:00716EA6 C6053502700001          mov byte ptr [00700235], 01
+..
+:00716EB2 C7053802700012000000    mov dword ptr [00700238], 00000012
+:00716EBC C7053C0270002D000000    mov dword ptr [0070023C], 0000002D
+:00716EC6 C7054002700005040000    mov dword ptr [00700240], 00000405
+:00716ED0 C6054402700009          mov byte ptr [00700244], 09
+:00716ED7 C6054502700001          mov byte ptr [00700245], 01
+...
+:00716EE3 C3                      ret
+
+
+9.2. функйции создания этажей // checked
+Вызов из 7.1 всего
+9.2.1.
+@horazon2:
+
+; оставить место на вызов функции рэндомизации
+mov     esi, offset "Levels\\L5Data\\Horazon02.DUN"
+
+push    2Dh
+push    53h
+pop     edx
+mov     ecx, esi
+call    sub_40BDEE ; LoadQuestDungeonAltMapChurch
+
+; тут доп место если будет меняться архитектура
+
+movzx eax, byte ptr [A352C0h];@PrevQuestLocIndex
+cmp eax, 8
+jz @enterFromHoraz1
+
+@enterFromHoraz3:
+push 41d
+mov edx, 43d
+jmp @loadMainMap
+
+@enterFromHoraz1:
+push 85d
+mov edx, 27d
+
+@loadMainMap:
+mov ecx, esi
+call    sub_40BAFD
+
+mov ecx, offset "levels\\5data\\l5base.pal" ; или другая спец палитра
+call 0045552B
+
+mov eax, 112d
+push eax
+push eax
+xor ecx, ecx
+xor edx, edx
+call 0044C0BA; AddCryptDoors(0, 0, 112, 112);
+
+;call @addWarpToHoraz2
+
+pop     esi
+retn
+
+                                chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716A8E(C)
+|
+:00716EF0 BE5251A300              mov esi, 00A35152
+..
+:00716EFA 6A2D                    push 0000002D
+:00716EFC 6A53                    push 00000053
+:00716EFE 5A                      pop edx
+..
+:00716F09 89F1                    mov ecx, esi
+...
+:00716F0F E8DA4ECFFF              call 0040BDEE
+...
+:00716F20 0FB605C052A300          movzx eax, byte ptr [00A352C0]
+:00716F27 83F808                  cmp eax, 00000008
+:00716F2A 7407                    je 00716F33
+:00716F2C 6A29                    push 00000029
+:00716F2E 6A2B                    push 0000002B
+:00716F30 5A                      pop edx
+:00716F31 EB05                    jmp 00716F38
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716F2A(C)
+|
+:00716F33 6A55                    push 00000055
+:00716F35 6A1B                    push 0000001B
+:00716F37 5A                      pop edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716F31(U)
+|
+:00716F38 89F1                    mov ecx, esi
+:00716F3A E8BE4BCFFF              call 0040BAFD
+...
+:00716F44 B9B851A300              mov ecx, 00A351B8
+..
+:00716F4B E8DBE5D3FF              call 0045552B
+...
+:00716F56 6A70                    push 00000070
+:00716F58 58                      pop eax
+:00716F59 50                      push eax
+:00716F5A 50                      push eax
+:00716F5B 31C9                    xor ecx, ecx
+:00716F5D 31D2                    xor edx, edx
+:00716F5F E85651D3FF              call 0044C0BA
+:00716F64 E887FEFFFF              call 00716DF0
+:00716F69 5E                      pop esi
+:00716F6A C3                      ret
+
+9.2.2.                     E3B70h // checked
+@horazon3:
+
+; оставить место на вызов функции рэндомизации
+mov     esi, offset "Levels\\L5Data\\Horazon03.DUN"
+
+push    2Dh
+push    53h
+pop     edx
+mov     ecx, esi
+call    sub_40BDEE ; LoadQuestDungeonAltMapChurch
+
+; тут доп место если будет меняться архитектура
+
+movzx eax, byte ptr [A352C0h];@PrevQuestLocIndex
+cmp eax, 8
+jz @enterFromHoraz1
+@enterFromHoraz2:
+push 45d
+mov edx, 19d
+jmp @loadMainMap
+
+@enterFromHoraz1:
+push 23d
+mov edx, 25d
+
+@loadMainMap:
+mov ecx, esi
+call    sub_40BAFD
+
+mov ecx, offset "levels\\5data\\l5base.pal" ; или другая спец палитра
+call 0045552B
+
+mov eax, 112d
+push eax
+push eax
+xor ecx, ecx
+xor edx, edx
+call 0044C0BA; AddCryptDoors(0, 0, 112, 112);
+
+;call @addWarpToHoraz3
+
+pop     esi
+retn
+
+                   chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716A95(C)
+|
+:00716F70 BECA52A300              mov esi, 00A352CA
+...
+:00716F7A 6A2D                    push 0000002D
+:00716F7C 6A53                    push 00000053
+:00716F7E 5A                      pop edx
+..
+:00716F89 89F1                    mov ecx, esi
+..
+:00716F8F E85A4ECFFF              call 0040BDEE
+..
+:00716FA0 0FB605C052A300          movzx eax, byte ptr [00A352C0]
+:00716FA7 83F808                  cmp eax, 00000008
+:00716FAA 7407                    je 00716FB3
+:00716FAC 6A2D                    push 0000002D
+:00716FAE 6A19                    push 00000019
+:00716FB0 5A                      pop edx
+:00716FB1 EB05                    jmp 00716FB8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716FAA(C)
+|
+:00716FB3 6A17                    push 00000017
+:00716FB5 6A13                    push 00000013
+:00716FB7 5A                      pop edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716FB1(U)
+|
+:00716FB8 89F1                    mov ecx, esi
+:00716FBA E83E4BCFFF              call 0040BAFD
+...
+:00716FC4 B9D451A300              mov ecx, 00A351D4 // horazon03.pal
+....
+:00716FCB E85BE5D3FF              call 0045552B
+...
+:00716FD6 6A70                    push 00000070
+:00716FD8 58                      pop eax
+:00716FD9 50                      push eax
+:00716FDA 50                      push eax
+:00716FDB 31C9                    xor ecx, ecx
+:00716FDD 31D2                    xor edx, edx
+:00716FDF E8D650D3FF              call 0044C0BA
+:00716FE4 E887FEFFFF              call 00716E70
+:00716FE9 5E                      pop esi
+:00716FEA C3                      ret
+
+==============================================================
+10. видео
+
+10.1. функция проверок на необходимость проигрывания видео и вызов видео
+
+@PlayIntroVideosWhenEnterInQuestLocations
+push eax
+push ecx
+push edx
+movzx eax, byte ptr [0061CB00]; QuestFloorIndex
+cmp eax, 8 ; лока хоразона
+jz @horazonVideoCheck
+; мeсто на ещё проверки
+jmp @return
+
+@horazonVideoCheck:
+mov     eax, 10h
+imul    eax, 1Ch
+add     eax, 006EB358h
+cmp     byte ptr [eax+20d], 1 ; status2
+jge     @return ; уже проигрывали видео
+
+mov     byte ptr [eax+20d], 1
+mov ecx, offset "gendata\\hellfire.smk"
+
+@playVideo: ; в ecx заранее указатель на имя видео
+mov edx, 1
+call sub_4451A3
+
+@return:
+pop edx
+pop ecx
+pop eax
+ret
+
+chek
+* Referenced by a CALL at Address:
+|:00717060   
+|
+:00717000 50                      push eax
+:00717001 51                      push ecx
+:00717002 52                      push edx
+:00717003 0FB60500CB6100          movzx eax, byte ptr [0061CB00]
+:0071700A 83F808                  cmp eax, 00000008
+:0071700D 7411                    je 00717020
+.....
+:0071701E EB22                    jmp 00717042
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071700D(C)
+|
+:00717020 6A10                    push 00000010
+:00717022 58                      pop eax
+:00717023 6BC01C                  imul eax, 0000001C
+:00717026 0558B36E00              add eax, 006EB358
+:0071702B 80781401                cmp byte ptr [eax+14], 01
+:0071702F 7D11                    jge 00717042
+:00717031 C6401401                mov [eax+14], 01
+:00717035 B9A692A000              mov ecx, 00A092A6
+:0071703A 6A01                    push 00000001
+:0071703C 5A                      pop edx
+:0071703D E861E1D2FF              call 004451A3
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071701E(U), :0071702F(C)
+|
+:00717042 5A                      pop edx
+:00717043 59                      pop ecx
+:00717044 58                      pop eax
+:00717045 C3                      ret
+
+
+10.2. вызов функции
+
+41E08C:
+call @PlayIntroVideosWhenEnterInQuestLocations
+mov ecx, 8
+call 00455867
+
+call    sub_46031F
+
+chekk
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0041E08C(U)
+|
+:00717060 E89BFFFFFF              call 00717000
+:00717065 E8B592D4FF              call 0046031F
+:0071706A E92270D0FF              jmp 0041E091
+:0071706F 90                      nop
+
+=============================================================
+11. убирание книг на всех этажах склепа готово
+
+.text:0044C226 014                 jnz     short loc_44C22C
+на
+jmp 44C250
+
+==============================================================
+12. настройка книг в локах
+
+12.1. расширение таблицы имён книг
+
+единственная ссылка
+.text:0045482C 00C                 push    ds:BookNamePtrTable[eax*4]
+
+собственно таблица
+00490270 - 004902B0
+
+A35700 - new address for the table
+4, 5, 6 = Horazon's Tome
+
+
+1)переносим на новое место. 
+2) заполняем
+offset aJournalTheMeet будет "spellbook"
+а дальше 14 или сколько там названий остальных книг
+
+12.2. создание таблицы спичей книг хоразона
+@HorazonQuestBookSpeechTable
+
+размер = 4(dword потому что) * (6(количество классов) * 16(количество книг))
+итого 384d байта
+
+Первые 3 строки относящиеся к книгам открывающим босса(везде десятичные значения двордов)
+323,        332,        329,        323 ?,        335,        323,
+324,        333,        330,        327,        336,        324,
+325,        334,        331,        328,        337,        325,
+
+12.3.        offset _ e3c80
+
+@InitHorazonQuestBook:
+; ecx - индекс объекта
+; edx - порядковый номер книги
+push esi
+
+imul ecx, 120d
+add ecx, 006DE5C0
+mov esi, ecx ; в esi оффсет объекта книги
+
+mov dword ptr [esi + 88d], 1
+mov dword ptr [esi + 36d], 3
+mov dword ptr [esi + 100d], 4
+xor eax, eax
+mov dword ptr [esi + 116d], eax
+
+call 70A1D0; @getCurPlayerOffset
+movzx eax, byte ptr [eax + 352d] ; classId
+shl eax, 2; *4
+mov ecx, edx
+dec ecx
+imul ecx, 24d
+add ecx, eax
+add ecx, HorazonQuestBookSpeechTable
+
+mov eax, dword ptr  [ecx]
+mov dword ptr [esi + 92d], eax
+
+cmp edx, 3
+jg @notSpeelBooks
+
+@SpeelBooks:
+mov dword ptr [esi + 116d], edx
+mov dword ptr [esi + 96d], 10d
+jmp @return
+
+@notSpeelBooks:
+mov eax, edx
+add eax, 7
+mov dword ptr [esi + 96d], eax; индекс имени
+
+@return:
+pop esi
+
+===============================================================
+13. настройка книг в первой и третьей локе
+
+13.1. функция
+
+13.1.1.
+@SetupHorazon1Books:
+mov ecx, 76d
+mov edx, 68d
+call 0046B092
+mov ecx, eax
+mov edx, 4 ; номер книги
+call @InitHorazonQuestBook ; 12.3.
+
+mov ecx, 37d
+mov edx, 73d
+call 0046B092
+mov ecx, eax
+mov edx, 4 ; номер книги
+call @InitHorazonQuestBook ; 12.3.
+
+mov ecx, 25d
+mov edx, 73d
+call 0046B092
+mov ecx, eax
+mov edx, 4 ; номер книги
+call @InitHorazonQuestBook ; 12.3.
+
+retn
+
+13.1.2.
+@SetupHorazon3Books:
+mov ecx, 48d
+mov edx, 38d
+call 0046B092
+mov ecx, eax
+mov edx, 4 ; номер книги
+call @InitHorazonQuestBook ; 12.3.
+
+mov ecx, 21d
+mov edx, 34d
+call 0046B092
+mov ecx, eax
+mov edx, 4 ; номер книги
+call @InitHorazonQuestBook ; 12.3.
+
+mov ecx, 48d
+mov edx, 28d
+call 0046B092
+mov ecx, eax
+mov edx, 4 ; номер книги
+call @InitHorazonQuestBook ; 12.3.
+
+retn
+
+13.2. вызов
+13.2.1.
+.mod:00716BA8                 call    sub_716BC0
+call @SetupHorazon1Books
+.mod:00716BAD                 pop     esi
+.mod:00716BAE                 retn
+
+13.2.2.
+.mod:00716FE4                 call    sub_716E70
+call @SetupHorazon3Books
+.mod:00716FE9                 pop     esi
+.mod:00716FEA                 retn
+===============================================================
+14. Настройка книг 2й локи
+
+14.1. функция настройки
+
+
+14.1.1.
+Табличка вариантов
+@combinationTable:
+1, 2, 3
+1, 3, 2
+2, 1, 3
+2, 3, 1
+3, 1, 2
+3, 2, 1
+Каждая цифра - один байт итого 3*6 = 18 байт
+
+14.1.2.  -   :007171C0 
+
+@SetupHorazon2Books:
+mov ecx, 66d
+mov edx, 86d
+call 0046B092
+mov ecx, eax
+mov edx, 4 ; номер книги
+call @InitHorazonQuestBook ; 12.3.
+
+mov ecx, 19d
+mov edx, 68d
+call 0046B092
+mov ecx, eax
+mov edx, 4 ; номер книги
+call @InitHorazonQuestBook ; 12.3.
+
+mov ecx, 66d
+mov edx, 58d
+call 0046B092
+mov ecx, eax
+mov edx, 4 ; номер книги
+call @InitHorazonQuestBook ; 12.3.
+
+mov ecx, 52d
+mov edx, 51d
+call 0046B092
+mov ecx, eax
+mov edx, 4 ; номер книги
+call @InitHorazonQuestBook ; 12.3.
+
+mov ecx, 85d
+mov edx, 40d
+call 0046B092
+mov ecx, eax
+mov edx, 4 ; номер книги
+call @InitHorazonQuestBook ; 12.3.
+
+mov ecx, 60d
+mov edx, 37d
+call 0046B092
+mov ecx, eax
+mov edx, 4 ; номер книги
+call @InitHorazonQuestBook ; 12.3.
+
+
+push esi
+mov edx, 6
+xor ecx, ecx
+call 00419F5A ; rng
+imul eax, 3
+add eax, @combinationTable
+mov esi, eax
+
+mov ecx, 43d
+mov edx, 19d
+call 0046B092
+mov ecx, eax
+movzx edx, byte ptr [esi]
+inc esi
+call @InitHorazonQuestBook ; 12.3.
+
+mov ecx, 43d
+mov edx, 20d
+call 0046B092
+mov ecx, eax
+movzx edx, byte ptr [esi]
+inc esi
+call @InitHorazonQuestBook ; 12.3.
+
+mov ecx, 43d
+mov edx, 21d
+call 0046B092
+mov ecx, eax
+movzx edx, byte ptr [esi]
+inc esi
+call @InitHorazonQuestBook ; 12.3.
+
+pop esi
+retn
+
+14.2. вызов
+
+.mod:00716F64                 call    sub_716DF0
+call @SetupHorazon2Books ;14.1.2.
+.mod:00716F69                 pop     esi
+.mod:00716F6A                 retn
+
+  chek
+:00716F69 E852020000              call 007171C0
+
+===============================================================
+15. добавление книги 
+
+15.1. функция добавления
+@AddObjectOnHorazonEnter:
+push edi
+push esi
+
+mov edi, dword ptr [0061F330] ; patternStartRow
+shl edi, 1 ; *2
+add edi, 16d
+add edi, 5; отступ от верхнего угла комнаты по диагонали вправо вниз
+mov esi, dword ptr [0061F33C] ; patternStartCol
+shl esi, 1 ; *2
+add esi, 16d
+add esi, 5; отступ от верхнего угла комнаты по диагонали влево вниз
+
+mov ecx, 86d; BaseObjectIndex BO_86_QUEST_BOOK
+mov edx, edi; row
+push esi   ; col
+call 0044DC75
+
+mov eax, edi
+imul eax, 112d
+add eax, esi
+movzx ecx, byte ptr [00589C20 + eax]
+dec ecx
+mov edx, 4 ; номер книги
+call @InitHorazonQuestBook ; 12.3.
+
+pop esi
+pop edi
+retn
+
+                   chekk:
+* Referenced by a CALL at Address:
+|:00717365   
+|
+:00717300 57                      push edi
+:00717301 56                      push esi
+:00717302 8B3D30F36100            mov edi, dword ptr [0061F330]
+:00717308 83C705                  add edi, 00000005
+:0071730B 90                      nop
+:0071730C 90                      nop
+:0071730D 8B353CF36100            mov esi, dword ptr [0061F33C]
+:00717313 83C605                  add esi, 00000005
+:00717316 90                      nop
+:00717317 90                      nop
+:00717318 6A56                    push 00000056
+:0071731A 59                      pop ecx
+:0071731B 89FA                    mov edx, edi
+:0071731D 56                      push esi
+...
+:00717321 E84F69D3FF              call 0044DC75
+...
+:0071732B 89F8                    mov eax, edi
+:0071732D 6BC070                  imul eax, 00000070
+:00717330 01F0                    add eax, esi
+:00717332 90                      nop
+:00717333 90                      nop
+:00717334 0FB688209C5800          movzx ecx, byte ptr [eax+00589C20]
+:0071733B 49                      dec ecx
+:0071733C 90                      nop
+:0071733D 90                      nop
+:0071733E 6A04                    push 00000004
+:00717340 5A                      pop edx
+:00717341 E83AFDFFFF              call 00717080
+......
+:0071734D 5E                      pop esi
+:0071734E 5F                      pop edi
+:0071734F C3                      ret
+
+
+15.2. вызов
+0044C26A >>>
+>>>
+push    16d
+pop     ecx
+call    sub_45FA93
+test    eax, eax
+jz  @return
+call    @AddObjectOnHorazonEnter ; 15.1. 
+@return:
+; затёртое
+jmp обратно - 44C276 ???
+
+         chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0044C26A(U)
+|
+:00717355 6A10                    push 00000010
+:00717357 59                      pop ecx
+:00717358 E83687D4FF              call 0045FA93
+:0071735D 90                      nop
+:0071735E 90                      nop
+:0071735F 90                      nop
+:00717360 90                      nop
+:00717361 85C0                    test eax, eax
+:00717363 7405                    je 0071736A
+:00717365 E896FFFFFF              call 00717300
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00717363(C)
+|
+:0071736A 90                      nop
+:0071736B 90                      nop
+:0071736C 90                      nop
+:0071736D 90                      nop
+:0071736E 90                      nop
+:0071736F 6A06                    push 00000006
+:00717371 59                      pop ecx
+:00717372 E81C87D4FF              call 0045FA93
+:00717377 E97656D3FF              jmp 0044C9F2
+:0071737C 90                      nop
+
+=============================================================
+16. Начало квеста по прочтению книги около входа к хоразону
+
+004538CD >>>
+>>>
+push    16d
+pop     ecx
+call    sub_45FA93
+test    eax, eax
+jz  @return
+push    edi
+mov     edi, 10h
+imul    edi, 1Ch
+add     edi, offset 6EB358
+cmp     byte ptr [edi+2], 1
+jnz     @F
+mov     byte ptr [edi+2], 2
+@@:
+mov     dword ptr [edi+24d], 1 ; talk to flag
+mov     eax, dword ptr [esi+6DE61Ch]
+mov dword ptr [edi + 16d], eax
+pop     edi
+
+@return:
+ jmp 453926
+
+
+chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004538CD(U)
+|
+:007173A0 6A10                    push 00000010
+:007173A2 59                      pop ecx
+:007173A3 E8EB86D4FF              call 0045FA93
+.....
+:007173B0 85C0                    test eax, eax
+:007173B2 7428                    je 007173DC
+:007173B4 57                      push edi
+:007173B5 6A10                    push 00000010
+:007173B7 5F                      pop edi
+:007173B8 6BFF1C                  imul edi, 0000001C
+:007173BB 81C758B36E00            add edi, 006EB358
+:007173C1 807F0201                cmp byte ptr [edi+02], 01
+:007173C5 7504                    jne 007173CB
+:007173C7 C6470202                mov [edi+02], 02
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007173C5(C)
+|
+:007173CB C7471801000000          mov [edi+18], 00000001
+:007173D2 8B861CE66D00            mov eax, dword ptr [esi+006DE61C]
+:007173D8 894710                  mov dword ptr [edi+10], eax
+:007173DB 5F                      pop edi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007173B2(C)
+|
+:007173DC E945C5D3FF              jmp 00453926
+:007173E1 90                      nop
+===========================================================
+17. речи горожан
+
+;004CB258 ; int CitizensSpeechAboutQwestArray[24*14]
+; + 16*4 = 4CB258
+; +96d (60h) для получения последующего адреса
+
+dword ptr [4CB258] ;//        Grizwold
+dword ptr [4CB2F8] ;//        Pepin
+dword ptr [4CB358] ;//        Cow
+dword ptr [4CB3B8] ;//        Ogden
+dword ptr [4CB418] ;//        Cain
+dword ptr [4CB478] ;//        Farnham done
+dword ptr [4CB4D8] ;//        Adria
+dword ptr [4CB538] ;//        Gillian done
+dword ptr [4CB598] ;//        Wirt
+
+==================================
+• туду для квеста:
+1. сдвинуть ворпы 
+2. сделать загрузку Gendata\Hellfire.smk при переходе с урв23 в локу
+3. расставить книги по локации, с заданными спичами
+4. прописать скрипты несрабатывания рычага в локе 03, в зав. от класса героя
+5. написать скрипты вызова гримпсайка в локе 03 (по прочтению любой из книг перед дверьми)
+6. расставить монстров по локе, создать боссов (это  мне)
+7. подредактировать сложность боссов программно
+8. изменить палитру для всех трек уровней (это мне)
+9. loadscreen для локации. готов. надо дать поддержку
+10. запретить в локе кастовать 1-телепорт, 2-фазу, 3-ворп и 4-телекинез
+11. убрать книги от коморки убера
+12. исправить искажение палитры на лоудскрине после ролика хоразона
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

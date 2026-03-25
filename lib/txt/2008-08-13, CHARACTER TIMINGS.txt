@@ -1,0 +1,3 @@
+CharTimings
+
+B46B7: Mage attack speed (melee)

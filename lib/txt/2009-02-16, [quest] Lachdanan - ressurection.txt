@@ -1,0 +1,168 @@
+Ressurecting 'Lachdanan' quest
+==============================
+
+He's based on a Chaos Knight atm, mnstr 5Fh
+DLVL = 0E
+first speech is 'looking for Baal?', text present
+on dlvl 15m light helmet is placed (uniq id 3F?) base item slot = 0F
+when returned to him, he gives Grasp and a magic drop
+===============================
+Lachdanan's check in a player's inventory:
+
+	old:
+:00444F31 8BCF                    mov ecx, edi
+:00444F33 50                      push eax
+:00444F34 6A0F                    push 0000000F
+:00444F36 5A                      pop edx
+:00444F37 E821190300              call 0047685D
+
+
+	new:
+:00444F31 E9962E2C00              jmp 00707DCC
+:00444F36 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707DD5(U)
+|
+:00444F37 E821190300              call 0047685D
+
+	ex:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00444F31(U)
+|
+:00707DCC 8BCF                    mov ecx, edi
+:00707DCE 50                      push eax
+:00707DCF 6848010000              push 00000148
+:00707DD4 5A                      pop edx
+:00707DD5 E95DD1D3FF              jmp 00444F37
+===================================
+
+Placing GE on level 15:
+
+	old:
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00460776(C), :004607A2(U), :004607A7(C), :004607BE(U), :004607C2(C)
+|
+:004607CB 0FB605C8B36E00          movzx eax, byte ptr [006EB3C8]
+:004607D2 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:004607D9 40                      inc eax
+:004607DA 3BC8                    cmp ecx, eax
+:004607DC 7528                    jne 00460806
+:004607DE 803DCAB36E0002          cmp byte ptr [006EB3CA], 02
+:004607E5 751F                    jne 00460806
+:004607E7 803DDCB36E0000          cmp byte ptr [006EB3DC], 00
+:004607EE 7516                    jne 00460806
+:004607F0 6A01                    push 00000001
+:004607F2 53                      push ebx
+:004607F3 6A00                    push 00000000
+:004607F5 6A0F                    push 0000000F
+:004607F7 33D2                    xor edx, edx
+:004607F9 59                      pop ecx
+:004607FA C605DCB36E0001          mov byte ptr [006EB3DC], 01
+:00460801 E8C873FCFF              call 00427BCE
+
+
+	new:
+:004607CB 0FB605C8B36E00          movzx eax, byte ptr [006EB3C8]
+:004607D2 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:004607D9 40                      inc eax
+:004607DA 3BC8                    cmp ecx, eax
+:004607DC 7528                    jne 00460806
+:004607DE 803DCAB36E0002          cmp byte ptr [006EB3CA], 02
+:004607E5 751F                    jne 00460806
+:004607E7 803DDCB36E0000          cmp byte ptr [006EB3DC], 00
+:004607EE 7516                    jne 00460806
+:004607F0 6A01                    push 00000001
+:004607F2 53                      push ebx
+:004607F3 6A00                    push 00000000
+:004607F5 E9E0752A00              jmp 00707DDA
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707DE2(U)
+|
+:004607FA C605DCB36E0001          mov byte ptr [006EB3DC], 01
+:00460801 E8C873FCFF              call 00427BCE
+
+
+	ex:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004607F5(U)
+|
+:00707DDA 6848010000              push 00000148
+:00707DDF 33D2                    xor edx, edx
+:00707DE1 59                      pop ecx
+:00707DE2 E9138AD5FF              jmp 004607FA
+===============================================================================
+Restoring speeches:
+1) lookin 4 baal	BAAL	sfx\monsters\lfbaal.wav
+2) im ur doom		IZUAL	sfx\monsters\Izualx.wav
+3) the enemy		LEORIC	sfx\monsters\Leo.wav
+===============================================================================
+Unique drop:
+
+:0043ECA8 6A06                    push 00000006		grasp
+to
+:0043ECA8 6A3B                    push 0000003B		veil
+===============================================================================
+On Horror he'll drop Winged Helmet
+On Purgatory/Doom - Veil of Steel
+
+	old:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043EC7C(C)
+|
+:0043EC8B 83F853                  cmp eax, 00000053
+:0043EC8E 7527                    jne 0043ECB7
+:0043EC90 F68624DD690040          test byte ptr [esi+0069DD24], 40
+:0043EC97 751E                    jne 0043ECB7
+:0043EC99 8B86ACDC6900            mov eax, dword ptr [esi+0069DCAC]
+:0043EC9F 8B96A8DC6900            mov edx, dword ptr [esi+0069DCA8]
+:0043ECA5 40                      inc eax
+:0043ECA6 42                      inc edx
+:0043ECA7 50                      push eax
+:0043ECA8 6A06                    push 00000006
+:0043ECAA 59                      pop ecx
+:0043ECAB E84985FEFF              call 004271F9
+:0043ECB0 838E24DD690040          or dword ptr [esi+0069DD24], 00000040
+
+
+	new:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043EC7C(C)
+|
+:0043EC8B 83F853                  cmp eax, 00000053
+:0043EC8E 7527                    jne 0043ECB7
+:0043EC90 F68624DD690040          test byte ptr [esi+0069DD24], 40
+:0043EC97 751E                    jne 0043ECB7
+:0043EC99 8B86ACDC6900            mov eax, dword ptr [esi+0069DCAC]
+:0043EC9F 8B96A8DC6900            mov edx, dword ptr [esi+0069DCA8]
+:0043ECA5 E946912C00              jmp 00707DF0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707E02(U)
+|
+:0043ECAA 59                      pop ecx
+:0043ECAB E84985FEFF              call 004271F9
+:0043ECB0 838E24DD690040          or dword ptr [esi+0069DD24], 00000040
+
+	ex:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043ECA5(U)
+|
+:00707DF0 40                      inc eax
+:00707DF1 42                      inc edx
+:00707DF2 50                      push eax
+:00707DF3 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00707DFA 7D04                    jge 00707E00
+:00707DFC 6A04                    push 00000004
+:00707DFE EB02                    jmp 00707E02
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707DFA(C)
+|
+:00707E00 6A3B                    push 0000003B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707DFE(U)
+|
+:00707E02 E9A36ED3FF              jmp 0043ECAA

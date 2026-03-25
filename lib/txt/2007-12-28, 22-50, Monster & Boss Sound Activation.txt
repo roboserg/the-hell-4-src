@@ -1,0 +1,265 @@
+Monster Activation Sound Code:
+
+:004438B5 833833                  cmp dword ptr [eax], 00000033			check if monster slot = 51 (Butcher)
+:004438B8 7507                    jne 004438C1					if not, go to Uber Diablo check [4438C1]
+:004438BA B9B7030000              mov ecx, 000003B7
+:004438BF EB45                    jmp 00443906
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004438B8(C)
+|
+:004438C1 813889000000            cmp dword ptr [eax], 00000089			check Uber
+:004438C7 7507                    jne 004438D0
+:004438C9 B9E5030000              mov ecx, 000003E5
+:004438CE EB36                    jmp 00443906
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004438C7(C)
+|
+:004438D0 833832                  cmp dword ptr [eax], 00000032			Check Skeleton King
+:004438D3 7528                    jne 004438FD					if not, jump to boss actibation code [004438FD]
+:004438D5 B9BF030000              mov ecx, 000003BF
+:004438DA EB2A                    jmp 00443906
+:004438DC 90                      nop
+....................................
+:004438FC 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004438D3(C)
+|
+:004438FD E8D0D90000              call 004512D2				call Boss Sound Activation Routine (BSAR)
+:00443902 85C9                    test ecx, ecx
+:00443904 7405                    je 0044390B
+
+
+BSAR:
+
+* Referenced by a CALL at Address:
+|:004438FD   
+|
+:004512D2 33C9                    xor ecx, ecx
+:004512D4 8B8660DD6900            mov eax, dword ptr [esi+0069DD60]
+:004512DA 3B05E4094B00            cmp eax, dword ptr [004B09E4]
+:004512E0 7506                    jne 004512E8
+:004512E2 B9E1030000              mov ecx, 000003E1
+:004512E7 C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004512E0(C)
+|
+:004512E8 3B05240C4B00            cmp eax, dword ptr [004B0C24]
+:004512EE 7506                    jne 004512F6
+:004512F0 B9BE030000              mov ecx, 000003BE
+:004512F5 C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004512EE(C)
+|
+:004512F6 3B0504144B00            cmp eax, dword ptr [004B1404]
+:004512FC 7506                    jne 00451304
+:004512FE B9E0030000              mov ecx, 000003E0
+:00451303 C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004512FC(C)
+|
+:00451304 3B05A4144B00            cmp eax, dword ptr [004B14A4]
+:0045130A 7506                    jne 00451312
+:0045130C B9BD030000              mov ecx, 000003BD
+:00451311 C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045130A(C)
+|
+:00451312 3B05C4164B00            cmp eax, dword ptr [004B16C4]
+:00451318 7506                    jne 00451320
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045128E(U)
+|
+:0045131A B9C4030000              mov ecx, 000003C4
+:0045131F C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00451318(C)
+|
+:00451320 3B0584134B00            cmp eax, dword ptr [004B1384]
+:00451326 7506                    jne 0045132E
+:00451328 B9C3030000              mov ecx, 000003C3
+:0045132D C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00451326(C)
+|
+:0045132E 3B05440B4B00            cmp eax, dword ptr [004B0B44]
+:00451334 7506                    jne 0045133C
+:00451336 B9C5030000              mov ecx, 000003C5
+:0045133B C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:	<<<  Ur-Annon
+|:00451334(C)
+|
+:0045133C 3B05A41B4B00            cmp eax, dword ptr [004B1BA4]
+:00451342 7506                    jne 0045134A
+:00451344 B94F030000              mov ecx, 00000247
+:00451349 C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00451342(C)
+|
+:0045134A 3B05C4094B00            cmp eax, dword ptr [004B09C4]
+:00451350 7506                    jne 00451358
+:00451352 B94E030000              mov ecx, 0000034E
+:00451357 C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00451350(C)
+|
+:00451358 3B05041C4B00            cmp eax, dword ptr [004B1C04]
+:0045135E 7506                    jne 00451366
+:00451360 B9C9030000              mov ecx, 000003C9
+:00451365 C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045135E(C)
+|
+:00451366 3B0544134B00            cmp eax, dword ptr [004B1344]
+:0045136C 7506                    jne 00451374
+:0045136E B9DD030000              mov ecx, 000003DD
+:00451373 C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045136C(C)
+|
+:00451374 3B0584194B00            cmp eax, dword ptr [004B1984]
+:0045137A 7506                    jne 00451382
+:0045137C B963020000              mov ecx, 00000263
+:00451381 C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045137A(C)
+|
+:00451382 E9958F0000              jmp 0045A31C				go to Soulpus check
+:00451387 90                      nop
+:00451388 90                      nop
+
+
+Check XALICALAR: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+using Effect #260: ex-Mage90.WAV sound -> sfx\Monsters\XC.wav
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00451382(U)
+|
+:0045A31C 3B05C4104B00            cmp eax, dword ptr [004B10C4]		< pointer with +401600 modifier, pointered to boss code name pointer (where it starts + 4 bytes)
+:0045A322 7506                    jne 0045A32A
+:0045A324 B960020000              mov ecx, 00000260
+:0045A329 C3                      ret
+
+Check Balthazar: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 4b0ae4
+using Effect #25C: ex-Mage86.WAV sound -> sfx\Monsters\BZ.wav
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045A322(C)
+|
+:0045A32A 3B05E40A4B00            cmp eax, dword ptr [004B0AE4]
+:0045A330 7506                    jne 0045A338
+:0045A332 B95C020000              mov ecx, 0000025C
+:0045A337 C3                      ret
+
+Check Duklin: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 4b1164
+using Effect #25B: ex-Mage85.WAV sound -> sfx\Monsters\DN.wav
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045A330(C)
+|
+:0045A338 3B0564114B00            cmp eax, dword ptr [004B1164]
+:0045A33E 7506                    jne 0045A346
+:0045A340 B95B020000              mov ecx, 0000025B
+:0045A345 C3                      ret
+
+Check Diablo: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
+using Effect #25A: ex-Mage84.WAV sound -> sfx\Monsters\Du.wav
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045A33E(C)
+|
+:0045A346 3B05C41B4B00            cmp eax, dword ptr [004B1BC4]
+:0045A34C 7506                    jne 0045A354
+:0045A34E B95A020000              mov ecx, 0000025A
+:0045A353 C3                      ret
+
+
+Check Diablo: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
+using Effect #257: ex-Mage81.WAV sound -> sfx\Monsters\50cent.wav
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045A34C(C)
+|
+:0045A354 3B05A40F4B00            cmp eax, dword ptr [004B0FA4]
+:0045A35A 7506                    jne 0045A362
+:0045A35C B957020000              mov ecx, 00000257
+:0045A361 C3                      ret
+
+Check Diablo: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  1.56L_98
+using Effect #253: ex-Mage77.WAV sound -> sfx\Monsters\gspike.wav
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045A35A(C)
+|
+:0045A362 3B0564214B00            cmp eax, dword ptr [004B2164]
+:0045A368 7506                    jne 0045A370
+:0045A36A B953020000              mov ecx, 00000253
+:0045A36F C3                      ret
+
+Check Xorene: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  1.57_01
+using Effect #252: ex-Mage76.WAV sound -> sfx\Monsters\Xorene.wav
+
+:0045A370 3B05240A4B00            cmp eax, dword ptr [004B0A24]
+:0045A376 7506                    jne 0045A37E
+:0045A378 B952020000              mov ecx, 00000252
+:0045A37D C3                      ret
+
+Check Xorene: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  1.57_04
+using Effect #251: ex-Mage75.WAV sound -> sfx\Monsters\Malant.wav
+
+:0045A37E 3B05A4104B00            cmp eax, dword ptr [004B10A4]
+:0045A384 7506                    jne 0045A38C
+:0045A386 B951020000              mov ecx, 00000251
+:0045A38B C3                      ret
+
+Check Xorene: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  1.57j_RC7
+using Effect #250: ex-Mage74.WAV sound -> X\tntrs.wav
+
+:0045A38C 3B05441A4B00            cmp eax, dword ptr [004B1A44]
+:0045A392 7505                    jne 0045A399
+:0045A394 B950020000              mov ecx, 00000250
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045A392(C)
+|
+:0045A399 C3                      ret
+

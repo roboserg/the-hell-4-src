@@ -1,0 +1,94 @@
+Desert Dragon's Hidden Shrine fix,
+attempt 1 (failed):
+
+
+	mod:
+:004519C6 E875732B00              call 00708D40
+:004519CB 90                      nop
+
+
+	ex:
+* Referenced by a CALL at Address:
+|:004519C6   
+|
+:00708D40 8339FF                  cmp dword ptr [ecx], FFFFFFFF
+:00708D43 740D                    je 00708D52
+:00708D45 81B9E8000000FF000000    cmp dword ptr [ecx+000000E8], 000000FF
+:00708D4F 7401                    je 00708D52
+:00708D51 42                      inc edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00708D43(C), :00708D4F(C)
+|
+:00708D52 C3                      ret
+
+
+==========================================
+
+
+attempt 2 (successful):
+
+
+	mod:
+:004519C6 E875732B00              call 00d708D40
+:004519CB 90  
+
+	ex:
+* Referenced by a CALL at Address:
+|:004519C6   
+|
+:00708D40 8339FF                  cmp dword ptr [ecx], FFFFFFFF
+:00708D43 7416                    je 00708D5B
+:00708D45 81B9E8000000FF000000    cmp dword ptr [ecx+000000E8], 000000FF
+:00708D4F 740A                    je 00708D5B
+:00708D51 83B9E800000000          cmp dword ptr [ecx+000000E8], 00000000
+:00708D58 7401                    je 00708D5B
+:00708D5A 42                      inc edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00708D43(C), :00708D4F(C), :00708D58(C)
+|
+:00708D5B C3                      ret
+:00708D5C 90                      nop
+
+=============================================
+durability displacement: 10 ->> 1:
+
+
+:00451975 8380780400000A          add dword ptr [eax+00000478], 0000000A	< 01
+:0045197C A114AE6E00              mov eax, dword ptr [006EAE14]
+:00451981 8384107C0400000A        add dword ptr [eax+edx+0000047C], 0000000A	< 01
+
+
+
+:00451A18 83840178040000EC        add dword ptr [ecx+eax+00000478], FFFFFFEC	< FE
+:00451A20 8D8C0178040000          lea ecx, dword ptr [ecx+eax+00000478]
+:00451A27 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:00451A2D 8384017C040000EC        add dword ptr [ecx+eax+000004$7C], FFFFFFEC	< FE
+
+=============================================
+Hidden Shrine cannot raise item's durability above  220 points:
+
+	old:
+:00451981 8384107C04000001        add dword ptr [eax+edx+0000047C], 00000001
+
+
+	mod:
+:00451981 E80A752B00              call 00708E90
+:00451986 90                      nop
+:00451987 90                      nop
+:00451988 90                      nop
+
+	ex:
+* Referenced by a CALL at Address:
+|:00451981   
+|
+:00708E90 8384107C04000001        add dword ptr [eax+edx+0000047C], 00000001
+:00708E98 81BC107C040000DC000000  cmp dword ptr [eax+edx+0000047C], 000000DC
+:00708EA3 7E0B                    jle 00708EB0
+:00708EA5 C784107C040000DC000000  mov dword ptr [eax+edx+0000047C], 000000DC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708EA3(C)
+|
+:00708EB0 C3                      ret

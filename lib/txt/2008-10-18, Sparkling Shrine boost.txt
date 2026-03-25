@@ -1,0 +1,73 @@
+Sparkling Shrine now gives more XP
+
+Horror: 		3000*DLVL
+Purgatory: 	3000*(DLVL+15)
+Doom:			3000*(DLVL+30)
+
+
+Tested. Works OK.
+
+Implemented in 1.68t RC5
+
+===================================================================================================
+
+	Modified:
+
+:00452DBD E96E3D2B00              jmp 00706B30
+:00452DC2 90                      nop
+:00452DC3 90                      nop
+:00452DC4 90                      nop
+:00452DC5 90                      nop
+:00452DC6 90                      nop
+:00452DC7 90                      nop
+:00452DC8 90                      nop
+:00452DC9 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706B70(U)
+|
+:00452DCA 8B0DE8AD6E00            mov ecx, dword ptr [006EADE8]
+
+
+	Extra code:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00452DBD(U)
+|
+:00706B30 A1C0706000              mov eax, dword ptr [006070C0]
+:00706B35 83F801                  cmp eax, 00000001
+:00706B38 7414                    je 00706B4E
+:00706B3A 83F802                  cmp eax, 00000002
+:00706B3D 7421                    je 00706B60
+:00706B3F 0FB605D8B16000          movzx eax, byte ptr [0060B1D8]
+:00706B46 69C0B80B0000            imul eax, 00000BB8
+:00706B4C EB22                    jmp 00706B70
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706B38(C)
+|
+:00706B4E 0FB605D8B16000          movzx eax, byte ptr [0060B1D8]
+:00706B55 83C00F                  add eax, 0000000F
+:00706B58 69C0B80B0000            imul eax, 00000BB8
+:00706B5E EB10                    jmp 00706B70
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706B3D(C)
+|
+:00706B60 0FB605D8B16000          movzx eax, byte ptr [0060B1D8]
+:00706B67 83C01E                  add eax, 0000001E
+:00706B6A 69C0B80B0000            imul eax, 00000BB8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00706B4C(U), :00706B5E(U)
+|
+:00706B70 E955C2D4FF              jmp 00452DCA
+
+
+==========================================================================================================
+
+Old code:
+
+:00452DBD 0FB605D8B16000          movzx eax, byte ptr [0060B1D8]
+:00452DC4 69C0E8030000            imul eax, 000003E8
+:00452DCA 8B0DE8AD6E00            mov ecx, dword ptr [006EADE8]

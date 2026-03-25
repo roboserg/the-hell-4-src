@@ -1,0 +1,96 @@
+done by Kozel
+
+=============================
+
+Надеюсь, что байты 00B04FFE и 00B04FFF не использовались. Теперь они используются.
+00B04FFE - тип новы (0x12 - Lightning, 0x27 - Holy, ...)
+00B04FFF - флаг того, что кастуется именно нова, а не отдельный снаряд (далее - "флаг")
+Не забываем ставить nop'ы.
+
+
+0070632C (file: D2F2C) - окончание каста Arcane Nova, сбрасываем флаг.
+Сюда же будем прыгать после окончания каста других нов. Точнее, не совсем сюда, а на 3 байта раньше.
+C605FF4FB00000 mov byte [00B04FFF], 0
+C9             leave
+C3             ret
+
+0043970B (file: 38B0B) - окончание каста Lightning Nova
+Вроде бы, для Lightning/Fire Nova это не нужно, но на всякий случай поставил.
+E919CC2C00     jmp 00706329
+Как можно увидеть, этим кодом заменяется код "pop edi; pop esi; pop ebx; leave; ret", одинаковый для всех нов.
+
+00439869 (file: 38C69) - окончание каста Fire Nova
+E9BBCA2C00     jmp 00706329
+
+00706689 (file: В3289) - окончание каста Holy Nova
+E99BFCFFFF     jmp 00706329
+
+
+Новые коды инициализации эффектов.
+Со снарядами для Lightning/Fire Nova, вроде бы, всё в порядке, поэтому флаг там не ставим.
+Holy Nova уже не использует код по адресу 00433479
+
+00711170 (file: DDD70) - Lightning Nova
+C605FE4FB00012 mov byte [00B04FFE], 12
+E9333AD2FF     jmp 00434BAF
+
+00711190 (file: DDD90) - Holy Nova
+C605FE4FB00027 mov byte [00B04FFE], 27
+C605FF4FB00001 mov byte [00B04FFF], 1
+E90C3AD2FF     jmp 00434BAF
+
+007111B0 (file: DDDB0) - Fire Nova
+C605FE4FB00029 mov byte [00B04FFE], 29
+E9F339D2FF     jmp 00434BAF
+
+007111D0 (file: DDDD0) - Arcane Nova
+C605FE4FB0002B mov byte [00B04FFE], 2B
+C605FF4FB00001 mov byte [00B04FFF], 1
+E9CC39D2FF     jmp 00434BAF
+
+Соответственно поправляем таблицу эффектов:
+
+A6510: D0117100
+A66EC: 90117100
+A6804: 70117100
+A6B4C: B0117100
+
+
+Вычитать ману нужно за ту нову, которую использовали, а не за Lightning Nova (неужели этот глюк пришёл из Hellfire?):
+
+00434C65 (file: 34065)
+E9E9C42D00     jmp 00711153
+9090909090     nop; nop; nop; nop; nop
+
+00711153 (file: DDD53)
+0FB615FE4FB000 movzx edx, byte [00B04FFE]
+E89DAED5FF     call 0046BFFC
+E9404BD2FF     jmp 00434CA4
+
+
+И наконец, ставим ту самую проверку.
+
+Arcane Nova:
+
+004337CA (file: 32BCA)
+E971D92D00     jmp 00711140
+
+00711140 (file: DDD40)
+803DFF4FB00000 cmp byte [00B04FFF], 0
+7505           jne 0071114E
+E8AEAED5FF     call 0046BFFC
+E97C26D2FF     jmp 004337CF
+
+Holy Nova:
+
+004353DA (file: 347DA)
+E911BE2D00     jmp 007111F0
+
+007111F0 (file: DDDF0)
+803DFF4FB00000 cmp byte [00B04FFF], 0
+7505           jne 007111FE
+E8FEADD5FF     call 0046BFFC
+E9DC41D2FF     jmp 004353DF
+
+
+На этом всё. Очень надеюсь, что ничего не упустил.

@@ -1,0 +1,67 @@
+Greater Demons no longer stopped by Fire Walls
+However, Diablo will be stopped both by Fire wall and Lightning Wall
+
+
+43e5e:
+
+75 -> eb
+
+
+========================
+
+The following code prevents non-immune monsters to walk into Fire or Lightning Walls. Note that, originally, Diablo is kept from entering either wall, regardless immunities. Changes are made so that the Defiler, summoned Golems and Fallen Rogues (and one other possible monster) will ignore Fire and Lightning Walls, regardless their resistances or immunities.
+
+File offset 00043E30
+
+:00444A30 807D0B00                cmp byte ptr [ebp+0B], 00
+:00444A34 742E                    je 00444A64					jump if not Fire Wall
+:00444A36 8BC3                    mov eax, ebx
+:00444A38 69C0E4000000            imul eax, 000000E4
+:00444A3E F68054DD690010          test byte ptr [eax+0069DD54], 10
+:00444A45 7419                    je 00444A60					jump if not Fire immune
+:00444A47 807D0B00                cmp byte ptr [ebp+0B], 00
+:00444A4B 7417                    je 00444A64					jump if not Fire Wall
+:00444A4D 8BC3                    mov eax, ebx
+:00444A4F 69C0E4000000            imul eax, 000000E4
+:00444A55 8B8064DD6900            mov eax, dword ptr [eax+0069DD64]
+:00444A5B 83386E                  cmp dword ptr [eax], 0000006E
+:00444A5E 7504                    jne 00444A64					jump if not Diablo
+:00444A60 8065FE00                and byte ptr [ebp-02], 00			clear flag so that monster will stop
+:00444A64 807DFF00                cmp byte ptr [ebp-01], 00
+:00444A68 742C                    je 00444A96					jump if not Lightning Wall
+:00444A6A 8BC3                    mov eax, ebx
+:00444A6C 69C0E4000000            imul eax, 000000E4
+:00444A72 F68054DD690020          test byte ptr [eax+0069DD54], 20
+:00444A79 7417                    je 00444A92					jump if not Lightning immune
+:00444A7B 807DFF00                cmp byte ptr [ebp-01], 00
+:00444A7F 7415                    je 00444A96					jump if not Lightning Wall
+:00444A81 69DBE4000000            imul ebx, 000000E4
+:00444A87 8B8364DD6900            mov eax, dword ptr [ebx+0069DD64]
+:00444A8D 83386E                  cmp dword ptr [eax], 0000006E
+:00444A90 7504                    jne 00444A96					jump if not Diablo
+
+	changed into
+
+:00444A30 8BC3                    mov eax, ebx
+:00444A32 69C0E4000000            imul eax, 000000E4
+:00444A38 807D0B00                cmp byte ptr [ebp+0B], 00
+:00444A3C 7409                    je 00444A47					jump if not Fire Wall
+:00444A3E F68054DD690010          test byte ptr [eax+0069DD54], 10
+:00444A45 740F                    je 00444A56					jump if not Fire immune
+:00444A47 807DFF00                cmp byte ptr [ebp-01], 00
+:00444A4B 7449                    je 00444A96					skip if not Lightning Wall
+:00444A4D F68054DD690020          test byte ptr [eax+0069DD54], 20
+:00444A54 7540                    jne 00444A96					skip if Lightning immune
+:00444A56 8B8064DD6900            mov eax, dword ptr [eax+0069DD64]
+:00444A5C 83386D                  cmp dword ptr [eax], 0000006D
+:00444A5F 7435                    je 00444A96					skip if Golem
+:00444A61 83386B                  cmp dword ptr [eax], 0000006B
+:00444A64 7430                    je 00444A96					skip if Fallen Rogue
+:00444A66 83386B                  cmp dword ptr [eax], 0000006B
+:00444A69 742B                    je 00444A96					skip if Fallen Rogue (spare)
+:00444A6B 83387C                  cmp dword ptr [eax], 0000007C
+:00444A6E 7426                    je 00444A96					skip if Defiler
+:00444A70 EB20                    jmp 00444A92					jump to clear flag so that monster will stop
+:00444A72 ...
+
+Now 32 bytes free space from 00444A72 to 00444A92

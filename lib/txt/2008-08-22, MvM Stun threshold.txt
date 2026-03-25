@@ -1,0 +1,16 @@
+MvM stun threshold update
+
+Old: Stun if FD > MLVL+3
+New: Stun if FD > MAC-2
+
+================================
+
+:0043DC65 0FBE8648DD6900          movsx eax, byte ptr [esi+0069DD48]
+:0043DC6C 83C003                  add eax, 00000003
+:0043DC6F C1FB06                  sar ebx, 06
+
+	>>>
+
+:0043DC65 0FB68652DD6900          movzx eax, byte ptr [esi+0069DD52]
+:0043DC6C 83E802                  sub eax, 00000002
+:0043DC6F C1FB06                  sar ebx, 06

@@ -1,0 +1,51 @@
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00709B2A(C)
+|
+:0045B91E 0FB68652DD6900          movzx eax, byte ptr [esi+0069DD52]		// eax = mAC
+:0045B925 8BF7                    mov esi, edi
+:0045B927 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0045B92D 69F6C8550000            imul esi, 000055C8
+:0045B933 8BD8                    mov ebx, eax					// ebx = mAC
+:0045B935 8D3C31                  lea edi, dword ptr [ecx+esi]
+:0045B938 8B8C3150550000          mov ecx, dword ptr [ecx+esi+00005550]		// ecx = AP value
+:0045B93F 80BF6001000005          cmp byte ptr [edi+00000160], 05
+:0045B946 7407                    je 0045B94F
+:0045B948 85C9                    test ecx, ecx
+:0045B94A 7E19                    jle 0045B965					// if AP = 0
+:0045B94C 41                      inc ecx					// AP + 1 (WTF?)
+:0045B94D EB06                    jmp 0045B955
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045B946(C)
+|
+:0045B94F 85C9                    test ecx, ecx
+:0045B951 7E01                    jle 0045B954
+:0045B953 41                      inc ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045B951(C)
+|
+:0045B954 41                      inc ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045B94D(U)
+|
+:0045B955 C1F804                  sar eax, 04					// eax = 6,25% of monster AC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045B95D(C)
+|
+:0045B958 2BD8                    sub ebx, eax					// mAC - 6,25%
+:0045B95A 49                      dec ecx					// AP - 1
+:0045B95B 85C9                    test ecx, ecx					// if AP = 0
+:0045B95D 75F9                    jne 0045B958					// if not zero, substract mAC/16 from the rest of mAC, and AP - 1....
+:0045B95F 85DB                    test ebx, ebx					// if ebx = 0
+:0045B961 7D02                    jge 0045B965					// don't jump
+:0045B963 33DB                    xor ebx, ebx					// write 0 to ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045B94A(C), :0045B961(C)
+|
+:0045B965 E916402B00              jmp 0070F980

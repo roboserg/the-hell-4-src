@@ -1,0 +1,1030 @@
+﻿19. Экран загрузки:
+
+.mod:00715315                 cmp     al, 7
+.mod:00715317                 jz      short loc_715324
+.mod:00715319                 nop
+.mod:0071531A                 nop
+.mod:0071531B                 nop
+.mod:0071531C                 nop
+.mod:0071531D                 nop
+.mod:0071531E                 nop
+.mod:0071531F                 jmp     loc_41E3CF
+
+00715319 >>
+>>
+cmp al, 8
+jl @return
+cmp al, 10
+jg @return
+jmp @horazPic
+@return:
+jmp 0041E3CF
+
+@horazPic:
+xor     edx, edx
+mov     ecx, offset "Gendata\Horaz.cel"
+call    0041A02F ;LoadFile
+mov     ecx, offset "Gendata\Cut2.pal"
+mov   dword ptr [006854F8], eax ;  LoadingScreenCEL, eax
+call    0045552B ;LoadPalette
+mov     dword ptr [685500], 1
+jmp     41E554
+
+===============================================================
+
+20. Возврат на 23й урв. вместо возврата на выселки города:
+
+.mod:00714CF1                 retn
+
+00714CF1 >>>
+>>
+dec eax
+dec eax
+jz @horazReturnPoint:
+retn
+
+@horazReturnPoint:
+push    edi
+push    16d
+pop     edi
+imul    edi, 1Ch
+add     edi, offset 6EB358
+mov     eax, [edi+4]
+mov     dword ptr [6EB670], eax
+mov     eax, [edi+8]
+inc       eax
+mov     dword ptr [6EB66C], eax
+movzx   eax, byte ptr [edi]
+mov     dword ptr [6EB67C], eax
+mov     dword ptr [6EB674], 1
+pop     edi
+retn
+
+===============================
+
+21. Ставим накрула
+
+босс ID = 244h
+находиться он должен между двумя кубами для приковывания на локе 02, в комнате на севере. на карте находится всегда
+
+Особенности при активации не через ослабление: всегда +50 к Армор, +25 к меткости, +50 к урону.
+
+При активации двери через правильное прочтение книг (а не поворот рычага) - базовые параметры, которые я задал в данных босса.
+
+Если он убит без ослабления, то бросает +2 вещи, умирая.
+
+Про ослабление: перед комнатой стоят 2 рычага. Любой из них открывает дверь, и НаКрул получается не ослаблен. Если дверь открыта рычагом, то действие книг аннулируется. Если комната была открыта книгами, то использовать рычаги становится невозможно.
+
+
+
+
+
+==================================
+
+22. Гримспайк:
+
+Гримспайк в локе 03
+boss ID = 245h
+
+Лока маленькая. и в ней  нет монстров. Только вот этот замурованный непонятно как демон. Как только герой появляется на уровне, он слышит речь Гримспайка с просьбой прочесть книгу и отпустить его. сделано
+
+К северу от комнаты Гримспайка есть комната с журналом хоразона и рычагом.
+
+Этот рычаг можно использовать, но он не открывает двери в комнату. Вместо этого герой говорит после первой попытки его использовать речевку № ХХХ (потом настрою звук), после второй попытки - речь ХХУ, и посе третьей речь ХХZ. Далее рычаг становится неиспользуем. сделано
+
+Активация Гримспайка:
+чтобы его активировать, нужно прочесть книгу перед одной из дверей. Это откроет ОБЕ двери в его коморку, заставит героя сказать фразу "The enchantment is gone", и вызовет ГС (телепортирует) прямо в центр комнаты, на тайл с пентаграммой. Далее идет бой с ним. Сбор награды. И выход из локи 03.сделано
+
+22.1. речь гримспайка:
+
+пихнуть куда то сюда
+00716F70
+
+там :00716F70 BECA52A300              mov esi, 00A352CA
+до или после? Лучше до. По смыслу. Но в принципе без разницы, как видишь esi не используется
+
+push    edi
+mov     edi, 10h
+imul    edi, 1Ch
+add     edi, 006EB358h // не пиши про оффсет. каждый раз переписываю на add     edi, 006EB358h ; я тупо копирую что то из прошлого, а потом меняю
+cmp     byte ptr [edi+21d], 0
+jnz     @F
+mov     byte ptr [edi+21d], 1
+mov dword ptr [0057A214],  ???  ; PlayerSoundMessageDelay
+mov dword ptr [0057A218],  ???  ; SoundMessage
+@@:
+pop     edi
+
+====                                
+
+22.2. речёвки при активации (точнее попытке активации) рычага на 03:
+22.2.1. новые данные
+@LeverClickPlayerSound новый дворд. Изначальное значение -1 (он же 0 ff ff ff ff h
+@LeverClickPlayerSoundIndex ещё один новый дворд. Изначально 0
+
+@LeverSounds [6*3] двордовая табличка подобная той которая для книг. Тоже по 6 двордов в строке означающих звук для каждого класса. Строк таких 3. 3*6 значений. 18*4 байт
+
+22.2.2. инициализация данных
+тоже куда то сюда пихнуть 00716F70
+
+mov dword ptr [@LeverClickPlayerSound], 0ffffffffh // 00A35F50
+mov dword ptr [@LeverClickPlayerSoundIndex], 0 // 00A35F60
+
+22.2.3. новая функция   offset E4270
+;bool LeverClick()
+@LeverClick:
+cmp dword ptr [@LeverClickPlayerSound], 0ffffffffh
+jz @F
+mov ecx, dword ptr [@LeverClickPlayerSound]
+call 0041824B ; IsSoundNotComplete
+test eax, eax
+jnz @returnTrue ; если звук ещё идёт, то ничего нового не делаем
+
+@@:
+call 70A1D0; @getCurPlayerOffset
+mov ecx, dword ptr [@LeverClickPlayerSoundIndex]
+imul ecx, 6
+add ecx, byte ptr [eax + 352d]
+shl ecx, 2 ; *4 ибо двордовая таблица
+mov ecx, dword ptr [@LeverSounds + ecx]; soundIndex // 00A35F70
+mov dword ptr [@LeverClickPlayerSound], ecx
+
+push eax ; сохраняем оффсет игрока
+
+mov edx, dword ptr [eax + 56d] ; row
+push dword ptr [eax + 60d]; col
+; в ecx уже индекс звука
+call 004186C4 ; void __fastcall PlayLocalSound(int sound, int row, int col)
+pop eax
+ 
+mov ecx, dword ptr [@LeverClickPlayerSoundIndex]
+inc dword ptr [@LeverClickPlayerSoundIndex]
+cmp ecx, 2
+jge @returnFalse
+
+@returnTrue:
+mov eax, 1
+jmp @return
+
+@returnFalse:
+xor eax, eax
+
+@return:
+retn
+
+         chekk:
+* Referenced by a CALL at Address:
+|:00717714   
+|
+:00717670 833D505FA300FF          cmp dword ptr [00A35F50], FFFFFFFF
+:00717677 90                      nop
+:00717678 90                      nop
+:00717679 90                      nop
+:0071767A 7413                    je 0071768F
+:0071767C 8B0D505FA300            mov ecx, dword ptr [00A35F50]
+:00717682 E8C40BD0FF              call 0041824B
+:00717687 85C0                    test eax, eax
+:00717689 7555                    jne 007176E0
+..
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071767A(C)
+|
+:0071768F E83C2BFFFF              call 0070A1D0
+..
+:00717699 8B0D605FA300            mov ecx, dword ptr [00A35F60]
+:0071769F 6BC906                  imul ecx, 00000006
+:007176A2 0FBE9060010000          movsx edx, byte ptr [eax+00000160]
+:007176A9 01D1                    add ecx, edx
+:007176AB C1E102                  shl ecx, 02
+:007176AE 8B89705FA300            mov ecx, dword ptr [ecx+00A35F70]
+:007176B4 890D505FA300            mov dword ptr [00A35F50], ecx
+:007176BA 90                      nop
+:007176BB 90                      nop
+:007176BC 50                      push eax
+:007176BD 8B5038                  mov edx, dword ptr [eax+38]
+:007176C0 FF703C                  push [eax+3C]
+:007176C3 90                      nop
+:007176C4 90                      nop
+:007176C5 E8FA0FD0FF              call 004186C4
+:007176CA 58                      pop eax
+:007176CB 90                      nop
+:007176CC 90                      nop
+:007176CD 8B0D605FA300            mov ecx, dword ptr [00A35F60]
+:007176D3 FF05605FA300            inc dword ptr [00A35F60]
+:007176D9 83F902                  cmp ecx, 00000002
+:007176DC 7D09                    jge 007176E7
+:007176DE 90                      nop
+:007176DF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00717689(C)
+|
+:007176E0 6A01                    push 00000001
+:007176E2 58                      pop eax
+:007176E3 EB02                    jmp 007176E7
+:007176E5 31C0                    xor eax, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007176DC(C), :007176E3(U)
+|
+:007176E7 C3                      ret
+
+
+========                  
+
+22.2.4. вызов функции
+.text:004508B5 01C 83 3D 10 AB 6D 00 00                    cmp     LoadingOtherPlayers, 0
+.text:004508BC 01C 75 14                                   jnz     short loc_4508D2 ; Jump if Not Zero (ZF=0)
+
+004508B5 >>>
+>>>
+; ecx edx и eax свободно используем
+cmp byte ptr [0061F314], 00
+jz @continue ; если это не квестовая лока то нафиг
+cmp byte ptr [0061CB00], 10d
+jnz @continue ; если это не лока хоразон 03 то тоже нафиг
+
+call @LeverClick ; 22.2.3
+test eax, eax
+jnz @return
+
+; додёргались. Делаем рычаг невыделяемым
+80 27 00                                and     byte ptr [edi], 0
+
+@return:
+jmp 0045097D
+
+@continue:
+83 3D 10 AB 6D 00 00                    cmp     LoadingOtherPlayers, 0 ; затёртое
+jmp 004508BC
+
+
+chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004508B5(U)
+|
+:00717700 803D14F3610000          cmp byte ptr [0061F314], 00
+:00717707 7424                    je 0071772D
+:00717709 803D00CB61000A          cmp byte ptr [0061CB00], 0A
+:00717710 741B                    je 0071772D
+:00717712 90                      nop
+:00717713 90                      nop
+:00717714 E857FFFFFF              call 00717670
+..
+:0071771E 85C0                    test eax, eax
+:00717720 7503                    jne 00717725
+:00717722 802700                  and byte ptr [edi], 00
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00717720(C)
+|
+..
+:00717728 E95092D3FF              jmp 0045097D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00717707(C), :00717710(C)
+|
+...
+:00717732 833D10AB6D0000          cmp dword ptr [006DAB10], 00000000
+:00717739 E97E91D3FF              jmp 004508BC
+
+==================                
+
+22.3. добавление босса гс
+
+22.3.1. достало - функция добавления босса на локу что называется одним нажатием // e4350
+@addBossTypeToQuestLoc:
+; в ecx - индекс босс слота
+push esi
+mov esi, ecx
+imul ecx, 20h
+add ecx, 00A13400h
+mov ecx, dword ptr [ecx] ; базовый индекс босса
+mov     edx, 4
+call    0043A95E ; добавили базового монстра
+
+xor     edx, edx
+push   edx
+mov     ecx, esi
+call    0043BA78 ;CreateBoss
+
+pop esi
+retn
+ 
+ chekk:
+ * Referenced by a CALL at Address:
+|:0071779D   
+|
+:00717750 56                      push esi
+:00717751 89CE                    mov esi, ecx
+:00717753 6BC920                  imul ecx, 00000020
+:00717756 81C10034A100            add ecx, 00A13400
+:0071775C 8B09                    mov ecx, dword ptr [ecx]
+:0071775E 6A04                    push 00000004
+:00717760 5A                      pop edx
+:00717761 E8F831D2FF              call 0043A95E
+:00717766 90                      nop
+:00717767 90                      nop
+:00717768 31D2                    xor edx, edx
+:0071776A 52                      push edx
+:0071776B 89F1                    mov ecx, esi
+:0071776D E80643D2FF              call 0043BA78
+:00717772 5E                      pop esi
+:00717773 C3                      ret
+
+22.3.2. добавление монстр тайпа // e4380
+
+.mod:00715EF4                 jnz     loc_43C675
+
+00715EF4 >>>
+>>>
+cmp  byte ptr [0061CB00] , 9
+jz @nakrul
+cmp  byte ptr [0061CB00] , 10d
+jnz     loc_43C675
+@grimspike:
+mov ecx, 245h
+call @addBossTypeToQuestLoc ;22.3.1.
+jmp 0043C675
+
+@nakrul:
+mov ecx, 244h
+call @addBossTypeToQuestLoc; 22.3.1.
+jmp 0043C675
+ 
+ 
+ chekk:
+ * Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00715EF4(C)
+|
+:00717780 803D00CB610009          cmp byte ptr [0061CB00], 09
+:00717787 741E                    je 007177A7
+:00717789 803D00CB61000A          cmp byte ptr [0061CB00], 0A
+:00717790 0F85DF4ED2FF            jne 0043C675
+:00717796 90                      nop
+:00717797 90                      nop
+:00717798 B945020000              mov ecx, 00000245
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007177B0(U)
+|
+:0071779D E8AEFFFFFF              call 00717750
+:007177A2 E9CE4ED2FF              jmp 0043C675
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00717787(C)
+|
+:007177A7 90                      nop
+:007177A8 90                      nop
+:007177A9 90                      nop
+:007177AA 90                      nop
+:007177AB B944020000              mov ecx, 00000244
+:007177B0 EBEB                    jmp 0071779D
+
+
+22.3.3. добавление гс на локу
+
+@GrimspikeMonsterIndex ; новый дворд. чтобы мне не искать его индекс
+@NakrulMonsterIndex; новый дворд. чтобы мне не искать его индекс
+
+:00715F3F 0F85D65CD2FF            jne 0043BC1B
+
+00715F3F jnz @newLoc // e43c0
+>>
+@newLoc:
+cmp edx, 244h
+jz @nakrulSetPosition
+cmp edx, 245h
+jnz 0043BC1B
+
+@grimspikeSetPosition:
+mov edi, 0 ; row ; для проверки установи координаты 39d 34d это координаты круга 
+mov ebx, 0 ; col // e43db
+mov dword ptr [@GrimspikeMonsterIndex], dword ptr [0069DC80] // 00a35f54
+jmp 0043BC1B
+
+@nakrulSetPosition:
+mov edi, 19d ; row
+mov ebx, 23d ; col ; потом разберёмся с координатами точными
+mov dword ptr [@NakrulMonsterIndex], dword ptr [0069DC80]
+jmp 0043BC1B
+
+chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00715F3F(C)
+|
+:007177C0 81FA44020000            cmp edx, 00000244
+:007177C6 90                      nop
+:007177C7 90                      nop
+:007177C8 7427                    je 007177F1
+:007177CA 81FA45020000            cmp edx, 00000245
+:007177D0 0F854544D2FF            jne 0043BC1B
+:007177D6 BF27000000              mov edi, 00000027
+:007177DB BB22000000              mov ebx, 00000022
+:007177E0 50                      push eax
+:007177E1 A180DC6900              mov eax, dword ptr [0069DC80]
+:007177E6 A3545FA300              mov dword ptr [00A35F54], eax
+:007177EB 58                      pop eax
+:007177EC E92A44D2FF              jmp 0043BC1B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007177C8(C)
+|
+:007177F1 90                      nop
+:007177F2 90                      nop
+:007177F3 90                      nop
+:007177F4 90                      nop
+:007177F5 90                      nop
+:007177F6 BF00000000              mov edi, 00000000
+:007177FB BB00000000              mov ebx, 00000000
+:00717800 E91644D2FF              jmp 0043BC1B
+
+=============================                                                          
+
+22.4. сценарий освобождения гс
+; там сценарий такой:
+;1. перс читает книгу - идет текст и звук на латыни
+;2. небольшая пауза. дверь открывается.
+;3. перс говорит the enchantment is gone
+;4. небольшая паузка
+;5. появляетя ГС
+
+22.4.1. вспомогательные функции // e4410
+22.4.1.1. открытие одной двери по указанным координатам центра двери
+@OpenCryptQuestDoor:
+; ecx и edx соответственно row и col
+imul ecx, 112d
+add ecx, edx
+shl ecx, 2 ; *4 ибо двордовая табличка
+add ecx, 005F5BB0 ; начало таблички
+mov dword ptr [ecx - 4], 301d
+mov dword ptr [ecx], 298d
+mov dword ptr [ecx + 4], 299d
+call 0041BDFB
+retn
+
+                           chekk:
+* Referenced by a CALL at Addresses:
+|:0071784B   , :0071785A   
+|
+:00717810 6BC970                  imul ecx, 00000070
+:00717813 01D1                    add ecx, edx
+:00717815 C1E102                  shl ecx, 02
+:00717818 81C1B05B5F00            add ecx, 005F5BB0
+:0071781E C741FC2D010000          mov [ecx-04], 0000012D
+:00717825 C7012A010000            mov dword ptr [ecx], 0000012A
+:0071782B C741042B010000          mov [ecx+04], 0000012B
+:00717832 E8C445D0FF              call 0041BDFB
+:00717837 C3                      ret
+
+
+
+
+22.4.1.2. открытие двух дверей гримспайка со звуком или без (во время повторного захода нужно открыть беззвучно во время загрузки)
+@OpenGrimspikeRoom: // e4440
+; в ecx ; needPlaySound
+push ecx
+mov ecx, 44d
+mov edx, 28d
+call @OpenCryptQuestDoor ; 22.4.1.1.
+mov ecx, 44d
+mov edx, 38d
+call @OpenCryptQuestDoor ; 22.4.1.1.
+pop ecx
+test ecx, ecx
+jz @return
+mov ecx, 1020d ; S_1020_SFX_ITEMS_CROPEN
+mov edx, 44d
+push 28d
+call 004186C4
+mov ecx, 1020d ; S_1020_SFX_ITEMS_CROPEN
+mov edx, 44d
+push 38d
+call 004186C4
+
+@return:
+retn
+
+         chekk:
+* Referenced by a CALL at Address:
+|:00717978   
+|
+:00717840 51                      push ecx
+:00717841 B92C000000              mov ecx, 0000002C
+:00717846 BA1C000000              mov edx, 0000001C
+:0071784B E8C0FFFFFF              call 00717810
+:00717850 B92C000000              mov ecx, 0000002C
+:00717855 BA26000000              mov edx, 00000026
+:0071785A E8B1FFFFFF              call 00717810
+:0071785F 59                      pop ecx
+:00717860 85C9                    test ecx, ecx
+:00717862 7424                    je 00717888
+:00717864 B9FC030000              mov ecx, 000003FC
+:00717869 BA2C000000              mov edx, 0000002C
+<< push 1Ch inserted >>
+:0071786E E8510ED0FF              call 004186C4
+:00717873 B9FC030000              mov ecx, 000003FC
+:00717878 BA2C000000              mov edx, 0000002C
+:0071787D 6A26                    push 00000026
+:0071787F 90                      nop
+:00717880 90                      nop
+:00717881 90                      nop
+:00717882 90                      nop
+:00717883 E83C0ED0FF              call 004186C4
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00717862(C)
+|
+:00717888 C3                      ret
+
+22.4.1.3. перемещение гс на заданные координаты
+@MoveGrimspike: // e4490
+; ecx и edx соответственно row и col
+push edi
+push esi
+push ebx
+mov edi, ecx
+mov esi, edx
+
+mov ebx, dword ptr [@GrimspikeMonsterIndex] // a35f54
+
+mov ecx, ebx
+call 0043CD32 ; void ClearMonsterOnMap(int monsterIndex)
+
+mov ecx, ebx
+imul ecx, 228d
+add ecx, 0069DC88 ; оффсет гс
+mov dword ptr [ecx + 32d], edi
+mov dword ptr [ecx + 36d], esi
+
+mov ecx, edi
+imul ecx, 112d
+add ecx, esi
+shl ecx, 2; *4
+
+mov edx, ebx
+inc edx
+mov dword ptr [0057D1E0 + ecx], edx
+
+mov ecx, ebx
+xor edx, edx
+call 0043CBFD
+
+pop ebx
+pop esi
+pop edi
+retn
+  
+  
+  chekk:
+* Referenced by a CALL at Address:
+|:00717940   
+|
+:00717890 57                      push edi
+:00717891 56                      push esi
+:00717892 53                      push ebx
+:00717893 89CF                    mov edi, ecx
+:00717895 89D6                    mov esi, edx
+:00717897 8B1D545FA300            mov ebx, dword ptr [00A35F54]
+:0071789D 89D9                    mov ecx, ebx
+:0071789F E88E54D2FF              call 0043CD32
+:007178A4 89D9                    mov ecx, ebx
+:007178A6 69C9E4000000            imul ecx, 000000E4
+:007178AC 81C188DC6900            add ecx, 0069DC88
+:007178B2 897920                  mov dword ptr [ecx+20], edi
+:007178B5 897124                  mov dword ptr [ecx+24], esi
+:007178B8 89F9                    mov ecx, edi
+:007178BA 6BC970                  imul ecx, 00000070
+:007178BD 01F1                    add ecx, esi
+:007178BF C1E102                  shl ecx, 02
+:007178C2 89DA                    mov edx, ebx
+:007178C4 42                      inc edx
+:007178C5 8991E0D15700            mov dword ptr [ecx+0057D1E0], edx
+:007178D0 89D9                    mov ecx, ebx
+:007178D2 31D2                    xor edx, edx
+:007178D4 90                      nop
+:007178D5 90                      nop
+:007178D6 E82253D2FF              call 0043CBFD
+:007178DB 5B                      pop ebx
+:007178DC 5E                      pop esi
+:007178DD 5F                      pop edi
+:007178DE C3                      ret
+
+
+22.4.2. основная функция скрипта гримспайка
+@HorazonGrimspikeDelay просто ещё один новый дворд // 00A35F58
+
+@GrimspikeOpenScript: // address: 007178F0
+cmp dword ptr [@HorazonGrimspikeDelay], 0
+jle @tryScript
+@wait:
+dec dword ptr [@HorazonGrimspikeDelay]
+retn
+@tryScript:
+push edi
+
+push    16d
+pop     edi
+imul    edi, 1Ch
+add     edi, offset 6EB358 ; оффсет квеста хоразона
+
+movzx eax, byte ptr [edi + 21d]; horazonQuest.Status3
+cmp eax, 2
+jz @needOpenDoors
+cmp eax, 3
+jz @needPlayPlayerSound
+cmp eax, 4
+jnz @return
+
+@needSummonGrimspike:
+push edi
+push esi
+mov edi, 39d
+mov esi, 34d
+; перемещение гс
+mov ecx, edi
+mov edx, esi
+call @MoveGrimspike ; 22.4.1.3.
+; звук суммона
+mov ecx, @GrimspikeSummonSoundIndex
+mov edx, edi; row
+push esi; col
+call 004186C4
+; анимация суммона заклинанием
+xor eax, eax
+push eax
+push eax
+push eax
+push eax
+push 62d
+push eax
+push esi
+push edi
+xor ecx, ecx
+xor edx, edx
+call 0043572F
+
+pop esi
+pop edi
+
+mov byte ptr [edi + 21d], 5
+jmp @return
+ 
+@needOpenDoors:
+mov ecx, 1
+call @OpenGrimspikeRoom ; 22.4.1.2.
+mov byte ptr [edi + 21d], 3
+mov dword ptr [@HorazonGrimspikeDelay], 10d; задержка перед речью // e4581
+jmp @return
+
+@needPlayPlayerSound:
+call 70A1D0; @getCurPlayerOffset
+movzx ecx, byte ptr [eax + 352d]
+test ecx, ecx
+jz @palSound
+dec ecx
+jz @scoutSound
+dec ecx
+jz @magSound
+dec ecx
+jz @needNoPlaySound
+dec ecx
+jz @scoutSound
+dec ecx
+jnz @needNoPlaySound
+
+@palSound:
+mov ecx, @palSoundIndex
+jmp @playSound
+@scoutSound:
+mov ecx, @scoutSoundIndex
+jmp @playSound
+@magSound:
+mov ecx, @magSoundIndex
+@playSound:
+mov edx, dword ptr [eax + 56d]; row
+push dword ptr [eax + 60d]; col
+call 004186C4
+
+@needNoPlaySound:
+mov byte ptr [edi + 21d], 4
+mov dword ptr [@HorazonGrimspikeDelay], 10d; задержка перед появлением гс // e45d8
+
+@return:
+pop edi
+retn
+
+
+22.4.3. вызов функции скрипта, инициализация данных и т.п.
+
+22.4.3.1. просто инициализация нового дворда
+.text:0045F65B 014 89 1D 68 B6 6E 00                       mov     SomeDword_56, ebx
+сюда до или после присобачить
+mov dword ptr [@HorazonGrimspikeDelay], ebx
+
+       chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045F65B(U)
+|
+:007179F0 891D585FA300            mov dword ptr [00A35F58], ebx
+:007179F6 891D68B66E00            mov dword ptr [006EB668], ebx
+:007179FC E9607CD4FF              jmp 0045F661
+
+
+22.4.3.2. стартовый скрипт который запускает всю цепочку
+loc_7173DC:
+jmp     loc_453926
+
+
+7173DC >>> // e4608
+>>
+cmp byte ptr [0061F314], 0; IsQuestFloor
+jz @return
+cmp byte ptr [0061CB00], 10; QuestFloorIndex
+jnz @return
+cmp dword ptr [006DE5C4 + esi], 48d
+jnz @return
+mov ecx, 48d
+mov edx, 28d
+call 0046B092
+imul    eax, 78h
+and byte ptr [eax+6DE600h], 0 ; невыделяемость первой книги
+
+mov ecx, 48d
+mov edx, 38d
+call 0046B092
+imul    eax, 78h
+and byte ptr [eax+6DE600h], 0 ; невыделяемость второй книги
+ 
+mov ecx, 28d
+mov edx, 34d
+call 0046B092
+imul    eax, 78h
+and byte ptr [eax+6DE600h], 0 ; невыделяемость рычага
+
+push    16d
+pop     eax
+imul    eax, 1Ch
+add     eax, 6EB358 ; оффсет квеста хоразона
+mov byte ptr [eax + 21d], 2
+mov dword ptr [@HorazonGrimspikeDelay], 10d; задержка перед открытием дверей
+
+@return:
+jmp     loc_453926
+
+che/kk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007173DC(U)
+|
+:00717A08 803D14F3610000          cmp byte ptr [0061F314], 00
+:00717A0F 7476                    je 00717A87
+:00717A11 803D00CB61000A          cmp byte ptr [0061CB00], 0A
+:00717A18 756D                    jne 00717A87
+:00717A1A 83BEC4E56D0030          cmp dword ptr [esi+006DE5C4], 00000030
+:00717A21 7564                    jne 00717A87
+:00717A23 B930000000              mov ecx, 00000030
+:00717A28 BA1C000000              mov edx, 0000001C
+:00717A2D E86036D5FF              call 0046B092
+:00717A32 6BC078                  imul eax, 00000078
+:00717A35 80A000E66D0000          and byte ptr [eax+006DE600], 00
+:00717A3C B930000000              mov ecx, 00000030
+:00717A41 BA26000000              mov edx, 00000026
+:00717A46 E84736D5FF              call 0046B092
+:00717A4B 6BC078                  imul eax, 00000078
+:00717A4E 80A000E66D0000          and byte ptr [eax+006DE600], 00
+:00717A55 B91C000000              mov ecx, 0000001C
+:00717A5A BA22000000              mov edx, 00000022
+:00717A5F E82E36D5FF              call 0046B092
+:00717A64 6BC078                  imul eax, 00000078
+:00717A67 80A000E66D0000          and byte ptr [eax+006DE600], 00
+:00717A6E 6A10                    push 00000010
+:00717A70 58                      pop eax
+:00717A71 6BC01C                  imul eax, 0000001C
+:00717A74 0558B36E00              add eax, 006EB358
+:00717A79 C6401502                mov [eax+15], 02
+:00717A7D C705585FA3000A000000    mov dword ptr [00A35F58], 0000000A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00717A0F(C), :00717A18(C), :00717A21(C)
+|
+:00717A87 E99ABED3FF              jmp 00453926
+:00717A8C 90                      nop
+
+
+22.4.3.3. вызов @GrimspakeOpenScript
+45F956 >>>
+>>
+cmp byte ptr [0061CB00], 10; QuestFloorIndex
+jnz @return
+push eax
+push ecx
+push edx
+call @GrimspakeOpenScript ; 22.4.2.
+pop edx
+pop ecx
+pop eax
+@return:
+jmp     loc_715200
+
+        chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045F956(U)
+|
+:00717A90 803D00CB61000A          cmp byte ptr [0061CB00], 0A
+:00717A97 750B                    jne 00717AA4
+:00717A99 50                      push eax
+:00717A9A 51                      push ecx
+:00717A9B 52                      push edx
+:00717A9C E84FFEFFFF              call 007178F0
+:00717AA1 5A                      pop edx
+:00717AA2 59                      pop ecx
+:00717AA3 58                      pop eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00717A97(C)
+|
+:00717AA4 E957D7FFFF              jmp 00715200
+
+
+22.4.4. открытие двери при повторном заходе на локу
+.mod:00716FE9                 call    sub_717160 ; после этого
+
+push    10h
+pop     eax
+imul    eax, 1Ch
+add     eax, 6EB358
+cmp     byte ptr [eax+21d], 3
+jl @F
+xor ecx, ecx
+call @OpenGrimspikeRoom ; 22.4.1.2.
+@@:
+
+
+.mod:00716FEE                 pop     esi ; до этого
+.mod:00716FEF                 retn . done
+
+
+22.4.5. действие при убийстве гс и условие завершения квеста // e4720
+22.4.5.1. функция проверки завершенности квеста и установки его завершенные если да
+@horazonQuestCompleteCheck:
+push    10h
+pop     eax
+imul    eax, 1Ch
+add     eax, 6EB358
+cmp     byte ptr [eax+21d], 6; гс убит?
+jnz @return
+cmp     byte ptr [eax+20d], 3 накрул убит? poymal ; а я и не прятал. Указание сюда есть в конце следующиего блока
+jnz @return
+
+mov  byte ptr [eax+3], 3 ; квест завершён
+
+@return:
+retn
+
+
+chekk
+* Referenced by a CALL at Addresses:
+|:00717B63   , :00717BD6   
+|
+:00717B20 6A10                    push 00000010
+:00717B22 58                      pop eax
+:00717B23 6BC01C                  imul eax, 0000001C
+:00717B26 0558B36E00              add eax, 006EB358
+:00717B2B 80781506                cmp byte ptr [eax+15], 06
+:00717B2F 750A                    jne 00717B3B
+:00717B31 80781403                cmp byte ptr [eax+14], 03
+:00717B35 7504                    jne 00717B3B
+:00717B37 C6400303                mov [eax+03], 03
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00717B2F(C), :00717B35(C)
+|
+:00717B3B C3                      ret
+
+
+
+22.4.5.2. действия при убийстве гс и накрула
+.mod:0071607F                 jnz     loc_45FB6D
+
+0071607F jnz @newLoc
+>>>
+@newLoc:
+cmp edi, 244h
+jz @nakrulKill ; позже допишу когда будут ясны эффекты производимые
+cmp edi, 245h
+jnz     loc_45FB6D
+@grimspikeKill:
+; edi esi ebx уже запушены и свободны
+; eax ecx и edx тоже свободны
+; всё что нужно, обозначить гс в квесте как убитого и вызвать проверку на завершённость
+
+push    10h
+pop     eax
+imul    eax, 1Ch
+add     eax, 6EB358
+mov     byte ptr [eax+21d], 6; гс убит
+call @horazonQuestCompleteCheck ; 22.4.5.1.
+@return:
+jmp 0045FF54
+
+       сhekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071607F(C)
+|
+:00717B40 81FF44020000            cmp edi, 00000244
+:00717B46 747F                    je 00717BC7
+:00717B48 81FF45020000            cmp edi, 00000245
+:00717B4E 0F851980D4FF            jne 0045FB6D
+:00717B54 6A10                    push 00000010
+:00717B56 58                      pop eax
+:00717B57 6BC01C                  imul eax, 0000001C
+:00717B5A 0558B36E00              add eax, 006EB358
+:00717B5F C6401506                mov [eax+15], 06
+:00717B63 E8B8FFFFFF              call 00717B20
+:00717B68 E9E783D4FF              jmp 0045FF54
+:00717B6D 90                      nop
+:00717B6E 90                      nop
+:00717B6F 90                      nop
+:00717B70 00000000000000000000    BYTE 10 DUP(0)
+:00717B7A 00000000000000000000    BYTE 10 DUP(0)
+:00717B84 00000000000000000000    BYTE 10 DUP(0)
+:00717B8E 00000000000000000000    BYTE 10 DUP(0)
+:00717B98 00000000000000000000    BYTE 10 DUP(0)
+:00717BA2 00000000000000000000    BYTE 10 DUP(0)
+:00717BAC 00000000000000000000    BYTE 10 DUP(0)
+:00717BB6 00000000000000000000    BYTE 10 DUP(0)
+
+
+:00717BC0 90                      nop
+:00717BC1 90                      nop
+:00717BC2 90                      nop
+:00717BC3 90                      nop
+:00717BC4 90                      nop
+:00717BC5 90                      nop
+:00717BC6 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00717B46(C)
+|
+:00717BC7 6A10                    push 00000010
+:00717BC9 58                      pop eax
+:00717BCA 6BC01C                  imul eax, 0000001C
+:00717BCD 0558B36E00              add eax, 006EB358
+:00717BD2 C6400303                mov [eax+03], 03
+:00717BD6 E845FFFFFF              call 00717B20
+:00717BDB E97483D4FF              jmp 0045FF54
+
+================================================================
+23. Фикс тп с доп локами
+@QuestFloorDlvlsTable байтовая таблица соответствий номеров квестовых лок - длвлам // A36030
+00h ; примерно 26 байтов 
+
+.text:0045F541 000 A2 00 CB 61 00                          mov     SPQuestIndex, al
+mov al, byte ptr [@QuestFloorDlvlsTable + al]
+.text:0045F546 000 EB 0C                                   jmp     short loc_45F554 ; Jump
+
+      chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045F541(U)
+|
+:00717AC0 A200CB6100              mov byte ptr [0061CB00], al
+:00717AC5 0FB6C0                  movzx eax, al
+:00717AC8 0FB6803060A300          movzx eax, byte ptr [eax+00A36030]
+:00717ACF E9727AD4FF              jmp 0045F546
+:00717AD4 90                      nop
+
+-------------------------------------
+
+Убийство и накрула и гримспайка делает квест выполненным.
+
+======================
+
+После того как будет выполнено, сбалансировано и отлажено это, останется украсить квест какими-то спец.фишками, добавить рандомности, запретить каст оговоренных заклов и будет релиз.
+
+далее тут http://titanpad.com/43fI0zwknm
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

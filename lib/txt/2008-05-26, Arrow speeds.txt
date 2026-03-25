@@ -1,0 +1,31 @@
+
+Disabling Normal Arrow speed bonus for Assy, enabling for Glad:
+
+File Offset 000307AB
+
+:004313AB 80FA04                  cmp dl, 04
+wordt
+:004313AB 80FA05                  cmp dl, 05
+
+
+Lowering base speed of Fire/Lightning Arrow:
+
+File Offset 0002FFBA
+
+:00430BBA 6A20                    push 00000020
+wordt
+:00430BBA 6A1C                    push 0000001C
+
+Disabling Fire/Lightning Arrow speed bonus for Assy, enabling for Glad:
+
+File Offset 0002FFEB
+
+:00430BEB 80FA04                  cmp dl, 04
+wordt
+:00430BEB 80FA05                  cmp dl, 05
+
+
+Character arrow base speed:
+30759:
+6Axx
+

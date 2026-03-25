@@ -1,0 +1,21 @@
+DOESN'T WORK !
+and I have no idea WHY it doesn't :(
+
+Bile Demons resist 50% of elemental (magical) damage on DLVL 9
+Done by expanding Soul Burners' resistance function
+
+:00707333 3D85000000              cmp eax, 00000085
+:00707338 750E                    jne 00707348
+:0070733A 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00707341 74DF                    je 00707322
+:00707343 E938020000              jmp 00707580
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707338(C)
+|
+:00707348 83F834                  cmp eax, 00000034
+:0070734B 75D5                    jne 00707322
+:0070734D 803DD8B1600009          cmp byte ptr [0060B1D8], 09
+:00707354 75CC                    jne 00707322
+:00707356 D1FF                    sar edi, 1
+:00707358 EBC8                    jmp 00707322

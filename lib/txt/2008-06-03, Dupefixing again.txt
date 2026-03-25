@@ -1,0 +1,121 @@
+﻿Used addresses: D107 -> HF101
+
+636d48		item to pick up					->	:004219EE 8DB080626800            lea esi, dword ptr [eax+00686280]
+68ca30		item on cursor					->	lea edi, dword ptr [eax+ebp+000053A4]
+69bd0c		inventory slot					->	
+69bb9c		address of last space in inventory ?	->	
+68bd14		?							->	
+
+
+:0041E5E2 8DB0486D6300            lea esi, dword ptr [eax+00636D48]	->	:00705719 8974242C                mov dword ptr [esp+2C], esi
+
+--
+Possible variations:
+item cursor or pickedup	+0000550C]			base item number
+83BC1894030000FF        cmp dword ptr [eax+ebx+00000394], FFFFFFFF	Item in slot ?
+8DB4188C030000          lea esi, dword ptr [eax+ebx+0000038C]		Adress item
+coordinate cursor	+000001D4]
+coordinate cursor	+000001D8]
+coordinate ?            +000001DC]
+00004664
+000047D8
+------------------------
+number of items in inventory:
+
+:00422B3C 8B88D8470000            mov ecx, dword ptr [eax+000047D8]
+
+00004664]			start last item (first + 39*174h)
+
++00000DB8]			start first inventory object
++00000DC0]			item type first inventory object
+-------------------------
+
+
+Translating to Hellfire:
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+:00705700 8B442418                mov eax, dword ptr [esp+18]			eax = dw pointer to ?, something related to inventory
+:00705704 8BEB                    mov ebp, ebx					ebx copied to ebp
+:00705706 69EDC8550000            imul ebp, 000055C8				ebp * 55C8 ?, must mean something....
+:0070570C 8DB080626800            lea esi, dword ptr [eax+00686280]			esi = dw ptr to 'item to pick up'
+:00705712 A114AE6E00              mov eax, dword ptr [006EAE14]			eax = dw ptr to local character
+:00705717 6A5D                    push 0000005D					5D? what's that???
+:00705719 8974242C                mov dword ptr [esp+2C], esi			esi = dw ptr to esp+2C, the latter is something unknown
+:0070571D 8DBC28A4530000          lea edi, dword ptr [eax+ebp+000053A4]		edi = dw ptr to local character + ebp + item on cursor
+:00705724 59                      pop ecx					ecx = 5D
+:00705725 F3                      repz						
+:00705726 A5                      movsd						
+:00705727 8BCB                    mov ecx, ebx					ebx copied to ecx
+
+>>>>>>>>>
+
+:00705700 8B442418                mov eax, dword ptr [esp+18]
+:00705704 8BEB                    mov ebp, ebx
+:00705706 69EDC8550000            imul ebp, 000055C8
+:0070570C 8DB080626800            lea esi, dword ptr [eax+00686280]
+:00705712 A114AE6E00              mov eax, dword ptr [006EAE14]
+:00705717 6A5D                    push 0000005D
+:00705719 8974242C                mov dword ptr [esp+2C], esi
+:0070571D 8DBC28A4530000          lea edi, dword ptr [eax+ebp+000053A4]
+:00705724 59                      pop ecx
+:00705725 F3                      repz
+:00705726 A5                      movsd
+:00705727 8BCB                    mov ecx, ebx
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+D107: Dr.Zed's Fix to the 'duping' bug. (anti-dupe fix)
+
+0041E5E2
+0041E...
+0041EA5C
+
+0041E5E2:
+E8 [6488FEFF]	call 00406E4B
+90			nop
+
+00406E4B:
+6A5C			push 0000005C
+8DB5 30CA6800	lea esi, dword ptr [ebp+0068CA30]		item on cursor
+BF 9CBB6900		mov edi, 0069BB9C
+59			pop ecx
+F3			repz
+A5			movsd
+8DB0 486D6300	lea esi, dword ptr [eax+00636D48]
+833D 0CBD6900 27	cmp dword ptr [0069BD0C], 00000027
+7E [07]		jle SKIP
+C605 0CBD6900 27	mov byte ptr [0069BD0C], 27	max player #4 at 39 items
+			SKIP:
+C3			ret
+
+0041EA5C:
+E9 [B5980200]	jmp 0042092E	<00448316>
+90 90 90		nop x3
+
+0042092E:	<00448316:>
+6A5C			push 0000000C
+	(8DB5 14BD6800	lea esi, dword ptr [ebp+0068BD14])
+BE 9CBB6900		mov esi, 0069BB9C
+90			nop
+8DBD 30CA6800	lea edi, dword ptr [ebp+0068CA30]
+59			pop ecx
+F3			repz
+A5			movsd
+5F			pop edi
+5E			pop esi
+5D			pop ebp
+5B			pop ebx
+83C4 1C		add esp, 0000001C
+C3			ret
+
+Was:
+0041E5BF:
+0F84 [97040000]	je 0041EA5C
+
+Now:
+0041E5BF: (0001D9BF)
+0F84 [xxxxxxxx]	je 0042093F
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+

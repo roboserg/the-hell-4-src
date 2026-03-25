@@ -1,0 +1,3 @@
+* Possible StringData Ref from Data Obj ->"Doubles gold capacity"
+                                  |
+:00429400 687C674A00              push 004A677C

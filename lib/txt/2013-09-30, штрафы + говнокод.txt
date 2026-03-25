@@ -1,0 +1,243 @@
+﻿
+@GetCurrentPlayerGoldDeathToll: // E6440
+push edx
+push ecx
+call @getCurrentPlayerOffset
+movsx eax, byte ptr [eax + 440d]; clvl
+movzx   ecx, byte ptr [0060B1D8] ; dlvl
+mov edx, dword ptr [006070C0]; Difficult
+
+; дохрена нопов на случай изменения формулы. По мне она какая то детсткая. в смысле микро числа даже на думе. Хотя там и дохнут чаще...
+
+imul eax, ecx
+imul edx, 500d
+add eax, edx; clvl*dlvl + 500*(Difficult)
+
+pop ecx
+pop edx
+retn
+
+
+  chek:
+* Referenced by a CALL at Address:
+|:007198EB   
+|
+:00719840 52                      push edx
+:00719841 51                      push ecx
+:00719842 E88909FFFF              call 0070A1D0
+:00719847 90                      nop
+:00719848 90                      nop
+:00719849 90                      nop
+:0071984A 0FBE80B8010000          movsx eax, byte ptr [eax+000001B8]
+:00719851 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:00719858 8B15C0706000            mov edx, dword ptr [006070C0]
+:0071985E 90                      nop
+...
+:0071986F 90                      nop
+:00719870 0FAFC1                  imul eax, ecx
+:00719873 69D2F4010000            imul edx, 000001F4
+:00719879 01D0                    add eax, edx
+:0071987B 90                      nop
+:0071987C 90                      nop
+:0071987D 59                      pop ecx
+:0071987E 5A                      pop edx
+:0071987F C3                      ret
+
+===============================================================
+
+@GetCurrentPlayerExpDeathToll: // E6490
+push edx
+push ecx
+call @getCurrentPlayerOffset
+mov eax, dword ptr [eax + 440d]; clvl
+movzx   edx, byte ptr [0060B1D8] ; dlvl
+mov ecx, dword ptr [006070C0]; Difficult
+
+; дохрена нопов на случай изменения формулы.
+imul eax, edx ; clvl*dlvl   ; 
+
+mov edx, ecx
+imul edx, 500d ; тут косяк даже при ecx был
+add eax, edx ; clvl*dlvl + 500*(Difficult)
+
+add eсx, 3
+shl eax, cl ;(clvl*dlvl + 500*(Difficult))<<(Difficult + 3)
+
+pop ecx
+pop edx
+retn
+
+  chek:
+* Referenced by a CALL at Address:
+|:00719912   
+|
+:00719890 52                      push edx
+:00719891 51                      push ecx
+:00719892 E83909FFFF              call 0070A1D0
+:00719897 90                      nop
+:00719898 90                      nop
+:00719899 90                      nop
+:0071989A 0FBE80B8010000          movsx eax, byte ptr [eax+000001B8]
+:007198A1 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:007198A8 8B0DC0706000            mov ecx, dword ptr [006070C0]
+:007198AE 0FAFC2                  imul eax, edx
+:007198B1 89CA                    mov edx, ecx
+:007198B3 69D2F4010000            imul edx, 000001F4
+:007198B9 01D0                    add eax, edx
+:007198BB 83C103                  add ecx, 00000003
+:007198BE D3E0                    shl eax, cl
+:007198C0 59                      pop ecx
+:007198C1 5A                      pop edx
+:007198C2 C3                      ret
+
+=============================================================
+
+@TakeCurrentPlayerDeathToll: // E64E0
+push eax
+push ecx
+push edx
+push esi
+call @getCurrentPlayerOffset
+mov esi, eax
+
+call @GetCurrentPlayerGoldDeathToll
+cmp dword ptr [esi + 460d], eax ; player.TotalGold
+jl @takeExpToll
+
+@takeGoldToll:
+push eax
+mov ecx, eax
+call 0046F92D ; ClearGoldByInventoryAsPrice
+pop eax
+mov ecx, "Death takes it's toll of %d gold."
+jmp @sendMessage
+
+@takeExpToll:
+call @GetCurrentPlayerExpDeathToll
+sub dword ptr [esi + 444d], eax
+cmp dword ptr [esi + 444d], 0
+jge @F
+mov dword ptr [esi + 444d], 0
+@@:
+mov ecx, "Death takes it's toll of %d experience."
+
+@sendMessage:
+push    eax; value
+push  ecx ; formatString
+call    00447FDE; AddFormatedWorldMessageWithFiveSecondsDelay
+pop     ecx
+pop     ecx
+@return:
+pop esi
+pop edx
+pop ecx
+pop eax
+retn
+
+      chek:
+* Referenced by a CALL at Address:
+|:00710205   
+|
+:007198E0 50                      push eax
+:007198E1 51                      push ecx
+:007198E2 52                      push edx
+:007198E3 56                      push esi
+:007198E4 E8E708FFFF              call 0070A1D0
+:007198E9 89C6                    mov esi, eax
+:007198EB E850FFFFFF              call 00719840
+:007198F0 3986CC010000            cmp dword ptr [esi+000001CC], eax
+:007198F6 90                      nop
+:007198F7 90                      nop
+:007198F8 90                      nop
+:007198F9 90                      nop
+:007198FA 90                      nop
+:007198FB 7C15                    jl 00719912
+:007198FD 90                      nop
+:007198FE 90                      nop
+:007198FF 90                      nop
+:00719900 50                      push eax
+:00719901 89C1                    mov ecx, eax
+:00719903 E82560D5FF              call 0046F92D
+:00719908 58                      pop eax
+:00719909 B91067A300              mov ecx, 00A36710
+:0071990E 90                      nop
+:0071990F 90                      nop
+:00719910 EB2E                    jmp 00719940
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007198FB(C)
+|
+:00719912 E879FFFFFF              call 00719890
+:00719917 2986BC010000            sub dword ptr [esi+000001BC], eax
+:0071991D 83BEBC01000000          cmp dword ptr [esi+000001BC], 00000000
+:00719924 7D0A                    jge 00719930
+:00719926 C786BC01000000000000    mov dword ptr [esi+000001BC], 00000000
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719924(C)
+|
+:00719930 B94067A300              mov ecx, 00A36740
+:00719935 90                      nop
+...
+:0071993F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719910(U)
+|
+:00719940 50                      push eax
+:00719941 51                      push ecx
+:00719942 E897E6D2FF              call 00447FDE
+:00719947 59                      pop ecx
+:00719948 59                      pop ecx
+:00719949 5E                      pop esi
+:0071994A 5A                      pop edx
+:0071994B 59                      pop ecx
+:0071994C 58                      pop eax
+:0071994D C3                      ret
+
+=============================================================
+
+00710205 call @TakeCurrentPlayerDeathToll
+jmp 45B005
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

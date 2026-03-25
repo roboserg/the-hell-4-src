@@ -1,0 +1,127 @@
+Less gold dropped in general, but especially on higher difficulty modes:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004259B2(C)
+|
+:004259BF E832DCFFFF              call 004235F6
+:004259C4 83BE886268000B          cmp dword ptr [esi+00686288], 0000000B
+:004259CB 8BF8                    mov edi, eax
+:004259CD 0F859C000000            jne 00425A6F
+:004259D3 A1C0706000              mov eax, dword ptr [006070C0]
+:004259D8 3BC3                    cmp eax, ebx
+:004259DA 7511                    jne 004259ED
+:004259DC 8D147F                  lea edx, dword ptr [edi+2*edi]
+:004259DF B115                    mov cl, 15
+:004259E1 D1E2                    shl edx, 1
+:004259E3 E87245FFFF              call 00419F5A
+:004259E8 8D0C7F                  lea ecx, dword ptr [edi+2*edi]
+:004259EB EB34                    jmp 00425A21
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004259DA(C)
+|
+:004259ED 83F801                  cmp eax, 00000001
+:004259F0 7513                    jne 00425A05
+:004259F2 8D547F19                lea edx, dword ptr [edi+2*edi+19]
+:004259F6 B115                    mov cl, 15
+:004259F8 D1E2                    shl edx, 1
+:004259FA E85B45FFFF              call 00419F5A
+:004259FF 8D4C7F19                lea ecx, dword ptr [edi+2*edi+19]
+:00425A03 EB1C                    jmp 00425A21
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004259F0(C)
+|
+:00425A05 83F802                  cmp eax, 00000002
+:00425A08 751B                    jne 00425A25
+:00425A0A 8D947F32000000          lea edx, dword ptr [edi+2*edi+00000032]
+:00425A11 B115                    mov cl, 15
+:00425A13 D1E2                    shl edx, 1
+:00425A15 E84045FFFF              call 00419F5A
+:00425A1A 8D8C7F32000000          lea ecx, dword ptr [edi+2*edi+00000032]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004259EB(U), :00425A03(U)
+|
+:00425A21 03C1                    add eax, ecx
+:00425A23 EB03                    jmp 00425A28
+_______________________________________________________
+
+More gold dropped on horror, previous mod made gold too scarce there:
+
+	Mod:
+:004259C4 83BE886268000B          cmp dword ptr [esi+00686288], 0000000B
+:004259CB 8BF8                    mov edi, eax
+:004259CD 0F859C000000            jne 00425A6F
+:004259D3 A1C0706000              mov eax, dword ptr [006070C0]
+:004259D8 3BC3                    cmp eax, ebx
+:004259DA 7511                    jne 004259ED
+:004259DC E94F042E00              jmp 00705E30
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705E38(U)
+|
+:004259E1 E87445FFFF              call 00419F5A
+:004259E6 8D4C7F02                lea ecx, dword ptr [edi+2*edi+02]
+:004259EA EB35                    jmp 00425A21
+:004259EC 90                      nop
+
+	Extra:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004259DC(U)
+|
+:00705E30 8D547F02                lea edx, dword ptr [edi+2*edi+02]
+:00705E34 B115                    mov cl, 15
+:00705E36 D1E2                    shl edx, 1
+:00705E38 E9A4FBD1FF              jmp 004259E1
+
+________________________________________________________
+
+original code:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004259B2(C)
+|
+:004259BF E832DCFFFF              call 004235F6
+:004259C4 83BE886268000B          cmp dword ptr [esi+00686288], 0000000B
+:004259CB 8BF8                    mov edi, eax
+:004259CD 0F859C000000            jne 00425A6F
+:004259D3 A1C0706000              mov eax, dword ptr [006070C0]			< eax = difficulty mode
+:004259D8 3BC3                    cmp eax, ebx
+:004259DA 7511                    jne 004259ED
+:004259DC 8D14BF                  lea edx, dword ptr [edi+4*edi]			< 5*DLVL
+:004259DF B115                    mov cl, 15
+:004259E1 D1E2                    shl edx, 1
+:004259E3 E87245FFFF              call 00419F5A
+:004259E8 8D0CBF                  lea ecx, dword ptr [edi+4*edi]
+:004259EB EB34                    jmp 00425A21
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004259DA(C)
+|
+:004259ED 83F801                  cmp eax, 00000001				< check if purgatory
+:004259F0 7513                    jne 00425A05
+:004259F2 8D54BF50                lea edx, dword ptr [edi+4*edi+50]			< 5*DLVL + 80
+:004259F6 B115                    mov cl, 15
+:004259F8 D1E2                    shl edx, 1
+:004259FA E85B45FFFF              call 00419F5A
+:004259FF 8D4CBF50                lea ecx, dword ptr [edi+4*edi+50]
+:00425A03 EB1C                    jmp 00425A21
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004259F0(C)
+|
+:00425A05 83F802                  cmp eax, 00000002				< check if doom
+:00425A08 751B                    jne 00425A25
+:00425A0A 8D94BFA0000000          lea edx, dword ptr [edi+4*edi+000000A0]	< 5*DLVL + 160
+:00425A11 B115                    mov cl, 15
+:00425A13 D1E2                    shl edx, 1
+:00425A15 E84045FFFF              call 00419F5A
+:00425A1A 8D8CBFA0000000          lea ecx, dword ptr [edi+4*edi+000000A0]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004259EB(U), :00425A03(U)
+|
+:00425A21 03C1                    add eax, ecx
+:00425A23 EB03                    jmp 00425A28
+

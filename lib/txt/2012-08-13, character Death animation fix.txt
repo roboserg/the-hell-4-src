@@ -1,0 +1,18 @@
+
+death animation improve:
+
+:0045A194 90                      nop
+:0045A195 90                      nop
+:0045A196 90                      nop
+:0045A197 90                      nop
+:0045A198 90                      nop
+:0045A199 90                      nop
+:0045A19A 836678F0                and dword ptr [esi+78], FFFFFFF0
+:0045A19E 90                      nop
+:0045A19F 90                      nop
+:0045A1A0 90                      nop
+:0045A1A1 90                      nop
+:0045A1A2 90                      nop
+:0045A1A3 90                      nop
+:0045A1A4 8BCB                    mov ecx, ebx
+:0045A1A6 E816D6FFFF              call 004577C1

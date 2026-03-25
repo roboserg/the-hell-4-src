@@ -1,0 +1,73 @@
+15:16 02.04.2010
+Assassins now cause deadly melee damage: (CLVL/4)% chance to cause +800% damage
+
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705A04(C)
+|
+:007059DB 0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]
+:007059E2 C1FB02                  sar ebx, 02
+:007059E5 6A64                    push 00000064
+:007059E7 B106                    mov cl, 06
+:007059E9 5A                      pop edx
+:007059EA E86B45D1FF              call 00419F5A
+:007059EF 3BC3                    cmp eax, ebx
+:007059F1 7D30                    jge 00705A23
+:007059F3 8D3CFF                  lea edi, dword ptr [edi+8*edi]
+:007059F6 EB2B                    jmp 00705A23
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BA6D(U)
+|
+:007059F8 8A8160010000            mov al, byte ptr [ecx+00000160]
+:007059FE 3C03                    cmp al, 03
+:00705A00 7406                    je 00705A08
+:00705A02 3C04                    cmp al, 04
+:00705A04 74D5                    je 007059DB				<- if Assassin...
+:00705A06 EB20                    jmp 00705A28
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705A00(C)
+|
+:00705A08 0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]
+:00705A0F C1FB01                  sar ebx, 01
+:00705A12 6A64                    push 00000064
+:00705A14 B106                    mov cl, 06
+:00705A16 5A                      pop edx
+:00705A17 E83E45D1FF              call 00419F5A
+:00705A1C 3BC3                    cmp eax, ebx
+:00705A1E 7D03                    jge 00705A23
+:00705A20 8D3C7F                  lea edi, dword ptr [edi+2*edi]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007059F1(C), :007059F6(U), :00705A1E(C), :00705A49(U)
+|
+:00705A23 E96A60D5FF              jmp 0045BA92
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705A06(U)
+|
+:00705A28 84C0                    test al, al
+:00705A2A 751F                    jne 00705A4B
+:00705A2C 0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]
+:00705A33 C1FB01                  sar ebx, 01
+:00705A36 6A64                    push 00000064
+:00705A38 B106                    mov cl, 06
+:00705A3A 5A                      pop edx
+:00705A3B E81A45D1FF              call 00419F5A
+:00705A40 3BC3                    cmp eax, ebx
+:00705A42 7D05                    jge 00705A49
+:00705A44 8D3CBF                  lea edi, dword ptr [edi+4*edi]
+:00705A47 D1FF                    sar edi, 1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705A42(C)
+|
+:00705A49 EBD8                    jmp 00705A23
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705A2A(C)
+|
+:00705A4B E92860D5FF              jmp 0045BA78

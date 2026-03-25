@@ -1,0 +1,1169 @@
+Monsterlist
+
+0. Burned Corpse (undead)
+MLVL: 2
+DLVLs: [1-2]
+HP: [16-32]
+ToHit: 8%
+Damage: [3-10]
+AC: 2
+Features: has higher stun threshold on dlvl 2
+
+1. Oblivion Knight (undead), inactive, used for bosses on dlvl4 and in 'Chamber of Bone' quest
+MLVL: 13
+DLVLs: [4-4]
+HP: [240-320]
+ToHit: 18%
+Damage: [24-38]
+AC: 25
+
+2. Rotting Carcass (undead)
+MLVL: 5
+DLVLs: [2-5]
+HP: [40-80]
+ToHit: 16%
+Damage: [6-16]
+AC: 9
+
+3. Familiar (demon)
+MLVL: 23
+DLVLs: [7-9]
+HP: [70-105]
+ToHit: 17%
+Damage: [19-37]
+AC: 26
+
+4. Gremlin (demon)
+MLVL: 18
+DLVLs: [5-7]
+HP: [110-160]
+ToHit: 18%
+Damage: [14-26]
+AC: 21
+
+5. Fallen One (demon)
+MLVL: 5
+DLVLs: [1-4]
+HP: [12-18]
+ToHit: 6%
+Damage: [2-11]
+AC: 9
+
+6. Grave Digger (undead)
+MLVL: 2
+DLVLs: [1-2]
+HP: [22-34]
+ToHit: 7%
+Damage: [3-11]
+AC: 3
+
+7. Skeleton (undead)
+MLVL: 4
+DLVLs: [1-2]
+HP: [12-20]
+ToHit: 6%
+Damage: [3-7]
+AC: 4
+
+8. Bone Creeper (undead)
+MLVL: 53
+DLVLs: [21-22]
+HP: [350-550]
+ToHit: 32%
+Damage: [45-55]
+AC: 73
+Features: immune to missile weapons when retreating (not when faced in SP quest level of Skeleton King)
+
+9. Revived (undead)
+MLVL: 7
+DLVLs: [2-3]
+HP: [30-50]
+ToHit: 7%
+Damage: [6-14]
+AC: 9
+
+10. Burning Dead (undead)
+MLVL: 10
+DLVLs: [3-4]
+HP: [50-80]
+ToHit: 13%
+Damage: [10-20]
+AC: 13
+
+11. Hatred (undead)
+MLVL: 14
+DLVLs: [4-5]
+HP: [70-110]
+ToHit: 15%
+Damage: [15-25]
+AC: 16
+
+12. Imp (demon)
+MLVL: 25
+DLVLs: [7-9]
+HP: [160-250]
+ToHit: 16%
+Damage: [23-36]
+AC: 28
+
+13. Carver (demon)
+MLVL: 31
+DLVLs: [9-13]
+HP: [210-350]
+ToHit: 16%
+Damage: [25-45]
+AC: 35
+
+14. Soul Hunter (undead)
+MLVL: 53
+DLVLs: [21-22]
+HP: [325-505]
+ToHit: 32%
+Damage: [50-60]
+AC: 68
+
+15. Tomb Slave (undead)
+MLVL: 5
+DLVLs: [2-4]
+HP: [60-80]
+ToHit: 10%
+Damage: [6-18]
+AC: 10
+
+16. Horned Beast (beast)
+MLVL: 42
+DLVLs: [11-14]
+HP: [420-550]
+ToHit: 14%
+Damage: [38-56]
+AC: 48
+
+17. Scavenger (beast)
+MLVL: 15
+DLVLs: [5-6]
+HP: [56-92]
+ToHit: 17%
+Damage: [10-24]
+AC: 17
+
+18. Vortex Rogue (demon)
+MLVL: 33
+DLVLs: [9-12]
+HP: [330-370]
+ToHit: 16%
+Damage: [30-40]
+AC: 37
+
+19. Ravager (beast)
+MLVL: 23
+DLVLs: [7-9]
+HP: [108-162]
+ToHit: 17%
+Damage: [14-30]
+AC: 26
+Feature: moves faster than Scavenger
+
+20. Skeleton /archer/ (undead)
+MLVL: 4
+DLVLs: [1-2]
+HP: [8-16]
+ToHit: 6%
+Damage: [1-4]
+AC: 2
+
+21. Revived /archer/ (undead)
+MLVL: 6
+DLVLs: [2-3]
+HP: [16-32]
+ToHit: 10%
+Damage: [2-13]
+AC: 7
+
+22. Burning Dead (undead)
+MLVL: 11
+DLVLs: [3-4]
+HP: [28-46]
+ToHit: 12%
+Damage: [8-20]
+AC: 11
+
+23. Malice /archer/ (undead)
+MLVL: 14
+DLVLs: [4-5]
+HP: [36-64]
+ToHit: 16%
+Damage: [11-25]
+AC: 15
+
+24. Skeleton (undead)
+MLVL: 3
+DLVLs: [1-2]
+HP: [14-22]
+ToHit: 6%
+Damage: [2-6]
+AC: 4
+
+25. Revived (undead)
+MLVL: 9
+DLVLs: [2-4]
+HP: [35-55]
+ToHit: 12%
+Damage: [5-12]
+AC: 10
+
+26. Burning Dead (undead)
+MLVL: 12
+DLVLs: [3-5]
+HP: [50-90]
+ToHit: 13%
+Damage: [8-18]
+AC: 15
+
+27. Horror (undead)
+MLVL: 16
+DLVLs: [4-6]
+HP: [90-150]
+ToHit: 18%
+Damage: [12-25]
+AC: 19
+
+=========================
+
+8A:
+offset 3043F0
+Shadow Beast
+Specs:
+stun threshold (AC-3)*3
+75% of HP boost for diff
+needs:
+
+
+========================
+
+8B:
+offset 304470
+Bone Gasher
+Specs:
+stun threshold (AC-3)*3
+75% of HP boost for diff
+needs:
+
+
+
+========================
+
+8C:
+
+Ghoul
+Specs:
+KB resistance:
+	67%
+Damage resistance vs arrow:
+	SP Horror DLVL 5: 0%,
+	SP Horror DLVL 6: 25%,
+	SP Horror DLVL 7: 37,5%,
+	SP Purgatory & Doom: 50%,
+	MP Horror DLVL 5: 25%,
+	MP Horror DLVL 6: 37,5%,
+	MP Horror DLVL 7: 50%,
+	MP Purgatory DLVL 5: 62,5%;
+	MP Purgatory DLVL 6: 68,75%,
+	MP Purgatory DLVL 7: 75,
+	MP Doom: 75%;
+Mana damage
+
+DLVLs: 5-7
+HP: 260-340
+TRN: X\Ghostwar.trn
+MLVL: 17
+Seed: 799
+Needs:
+
+======================
+
+8D:
+
+Shambler
+Specs:
+stun: mAC*8
+
+DLVLs: 8-12
+HP: 850-1050
+TRN: X\Grot02x1.trn
+MLVL: ?
+Seed: 1300
+Needs:
+KB immunity, stun resist (50%)
+
+Boss TRNs:
+8 >> 2345678
+9 >> B4 (tigra!)
+10 >> Bharlad (bright red)
+11 >> Galanta (beige)
+12 >> Medammu (dark orange)
+
+======================
+
+8E:
+
+Hell Meat
+Specs:
+stun: mAC*8
+
+DLVLs: 13-16
+HP: 1300-1700
+TRN: X\Grot04.trn
+MLVL: ?
+Seed: 1300
+Needs:
+
+Boss TRNs:
+13 >> AZZ (dynamic)
+14 >> belly
+15 >> boarlord
+16 >> KTBT
+
+===================
+
+8Fh:
+
+Doom Tail (inactive, ued fr spawning from urns on DLVLs 22-24)
+Specs:
+stun: mAC*3
+
+DLVLs: 13-16
+HP: 1300-1700
+TRN: X\Grot04.trn
+MLVL: ?
+Seed: 0
+Needs:
+
+===================
+
+90h:
+
+Dark Servant (gdiggr)
+Specs:
+KB resistance:
+	?%
+Damage resistance vs arrow:
+	?
+Mana damage
+	?
+DLVLs: 4-6
+HP: ?170-?250
+TRN: X\Gravdg01.trn
+MLVL: ?
+Seed: 1200
+Needs:
+
+Boss TRNs:
+4 >> 12345678 (dark crimson)
+5 >> diablo (blak)
+6 >> doomgaze (blu)
+
+===================
+
+91h:
+
+Black Mourner (gdiggr)
+Specs:
+KB resistance:
+	?%
+Damage resistance vs arrow:
+	?
+Mana damage
+	?
+DLVLs: 6-8
+HP: ??-??
+TRN: X\Gravdg02.trn
+MLVL: ?
+Seed: 1200
+Needs:
+
+Boss TRNs:
+4 >> 45678 (blak)
+5 >> agabandu (dark orng)
+6 >> arakta (dark blu)
+
+=====================
+
+92h:
+
+Corrupt Order (inactive, used to save seeding size on dlvl-13)
+stats are identical, except XP (700 -> 800)
+
+=====================
+
+93h:
+
+Fiend (bat)
+seed: 764
+DLVLs: 1~2
+HP: 12-24
+TRN: X\Fiend.TRN
+MLVL: 4
+
+Boss (DLVL-2):
+belly
+
+====================
+
+94h:
+
+Turbak the Deuce (used for special boss on dlvl-8, accompanied by Imps)
+seed: 0!
+dlvl: 8 (doesnt matter tho)
+HP: doesnt matter
+TRN: none!
+mlvl: 33
+needs:
+UBERboss stats (difficulty boosts)
+
+Boss TRN:
+1. dsfm > redgray
+2. exfat > red
+3. 
+
+=====================
+
+95h:
+
+Thresher (big fallen)
+TRN: X\Xw.TRN
+
+
+Boss TRNs:
+13 >> aglamith [red]
+14 >> arakta [dark blu]
+15 >> boarlord [blu]
+16 >> immonil [crimzon]
+
+
+=====================
+
+96h:
+
+Felltwin
+TRN: X\Fiend.TRN
+
+Boss TRNs:
+9 >> BS
+10 >> GO
+11 >> hirrona
+12 >> medammu
+====================
+
+97h:
+
+Hybrid
+TRN: none
+
+13 >> medammu
+14 >> general
+15 >> stnt
+16 >> Rvk
+
+====================
+
+98h:
+
+Black Reaper
+TRN: X\Reaper_08_Darkest.TRN
+
+Boss TRNs:
+5678
+B5
+blodgol
+====================
+
+99h:
+
+Death Minion
+TRN: X\Reaper_12.trn
+
+====================
+
+9Ah:
+
+Death minion (inactive, used for boss)
+TRN: X\Reaper_12.trn
+
+boss trns:
+boarlord
+78
+BZ
+fatazz
+
+===================
+
+9Bh:
+
+Fallen One
+TRN: none
+
+DLVLs: [1~4]
+
+Boss TRNs:
+2 >> bulbad
+3 >> bng
+4 >> dsfm
+
+====================
+
+9Ch:
+
+Imp Rogue
+identical to the one from slot 69h (used to save seeding size on dlvl-11)
+
+===================
+
+9D:
+
+Yellow One
+TRN: monsters\falsword\orange.trn
+DLVLs: [3-5]
+HP: 60-140
+MLVL: 11
+
+
+Boss TRNs:
+ERC
+general
+DTC
+
+=================
+
+9Eh:
+
+Death Retinue (inactive, used for Leoric's mob in MP, level 21)
+skelaxe type
+quite fast
+
+=================
+
+9Fh:
+
+Guardian (balrog)
+TRN: X\Mega_01.TRN
+DLVLs: 18-20
+
+boss trns:
+345678 (blu)
+2345678 (grey, mixed)
+bharlad (red)
+
+================
+
+A0h:
+
+Chasm Demon (lite type)
+TRN: X\Thin_11.TRN
+dwells: 17-20
+
+bosses:
+W5
+TL
+selena
+THIN_09_ABYSS
+
+=================
+
+A1h:
+
+Chasm Drake
+TRN: X\Drake01_Crypt.TRN (uses dungeon colors)
+
+dwells: 21-22
+
+=================
+
+A2h:
+
+Corrupt King (inactive, used for boss of corrupts in Pande)
+TRN: none
+
+BOSS TRN:
+bharlad
+
+================
+
+A3h:
+
+Stinger Lord (inactive, used to spawn as boss of stingers on level 19)
+TRN: none
+GFX: Monsters\wscorp\WScorp%c.cl2
+SFX: Monsters\newsfx\Stingr%c%i.WAV
+
+Boss TRN:
+ScorpLord02
+
+===============
+
+A4h:
+
+Lightning Demon
+TRN: X\Thin_17x1_Cryptic.TRN
+Dwells: 21-23
+
+Boss trn:
+boarlord
+GG
+immonil
+
+===============
+
+A5h:
+
+Apocalypse Clan (goatbow)
+TRN: X\Goat_22.TRN
+dwells: 17-20
+attack: fire arrows (25h)
+
+boss:
+agabandu, dlvl 17
+aglamith, dlvl 20
+
+===============
+
+A6h:
+
+Goatlord_Boss_(18-19)
+TRN: none
+
+Boss TRNs:
+
+===============
+
+A7h:
+
+Skullwing
+TRN: X\Skeleton004x1_darker_beige.TRN (approximately)
+dwells: 23-24
+
+================
+
+A8h:
+
+Hell Bat
+TRN: none
+dwells: 20-22
+
+boss:
+BLR
+bsreaper
+bulbad
+
+==============
+
+A9h:
+
+Zombie
+TRN: 
+dwells: 3-4
+
+boss:
+general
+
+================
+
+AAh:
+
+Lich (special, inactive,  used for Zombie boss on dlvl-4)
+
+================
+
+ABh:
+
+Mud Lord (horned beast)
+TRN: X\Rhino009-beige.trn
+dwells: 20-21
+
+boss:
+bsts
+exfat
+
+================
+
+ACh:
+
+Spitting Terror
+TRN: X\Acid_04_red-orng.TRN
+dwells: 24
+
+Boss:
+blr
+
+===============
+
+ADh:
+
+Gharbad basemnstr (inactive, used for Gharbad to save seed on floor 11)
+monster is identical to previous Gharbad's base, but with boosted spped of 2nd attack and higher stats
+
+===============
+
+AEh:
+
+Zhar basemnstr
+identical to previous, inactive, used to save seeding size on floor 8
+
+===============
+
+AFh:
+
+Terror Clan
+used only to spawn on level 4 around goat shrines
+TRN: X\Goat_23_Church.TRN
+
+=================
+
+B0h:
+
+Devastator
+TRN: X\Mega_03x1.TRN
+dwells: 21-22
+
+boss:
+DTC
+LSL
+
+==================
+
+B1h:
+
+Phase Demon
+TRN: X\Warper02x1.trn
+dwells: 24
+
+boss:
+exorng
+
+==================
+
+B2h:
+
+Overlord
+TRN: X\Fat_04.TRN
+dwell: 14-17
+
+boss:
+arakta
+AZZ
+RVK
+GG
+
+
+==================
+
+B3h:
+
+Filth Demon
+TRN: none
+dwell: 18-21
+
+boss:
+bharlad
+VHM
+Torvatus
+Sexorng
+
+=================
+
+B4h:
+
+Crypt Stone
+TRN: X\Magma_07.trn
+dwell: 21-23
+
+boss:
+immonil
+LSL
+ZTL
+
+====================
+
+B5h:
+
+Advocate
+TRN: ?
+
+=====================
+
+B6h:
+
+Blink Demon
+TRN: X\Tsneak002x1.trn
+dwells: 20-22
+
+boss:
+fallen01
+general
+bsts
+
+===================
+
+B7h:
+
+Stalker
+TRN: X\Hidden08x1.TRN
+dwells: 20-22
+
+boss:
+
+
+===================
+
+B8h:
+
+Reality Weaver
+TRN: X\Hidden15...
+dwells: 23-24
+
+boss:
+
+===================
+
+B9h:
+
+Blood Horn
+TRN: X\Rhino014-red-orng.trn
+dwells: 21-23
+
+boss:
+vtexl
+dsfm
+mordor
+
+=====================
+
+BAh:
+
+Death Clan
+TRN: X\Goat_24.TRN
+dwells: 10-12 (goat mace)
+
+boss:
+jumarr		sekteb
+blkjd		abdatt
+gbh		dabbasku
+
+====================
+
+BBh:
+
+Blood Clan
+TRN: X\Goat_26_HELL.TRN
+dwells: 13-16
+
+boss:
+13: medammu
+14: 12345678
+15: aglamith
+16: DTC
+duriar (tender red)
+fallen01 ? (tender crimzon)
+LGS ? (environmental)
+
+====================
+
+BCh:
+
+Hell Clan
+TRN: none
+inactive, used as Blood Clan boss in Pandemonium
+
+Boss trn:
+boarlord
+
+====================
+
+BDh:
+
+Carver
+TRN: X\Fallen03.trn
+dwell: 4-6
+
+boss:
+12345678 (Terror clan-based)
+DTC (Special gargoyle-based)
+exorng (special succubus-based)
+
+===================
+
+BEh:
+
+Winged demon (inactive, used as carvers' boss on dlvl-5)
+TRN: none
+dwell: 5
+
+boss:
+see monster BDh...
+
+=====================
+
+BFh:
+
+Succubus (inact., used 4 carver boss on dlvl-6)
+trn: none
+dwell: 6
+
+boss:
+see monster BDh...
+
+=====================
+
+C0h:
+
+Unraveller (shredded type)
+trn: X\unravb.TRN
+dwell: 1
+
+boss:
+GENERAL
+
+=====================
+
+C1h:
+
+DLVL-12 uberboss (Mega demon)
+trn: none
+dwells: inactive, forced on MP Doom dlvl-12
+
+boss:
+Abatan
+
+====================
+
+C2h:
+
+DLVL-12 uberboss' minions (Hidden)
+trn: X\Tsneak003.trn
+dwells: inactive, forced on MP Doom dlvl-12
+
+boss: C1h
+
+=====================
+
+C3h:
+
+Uber Butcher (inactive)
+
+=====================
+
+C4h:
+
+Evil One (inactive. UButchers minion)
+using Hidden AI
+
+=====================
+
+C5h:
+
+Ceromorth (rhino, inactive)
+used like uberboss on MP Doom dlvl-8
+
+trn: none
+boss: exorng
+
+=====================
+
+C6h:
+
+Ceromorth's goatbow pack
+
+=====================
+
+C7h:
+
+Hell Clan Archer (13-16)
+TRN: X\HCA.TRN
+
+boss:
+bs
+
+====================
+
+C8h:
+
+Cabalist (Mage),
+dwells: 13-14
+TRN: X\Mage_04_Blue.TRN
+
+====================
+
+C9h:
+
+Adept (Mage), 
+dwells: 13-14
+TRN: none
+
+====================
+
+CAh:
+
+Succubus,
+dwells: 9-11
+
+TRN: X\Sucub_03.TRN
+
+boss:
+jumarr  (blu)
+dsfm (pale)
+erc (red)
+
+=======================
+
+CBh:
+
+Death Knight
+dwells: 24
+
+TRN: monsters\skelaxe\white.TRN
+
+boss:
+
+======================
+
+CCh:
+
+Shadow Clan (goatmace)
+dwells: 22-23
+
+TRN: X\Goat_27-Cryptic.TRN
+
+boss:
+general
+GG
+
+======================
+
+CDh:
+
+Pinky
+
+trn: none
+boss: boar_06
+
+features:
+KB immune
+
+
+======================
+
+CEh:
+
+acid spitter
+
+trn: bsts.trn
+
+=====================
+
+CF:
+
+Dregbez (bigfall uberboss for dlvl 2)
+
+trn: none
+
+========================
+
+Do:
+
+Warped one
+
+Dregbez's minions
+
+trn: x\fallen06.trn
+
+========================
+
+D1/D2: presumably, Winged Skeletons in Hell and Abyss..
+
+=======================
+
+D3h:
+
+Torchant
+
+======================
+
+D4:
+
+Cacodemon
+
+======================
+
+D5:
+
+Poisoned One
+used for PWS quest map ONLY
+
+=================
+
+D6h:
+
+Satyr Lord (21-23)
+uses modified Diablo AI, casts charged bolt at distance
+
+boss:
+exorng
+GG
+PB
+
+================
+
+D7h:
+
+Shredded (17-20)
+uses modified magma ai (monster slot - bound, unlike torch ants)
+
+boss:
+ERC / orng
+hirrona (red)
+
+
+================
+
+D8h:
+
+Uber Xorene,and her pack
+(3)
+
+TRN: WEIRD
+
+boss: general
+
+================
+
+D9h:
+
+Grimspike (hellbug gfx)
+
+trn: none
+
+===============
+
+DAh:
+
+Ice Golem (player's Golem gfx)
+used in ice caves of 'lost treasure' quest
+
+trn: cf\sh\shbt.trn
+
+=======================
+
+DBh:
+
+Frost Bone (demskel)
+used in ice caves, too
+
+trn: x\demskel_04.trn
+
+========================
+
+DCh:
+
+Snow Lich
+used in ice caves, too
+
+trn: x\lich2_01-Glacial.TRN

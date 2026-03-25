@@ -1,0 +1,100 @@
+still undone!
+
+
+
+
+
+Отмена кумулятивности кислотных луж
+1. функция стирания старых луж
+2. способ вызова
+
+1.-------------------------------------------------------------
+; 00697A58  SpellCast SpellCastArray[125]
+; 4 697A5C row
+; 8 697A60 col
+; 697A58h EffectIndex 
+
+
+
+
+@clearOldAcidPools:
+; принимаем только индекс новой лужи
+push ebp ; loop cointer
+push esi
+push ebx
+push edi
+; тут можно оставить немного места, если ещё регистры потребуются
+
+mov edi, ecx ; spellIndex
+imul    ecx , 0B0h
+mov eax, dword ptr [ecx+697A5Ch]; row
+mov ebx, dword ptr [ecx+697A60h]; col
+mov edx, dword ptr [ecx+697A58h]; effectIndex 
+
+mov     ecx,  dword ptr [0069D048h]; SpellCastArraySize
+test    ecx, ecx
+jle     @return ; нет заклинаний, нет цикла
+
+mov     ebp, ecx ; счётчик
+mov     ecx, 00697668h; offset SpellCastIndexTable
+
+@loop:
+mov     esi, dword ptr [ecx]
+
+;castIndex != spellIndex ; сомо себя не надо уничтожать
+cmp  esi, edi
+jz     @continue
+
+imul    esi, 0B0h       ; оффсет заклинания очередного
+
+;SpellCasts[castIndex].EffectIndex == effectIndex ; такой же как у заклинания (на случай применения не только к луже)
+cmp     dword ptr [esi+697A58h], edx ; Compare Two Operands
+jnz     @continue
+
+; координаты такие же как у новой лужи
+; SpellCasts[castIndex].Row == row;
+cmp   dword ptr   [esi+697A5Ch], eax
+jnz     @continue
+
+; SpellCasts[castIndex].Col == col;
+cmp  dword ptr    [esi+697A60h], ebx
+jnz     @continue
+
+; тут надо оба способа проверить. При первом точно без глюков будет, но ещё 16 фрэймов лужа будет исчезать каждый фрэйм атакуя
+; при втором лужа сразу исчезнет, но могут быть глюки, как тогда с молнией которая без анимации просто торчала
+; время жизни в 1
+mov dword ptr    [esi+697AC8h], 1h
+;либо 
+; SpellCasts[castIndex].isDeleted = 1;
+mov     dword ptr [eax+697A8Ch], 1h
+
+@continue:
+add     ecx, 4
+dec     ebp
+jnz     @loop
+
+@return:
+; тут опять таки немного места на случай необходимости в регистрах
+pop edi
+pop ebx
+pop esi
+pop ebp
+retn
+
+
+2.-------------------------------------------------------------
+
+;.text:004339A6                 imul    esi, 0B0h
+;.text:004339AC                 xor     eax, eax
+
+004339A6 jmp @newLoc
+>>>>>>>>>>>>>>
+@newLoc:
+;затёртое
+imul    esi, 0B0h
+call @clearOldAcidPools ; меняет только ecx edx и eax, все они затем изменяются либо не используются. в ecx как раз индекс заклинания
+jmp 004339AC ; обратно
+
+
+
+

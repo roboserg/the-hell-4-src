@@ -1,0 +1,20 @@
+decapitated buddy xD
+drop chance
+
+
+
+* Referenced by a CALL at Address:
+|:00427608   
+|
+:00426EA0 55                      push ebp
+:00426EA1 8BEC                    mov ebp, esp
+:00426EA3 81EC04080000            sub esp, 00000804
+:00426EA9 6A64                    push 00000064
+:00426EAB B11A                    mov cl, 1A
+:00426EAD 5A                      pop edx
+:00426EAE E8A730FFFF              call 00419F5A
+:00426EB3 83F819                  cmp eax, 00000019		<- chance to drop item, otherwise - gold
+:00426EB6 7E04                    jle 00426EBC
+:00426EB8 33C0                    xor eax, eax
+:00426EBA C9                      leave
+:00426EBB C3                      ret

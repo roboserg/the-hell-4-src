@@ -1,0 +1,18 @@
+
+
+	счётчик убиваемых монстров:
+4D1400 - конец ехе, 800h байт
+
+
+2FFEF0 - monsters
+
+
+3E0000 - boss table
+
+
+2D1C00 - base item table
+
+
+1D1C00 - unique items
+
+

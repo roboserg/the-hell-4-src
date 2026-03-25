@@ -1,0 +1,44 @@
+Town palettes vary only in MP mode now:
+
+	Old:
+:00455595 EB0C                    jmp 004555A3
+
+* Possible StringData Ref from Data Obj ->"Levels\TownData\Town.pal"
+                                  |
+:00455597 B9605A4B00              mov ecx, 004B5A60
+:0045559C E88AFFFFFF              call 0045552B
+:004555A1 EB71                    jmp 00455614
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00455595(U)
+|
+:004555A3 56                      push esi
+
+
+	New:
+:00455595 750C                    jne 004555A3
+:00455597 E974272B00              jmp 00707D10
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707D22(U)
+|
+:0045559C E88AFFFFFF              call 0045552B
+:004555A1 EB71                    jmp 00455614
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00455595(C), :00707D17(C)
+|
+:004555A3 56                      push esi
+
+
+	xtra:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00455597(U)
+|
+:00707D10 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00707D17 0F8586D8D4FF            jne 004555A3
+
+* Possible StringData Ref from Data Obj ->"Levels\TownData\Town.pal"
+                                  |
+:00707D1D B9605A4B00              mov ecx, 004B5A60
+:00707D22 E975D8D4FF              jmp 0045559C

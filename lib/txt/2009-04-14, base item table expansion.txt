@@ -1,0 +1,23 @@
+by default base items are limited to 512.
+this I was told by desertdragon, who also provided asm solution (below) for expanding base item table from 512 to 2048.
+
+====
+
+base items expanded:
+(by desertdragon)
+
+00026082: 08 > 20
+000260F8: F7 > DF
+0002611A: 02 > 08
+00026139: 02 > 08
+00026182: F7 > DF
+
+====
+
+
+1. увеличение стека
+2. меняем адрес массива
+3. проверка на 2048
+4. проверка на 2048
+5. меняем адрес массива
+должно работать

@@ -1,0 +1,74 @@
+Ressurection of THEO quest
+===========================
+
+
+theo = 28h		skull cap
+
+
+
+afaa4 = blood hulk boss on dlvl-19
+
+================================================
+Malantar drops Theo in SP:
+
+	old:
+:0043D52D 8B86D8000000            mov eax, dword ptr [esi+000000D8]
+:0043D533 3B05E4094B00            cmp eax, dword ptr [004B09E4]
+:0043D539 7533                    jne 0043D56E
+:0043D53B B9DD030000              mov ecx, 000003DD
+
+	> > > > > 
+
+	new:
+:0043D52D 8B86D8000000            mov eax, dword ptr [esi+000000D8]
+:0043D533 E976AA2C00              jmp 00707FAE
+:0043D538 90                      nop
+:0043D539 90                      nop
+:0043D53A 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707FB4(C)
+|
+:0043D53B B9DD030000              mov ecx, 000003DD
+
+
+	ex:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D533(U)
+|
+:00707FAE 3B05E4094B00            cmp eax, dword ptr [004B09E4]
+:00707FB4 0F848155D3FF            je 0043D53B
+:00707FBA 3B05A4104B00            cmp eax, dword ptr [004B10A4]
+:00707FC0 7579                    jne 0070803B
+:00707FC2 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00707FC9 7570                    jne 0070803B
+:00707FCB 8B5624                  mov edx, dword ptr [esi+24]
+:00707FCE 8B4E20                  mov ecx, dword ptr [esi+20]
+:00707FD1 E802000000              call 00707FD8
+:00707FD6 EB5E                    jmp 00708036
+
+* Referenced by a CALL at Address:
+|:00707FD1   
+|
+:00707FD8 8BC2                    mov eax, edx
+:00707FDA 50                      push eax
+:00707FDB 684E010000              push 0000014E
+:00707FE0 8BD1                    mov edx, ecx
+:00707FE2 59                      pop ecx
+:00707FE3 E8DEFDD1FF              call 00427DC6
+:00707FE8 C3                      ret
+
+
+:00707FE9 90                      nop
+.......................
+:00708035 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707FD6(U)
+|
+:00708036 E90356D3FF              jmp 0043D63E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00707FC0(C), :00707FC9(C)
+|
+:0070803B E92E55D3FF              jmp 0043D56E

@@ -1,0 +1,116 @@
+
+
+Allowing doom mode bosses to drop cursed items:
+12:20 25.08.2010
+
+!This seems to be bugged!
+
+
+	was:
+:004274BC C745F401000000          mov [ebp-0C], 00000001
+
+
+	now:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004274A5(C)
+|
+:004274BC E9AF592E00              jmp 0070CE70
+:004274C1 90                      nop
+:004274C2 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00427481(U), :00427499(U), :0070CE80(U)
+|
+:004274C3 833DDC2069007F          cmp dword ptr [006920DC], 0000007F
+
+
+	ex:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004274BC(U)
+|
+:0070CE70 833DC070600002          cmp dword ptr [006070C0], 00000002
+:0070CE77 740C                    je 0070CE85
+:0070CE79 C745F401000000          mov [ebp-0C], 00000001		cursed are not allowed
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070CE8C(U)
+|
+:0070CE80 E93EA6D1FF              jmp 004274C3
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070CE77(C)
+|
+:0070CE85 C745F400000000          mov [ebp-0C], 00000000		allow cursed on Doom
+:0070CE8C EBF2                    jmp 0070CE80
+:0070CE8E 90                      nop
+
+=======================================================================
+
+
+more extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042763D(U)
+|
+:007234D0 29C1                    sub ecx, eax
+:007234D2 837D0800                cmp dword ptr [ebp+08], 00000000
+:007234D6 7404                    je 007234DC
+:007234D8 6A7B                    push 0000007B
+:007234DA EB03                    jmp 007234DF
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007234D6(C)
+|
+:007234DC FF7508                  push [ebp+08]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007234DA(U)
+|
+:007234DF E95E41D0FF              jmp 00427642
+:007234E4 90                      nop
+:007234E5 90                      nop
+:007234E6 90                      nop
+:007234E7 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004273D4(U)
+|
+:007234E8 8B55F8                  mov edx, dword ptr [ebp-08]
+:007234EB 837D147B                cmp dword ptr [ebp+14], 0000007B
+:007234EF 7504                    jne 007234F5
+:007234F1 6A00                    push 00000000
+:007234F3 EB03                    jmp 007234F8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007234EF(C)
+|
+:007234F5 FF7514                  push [ebp+14]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007234F3(U)
+|
+:007234F8 E9DD3ED0FF              jmp 004273DA
+
+
+=========================================================================
+=========================================================================
+
+INFO
+
+JG:
+
+Below is listed if a source can give out cursed items,
+and if it can, how large the chance is compared to non cursed prefixes and suffixes.
+Unique monsters: No
+Weapon Rack: No
+Armor Rack on dlvl 5 and 13-15: No
+Armor Rack on dlvl 6-9: 16.5%
+Armor Rack on dlvl 10-12: 33.0%
+Adria, Griswold, Pepin and Wirt: No
+On the ground: No
+Other: 33.0%
+
+See "2010-02-14, armor racks.txt" for more details.....
+Read 3.8 in JG also. It helps
+
+

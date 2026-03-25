@@ -1,0 +1,24 @@
+cooldown for apoc:
+
+71C529 - sp
+
+chek above 
+
+
+spell cooldown:
+
+:0071AF74 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:0071AF7B 7505                    jne 0071AF82
+:0071AF7D 6A08                    push 00000008
+:0071AF7F 5B                      pop ebx
+:0071AF80 EB03                    jmp 0071AF85
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071AF7B(C)
+|
+:0071AF82 6A0F                    push 0000000F
+:0071AF84 5B                      pop ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071AF80(U)
+|

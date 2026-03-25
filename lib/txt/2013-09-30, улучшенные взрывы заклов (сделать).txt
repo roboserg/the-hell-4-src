@@ -1,0 +1,113 @@
+﻿Новая функция
+; void DamageAreaAroundExplosion (int spellCastIndex, int minDamage, int maxDamage, char isInternalHP, int attackRow, int attackCol, char isPierce)
+@DamageAreaAroundExplosion:
+push    ebp
+mov     ebp, esp
+push edi
+push esi
+push ebx; счётчик
+
+mov edi, ecx ; эти регистры часто затираются, а мне они нужны постоянно
+mov esi, edx
+
+push dword ptr [ebp + 24d]
+push dword ptr [ebp + 20d]
+push dword ptr [ebp + 16d]
+push dword ptr [ebp + 12d]
+push dword ptr [ebp + 8d]
+mov ecx, edi
+mov edx, esi
+call 004320CE ; AttackSpellCast
+
+xor ebx, ebx
+@loop:
+
+push dword ptr [ebp + 24d]; isPierce
+
+mov eax, dword ptr [ebx*4 + 004ABEA8h]; ColDelta[ebx]
+add eax, dword ptr [ebp + 20d]; attackCol
+push eax
+
+mov eax, dword ptr [ebx*4 + 004ABE88h]; RowDelta[ebx]
+add eax, dword ptr [ebp + 16d]; attackRow
+push eax
+
+push dword ptr [ebp + 12d]
+push dword ptr [ebp + 8d]
+mov ecx, edi
+mov edx, esi
+call 004320CE ; AttackSpellCast
+
+@continue:
+inc ebx
+cmp ebx, 8
+jl @loop
+
+
+@return:
+pop ebx
+pop esi
+pop edi
+leave ; автоматом уберёт переменные на стеке
+retn    20d ; == 5*4 т.е. пять аргументов на стеке освобождаем
+
+===============================================================
+Теперь 4 вызова этой хрени. В итоге вместо огромных конструкций будет акуратненький колл
+===============================================================
+1. Фаербласт игрока 
+004368E3 jmp 004368F6
+-------------------------------------
+00436903 call    004320CEh @DamageAreaAroundExplosion
+00436908 jmp 436A64
+
+===============================================================
+2. Взрыв элементаля
+
+0043A052 jmp 0043A067
+-------------------------------------------
+0043A074 call    004320CEh @DamageAreaAroundExplosion
+0043A079 jmp 43A1BE
+
+===============================================================
+3. Взрыв огненной руны. С ним всё ок, просто оптимизация с использованием новой крутой функции
+
+00431F93 dec     eax
+00431F9D dec     eax
+
+00431FA6 call    004320CEh @DamageAreaAroundExplosion
+00431FAB jmp 43208F
+
+===============================================================
+4. Ещё один фаербласт. Отличий от первого фаербласта не нашёл. Возможно используется монстрами
+
+00436D9D jmp 00436DAE
+-------------------------------------------
+00436DBA call    004320CEh @DamageAreaAroundExplosion
+00436DBF jmp 436F04
+
+===============================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

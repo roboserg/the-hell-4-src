@@ -1,0 +1,3 @@
+nopped from 3a338 to 3a344 (0c bytes) to allow Wyrms spit poison
+
+if troubles arise, default data should be restored

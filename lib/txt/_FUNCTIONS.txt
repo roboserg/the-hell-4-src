@@ -1,0 +1,12 @@
+46BFFC - substract mana for spell
+419F5A - calculate random number, EDX in, EAX out
+706C00 - check monster coordinates
+423965 - equip item
+4271F9 - drop unique item, by monster? (used by lachdanan)
+70A1D0 - character check (overwrites EAX)
+443FC7 - LOS check
+44EDF1 - DLVL modifier code (EDX = DLVL*diff, 1-horr, 2-purg, 4-doom)
+70E6D0 - calculates sum of character's base stats, needs EBX pushed aforehead, and needs EAX to be char.data pointer
+70E500 - overwrites EAX, returns eax 1 (can't increase stat), or eax 0 (can increase stat)
+711E00 - overwrites EAX, returns (CLVL/4)+3 value
+

@@ -1,0 +1,33 @@
+Gharbad's drop
+
+
+:0043D4E1 53                      push ebx
+:0043D4E2 56                      push esi
+:0043D4E3 57                      push edi
+:0043D4E4 8BF9                    mov edi, ecx
+:0043D4E6 8BF7                    mov esi, edi
+:0043D4E8 6A02                    push 00000002
+:0043D4EA 69F6E4000000            imul esi, 000000E4
+:0043D4F0 8BDA                    mov ebx, edx
+:0043D4F2 59                      pop ecx			ecx = 2
+:0043D4F3 81C688DC6900            add esi, 0069DC88
+:0043D4F9 E895250200              call 0045FA93
+:0043D4FE 85C0                    test eax, eax
+:0043D500 742B                    je 0043D52D
+:0043D502 8B86D8000000            mov eax, dword ptr [esi+000000D8]
+:0043D508 3B0584084B00            cmp eax, dword ptr [004B0884]
+:0043D50E 751D                    jne 0043D52D
+:0043D510 8B5624                  mov edx, dword ptr [esi+24]
+:0043D513 33DB                    xor ebx, ebx
+:0043D515 8B4E20                  mov ecx, dword ptr [esi+20]
+:0043D518 53                      push ebx
+:0043D519 6A01                    push 00000001
+:0043D51B 42                      inc edx
+:0043D51C 5F                      pop edi
+:0043D51D 41                      inc ecx
+:0043D51E 57                      push edi
+:0043D51F 53                      push ebx
+:0043D520 6A04                    push 00000004
+:0043D522 57                      push edi
+:0043D523 E852A2FEFF              call 0042777A
+:0043D528 E924010000              jmp 0043D651

@@ -1,0 +1,552 @@
+
+bool __fastcall IsBaseValidForSaleToPlayer( int baseIndex, int townerIndex )
+
+====================================================================
+
+@IsBaseValidForSaleToPlayer:
+push edi
+push esi
+push ebx
+mov edi, ecx// @baseIndex
+mov esi, edx// @townerIndex
+
+mov ebx, ecx
+imul ebx, 76d
+add ebx, 00905000h// baseItemOffset
+
+call 0070A1D0 @GetCurrentPlayerOffset
+movzx edx, byte ptr [eax + 440d]// clvl
+shr edx, 1// clvl/2
+add edx, 25d// 25 + clvl/2
+
+str:
+mov ecx, dword ptr [eax + 360d]// baseStr // ecx = base STR (77)
+add ecx, edx // ecx = base STR + [ (clvl/2)+25], e.g., 77 + 12 + 25  (114)
+cmp ecx, 0ffh // cmp 114 to 255
+jl @f // if 114 lower, jump
+mov ecx, 0ffh
+@:
+cmp cl, byte ptr [ebx + 48d]// reqStr // cmp 114 to item_STR_req
+jl @return0 // if 114 is lower, jump
+
+mag:
+mov ecx, dword ptr [eax + 368d]// baseMag
+add ecx, edx
+cmp ecx, 0ffh
+jl @f
+mov ecx, 0ffh
+@:
+cmp cl, byte ptr [ebx + 49d]// reqMag
+jl @return0
+
+dex:
+mov ecx, dword ptr [eax + 376d]// baseDex
+add ecx, edx
+cmp ecx, 0ffh
+jl @f
+mov ecx, 0ffh
+@:
+cmp cl, byte ptr [ebx + 50d]// reqDex
+jl @return0
+
+vit:
+mov ecx, dword ptr [eax + 384d]// baseVit
+add ecx, edx
+cmp ecx, 0ffh
+jl @f
+mov ecx, 0ffh
+@:
+cmp cl, byte ptr [ebx + 51d]// reqVit
+jl @return0
+
+; тут много места под дополнительные проверки в будущем
+
+@return1:
+push 1
+pop eax
+jmp @return
+
+@return0:
+xor eax, eax
+
+@return:
+pop ebx
+pop esi
+pop edi
+retn
+
+asm:
+
+:0071F730 57                      push edi
+:0071F731 56                      push esi
+:0071F732 53                      push ebx
+:0071F733 89CF                    mov edi, ecx
+:0071F735 89D6                    mov esi, edx
+:0071F737 89CB                    mov ebx, ecx
+:0071F739 6BDB4C                  imul ebx, 0000004C
+:0071F73C 81C300509000            add ebx, 00905000
+:0071F742 90                      nop
+:0071F743 E888AAFEFF              call 0070A1D0
+:0071F748 90                      nop
+...............................
+:0071F74F 90                      nop
+:0071F750 0FB690B8010000          movzx edx, byte ptr [eax+000001B8]
+:0071F757 D1EA                    shr edx, 1
+:0071F759 83C219                  add edx, 00000019
+:0071F75C 90                      nop
+:0071F75D 90                      nop
+:0071F75E 90                      nop
+:0071F75F 90                      nop
+:0071F760 8B8868010000            mov ecx, dword ptr [eax+00000168]
+:0071F766 01D1                    add ecx, edx
+:0071F768 81F9FF000000            cmp ecx, 000000FF
+:0071F76E 7C05                    jl 0071F775
+:0071F770 B9FF000000              mov ecx, 000000FF
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071F76E(C)
+|
+:0071F775 3A4B30                  cmp cl, byte ptr [ebx+30]
+:0071F778 7C3B                    jl 0071F7B5
+:0071F77A 90                      nop
+:0071F77B 90                      nop
+:0071F77C 90                      nop
+:0071F77D 90                      nop
+:0071F77E 90                      nop
+:0071F77F 90                      nop
+:0071F780 8B8870010000            mov ecx, dword ptr [eax+00000170]
+:0071F786 01D1                    add ecx, edx
+:0071F788 81F9FF000000            cmp ecx, 000000FF
+:0071F78E 7C05                    jl 0071F795
+:0071F790 B9FF000000              mov ecx, 000000FF
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071F78E(C)
+|
+:0071F795 3A4B31                  cmp cl, byte ptr [ebx+31]
+:0071F798 7C1B                    jl 0071F7B5
+:0071F79A E981000000              jmp 0071F820
+:0071F79F 90                      nop
+..............................
+:0071F7AF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071F85E(U)
+|
+:0071F7B0 6A01                    push 00000001
+:0071F7B2 58                      pop eax
+:0071F7B3 EB02                    jmp 0071F7B7
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071F778(C), :0071F798(C), :0071F838(C), :0071F858(C)
+|
+:0071F7B5 31C0                    xor eax, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071F7B3(U)
+|
+:0071F7B7 5B                      pop ebx
+:0071F7B8 5E                      pop esi
+:0071F7B9 5F                      pop edi
+:0071F7BA C3                      ret
+
+
+
+                                 and:
+
+:0071F820 8B8878010000            mov ecx, dword ptr [eax+00000178]
+:0071F826 01D1                    add ecx, edx
+:0071F828 81F9FF000000            cmp ecx, 000000FF
+:0071F82E 7C05                    jl 0071F835
+:0071F830 B9FF000000              mov ecx, 000000FF
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071F82E(C)
+|
+:0071F835 3A4B32                  cmp cl, byte ptr [ebx+32]
+:0071F838 0F8C77FFFFFF            jl 0071F7B5
+:0071F83E 90                      nop
+:0071F83F 90                      nop
+:0071F840 8B8880010000            mov ecx, dword ptr [eax+00000180]
+:0071F846 01D1                    add ecx, edx
+:0071F848 81F9FF000000            cmp ecx, 000000FF
+:0071F84E 7C05                    jl 0071F855
+:0071F850 B9FF000000              mov ecx, 000000FF
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071F84E(C)
+|
+:0071F855 3A4B33                  cmp cl, byte ptr [ebx+33]
+:0071F858 0F8C57FFFFFF            jl 0071F7B5
+:0071F85E E94DFFFFFF              jmp 0071F7B0
+=================================================================
+
+;//----- (0042A0F2) --------------------------------------------------------
+;int __fastcall GetRandomBaseForGriswoldBasicalItems(int maximumQualityLevel)
+
+;.text:0042A121                 mov     ecx, ebx        ; baseItemIndex
+;.text:0042A123                 call    IsValidBaseForGriswoldBasicalItems
+;.text:0042A128                 test    eax, eax
+;.text:0042A12A                 jz      short loc_42A159
+;.text:0042A12C
+
+0042A121 jmp @newLoc
+>>>
+@newLoc:
+mov     ecx, ebx
+call    007069B5; IsValidBaseForGriswoldBasicalItems
+test    eax, eax
+jz @return0
+
+mov     ecx, ebx
+mov     edx, 2; basical items PD_2_BasicalItems
+call @IsBaseValidForSaleToPlayer
+test    eax, eax
+jz @return0
+
+@return1:
+jmp 0042A12Ch
+@return0:
+jmp 0042A159h
+
+asm:
+
+:0071F7C0 8BCB                    mov ecx, ebx
+:0071F7C2 E8EE71FEFF              call 007069B5
+:0071F7C7 85C0                    test eax, eax
+:0071F7C9 7413                    je 0071F7DE
+:0071F7CB 8BCB                    mov ecx, ebx
+:0071F7CD 6A02                    push 00000002
+:0071F7CF 5A                      pop edx
+:0071F7D0 E85BFFFFFF              call 0071F730
+:0071F7D5 85C0                    test eax, eax
+:0071F7D7 7405                    je 0071F7DE
+:0071F7D9 E94EA9D0FF              jmp 0042A12C
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071F7C9(C), :0071F7D7(C)
+|
+:0071F7DE E976A9D0FF              jmp 0042A159
+
+
+
+=================================================================
+//----- (0042A330) --------------------------------------------------------
+int __fastcall GetRandomBaseItemIndexForGriswoldMagicalItem( int minQualityLevel, int maxQualityLevel )
+
+;.text:0042A363                 mov     ecx, edi        ; baseItemIndex
+;.text:0042A365                 call    IsValidBaseForGriswoldMagicalItems
+;.text:0042A36A                 test    eax, eax
+;.text:0042A36C                 jz      short loc_42A38C
+;.text:0042A36E
+
+0042A363 jmp @newLoc
+>>>
+@newLoc:
+mov     ecx, edi
+call    0042A2F5; IsValidBaseForGriswoldMagicalItems
+test    eax, eax
+jz @return0
+
+mov     ecx, edi
+mov     edx, 18d; magical items PD_18_MagicalItems
+call @IsBaseValidForSaleToPlayer
+test    eax, eax
+jz @return0
+
+@return1:
+jmp 0042A36Eh
+@return0:
+jmp 0042A38Ch
+
+asm:
+
+:0071F7F0 89F9                    mov ecx, edi
+:0071F7F2 E8FEAAD0FF              call 0042A2F5
+:0071F7F7 85C0                    test eax, eax
+:0071F7F9 7413                    je 0071F80E
+:0071F7FB 89F9                    mov ecx, edi
+:0071F7FD 6A12                    push 00000012
+:0071F7FF 5A                      pop edx
+:0071F800 E82BFFFFFF              call 0071F730
+:0071F805 85C0                    test eax, eax
+:0071F807 7405                    je 0071F80E
+:0071F809 E960ABD0FF              jmp 0042A36E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071F7F9(C), :0071F807(C)
+|
+:0071F80E E979ABD0FF              jmp 0042A38C
+
+=================================================================
+//----- (0042A82A) --------------------------------------------------------
+int __fastcall GetRandomBaseForAdriaItems(int maxQlvl)
+
+;.text:0042A85A                 mov     ecx, edi        ; baseItemIndex
+;.text:0042A85C                 call    IsValidBaseForAdriaItems
+;.text:0042A861                 test    eax, eax
+;.text:0042A863                 jz      short loc_42A87E
+;.text:0042A865
+
+0042A85A jmp @newLoc
+>>>
+@newLoc:
+mov     ecx, edi
+call    0042A7BF; IsValidBaseForAdriaItems
+test    eax, eax
+jz @return0
+
+mov     ecx, edi
+mov     edx, 6; adria items PD_6_WitchBuy
+call @IsBaseValidForSaleToPlayer
+test    eax, eax
+jz @return0
+
+@return1:
+jmp 0042A865h
+@return0:
+jmp 0042A87Eh
+
+=================================================================
+//----- (0042AC1F) --------------------------------------------------------
+int __fastcall GetRandomBaseItemIndexForWirtItem( int qlvl )
+
+;.text:0042AC4F                 mov     ecx, edi        ; baseItemIndex
+;.text:0042AC51                 call    IsValidBaseForGriswoldMagicalItems
+;.text:0042AC56                 test    eax, eax
+;.text:0042AC58                 jz      short loc_42AC73
+;.text:0042AC5A
+
+0042AC4F jmp @newLoc
+>>>
+@newLoc:
+mov     ecx, edi
+call    0042A2F5; IsValidBaseForGriswoldMagicalItems
+test    eax, eax
+jz @return0
+
+mov     ecx, edi
+mov     edx, 13d; wirt items PD_13_WirtBuy
+call @IsBaseValidForSaleToPlayer
+test    eax, eax
+jz @return0
+
+@return1:
+jmp 0042AC5Ah
+@return0:
+jmp 0042AC73h
+
+asm:
+
+:0071F870 89F9                    mov ecx, edi
+:0071F872 E87EAAD0FF              call 0042A2F5
+:0071F877 85C0                    test eax, eax
+:0071F879 7413                    je 0071F88E
+:0071F87B 89F9                    mov ecx, edi
+:0071F87D 6A0D                    push 0000000D
+:0071F87F 5A                      pop edx
+:0071F880 E8ABFEFFFF              call 0071F730
+:0071F885 85C0                    test eax, eax
+:0071F887 7405                    je 0071F88E
+:0071F889 E9CCB3D0FF              jmp 0042AC5A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071F879(C), :0071F887(C)
+|
+:0071F88E E9E0B3D0FF              jmp 0042AC73
+:0071F893 90                      nop
+=================================================================
+
+====================
+
+asm:
+
+
+        PD_0_None = 0,
+        PD_1_BlacksmithMain,
+        PD_2_BasicalItems,//
+        PD_3_BlacksmithSale,
+        PD_4_RepairItem,
+        PD_5_WitchMain,
+        PD_6_WitchBuy,//
+        PD_7_WitchSell,
+        PD_8_RechargeItem,
+        PD_9_NoGold,
+        PD_10_NoRoom,
+        PD_11_Confirm,
+        PD_12_WirtMain,
+        PD_13_WirtBuy,//
+        PD_14_HealerMain,
+        PD_15_ElderMain,
+        PD_16_HealerBuy,
+        PD_17_IdentifyItem,
+        PD_18_MagicalItems,//
+        PD_19_Talk,
+        PD_20_IdentifiedItemInfo,
+        PD_21_OgdenMain,
+        PD_22_FarnhamMain,
+        PD_23_GilianMain,
+
+=================================================================
+
+Предовращение морфинга базовых вещей
+
+0042B388:
+push edx
+call 00419F5A ; RangeRND
+pop eax
+
+.text:0042B388                 mov     ecx, esi        ; maximumQualityLevel
+.text:0042B38A                 call    GetRandomBaseForGriswoldBasicalItems
+.text:0042B38F                 dec     eax
+.text:0042B390                 mov     ecx, ebx        ; item
+.text:0042B392                 push    esi             ; qlvl
+.text:0042B393                 mov     edx, eax        ; baseItemIndex
+.text:0042B395                 call    Item_InitBaseItem
+///
+:0042B388 52                      push edx
+:0042B389 E8CCEBFEFF              call 00419F5A
+:0042B38E 58                      pop eax
+:0042B38F 90                      nop
+:0042B390 8BCB                    mov ecx, ebx
+:0042B392 56                      push esi
+:0042B393 90                      nop
+:0042B394 90                      nop
+=================================================================
+
+Предовращение морфинга маг вещей
+
+0042B3D7:
+mov edi, edx
+call 00419F5A ; RangeRND
+
+.text:0042B3D7                 mov     ecx, esi
+.text:0042B3D9                 mov     edx, esi        ; maxQualityLevel
+.text:0042B3DB                 sar     ecx, 2          ; minQualityLevel
+.text:0042B3DE                 call    GetRandomBaseItemIndexForGriswoldMagicalItem
+.text:0042B3E3                 mov     edi, eax
+.text:0042B3E5                 mov     ecx, ebx        ; item
+.text:0042B3E7                 dec     edi
+.text:0042B3E8                 push    esi             ; qlvl
+.text:0042B3E9                 mov     edx, edi        ; baseItemIndex
+.text:0042B3EB                 call    Item_InitBaseItem
+////
+:0042B3D7 89D7                    mov edi, edx
+:0042B3D9 E87CEBFEFF              call 00419F5A
+:0042B3DE 90                      nop
+:0042B3DF 90                      nop
+:0042B3E0 90                      nop
+:0042B3E1 90                      nop
+:0042B3E2 90                      nop
+:0042B3E3 90                      nop
+:0042B3E4 90                      nop
+:0042B3E5 8BCB                    mov ecx, ebx
+:0042B3E7 90                      nop
+
+==================================================================
+
+Предотвращение морфинга вещей вирта
+
+0042B446:
+mov edi, edx
+call 00419F5A ; RangeRND
+
+.text:0042B446                 mov     ecx, esi        ; qlvl
+.text:0042B448                 call    GetRandomBaseItemIndexForWirtItem
+.text:0042B44D                 mov     ecx, [ebp+item] ; item
+.text:0042B450                 mov     edi, eax
+.text:0042B452                 dec     edi
+.text:0042B453                 push    esi             ; qlvl
+.text:0042B454                 mov     edx, edi        ; baseItemIndex
+.text:0042B456                 call    Item_InitBaseItem
+
+asm:
+
+:0042B446 89D7                    mov edi, edx
+:0042B448 E80DEBFEFF              call 00419F5A
+:0042B44D 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:0042B450 90                      nop
+:0042B451 90                      nop
+:0042B452 90                      nop
+==================================================================
+
+Предотвращение морфинга вещей адрии
+
+mov ebx, edi
+call 00419F5A ; RangeRND
+
+.text:0042B521                 mov     ecx, esi        ; maximumQualityLevel
+.text:0042B523                 call    GetRandomBaseForAdriaItems
+.text:0042B528                 mov     ecx, [ebp+itemOnMapIndex_] ; item
+.text:0042B52B                 mov     ebx, eax
+.text:0042B52D                 dec     ebx
+.text:0042B52E                 push    esi             ; qlvl
+.text:0042B52F                 mov     edx, ebx        ; baseItemIndex
+.text:0042B531                 call    Item_InitBaseItem
+
+===================================================================
+
+У пепина хз что творится
+
+
+
+
+
+
+
+
+
+
+
+===================================================================
+обновление ассортимента
+===================================================================
+
+Функция вычисления стоимости:
+@GetCostOfRefresh: clvl * 10
+call 0070A1D0 @GetCurrentPlayerOffset
+movzx eax, byte ptr [eax + 440d]// clvl
+imul eax, 10d
+retn
+
+
+
+//----- (0046CD2A) --------------------------------------------------------
+void GrizwoldMainMenu()
+
+mov     esi, offset StringBuffer
+push    TownersNames[eax*4]
+push    offset "Refresh goods (cost %i gold)"
+push    esi             ; Dest
+call    _sprintf
+add     esp, 12
+
+
+.text:0046CDCF                 xor     ecx, ecx        ; rowIndex
+.text:0046CDD1                 push    esi             ; selectable
+.text:0046CDD2                 push    ebx             ; color
+.text:0046CDD3                 push    offset aLeaveTheShop ; "Leave the shop"
+.text:0046CDD8                 push    esi             ; isAligned
+.text:0046CDD9                 push    20
+.text:0046CDDB                 pop     esi
+.text:0046CDDC                 mov     edx, esi        ; rowIndex
+.text:0046CDDE                 call    SetDialogRow
+.text:0046CDE3                 push    5
+.text:0046CDE5                 pop     ecx
+.text:0046CDE6                 call    SetDialogLine
+.text:0046CDEB                 mov     DialogRowsCount, esi
+.text:0046CDF1                 pop     esi
+.text:0046CDF2                 pop     ebx
+.text:0046CDF3                 retn
+
+
+
+
+
+
+
+
+
+
+
+

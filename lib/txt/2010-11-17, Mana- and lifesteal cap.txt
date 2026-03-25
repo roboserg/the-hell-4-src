@@ -1,0 +1,224 @@
+:0070D8A0 F7FB                    idiv ebx
+:0070D8A2 8B5DFC                  mov ebx, dword ptr [ebp-04]
+:0070D8A5 0181AC010000            add dword ptr [ecx+000001AC], eax
+:0070D8AB 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0070D8B1 8D1431                  lea edx, dword ptr [ecx+esi]
+:0070D8B4 8D8AAC010000            lea ecx, dword ptr [edx+000001AC]
+:0070D8BA 8B92B0010000            mov edx, dword ptr [edx+000001B0]
+:0070D8C0 C1EA03                  shr edx, 03
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070D8E9(U)
+|
+:0070D8C3 E93FE4D4FF              jmp 0045BD07
+
+==============================================
+
+This code is a mess, because it was revised numerous times. But it works well (according to tests)
+
+NEW:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BCC4(C)
+|
+:0045BCC6 F6C620                  test dh, 20				< 1% LS check
+:0045BCC9 740C                    je 0045BCD7
+:0045BCCB E9F01B2B00              jmp 0070D8C0
+:0045BCD0 90                      nop
+:0045BCD1 90                      nop
+:0045BCD2 90                      nop
+:0045BCD3 90                      nop
+:0045BCD4 90                      nop
+:0045BCD5 90                      nop
+:0045BCD6 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BCC9(C)
+|
+:0045BCD7 F6814155000040          test byte ptr [ecx+00005541], 40	< 2% LS check
+:0045BCDE 740C                    je 0045BCEC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070D8D2(U)
+|
+:0045BCE0 8D043F                  lea eax, dword ptr [edi+edi]
+:0045BCE3 6A64                    push 00000064
+:0045BCE5 99                      cdq
+:0045BCE6 5B                      pop ebx
+:0045BCE7 E9F41B2B00              jmp 0070D8E0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BCDE(C)
+|
+:0045BCEC 0181AC010000            add dword ptr [ecx+000001AC], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070D8B0(U)
+|
+:0045BCF2 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+
+
+
+EXTRA:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070D8D0(U)
+|
+:0070D890 F7FB                    idiv ebx
+:0070D892 8B5DFC                  mov ebx, dword ptr [ebp-04]
+:0070D895 8B91B0010000            mov edx, dword ptr [ecx+000001B0]
+:0070D89B C1EA03                  shr edx, 03
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070D8EE(U)
+|
+:0070D89E 3BD0                    cmp edx, eax
+:0070D8A0 7D08                    jge 0070D8AA
+:0070D8A2 8BC2                    mov eax, edx
+:0070D8A4 90                      nop
+:0070D8A5 90                      nop
+:0070D8A6 90                      nop
+:0070D8A7 90                      nop
+:0070D8A8 90                      nop
+:0070D8A9 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070D8A0(C)
+|
+:0070D8AA 0181AC010000            add dword ptr [ecx+000001AC], eax
+:0070D8B0 E93DE4D4FF              jmp 0045BCF2
+:0070D8B5 90                      nop
+:0070D8B6 90                      nop
+:0070D8B7 90                      nop
+:0070D8B8 90                      nop
+:0070D8B9 90                      nop
+:0070D8BA 90                      nop
+:0070D8BB 90                      nop
+:0070D8BC 90                      nop
+:0070D8BD 90                      nop
+:0070D8BE 90                      nop
+:0070D8BF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BCCB(U)
+|
+:0070D8C0 F6814155000040          test byte ptr [ecx+00005541], 40
+:0070D8C7 7509                    jne 0070D8D2
+:0070D8C9 8D4700                  lea eax, dword ptr [edi+00]
+:0070D8CC 6A64                    push 00000064
+:0070D8CE 99                      cdq
+:0070D8CF 5B                      pop ebx
+:0070D8D0 EBBE                    jmp 0070D890
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070D8C7(C)
+|
+:0070D8D2 E909E4D4FF              jmp 0045BCE0
+:0070D8D7 90                      nop
+:0070D8D8 90                      nop
+:0070D8D9 90                      nop
+:0070D8DA 90                      nop
+:0070D8DB 90                      nop
+:0070D8DC 90                      nop
+:0070D8DD 90                      nop
+:0070D8DE 90                      nop
+:0070D8DF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BCE7(U)
+|
+:0070D8E0 F7FB                    idiv ebx
+:0070D8E2 8B5DFC                  mov ebx, dword ptr [ebp-04]
+:0070D8E5 8B91B0010000            mov edx, dword ptr [ecx+000001B0]
+:0070D8EB C1EA02                  shr edx, 02
+:0070D8EE EBAE                    jmp 0070D89E
+:0070D8F0 90                      nop
+:0070D8F1 90                      nop
+
+=====
+
+Lifestealing modified in the same way
+
+	NEW:
+
+:0045BD45 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0045BD4B 03CE                    add ecx, esi
+:0045BD4D 8B9140550000            mov edx, dword ptr [ecx+00005540]
+:0045BD53 F7C200800100            test edx, 00018000
+:0045BD59 747E                    je 0045BDD9
+:0045BD5B F6C680                  test dh, 80
+:0045BD5E 740C                    je 0045BD6C
+:0045BD60 E9AB1B2B00              jmp 0070D910
+:0045BD65 90                      nop
+:0045BD66 90                      nop
+:0045BD67 90                      nop
+:0045BD68 90                      nop
+:0045BD69 90                      nop
+:0045BD6A 90                      nop
+:0045BD6B 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BD5E(C)
+|
+:0045BD6C F6814255000001          test byte ptr [ecx+00005542], 01
+:0045BD73 740C                    je 0045BD81
+:0045BD75 E9BF1B2B00              jmp 0070D939
+:0045BD7A 90                      nop
+:0045BD7B 90                      nop
+:0045BD7C 90                      nop
+:0045BD7D 90                      nop
+:0045BD7E 90                      nop
+:0045BD7F 90                      nop
+:0045BD80 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045BD73(C), :0070D934(U)
+|
+:0045BD81 018198010000            add dword ptr [ecx+00000198], eax
+
+
+
+	EXTRA:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BD60(U)
+|
+:0070D910 F6814255000001          test byte ptr [ecx+00005542], 01
+:0070D917 7520                    jne 0070D939
+:0070D919 8D4700                  lea eax, dword ptr [edi+00]
+:0070D91C 6A64                    push 00000064
+:0070D91E 99                      cdq
+:0070D91F 5B                      pop ebx
+:0070D920 F7FB                    idiv ebx
+:0070D922 8B5DFC                  mov ebx, dword ptr [ebp-04]
+:0070D925 8B919C010000            mov edx, dword ptr [ecx+0000019C]
+:0070D92B C1EA03                  shr edx, 03
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070D94E(U)
+|
+:0070D92E 3BD0                    cmp edx, eax
+:0070D930 7D02                    jge 0070D934
+:0070D932 8BC2                    mov eax, edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070D930(C)
+|
+:0070D934 E948E4D4FF              jmp 0045BD81
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045BD75(U), :0070D917(C)
+|
+:0070D939 8D043F                  lea eax, dword ptr [edi+edi]
+:0070D93C 6A64                    push 00000064
+:0070D93E 99                      cdq
+:0070D93F 5B                      pop ebx
+:0070D940 F7FB                    idiv ebx
+:0070D942 8B5DFC                  mov ebx, dword ptr [ebp-04]
+:0070D945 8B919C010000            mov edx, dword ptr [ecx+0000019C]
+:0070D94B C1EA02                  shr edx, 02
+:0070D94E EBDE                    jmp 0070D92E
+:0070D950 90                      nop
+:0070D951 90                      nop
+:0070D952 90                      nop
+:0070D953 90                      nop

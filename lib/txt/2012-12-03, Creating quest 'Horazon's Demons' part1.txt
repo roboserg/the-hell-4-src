@@ -1,0 +1,1149 @@
+﻿Создание квеста "Horazon's Demons"
+
+План:
+локация Хоразона состоит из 2-3 уровней:
+1. Horazon's Rooms
+2. Summoning Halls
+
+Вход в локацию через дун 9х9 на 23 уровне.
+Для этого надо убрать комнату камня с 23 уровня
+Книги на постаментах надо перенести с уровней 21-23 в локу Хоразона
+Разорванные клочки тоже убрать (не совсем, а на время - такой код можно для иных нужд использовать потенциально. Сбор могущественных предметов из частей или т.п.)
+
+Надпись при наведении на лестницу входа:  To Horazon's Sanctum
+
+Цели квеста:
+1. Убить двух могущественных демонов
+2. Получить +1 к заклинанию "Голем"
+3. Продемонстрировать кучу няшных тайлов склепа, невиданных ранее :)
+4. Как обычно, экспа, лут, и challenge!
+5. Необычные фишки самой локации (дегенерация маны ?)
+
+Кто дает квест:
+Вариант А: Кейн дает квест игроку, если тот был на уровне 21 (So, you seek knowledge...)
+Вариант Б: прочтение книги на постаменте у спуска в Комнаты Хоразона
+
+================
+
+Player texts: (dedicated to killing Belial's lieutenant - Grimspike ?) < level ?
+1. let this tome serve as your warning.... <placed at the entrance to Horazon's Rooms
+2. then by binding the spirit.. < rooms
+3. the creature of flame... < rooms
+4. morta vespa... < ?
+5. the lieutenant of belial... < 
+6. this looks like some sort of journal...
+
+7. Maybe it's locked from the inside..
+8. Looks like it's rusted-shut..
+9. Maybe there's another way..
+
+Narrator texts: (dedicated to killing Azmodan's lieutenant - Na-Krul ?)
+1. the entrapped creature's howls of fury...
+2. i have tried spells, threats, abjuration and bargaining..
+3. my home is slowly becoming corrupted..
+4. in its ranting, the creature has let slip its name...
+5. my time is quickly running out...
+6. whoever finds this scroll....
+
+
+Na-Krul is binded at he bottom of a Pit....
+The switch opens the Tunnels....
+
+Horazon01: 1 entering stair, 1 stair down to Horazon02, 1 tunnel to Horazon03
+Horazon 02: 1 tunnel back to Horazon01
+Horazon03: 1 stair up to Horazon01
+
+===============================================================
+1. снос обрывков квеста грэйв маттерс
+
+1.1.
+// (00477118) часть 004768DE
+void GilianGreeting (int playerIndex, int cityzenIndex)
+
+снос скрипта джилиан на счёт квеста
+уже снесён мной при создании скрипта на счёт квеста анди
+
+1.2.
+//----- (00477B96) --------------------------------------------------------
+void AddWarpsToTown()
+автоматом отваливается при вводе новых правил открытия дверей в данжи
+
+1.3.
+//----- (004755FE) --------------------------------------------------------
+void __cdecl LoadTownMap()
+отображение двери
+автоматом отваливается при вводе новых правил открытия дверей в данжи
+
+1.4. done
+//----- (00460417) --------------------------------------------------------
+void ChangeNearestQuestStatus()
+измение статуса квеста при заходе на длвл около длвл квеста. 
+4604D1 short jmp 4604FC
+
+1.5. done
+//----- (004212E2) --------------------------------------------------------
+void StartScriptWithGetupQwestItem(int playerIndex)
+поднятие карты. Я не помню, снесено или ещё нет
+
+42158B short jmp 421602
+вырезаем кусок отвечающий за карту
+
+===============================================================
+2. заполнение таблицы о квесте
+
+; 004B6908 QuestsPtr
+; 4B6A48 QuestsPtr[16] Q_16_HORAZON_S_DEMONS
+
+4B6A48
+
+17h ffh 01h 10h 64h 08h 0000h 00000000h @speechIndex(dword) @questNamePtr
+дописать речевку по оффсету B5454
+
+==============================================================
+3. добавление входа в локу
+
+40C002 jmp @newLoc
+>>>
+@newLoc:
+push    16d
+59                                      pop     ecx
+E8 89 3A 05 00                          call    sub_45FA93
+85 C0                                   test    eax, eax
+jz      @return
+33 D2                                   xor     edx, edx
+mov     ecx, offset "Levels\\L5Data\\HorazonEntr2.DUN"
+E8 15 E0 00 00                          call    sub_41A02F
+A3 8C 73 57 00                          mov     dword_57738C, eax
+89 1D 50 73 57 00                       mov     dword_577350, ebx
+
+@return: ; восстанавливаем затёртое, прыгаем обратно
+.text:0040C002 6A 07                                   push    7
+.text:0040C004 59                                      pop     ecx
+.text:0040C005 E8 89 3A 05 00                          call    sub_45FA93
+jmp 0040C00A
+
+      chekk:
+      * Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0040C002(U)
+|
+:00716910 6A10                    push 00000010
+:00716912 59                      pop ecx
+:00716913 E87B91D4FF              call 0045FA93
+:00716918 85C0                    test eax, eax
+:0071691A 7417                    je 00716933
+:0071691C 33D2                    xor edx, edx
+:0071691E B91751A300              mov ecx, 00A35117
+:00716923 E80737D0FF              call 0041A02F
+:00716928 A38C735700              mov dword ptr [0057738C], eax
+:0071692D 891D50735700            mov dword ptr [00577350], ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071691A(C)
+|
+:00716933 6A07                    push 00000007
+:00716935 59                      pop ecx
+:00716936 E85891D4FF              call 0045FA93
+:0071693B E9CA56CFFF              jmp 0040C00A
+
+===============================================================
+4. установка кординат перехода на квестовую локу.
+
+4.1. копия 0045FF80
+в копии 
+lea     eax, [edx+edx+28d]
+lea     eax, [eax+eax+23d]
+поменять соответственно на 21d и 24d
+
+       chekk:
+* Referenced by a CALL at Address:
+|:0071697B   
+|
+:00716950 6BC91C                  imul ecx, 0000001C
+:00716953 8D441215                lea eax, dword ptr [edx+edx+15]
+:00716957 89815CB36E00            mov dword ptr [ecx+006EB35C], eax
+:0071695D 8B442404                mov eax, dword ptr [esp+04]
+:00716961 8D440018                lea eax, dword ptr [eax+eax+18]
+:00716965 898160B36E00            mov dword ptr [ecx+006EB360], eax
+:0071696B C20400                  ret 0004
+
+4.2.
+004602C3 jmp @newLoc
+>>>
+@newLoc:
+jz @quest14
+dec eax
+dec eax
+jnz Q_default
+@quest16:
+56                                      push    esi
+8B D7                                   mov     edx, edi
+8B CB                                   mov     ecx, ebx
+E8 60 FD FF FF                          call   4.1.
+jmp Q_default
+
+@quest14:
+56                                      push    esi
+8B D7                                   mov     edx, edi
+8B CB                                   mov     ecx, ebx
+E8 60 FD FF FF                          call    sub_46002F
+
+Q_default:
+jmp 0046030E
+
+       chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004602C3(U)
+|
+:00716970 7410                    je 00716982
+:00716972 48                      dec eax
+:00716973 48                      dec eax
+:00716974 7516                    jne 0071698C
+:00716976 56                      push esi
+:00716977 8BD7                    mov edx, edi
+:00716979 8BCB                    mov ecx, ebx
+:0071697B E8D0FFFFFF              call 00716950
+:00716980 EB0A                    jmp 0071698C
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716970(C)
+|
+:00716982 56                      push esi
+:00716983 8BD7                    mov edx, edi
+:00716985 8BCB                    mov ecx, ebx
+:00716987 E8A396D4FF              call 0046002F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00716974(C), :00716980(U)
+|
+:0071698C E97D99D4FF              jmp 0046030E
+
+=============================================================
+5. Исправление вылета при наведении на вход вниз
+
+004B6AF8 таблицу из 5 указателей на имена квестовых лок
+перенести на новое место где поместятся 25 указателей. 6-7 указатели можно оставить пустые или поставить на всякий случай имена зала и трона. А вот 8й должен обязательно указывать на имя локи хоразона (1 этажа) иначе будет вылет при попытке прочесть строку по левому указателю.
+При наведении на вход в квестовую локу расположенный в данже (не в городе) отображается строка "to %s" где %s - это имя локи из указанной таблицы
+
+45FA69 тут заменить указатель на новое место
+
+=============================================================
+6.1. предотвращение установки ворпа на лестницу в комнату хоразона
+
+00477F2F jmp @newLoc
+>>>
+@newLoc:
+mov eax, 10h; индекс квеста
+imul eax, 1Сh
+add eax, offset 006EB358 ; в eax начало структуры квеста
+cmp ebx, dword ptr [eax + 8]; col == DungeonQuests[Q_16_HORAZON_S_DEMONS].Col
+jnz @setWarpDown
+mov eax, dword ptr [eax + 4]; DungeonQuests[Q_16_HORAZON_S_DEMONS].Row
+cmp eax, dword ptr [ebp - 4]
+jz @notSetWarp
+
+@setWarpDown:; затёртое и обратно
+8B 45 FC                                mov     eax, [ebp+var_4]
+FF 05 20 02 70 00                       inc     dword_700220
+jmp 00477F38
+
+@notSetWarp:
+jmp 477F4B
+
+
+             chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00477F2F(U)
+|
+:007169A0 B810000000              mov eax, 00000010
+:007169A5 6BC01C                  imul eax, 0000001C
+:007169A8 0558B36E00              add eax, 006EB358
+:007169AD 3B5808                  cmp ebx, dword ptr [eax+08]
+:007169B0 7508                    jne 007169BA
+:007169B2 8B4004                  mov eax, dword ptr [eax+04]
+:007169B5 3B45FC                  cmp eax, dword ptr [ebp-04]
+:007169B8 740E                    je 007169C8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007169B0(C)
+|
+:007169BA 8B45FC                  mov eax, dword ptr [ebp-04]
+:007169BD FF0520027000            inc dword ptr [00700220]
+:007169C3 E97015D6FF              jmp 00477F38
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007169B8(C)
+|
+:007169C8 E97E15D6FF              jmp 00477F4B
+:007169CD 90                      nop
+
+
+
+6.2. Предотвращение отображении надписи о том что мол это проход вниз
+нужна функция определения находится ли нужный ворп поблизости от курсора. Если эта функция вернёт 1 то значит показывать надпись даун ту левел. Иначе не нужно показывать.
+
+Инфа для справки
+
+00700220 dd WarpsCount
+.data:00700228     ; Warp WarpsArray[7]
+
+struct Warp
+{
+  int  Row;        // 0
+  int  Col;        // 4
+  int  GameMessage;        // 8
+  int  DestLevel;        // 12
+};
+
+.data:004D1650     ; int CursRow
+.data:004D1650     CursRow         dd ?                    ; ...
+.data:004D1654     ; int CursCol
+.data:004D1654     CursCol         dd ?  
+
+50                      push    eax             ; X
+E8 1D 22 00 00          call    _abs
+
+
+@IsValidWarpNearCursor: начало функции
+; в ecx нужный GameMessage       < ???
+cmp dword ptr [00700220], 0
+jnz @F
+xor eax, eax
+retn
+@@:
+push ebx
+push esi
+mov ebx, ecx
+
+mov esi, 00700228 ; WarpsArray[0]
+mov ecx, dword ptr [00700220] ; WarpsCount
+
+@loop:
+cmp dword ptr [esi+8], ebx
+jnz @continue ; не тот тип ворпа
+
+mov eax, dword ptr [004D1650] ; CursRow
+sub eax, dword ptr [esi] ; CursRow - warp.row
+push    eax
+call    _abs
+add esp, 4
+cmp eax, 4
+jge @continue
+
+mov eax, dword ptr [004D1654] ; CursCol
+sub eax, dword ptr [esi+4] ; CursCol - warp.col
+push    eax
+call    _abs
+add esp, 4
+cmp eax, 4
+jge @continue
+
+jmp @returnTrue
+
+@continue:
+add esi, 10h ; sizeOf Warp 
+dec ecx
+jnz @loop
+
+@returnFalse:
+xor eax, eax
+jmp @return
+
+@returnTrue:
+mov eax, 1
+
+@return:
+pop esi
+pop ebx
+retn
+
+
+     chekk:
+* Referenced by a CALL at Address:
+|:00716A60   
+|
+:007169FB 90                      nop
+:007169FC 90                      nop
+:007169FD 90                      nop
+:007169FE 833D2002700000          cmp dword ptr [00700220], 00000000
+:00716A05 7503                    jne 00716A0A
+:00716A07 31C0                    xor eax, eax
+:00716A09 C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716A05(C)
+|
+:00716A0A 53                      push ebx
+:00716A0B 56                      push esi
+:00716A0C 89CB                    mov ebx, ecx
+:00716A0E BE28027000              mov esi, 00700228
+:00716A13 8B0D20027000            mov ecx, dword ptr [00700220]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716A4F(C)
+|
+:00716A19 395E08                  cmp dword ptr [esi+08], ebx
+:00716A1C 752D                    jne 00716A4B
+:00716A1E A150164D00              mov eax, dword ptr [004D1650]
+:00716A23 2B06                    sub eax, dword ptr [esi]
+:00716A25 50                      push eax
+:00716A26 E8A541D6FF              call 0047ABD0
+:00716A2B 83C404                  add esp, 00000004
+:00716A2E 83F804                  cmp eax, 00000004
+:00716A31 7D18                    jge 00716A4B
+:00716A33 A154164D00              mov eax, dword ptr [004D1654]
+:00716A38 2B4604                  sub eax, dword ptr [esi+04]
+:00716A3B 50                      push eax
+:00716A3C E88F41D6FF              call 0047ABD0
+:00716A41 83C404                  add esp, 00000004
+:00716A44 83F804                  cmp eax, 00000004
+:00716A47 7D02                    jge 00716A4B
+:00716A49 EB0A                    jmp 00716A55
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00716A1C(C), :00716A31(C), :00716A47(C)
+|
+:00716A4B 83C610                  add esi, 00000010
+:00716A4E 49                      dec ecx
+:00716A4F 75C8                    jne 00716A19
+:00716A51 31C0                    xor eax, eax
+:00716A53 EB03                    jmp 00716A58
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716A49(U)
+|
+:00716A55 6A01                    push 00000001
+:00716A57 58                      pop eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716A53(U)
+|
+:00716A58 5E                      pop esi
+:00716A59 5B                      pop ebx
+:00716A5A C3                      ret
+
+
+
+6.3. Неотображение Down to у листницы в локу хоразона
+
+.text:00478833 75 3F                                   jnz     short loc_478874
+.text:00478835 0F B6 05 D8 B1 60 00                    movzx   eax, DungeonLevel
+.text:0047883C 83 E8 13                                sub     eax, 13h
+
+00478835 jmp @newLoc
+>>>
+@newLoc:
+mov ecx, 402h
+call @IsValidWarpNearCursor 6.2.
+test eax, eax
+jnz @F
+jmp 00478874
+@@:
+0F B6 05 D8 B1 60 00                    movzx   eax, DungeonLevel
+jmp 0047883C
+
+   chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00478835(U)
+|
+:00716A5B B902040000              mov ecx, 00000402
+:00716A60 E896FFFFFF              call 007169FB
+:00716A65 85C0                    test eax, eax
+:00716A67 7505                    jne 00716A6E
+:00716A69 E9061ED6FF              jmp 00478874
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716A67(C)
+|
+:00716A6E 0FB605D8B16000          movzx eax, byte ptr [0060B1D8]
+:00716A75 E9C21DD6FF              jmp 0047883C
+
+==================================================================
+7. Настройка локи 1го этажа
+
+7.1. Вызов кода настройки для каждого из 3х этажей
+
+.mod:00715A4F                 nop
+.mod:00715A50                 nop
+.mod:00715A51                 nop
+.mod:00715A52                 nop
+.mod:00715A53                 dec     eax
+.mod:00715A54                 jnz     loc_46B48A
+.mod:00715A5A                 mov     esi, offset aLevelsL4dataAn ; "levels\\l4data\\AndaThroneHorror1.dun"
+
+00715A4F dec eax
+jz 00715A5A ; трон
+dec eax
+jz @horazon1
+dec eax
+jz @horazon2 ; ещё не написан
+dec eax
+jz @horazon3 ; ещё не написан
+; тут место ещё под сколько то лок
+jmp 46B48A
+
+      chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00715A54(U)
+|
+:00716A80 0F84D4EFFFFF            je 00715A5A
+:00716A86 48                      dec eax
+:00716A87 0F8493000000            je 00716B20
+:00716A8D 48                      dec eax
+:00716A8E 0F8400000000            je 00716A94
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716A8E(C)
+|
+:00716A94 48                      dec eax
+:00716A95 0F8400000000            je 00716A9B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716A95(C)
+|
+:00716A9B EB7E                    jmp 00716B1B
+:00716A9D 90                      nop
+:00716A9E 90                      nop
+:00716A9F 90                      nop
+:00716AA0 00000000000000000000    BYTE 10 DUP(0)
+:00716AAA 00000000000000000000    BYTE 10 DUP(0)
+:00716AB4 00000000000000000000    BYTE 10 DUP(0)
+:00716ABE 00000000000000000000    BYTE 10 DUP(0)
+:00716AC8 00000000000000000000    BYTE 10 DUP(0)
+:00716AD2 00000000000000000000    BYTE 10 DUP(0)
+:00716ADC 00000000000000000000    BYTE 10 DUP(0)
+:00716AE6 00000000000000000000    BYTE 10 DUP(0)
+:00716AF0 00000000000000000000    BYTE 10 DUP(0)
+:00716AFA 00000000000000000000    BYTE 10 DUP(0)
+:00716B04 00000000000000000000    BYTE 10 DUP(0)
+:00716B0E 0000                    BYTE 2 DUP(0)
+
+
+:00716B10 90                      nop
+:00716B11 90                      nop
+:00716B12 90                      nop
+:00716B13 90                      nop
+:00716B14 90                      nop
+:00716B15 90                      nop
+:00716B16 90                      nop
+:00716B17 90                      nop
+:00716B18 90                      nop
+:00716B19 90                      nop
+:00716B1A 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716A9B(U)
+|
+:00716B1B E96A49D5FF              jmp 0046B48A
+
+
+7.2. собственно настройка первого этажа
+@horazon1:
+; ставшая уже традиция активировать квест при входе на локу если ещё не активирован
+push    edi
+mov     edi, 10h
+imul    edi, 1Ch
+add     edi, offset byte_6EB358
+cmp     byte ptr [edi+2], 1
+jnz     @F
+mov     byte ptr [edi+2], 2
+@@:
+pop     edi
+
+; оставить место на вызов функции рэндомизации
+mov     esi, offset "Levels\\L5Data\\Horazon01.DUN"
+
+push    2Dh
+push    53h
+pop     edx
+mov     ecx, esi
+call    sub_40BDEE ; LoadQuestDungeonAltMapChurch
+
+movzx eax, byte ptr [A352C0h];@PrevQuestLocIndex
+cmp eax, 9
+jz @enterFromHoraz2
+cmp eax, 10
+jnz @enterFromDlvl23
+
+@enterFromHoraz3:
+push 19d
+mov edx, 25d
+jmp @loadMainMap
+
+@enterFromHoraz2:
+push 55d
+mov edx, 59d
+jmp @loadMainMap
+
+@enterFromDlvl23:
+push 23d
+mov edx, 81d
+
+@loadMainMap:
+mov ecx, esi
+call    sub_40BAFD
+
+mov ecx, offset "levels\\5data\\l5base.pal" ; или другая спец палитра
+call 0045552B
+
+mov eax, 112d
+push eax
+push eax
+xor ecx, ecx
+xor edx, edx
+call 0044C0BA; AddCryptDoors(0, 0, 112, 112);
+
+;call @addWarpToHoraz1
+
+pop     esi
+retn
+
+              check:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716A87(C)
+|
+:00716B20 57                      push edi
+:00716B21 BF10000000              mov edi, 00000010
+:00716B26 6BFF1C                  imul edi, 0000001C
+:00716B29 81C758B36E00            add edi, 006EB358
+:00716B2F 807F0201                cmp byte ptr [edi+02], 01
+:00716B33 7504                    jne 00716B39
+:00716B35 C6470202                mov [edi+02], 02
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716B33(C)
+|
+:00716B39 5F                      pop edi
+:00716B3A 90                      nop
+:00716B3B 90                      nop
+:00716B3C 90                      nop
+:00716B3D 90                      nop
+:00716B3E 90                      nop
+:00716B3F 90                      nop
+:00716B40 90                      nop
+:00716B41 90                      nop
+:00716B42 90                      nop
+:00716B43 90                      nop
+:00716B44 90                      nop
+:00716B45 90                      nop
+:00716B46 90                      nop
+:00716B47 90                      nop
+:00716B48 90                      nop
+:00716B49 90                      nop
+:00716B4A 90                      nop
+:00716B4B 90                      nop
+:00716B4C 90                      nop
+:00716B4D BE3651A300              mov esi, 00A35136
+:00716B52 6A2D                    push 0000002D
+:00716B54 6A53                    push 00000053
+:00716B56 5A                      pop edx
+:00716B57 89F1                    mov ecx, esi
+:00716B59 E89052CFFF              call 0040BDEE
+:00716B5E 90                      nop
+:00716B5F 90                      nop
+:00716B60 90                      nop
+:00716B61 90                      nop
+:00716B62 90                      nop
+:00716B63 0FB605C052A300          movzx eax, byte ptr [00A352C0]
+:00716B6A 83F809                  cmp eax, 00000009
+:00716B6D 740B                    je 00716B7A
+:00716B6F 83F80A                  cmp eax, 0000000A
+:00716B72 750C                    jne 00716B80
+:00716B74 6A13                    push 00000013
+:00716B76 6A19                    push 00000019
+:00716B78 EB0A                    jmp 00716B84
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716B6D(C)
+|
+:00716B7A 6A37                    push 00000037
+:00716B7C 6A3B                    push 0000003B
+:00716B7E EB04                    jmp 00716B84
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716B72(C)
+|
+:00716B80 6A17                    push 00000017
+:00716B82 6A51                    push 00000051
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00716B78(U), :00716B7E(U)
+|
+:00716B84 59                      pop ecx
+:00716B85 E8734FCFFF              call 0040BAFD
+:00716B8A 90                      nop
+:00716B8B 90                      nop
+:00716B8C 90                      nop
+:00716B8D 90                      nop
+:00716B8E 90                      nop
+:00716B8F 90                      nop
+:00716B90 B96E51A300              mov ecx, 00A3516E
+:00716B95 E891E9D3FF              call 0045552B
+:00716B9A 6A70                    push 00000070
+:00716B9C 58                      pop eax
+:00716B9D 50                      push eax
+:00716B9E 50                      push eax
+:00716B9F 31C9                    xor ecx, ecx
+:00716BA1 31D2                    xor edx, edx
+:00716BA3 E81255D3FF              call 0044C0BA
+:00716BA8 E813000000              call 00716BC0
+:00716BAD 5E                      pop esi
+:00716BAE C3                      ret
+
+
+7.3.
+@addWarpToHoraz1:
+
+; 00700228 warp[0]
+
+and dword ptr [0070021C], 00
+mov dword ptr [00700220], 03
+
+mov dword ptr [00700228], 81d
+mov dword ptr [0070022C], 22d
+mov dword ptr [00700230], 1028d
+
+mov dword ptr [00700238], 59d
+mov dword ptr [0070023C], 54d
+mov dword ptr [00700240], 1029d
+mov byte ptr [00700244], 9
+mov byte ptr [00700245], 1
+
+mov dword ptr [00700248], 25d
+mov dword ptr [0070024C], 18d 17d
+mov dword ptr [00700250], 1029d
+mov byte ptr [00700254], 10d
+mov byte ptr [00700255], 1
+retn
+
+      check:
+* Referenced by a CALL at Address:
+|:00716BA8   
+|
+:00716BC0 83251C02700000          and dword ptr [0070021C], 00000000
+:00716BC7 C7052002700003000000    mov dword ptr [00700220], 00000003
+:00716BD1 C7052802700051000000    mov dword ptr [00700228], 00000051
+:00716BDB C7052C02700016000000    mov dword ptr [0070022C], 00000016
+:00716BE5 C7053002700004040000    mov dword ptr [00700230], 00000404
+:00716BEF C705380270003B000000    mov dword ptr [00700238], 0000003B
+:00716BF9 C7053C02700036000000    mov dword ptr [0070023C], 00000036
+:00716C03 C7054002700005040000    mov dword ptr [00700240], 00000405
+:00716C0D C6054402700009          mov byte ptr [00700244], 09
+:00716C14 C6054502700001          mov byte ptr [00700245], 01
+:00716C1B C7054802700019000000    mov dword ptr [00700248], 00000019
+:00716C25 C7054C02700012000000    mov dword ptr [0070024C], 00000012
+:00716C2F C7055002700005040000    mov dword ptr [00700250], 00000405
+:00716C39 C605540270000A          mov byte ptr [00700254], 0A
+:00716C40 C6055502700001          mov byte ptr [00700255], 01
+:00716C47 C3                      ret
+
+
+7.4.
+.mod:00715BC0 loc_715BC0:                             ; CODE XREF: sub_45F7BC+222j
+.mod:00715BC0                 and     ds:byte_A34170, 0
+and     byte ptr [A352C0h], 0 ; @PrevQuestLocIndex
+.mod:00715BC7                 call    sub_45AE7C
+.mod:00715BCC                 jmp     loc_45F9E3
+
+check::
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045F9DE(U)
+|
+:00715BC0 80257041A30000          and byte ptr [00A34170], 00
+:00715BC7 8025C052A30000          and byte ptr [00A352C0], 00
+:00715BCE E8A952D4FF              call 0045AE7C
+:00715BD3 E90B9ED4FF              jmp 0045F9E3
+
+7.5. попытка починить двери
+
+.text:0040BBC1                 cmp     byte ptr dword_60B1D8, 11h
+.text:0040BBC8                 jnb     short loc_40BBCF
+.text:0040BBCA                 call    sub_40BD33
+.text:0040BBCF
+.text:0040BBCF loc_40BBCF:                             ; CODE XREF: sub_40BAFD+CBj
+
+
+0040BBC1 >>>
+>>>
+cmp     byte ptr dword_60B1D8, 11h
+jnb @crypt
+
+@church:
+jmp 0040BBCA
+
+@crypt:
+call 0040C039
+jmp 0040BBCF
+
+                   chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0040BBC1(U)
+|
+:00716C50 803DD8B1600011          cmp byte ptr [0060B1D8], 11
+:00716C57 7305                    jnb 00716C5E
+:00716C59 E96C4FCFFF              jmp 0040BBCA
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716C57(C)
+|
+:00716C5E E8D653CFFF              call 0040C039
+:00716C63 E9674FCFFF              jmp 0040BBCF
+:00716C68 90                      nop
+
+7.6. попытка номер 2. Должна быть более удачна
+
+.text:0044D682                 cmp     edi, offset off_4B5170
+; если не помещаемся, то на новом месте. Эта проверка 5 или более байт весит
+0044D682 cmp dword ptr [ebp - 4], 56d
+
+----------
+
+.text:0044D62F                 mov     edi, offset off_4B5090
+loc_44D634:
+
+0044D62F >>>
+>>>
+movzx eax, byte ptr [0060B1D8] ; dlvl
+cmp eax, 17d
+jl @original
+cmp eax, 21d
+jl @abyss
+@crypt:
+mov edi, 004B5170
+jmp @return
+
+@abyss:
+mov edi, 004B5250
+jmp @return
+
+@original:
+mov edi, 004B5090
+
+@return:
+jmp 0044D634
+
+             chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0044D62F(U)
+|
+:00716C70 0FB605D8B16000          movzx eax, byte ptr [0060B1D8]
+:00716C77 83F811                  cmp eax, 00000011
+:00716C7A 7C0F                    jl 00716C8B
+:00716C7C 83F815                  cmp eax, 00000015
+:00716C7F 7C11                    jl 00716C92
+
+* Possible Indirect StringData Ref from Data Obj ->"L1Braz"
+                                  |
+:00716C81 BF70514B00              mov edi, 004B5170
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00716C90(U), :00716C97(U)
+|
+:00716C86 E9A969D3FF              jmp 0044D634
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716C7A(C)
+|
+
+* Possible Indirect StringData Ref from Data Obj ->"L1Braz"
+                                  |
+:00716C8B BF90504B00              mov edi, 004B5090
+:00716C90 EBF4                    jmp 00716C86
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716C7F(C)
+|
+
+* Possible Indirect StringData Ref from Data Obj ->"L1Braz"
+                                  |
+:00716C92 BF50524B00              mov edi, 004B5250
+:00716C97 EBED                    jmp 00716C86
+
+==============================================================
+8. Поддержка человеческих ворпов между квестовыми локами
+
+8.1. функция вызываемая при невозможности выйти
+@cannotEnterBeforeClearing:
+; в ecx флаги. бит 1 - нужно увеличить row бит2 - col
+push esi
+push eax
+push edx
+mov esi, ecx
+
+;выводим сообщение
+mov ecx, 2
+call 0041AAA1 ; void __fastcall AddOnScreenMessage(char messageIndex)
+
+;отходим
+call 70A1D0; @getCurPlayerOffset
+
+mov ecx, dword ptr [eax + 3ch]; col
+
+; оставить больше места на случай переделки под новые изменения координат
+test esi, 2
+jz @F
+inc ecx
+@@:
+push ecx
+
+mov ecx, dword ptr [eax + 38h]; row
+test esi, 1
+jz @F
+inc ecx
+@@:
+push ecx
+
+mov edx, 1
+mov ecx, 1
+call 00446DD2 ; SendCmd5(1, NET_CMD_1_WALK_PLAYER, row, col);
+
+;звук
+call 70A1D0; @getCurPlayerOffset
+movzx, eax byte ptr [eax + 160h] ; class
+
+test eax, eax
+jz @palglad
+dec eax
+jz @scoutAss
+dec eax
+jz @mag
+dec eax
+jz @monk
+dec eax
+jz @scoutAss
+
+@palglad:
+mov ecx, 772d ; S_772_SFX_WARRIOR_WARIOR43
+jmp @playSound
+
+@scoutAss:
+mov ecx, 663d ; S_663_SFX_ROGUE_ROGUE43
+jmp @playSound
+
+@mag:
+mov ecx, 560d ; S_560_SFX_SORCEROR_MAGE43
+jmp @playSound
+
+@monk:
+mov ecx, 880d ; S_880_SFX_MONK_MONK43
+
+@playSound:
+call 0041850D ; PlayGlobalSound(soundIndex);
+
+pop edx
+pop eax
+pop esi
+retn
+
+                             chekk:
+* Referenced by a CALL at Address:
+|:00716DBB   
+|
+:00716CA0 56                      push esi
+:00716CA1 50                      push eax
+:00716CA2 52                      push edx
+:00716CA3 89CE                    mov esi, ecx
+:00716CA5 6A02                    push 00000002
+:00716CA7 59                      pop ecx
+:00716CA8 E8F43DD0FF              call 0041AAA1
+:00716CAD E81E35FFFF              call 0070A1D0
+:00716CB2 8B483C                  mov ecx, dword ptr [eax+3C]
+:00716CB5 F7C602000000            test esi, 00000002
+:00716CBB 7401                    je 00716CBE
+:00716CBD 41                      inc ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716CBB(C)
+|
+:00716CBE 51                      push ecx
+:00716CBF 8B4838                  mov ecx, dword ptr [eax+38]
+:00716CC2 F7C601000000            test esi, 00000001
+:00716CC8 7401                    je 00716CCB
+:00716CCA 41                      inc ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716CC8(C)
+|
+:00716CCB 51                      push ecx
+:00716CCC 6A01                    push 00000001
+:00716CCE 5A                      pop edx
+:00716CCF 6A01                    push 00000001
+:00716CD1 59                      pop ecx
+:00716CD2 E8FB00D3FF              call 00446DD2
+:00716CD7 E8F434FFFF              call 0070A1D0
+:00716CDC 0FB68060010000          movzx eax, byte ptr [eax+00000160]
+:00716CE3 85C0                    test eax, eax
+:00716CE5 740C                    je 00716CF3
+:00716CE7 48                      dec eax
+:00716CE8 7412                    je 00716CFC
+:00716CEA 48                      dec eax
+:00716CEB 7416                    je 00716D03
+:00716CED 48                      dec eax
+:00716CEE 741A                    je 00716D0A
+:00716CF0 48                      dec eax
+:00716CF1 7409                    je 00716CFC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716CE5(C)
+|
+:00716CF3 B904030000              mov ecx, 00000304
+:00716CF8 EB17                    jmp 00716D11
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716D18(U)
+|
+:00716CFA 5E                      pop esi
+:00716CFB C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00716CE8(C), :00716CF1(C)
+|
+:00716CFC B997020000              mov ecx, 00000297
+:00716D01 EB0E                    jmp 00716D11
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716CEB(C)
+|
+:00716D03 B930020000              mov ecx, 00000230
+:00716D08 EB07                    jmp 00716D11
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716CEE(C)
+|
+:00716D0A B970030000              mov ecx, 00000370
+:00716D0F 90                      nop
+:00716D10 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00716CF8(U), :00716D01(U), :00716D08(U)
+|
+:00716D11 E8F717D0FF              call 0041850D
+:00716D16 5A                      pop edx
+:00716D17 58                      pop eax
+:00716D18 EBE0                    jmp 00716CFA
+:00716D1A 90                      nop
+
+
+
+8.2. поддержка ворпов между квестовыми локами
+8.2.1
+@GM_1029_MAYBE_GOING_TO_QUEST_DUNGEON
+cmp dword ptr [0069DC80], 04
+jg @notAllowEnter
+
+@allowEnter:
+; сохраняем номер текущей локи, чтобы понять куда игрока ставить
+mov al, byte ptr [0061CB00] ; QuestFloorIndex
+mov byte ptr [A352C0h], al ; @PrevQuestLocIndex
+
+; указываем номер следующей локи
+movzx eax, byte ptr [esi + 4] ; destQLocNumber
+mov byte ptr [A34170], al ; nextQLocNumber
+
+; указываем дун тайп следующей локи
+movzx eax, byte ptr [esi + 5] ; destQLocDunType
+mov byte ptr [61F310], al ; WithDungeonType
+
+; длвл сохраняем прежний
+push byte ptr [0060B1D8] ; dlvl  E3955:     instruction doesn'tt exist
+movzx eax, byte ptr [0060B1D8] ; dlvl
+push eax
+jmp 4794C3 ; послать команду перехода и следующий ворп
+
+@notAllowEnter:
+mov al, byte ptr [0061CB00] ; QuestFloorIndex
+mov ecx, 3; отход ровно вниз по умолчанию
+; тут ещё кучу места на новые проверки
+cmp al, 8
+jl @F:
+cmp al, 10
+jg @F:
+mov ecx, 2
+@@:
+call @cannotEnterBeforeClearing ; 8.1
+
+jmp 4794D0; следующий ворп
+
+
+               chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716DD7(C)
+|
+:00716D30 833D80DC690004          cmp dword ptr [0069DC80], 00000004
+:00716D37 7F2B                    jg 00716D64
+:00716D39 A000CB6100              mov al, byte ptr [0061CB00]
+:00716D3E A2C052A300              mov byte ptr [00A352C0], al
+:00716D43 0FB64604                movzx eax, byte ptr [esi+04]
+:00716D47 A27041A300              mov byte ptr [00A34170], al
+:00716D4C 0FB64605                movzx eax, byte ptr [esi+05]
+:00716D50 A210F36100              mov byte ptr [0061F310], al
+:00716D55 0FB605D8B16000          movzx eax, byte ptr [0060B1D8]
+:00716D5C 50                      push eax
+:00716D5D 90                      nop
+:00716D5E 90                      nop
+:00716D5F E95F27D6FF              jmp 004794C3
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00716D37(C)
+|
+:00716D64 A000CB6100              mov al, byte ptr [0061CB00]
+:00716D69 6A03                    push 00000003
+:00716D6B 59                      pop ecx
+:00716D6C 90                      nop
+.....
+:00716DAF 90                      nop
+:00716DB0 3C08                    cmp al, 08
+:00716DB2 7C07                    jl 00716DBB
+:00716DB4 3C0A                    cmp al, 0A
+:00716DB6 7F03                    jg 00716DBB
+:00716DB8 6A02                    push 00000002
+:00716DBA 59                      pop ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00716DB2(C), :00716DB6(C)
+|
+:00716DBB E8E0FEFFFF              call 00716CA0
+:00716DC0 E90B27D6FF              jmp 004794D0
+
+8.2.2
+004793DD >>>
+>>>
+jz 0047947A ; GM_1028_GOING_FROM_QUEST_DUNGEON
+dec ebx
+jz @GM_1029_MAYBE_GOING_TO_QUEST_DUNGEON ; 8.2.1
+dec ebx
+dec ebx
+jmp 004793E6
+
+                сhekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004793DD(U)
+|
+:00716DD0 0F84A426D6FF            je 0047947A
+:00716DD6 4B                      dec ebx
+:00716DD7 0F8453FFFFFF            je 00716D30
+:00716DDD 4B                      dec ebx
+:00716DDE 4B                      dec ebx
+:00716DDF E90226D6FF              jmp 004793E6
+
+=================================================
+666. Идея по костылю для музыки. Дописать в условие смены музыки установленный в 1 флаг смены музыки. И при заходе на локу хоразона и при выходе из неё устанавливать этот флаг. После загрузки уровня разумеется флаг обнулять.
+
+продолжение http://titanpad.com/UyTmUp9m6g
+
+
+
+
+
+
+
+
+
+
+
+
+
+

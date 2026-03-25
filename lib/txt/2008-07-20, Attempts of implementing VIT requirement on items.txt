@@ -1,0 +1,133 @@
+preparations made to implement vitality requirement on items
+
+
+Step 1: gives crash upon entering character select menu, obviously doesn't work.
+
+	Original code:
+:0042A06A 8B15E8AD6E00            mov edx, dword ptr [006EADE8]
+:0042A070 56                      push esi
+:0042A071 69D2C8550000            imul edx, 000055C8
+:0042A077 8B3514AE6E00            mov esi, dword ptr [006EAE14]
+:0042A07D 6A01                    push 00000001
+:0042A07F 03D6                    add edx, esi
+:0042A081 58                      pop eax
+:0042A082 0FB6B160010000          movzx esi, byte ptr [ecx+00000160]
+:0042A089 39B264010000            cmp dword ptr [edx+00000164], esi
+:0042A08F 7C1E                    jl 0042A0AF
+:0042A091 0FB6B161010000          movzx esi, byte ptr [ecx+00000161]
+:0042A098 39B26C010000            cmp dword ptr [edx+0000016C], esi
+:0042A09E 7C0F                    jl 0042A0AF
+:0042A0A0 0FB68962010000          movzx ecx, byte ptr [ecx+00000162]
+:0042A0A7 398A74010000            cmp dword ptr [edx+00000174], ecx
+:0042A0AD 7D02                    jge 0042A0B1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0042A08F(C), :0042A09E(C)
+|
+:0042A0AF 33C0                    xor eax, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042A0AD(C)
+|
+:0042A0B1 5E                      pop esi
+:0042A0B2 C3                      ret
+
+	Modified:
+:0042A06A 8B15E8AD6E00            mov edx, dword ptr [006EADE8]
+:0042A070 56                      push esi
+:0042A071 69D2C8550000            imul edx, 000055C8
+:0042A077 8B3514AE6E00            mov esi, dword ptr [006EAE14]
+:0042A07D 6A01                    push 00000001
+:0042A07F 03D6                    add edx, esi
+:0042A081 58                      pop eax
+:0042A082 0FB6B160010000          movzx esi, byte ptr [ecx+00000160]
+:0042A089 39B264010000            cmp dword ptr [edx+00000164], esi
+:0042A08F 7C1E                    jl 0042A0AF
+:0042A091 0FB6B161010000          movzx esi, byte ptr [ecx+00000161]
+:0042A098 39B26C010000            cmp dword ptr [edx+0000016C], esi
+:0042A09E 7C0F                    jl 0042A0AF
+:0042A0A0 E92BC02D00              jmp 007060D0
+:0042A0A5 90                      nop
+:0042A0A6 90                      nop
+:0042A0A7 90                      nop
+:0042A0A8 90                      nop
+:0042A0A9 90                      nop
+:0042A0AA 90                      nop
+:0042A0AB 90                      nop
+:0042A0AC 90                      nop
+:0042A0AD 90                      nop
+:0042A0AE 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0042A08F(C), :0042A09E(C), :007060DD(C), :007060F5(C)
+|
+:0042A0AF 33C0                    xor eax, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007060FB(U)
+|
+:0042A0B1 5E                      pop esi
+:0042A0B2 C3                      ret
+
+	Extra:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042A0A0(U)
+|
+:007060D0 0FB68962010000          movzx ecx, byte ptr [ecx+00000162]
+:007060D7 398A74010000            cmp dword ptr [edx+00000174], ecx
+:007060DD 0F8CCC3FD2FF            jl 0042A0AF
+:007060E3 EB16                    jmp 007060FB
+:007060E5 90                      nop
+:007060E6 90                      nop
+:007060E7 90                      nop
+:007060E8 0FB68963010000          movzx ecx, byte ptr [ecx+00000163]
+:007060EF 398A7C010000            cmp dword ptr [edx+0000017C], ecx
+:007060F5 0F8CB43FD2FF            jl 0042A0AF
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007060E3(U)
+|
+:007060FB E9B13FD2FF              jmp 0042A0B1
+
+=====================================================
+Step 2: (implementing actual check on VIT ???)
+
+:004258F6 8A8730509000            mov al, byte ptr [edi+00905030]
+:004258FC 8886E0636800            mov byte ptr [esi+006863E0], al
+:00425902 8A8731509000            mov al, byte ptr [edi+00905031]
+:00425908 8886E1636800            mov byte ptr [esi+006863E1], al
+:0042590E 8A8732509000            mov al, byte ptr [edi+00905032]
+:00425914 8886E2636800            mov byte ptr [esi+006863E2], al
+
+	into:
+
+:004258F6 8A8730509000            mov al, byte ptr [edi+00905030]
+:004258FC 8886E0636800            mov byte ptr [esi+006863E0], al
+:00425902 8A8731509000            mov al, byte ptr [edi+00905031]
+:00425908 8886E1636800            mov byte ptr [esi+006863E1], al
+:0042590E E9EF072E00              jmp 00706102
+:00425913 90                      nop
+:00425914 90                      nop
+:00425915 90                      nop
+:00425916 90                      nop
+:00425917 90                      nop
+:00425918 90                      nop
+:00425919 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070611A(U)
+|
+:0042591A 8B45F8                  mov eax, dword ptr [ebp-08]
+
+
+	extra:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042590E(U)
+|
+:00706102 8A8732509000            mov al, byte ptr [edi+00905032]
+:00706108 8886E2636800            mov byte ptr [esi+006863E2], al
+:0070610E 8A8733509000            mov al, byte ptr [edi+00905033]
+:00706114 8886E3636800            mov byte ptr [esi+006863E3], al
+:0070611A E9FBF7D1FF              jmp 0042591A
+
+note: this doesn't give crash....

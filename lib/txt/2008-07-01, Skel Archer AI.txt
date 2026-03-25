@@ -1,0 +1,295 @@
+Skeleton Archer AI
+
+General
+1.          if not active, exit
+2.          R = Rnd[100]
+
+Distance = 1 to 3
+1.          if last action was walking and standtime is 0 and R < 2·Intf + 63, walk away from target, exit
+2.          if standtime is greater than 1 second and R < 2·Intf + 13, walk away from target, exit
+
+Distance > 3
+1.          if R < 2·Intf + 3, do ranged attack
+
+=============================================================================
+
+:004404F7 55                      push ebp
+:004404F8 8BEC                    mov ebp, esp
+:004404FA 83EC10                  sub esp, 00000010
+:004404FD 8365F800                and dword ptr [ebp-08], 00000000
+:00440501 53                      push ebx
+:00440502 56                      push esi
+:00440503 81F9C8000000            cmp ecx, 000000C8
+:00440509 57                      push edi
+:0044050A 894DF4                  mov dword ptr [ebp-0C], ecx
+:0044050D 0F8314010000            jnb 00440627
+:00440513 8BF1                    mov esi, ecx
+:00440515 69F6E4000000            imul esi, 000000E4
+:0044051B 81C688DC6900            add esi, 0069DC88
+:00440521 837E0400                cmp dword ptr [esi+04], 00000000
+:00440525 0F85FC000000            jne 00440627
+:0044052B 80BEA000000000          cmp byte ptr [esi+000000A0], 00
+:00440532 0F84EF000000            je 00440627
+:00440538 0FB64650                movzx eax, byte ptr [esi+50]
+:0044053C 8B7E20                  mov edi, dword ptr [esi+20]
+:0044053F 8B5E24                  mov ebx, dword ptr [esi+24]
+:00440542 2BF8                    sub edi, eax
+:00440544 0FB64651                movzx eax, byte ptr [esi+51]
+:00440548 2BD8                    sub ebx, eax
+:0044054A E815CBFFFF              call 0043D064
+:0044054F B16E                    mov cl, 6E
+:00440551 8945F0                  mov dword ptr [ebp-10], eax
+:00440554 6A64                    push 00000064
+:00440556 894648                  mov dword ptr [esi+48], eax
+:00440559 5A                      pop edx
+:0044055A E8FB99FDFF              call 00419F5A
+:0044055F 8945FC                  mov dword ptr [ebp-04], eax
+:00440562 57                      push edi
+:00440563 E868A60300              call 0047ABD0
+:00440568 83F804                  cmp eax, 00000004
+:0044056B 59                      pop ecx
+:0044056C 7D5F                    jge 004405CD
+:0044056E 53                      push ebx
+:0044056F E85CA60300              call 0047ABD0
+:00440574 83F804                  cmp eax, 00000004
+:00440577 59                      pop ecx
+:00440578 7D53                    jge 004405CD
+:0044057A 8B4E74                  mov ecx, dword ptr [esi+74]
+:0044057D 83F914                  cmp ecx, 00000014
+:00440580 7E10                    jle 00440592
+:00440582 0FB68699000000          movzx eax, byte ptr [esi+00000099]		<- 
+:00440589 8D44000D                lea eax, dword ptr [eax+eax+0D]
+:0044058D 3945FC                  cmp dword ptr [ebp-04], eax
+:00440590 7C26                    jl 004405B8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00440580(C)
+|
+:00440592 8B4670                  mov eax, dword ptr [esi+70]
+:00440595 83F801                  cmp eax, 00000001
+:00440598 740A                    je 004405A4
+:0044059A 83F802                  cmp eax, 00000002
+:0044059D 7405                    je 004405A4
+:0044059F 83F803                  cmp eax, 00000003
+:004405A2 7529                    jne 004405CD
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00440598(C), :0044059D(C)
+|
+:004405A4 85C9                    test ecx, ecx
+:004405A6 7525                    jne 004405CD
+:004405A8 0FB68699000000          movzx eax, byte ptr [esi+00000099]
+:004405AF 8D44003F                lea eax, dword ptr [eax+eax+3F]
+:004405B3 3945FC                  cmp dword ptr [ebp-04], eax
+:004405B6 7D15                    jge 004405CD
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00440590(C)
+|
+:004405B8 8B45F0                  mov eax, dword ptr [ebp-10]
+:004405BB 8B4DF4                  mov ecx, dword ptr [ebp-0C]
+:004405BE 8B148520374B00          mov edx, dword ptr [4*eax+004B3720]
+:004405C5 E87AF5FFFF              call 0043FB44
+:004405CA 8945F8                  mov dword ptr [ebp-08], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0044056C(C), :00440578(C), :004405A2(C), :004405A6(C), :004405B6(C)
+|
+:004405CD 837DF800                cmp dword ptr [ebp-08], 00000000
+:004405D1 0FB67E50                movzx edi, byte ptr [esi+50]
+:004405D5 0FB65E51                movzx ebx, byte ptr [esi+51]
+:004405D9 7536                    jne 00440611
+:004405DB 6A64                    push 00000064
+:004405DD B16E                    mov cl, 6E
+:004405DF 5A                      pop edx
+:004405E0 E87599FDFF              call 00419F5A
+:004405E5 0FB68E99000000          movzx ecx, byte ptr [esi+00000099]
+:004405EC 8D4C0903                lea ecx, dword ptr [ecx+ecx+03]
+:004405F0 3BC1                    cmp eax, ecx
+:004405F2 7D1D                    jge 00440611
+:004405F4 8B5624                  mov edx, dword ptr [esi+24]
+:004405F7 8B4E20                  mov ecx, dword ptr [esi+20]
+:004405FA 53                      push ebx
+:004405FB 57                      push edi
+:004405FC E8C6390000              call 00443FC7
+:00440601 85C0                    test eax, eax
+:00440603 740C                    je 00440611
+:00440605 8B4DF4                  mov ecx, dword ptr [ebp-0C]
+:00440608 6A04                    push 00000004
+:0044060A 33D2                    xor edx, edx
+:0044060C E81B000000              call 0044062C
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004405D9(C), :004405F2(C), :00440603(C)
+|
+:00440611 837E0400                cmp dword ptr [esi+04], 00000000
+:00440615 7510                    jne 00440627
+:00440617 8B86DC000000            mov eax, dword ptr [esi+000000DC]
+:0044061D 8B4DF0                  mov ecx, dword ptr [ebp-10]
+:00440620 8B44880C                mov eax, dword ptr [eax+4*ecx+0C]
+:00440624 894654                  mov dword ptr [esi+54], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0044050D(C), :00440525(C), :00440532(C), :00440615(C)
+|
+:00440627 5F                      pop edi
+:00440628 5E                      pop esi
+:00440629 5B                      pop ebx
+:0044062A C9                      leave
+:0044062B C3                      ret
+
+=============================================================
+
+Skellies shoot a lot more often on higher difficulties
+
+Mod:
+:004405E5 E946572C00              jmp 00705D30
+:004405EA 90                      nop
+:004405EB 90                      nop
+:004405EC 90                      nop
+:004405ED 90                      nop
+:004405EE 90                      nop
+:004405EF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705D6B(U)
+|
+:004405F0 3BC1                    cmp eax, ecx
+
+
+Extra:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004405E5(U)
+|
+:00705D30 8B0DC0706000            mov ecx, dword ptr [006070C0]
+:00705D36 83F901                  cmp ecx, 00000001
+:00705D39 7415                    je 00705D50
+:00705D3B 83F902                  cmp ecx, 00000002
+:00705D3E 7420                    je 00705D60
+:00705D40 0FB68E99000000          movzx ecx, byte ptr [esi+00000099]
+:00705D47 8D4C0902                lea ecx, dword ptr [ecx+ecx+02]
+:00705D4B EB1E                    jmp 00705D6B
+:00705D4D 90                      nop
+:00705D4E 90                      nop
+:00705D4F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705D39(C)
+|
+:00705D50 0FB68E99000000          movzx ecx, byte ptr [esi+00000099]
+:00705D57 8D4C0911                lea ecx, dword ptr [ecx+ecx+11]
+:00705D5B EB0E                    jmp 00705D6B
+:00705D5D 90                      nop
+:00705D5E 90                      nop
+:00705D5F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705D3E(C)
+|
+:00705D60 0FB68E99000000          movzx ecx, byte ptr [esi+00000099]
+:00705D67 8D4C0920                lea ecx, dword ptr [ecx+ecx+20]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00705D4B(U), :00705D5B(U)
+|
+:00705D6B E980A8D3FF              jmp 004405F0
+
+===========================================================================
+
+SkelArchers stop often when walking (retreating) on horror, make rare stops on purgy and almos never stop on doom:
+
+	mod:
+:004405A8 E9535B2C00              jmp 00706100
+:004405AD 90                      nop
+:004405AE 90                      nop
+:004405AF 90                      nop
+:004405B0 90                      nop
+:004405B1 90                      nop
+:004405B2 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070613D(U)
+|
+:004405B3 3945FC                  cmp dword ptr [ebp-04], eax
+
+	extra:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004405A8(U)
+|
+:00706100 A1C0706000              mov eax, dword ptr [006070C0]
+:00706105 83F801                  cmp eax, 00000001
+:00706108 7415                    je 0070611F
+:0070610A 83F802                  cmp eax, 00000002
+:0070610D 7420                    je 0070612F
+:0070610F 0FB68699000000          movzx eax, byte ptr [esi+00000099]
+:00706116 8D04C50B000000          lea eax, dword ptr [8*eax+0000000B]
+:0070611D EB1E                    jmp 0070613D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706108(C)
+|
+:0070611F 0FB68699000000          movzx eax, byte ptr [esi+00000099]
+:00706126 8D04C528000000          lea eax, dword ptr [8*eax+00000028]
+:0070612D EB0E                    jmp 0070613D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070610D(C)
+|
+:0070612F 0FB68699000000          movzx eax, byte ptr [esi+00000099]
+:00706136 8D04C546000000          lea eax, dword ptr [8*eax+00000046]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070611D(U), :0070612D(U)
+|
+:0070613D E971A4D3FF              jmp 004405B3
+
+=====================================================================
+
+Skel Archers have increased chance to start retreating if character get closer than 3 tiles to them:
+
+	mod:
+:0044057D 83F901                  cmp ecx, 00000001
+:00440580 7E10                    jle 00440592
+:00440582 E9BB5B2C00              jmp 00706142
+:00440587 90                      nop
+:00440588 90                      nop
+:00440589 90                      nop
+:0044058A 90                      nop
+:0044058B 90                      nop
+:0044058C 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070617C(U)
+|
+:0044058D 3945FC                  cmp dword ptr [ebp-04], eax
+
+	Extra:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00440582(U)
+|
+:00706142 A1C0706000              mov eax, dword ptr [006070C0]
+:00706147 83F801                  cmp eax, 00000001
+:0070614A 7412                    je 0070615E
+:0070614C 83F802                  cmp eax, 00000002
+:0070614F 741D                    je 0070616E
+:00706151 0FB68699000000          movzx eax, byte ptr [esi+00000099]
+:00706158 8D440002                lea eax, dword ptr [eax+eax+02]
+:0070615C EB1E                    jmp 0070617C
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070614A(C)
+|
+:0070615E 0FB68699000000          movzx eax, byte ptr [esi+00000099]
+:00706165 8D04850A000000          lea eax, dword ptr [4*eax+0000000A]
+:0070616C EB0E                    jmp 0070617C
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070614F(C)
+|
+:0070616E 0FB68699000000          movzx eax, byte ptr [esi+00000099]
+:00706175 8D04C519000000          lea eax, dword ptr [8*eax+00000019]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070615C(U), :0070616C(U)
+|
+:0070617C E90CA4D3FF              jmp 0044058D

@@ -1,0 +1,121 @@
+Monster arrow damage resistance, by slot
+part of PvM Misile routine....
+
+
+=========================================
+=========================================
+the BEGINNING:
+
+:004095AE E90DDD2F00              jmp 007072C0
+=========================================
+=========================================
+=========================================
+
+
+GHOUL (8Ch):
+	SP Horror DLVL 5: 0%,
+	SP Horror DLVL 6: 25%,
+	SP Horror DLVL 7: 37,5%,
+	SP Purgatory & Doom: 50%,
+	MP Horror DLVL 5: 25%,
+	MP Horror DLVL 6: 37,5%,
+	MP Horror DLVL 7: 50%,
+	MP Purgatory DLVL 5: 62,5%;
+	MP Purgatory DLVL 6: 68,75%,
+	MP Purgatory DLVL 7: 75%,
+	MP Doom: 75%;
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070C315(U)
+|
+:0070C600 3D8C000000              cmp eax, 0000008C
+:0070C605 757F                    jne 0070C686
+:0070C607 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:0070C60E 7531                    jne 0070C641
+:0070C610 833DC070600001          cmp dword ptr [006070C0], 00000001
+:0070C617 7323                    jnb 0070C63C
+:0070C619 803DD8B1600006          cmp byte ptr [0060B1D8], 06
+:0070C620 7505                    jne 0070C627
+:0070C622 E946DAFFFF              jmp 0070A06D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070C620(C)
+|
+:0070C627 803DD8B1600007          cmp byte ptr [0060B1D8], 07
+:0070C62E 0F8542DAFFFF            jne 0070A076
+:0070C634 E923BFFFFF              jmp 0070855C
+:0070C639 90                      nop
+:0070C63A 90                      nop
+:0070C63B 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070C617(C)
+|
+:0070C63C E9EFAEFFFF              jmp 00707530
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070C60E(C)
+|
+:0070C641 833DC070600001          cmp dword ptr [006070C0], 00000001
+:0070C648 7327                    jnb 0070C671
+:0070C64A 50                      push eax
+:0070C64B 8BC7                    mov eax, edi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070C680(C)
+|
+:0070C64D C1F802                  sar eax, 02
+:0070C650 2BF8                    sub edi, eax
+:0070C652 803DD8B1600006          cmp byte ptr [0060B1D8], 06
+:0070C659 750B                    jne 0070C666
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070C682(U)
+|
+:0070C65B C1F801                  sar eax, 01
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070C66F(U)
+|
+:0070C65E 2BF8                    sub edi, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070C66D(C)
+|
+:0070C660 58                      pop eax
+:0070C661 E910DAFFFF              jmp 0070A076
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070C659(C)
+|
+:0070C666 803DD8B1600007          cmp byte ptr [0060B1D8], 07
+:0070C66D 75F1                    jne 0070C660
+:0070C66F EBED                    jmp 0070C65E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070C648(C)
+|
+:0070C671 833DC070600001          cmp dword ptr [006070C0], 00000001
+:0070C678 50                      push eax
+:0070C679 8BC7                    mov eax, edi
+:0070C67B C1F801                  sar eax, 01
+:0070C67E 2BF8                    sub edi, eax
+:0070C680 74CB                    je 0070C64D
+:0070C682 EBD7                    jmp 0070C65B
+:0070C684 90                      nop
+:0070C685 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070C605(C)
+|
+:0070C686 E9EBD9FFFF              jmp 0070A076
+
+
+=========================================
+=========================================
+=========================================
+=========================================
+=========================================
+

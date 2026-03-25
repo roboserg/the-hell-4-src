@@ -1,0 +1,75 @@
+Increasing Mages' Flash damage:
+
+272ed -> e8ed720200
+
+3255D > 479f0 bytes backward > e90f86fbff
+
+
+this affects mages in TD53:
+Increased damage for Flash from Mages:
+
+file offset 0003241F
+
+:0043301F C1E002                  shl eax, 02
+changed into
+:0043301F C1E003                  shl eax, 03	 > 05
+
+file offset 00079F3F
+
+:0047AB3F C1E302                  shl ebx, 02
+changed into
+:0047AB3F C1E303                  shl ebx, 03 	> 05
+
+Also their damage linked to minimum damage (69DD4D) instead of mlvl (69DD48)
+
+___________
+
+Note: in version 1.59a Flash damage from monsters was connected to their AC because AC escalation is the one thing that escalates very gradually.
+Damage multiplier was also lowered (C1E003). And movsx byte ptr changed to movzx byte ptr (to add full support for byte values 0 - 255).
+
+1)....
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00432F61(C)
+|
+:0043300C 8B442424                mov eax, dword ptr [esp+24]
+:00433010 8BF1                    mov esi, ecx
+:00433012 69C0E4000000            imul eax, 000000E4
+:00433018 0FB68052DD6900          movzx eax, byte ptr [eax+0069DD52]
+:0043301F 40                      inc eax
+:00433020 40                      inc eax
+:00433021 40                      inc eax
+:00433022 C1E004                  shl eax, 04
+:00433025 EBDB                    jmp 00433002
+
+and
+
+2)...
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00433157(U)
+|
+:0047AB21 69C0B0000000            imul eax, 000000B0
+:0047AB27 807C241400              cmp byte ptr [esp+14], 00
+:0047AB2C 741D                    je 0047AB4B
+:0047AB2E 8B742424                mov esi, dword ptr [esp+24]
+:0047AB32 69F6E4000000            imul esi, 000000E4
+:0047AB38 0FB69E52DD6900          movzx ebx, byte ptr [esi+0069DD52]
+:0047AB3F 43                      inc ebx
+:0047AB40 43                      inc ebx
+:0047AB41 43                      inc ebx
+:0047AB42 C1E304                  shl ebx, 04
+:0047AB45 8998D47A6900            mov dword ptr [eax+00697AD4], ebx
+
+_______________________________________________________________________
+
+Monsters' Flash damage by JG:
+
+Flash
+Type: magic
+Damage 1: mlvl/32
+Damage 2: 4/64
+Duration: 0.95 seconds
+Blockable: No
+*	The Flash spell is actually composed of two different effects, the two different Damages given are for the two different effects. The first hit in front of the monster and to the sides, the other behind the monster.
+*	The flash will try to hit once every 0.05 seconds for a total of 19 times.

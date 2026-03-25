@@ -1,0 +1,1129 @@
+﻿weapon switch
+
+
+как это работает:
+по клику клавиши V
+(нынешняя быстрая клавиша V выводит на экран номер версии, это перенесем на клавишу "слэш", а отображение того что по комбинации shift+V выводится, вообще нах можно убрать)
+
+в инвентаре по абсолютной аналогии с Д2 появляюися дополнительные слоты оружий. всё как в Д2.
+Не все. В первой версии без графических закидонов. Без кнопочек над слотами оружия.
+Если все будет работать по хоткею, можно и кнопочки сделать.
+ага. согласен
+от меньшего - к большему
+
+1. разобраться с функцией загрузки-записи в сейв
+
+// загружать надо при загрузке сингл сейва, при начале новой игры за сингл и мультиперса
+// сохранять надо при автосейве и при сохранении игры в сингле (при сохранении game в конце происходит автосейв) - done
+
+// примерный алгоритм загрузки:
+// пробуем открыть запись wpnswap
+// если не существует, то сразу переход к закрытию записи
+// если есть, то читаем и применяем
+// закрываем запись wpnswap
+
+==================================================================
+
+
+TODO:
+1 ) позволить гризу чинить шмотки на смене, адрии речарджить посохи оттуда, а каину опознавать вещи со смены
+2 ) дико опционально - все эффекты алтарей, модифицирующих вещи на теле, модифицировать поддержкой второго комплекта
+
+==============================================================
+сделать сохранение/загрузку из сейва
+
+
+* сохранение *
+
+Определенно стоит приткнуться рядом с hero записью
+
+//----- (0045619E) --------------------------------------------------------
+void __fastcall WriteHeroDataToSave( void* heroData )
+функция непосредственно записи переданноого куска данных в определенный блок сейва. Эта функция работает с "hero", но легко переделается на "swapwpn"
+
+Перед её вызовом готовить данные не надо, достаточно передать указатель на блок в памяти отведенный под хранение сменки
+
+вызывать только в 
+
+//----- (0045610A) --------------------------------------------------------
+void AutoSave()
+
+после вызова WriteHeroDataToSave
+
+Вот и все!
+
+* загрузка *
+
+загружать определенно стоит в 
+//----- (00456900) --------------------------------------------------------
+void LoadCurrentPlayerInfo()
+
+после 
+//----- (004564E4) --------------------------------------------------------
+int __fastcall ReadPlayerInfo( HANDLE saveHandle, char *playerInfo )
+
+как раз эту функцию нужно скопировать. и заменить там имя блока и размер ожидаемый
+
+Если она вернет false, то вызвать функцию обнуления сменки.
+
+
+=================================================================
+
+Первые шаги:
+завести массив из 4х вещей по 20 байт каждая
+
+@altWeapons // 4070C0 ( A3A4C0h )
+
+
+================================================================
+
+Функция обнуления буфера сменки
+
+@clearAltWeapons: // ED500  ( 720900h )
+xor ecx, ecx
+dec ecx; ecx = 0ffffffffh
+mov eax, @altWeapons
+mov word ptr[eax + 6], cx ; обнуление первой вещи
+add eax, 20d
+mov word ptr[eax + 6], cx ; обнуление второй вещи
+add eax, 20d
+mov byte ptr[eax], 00 ; обнуление индекса текущей вещи
+mov word ptr[eax + 6], cx ; обнуление третей вещи
+add eax, 20d
+mov word ptr[eax + 6], cx ; обнуление четвертой вещи
+retn
+
+asm: >>>>>>>>>>>>>>
+
+:00720900 31C9                    xor ecx, ecx
+:00720902 49                      dec ecx
+:00720903 68C0A4A300              push 00A3A4C0
+:00720908 58                      pop eax
+:00720909 66894809                mov word ptr [eax+09], cx
+:0072090D 83C013                  add eax, 00000013
+:00720910 66894809                mov word ptr [eax+09], cx
+:00720914 83C013                  add eax, 00000013
+:00720917 66894809                mov word ptr [eax+09], cx
+:0072091B 83C013                  add eax, 00000013
+:0072091E 66894809                mov word ptr [eax+09], cx
+:00720922 C3                      ret
+================================================================
+
+Временно безусловный вызов обнуления вещей // ED600 ( 720A00 )
+
+;.text:0045694D                 mov     edx, CurrentPlayerIndex ; playerIndex
+;.text:00456953                 push    0               ; isNetPlayer
+;.text:00456955                 lea     ecx, [ebp+playerInfo] ; playerInfo
+;.text:0045695B                 call    LoadCharacter
+
+0045694D:jmp @newLoc:
+>>>
+@newLoc:
+call @clearAltWeapons
+; на новом месте оставить достаточно места на ещё один кол с параметрами и местные джампы
+
+; восстановить затертое
+jmp ??? ; обратно после затертого
+
+asm >>>>>>
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045694D(U)
+|
+:00720A00 90                      nop
+......
+:00720A05 90                      nop
+:00720A06 E8F5FEFFFF              call 00720900
+:00720A0B 90                      nop
+..........
+:00720A19 90                      nop
+:00720A1A 8B15E8AD6E00            mov edx, dword ptr [006EADE8]
+:00720A20 E92E5FD3FF              jmp 00456953
+==============================================================
+
+Фунция непосредственно ротации оружия //
+
+алгоритм:
+@ВещиНадетые -> @ПервыйБуфер -> @ВторойБуфер -> @ВещиНадетые
+
+@ВторойБуфер -> @ВременныйБуфер
+@ПервыйБуфер -> @ВторойБуфер
+@ВещиНадетые -> @ПервыйБуфер
+@ВременныйБуфер -> @ВещиНадетые
+
+делаем сохранение 2х вещей которые собираемся подставлять(@ВторойБуфер) в доп буфер на стек (@ВременныйБуфер)
+Копируем вещи из первого буфера во второй (@ПервыйБуфер -> @ВторойБуфер)
+Сохраняем вещи с текущих слотов в первый буфер(@ВещиНадетые -> @ПервыйБуфер)
+Ставим восстаноленные со стека вещи в текущие слоты оружия(@ВременныйБуфер -> @ВещиНадетые)
+Отправляем сетевую команду
+Играем звук смены
+
+@doSwap: // 720AAA
+push    ebp
+mov     ebp, esp
+sub     esp, 414d
+push edi
+push esi
+
+call 0070A1D0 ; @GetCurrentPlayerOffset
+mov eax, dword ptr [eax]; player.CurAction
+cmp eax, 3 ; PCA_3_WALK_HORISONTAL 0; PCA_0_NOTHING
+jg @return
+
+cmp byte ptr[006FECC4h], 00; CurrentDialogIndex
+jnz @return
+
+; может быть ещё проверки для запрета свича в тех случаях, когда этого делать не стоит
+
+;@ВторойБуфер -> @ВременныйБуфер
+mov     esi, <@altWeapons>откуда // mov esi, a3a4c0 ?
+lea edx, [ebp-40d]
+mov edi, edx ; куда
+mov ecx, 10d ; сколько двордов копировать.
+rep movsd
+
+;@ПервыйБуфер -> @ВторойБуфер
+mov     esi, @altWeapons ; откуда
+mov     edi, <@altWeapons + 20d*2> ; (предрасчитанный оффсет второй пары сменки) ; куда
+mov ecx, 10d ; сколько двордов копировать.
+rep movsd
+
+;@ВещиНадетые -> @ПервыйБуфер // ed6f0
+call 0070A1D0 ; @GetCurrentPlayerOffset
+lea edx, [eax + 2396d]; IS_4_LeftHand
+mov ecx, @altWeapons
+call 00454CBF ; SaveItem(ItemInfo* itemInfo, Item* item)
+
+call 0070A1D0 ; @GetCurrentPlayerOffset
+lea edx, [eax + 2768d ]; IS_5_RightHand
+mov ecx, <@altWeapons + 20d>; вторая вещь из первой сменки
+call 00454CBF ; SaveItem(ItemInfo* itemInfo, Item* item)
+
+; @ВременныйБуфер -> @ВещиНадетые // ed740
+call 0070A1D0 ; @GetCurrentPlayerOffset
+lea edx, [eax + 2396d]; IS_4_LeftHand
+lea ecx, [ebp-40d]
+call 00454FD6; LoadItem(ItemInfo* itemInfo, Item* item)
+
+call 0070A1D0 ; @GetCurrentPlayerOffset
+lea edx, [eax + 2768d ]; IS_5_RightHand
+lea ecx, [ebp-20d]; 
+call 00454FD6; LoadItem(ItemInfo* itemInfo, Item* item)
+
+; Отправляем сетевую команду
+
+call 0070A1D0 ; @GetCurrentPlayerOffset
+lea esi, [eax + 21412d]; откуда ItemOnCursor
+lea edi, [ebp - 414d]; куда stek
+mov ecx, 93d ; сколько двордов копировать.
+rep movsd
+
+call 0070A1D0 ; @GetCurrentPlayerOffset
+lea esi, [eax + 2396d]; откуда IS_4_LeftHand
+lea edi, [eax + 21412d]; куда ItemOnCursor
+mov ecx, 93d ; сколько двордов копировать.
+rep movsd
+
+mov ecx, 1; 0?
+mov edx, 4; IS_4_LeftHand
+mov eax dword ptr [eax + 21412d + 8d]
+test eax, eax
+jl @destroyLeft
+call 00447382 ; void __fastcall SendCmdEquipItem( int someFlag, char onBodyIndex )
+jmp @F
+@destroyLeft:
+call 004473E1 ; void __fastcall SendCmdDestroyOnBodyItem( int someFlag, char onBodyIndex )
+@@:
+call 0070A1D0 ; @GetCurrentPlayerOffset
+lea esi, [eax + 2768d]; откуда IS_5_RightHand
+lea edi, [eax + 21412d]; куда ItemOnCursor
+mov ecx, 93d ; сколько двордов копировать.
+rep movsd
+
+mov ecx, 1; 0?
+mov edx, 5; IS_5_RightHand
+mov eax dword ptr [eax + 21412d + 8d]
+test eax, eax
+jl @destroyRight
+call 00447382 ; void __fastcall SendCmdEquipItem( int someFlag, char onBodyIndex )
+jmp @F
+@destroyRight:
+call 004473E1 ; void __fastcall SendCmdDestroyOnBodyItem( int someFlag, char onBodyIndex )
+@@:
+
+call 0070A1D0 ; @GetCurrentPlayerOffset
+lea esi, [ebp - 414d]; откуда stek
+lea edi, [eax + 21412d]; куда ItemOnCursor
+mov ecx, 93d ; сколько двордов копировать.
+rep movsd
+
+; Пересчитываем персонажа
+
+mov ecx, dword ptr[006EADE8h]; CurrentPlayerIndex
+mov edx, 1
+call 00424ABF ; RecalcPlayer( int playerIndex, int curActionFlag )
+
+; Играем звук смены
+
+mov ecx, 75d ; S_75_SFX_ITEMS_TITLEMOV; или любой другой звук
+call 0041850D ; PlayGlobalSound(int soundIndex)
+
+; Меняем индекс текущего комплекта на противоположный
+movzx eax, byte ptr[<@altWeapons + 40d>]
+cmp al, 00
+jz @F
+mov byte ptr[<@altWeapons + 40d>], 00 // byte ptr[0a3a4e8h], 00
+jmp @return
+@@:
+mov byte ptr[<@altWeapons + 40d>], 01
+
+@return:
+pop esi
+pop edi
+leave
+retn
+
+asm >>>>>>>>>>>
+
+:00720AAA 55                      push ebp
+:00720AAB 89E5                    mov ebp, esp
+:00720AAD 83EC28                  sub esp, 00000028
+:00720AB0 57                      push edi
+:00720AB1 56                      push esi
+:00720AB2 90                      nop
+...
+:00720AB6 90                      nop
+:00720AB7 BEE6A4A300              mov esi, 00A3A4E6
+:00720ABC 8D55D8                  lea edx, dword ptr [ebp-28]
+:00720ABF 89D7                    mov edi, edx
+:00720AC1 6A26                    push 00000026
+:00720AC3 59                      pop ecx
+:00720AC4 F3                      repz
+:00720AC5 A5                      movsd
+:00720AC6 90                      nop
+...
+:00720ACF 90                      nop
+:00720AD0 BEC0A4A300              mov esi, 00A3A4C0
+:00720AD5 90                      nop
+:00720AD6 90                      nop
+:00720AD7 BFE6A4A300              mov edi, 00A3A4E6
+:00720ADC 90                      nop
+:00720ADD 90                      nop
+:00720ADE 6A26                    push 00000026
+:00720AE0 59                      pop ecx
+:00720AE1 F3                      repz
+:00720AE2 A5                      movsd
+:00720AE3 90                      nop
+...
+:00720AEF 90                      nop
+:00720AF0 E8DB96FEFF              call 0070A1D0
+:00720AF5 90                      nop
+:00720AF6 90                      nop
+:00720AF7 8D905C090000            lea edx, dword ptr [eax+0000095C]
+:00720AFD 90                      nop
+:00720AFE 90                      nop
+:00720AFF 90                      nop
+:00720B00 B9C0A4A300              mov ecx, 00A3A4C0
+:00720B05 90                      nop
+:00720B06 90                      nop
+:00720B07 E8B341D3FF              call 00454CBF
+:00720B0C 90                      nop
+:00720B0D 90                      nop
+:00720B0E 90                      nop
+:00720B0F 90                      nop
+:00720B10 E8BB96FEFF              call 0070A1D0
+:00720B15 90                      nop
+:00720B16 90                      nop
+:00720B17 8D90D00A0000            lea edx, dword ptr [eax+00000AD0]
+:00720B1D 90                      nop
+:00720B1E 90                      nop
+:00720B1F 90                      nop
+:00720B20 B9D3A4A300              mov ecx, 00A3A4D3
+:00720B25 90                      nop
+:00720B26 90                      nop
+:00720B27 E89341D3FF              call 00454CBF
+:00720B2C 90                      nop
+....
+:00720B3F 90                      nop
+:00720B40 E88B96FEFF              call 0070A1D0
+:00720B45 90                      nop
+:00720B46 90                      nop
+:00720B47 8D905C090000            lea edx, dword ptr [eax+0000095C]
+:00720B4D 90                      nop
+:00720B4E 90                      nop
+:00720B4F 90                      nop
+:00720B50 8D4DD8                  lea ecx, dword ptr [ebp-28]
+:00720B53 90                      nop
+:00720B54 90                      nop
+:00720B55 90                      nop
+:00720B56 90                      nop
+:00720B57 E87A44D3FF              call 00454FD6
+:00720B5C 90                      nop
+:00720B5D 90                      nop
+:00720B5E 90                      nop
+:00720B5F 90                      nop
+:00720B60 E87B96FEFF              call 0070A1E0
+:00720B65 90                      nop
+:00720B66 90                      nop
+:00720B67 8D90D00A0000            lea edx, dword ptr [eax+00000AD0]
+:00720B6D 90                      nop
+:00720B6E 90                      nop
+:00720B6F 90                      nop
+:00720B70 8D4DEB                  lea ecx, dword ptr [ebp-15]
+:00720B73 90                      nop
+:00720B74 90                      nop
+:00720B75 90                      nop
+:00720B76 90                      nop
+:00720B77 E85A44D3FF              call 00454FD6
+:00720B7C 90                      nop
+...
+:00720B8F 90                      nop
+:00720B90 6A01                    push 00000001
+:00720B92 59                      pop ecx
+:00720B93 6A04                    push 00000004
+:00720B95 5A                      pop edx
+:00720B96 90                      nop
+:00720B97 90                      nop
+:00720B98 90                      nop
+:00720B99 E8E467D2FF              call 00447382
+:00720B9E 90                      nop
+:00720B9F 90                      nop
+:00720BA0 6A01                    push 00000001
+:00720BA2 59                      pop ecx
+:00720BA3 6A05                    push 00000005
+:00720BA5 5A                      pop edx
+:00720BA6 90                      nop
+:00720BA7 90                      nop
+:00720BA8 90                      nop
+:00720BA9 E8D467D2FF              call 00447382
+:00720BAE 90                      nop
+....
+:00720BB3 90                      nop
+:00720BB4 684B000000              push 0000004B
+:00720BB9 59                      pop ecx
+:00720BBA E84E79CFFF              call 0041850D
+:00720BBF 90                      nop
+:00720BC0 90                      nop
+:00720BC1 90                      nop
+:00720BC2 5E                      pop esi
+:00720BC3 5F                      pop edi
+:00720BC4 C9                      leave
+:00720BC5 C3                      ret
+==============================================================
+
+Вызов смены комплекта по нажатию на "v"
+
+.text:0040AD2F                 jz      short loc_40AD4F
+
+0040AD2F                 jz      short 0040AD41
+
+0040AD41:  // ED800 ( 720C00 )
+push eax
+push ecx
+push edx; лень смотреть что в регистрах, потому экранируем
+
+call @doSwap
+pop edx
+pop ecx
+pop eax
+jmp     40ACAD 
+
+asm >>>>>>>>>
+
+:00720C00 50                      push eax
+:00720C01 51                      push ecx
+:00720C02 52                      push edx
+:00720C03 EB2B                    jmp 00720C30
+:00720C05 90                      nop
+:00720C06 90                      nop
+:00720C07 00000000000000000000    BYTE 10 DUP(0)
+:00720C11 00000000000000000000    BYTE 10 DUP(0)
+:00720C1B 00000000000000000000    BYTE 10 DUP(0)
+:00720C25 000000000000000000      BYTE  9 DUP(0)
+
+
+:00720C2E 90                      nop
+:00720C2F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00720C03(U)
+|
+:00720C30 E875FEFFFF              call 00720AAA
+:00720C35 90                      nop
+:00720C36 90                      nop
+:00720C37 90                      nop
+:00720C38 90                      nop
+:00720C39 90                      nop
+:00720C3A 5F                      pop edi
+:00720C3B 59                      pop ecx
+:00720C3C 58                      pop eax
+:00720C3D 90                      nop
+:00720C3E 90                      nop
+:00720C3F E969A0CEFF              jmp 0040ACAD
+
+=================================================================
+
+по нажатию "V"
+
+0040AC10:
+call @doSwap
+jmp     40ACAD 
+
+=================================================================
+
+Список исправлений в связи с моим косяком:
+78 размер структурки, а значит ей надо будет на 4 байта больше
+92 несколько изменений значения прибавки
+173 176
+181 182
+193
+204
+
+
+========================================
+
+call 0070A1D0 ; @GetCurrentPlayerOffset
+lea eax, [eax + <2396d + 8>]; IS_4_LeftHand
+cmp eax, 0ffffffffh ; -1
+
+mov ecx, 1; 0?
+mov edx, 4; IS_4_LeftHand
+
+jz @destroyLeft
+
+@equipLeft:
+call 00447382 ; void __fastcall SendCmdEquipItem( int someFlag, char onBodyIndex )
+jmp @f
+@destroyLeft:
+call 00447382; void __fastcall SendCmdEquipItem( int someFlag, char onBodyIndex )
+@@:
+
+======================================
+
+Добавляем индекс текущего комплекта
+
+Строка 93-96
+Строка 232-239
+
+========================================
+
+Сохранение
+
+
+
+@WriteWpnDataToSave: / eda00
+копия 0045619E. В копии поменять:
+1. .text:004561DC                 mov     esi, 1266 40 //
+2. .text:00456210                 mov     ecx, offset key ; "hero" "wpnswp"
+-------------------------------------------------------------------------------------------------
+
+;.text:00456158                 call    WriteHeroDataToSave
+;.text:0045615D                 xor     ecx, ecx
+
+00456158 jmp @newLoc // done
+>>>
+@newLoc: // edb00 ( 720F00 )
+call  0045619E;  WriteHeroDataToSave
+mov ecx, @altWeapons // 4070C0 ( A3A4C0h )
+call @WriteWpnDataToSave
+jmp 0045615D
+
+=========================================================
+
+Загрузка // done!
+
+@ReadWpnDataInfo: // 721000
+копия 004564E4. В копии поменять:
+1. .text:004564F2                 push    offset key ; "hero" "wpnswp"
+2. .text:0045657C                 mov     eax, 1266 40
+3. .mod:00709322                 mov     eax, 1266 40
+
+------------------------------------------------------------------------
+
+"126 строка:" <<<<<<<<<<<<<<<<<<<<<<<<
+
+0045694D:jmp @newLoc:
+>>>
+@newLoc:
+call @clearAltWeapons
+
+mov ecx, esi
+mov edx, @altWeapons // 4070C0 ( A3A4C0h )
+call @ReadWpnDataInfo
+
+; восстановить затертое
+jmp ??? ; обратно после затертого
+
+--------------------------------------------------------------------------
+
+;.text:00456CE6 8D 45 FC                                lea     eax, [ebp+fileHandle]
+;.text:00456CE9 50                                      push    eax
+;.text:00456CEA 57                                      push    edi
+;.text:00456CEB 56                                      push    esi
+;.text:00456CEC FF 75 F8                                push    [ebp+archiveHandle]
+;.text:00456CEF E8 4E 1E 03 00                          call    SFileOpenFileEx
+;.text:00456CF4 85 C0                                   test    eax, eax
+
+00456CE6: jmp @newLoc:
+>>>
+@newLoc: // 721200
+
+mov eax, dword ptr [ebp+8] <<  done
+test eax, eax
+jz @return
+
+call @clearAltWeapons / call 720900
+
+mov ecx, dword ptr [ebp-8]
+mov edx, @altWeapons // 4070C0 ( A3A4C0h )
+call @ReadWpnDataInfo
+
+@return:
+dword ptr [ebp-8] // ???? // at offset; [ede30]
+8D 45 FC                                lea     eax, [ebp+fileHandle]
+50                                      push    eax
+57                                      push    edi
+56                                      push    esi
+FF 75 F8                                push    [ebp+archiveHandle]
+call   00488B42; SFileOpenFileEx
+jmp 00456CF4
+
+
+              asm: >>>>>>>>
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00456CE6(U)
+|
+:00721200 90                      nop
+..
+:00721204 90                      nop
+:00721205 E8F6F6FFFF              call 00720900
+:0072120A 90                      nop
+..
+:0072120E 90                      nop
+:0072120F 8B4DF8                  mov ecx, dword ptr [ebp-08]
+:00721212 90                      nop
+..
+:0072121B 90                      nop
+:0072121C BAC0A4A300              mov edx, 00A3A4C0
+:00721221 90                      nop
+..
+:00721225 90                      nop
+:00721226 E8D5FDFFFF              call 00721000
+:0072122B 90                      nop
+..
+:00721237 90                      nop
+:00721238 8D45FC                  lea eax, dword ptr [ebp-04]
+:0072123B 50                      push eax
+:0072123C 57                      push edi
+:0072123D 56                      push esi
+:0072123E FF75F8                  push [ebp-08]
+:00721241 90                      nop
+..
+:00721245 90                      nop
+:00721246 E8F778D6FF              call 00488B42
+:0072124B 90                      nop
+...
+:00721258 90                      nop
+:00721259 E9965AD3FF              jmp 00456CF4
+:0072125E 90                      nop
+....
+:00721263 90                      nop
+============================================================
+Кнопки
+
+Отображение:
+
+Завести дворд в котором будет храниться указатель на картинку загруженную
+@WpnSwapBtnImg // 407260 ( a3a660 )
+
+
+Загрузка картинки
+;.text:0041E5E9 loc_41E5E9:                             ; CODE XREF: LoadInvPanel+40j
+;.text:0041E5E9                 and     IsINVPanelVisible, 0
+;.text:0041E5F0                 and     needDrawBelt, 0
+;.text:0041E5F7                 retn
+
+0041E5E9 >>>
+>>>
+xor edx, edx
+mov ecx, "Data\Inv\Wpn_Swap_Btn,CEL"// или куда положишь // a3a630
+call  0041A02F; LoadFile(fileName, NULL);
+mov dword ptr[@WpnSwapBtnImg], eax // a3a660
+; восстанавливаем конец
+and     IsINVPanelVisible, 0
+and     needDrawBelt, 0
+retn
+
+asm >>>
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0041E5E9(U)
+|
+:007215AA 31D2                    xor edx, edx
+:007215AC B930A6A300              mov ecx, 00A3A630
+:007215B3 E8778ACFFF              call 0041A02F
+:007215BA A360A6A300              mov dword ptr [00A3A660], eax
+:007215C4 83250455680000          and dword ptr [00685504], 00000000
+:007215CB 83250C55680000          and dword ptr [0068550C], 00000000
+:007215D2 C3                      ret
+===============
+Выгрузка картинки
+;.text:0041E584                 mov     ecx, dword_685508 ; memoryPtr
+;.text:0041E58A                 and     dword_685508, 0
+;.text:0041E591                 jmp     FreeMem
+
+0041E591 >>> 721600
+>>>
+call 00419FFF; FreeMem
+mov ecx, dword ptr[@WpnSwapBtnImg]
+and     dword ptr[@WpnSwapBtnImg], 0
+jmp  00419FFF;    FreeMem
+
+asm >>>
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0041E591(U)
+|
+:0072160B E8EF89CFFF              call 00419FFF
+:00721612 8B0D60A6A300            mov ecx, dword ptr [00A3A660]
+:0072161A 832560A6A30000          and dword ptr [00A3A660], 00000000
+:00721625 E9D589CFFF              jmp 00419FFF
+===============
+Рисование
+;.text:0041E66C                 call    Surface_DrawCEL
+;.text:0041E671                 mov     eax, CurrentPlayerIndex
+
+0041E66C >>> // 721640
+>>>
+call  00418C48  ; Surface_DrawCEL
+
+push esi
+
+movzx eax, byte ptr [0A3A4E8h]
+mov esi, eax
+inc esi
+
+@leftBtns: // ee260
+mov ecx, 336d + 64d;x
+mov edx, 74d + 160d;y
+
+push    60d             ; CELWidth
+push    esi               ; aPicNumber
+push    dword ptr[@WpnSwapBtnImg] ; aCELPtr
+call  00418C48  ; Surface_DrawCEL
+
+@rightBtns:
+mov ecx, 567d + 64d;x
+mov edx, 74d + 160d;y
+
+push    60d             ; CELWidth
+push    esi               ; aPicNumber
+push    dword ptr[@WpnSwapBtnImg] ; aCELPtr
+call  00418C48  ; Surface_DrawCEL
+
+pop esi
+
+jmp 0041E671
+
+ asm >>>>
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0041E66C(U)
+|
+:00721640 E80376CFFF              call 00418C48
+:00721648 56                      push esi
+:00721649 0FB605E8A4A300          movzx eax, byte ptr [00A3A4E8]
+:00721652 89C6                    mov esi, eax
+:00721660 B990010000              mov ecx, 00000190
+:00721665 BAEA000000              mov edx, 000000EA
+:00721670 6A3C                    push 0000003C
+:00721672 56                      push esi
+:00721673 FF3560A6A300            push dword ptr [00A3A660]
+:0072167B E8C875CFFF              call 00418C48
+:00721690 B977020000              mov ecx, 00000277
+:00721695 BAEA000000              mov edx, 000000EA
+:007216A0 6A3C                    push 0000003C
+:007216A2 56                      push esi
+:007216A3 FF3560A6A300            push dword ptr [00A3A660]
+:007216AB E89875CFFF              call 00418C48
+:007216C0 5E                      pop esi
+:007216C1 E9ABCFCFFF              jmp 0041E671
+===========================================================
+
+Попытка пофиксить багу
+
+; void LoadMap()
+;.text:0042E027 E8 73 8C 02 00                          call    LoadAndDecodeCurrentSaveFile
+;.text:0042E02C 80 3D D4 B1 60 00 00                    cmp     DungeonType, 0
+
+0042E027 >>> //
+>>>
+push 0
+call 00456C9F ;   LoadAndDecodeCurrentSaveFile
+jmp 0042E02C
+
+
+  asm >>>>>>
+  
+* Referenced by a CALL at Address:
+|:0042E027   
+|
+:007214C0 6A00                    push 00000000
+...
+:007214C5 E8D557D3FF              call 00456C9F
+...
+:007214CF E958DBD0FF              jmp 0042F02C
+-------------------------------------------------------------------------------------------------
+
+; void __fastcall LoadGame(int loadFromIngameMenu)
+.text:0042CE5F E8 3B 9E 02 00                          call    LoadAndDecodeCurrentSaveFile
+.text:0042CE64 89 45 F0                                mov     [ebp+memoryPtr], eax
+
+0042CE5F>>>
+>>>
+push 1
+call 00456C9F ;   LoadAndDecodeCurrentSaveFile
+jmp 0042CE64
+
+
+  asm >>>>>>
+
+* Referenced by a CALL at Address:
+|:0042CE5F   
+|
+:007214E0 6A01                    push 00000001
+...
+:007214E5 E8B557D3FF              call 00456C9F
+...
+:007214EF E970B9D0FF              jmp 0042CE64
+---------------------------------------------------------------------------------------------
+
+;.text:00456DAA 5F                                      pop     edi
+;.text:00456DAB 5E                                      pop     esi
+;.text:00456DAC 5B                                      pop     ebx
+;.text:00456DAD C9                                      leave
+;.text:00456DAE C3                                      retn
+
+00456DAA >>>
+>>>
+pop     edi
+pop     esi
+pop     ebx
+leave
+ret 4
+
+
+ asm >>>>>>>
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00456DAA(U)
+|
+:00721500 5F                      pop edi
+:00721501 5E                      pop esi
+:00721502 5B                      pop ebx
+:00721503 C9                      leave
+:00721504 C20400                  ret 0004
+-------------------------------------------------------------------------------------------
+
+567 проверка на переданный аргумент
+
+
+ asm >>>>
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00721200(U)
+|
+...
+:00721530 8B4504                  mov eax, dword ptr [ebp+04]
+:00721533 85C0                    test eax, eax
+...
+:00721538 0F84FAFCFFFF            je 00721238
+...
+:00721548 E9B8FCFFFF              jmp 00721205
+
+
+
+==================================================
+
+Обработка нажатий
+
+Завести массив из 4х константных значений типа rect
+
+// sizeof 16 // 407200 ( a3a6a0 )
+//struct Rect
+//{
+//    dword left; // 0
+//    dword bottom; // 4
+//    dword width; // 8
+//    dword height; // 12
+//};
+
+@WpnSwapBtnsRects // 407200 ( a3a6a0 )
+336 74 30 15
+366 74 30 15
+567 74 30 15
+597 74 30 15
+все значения - дворды в десятичной системе счисления идущие подряд
+должно быть 16*4 байт
+
+------------------------------------------------------------------------------------------------------
+@IsCursorInRect: // ee2d0 ( 7216d0 )
+; ecx - указатель на rect
+
+mov eax, dword ptr[00575228h]; CursorX
+mov edx, dword ptr[ecx]; left
+cmp eax, edx
+jl @return 0
+
+add edx, dword ptr[ecx + 8]; left + width = right
+cmp eax, edx
+jg @return 0
+
+mov eax, dword ptr[00575224h]; CursorY
+mov edx, dword ptr[ecx + 4]; bottom
+cmp eax, edx
+jg @return 0
+
+sub edx, dword ptr[ecx + 12d]; bottom - height = top
+cmp eax, edx
+jl @return 0
+
+@return1:
+mov eax, 1
+jmp @return
+@return0:
+xor eax, eax
+@return:
+
+retn
+
+
+ asm >>>>>>>
+
+:007216D0 A128525700              mov eax, dword ptr [00575228]
+:007216D7 8B11                    mov edx, dword ptr [ecx]
+:007216D9 39D0                    cmp eax, edx
+:007216DB 7C28                    jl 00721705
+:007216E0 035108                  add edx, dword ptr [ecx+08]
+:007216E3 39D0                    cmp eax, edx
+:007216E5 7F1E                    jg 00721705
+:007216E9 A124525700              mov eax, dword ptr [00575224]
+:007216EE 8B5104                  mov edx, dword ptr [ecx+04]
+:007216F1 39D0                    cmp eax, edx
+:007216F3 7F10                    jg 00721705
+:007216F7 2B510C                  sub edx, dword ptr [ecx+0C]
+:007216FA 39D0                    cmp eax, edx
+:007216FC 7C07                    jl 00721705
+:00721700 6A01                    push 00000001
+:00721702 58                      pop eax
+:00721703 EB02                    jmp 00721707
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007216DB(C), :007216E5(C), :007216F3(C), :007216FC(C)
+|
+:00721705 31C0                    xor eax, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00721703(U)
+|
+:00721707 C3                      ret
+------------------------------------------------------------------------------------------------------
+
+@NewInventory_LButtonClick: // ee310 ( 721710 )
+
+movzx eax, byte ptr [0A3A4E8h]
+test eax, eax
+jnz @btn2pressed
+
+@btn1pressed: // ee332
+mov ecx, <@WpnSwapBtnsRects + 16d>; leftBtn2
+call @IsCursorInRect
+test eax, eax
+jnz @callDoSwap
+mov ecx, <@WpnSwapBtnsRects + 16d*3>; rightBtn2
+call @IsCursorInRect
+test eax, eax
+jnz @callDoSwap
+jmp @callOrig
+
+@btn2pressed: // ee360
+mov ecx, <@WpnSwapBtnsRects>; leftBtn1
+call @IsCursorInRect
+test eax, eax
+jnz @callDoSwap
+mov ecx, <@WpnSwapBtnsRects + 16d*2>; rightBtn1
+call @IsCursorInRect
+test eax, eax
+jnz @callDoSwap
+
+@callOrig:
+call 0042118B ; I_LButtonClick
+jmp @return
+@callDoSwap:
+call @doSwap
+@return:
+
+retn
+
+
+ asm >>>>>>>>
+ 
+
+---------------------------------------------------------------------------------------------------
+
+;.text:00409DC1 E8 C5 73 01 00                          call    I_LButtonClick
+
+00409DC1 call @NewInventory_LButtonClick // done!
+
+
+===========================================================
+
+Фикс анимации после изменения графики игрока
+
+170 строка, вернуть возможность смены на ходу // done!
+
+----------------------------------------------------------------------------------------------------
+done
+@continueStay: // ee3a0 007217A0
+push    ebx
+push    esi
+push    edi
+push    ebp
+mov     ebx, ecx; playerIndex
+
+mov     esi, ebx
+imul    esi, 55C8h
+add     esi, dword ptr [006EAE14]; Players
+
+
+mov edi, dword ptr [esi+140d]; player.currentAnimationFrame
+mov ebp, dword ptr [esi+132d]; player.currentAnimationFrameTick
+
+push    dword ptr [esi+250h] ; player.AnimIndex1
+push    3               ; animationDelay
+push    dword ptr [esi+24Ch] ; playerIndex ; Player.StayAnimationFrameCount
+mov     edx, dword ptr [esi + 112d]; player.Orientation // + 112
+mov     edx, [esi+edx*4+22Ch] ; a2 ; Player.nothingAnimationsPointers
+mov     ecx, ebx        ; playerIndex
+call 004576A5 ; void NewPlayerAnimation(int playerIndex, int a2, int framesCount, int animationDelay, int animationCL2filePtr)
+
+mov dword ptr [esi+140d], edi; player.currentAnimationFrame
+mov dword ptr [esi+132d], ebp; player.currentAnimationFrameTick
+
+@return:
+pop ebp
+pop edi
+pop esi
+pop ebx
+retn
+
+---------------------------------------------------------------------------------------------------------------
+done
+@continueWalk: // ee400 00721800
+push    ebx
+push    esi
+push    edi
+push    ebp
+mov     ebx, ecx; playerIndex
+
+mov     esi, ebx
+imul    esi, 55C8h
+add     esi, dword ptr [006EAE14]; Players
+
+mov edi, dword ptr [esi+140d]; player.currentAnimationFrame
+mov ebp, dword ptr [esi+132d]; player.currentAnimationFrameTick
+
+push    dword ptr [esi+278h] ; player.AnimIndex2
+push    0               ; animationDelay
+push    dword ptr [esi+274h] ; playerIndex ; Player.WalkAnimationFrameCount
+mov     edx, dword ptr [esi + 112d]; player.Orientation // + 112
+mov     edx, [esi+edx*4+254h] ; a2 ; Player.walkAnimationsPointers
+mov     ecx, ebx        ; playerIndex
+call 004576A5 ; void NewPlayerAnimation(int playerIndex, int a2, int framesCount, int animationDelay, int animationCL2filePtr)
+
+mov dword ptr [esi+140d], edi; player.currentAnimationFrame
+mov dword ptr [esi+132d], ebp; player.currentAnimationFrameTick
+
+@return:
+pop ebp
+pop edi
+pop esi
+pop ebx
+retn
+
+------------------------------------------------------------------------------------------------
+
+;.text:004244F7 A1 14 AE 6E 00                          mov     eax, Players
+;.text:004244FC 69 D2 72 15 00 00                       imul    edx, 1572h
+done
+004244F7 >>> // ee470
+>>>
+imul edx, 55C8h
+add  edx, dword ptr [006EAE14]; Players
+
+mov     ecx, [ebp-32]; playerIndex
+
+mov edx, dword ptr [edx]; player.CurAction
+cmp edx, 3 ; PCA_3_WALK_HORISONTAL 0; PCA_0_NOTHING
+jg @returnOrig
+
+test edx, edx
+jnz @contWalk
+@contSta:
+call @continueStay
+jmp @returnNew
+
+@contWalk:
+call @continueWalk
+
+@returnNew:
+jmp 042457Dh
+
+@returnOrig:
+8B 55 E0 mov     edx, [ebp+playerIndex]
+A1 14 AE 6E 00                          mov     eax, Players
+jmp 004244FC
+
+
+               asm >>>>>>>>>>>>>>>>
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004244F7(U)
+|
+:00721870 69D2C8550000            imul edx, 000055C8
+:00721876 031514AE6E00            add edx, dword ptr [006EAE14]
+:0072187C 8B4DE0                  mov ecx, dword ptr [ebp-20]
+:00721884 8B12                    mov edx, dword ptr [edx]
+:00721886 83FA03                  cmp edx, 00000003
+:00721889 7F15                    jg 007218A0
+:0072188B 85D2                    test edx, edx
+:0072188D 7507                    jne 00721896
+:0072188F E80CFFFFFF              call 007217A0
+:00721894 EB05                    jmp 0072189B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0072188D(C)
+|
+:00721896 E865FFFFFF              call 00721800
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00721894(U)
+|
+:0072189B E9DD2CD0FF              jmp 0042457D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00721889(C)
+|
+:007218A0 8B55E0                  mov edx, dword ptr [ebp-20]
+:007218A3 A114AE6E00              mov eax, dword ptr [006EAE14]
+:007218A8 E94F2CD0FF              jmp 004244FC
+
+
+
+
+
+=======
+
+проверил. всё работает
+

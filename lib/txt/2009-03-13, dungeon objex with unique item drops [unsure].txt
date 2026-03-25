@@ -1,0 +1,140 @@
+looks like unique item drop from dungeon objects
+
+
+* Referenced by a CALL at Addresses:
+|:004274B2   , :0043ECAB   
+|
+:004271F9 55                      push ebp
+:004271FA 8BEC                    mov ebp, esp
+:004271FC 51                      push ecx
+:004271FD 53                      push ebx
+:004271FE 57                      push edi
+:004271FF 8BDA                    mov ebx, edx
+:00427201 8BF9                    mov edi, ecx
+:00427203 E8EEC3FFFF              call 004235F6
+:00427208 833DDC2069007F          cmp dword ptr [006920DC], 0000007F
+:0042720F 8945FC                  mov dword ptr [ebp-04], eax
+:00427212 7D72                    jge 00427286
+:00427214 8B5508                  mov edx, dword ptr [ebp+08]
+:00427217 56                      push esi
+:00427218 8B3518576800            mov esi, dword ptr [00685718]
+:0042721E 8BCB                    mov ecx, ebx
+:00427220 56                      push esi
+:00427221 E85EDFFFFF              call 00425184
+:00427226 A1DC206900              mov eax, dword ptr [006920DC]
+:0042722B B910596800              mov ecx, 00685910
+:00427230 C1E002                  shl eax, 02
+:00427233 2BC8                    sub ecx, eax
+:00427235 33D2                    xor edx, edx
+:00427237 89B018556800            mov dword ptr [eax+00685518], esi
+:0042723D 8BC7                    mov eax, edi
+:0042723F 6BC054                  imul eax, 00000054
+:00427242 8B09                    mov ecx, dword ptr [ecx]
+:00427244 8A8004508000            mov al, byte ptr [eax+00805004]
+:0042724A 890D18576800            mov dword ptr [00685718], ecx
+:00427250 38050D509000            cmp byte ptr [0090500D], al
+:00427256 740D                    je 00427265
+:00427258 B90D509000              mov ecx, 0090500D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00427263(C)
+|
+:0042725D 83C14C                  add ecx, 0000004C
+:00427260 42                      inc edx
+:00427261 3801                    cmp byte ptr [ecx], al
+:00427263 75F8                    jne 0042725D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00427256(C)
+|
+:00427265 FF75FC                  push [ebp-04]
+:00427268 8BCE                    mov ecx, esi
+:0042726A E845E5FFFF              call 004257B4
+:0042726F 8BD7                    mov edx, edi
+:00427271 8BCE                    mov ecx, esi
+:00427273 E836FEFFFF              call 004270AE
+:00427278 8BCE                    mov ecx, esi
+:0042727A E861F9FFFF              call 00426BE0
+:0042727F FF05DC206900            inc dword ptr [006920DC]
+:00427285 5E                      pop esi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00427212(C)
+|
+:00427286 5F                      pop edi
+:00427287 5B                      pop ebx
+:00427288 C9                      leave
+:00427289 C20400                  ret 0004
+
+==================
+
+Same:
+
+
+* Referenced by a CALL at Addresses:
+|:00450D27   , :004517C4   , :00476B62   , :00476E0A   , :00476F03   
+|:00477291   , :00477739   , :00477912   
+|
+:00427544 55                      push ebp
+:00427545 8BEC                    mov ebp, esp
+:00427547 51                      push ecx
+:00427548 53                      push ebx
+:00427549 57                      push edi
+:0042754A 8BDA                    mov ebx, edx
+:0042754C 8BF9                    mov edi, ecx
+:0042754E E8A3C0FFFF              call 004235F6
+:00427553 833DDC2069007F          cmp dword ptr [006920DC], 0000007F
+:0042755A 8945FC                  mov dword ptr [ebp-04], eax
+:0042755D 7D7F                    jge 004275DE
+:0042755F 8B5508                  mov edx, dword ptr [ebp+08]
+:00427562 56                      push esi
+:00427563 8B3518576800            mov esi, dword ptr [00685718]
+:00427569 8BCB                    mov ecx, ebx
+:0042756B 56                      push esi
+:0042756C E813DCFFFF              call 00425184
+:00427571 A1DC206900              mov eax, dword ptr [006920DC]
+:00427576 B910596800              mov ecx, 00685910
+:0042757B C1E002                  shl eax, 02
+:0042757E 2BC8                    sub ecx, eax
+:00427580 33D2                    xor edx, edx
+:00427582 89B018556800            mov dword ptr [eax+00685518], esi
+:00427588 8BC7                    mov eax, edi
+:0042758A 6BC054                  imul eax, 00000054
+:0042758D 8B09                    mov ecx, dword ptr [ecx]
+:0042758F 8A8004508000            mov al, byte ptr [eax+00805004]
+:00427595 890D18576800            mov dword ptr [00685718], ecx
+:0042759B 38050D509000            cmp byte ptr [0090500D], al
+:004275A1 740D                    je 004275B0
+:004275A3 B90D509000              mov ecx, 0090500D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004275AE(C)
+|
+:004275A8 83C14C                  add ecx, 0000004C
+:004275AB 42                      inc edx
+:004275AC 3801                    cmp byte ptr [ecx], al
+:004275AE 75F8                    jne 004275A8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004275A1(C)
+|
+:004275B0 FF75FC                  push [ebp-04]
+:004275B3 8BCE                    mov ecx, esi
+:004275B5 E8FAE1FFFF              call 004257B4
+:004275BA 8BD7                    mov edx, edi
+:004275BC 8BCE                    mov ecx, esi
+:004275BE E8EBFAFFFF              call 004270AE
+:004275C3 8BCE                    mov ecx, esi
+:004275C5 E816F6FFFF              call 00426BE0
+:004275CA 69F674010000            imul esi, 00000174
+:004275D0 FF05DC206900            inc dword ptr [006920DC]
+:004275D6 C686BC62680002          mov byte ptr [esi+006862BC], 02
+:004275DD 5E                      pop esi
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042755D(C)
+|
+:004275DE 5F                      pop edi
+:004275DF 5B                      pop ebx
+:004275E0 C9                      leave
+:004275E1 C20400                  ret 0004

@@ -1,0 +1,31 @@
+This could be useful in giving glad and assa different TRN colors
+
+
+
+
+
+
+* Possible StringData Ref from Data Obj ->"PlrGFX\Infra.TRN"
+                                  |
+:0042C5F1 B98C784A00              mov ecx, 004A788C
+:0042C5F6 E834DAFEFF              call 0041A02F
+:0042C5FB 8BF8                    mov edi, eax
+:0042C5FD 33D2                    xor edx, edx
+:0042C5FF BE00010000              mov esi, 00000100
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042C60D(C)
+|
+:0042C604 8A0417                  mov al, byte ptr [edi+edx]
+:0042C607 8803                    mov byte ptr [ebx], al
+:0042C609 43                      inc ebx
+:0042C60A 42                      inc edx
+:0042C60B 3BD6                    cmp edx, esi
+:0042C60D 7CF5                    jl 0042C604
+:0042C60F 8BCF                    mov ecx, edi
+:0042C611 E8E9D9FEFF              call 00419FFF
+:0042C616 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"PlrGFX\Stone.TRN"
+                                  |
+:0042C618 B978784A00              mov ecx, 004A7878

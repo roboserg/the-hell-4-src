@@ -1,0 +1,164 @@
+Implemented this:
+
+Duration (number of hits) : clvl*slvl -> 1+clvl+slvl
+
+:0043037D 0FAFFA                  imul edi, edx
+wordt
+:0043037D 03FA                    add edi, edx
+:0043037F 47                      inc edi
+
+-------------------------------------------------------------------------
+
+Arcane Shield damage absorption now works differently: absorb 20 + Rnd[10+(baseVIT/4)]% of melee damage:
+
+:0043E517 668908                  mov word ptr [eax], cx
+:0043E51A A114AE6E00              mov eax, dword ptr [006EAE14]
+:0043E51F E8BF000000              call 0043E5E3
+:0043E524 83C01E                  add eax, 0000001E
+
+at free space from lifestealing:
+
+* Referenced by a CALL at Address:
+|:0043E51F   
+|
+:0043E5E3 8B943080010000          mov edx, dword ptr [eax+esi+00000180]
+:0043E5EA C1EA02                  shr edx, 02
+:0043E5ED 83C20A                  add edx, 0000000A
+:0043E5F0 B16A                    mov cl, 6A
+:0043E5F2 E863B9FDFF              call 00419F5A
+:0043E5F7 C3                      ret
+
+---------------------------------------------------------------------------------------------------
+original:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043E4EE(C)
+|
+:0043E4F6 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:0043E4F9 3B0DE8AD6E00            cmp ecx, dword ptr [006EADE8]
+:0043E4FF 0F8591000000            jne 0043E596
+:0043E505 668B8870550000          mov cx, word ptr [eax+00005570]
+:0043E50C 0570550000              add eax, 00005570
+:0043E511 6685C9                  test cx, cx
+:0043E514 765A                    jbe 0043E570
+:0043E516 49                      dec ecx
+:0043E517 6A33                    push 00000033					< random 0-51
+:0043E519 668908                  mov word ptr [eax], cx
+:0043E51C 5A                      pop edx
+:0043E51D B164                    mov cl, 64
+:0043E51F E836BAFDFF              call 00419F5A
+:0043E524 83C00A                  add eax, 0000000A				< fixed 10
+:0043E527 894510                  mov dword ptr [ebp+10], eax
+:0043E52A DB4510                  fild dword ptr [ebp+10]
+:0043E52D DC0D18014900            fmul qword ptr [00490118]
+:0043E533 DA4D0C                  fimul dword ptr [ebp+0C]
+:0043E536 E835C00300              call 0047A570
+:0043E53B 90                      nop
+:0043E53C 90                      nop
+:0043E53D 90                      nop
+:0043E53E 90                      nop
+:0043E53F 90                      nop
+:0043E540 90                      nop
+:0043E541 8D8F1CDD6900            lea ecx, dword ptr [edi+0069DD1C]
+:0043E547 2BD8                    sub ebx, eax
+:0043E549 8B09                    mov ecx, dword ptr [ecx]
+:0043E54B 7902                    jns 0043E54F
+:0043E54D 33DB                    xor ebx, ebx
+-------------
+1) :0043E4F6 8B4DFC mov ecx, dword ptr [ebp-04]
+2) :0043E4F9 3B0DE8AD6E00 cmp ecx, dword ptr [006EADE8]
+3) :0043E4FF 0F8591000000 jne 0043E596
+4) :0043E505 668B8870550000 mov cx, word ptr [eax+00005570]
+5) :0043E50C 0570550000 add eax, 00005570
+6) :0043E511 6685C9 test cx, cx
+7) :0043E514 765A jbe 0043E570
+8) :0043E516 49 dec ecx
+9) :0043E517 6A33 push 00000033
+10) :0043E519 668908 mov word ptr [eax], cx
+11) :0043E51C 5A pop edx
+12) :0043E51D B164 mov cl, 64
+13) :0043E51F E836BAFDFF call 00419F5A
+14) :0043E524 83C00A add eax, 0000000A
+15) :0043E527 894510 mov dword ptr [ebp+10], eax
+16) :0043E52A DB4510 fild dword ptr [ebp+10]
+17) :0043E52D DC0D18014900 fmul qword ptr [00490118]
+18) :0043E533 DA4D0C fimul dword ptr [ebp+0C]
+19) :0043E536 E835C00300 call 0047A570
+20) :0043E53B 29871CDD6900 sub dword ptr [edi+0069DD1C], eax
+21) :0043E541 8D8F1CDD6900 lea ecx, dword ptr [edi+0069DD1C]
+22) :0043E547 2BD8 sub ebx, eax
+23) :0043E549 8B09 mov ecx, dword ptr [ecx]
+24) :0043E54B 7902 jns 0043E54F
+25) :0043E54D 33DB xor ebx, ebx
+-----------------------------------------------------------------------------------------
+некоторые комментарии, из того что я понимаю:
+1) ecx = pointer to [ebp-04], что такое [ebp-04] не знаю
+2) сравнить ecx с поинтером на локального персонажа
+3) пропустить все, если не тот персонаж
+4) cx = поинтер на 5570 (поинтер на AS)
+5) добавить к eax 5570 (хз зачем)
+6) сравнить cx и cx (то есть, с единицей?)
+7) если равно или меньше, пропустить все
+8) уменьшить есх на 1
+9) поместить в стек значение 51
+10) ???
+11) значение 51 записано в edx ?
+12) cl = 100
+13) вызов функции рандомайза, возвращает число от 0 до 50 (туда edx, обратно eax)
+14) добавить к eax 10
+15) ???
+16) ???
+17) ???
+18) ???
+19) вызов неизвестной (мне) функции
+20) вычесть из текущей жизни монстра eax
+21) ecx сделать текущей жизнью монстра ???
+22) вычесть eax из ebx
+23) ???
+24) ???
+25) стереть ebx ???
+ 
+JG:
+Type: n/a
+Duration: slvl·clvl hits	   
+Note:
+*	Reduces melee damage by 20-29% and reflects it back to the attacking monster. Spell level determines number of hits it lasts.
+*	Even if you block an attack, 20-29% of the damage is reflected back to the attacking monster.
+*	An attack counts as a hit even if you block it as it will reflect some damage.
+*	The Reflect will be terminated if you die or leave the current dlvl.	 
+
+in Hellfire, if the player has a Reflect spell running, calculate the final reflected damage (FRD) by multiplying the damage by (Rnd[10] + 20)/100
+in Hellfire, if the player has a Reflect spell running, subtract FRD from the damage calculated in steps 1-3
+the value now achieved is the final damage (FD)
+in Hellfire, if the monster hits and the player has a Reflect spell running, reflect FRD to it and check for death and hit recovery of the monster normally
+
+
+-------------
+TD53:
+
+:0043E4F6 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:0043E4F9 3B0DE8AD6E00            cmp ecx, dword ptr [006EADE8]
+:0043E4FF 51                      push ecx
+:0043E500 50                      push eax
+:0043E501 7547                    jne 0043E54A
+:0043E503 90                      nop
+:0043E504 90                      nop
+:0043E505 668B8870550000          mov cx, word ptr [eax+00005570]
+:0043E50C 0570550000              add eax, 00005570
+:0043E511 6685C9                  test cx, cx
+:0043E514 7634                    jbe 0043E54A
+:0043E516 49                      dec ecx
+:0043E517 668908                  mov word ptr [eax], cx
+:0043E51A 2D70550000              sub eax, 00005570
+:0043E51F 0FBE80B8010000          movsx eax, byte ptr [eax+000001B8]
+:0043E526 0FAF45EC                imul eax, dword ptr [ebp-14]
+:0043E52A C1F807                  sar eax, 07
+:0043E52D 83C00F                  add eax, 0000000F
+:0043E530 894510                  mov dword ptr [ebp+10], eax
+:0043E533 DB4510                  fild dword ptr [ebp+10]
+:0043E536 DC0D18014900            fmul qword ptr [00490118]
+:0043E53C DA4D0C                  fimul dword ptr [ebp+0C]
+:0043E53F E82CC00300              call 0047A570
+:0043E544 2BD8                    sub ebx, eax
+:0043E546 7902                    jns 0043E54A
+:0043E548 33DB                    xor ebx, ebx

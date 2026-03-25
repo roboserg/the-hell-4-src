@@ -1,0 +1,371 @@
+
+
+Blocking support for monsters, from TD53
+
+=======================================================================
+=======================================================================
+=======================================================================
+
+
+
+Player Missile vs. Monster - Blocking for Renegades:
+
+File offset 0002E824
+
+:0042F424 741C                    je 0042F442
+:0042F426 8B4DF8                  mov ecx, dword ptr [ebp-08]
+:0042F429 8D55EC                  lea edx, dword ptr [ebp-14]
+:0042F42C E8845C0100              call 004450B5
+:0042F431 85C0                    test eax, eax
+:0042F433 7408                    je 0042F43D
+:0042F435 8B45EC                  mov eax, dword ptr [ebp-14]
+:0042F438 E990010000              jmp 0042F5CD					exit if immune
+:0042F43D 397DF0                  cmp dword ptr [ebp-10], edi
+:0042F440 7C05                    jl 0042F447
+:0042F442 E984010000              jmp 0042F5CB					exit if miss
+:0042F447 837DF400                cmp dword ptr [ebp-0C], 00000000
+:0043D44B 0F840D620200            je 0045565E					check for blocking if not resisted
+:0042F451 837D143F                cmp dword ptr [ebp+14], 0000003F
+:0042F455 750C                    jne 0042F463					jmp if not Bone Spirit
+:0042F457 8BBE1CDD6900            mov edi, dword ptr [esi+0069DD1C]
+:0042F45D 90                      nop
+:0042F45E C1FF09                  sar edi, 09
+
+
+
+
+
+Monster Melee vs. Monster - Blocking for Renegades:
+
+File offset 0003CF6F
+
+:0043DB6F E93860FEFF              jmp 00423BAC
+:0043DB74 
+
+
+Player Melee vs. Monster - Blocking for Renegades:
+
+File offset 0005ADBD
+
+:0045B9BD 8B45E8                  mov eax, dword ptr [ebp-18]
+:0045B9C0 90                      nop
+:0045B9C1 E97C9CFFFF              jmp 00455642
+:0045B9C6 
+
+
+Player Melee vs. Monster - no modified damage for Renegades and Fallen Rogues as Animal class:
+
+File offset 0005AEC7
+
+
+:0045BAC7 E92CE5FCFF              jmp 00429FF8
+:0045BACC 90                      nop
+
+
+Using free space from new hotkeys:
+
+File offset 000293F0
+
+:00429FF0 6A2F                    push 0000002F
+:00429FF2 5F                      pop edi
+:00429FF3 E903FDFFFF              jmp 00429CFB
+
+> :00429FF8 50                      push eax
+:00429FF9 8BC1                    mov eax, ecx
+:00429FFB E861AA0100              call 00444A61					Check for Renegade or Fallen Rogue
+:0042A000 85C0                    test eax, eax
+:0042A002 58                      pop eax
+:0042A003 0F851A1B0300            jne 0045BB23
+:0042A009 8B8968DD6900            mov ecx, dword ptr [ecx+0069DD68]
+:0042A00F E9B91A0300              jmp 0045BACD
+:0042A014 9090909090909090        8*nop
+:0042A01C 
+
+Now 8 bytes free space from 0042A014 to 0042A01C.
+
+Correcting jump:
+
+File offset 00029385
+
+
+:00429F85 7469                    je 00429FF0
+:00429F87 
+
+
+Using free space from Rage52H:
+
+File offset 00022FAC
+
+:00423BAC 3B5D08                  cmp ebx, dword ptr [ebp+08]
+:00423BAF 7D14                    jge 00423BC5					exit if miss
+:00423BB1 8BC3                    mov eax, ebx
+:00423BB3 8BCE                    mov ecx, esi
+:00423BB5 8B55FC                  mov edx, dword ptr [ebp-04]
+:00423BB8 E86A5E0100              call 00439A27					Check for Renegade High AC and Block
+:00423BBD 85C0                    test eax, eax
+:00423BBF 0F84AF9F0100            je 0043DB74					continue for damage
+:00423BC5 E90DA00100              jmp 0043DBD7					exit to miss
+:00423BCA 90                      nop
+
+
+Using free space from new hotkeys:
+
+File offset 00054A42
+
+
+:00455642 3BC3                    cmp eax, ebx
+:00455644 7D13                    jge 00455659					exit if miss
+:00455646 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:00455649 8B55F4                  mov edx, dword ptr [ebp-0C]
+:0045564C E8D643FEFF              call 00439A27					Check for Renegade High AC and Block
+:00455651 85C0                    test eax, eax
+:00455653 0F846D630000            je 0045B9C6					continue for damage
+:00455659 E900680000              jmp 0045BE5E					exit to miss
+:0045565E 8BCE                    mov ecx, esi
+:00455660 8B55F8                  mov edx, dword ptr [ebp-08]
+:00455663 8B45F0                  mov eax, dword ptr [ebp-10]
+:00455666 E8BC43FEFF              call 00439A27					Check for Renegade High AC and Block
+:0045566B 85C0                    test eax, eax
+:0045566D 0F84DE9DFDFF            je 0042F451					continue for damage
+:00455673 E9539FFDFF              jmp 0042F5CB					exit to miss
+:00455678 909090                  3*nop
+
+
+Check for Renegade High AC and Block, using remaining space from Rage after Trapview52H:
+
+File offset 00038E27
+
+
+:00439A27 83F808                  cmp eax, 00000008
+:00439A2A 7C2D                    jl 00439A59					8% chance for normal hit
+:00439A2C 50                      push eax
+:00439A2D 8B8164DD6900            mov eax, dword ptr [ecx+0069DD64]
+:00439A33 83383A                  cmp dword ptr [eax], 0000003A
+:00439A36 58                      pop eax
+:00439A37 7520                    jne 00439A59					normal hit if not Renegade Warrior
+:00439A39 83F840                  cmp eax, 00000040
+:00439A3C 7F1D                    jg 00439A5B					36% Auto Miss
+:00439A3E 83B9ECDC690002          cmp dword ptr [ecx+0069DCEC], 00000002
+:00439A45 7E12                    jle 00439A59					normal hit if in last 2 frames of any animation
+:00439A47 8B818CDC6900            mov eax, dword ptr [ecx+0069DC8C]
+:00439A4D 85C0                    test eax, eax					
+:00439A4F 740B                    je 00439A5C					start Block if Idle 
+:00439A51 3C04                    cmp al, 04					
+:00439A53 7407                    je 00439A5C					start Block if Attacking
+:00439A55 3C0D                    cmp al, 0D					
+:00439A57 7403                    je 00439A5C					start Block if Delaying
+:00439A59 33C0                    xor eax, eax
+:00439A5B C3                      ret
+:00439A5C E9D4400000              jmp 0043DB35					Monster Block
+:00439A61 90909090                4*nop
+
+
+Monster Block:
+
+File offset 0003CF35
+
+:0043DB35 52                      push edx
+:0043DB36 8B91D0DC6900            mov edx, dword ptr [ecx+0069DCD0]		facing direction
+:0043DB3C 59                      pop ecx					monster ID
+:0043DB3D E817350000              call 00441059					start 0B state (Special animation)
+:0043DB42 6A01                    push 00000001					
+:0043DB44 58                      pop eax
+:0043DB45 C3                      ret
+:0043DB46 90                      nop
+
+===================================================================================
+
+Dragon's patch, v1
+applied in subversion 1.101yx13.exe, 
+date: 19:42 01.09.2010
+
+
+
+	Code:
+:004450B5 E9B6E62D00              jmp 00723770
+
+
+
+	Expansion:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004450B5(U)
+|
+:00723770 53                      push ebx
+:00723771 56                      push esi
+:00723772 89CB                    mov ebx, ecx
+:00723774 81F9C8000000            cmp ecx, 000000C8
+:0072377A 737B                    jnb 007237F7
+:0072377C 69C9E4000000            imul ecx, 000000E4
+:00723782 80B920DD69000C          cmp byte ptr [ecx+0069DD20], 0C
+:00723789 7527                    jne 007237B2
+:0072378B 8B8124DD6900            mov eax, dword ptr [ecx+0069DD24]
+:00723791 8DB124DD6900            lea esi, dword ptr [ecx+0069DD24]
+:00723797 90                      nop
+:00723798 A804                    test al, 04
+:0072379A 7416                    je 007237B2
+:0072379C 24FB                    and al, FB
+:0072379E 6A01                    push 00000001
+:007237A0 8906                    mov dword ptr [esi], eax
+:007237A2 58                      pop eax
+:007237A3 C7818CDC690007000000    mov dword ptr [ebx+0069DC8C], 00000007
+:007237AD 8902                    mov dword ptr [edx], eax
+:007237AF 5E                      pop esi
+:007237B0 5B                      pop ebx
+:007237B1 C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00723789(C), :0072379A(C)
+|
+:007237B2 8B8164DD6900            mov eax, dword ptr [ecx+0069DD64]
+:007237B8 8B00                    mov eax, dword ptr [eax]
+:007237BA 83F86B                  cmp eax, 0000006B
+:007237BD 7421                    je 007237E0
+:007237BF 83F86C                  cmp eax, 0000006C
+:007237C2 752E                    jne 007237F2
+:007237C4 90                      nop
+:007237C5 90                      nop
+:007237C6 90                      nop
+:007237C7 90                      nop
+:007237C8 90                      nop
+:007237C9 90                      nop
+:007237CA 90                      nop
+:007237CB 90                      nop
+:007237CC 90                      nop
+:007237CD 90                      nop
+:007237CE 90                      nop
+:007237CF 90                      nop
+:007237D0 90                      nop
+:007237D1 90                      nop
+:007237D2 90                      nop
+:007237D3 90                      nop
+:007237D4 90                      nop
+:007237D5 90                      nop
+:007237D6 90                      nop
+:007237D7 90                      nop
+:007237D8 90                      nop
+:007237D9 90                      nop
+:007237DA 90                      nop
+:007237DB 90                      nop
+:007237DC 90                      nop
+:007237DD 90                      nop
+:007237DE 90                      nop
+:007237DF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007237BD(C)
+|
+:007237E0 6A01                    push 00000001
+:007237E2 58                      pop eax
+:007237E3 388190DC6900            cmp byte ptr [ecx+0069DC90], al
+:007237E9 90                      nop
+:007237EA 7406                    je 007237F2
+:007237EC 832200                  and dword ptr [edx], 00000000
+:007237EF 5E                      pop esi
+:007237F0 5B                      pop ebx
+:007237F1 C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007237C2(C), :007237EA(C)
+|
+:007237F2 EB5C                    jmp 00723850
+:007237F4 90                      nop
+:007237F5 90                      nop
+:007237F6 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0072377A(C), :0072388E(U)
+|
+:007237F7 31C0                    xor eax, eax
+:007237F9 5E                      pop esi
+:007237FA 5B                      pop ebx
+:007237FB C3                      ret
+
+
+:007237FC 00000000                BYTE  4 DUP(0)
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708C5C(U)
+|
+:00723800 8B8100020000            mov eax, dword ptr [ecx+00000200]
+:00723806 83E001                  and eax, 00000001
+:00723809 09C3                    or ebx, eax
+:0072380B 8B8100020000            mov eax, dword ptr [ecx+00000200]
+:00723811 2500010000              and eax, 00000100
+:00723816 C1F803                  sar eax, 03
+:00723819 09C3                    or ebx, eax
+:0072381B 8B8100020000            mov eax, dword ptr [ecx+00000200]
+:00723821 2500000100              and eax, 00010000
+:00723826 C1F80A                  sar eax, 0A
+:00723829 09C3                    or ebx, eax
+:0072382B 8B8100020000            mov eax, dword ptr [ecx+00000200]
+:00723831 2500000001              and eax, 01000000
+:00723836 C1F811                  sar eax, 11
+:00723839 09C3                    or ebx, eax
+:0072383B A130766900              mov eax, dword ptr [00697630]
+:00723840 E91C54FEFF              jmp 00708C61
+:00723845 00000000000000000000    BYTE 10 DUP(0)
+
+
+:0072384F 00                      BYTE 0
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007237F2(U)
+|
+:00723850 8B8164DD6900            mov eax, dword ptr [ecx+0069DD64]
+:00723856 8B00                    mov eax, dword ptr [eax]
+:00723858 3DA2000000              cmp eax, 000000A2
+:0072385D 752F                    jne 0072388E
+:0072385F 8B818CDC6900            mov eax, dword ptr [ecx+0069DC8C]
+:00723865 83F80F                  cmp eax, 0000000F
+:00723868 7D24                    jge 0072388E
+:0072386A 83F801                  cmp eax, 00000001
+:0072386D 741F                    je 0072388E
+:0072386F 83F802                  cmp eax, 00000002
+:00723872 741A                    je 0072388E
+:00723874 83F803                  cmp eax, 00000003
+:00723877 7415                    je 0072388E
+:00723879 52                      push edx
+:0072387A 53                      push ebx
+:0072387B 51                      push ecx
+:0072387C BA64000000              mov edx, 00000064
+:00723881 E8D466CFFF              call 00419F5A
+:00723886 59                      pop ecx
+:00723887 5B                      pop ebx
+:00723888 5A                      pop edx
+:00723889 83F84B                  cmp eax, 0000004B
+:0072388C 7C05                    jl 00723893
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0072385D(C), :00723868(C), :0072386D(C), :00723872(C), :00723877(C)
+|
+:0072388E E964FFFFFF              jmp 007237F7
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0072388C(C)
+|
+:00723893 51                      push ecx
+:00723894 52                      push edx
+:00723895 8B91D0DC6900            mov edx, dword ptr [ecx+0069DCD0]
+:0072389B 89D9                    mov ecx, ebx
+:0072389D E8B7D7D1FF              call 00441059
+:007238A2 5A                      pop edx
+:007238A3 59                      pop ecx
+:007238A4 6A01                    push 00000001
+:007238A6 58                      pop eax
+:007238A7 8902                    mov dword ptr [edx], eax
+:007238A9 5E                      pop esi
+:007238AA 5B                      pop ebx
+:007238AB C3                      ret
+
+
+:007238AC 00000000000000000000    BYTE 10 DUP(0)
+:007238B6 00000000000000000000    BYTE 10 DUP(0)
+:007238C0 00000000000000000000    BYTE 10 DUP(0)

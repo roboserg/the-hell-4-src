@@ -1,0 +1,104 @@
+Charged Bolt spellbook damage set here:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0042EAA9(U), :0042EB09(U)
+|
+:0042ECFC 8938                    mov dword ptr [eax], edi
+:0042ECFE E985010000              jmp 0042EE88
+:0042ED03 C70201000000            mov dword ptr [edx], 00000001				< set 1 (minimum damage)
+:0042ED09 A1E8AD6E00              mov eax, dword ptr [006EADE8]
+:0042ED0E 69C0C8550000            imul eax, 000055C8
+:0042ED14 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]			< maximum damage calculation
+:0042ED1A 8B84086C010000          mov eax, dword ptr [eax+ecx+0000016C]		< curMAG
+:0042ED21 C1F802                  sar eax, 02						< divide by 4
+:0042ED24 40                      inc eax							< +1
+:0042ED25 EB28                    jmp 0042ED4F
+:0042ED27 0FB68070010000          movzx eax, byte ptr [eax+00000170]
+:0042ED2E 83C005                  add eax, 00000005
+:0042ED31 8902                    mov dword ptr [edx], eax
+:0042ED33 A1E8AD6E00              mov eax, dword ptr [006EADE8]
+:0042ED38 69C0C8550000            imul eax, 000055C8
+:0042ED3E 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:0042ED44 0FB6840870010000        movzx eax, byte ptr [eax+ecx+00000170]
+:0042ED4C 83C00A                  add eax, 0000000A
+
+
+========================================
+
+Damage adjusted here
+
+:00435167 8B94076C010000          mov edx, dword ptr [edi+eax+0000016C]
+:0043516E D1FA                    sar edx, 1
+
+========================================
+
+Monster CB damage:
+
+:0043517F 6A0F                    push 0000000F
+:00435181 B13F                    mov cl, 3F
+:00435183 5F                      pop edi		<< edi = 15
+:00435184 69F6B0000000            imul esi, 000000B0
+:0043518A 8BD7                    mov edx, edi
+:0043518C E8C94DFEFF              call 00419F5A
+:00435191 40                      inc eax
+:00435192 8986E47A6900            mov dword ptr [esi+00697AE4], eax
+:00435198 89BED47A6900            mov dword ptr [esi+00697AD4], edi	 << damage = edi
+
+
+
+plan:
+horror: dlvl*4
+purg:   (dlvl*4)+96
+doom:   (dlvl*4)+192
+
+
+
+	doing:
+
+:0043517F E97CBD2D00              jmp 00710F00
+:00435184 90                      nop
+:00435185 90                      nop
+:00435186 90                      nop
+:00435187 90                      nop
+:00435188 90                      nop
+:00435189 90                      nop
+:0043518A 90                      nop
+:0043518B 90                      nop
+
+
+	extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043517F(U)
+|
+:00710F00 6A0F                    push 0000000F
+:00710F02 B13F                    mov cl, 3F
+:00710F04 5F                      pop edi
+:00710F05 69F6B0000000            imul esi, 000000B0
+:00710F0B 8BD7                    mov edx, edi
+:00710F0D A1D8B16000              mov eax, dword ptr [0060B1D8]
+:00710F12 C1E002                  shl eax, 02
+:00710F15 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00710F1C 7410                    je 00710F2E
+:00710F1E 833DC070600002          cmp dword ptr [006070C0], 00000002
+:00710F25 740C                    je 00710F33
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00710F31(U), :00710F38(U)
+|
+:00710F27 8BF8                    mov edi, eax
+:00710F29 E95E42D2FF              jmp 0043518C
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00710F1C(C)
+|
+:00710F2E 83C060                  add eax, 00000060
+:00710F31 EBF4                    jmp 00710F27
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00710F25(C)
+|
+:00710F33 05C0000000              add eax, 000000C0
+:00710F38 EBED                    jmp 00710F27
+:00710F3A 90                      nop
+:00710F3B 90                      nop

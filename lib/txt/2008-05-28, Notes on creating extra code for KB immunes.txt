@@ -1,0 +1,68 @@
+﻿
+
+29-32 hidden, always
+
+50 Leo ?
+
+62 Mauler ?
+
+85 Balor (never?)
+
+92 - illusion weaver, always
+
+94 lurker, always
+
+111 obsidian golem, never 
+
+120 flesh KB
+
+125 GG, never KB
+
+130 black golem, never
+
+135 Grotesque KB
+
+137 uber, never
+
+
+============================
+:0043CDDC E8216E0000              call 00443C02
+into >>>
+jump to free space
+
+free space:
+:004764CF 8B8664DD6900            mov eax, dword ptr [esi+0069DD64]
+:004764D5 83386D                  cmp dword ptr [eax], 0000006D
+:004764D8 740C                    je 004764E6
+:004764DA 50                      push eax
+:004764DB 8B8668DD6900            mov eax, dword ptr [esi+0069DD68]
+:004764E1 80782C00                cmp byte ptr [eax+2C], 00
+:004764E5 58                      pop eax
+
+:00422FE4 0F85180C0200            jne 00443C02
+:00422FEA 33C0                    xor eax, eax
+:00422FEC C3                      ret
+
+-----------------
+1. Jump to free space
+2. Check for KB immunes
+3. If immune return to 43CDE1, if not immune CALL 443C02 and after it jump back to 43CDE1
+
+>>>
+Step 1:
+
+:0043CDDC E99F822C00              jmp 00705080
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043CDDC(U)
+|
+:00705080 00000000000000000000    BYTE 10 DUP(0)
+:0070508A 00000000000000000000    BYTE 10 DUP(0)
+
+>>>
+Step 2:
+
+
+
+2c82be
+

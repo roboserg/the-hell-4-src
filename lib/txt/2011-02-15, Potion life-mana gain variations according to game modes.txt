@@ -1,0 +1,84 @@
+
+
+:00429939 69F6C8550000            imul esi, 000055C8
+:0042993F A114AE6E00              mov eax, dword ptr [006EAE14]
+:00429944 B128                    mov cl, 28
+:00429946 8BBC30B0010000          mov edi, dword ptr [eax+esi+000001B0]
+:0042994D C1FF08                  sar edi, 08			<< edi = maxCurMana/256 (./4?)
+:00429950 8BD7                    mov edx, edi
+:00429952 E80306FFFF              call 00419F5A			<< eax = Rnd[0-(maxCurMana/4)]
+:00429957 83E7FE                  and edi, FFFFFFFE		<< WTF?
+:0042995A E81D020000              call 00429B7C
+:0042995F EB27                    jmp 00429988
+
+
+* Referenced by a CALL at Addresses:
+|:0042995A   , :00429B75   , :00429C0F   , :00429E7F   
+|
+:00429B7C 03F8                    add edi, eax			<< edi = Rnd[25-50]% mana
+:00429B7E D1F8                    sar eax, 1			<< eax = Rnd[0-12,5]% mana
+:00429B80 03F8                    add edi, eax			<< edi = Rnd[25-62,5]% mana
+:00429B82 C1E706                  shl edi, 06
+:00429B85 A114AE6E00              mov eax, dword ptr [006EAE14]
+:00429B8A 03C6                    add eax, esi
+:00429B8C C3                      ret
+
+================================
+
+Plan:
+
+Horror:		25-62,5%
+Purgatory:	12,5-62,5%
+Doom:		12,5-50%
+
+Planning code:
+
+if not doom, goto 'A'
+sar edi, 1
+	'B'
+add edi, eax
+sar eax, 1
+	'C'
+add edi, eax
+shl edi, 06
+...
+ret
+	'A'
+if not purg, goto 'B'
+shl eax, 1
+goto 'C'
+
+
+	Ready code:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00429B7C(U)
+|
+:0070E380 833DC070600002          cmp dword ptr [006070C0], 00000002
+:0070E387 7513                    jne 0070E39C
+:0070E389 D1FF                    sar edi, 1				1/8
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070E3A3(C)
+|
+:0070E38B 03F8                    add edi, eax				12,5 + [0-25], [12,5 - 37,5]
+:0070E38D D1F8                    sar eax, 1				
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070E3A7(U)
+|
+:0070E38F 03F8                    add edi, eax				[12,5 - 50]
+:0070E391 C1E706                  shl edi, 06
+:0070E394 A114AE6E00              mov eax, dword ptr [006EAE14]
+:0070E399 03C6                    add eax, esi
+:0070E39B C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070E387(C)
+|
+:0070E39C 833DC070600001          cmp dword ptr [006070C0], 00000001
+:0070E3A3 75E6                    jne 0070E38B
+:0070E3A5 D1E0                    shl eax, 1
+:0070E3A7 EBE6                    jmp 0070E38F

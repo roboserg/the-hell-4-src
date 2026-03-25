@@ -1,0 +1,181 @@
+Firebolt, Lightning & Normal Arrow traps are given advanced damage formulas. The damage is modified according to DLVL and Difficulty mode. Applied in v1.58h
+
+Firebolt trap >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+original code:
+:00436241 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:00436248 D1E2                    shl edx, 1
+:0043624A B14E                    mov cl, 4E
+:0043624C E8093DFEFF              call 00419F5A
+:00436251 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+
+modified:
+:00436241 E884400200              call 0045A2CA
+:00436246 42                      inc edx
+:00436247 42                      inc edx
+:00436248 42                      inc edx
+:00436249 42                      inc edx
+:0043624A B14E                    mov cl, 4E
+:0043624C E8093DFEFF              call 00419F5A
+:00436251 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+
+new code placed at free space from "no drops at death":
+:0045A2CA E8224BFFFF              call 0044EDF1			< modify damage for DLVL and Difficulty function
+:0045A2CF 42                      inc edx
+:0045A2D0 42                      inc edx
+:0045A2D1 C1E206                  shl edx, 06
+:0045A2D4 C3                      ret
+______________________________________________________
+
+Lightning trap >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+:0043713D E893310200              call 0045A2D5
+:00437142 40                      inc eax
+:00437143 41                      inc ecx
+:00437144 B151                    mov cl, 51
+:00437146 E80F2EFEFF              call 00419F5A
+:0043714B 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:00437152 8D3CC8                  lea edi, dword ptr [eax+8*ecx]
+
+new code placed at free space from "no drops at death":
+:0045A2D5 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:0045A2DC 42                      inc edx
+:0045A2DD 42                      inc edx
+:0045A2DE C1E209                  shl edx, 09
+:0045A2E1 C3                      ret
+_______________________________________________________
+
+Normal Arrow Trap Damage
+
+:0043608F E84E420200              call 0045A2E2
+:00436094 42                      inc edx
+:00436095 42                      inc edx
+:00436096 8D0452                  lea eax, dword ptr [edx+2*edx]
+
+new code placed at free space from "no drops at death":
+:0045A2E2 E80A4BFFFF              call 0044EDF1
+:0045A2E7 42                      inc edx
+:0045A2E8 42                      inc edx
+:0045A2E9 C1E203                  shl edx, 03
+:0045A2EC C3                      ret
+
+
+__________________
+
+This function modifies damage, accotrding to dlvl & difficulty mode: 2x damage for Purg, 4x damage for Doom
+
+:0044EDF1 51                      push ecx					
+:0044EDF2 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]	< dlvl
+:0044EDF9 8B0DC0706000            mov ecx, dword ptr [006070C0]	< difficulty mode
+:0044EDFF 85C9                    test ecx, ecx
+:0044EE01 7409                    je 0044EE0C
+:0044EE03 D1E2                    shl edx, 1
+:0044EE05 83F901                  cmp ecx, 00000001
+:0044EE08 7402                    je 0044EE0C
+:0044EE0A D1E2                    shl edx, 1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0044EE01(C), :0044EE08(C)
+|
+:0044EE0C 59                      pop ecx
+:0044EE0D C3                      ret		
+
+
+==============================================
+==============================================
+==============================================
+
+TrapDamage.txt from DMN:
+
+Increasing Ring of Fire Trap Damage
+
+File Offset 00038191
+
+:00438D91 90                      nop
+:00438D92 90                      nop
+wordt
+:00438D91 0402                    add al, 02
+
+
+Increasing Firebolt Trap Damage
+
+File Offset 00035646
+
+:00436246 90                      nop
+:00436247 90                      nop
+wordt
+:00436246 42                      inc edx
+:00436247 42                      inc edx
+
+
+Lightning Trap Damage
+
+File Offset 00036542
+
+:0043713D 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]	edx := dlvl
+:00437144 B151                    mov cl, 51
+:00437146 E80F2EFEFF              call 00419F5A				eax := rnd[dlvl]
+:0043714B 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]	ecx := dlvl
+:00437152 8D3C48                  lea edi, dword ptr [eax+2*ecx]	
+
+
+Increasing Normal Arrow Trap Damage
+
+File Offset 00035494
+
+:00436094 90                      nop
+:00436095 90                      nop
+wordt
+:00436094 D1E2                    shl edx, 1
+
+
+Fire/Lightning Arrows
+
+Reducing the high damage done by Fire/Lightning Arrows from Traps, elemental part only:
+
+File Offset 00035311
+
+:00435F11 6A0A                    push 0000000A
+:00435F13 B144                    mov cl, 44
+:00435F15 5A                      pop edx
+:00435F16 E83F40FEFF              call 00419F5A
+:00435F1B 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:00435F22 6A0A                    push 0000000A
+:00435F24 8D5C0801                lea ebx, dword ptr [eax+ecx+01]
+:00435F28 5A                      pop edx
+:00435F29 B144                    mov cl, 44
+:00435F2B E82A40FEFF              call 00419F5A
+:00435F30 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+wordt
+:00435F11 E802000000              call 00435F18
+:00435F16 EB1F                    jmp 00435F37
+:00435F18 E8972C0500              call 00488BB4
+:00435F1D 52                      push edx
+:00435F1E B144                    mov cl, 44
+:00435F20 E83540FEFF              call 00419F5A
+:00435F25 5A                      pop edx
+:00435F26 8BCA                    mov ecx, edx
+:00435F28 C1E902                  shr ecx, 02
+:00435F2B 8D5C0801                lea ebx, dword ptr [eax+ecx+01]
+:00435F2F C3                      ret
+:00435F30 90909090909090          7*nop
+
+File Offset 00035386
+
+:00435F86 6A0A                    push 0000000A
+:00435F88 B144                    mov cl, 44
+:00435F8A 5A                      pop edx
+:00435F8B E8CA3FFEFF              call 00419F5A
+:00435F90 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+:00435F97 6A0A                    push 0000000A
+:00435F99 8D5C0801                lea ebx, dword ptr [eax+ecx+01]
+:00435F9D 5A                      pop edx
+:00435F9E B144                    mov cl, 44
+:00435FA0 E8B53FFEFF              call 00419F5A
+:00435FA5 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]
+wordt
+:00435F86 E88DFFFFFF              call 00435F18
+:00435F8B EB1F                    jmp 00435FAC
+:00435F8D 909090                  3*nop
+
+Now 31 free bytes here.

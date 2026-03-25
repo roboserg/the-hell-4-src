@@ -1,0 +1,179 @@
+﻿+        PvM Melee crit chances revised:
+        Pal: 10+(CLVL/4)% for 250%, ;ok
+        Scout/Mage: (CLVL/2)% for 200%,;ok
+        Monk: (CLVL/2)% for 300%, ;ok
+        Assassin: 6+(CLVL/4)% for 500%,;ok
+        Gladiator: 10+(CLVL/2)% for 200%;;ok
+
+
+45BA6D >>> free space // E6600
+
+mov al, byte ptr [ecx+00000160h]
+test al, al
+je PAL
+cmp al, 03
+je MNK
+cmp al, 04
+je ASA
+cmp al, 05
+je GLD
+@the rest
+jmp 45BA78
+
+@PAL
+0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]
+C1FB02                  sar ebx, 02 ; clvl / 4
+ 83C30C                  add ebx, 0000000A ; clvl / 4 + 10  %
+6A64                    push 00000064
+B106                    mov cl, 06
+5A                      pop edx
+call 00419F5A
+3BC3                    cmp eax, ebx
+7D03                    jge 00705A23
+8D3CBF                  lea edi, dword ptr [edi+4*edi]
+D1FF                    sar edi, 1; 2.5x
+jmp 45BA92
+
+@MNK
+jmp 705A08
+
+@ASA
+ 0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]
+ C1FB02                  sar ebx, 02 ; clvl / 4
+ add ebx, 06 ; clvl / 4 + 6 %
+6A64                    push 00000064
+ B106                    mov cl, 06
+ 5A                      pop edx
+        call 00419F5A
+            cmp eax, ebx
+ 7D30                    jge 
+8D3CBF                  lea edi, dword ptr [edi+4*edi]; 5x
+jmp 45BA92
+
+@GLD
+0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]
+ C1FB01                  sar ebx, 01; clvl/2
+ add ebx, 0Ah ; clvl/2 + 10 %
+ jmp 45BA82
+ 
+ / done
+ 
+ ===========================================================================
+ 
+         chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BA6D(U)
+|
+:00719A00 8A8160010000            mov al, byte ptr [ecx+00000160]
+:00719A06 84C0                    test al, al
+:00719A08 7416                    je 00719A20
+:00719A0A 3C03                    cmp al, 03
+:00719A0C 7442                    je 00719A50
+:00719A0E 3C04                    cmp al, 04
+:00719A10 744E                    je 00719A60
+:00719A12 3C05                    cmp al, 05
+:00719A14 746A                    je 00719A80
+:00719A16 E95D20D4FF              jmp 0045BA78
+:00719A1B 90                      nop
+..
+:00719A1F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719A08(C)
+|
+:00719A20 0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]
+:00719A27 C1FB02                  sar ebx, 02
+:00719A2A 83C30A                  add ebx, 0000000A
+:00719A2D 6A64                    push 00000064
+:00719A2F B106                    mov cl, 06
+:00719A31 5A                      pop edx
+:00719A32 E82305D0FF              call 00419F5A
+:00719A37 3BC3                    cmp eax, ebx
+:00719A39 7D05                    jge 00719A40
+:00719A3B 8D3CBF                  lea edi, dword ptr [edi+4*edi]
+:00719A3E D1FF                    sar edi, 1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00719A39(C), :00719A7E(U)
+|
+:00719A40 E94D20D4FF              jmp 0045BA92
+:00719A45 90                      nop
+..
+:00719A4F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719A0C(C)
+|
+:00719A50 E9B3BFFEFF              jmp 00705A08
+:00719A55 90                      nop
+...
+:00719A5F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719A10(C)
+|
+:00719A60 0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]
+:00719A67 C1FB02                  sar ebx, 02
+:00719A6A 83C306                  add ebx, 00000006
+:00719A6D 6A64                    push 00000064
+:00719A6F B106                    mov cl, 06
+:00719A71 5A                      pop edx
+:00719A72 E8E304D0FF              call 00419F5A
+:00719A77 3BC3                    cmp eax, ebx
+:00719A79 7D03                    jge 00719A7E
+:00719A7B 8D3CBF                  lea edi, dword ptr [edi+4*edi]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719A79(C)
+|
+:00719A7E EBC0                    jmp 00719A40
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719A14(C)
+|
+:00719A80 0FBE99B8010000          movsx ebx, byte ptr [ecx+000001B8]
+:00719A87 C1FB01                  sar ebx, 01
+:00719A8A 83C30A                  add ebx, 0000000A
+:00719A8D E9F01FD4FF              jmp 0045BA82
+
+===========================================
+
+
+next
+
+нужно добавить - в целях обеспечения большего комфорта в бою - чек на оглушение монстра при условии что нанесенный уме урон больше или равно чем 25% максимальной жизни монстра
+
+сам нашел это место
+:00709474 E9E43BD3FF              jmp 0043D05D
+предположительно, там и надо ставить чек, но предпочту дождаться твоего ответа
+
+
+plan:
+chek monster maxHP/4, damage received
+if lower, continue
+
+
+        chek:
+:00709474 8B8618DD6900            mov eax, dword ptr [esi+0069DD18] ; baseLife
+:0070947A 52                      push edx
+:0070947B 8B961CDD6900            mov edx, dword ptr [esi+0069DD1C] ; CurrentLife
+:00709481 01D0                    add eax, edx
+:00709483 5A                      pop edx
+:00709484 C1F809                  sar eax, 09
+:00709487 3BE8                    cmp ebp, eax ; damage    summ/8
+:00709489 7DCF                    jge 0070945A ; стан
+:0070948B E9CD3BD3FF              jmp 0043D05D ; без стана
+
+    this version works better:
+:00709474 8B8618DD6900            mov eax, dword ptr [esi+0069DD18]
+:0070947A 52                      push edx
+:0070947B 89C2                    mov edx, eax
+:0070947D D1FA                    sar edx, 1
+:0070947F 01D0                    add eax, edx
+:00709481 8B961CDD6900            mov edx, dword ptr [esi+0069DD1C]
+:00709487 01D0                    add eax, edx
+:00709489 5A                      pop edx
+:0070948A C1F809                  sar eax, 09
+:0070948D 3BE8                    cmp ebp, eax
+:0070948F 7DC9                    jge 0070945A
+:00709491 E9C73BD3FF              jmp 0043D05D

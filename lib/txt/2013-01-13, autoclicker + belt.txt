@@ -1,0 +1,525 @@
+﻿@IsShiftPressed - новый дворд. Туда 0 изначально // A36600
+
+===========================================================
+
+;.text:00409A6E E8 4B 0A 00 00                          call    sub_40A4BE
+;.text:00409A73 E9 13 02 00 00                          jmp     loc_409C8B
+
+00409A6E >>> // E5D20
+>>>
+cmp ecx, 16d ; VK_16_SHIFT
+jnz @F
+mov dword ptr [@IsShiftPressed], 0
+@@:
+call    sub_40A4BE
+jmp     loc_409C8B
+
+   chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00409A6E(U)
+|
+:00719120 83F910                  cmp ecx, 00000010
+:00719123 750A                    jne 0071912F
+:00719125 C7050066A30000000000    mov dword ptr [00A36600], 00000000
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719123(C)
+|
+:0071912F E88A13CFFF              call 0040A4BE
+:00719134 90                      nop
+..
+:0071913A 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719159(U)
+|
+:0071913B E94B0BCFFF              jmp 00409C8B
+============================================================
+
+;.text:00409A7B E8 49 0A 00 00                          call    sub_40A4C9
+;.text:00409A80 E9 06 02 00 00                          jmp     loc_409C8B
+
+00409A7B >>> E5D40
+>>>
+cmp ecx, 16d ; VK_16_SHIFT
+jnz @F
+mov dword ptr [@IsShiftPressed], 1
+@@:
+call    sub_40A4C9
+jmp     loc_409C8B
+
+       chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00409A7B(U)
+|
+:00719140 83F910                  cmp ecx, 00000010
+:00719143 750A                    jne 0071914F
+:00719145 C7050066A30001000000    mov dword ptr [00A36600], 00000001
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719143(C)
+|
+:0071914F E87513CFFF              call 0040A4C9
+:00719154 90                      nop
+..
+:00719158 90                      nop
+:00719159 EBE0                    jmp 0071913B
+
+============================================================
+Теперь в том дворде всегда хранится значение состояния шифта
+============================================================
+
+@Repeat_Mouse_LButtonDown: // e5e20
+push eax
+push ecx
+push edx
+cmp byte ptr [005753F0], 1
+jnz @F
+cmp dword ptr [@IsShiftPressed], 0
+jz @F
+; тут штук 15-20 нопов. На случай исправления
+mov ecx, dword ptr [@IsShiftPressed]
+call 00409E8C
+
+@@:
+pop edx
+pop ecx
+pop eax
+retn
+
+============================================================
+
+@Repeat_Mouse_RButtonDown: // e5e5d
+push eax
+push ecx
+push edx
+cmp byte ptr [005753F0], 2
+jnz @F
+cmp dword ptr [@IsShiftPressed], 0
+jz @F
+call 0040A30E
+
+@@:
+pop edx
+pop ecx
+pop eax
+retn
+
+============================================================
+@autoClickDelay - новый дворд значение 3 думаю хватит. Потом сделаем настраиваемо // A36604
+============================================================
+
+ближняя атака // e5e80
+
+;.text:0045C16F E9 CC 6A 2B 00                          jmp     loc_712C40
+
+0045C16F >>>
+>>>
+mov ecx, dword ptr [esi + eax + 676d]; AttackAnimationActionFrameIndex
+add ecx, dword ptr [@autoClickDelay]
+cmp dword ptr [esi + eax + 140d], ecx; currentAnimationFrame // contiune from here
+jnz @F
+call @Repeat_Mouse_LButtonDown
+@@:
+jmp     loc_712C40
+
+============================================================
+
+лук // e5eB0
+
+; loc_45C5B0:  jmp     loc_712BD0
+
+45C5B0 >>>
+>>>
+mov ecx, dword ptr [esi + eax + 676d]; AttackAnimationActionFrameIndex
+add ecx, dword ptr [@autoClickDelay]
+cmp dword ptr [esi + eax + 140d], ecx; currentAnimationFrame
+jnz @F
+call @Repeat_Mouse_LButtonDown
+@@:
+jmp     loc_712BD0
+
+============================================================
+
+;.text:0045C8BE 8B 8C 30 F0 01 00 00                    mov     ecx, [eax+esi+496]
+;.text:0045C8C5 03 C6                                   add     eax, esi
+
+0045C8BE >>> // e5ee0
+>>>
+mov ecx, dword ptr [esi + eax + 784d]; SpellAnimationActionFrameIndex
+add ecx, dword ptr [@autoClickDelay]
+cmp dword ptr [esi + eax + 140d], ecx; currentAnimationFrame
+jnz @F
+call @Repeat_Mouse_RButtonDown ; внимательней, тут правая
+@@: 
+mov     ecx, [eax+esi+496d]
+jmp    0045C8C5
+
+============================================================
+
+;.text:0045DCE7                 mov     edi, eax
+;.text:0045DCE9
+;.text:0045DCE9 loc_45DCE9:                             ; CODE XREF: sub_45DAD7+1A6j
+;.text:0045DCE9                 mov     ecx, ebp        ; jumptable 0045DC7F default case
+;.text:0045DCEB                 call    sub_45CC67
+;.text:0045DCF0                 test    edi, edi
+
+0045DCEB >>> // E5F10
+>>>
+test eax, eax ; завершилось ли текущее действие
+jz @F
+call @Repeat_Mouse_LButtonDown  ; ага. Не ту букву поменял
+call @Repeat_Mouse_RButtonDown
+@@:
+call sub_45CC67
+jmp 0045DCF0
+
+
+============================================================
+Быстрая установка на пояс. Нужно сделать поддержку хранения шифта *готово*
+============================================================
+
+@IsMayCursorItemPutToBelt: // E5C00 ( 719000 )
+push ecx
+push edx
+
+call @getCurrentPlayerOffset
+add eax, 21412d ; itemOnCursor
+mov ecx, dword ptr [eax + 220d]; magicCode
+mov edx, dword ptr [eax + 224d]; spellIndex
+
+cmp ecx, 2
+jz @returnTrue
+cmp ecx, 3
+jz @returnTrue
+
+cmp ecx, 6
+jz @returnTrue
+cmp ecx, 7
+jz @returnTrue
+
+cmp ecx, 18d
+jz @returnTrue
+cmp ecx, 19d
+jz @returnTrue
+
+cmp ecx, 21d
+jz @isRelic
+cmp ecx, 22d
+jnz @returnFalse
+
+@isRelic:
+cmp edx, 2
+jz @returnTrue
+cmp edx, 37
+jz @returnTrue
+
+@returnFalse:
+xor eax, eax
+jmp @return
+
+@returnTrue:
+mov eax, 1
+
+@return:
+pop edx
+pop ecx
+retn
+
+       chek:
+* Referenced by a CALL at Address:
+|:007190BA   
+|
+:00719000 51                      push ecx
+:00719001 52                      push edx
+:00719002 E8C911FFFF              call 0070A1D0
+:00719007 05A4530000              add eax, 000053A4
+:0071900C 8B88DC000000            mov ecx, dword ptr [eax+000000DC]
+:00719012 8B90E0000000            mov edx, dword ptr [eax+000000E0]
+:00719018 90                      nop
+...
+:0071901F 90                      nop
+:00719020 83F902                  cmp ecx, 00000002
+:00719023 743B                    je 00719060
+:00719025 83F903                  cmp ecx, 00000003
+:00719028 7436                    je 00719060
+:0071902A 83F906                  cmp ecx, 00000006
+:0071902D 7431                    je 00719060
+:0071902F 83F907                  cmp ecx, 00000007
+:00719032 742C                    je 00719060
+:00719034 83F912                  cmp ecx, 00000012
+:00719037 7427                    je 00719060
+:00719039 83F913                  cmp ecx, 00000013
+:0071903C 7422                    je 00719060
+:0071903E 90                      nop
+:0071903F 90                      nop
+:00719040 83F915                  cmp ecx, 00000015
+:00719043 7405                    je 0071904A
+:00719045 83F916                  cmp ecx, 00000016
+:00719048 7510                    jne 0071905A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719043(C)
+|
+:0071904A 83FA02                  cmp edx, 00000002
+:0071904D 7411                    je 00719060
+:0071904F 83FA25                  cmp edx, 00000025
+:00719052 740C                    je 00719060
+:00719054 90                      nop
+..
+:00719059 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719048(C)
+|
+:0071905A 31C0                    xor eax, eax
+:0071905C EB06                    jmp 00719065
+:0071905E 90                      nop
+:0071905F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00719023(C), :00719028(C), :0071902D(C), :00719032(C), :00719037(C)
+|:0071903C(C), :0071904D(C), :00719052(C)
+|
+:00719060 90                      nop
+:00719061 90                      nop
+:00719062 6A01                    push 00000001
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071905C(U)
+|
+:00719064 58                      pop eax
+:00719065 5A                      pop edx
+:00719066 59                      pop ecx
+:00719067 C3                      ret
+============================================================
+
+@CountOfItemsOnBelt: // E5C70
+push ecx
+push edx
+xor ecx, ecx ; результат
+mov edx, 8
+call @getCurrentPlayerOffset
+add eax, 18444d ; belt[0].itemCode
+@loop:
+cmp dword ptr [eax], 0ff ff ff ffh
+jz @F
+inc ecx
+@@:
+add eax, 372d
+dec edx
+jnz @loop
+mov eax, ecx
+@return:
+pop edx
+pop ecx
+retn
+
+             chek:
+* Referenced by a CALL at Address:
+|:007190C7   
+|
+:00719070 51                      push ecx
+:00719071 52                      push edx
+:00719072 31C9                    xor ecx, ecx
+:00719074 6A08                    push 00000008
+:00719076 5A                      pop edx
+:00719077 E85411FFFF              call 0070A1D0
+:0071907C 050C480000              add eax, 0000480C
+:00719081 90                      nop
+:00719082 90                      nop
+:00719083 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071908B(C)
+|
+:00719084 8338FF                  cmp dword ptr [eax], FFFFFFFF
+:00719087 7401                    je 0071908A
+:00719089 41                      inc ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00719087(C)
+|
+:0071908A 4A                      dec edx
+:0071908B 75F7                    jne 00719084
+:0071908D 90                      nop
+:0071908E 90                      nop
+:0071908F 90                      nop
+:00719090 89C8                    mov eax, ecx
+:00719092 5A                      pop edx
+:00719093 59                      pop ecx
+:00719094 C3                      ret
+
+============================================================
+
+.text:00420DAA 8B 84 28 AC 53 00 00                    mov     eax, [eax+ebp+21420]
+.text:00420DB1 3B C3                                   cmp     eax, ebx
+.text:00420DB3 74 77                                   jz      short loc_420E2C
+.text:00420DB5 8B 74 24 18                             mov     esi, [esp+1Ch+var_4]
+
+00420DAA>>> // E5CA0
+>>>
+mov     eax, [eax+ebp+21420]
+.text:00420DB1 3B C3                                   cmp     eax, ebx
+.text:00420DB3 74 77                                   jz      short loc_420E2C
+@cmpQuickBelt:
+
+cmp dword ptr [@IsShiftPressed], 0
+jz @notQuickPlace
+
+push eax
+call @IsMayCursorItemPutToBelt
+test eax, eax
+pop eax
+jz @notQuickPlace
+
+push eax
+call @CountOfItemsOnBelt
+cmp eax, 8
+pop eax
+jz @notQuickPlace
+
+@QuickPlace:
+mov     esi, dword ptr [esp+18h]
+
+mov     ecx, esi
+call    0046CA89 ; AutoPutCursorItemToInventory
+
+mov     ecx, esi
+mov edx, 1
+call 00424ABF ; RecalcPlayer
+
+cmp esi, dword ptr [006EADE8]
+jnz @F
+mov ecx, 56d
+call 0041850D ; PlayGlobalSound
+@@:
+jmp 420E2C
+
+@notQuickPlace:
+jmp 00420DB5
+
+       chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00420DAA(U)
+|
+:007190A0 8B8405AC530000          mov eax, dword ptr [ebp+eax+000053AC]
+:007190A7 3BC3                    cmp eax, ebx
+:007190A9 0F847D7DD0FF            je 00420E2C
+:007190AF 833D0066A30000          cmp dword ptr [00A36600], 00000000
+:007190B6 744F                    je 00719107
+:007190B8 90                      nop
+:007190B9 50                      push eax
+:007190BA E841FFFFFF              call 00719000
+:007190BF 85C0                    test eax, eax
+:007190C1 58                      pop eax
+:007190C2 7443                    je 00719107
+:007190C4 90                      nop
+:007190C5 90                      nop
+:007190C6 50                      push eax
+:007190C7 E8A4FFFFFF              call 00719070
+:007190CC 83F808                  cmp eax, 00000008
+:007190CF 58                      pop eax
+:007190D0 7435                    je 00719107
+:007190D2 90                      nop
+:007190D3 90                      nop
+:007190D4 89F1                    mov ecx, esi
+:007190D6 E8AE39D5FF              call 0046CA89
+:007190DB 90                      nop
+..
+:007190DF 90                      nop
+:007190E0 89F1                    mov ecx, esi
+:007190E2 6A01                    push 00000001
+:007190E4 5A                      pop edx
+:007190E5 E8D5B9D0FF              call 00424ABF
+:007190EA 3B35E8AD6E00            cmp esi, dword ptr [006EADE8]
+:007190F0 750D                    jne 007190FF
+:007190F2 6A38                    push 00000038
+:007190F4 59                      pop ecx
+:007190F5 E813F4CFFF              call 0041850D
+:007190FA 90                      nop
+..
+:007190FE 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007190F0(C)
+|
+:007190FF E9287DD0FF              jmp 00420E2C
+:00719104 90                      nop
+:00719105 90                      nop
+:00719106 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007190B6(C), :007190C1(C), :007190D0(C)
+|
+:00719107 E9A97CD0FF              jmp 00420DB5
+
+
+
+
+
+
+
+
+
+
+
+
+============================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+============================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+============================================================
+

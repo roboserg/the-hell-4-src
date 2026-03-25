@@ -1,0 +1,18 @@
+Exploding Barrels code:
+
+
+:00453FCC 8A83E8FE6000            mov al, byte ptr [ebx+0060FEE8]
+:00453FD2 84C0                    test al, al
+:00453FD4 7E18                    jle 00453FEE
+:00453FD6 8D550F                  lea edx, dword ptr [ebp+0F]
+:00453FD9 52                      push edx
+:00453FDA 51                      push ecx
+:00453FDB 51                      push ecx
+:00453FDC 57                      push edi
+:00453FDD 6A10                    push 00000010			max dmg
+:00453FDF 6A08                    push 00000008			min dmg
+:00453FE1 51                      push ecx
+:00453FE2 83CAFF                  or edx, FFFFFFFF
+:00453FE5 0FBEC8                  movsx ecx, al
+:00453FE8 49                      dec ecx
+:00453FE9 E821B6FDFF              call 0042F60F

@@ -1,0 +1,592 @@
+﻿Кидаем золото и две банки
+
+@dropBossGold: ; (row, col. bossIndex)  /offset EC650 // 71FA50
+push edi
+push esi
+
+mov edi, ecx
+mov esi, edx
+
+cmp     dword ptr[006920DCh], 127  ;CountItemsOnMap
+jge @return ; если некуда бросать выходим
+
+xor     eax, eax
+push    1               ; a7
+push    eax             ; a6
+push    eax             ; magicCode
+push    11d              ; itemCode (gold)
+push    eax             ; isGoodMagicItem
+mov     edx, esi        ; col
+mov     ecx, edi        ; row
+call   0042777A; FindAndDropItem
+
+mov     eax, dword ptr[006920DCh] ;CountItemsOnMap
+mov     eax, dword ptr [00685514h + eax*4]
+mov     esi, eax
+imul    esi, 174h
+mov eax, dword ptr [00686344h + ecx] ; cur gold
+
+; модификация значения по произвольной формуле. Используя оригинальное значение, либо не используя его
+; ecx оффсет, его необходимо сохранять
+; eax старое значение суммы
+; dword ptr [ebp+8] ; bossId
+; edi, esi, edx тут свободны
+
+mov eax, dlvl  (60B1D8h) // eax = dlvl // A1D8B16000
+imul eax, 32h  // eax = dlvl*50 // 6BC032
+833DC070600001          cmp dword ptr [006070C0], 00000001
+jne @f
+add eax, 1200 // 05 B0 04 00 00
+jmp @cont
+
+@@
+833DC070600002          cmp dword ptr [006070C0], 00000002
+jne @cont
+add eax, 2400 // 05 60 09 00 00
+
+@cont
+eax + Rnd[101]
+mov dword ptr [00686344h + esi], eax
+
+@return: / ec664h
+pop esi
+pop edi
+retn 4
+
+
+asm:
+
+* Referenced by a CALL at Address:
+|:0071FB65   
+|
+:0071FA50 57                      push edi
+:0071FA51 56                      push esi
+:0071FA52 89CF                    mov edi, ecx
+:0071FA54 89D6                    mov esi, edx
+:0071FA56 833DDC2069007F          cmp dword ptr [006920DC], 0000007F
+:0071FA5D 90                      nop
+:0071FA5E 90                      nop
+:0071FA5F 90                      nop
+:0071FA60 7D02                    jge 0071FA64
+:0071FA62 EB0C                    jmp 0071FA70
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071FA60(C), :0071FAEA(U)
+|
+:0071FA64 5E                      pop esi
+:0071FA65 5F                      pop edi
+:0071FA66 C20400                  ret 0004
+
+
+:0071FA69 90                      nop
+:0071FA6A 90                      nop
+:0071FA6B 90                      nop
+:0071FA6C 90                      nop
+:0071FA6D 90                      nop
+:0071FA6E 90                      nop
+:0071FA6F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071FA62(U)
+|
+:0071FA70 31C0                    xor eax, eax
+:0071FA72 6A01                    push 00000001
+:0071FA74 50                      push eax
+:0071FA75 50                      push eax
+:0071FA76 6A0B                    push 0000000B
+:0071FA78 50                      push eax
+:0071FA79 89F2                    mov edx, esi
+:0071FA7B 89F9                    mov ecx, edi
+:0071FA7D 90                      nop
+:0071FA7E 90                      nop
+:0071FA7F 90                      nop
+:0071FA80 90                      nop
+:0071FA81 E8F47CD0FF              call 0042777A
+:0071FA86 90                      nop
+:0071FA87 90                      nop
+:0071FA88 A1DC206900              mov eax, dword ptr [006920DC]
+:0071FA8D 90                      nop
+:0071FA8E 90                      nop
+:0071FA8F 90                      nop
+:0071FA90 8B048514556800          mov eax, dword ptr [4*eax+00685514]
+:0071FA97 90                      nop
+:0071FA98 90                      nop
+:0071FA99 89C6                    mov esi, eax
+:0071FA9B 69F674010000            imul esi, 00000174
+:0071FAA1 90                      nop
+:0071FAA2 90                      nop
+:0071FAA3 90                      nop
+:0071FAA4 A1D8B16000              mov eax, dword ptr [0060B1D8]
+:0071FAA9 6BC032                  imul eax, 00000032
+:0071FAAC 833DC070600001          cmp dword ptr [006070C0], 00000001
+:0071FAB3 750B                    jne 0071FAC0
+:0071FAB5 05B0040000              add eax, 000004B0
+:0071FABA EB16                    jmp 0071FAD2
+:0071FABC 90                      nop
+:0071FABD 90                      nop
+:0071FABE 90                      nop
+:0071FABF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071FAB3(C)
+|
+:0071FAC0 833DC070600002          cmp dword ptr [006070C0], 00000002
+:0071FAC7 7509                    jne 0071FAD2
+:0071FAC9 0560090000              add eax, 00000960
+:0071FACE 90                      nop
+:0071FACF 90                      nop
+:0071FAD0 90                      nop
+:0071FAD1 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071FABA(U), :0071FAC7(C)
+|
+:0071FAD2 89C7                    mov edi, eax
+:0071FAD4 6A65                    push 00000065
+:0071FAD6 5A                      pop edx
+:0071FAD7 51                      push ecx
+:0071FAD8 E87DA4CFFF              call 00419F5A
+:0071FADD 59                      pop ecx
+:0071FADE 90                      nop
+:0071FADF 90                      nop
+:0071FAE0 01F8                    add eax, edi
+:0071FAE2 898644636800            mov dword ptr [esi+00686344], eax
+:0071FAE8 90                      nop
+:0071FAE9 90                      nop
+:0071FAEA E975FFFFFF              jmp 0071FA64
+
+
+and:
+
+:0071FAE2 E919010000              jmp 0071FC00
+
+and 2: ( >>> 71FAE2 ) >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071FC0E(U), :0071FC18(U), :0071FC29(U), :0071FC4E(U), :0071FC6D(U)
+|:0071FC79(U), :0071FD54(U)
+|
+:0071FBF0 898644636800            mov dword ptr [esi+00686344], eax
+:0071FBF6 E9EFFEFFFF              jmp 0071FAEA
+:0071FBFB 90                      nop
+:0071FBFC 90                      nop
+:0071FBFD 90                      nop
+:0071FBFE 90                      nop
+:0071FBFF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071FAE2(U) <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+|
+:0071FC00 837D080A                cmp dword ptr [ebp+08], 0000000A
+:0071FC04 750A                    jne 0071FC10
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071FC54(C)
+|
+:0071FC06 51                      push ecx
+:0071FC07 89C1                    mov ecx, eax
+:0071FC09 D1E1                    shl ecx, 1
+:0071FC0B 01C8                    add eax, ecx
+:0071FC0D 59                      pop ecx
+:0071FC0E EBE0                    jmp 0071FBF0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071FC04(C)
+|
+:0071FC10 837D0801                cmp dword ptr [ebp+08], 00000001
+:0071FC14 750A                    jne 0071FC20
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071FC34(C), :0071FC3A(C), :0071FC9C(C), :0071FCAC(C)
+|
+:0071FC16 D1E0                    shl eax, 1
+:0071FC18 EBD6                    jmp 0071FBF0
+:0071FC1A 90                      nop
+:0071FC1B 90                      nop
+:0071FC1C 90                      nop
+:0071FC1D 90                      nop
+:0071FC1E 90                      nop
+:0071FC1F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071FC14(C)
+|
+:0071FC20 837D0802                cmp dword ptr [ebp+08], 00000002
+:0071FC24 750A                    jne 0071FC30
+:0071FC26 C1E002                  shl eax, 02
+:0071FC29 EBC5                    jmp 0071FBF0
+:0071FC2B 90                      nop
+:0071FC2C 90                      nop
+:0071FC2D 90                      nop
+:0071FC2E 90                      nop
+:0071FC2F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071FC24(C)
+|
+:0071FC30 837D0803                cmp dword ptr [ebp+08], 00000003
+:0071FC34 74E0                    je 0071FC16
+:0071FC36 837D0804                cmp dword ptr [ebp+08], 00000004
+:0071FC3A 74DA                    je 0071FC16
+:0071FC3C 90                      nop
+:0071FC3D 90                      nop
+:0071FC3E 90                      nop
+:0071FC3F 837D0805                cmp dword ptr [ebp+08], 00000005
+:0071FC43 750B                    jne 0071FC50
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071FCEF(C), :0071FCFC(C), :0071FD0C(C), :0071FD1C(C), :0071FD2C(C)
+|:0071FD3C(C), :0071FD4C(C)
+|
+:0071FC45 51                      push ecx
+:0071FC46 89C1                    mov ecx, eax
+:0071FC48 C1E102                  shl ecx, 02
+:0071FC4B 01C8                    add eax, ecx
+:0071FC4D 59                      pop ecx
+:0071FC4E EBA0                    jmp 0071FBF0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071FC43(C)
+|
+:0071FC50 837D0809                cmp dword ptr [ebp+08], 00000009
+:0071FC54 74B0                    je 0071FC06
+:0071FC56 837D080C                cmp dword ptr [ebp+08], 0000000C
+:0071FC5A 7514                    jne 0071FC70
+:0071FC5C 51                      push ecx
+:0071FC5D 52                      push edx
+:0071FC5E 89C1                    mov ecx, eax
+:0071FC60 D1E1                    shl ecx, 1
+:0071FC62 89CA                    mov edx, ecx
+:0071FC64 D1E2                    shl edx, 1
+:0071FC66 01D1                    add ecx, edx
+:0071FC68 01C8                    add eax, ecx
+:0071FC6A 5A                      pop edx
+:0071FC6B 59                      pop ecx
+:0071FC6C 90                      nop
+:0071FC6D EB81                    jmp 0071FBF0
+:0071FC6F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071FC5A(C)
+|
+:0071FC70 837D080D                cmp dword ptr [ebp+08], 0000000D
+:0071FC74 750A                    jne 0071FC80
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071FCB9(C), :0071FCC2(C), :0071FCCB(C), :0071FCD4(C), :0071FCDD(C)
+|
+:0071FC76 C1E003                  shl eax, 03
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071FC93(U)
+|
+:0071FC79 E972FFFFFF              jmp 0071FBF0
+:0071FC7E 90                      nop
+:0071FC7F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071FC74(C)
+|
+:0071FC80 817D089B000000          cmp dword ptr [ebp+08], 0000009B
+:0071FC87 750C                    jne 0071FC95
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071FCE6(C)
+|
+:0071FC89 51                      push ecx
+:0071FC8A D1E0                    shl eax, 1
+:0071FC8C 89C1                    mov ecx, eax
+:0071FC8E D1E1                    shl ecx, 1
+:0071FC90 01C8                    add eax, ecx
+:0071FC92 59                      pop ecx
+:0071FC93 EBE4                    jmp 0071FC79
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071FC87(C)
+|
+:0071FC95 817D089D000000          cmp dword ptr [ebp+08], 0000009D
+:0071FC9C 0F8474FFFFFF            je 0071FC16
+:0071FCA2 817D089E000000          cmp dword ptr [ebp+08], 0000009E
+:0071FCA9 90                      nop
+:0071FCAA 90                      nop
+:0071FCAB 90                      nop
+:0071FCAC 0F8464FFFFFF            je 0071FC16
+:0071FCB2 817D0818020000          cmp dword ptr [ebp+08], 00000218
+:0071FCB9 74BB                    je 0071FC76
+:0071FCBB 817D0819020000          cmp dword ptr [ebp+08], 00000219
+:0071FCC2 74B2                    je 0071FC76
+:0071FCC4 817D081A020000          cmp dword ptr [ebp+08], 0000021A
+:0071FCCB 74A9                    je 0071FC76
+:0071FCCD 817D082D020000          cmp dword ptr [ebp+08], 0000022D
+:0071FCD4 74A0                    je 0071FC76
+:0071FCD6 817D082E020000          cmp dword ptr [ebp+08], 0000022E
+:0071FCDD 7497                    je 0071FC76
+:0071FCDF 817D0843020000          cmp dword ptr [ebp+08], 00000243
+:0071FCE6 74A1                    je 0071FC89
+:0071FCE8 817D0844020000          cmp dword ptr [ebp+08], 00000244
+:0071FCEF 0F8450FFFFFF            je 0071FC45
+:0071FCF5 817D0845020000          cmp dword ptr [ebp+08], 00000245
+:0071FCFC 0F8443FFFFFF            je 0071FC45
+:0071FD02 817D0846020000          cmp dword ptr [ebp+08], 00000246
+:0071FD09 90                      nop
+:0071FD0A 90                      nop
+:0071FD0B 90                      nop
+:0071FD0C 0F8433FFFFFF            je 0071FC45
+:0071FD12 817D0847020000          cmp dword ptr [ebp+08], 00000247
+:0071FD19 90                      nop
+:0071FD1A 90                      nop
+:0071FD1B 90                      nop
+:0071FD1C 0F8423FFFFFF            je 0071FC45
+:0071FD22 817D0848020000          cmp dword ptr [ebp+08], 00000248
+:0071FD29 90                      nop
+:0071FD2A 90                      nop
+:0071FD2B 90                      nop
+:0071FD2C 0F8413FFFFFF            je 0071FC45
+:0071FD32 817D0849020000          cmp dword ptr [ebp+08], 00000249
+:0071FD39 90                      nop
+:0071FD3A 90                      nop
+:0071FD3B 90                      nop
+:0071FD3C 0F8403FFFFFF            je 0071FC45
+:0071FD42 817D084C020000          cmp dword ptr [ebp+08], 0000024C
+:0071FD49 90                      nop
+:0071FD4A 90                      nop
+:0071FD4B 90                      nop
+:0071FD4C 0F84F3FEFFFF            je 0071FC45
+:0071FD52 90                      nop
+:0071FD53 90                      nop
+:0071FD54 E997FEFFFF              jmp 0071FBF0
+
+=====================================================================
+
+@specialBossDrop: (row, col. bossIndex)
+push    ebp
+mov     ebp, esp
+push    ecx; две локальные переменные
+push    ecx
+
+push edi
+push esi
+
+mov edi, ecx; row
+mov esi, edx; col
+
+push dword ptr [ebp+8]; bossIndex
+call @dropBossGold
+
+mov eax, dword ptr [006070С0h]; Difficulty
+cmp eax. 1
+jg @doom
+jz @purgatory
+
+@horror:
+mov ecx, 3 ; MC_3_POTION_OF_HEALING
+mov edx, 6 ; MC_6_POTION_OF_MANA
+jmp @f
+
+@purgatory:
+mov ecx, 2 ; MC_2_POTION_OF_FULL_HEALING
+mov edx, 7 ; MC_7_POTION_OF_FULL_MANA
+jmp @f
+
+@doom:
+mov ecx, 19d ; MC_19_POTION_OF_FULL_REJUVENTAION
+mov edx, ecx
+
+@@:
+mov dword ptr [ebp-4], ecx
+mov dword ptr [ebp-8], edx
+
+xor eax. eax
+push    1               ; a7
+push    edi             ; a6
+push    dword ptr [ebp-4]             ; magicCode
+mov  edx, esi ; col
+mov  ecx, edi ; row
+push    eax             ; itemCode
+push    eax             ; isGoodMagicItem
+call   0042777Ah ;  FindAndDropItem
+
+xor eax. eax
+push    1               ; a7
+push    edi             ; a6
+push    dword ptr [ebp-8]             ; magicCode
+mov  edx, esi ; col
+mov  ecx, edi ; row
+push    eax             ; itemCode
+push    eax             ; isGoodMagicItem
+call   0042777Ah ;  FindAndDropItem
+
+@return:
+pop esi
+pop edi
+leave
+retn 4
+
+asm:
+
+* Referenced by a CALL at Address:
+|:0071FB28   
+|
+:0071FB50 55                      push ebp
+:0071FB51 89E5                    mov ebp, esp
+:0071FB53 51                      push ecx
+:0071FB54 51                      push ecx
+:0071FB55 90                      nop
+:0071FB56 90                      nop
+:0071FB57 57                      push edi
+:0071FB58 56                      push esi
+:0071FB59 89CF                    mov edi, ecx
+:0071FB5B 89D6                    mov esi, edx
+:0071FB5D FF7508                  push [ebp+08]
+:0071FB60 90                      nop
+:0071FB61 90                      nop
+:0071FB62 90                      nop
+:0071FB63 90                      nop
+:0071FB64 90                      nop
+:0071FB65 E8E6FEFFFF              call 0071FA50
+:0071FB6A 90                      nop
+:0071FB6B 90                      nop
+:0071FB6C 90                      nop
+:0071FB6D 90                      nop
+:0071FB6E 90                      nop
+:0071FB6F 90                      nop
+:0071FB70 A1C0706000              mov eax, dword ptr [006070C0]
+:0071FB75 83F801                  cmp eax, 00000001
+:0071FB78 7F12                    jg 0071FB8C
+:0071FB7A 7408                    je 0071FB84
+:0071FB7C 6A03                    push 00000003
+:0071FB7E 59                      pop ecx
+:0071FB7F 6A06                    push 00000006
+:0071FB81 5A                      pop edx
+:0071FB82 EB0D                    jmp 0071FB91
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071FB7A(C)
+|
+:0071FB84 6A02                    push 00000002
+:0071FB86 59                      pop ecx
+:0071FB87 6A07                    push 00000007
+:0071FB89 5A                      pop edx
+:0071FB8A EB05                    jmp 0071FB91
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071FB78(C)
+|
+:0071FB8C 6A13                    push 00000013
+:0071FB8E 59                      pop ecx
+:0071FB8F 89CA                    mov edx, ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071FB82(U), :0071FB8A(U)
+|
+:0071FB91 90                      nop
+:0071FB92 90                      nop
+:0071FB93 90                      nop
+:0071FB94 90                      nop
+:0071FB95 90                      nop
+:0071FB96 894DFC                  mov dword ptr [ebp-04], ecx
+:0071FB99 8955F8                  mov dword ptr [ebp-08], edx
+:0071FB9C 31C0                    xor eax, eax
+:0071FB9E 6A01                    push 00000001
+:0071FBA0 57                      push edi
+:0071FBA1 FF75FC                  push [ebp-04]
+:0071FBA4 89F2                    mov edx, esi
+:0071FBA6 89F9                    mov ecx, edi
+:0071FBA8 50                      push eax
+:0071FBA9 50                      push eax
+:0071FBAA 90                      nop
+:0071FBAB 90                      nop
+:0071FBAC 90                      nop
+:0071FBAD 90                      nop
+:0071FBAE 90                      nop
+:0071FBAF E8C67BD0FF              call 0042777A
+:0071FBB4 EB0A                    jmp 0071FBC0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071FBD6(U)
+|
+:0071FBB6 5E                      pop esi
+:0071FBB7 5F                      pop edi
+:0071FBB8 C9                      leave
+:0071FBB9 C20400                  ret 0004
+
+
+:0071FBBC 90                      nop
+:0071FBBD 90                      nop
+:0071FBBE 90                      nop
+:0071FBBF 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071FBB4(U)
+|
+:0071FBC0 31C0                    xor eax, eax
+:0071FBC2 6A01                    push 00000001
+:0071FBC4 57                      push edi
+:0071FBC5 FF75F8                  push [ebp-08]
+:0071FBC8 89F2                    mov edx, esi
+:0071FBCA 89F9                    mov ecx, edi
+:0071FBCC 50                      push eax
+:0071FBCD 50                      push eax
+:0071FBCE 90                      nop
+:0071FBCF E8A67BD0FF              call 0042777A
+:0071FBD4 90                      nop
+:0071FBD5 90                      nop
+:0071FBD6 EBDE                    jmp 0071FBB6
+================================================================
+Использование
+
+.mod:0071006A 50                                      push    eax
+.mod:0071006B 8B C7                                   mov     eax, edi
+.mod:0071006D 90                                      nop
+.mod:0071006E 90                                      nop
+.mod:0071006F 90                                      nop
+.mod:00710070 69 C0 E4 00 00 00                       imul    eax, 0E4h
+.mod:00710076 83 B8 A0 DC 69 00 00                    cmp     Monsters.newBossId[eax], 0
+.mod:0071007D 58                                      pop     eax
+.mod:0071007E 74 54                                   jz      short loc_7100D4
+
+mov     eax, edi
+imul    eax, 0E4h
+push dword ptr [eax+69DCA0h]; newBossId
+
+mov edx, dword ptr [esi+24h]
+mov ecx, dword ptr [esi+20h]
+call @specialBossDrop // 71FA50
+
+.mod:00710080 8B CF                                   mov     ecx, edi
+.mod:00710082 E8 79 2E 00 00                          call    sub_712F00
+
+       asm:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00710080(U)
+|
+:0071FB00 89F8                    mov eax, edi
+:0071FB02 69C0E4000000            imul eax, 000000E4
+:0071FB08 90                      nop
+:0071FB09 90                      nop
+:0071FB0A FFB0A0DC6900            push dword ptr [eax+0069DCA0]
+:0071FB10 90                      nop
+:0071FB11 90                      nop
+:0071FB12 90                      nop
+:0071FB13 8B5624                  mov edx, dword ptr [esi+24]
+:0071FB16 8B4E20                  mov ecx, dword ptr [esi+20]
+:0071FB19 90                      nop
+..........
+:0071FB27 90                      nop
+:0071FB28 E823000000              call 0071FB50
+:0071FB2D 90                      nop
+:0071FB2E 8BCF                    mov ecx, edi
+:0071FB30 90                      nop
+:0071FB31 E8CA33FFFF              call 00712F00
+:0071FB36 E94C05FFFF              jmp 00710087
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,6 @@
+No running in town
+
+Applied this hack, reversed actually :)
+
+Offset=0x41b6bc Len=0x1 OldData=30 NewData=00
+Offset=0x42e488 Len=0x1 OldData=00 NewData=01

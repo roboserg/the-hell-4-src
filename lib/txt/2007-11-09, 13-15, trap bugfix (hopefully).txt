@@ -1,0 +1,9 @@
+
+
+offset 503e2:
+
+5f (spawning) -> 5b (rune of lite)
+
+changed trap effect, which caused gamecrash on level 15
+
+hopefully, it helps...

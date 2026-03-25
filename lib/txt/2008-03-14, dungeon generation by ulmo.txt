@@ -1,0 +1,127 @@
+Main loading routine :
+
+:0040B151 51                      push ecx
+:0040B152 A1C8535700              mov eax, dword ptr [005753C8]
+:0040B157 53                      push ebx
+:0040B158 55                      push ebp
+:0040B159 8BD9                    mov ebx, ecx
+:0040B15B 56                      push esi
+:0040B15C 57                      push edi
+:0040B15D 85C0                    test eax, eax
+:0040B15F 8BEA                    mov ebp, edx
+:0040B161 895C2410                mov dword ptr [esp+10], ebx
+:0040B165 740E                    je 0040B175                                   ;\
+:0040B167 0FB60DD8B16000          movzx ecx, byte ptr [0060B1D8]                ;| EAX != 0 -> Rand seed[level] = EAX
+:0040B16E 89048D30525700          mov dword ptr [4*ecx+00575230], eax           ;/
+>0040B175 E8940C0600              call 0046BE0E                                 ; calls to storm...
+:0040B17A 6A01                    push 00000001
+:0040B17C 59                      pop ecx
+:0040B17D E848C9FFFF              call 00407ACA                                 ; Various calculus on some adress...
+:0040B182 0FB605D8B16000          movzx eax, byte ptr [0060B1D8]                ;\
+:0040B189 8B0C8530525700          mov ecx, dword ptr [4*eax+00575230]           ;| init rand with seed of lvl
+:0040B190 E892ED0000              call 00419F27                                 ;/
+:0040B195 E8032D0100              call 0041DE9D                                 ; compute [006854F8] (i.e. update loading screen ?)
+:0040B19A E84E120200              call 0042C3ED                                 ; use or load of PlrGFX\Stone.TRN and PlrGFX\Infra.TRN...
+:0040B19F E8C4FCFFFF              call 0040AE68                                 ; load *.MIN *.TIL *.CEL *S.CEL of area
+:0040B1A4 E8F42C0100              call 0041DE9D                                 ; compute [006854F8] (i.e. update loading screen ?)
+:0040B1A9 85DB                    test ebx, ebx                                 ;\
+:0040B1AB 743C                    je 0040B1E9                                   ;| if ebx != 0  (was ECX parameter) do the following
+:0040B1AD E8E4330100              call 0041E596                                 ;|
+:0040B1B2 E865840100              call 0042361C                                 ;| loading of "Items\Armor2.CEL"
+:0040B1B7 E85D330200              call 0042E519                                 ;| loading of Data\MedTextS.CEL + Data\TextBox.CEL
+:0040B1BC 33F6                    xor esi, esi                                  ;|
+:0040B1BE 803DC8DF6D0000          cmp byte ptr [006DDFC8], 00                   ;|
+:0040B1C5 7613                    jbe 0040B1DA                                  ;|
+/>0040B1C7 8BCE                    mov ecx, esi                                 ;|
+|:0040B1C9 E83CBF0400              call 0045710A                                ;| load PlrGfx
+|:0040B1CE 0FB605C8DF6D00          movzx eax, byte ptr [006DDFC8]               ;|
+|:0040B1D5 46                      inc esi                                      ;|
+|:0040B1D6 3BF0                    cmp esi, eax                                 ;|
+\:0040B1D8 7CED                    jl 0040B1C7                                  ;|
+>0040B1DA E85E120600              call 0046C43D                                 ;| load Data\TextSlid.CEL + Data\PentSpn2.CEL + Data\TextSlid.CEL
+:0040B1DF E8396BFFFF              call 00401D1D                                 ;| sets 004D07A8 and 004D0E10..004D0E2C
+:0040B1E4 E8C01E0100              call 0041D0A9                                 ;/ sets 00684498, 00684494, 00684908
+
+>0040B1E9 0FB605D8B16000          movzx eax, byte ptr [0060B1D8]                ; level 1-18
+:0040B1F0 8B0C8530525700          mov ecx, dword ptr [4*eax+00575230]           ;\
+:0040B1F7 E82BED0000              call 00419F27                                 ;/ rndseed = level Rand Seed
+:0040B1FC 803DD4B1600000          cmp byte ptr [0060B1D4], 00                   ; Area (1/2/3/4)
+:0040B203 7505                    jne 0040B20A                                  ;\
+:0040B205 E8B9120600              call 0046C4C3                                 ;/ if in town, some calculus on a table...
+>0040B20A E88E2C0100              call 0041DE9D                                 ; compute [006854F8] (i.e. update loading screen ?)
+:0040B20F E84D6BFFFF              call 00401D61                                 ; Load AMP and fills a strange table in [004D07B0]
+:0040B214 803DD4B1600000          cmp byte ptr [0060B1D4], 00                   ;\
+:0040B21B 740F                    je 0040B22C                                   ;| if (not in town) and (parameter EDX != 4)
+:0040B21D 83FD04                  cmp ebp, 00000004                             ;|
+:0040B220 740A                    je 0040B22C                                   ;|
+:0040B222 E82F160200              call 0042C856                                 ;| [00692E08] = [0069361C] = [0069762C] = 0, memset(00692768, 0, 20)
+:0040B227 E872190200              call 0042CB9E                                 ;/ [00693614] = [00693610] = 0, [00697620] = 1, 0060B1E0 (table of SOL & 01)
+>0040B22C E8D4F60200              call 0043A905                                 ; other fill (006AB798 = 006AB790 = 0069D638 = 0069DC80 = 006AB794 = 0, 006A8EA8 = C8, clear table of 006A8EB4 and of 0069D960)
+:0040B231 E8672C0100              call 0041DE9D                                 ; compute [006854F8] (i.e. update loading screen ?)
+:0040B236 803D14F3610000          cmp byte ptr [0061F314], 00
+:0040B23D 0F858E020000            jne 0040B4D1                                  ; jmp to section for preset level (SklKng*/BoneCha*/Lv1Maze*/FoulWatr/Vile*)
+:0040B243 8BCD                    mov ecx, ebp
+:0040B245 E810FEFFFF              call 0040B05A                                 ; put_warps + build lvl + read palette
+:0040B24A E84E2C0100              call 0041DE9D                                 ; compute [006854F8] (i.e. update loading screen ?)
+:0040B24F E8D9040100              call 0041B72D                                 ; read .SOL
+:0040B254 0FB605D8B16000          movzx eax, byte ptr [0060B1D8]                ; EAX = level (1-4 church...15-18 Nest)
+:0040B25B 8B0C8530525700          mov ecx, dword ptr [4*eax+00575230]           ; rand seed
+:0040B262 E8C0EC0000              call 00419F27                                 ;[0057B658] = 0, [0057B638] = [0057B630] = ecx
+:0040B267 803DD4B1600000          cmp byte ptr [0060B1D4], 00                   ; area (L1-L6)
+:0040B26E 7411                    je 0040B281                                   ; in town, skip
+:0040B270 E866F70200              call 0043A9DB                                 ;\ choose monsters of level ??
+:0040B275 E8196F0600              call 00472193                                 ;| spawn monsters ???
+:0040B27A E8AEFDFFFF              call 0040B02D                                 ;/ load missiles + objects ??
+:0040B27F EB05                    jmp 0040B286
+>0040B281 E88C490200              call 0042FC12                                 ; missiles ?  Only in town...
+>0040B286 E8122C0100              call 0041DE9D                                 ; compute [006854F8] (i.e. update loading screen ?)
+.
+.
+.
+and so on...
+
+
+Section for preset levels is very similar, I wont comment it unless asked for.
+
+ 
+
+Let's look quickly at the function 0040B05A (put_warps + build lvl + read palette) :
+
+there is a switch on [0060B1D4] (current area), which do the following :
+Put rand seed of level in ECX (not for the "in town" case)
+call the function for creating the level
+call the function to add warps to the level
+call the function (0047912E) that seems to add a 5*5 area of stairs on the map of AMP of lvl (not for the "in town" case)
+jmp to the function (00455587) that read a random palette for the current area (L1_1.pal to L1_5.pal for area1 per example)
+
+call 0047587C           ; create town
+call 0040BEB8           ; create L1/L5
+call 0040F840           ; create L2
+call 004123E1           ; create L3/L6
+call 00414FC7           ; create L4
+
+call 00477B96           ; add warps (town)
+call 00477DE4           ; add warps L1/L5
+call 00477F7C           ; add warps L2
+call 00478084           ; add warps L3/L6
+call 0047822C           ; add warps L4
+
+Warps for town and preset levels are hardcoded in function.
+Warps for random levels are added by looking for up/down-stairs MIN in the table of MIN of current level.
+
+The warps :
+
+Those informations are just guessed,
+[00700220] contains the number of warps on the level.
+Warps are 4-DWORD structures, containing (X,Y,mvt,dest). They are stored in [00700228]/[00700238]/[00700248]/...
+X and Y are coordonates, in sub-tile.
+Mvt is a type of mouvement. It is commented by Jarulf somewhere in TheDarkNotes, It's something like 402/403 going up/down, 407/408 portal/stair portal, ...
+dest is the destination level for 407 type, else probably contains some X/Y informations.
+
+It seems to be :
+402 : going one level down (no dest)
+403 : going one level up (no dest)
+404 : upstairs in miniquest level
+
+407 : stairs from town (dest = dest level)
+408 : stairs to town (dest = 0)

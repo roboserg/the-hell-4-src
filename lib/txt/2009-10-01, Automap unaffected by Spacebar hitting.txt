@@ -1,0 +1,5 @@
+Hitting Space no longer turns off automap:
+
+this line is nopped:
+
+:0040A8E1 891DA8074D00            mov dword ptr [004D07A8], ebx

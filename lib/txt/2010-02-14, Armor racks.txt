@@ -1,0 +1,272 @@
+FIXING GAMECRASH WHEN TOUCHING ARMOR RACK ON DLVL-10
+
+This happens because
+on dlvls 1-5: light armor class dropped,
+on dlvls 6-9: medium armor class dropped (mail),
+on dlvls 10-24: plate armors dropped,
+
+the rule for quality level of the base item (armor) is calculated this way: (DLVL*2)
+
+lowest qlvl mail in TH is 12, sufficient  (dlvl 6 * 2 = 12)
+lowest qlvl plate in TH is 21, INsufficient (dlvl 10 * 2 = 20, << - no armor found and game crashes)
+
+
+
+
+
+
+possible fixes:
+1) set qlvl of the lowest plate to 20, downside: base items will morph. this is BAD. so, no go;
+2) redesign armor rack drop rules. the advantage is that on higher difficulties this will produce MUCH beter drops from these racks.
+
+
+
+======================================================
+
+Revision 1:
+21:53 15.02.2010
+affix levels are handled elsewhere (in the subseequent function)
+on Horror mode all armor racks now drop light armors,
+on Purgatory - mails,
+on Doom - plates,
+
+Modified code chunk:
+
+
+:0045332F 8A0DC0706000            mov cl, byte ptr [006070C0]
+:00453335 80F901                  cmp cl, 01
+:00453338 730B                    jnb 00453345
+:0045333A 0FB64508                movzx eax, byte ptr [ebp+08]
+:0045333E 53                      push ebx
+:0045333F 50                      push eax
+:00453340 53                      push ebx
+:00453341 6A06                    push 00000006
+:00453343 EB44                    jmp 00453389
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00453338(C)
+|
+:00453345 80F901                  cmp cl, 01
+:00453348 750B                    jne 00453355
+:0045334A 0FB64508                movzx eax, byte ptr [ebp+08]
+:0045334E 53                      push ebx
+:0045334F 50                      push eax
+:00453350 53                      push ebx
+:00453351 6A08                    push 00000008
+:00453353 EB34                    jmp 00453389
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00453348(C)
+|
+:00453355 0FB64508                movzx eax, byte ptr [ebp+08]
+:00453359 53                      push ebx
+:0045335A 50                      push eax
+:0045335B 53                      push ebx
+:0045335C 6A09                    push 00000009
+:0045335E EB29                    jmp 00453389
+:00453360 90                      nop
+:00453361 90                      nop
+:00453362 90                      nop
+:00453363 90                      nop
+:00453364 90                      nop
+:00453365 90                      nop
+:00453366 90                      nop
+:00453367 90                      nop
+:00453368 90                      nop
+:00453369 90                      nop
+:0045336A 90                      nop
+:0045336B 90                      nop
+:0045336C 90                      nop
+:0045336D 90                      nop
+:0045336E 90                      nop
+:0045336F 90                      nop
+:00453370 90                      nop
+:00453371 90                      nop
+:00453372 90                      nop
+:00453373 90                      nop
+:00453374 90                      nop
+:00453375 90                      nop
+:00453376 90                      nop
+:00453377 90                      nop
+:00453378 90                      nop
+:00453379 90                      nop
+:0045337A 90                      nop
+:0045337B 90                      nop
+:0045337C 90                      nop
+:0045337D 90                      nop
+:0045337E 90                      nop
+:0045337F 90                      nop
+:00453380 90                      nop
+:00453381 90                      nop
+:00453382 90                      nop
+:00453383 90                      nop
+:00453384 90                      nop
+:00453385 90                      nop
+:00453386 90                      nop
+:00453387 90                      nop
+:00453388 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00453343(U), :00453353(U), :0045335E(U)
+|
+:00453389 6A01                    push 00000001
+:0045338B 8B96C8E56D00            mov edx, dword ptr [esi+006DE5C8]
+:00453391 8B8EC4E56D00            mov ecx, dword ptr [esi+006DE5C4]
+:00453397 E8DE43FDFF              call 0042777A
+:0045339C 8B45FC                  mov eax, dword ptr [ebp-04]
+:0045339F 3B05E8AD6E00            cmp eax, dword ptr [006EADE8]
+:004533A5 750A                    jne 004533B1
+:004533A7 57                      push edi
+:004533A8 B22D                    mov dl, 2D
+:004533AA 33C9                    xor ecx, ecx
+:004533AC E8053BFFFF              call 00446EB6
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00453300(C), :00453314(C), :004533A5(C)
+|
+:004533B1 5F                      pop edi
+:004533B2 5E                      pop esi
+:004533B3 5B                      pop ebx
+:004533B4 C9                      leave
+:004533B5 C20400                  ret 0004
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=============================================================================================
+
+old routine:
+
+* Referenced by a CALL at Addresses:
+|:004506EE   , :00453B68   
+|
+:004532E1 55                      push ebp
+:004532E2 8BEC                    mov ebp, esp
+:004532E4 51                      push ecx
+:004532E5 53                      push ebx
+:004532E6 56                      push esi
+:004532E7 57                      push edi
+:004532E8 8BFA                    mov edi, edx
+:004532EA 8BF7                    mov esi, edi
+:004532EC 33DB                    xor ebx, ebx
+:004532EE 6BF678                  imul esi, 00000078
+:004532F1 389E00E66D00            cmp byte ptr [esi+006DE600], bl
+:004532F7 894DFC                  mov dword ptr [ebp-04], ecx
+:004532FA 8D8600E66D00            lea eax, dword ptr [esi+006DE600]
+:00453300 0F84AB000000            je 004533B1
+:00453306 8818                    mov byte ptr [eax], bl
+:00453308 FF86E4E56D00            inc dword ptr [esi+006DE5E4]
+:0045330E 391D10AB6D00            cmp dword ptr [006DAB10], ebx
+:00453314 0F8597000000            jne 004533B1
+:0045331A 8B8E14E66D00            mov ecx, dword ptr [esi+006DE614]
+:00453320 E8026CFCFF              call 00419F27
+:00453325 32C9                    xor cl, cl
+:00453327 6A02                    push 00000002
+:00453329 5A                      pop edx
+:0045332A E82B6CFCFF              call 00419F5A				<- EAX = Rnd[2]
+:0045332F 8A0DD8B16000            mov cl, byte ptr [0060B1D8]		<- cl = DLVL value
+:00453335 80F905                  cmp cl, 05				<- cmp DLVL, 5
+:00453338 770B                    ja 00453345				<- if above
+:0045333A 0FB64508                movzx eax, byte ptr [ebp+08]		<- otherwise drop cloth/leather armor type
+:0045333E 53                      push ebx
+:0045333F 50                      push eax
+:00453340 53                      push ebx
+:00453341 6A06                    push 00000006
+:00453343 EB44                    jmp 00453389
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00453338(C)
+|
+:00453345 6A09                    push 00000009
+:00453347 80F906                  cmp cl, 06				<- check DLVL, 6
+:0045334A 5A                      pop edx				<- EDX = 9
+:0045334B 7210                    jb 0045335D				<- if DLVL < 6, jump 45335D
+:0045334D 3ACA                    cmp cl, dl				<- cmp DLVL, 9 (?)
+:0045334F 770C                    ja 0045335D				<- if above, jump 45335D
+:00453351 0FB64D08                movzx ecx, byte ptr [ebp+08]
+:00453355 53                      push ebx
+:00453356 51                      push ecx
+:00453357 53                      push ebx
+:00453358 6A08                    push 00000008
+:0045335A 50                      push eax
+:0045335B EB2E                    jmp 0045338B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045334B(C), :0045334F(C)
+|
+:0045335D 80F90A                  cmp cl, 0A				<- compare DLVL, 10
+:00453360 7210                    jb 00453372				<- if below, jump 453372
+:00453362 80F90C                  cmp cl, 0C
+:00453365 770B                    ja 00453372
+:00453367 0FB64508                movzx eax, byte ptr [ebp+08]
+:0045336B 53                      push ebx
+:0045336C 50                      push eax
+:0045336D 53                      push ebx
+:0045336E 52                      push edx
+:0045336F 53                      push ebx
+:00453370 EB19                    jmp 0045338B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00453360(C), :00453365(C)
+|
+:00453372 80F90D                  cmp cl, 0D				<- cmp DLVL, 13 (?)
+:00453375 7205                    jb 0045337C				<- if below, jump..
+:00453377 80F910                  cmp cl, 10				<- cmp DLVL, 16
+:0045337A 7605                    jbe 00453381				<- if below or equal...
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00453375(C)
+|
+:0045337C 80F911                  cmp cl, 11
+:0045337F 721B                    jb 0045339C
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045337A(C)
+|
+:00453381 0FB64508                movzx eax, byte ptr [ebp+08]
+:00453385 53                      push ebx
+:00453386 50                      push eax
+:00453387 53                      push ebx
+:00453388 52                      push edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00453343(U)
+|
+:00453389 6A01                    push 00000001
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045335B(U), :00453370(U)
+|
+:0045338B 8B96C8E56D00            mov edx, dword ptr [esi+006DE5C8]
+:00453391 8B8EC4E56D00            mov ecx, dword ptr [esi+006DE5C4]
+:00453397 E8DE43FDFF              call 0042777A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045337F(C)
+|
+:0045339C 8B45FC                  mov eax, dword ptr [ebp-04]
+:0045339F 3B05E8AD6E00            cmp eax, dword ptr [006EADE8]
+:004533A5 750A                    jne 004533B1
+:004533A7 57                      push edi
+:004533A8 B22D                    mov dl, 2D
+:004533AA 33C9                    xor ecx, ecx
+:004533AC E8053BFFFF              call 00446EB6
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00453300(C), :00453314(C), :004533A5(C)
+|
+:004533B1 5F                      pop edi
+:004533B2 5E                      pop esi
+:004533B3 5B                      pop ebx
+:004533B4 C9                      leave
+:004533B5 C20400                  ret 0004

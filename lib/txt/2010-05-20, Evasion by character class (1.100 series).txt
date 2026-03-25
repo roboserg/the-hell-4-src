@@ -1,0 +1,172 @@
+MvP Melee:
+19:50 20.05.2010
+
+Monk: -[baseDEX/32]%
+Assassin: -[CLVL/4]%
+Mage: 30%
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043E25F(U)
+|
+:0070B1E0 80B96001000003          cmp byte ptr [ecx+00000160], 03
+:0070B1E7 7516                    jne 0070B1FF
+:0070B1E9 8B9178010000            mov edx, dword ptr [ecx+00000178]
+:0070B1EF C1EA05                  shr edx, 05
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B220(U)
+|
+:0070B1F2 2BC2                    sub eax, edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070B20B(U), :0070B214(C)
+|
+:0070B1F4 3BD8                    cmp ebx, eax
+:0070B1F6 7D02                    jge 0070B1FA
+:0070B1F8 8BD8                    mov ebx, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B1F6(C)
+|
+:0070B1FA E96630D3FF              jmp 0043E265
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B1E7(C)
+|
+:0070B1FF 80B96001000002          cmp byte ptr [ecx+00000160], 02
+:0070B206 7505                    jne 0070B20D
+:0070B208 83C00A                  add eax, 0000000A
+:0070B20B EBE7                    jmp 0070B1F4
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B206(C)
+|
+:0070B20D 80B96001000004          cmp byte ptr [ecx+00000160], 04
+:0070B214 75DE                    jne 0070B1F4
+:0070B216 0FBE91B8010000          movsx edx, byte ptr [ecx+000001B8]
+:0070B21D C1EA02                  shr edx, 02
+:0070B220 EBD0                    jmp 0070B1F2
+
+
+============================================================================
+
+MvP Missile:
+20:41 20.05.2010
+
+Monk: 14 - [baseDEX/32]%
+Assassin: 14 - [CLVL/8]%
+
+
+* Referenced by a CALL at Address:
+|:0042F727   
+|
+:0070B1A0 50                      push eax
+:0070B1A1 52                      push edx
+:0070B1A2 8B8178010000            mov eax, dword ptr [ecx+00000178]
+:0070B1A8 C1E802                  shr eax, 02
+:0070B1AB 6A5F                    push 0000005F					<- max 95%
+:0070B1AD 5A                      pop edx
+:0070B1AE 2BD0                    sub edx, eax					<- 95 - [baseDEX/4]
+:0070B1B0 3BD3                    cmp edx, ebx
+:0070B1B2 7D02                    jge 0070B1B6
+:0070B1B4 8BDA                    mov ebx, edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B1B2(C)
+|
+:0070B1B6 6A0E                    push 0000000E					<- minimum ToHit = 14%
+:0070B1B8 58                      pop eax
+:0070B1B9 80B96001000003          cmp byte ptr [ecx+00000160], 03
+:0070B1C0 756E                    jne 0070B230
+:0070B1C2 8B9178010000            mov edx, dword ptr [ecx+00000178]
+:0070B1C8 C1EA05                  shr edx, 05					<- for Monk, {14 - [baseDEX/32]}%
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B243(U)
+|
+:0070B1CB 2BC2                    sub eax, edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B237(C)
+|
+:0070B1CD 3BD8                    cmp ebx, eax
+:0070B1CF 7D02                    jge 0070B1D3
+:0070B1D1 8BD8                    mov ebx, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B1CF(C)
+|
+:0070B1D3 5A                      pop edx
+:0070B1D4 58                      pop eax
+:0070B1D5 C3                      ret
+
+
+	and:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B1C0(C)
+|
+:0070B230 80B96001000004          cmp byte ptr [ecx+00000160], 04
+:0070B237 7594                    jne 0070B1CD
+:0070B239 0FBE91B8010000          movsx edx, byte ptr [ecx+000001B8]
+:0070B240 C1EA03                  shr edx, 03					<- for Assassin, {14 - [CLVL/8]}%
+:0070B243 EB86                    jmp 0070B1CB
+:0070B245 90                      nop
+
+====================================================================
+
+MvP Melee:
+20:41 20.05.2010
+
+Monk: -[baseDEX/32]%
+Assassin: 18% + [bDEX/32] - [CLVL/4]
+Mage: 30%
+
+
+
+
+edx = clvl/4
+
+push 12
+pop eax
+push ebx
+mov ebx, edx
+mov edx, bDEX/32
+add eax, edx
+sub eax, ebx
+pop ebx
+
+
+
+:0070B20D 80B96001000004          cmp byte ptr [ecx+00000160], 04
+:0070B214 75DE                    jne 0070B1F4
+:0070B216 0FBE91B8010000          movsx edx, byte ptr [ecx+000001B8]
+:0070B21D C1EA02                  shr edx, 02
+:0070B220 6A12                    push 00000012
+:0070B222 58                      pop eax
+:0070B223 53                      push ebx
+:0070B224 8BDA                    mov ebx, edx
+:0070B226 8B9178010000            mov edx, dword ptr [ecx+00000178]
+:0070B22C EB1A                    jmp 0070B248
+:0070B22E 90                      nop
+:0070B22F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B1C0(C)
+|
+:0070B230 80B96001000004          cmp byte ptr [ecx+00000160], 04
+:0070B237 7594                    jne 0070B1CD
+:0070B239 0FBE91B8010000          movsx edx, byte ptr [ecx+000001B8]
+:0070B240 C1EA03                  shr edx, 03
+:0070B243 EB86                    jmp 0070B1CB
+:0070B245 90                      nop
+:0070B246 90                      nop
+:0070B247 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B22C(U)
+|
+:0070B248 C1EA05                  shr edx, 05
+:0070B24B 03C2                    add eax, edx
+:0070B24D 2BC3                    sub eax, ebx
+:0070B24F 5B                      pop ebx
+:0070B250 EBA2                    jmp 0070B1F4

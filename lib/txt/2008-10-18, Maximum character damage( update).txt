@@ -1,0 +1,7 @@
+
+Max char damage in PvM melee:
+CLVL*128 -> CLVL*256
+
+:00430551 C1E20D                  shl edx, 0D
+into
+:00430551 C1E20E                  shl edx, 0E

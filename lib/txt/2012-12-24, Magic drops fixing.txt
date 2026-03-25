@@ -1,0 +1,1137 @@
+﻿1. [19:10:46] Mordor: - synergy bonus needed for wearing full 
+sets
+
+;bool IsItemFromSet (Item& item, int setId)
+@IsItemFromSet:
+; ecx - указатель на шмотку
+; edx - дворд начала имени
+xor eax, eax
+cmp dword ptr [ecx + 308d], eax ; item.UniqueItemIndex 
+jz @returnFalse ; если это не уник
+
+cmp dword ptr [ecx + 356d], eax ; item.IsReqMet 
+jz @returnFalse ; если это уник не подходящий по статам
+
+mov eax, dword ptr [ecx + 308d]; item.UniqueItemIndex 
+imul eax, 84d ; размер записи одного уника
+add eax, 0x00805000 ; начало таблицы уников
+
+cmp edx, dword ptr [eax] ; uniqName
+jnz @returnFalse; если имя уника начинается на другое
+
+@returnTrue:
+mov eax, 1
+jmp @return
+@returnFalse:
+xor eax, eax
+@return:
+
+retn
+
+=====================================================
+
+int CountItemFromSet (int playerIndex, int setId) 
+@CountItemFromSet:
+; ecx - индекс игрока
+; edx - дворд начала имени
+
+push edi
+push esi
+push ebx
+push ebp
+
+xor ebx, ebp ; countOfItemsFromSet
+
+mov esi, ecx
+imul esi, 21960d
+add esi, dword ptr [006EAE14h] ; оффсет игрока
+
+mov edi, esi
+add edi, 908d ; оффсет первой вещи
+
+xor ebx, ebx ;currentOnBodyItemIndex
+
+@loop:
+
+mov ecx, edi
+push edx
+call @IsItemFromSet
+pop edx
+test eax, eax
+jz @continue
+
+cmp ebx, 4 ; currentOnBodyItemIndex == OBS_4_LEFT_HAND
+jnz @NoTwoHandedWeapon
+
+cmp byte ptr [edi + 189d], 2 ; onBodySlot.EquippedLocation == 
+EL_2_TWO_HANDED_WEAPON
+jnz @NoTwoHandedWeapon
+
+cmp byte ptr [esi + 352d], 5 ; player.ClassID != PC_5_GLADIATOR
+jnz @TwoHandedWeapon
+
+mov eax, dword ptr [edi + 8]; itemCode
+cmp eax, 1 ; onBodySlot.ItemCode != IC_1_SWORD
+jz @NoTwoHandedWeapon ; двуручные мечи у глада = одноручные
+
+mov eax, dword ptr [edi + 8]; itemCode
+cmp eax, 4 ; onBodySlot.ItemCode != IC_4_MACE
+jz @NoTwoHandedWeapon ; двуручные дубинки у глада = одноручные
+
+@TwoHandedWeapon:
+inc ebp
+@NoTwoHandedWeapon:
+inc ebp
+
+@continue:
+inc ebx
+add edi, 372d ; размер одной шмотки
+cmp ebx, 7
+jl @loop
+
+
+@return:
+
+mov eax, ebp
+pop ebp
+pop ebx
+pop esi
+pop edi
+
+retn
+
+
+=========================================================
+2.. Починка рефлекта
+
+;00710BC1 sub     dword_69DD1C[edi], eax
+
+00710BC1 
+>>>
+mov ecx,  dword ptr [69DD1C + edi]; curLife
+cmp ecx, eax
+jle @killMonster
+@damageMonster:
+sub     dword_69DD1C[edi], eax
+jmp @return
+
+@killMonster:
+xor ecx, ecx
+mov dword ptr [69DD1C + edi], ecx
+
+@return:
+jmp 00710BC7
+
+            chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00710BC1(U)
+|
+:00718260 8B8F1CDD6900            mov ecx, dword ptr [edi+0069DD1C]
+:00718266 39C1                    cmp ecx, eax
+:00718268 7E0B                    jle 00718275
+:0071826A 29871CDD6900            sub dword ptr [edi+0069DD1C], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071827D(U)
+|
+:00718270 E95289FFFF              jmp 00710BC7
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718268(C)
+|
+:00718275 31C9                    xor ecx, ecx
+:00718277 898F1CDD6900            mov dword ptr [edi+0069DD1C], ecx
+:0071827D EBF1                    jmp 00718270
+
+=====================================================
+
+00710BF1 sub     dword_69DD1C[edi], eax
+; этот по образцу сам
+
+                 chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00710BF1(U)
+|
+:00718280 8B8F1CDD6900            mov ecx, dword ptr [edi+0069DD1C]
+:00718286 39C1                    cmp ecx, eax
+:00718288 7E0B                    jle 00718295
+:0071828A 29871CDD6900            sub dword ptr [edi+0069DD1C], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071829D(U)
+|
+:00718290 E96289FFFF              jmp 00710BF7
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718288(C)
+|
+:00718295 31C9                    xor ecx, ecx
+:00718297 898F1CDD6900            mov dword ptr [edi+0069DD1C], ecx
+:0071829D EBF1                    jmp 00718290
+
+=====================================================
+
+         MS bug fix:
+.text:0043E643 call    sub_45ABD7
+.text:0043E648 mov     edx, dword_69DCD0[edi]
+.text:0043E64E mov     ecx, [ebp+var_8]
+.text:0043E651 call    sub_43CBFD
+test eax, eax
+jz 43E65B
+.text:0043E656 jmp     loc_4
+
+
+
+================================================================
+Глобальный апдейт данных
+3. 
+//----- (00454CBF) --------------------------------------------------------
+void __fastcall SaveItem(ItemInfo* itemInfo, Item* item)
+//----- (00454FD6) --------------------------------------------------------
+void __fastcall LoadItem(ItemInfo* itemInfo, Item* item)
+
+@UpdateOneItem: // E4EB0
+; ecx - Item& item
+push esi
+mov esi, ecx
+
+mov ecx, @19byteBuffer
+mov edx, esi
+call 00454CBF ; сохранили шмотку в буфер, как при новой игре
+
+mov ecx, @19byteBuffer
+mov edx, esi
+call 00454FD6 ; загрузили уже на основе новых данных
+pop esi
+retn
+
+         chek:
+* Referenced by a CALL at Address:
+|:007182E8   
+|
+:007182B0 56                      push esi
+:007182B1 89CE                    mov esi, ecx
+:007182B3 B9B060A300              mov ecx, 00A360B0
+:007182B8 E802CAD3FF              call 00454CBF
+:007182BD B9B060A300              mov ecx, 00A360B0
+:007182C2 E80FCDD3FF              call 00454FD6
+:007182C7 5E                      pop esi
+:007182C8 C3                      ret
+==================================
+
+@UpdateAllItems: // E4ED0
+push edi
+push ebx
+call 70A1D0; @getCurPlayerOffset
+mov ebx, dword ptr [eax + 18392d] ; InvItemCount
+add ebx, 7 ; нательные вещи
+mov edi, eax
+add edi, 908d ; оффсет первой вещи
+@loop:
+
+mov ecx, edi
+call @UpdateOneItem
+
+@continue:
+add edi, 372d ; размер одной шмотки
+dec ebx
+jnz @loop
+
+pop ebx
+pop edi
+retn
+
+            chek:
+* Referenced by a CALL at Address:
+|:00718316   
+|
+:007182D0 57                      push edi
+:007182D1 53                      push ebx
+:007182D2 E8F91EFFFF              call 0070A1D0
+:007182D7 8B98D8470000            mov ebx, dword ptr [eax+000047D8]
+:007182DD 83C307                  add ebx, 00000007
+:007182E0 89C7                    mov edi, eax
+:007182E2 81C78C030000            add edi, 0000038C
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007182F6(C)
+|
+:007182E8 89F9                    mov ecx, edi
+:007182EA E8C1FFFFFF              call 007182B0
+:007182EF 81C774010000            add edi, 00000174
+:007182F5 4B                      dec ebx
+:007182F6 75F0                    jne 007182E8
+:007182F8 5B                      pop ebx
+:007182F9 5F                      pop edi
+:007182FA C3                      ret
+==========================================
+
+Завести байт под счётчик @updateItemsTimer . начальное значение 00h
+
+.mod:007124BB                 jmp     loc_45DAD0
+
+007124BB >>>
+>>>
+call 70A1D0; @getCurPlayerOffset
+mov ecx, dword ptr [eax + 408d] ; curLife
+test    ecx, 0FFFFFFC0h
+jle @return
+inc byte ptr [@updateItemsTimer]
+cmp byte ptr [@updateItemsTimer], 10d ; сколько фреймов ждать перед обновлением
+jl @return
+mov byte ptr [@updateItemsTimer], 00h
+call @UpdateAllItems
+mov ecx, dword ptr [006EADE8] ; CurrentPlayerIndex
+xor edx, edx
+call 00424ABF
+@return:
+jmp     loc_45DAD0
+
+             chekk:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007124BB(U)
+|
+:00718300 FE050061A300            inc byte ptr [00A36100]
+:00718306 803D0061A30064          cmp byte ptr [00A36100], 64
+:0071830D 7C0C                    jl 0071831B
+:0071830F C6050061A30000          mov byte ptr [00A36100], 00
+:00718316 E8B5FFFFFF              call 007182D0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071830D(C)
+|
+:0071831B 8B0DE8AD6E00            mov ecx, dword ptr [006EADE8]
+:00718321 31D2                    xor edx, edx
+:00718323 E897C7D0FF              call 00424ABF
+:00718328 90                      nop
+:00718329 90                      nop
+:0071832A 90                      nop
+:0071832B E9A057D4FF              jmp 0045DAD0
+
+===============================================================
+3. тестовый фикс синьки с монстров
+
+loc_42750E:
+mov     eax, dword_69DD68[esi]
+movsx   eax, byte ptr [eax+56h]
+
+Тут проверить сложность и добавлять модификаторы к eax (mlvl) перед пушем
+
+push    eax
+
+
+
+           for comments:
+:004274ED 399EA0DC6900            cmp dword ptr [esi+0069DCA0], ebx ; сравнили 
+босс индекс монстра с нулём
+:004274F3 53                      push ebx ; передали 004272CE два нуля в 
+качестве аргументов
+:004274F4 53                      push ebx
+:004274F5 8B09                    mov ecx, dword ptr [ecx] ; тех реализация 
+дропа
+:004274F7 FF75F4                  push [ebp-0C] ; isGoodMagicItem - флаг 
+благодаря которому у боссов никогда не бывает белых вещей. на корс какой то патч 
+присваивает 123d сюда. Что это значит хз
+:004274FA 890D18576800            mov dword ptr [00685718], ecx ; тех реализация 
+дропа
+:00427500 89B818556800            mov dword ptr [eax+00685518], edi ; тех 
+реализация дропа
+:00427506 7404                    je 0042750C
+:00427508 6A0F                    push 0000000F ; если босс то chance == 15 там 
+какая то магия с этими значениями
+:0042750A EB02                    jmp 0042750E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00427506(C)
+|
+:0042750C 6A01                    push 00000001 ; если не босс то chance == 1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0042750A(U), :00708703(U)
+|
+:0042750E 8B8668DD6900            mov eax, dword ptr [esi+0069DD68]; в eax - 
+указатель на запись о базовом монстре в тапблице базовых монстров
+:00427514 0FBE4056                movsx eax, byte ptr [eax+56]; в eax 
+MonsterBaseLevel из таблицы
+:00427518 50                      push eax ; передать mlvl как аргумент функции 
+004272CE (DropNewItem)
+:00427519 E81D2AFFFF              call 00419F3B ; Rand получаем случайный дворд
+:0042751E 8B55FC                  mov edx, dword ptr [ebp-04] ; уже выбранный 
+ранее baseItemIndex
+:00427521 8BCF                    mov ecx, edi ; itemIndex индекс вещи на земле 
+для дропа туда
+:00427523 50                      push eax ; пушим случайный дворд полученный 
+чуть выше. Это будет guid вещи
+:00427524 E8A5FDFFFF              call 004272CE ; DropNewItem(itemIndex, 
+baseItemIndex, guid, monsterLevel, chance, isGoodMagicItem, 0, 0);
+:00427529 FF05DC206900            inc dword ptr [006920DC] ; дальше не 
+интересно. Тех реализация укладки на землю в массив вещей на земле
+:0042752F 395D0C                  cmp dword ptr [ebp+0C], ebx
+:00427532 7409                    je 0042753D
+:00427534 8BD7                    mov edx, edi
+:00427536 33C9                    xor ecx, ecx
+:00427538 E8C6FE0100              call 00447403
+
+                 chekk:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042750E(U)
+|
+:00718400 8B8668DD6900            mov eax, dword ptr [esi+0069DD68]
+:00718406 0FBE4056                movsx eax, byte ptr [eax+56]
+:0071840A 52                      push edx
+:0071840B 90                      nop
+:0071840C 90                      nop
+:0071840D 90                      nop
+:0071840E 90                      nop
+:0071840F 90                      nop
+:00718410 53                      push ebx
+:00718411 6A03                    push 00000003
+:00718413 99                      cdq
+:00718414 5B                      pop ebx
+:00718415 F7FB                    idiv ebx
+:00718417 5B                      pop ebx
+:00718418 90                      nop
+:00718419 0FB615C0706000          movzx edx, byte ptr [006070C0]
+:00718420 6BD214                  imul edx, 00000014
+:00718423 42                      inc edx
+:00718424 42                      inc edx
+:00718425 01D0                    add eax, edx // ((diff*20)+2 ) + (mlvl/3)
+:00718427 83F83F                  cmp eax, 0000003F // check if mlvl > 63
+:0071842A 7E04                    jle 00718430
+:0071842C 6A3F                    push 0000003F
+:0071842E 58                      pop eax
+:0071842F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071842A(C)
+|
+:00718430 5A                      pop edx
+:00718431 E9E2F0D0FF              jmp 00427518
+
+===========================================================
+ещё фикс синьки
+Копия 4272CE на новом месте (там один чанк есть, его тоже) // E5040
+
+В 0042750E восстановить как было
+но тут .text:00427524                 call    sub_4272CE
+уже вызов копии
+
+Для копии изменения сейчас напишу
+
+004273D2*аналог в копии* >>
+>>
+; это уже 100% маг вещь. в edi сейчас уровень вещи, поменять по уже выведенному 
+алгоритму
+
+; eax ecx edx свободны ибо дальше переписываются нах
+
+or byte ptr [esi+00686286h], 1h; установили бит того что шмотка по новому 
+алгоритму проходит
+
+
+; возвращаемся туда откуда прыгали
+
+6A 01                                   push    1
+8B 55 F8                                mov     edx, [ebp+baseItemIndex]
+jmp 004273D7*аналог в копии*
+
+
+;.text:004273D2 018                 push    1
+;.text:004273D4 01C                 mov     edx, [ebp+baseItemIndex]
+;.text:004273D7 01C                 push    [ebp+IsGoodMagicItem]
+;.text:004273DA 020                 mov     ecx, [ebp+itemOnMapIndex]
+;.text:004273DD 020                 push    edi             ; itemMonsterLevel
+;.text:004273DE 024                 sar     edi, 1          ; Shift Arithmetic 
+Right
+;.text:004273E0 024                 push    edi
+;.text:004273E1 028                 call    PutMagicItemOnMap ; Call Procedure
+
+               chekk:
+               1.
+               :00427524 E8170F2F00              call 00718440
+               
+               2.
+               * Referenced by a CALL at Address:
+|:00427524   
+|
+:00718440 55                      push ebp
+:00718441 8BEC                    mov ebp, esp
+:00718443 51                      push ecx
+:00718444 51                      push ecx
+:00718445 53                      push ebx
+:00718446 56                      push esi
+:00718447 8BF1                    mov esi, ecx
+:00718449 57                      push edi
+:0071844A 8975FC                  mov dword ptr [ebp-04], esi
+:0071844D 69F674010000            imul esi, 00000174
+:00718453 8B7D08                  mov edi, dword ptr [ebp+08]
+:00718456 8955F8                  mov dword ptr [ebp-08], edx
+:00718459 8BCF                    mov ecx, edi
+:0071845B 89BE80626800            mov dword ptr [esi+00686280], edi
+:00718461 E8C11AD0FF              call 00419F27
+:00718466 8B5D0C                  mov ebx, dword ptr [ebp+0C]
+:00718469 8B55F8                  mov edx, dword ptr [ebp-08]
+:0071846C 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:0071846F 8BC3                    mov eax, ebx
+:00718471 D1F8                    sar eax, 1
+:00718473 50                      push eax
+:00718474 E83BD3D0FF              call 004257B4
+:00718479 837D1C00                cmp dword ptr [ebp+1C], 00000000
+:0071847D 66899E84626800          mov word ptr [esi+00686284], bx
+:00718484 740C                    je 00718492
+:00718486 8BC3                    mov eax, ebx
+:00718488 80CC80                  or ah, 80
+:0071848B 66898684626800          mov word ptr [esi+00686284], ax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718484(C)
+|
+:00718492 837D1400                cmp dword ptr [ebp+14], 00000000
+:00718496 7407                    je 0071849F
+:00718498 808E8462680040          or byte ptr [esi+00686284], 40
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718496(C)
+|
+:0071849F 837D100F                cmp dword ptr [ebp+10], 0000000F
+:007184A3 7509                    jne 007184AE
+:007184A5 808E8462680080          or byte ptr [esi+00686284], 80
+:007184AC EB0D                    jmp 007184BB
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007184A3(C)
+|
+:007184AE 837D1001                cmp dword ptr [ebp+10], 00000001
+:007184B2 7507                    jne 007184BB
+:007184B4 808E8562680001          or byte ptr [esi+00686285], 01
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007184AC(U), :007184B2(C)
+|
+:007184BB 83BE5C6368001B          cmp dword ptr [esi+0068635C], 0000001B
+:007184C2 0F84B6000000            je 0071857E
+:007184C8 6A64                    push 00000064
+:007184CA B120                    mov cl, 20
+:007184CC 5A                      pop edx
+:007184CD 83CFFF                  or edi, FFFFFFFF
+:007184D0 E8851AD0FF              call 00419F5A
+:007184D5 83F80A                  cmp eax, 0000000A
+:007184D8 7E0E                    jle 007184E8
+:007184DA 6A64                    push 00000064
+:007184DC B121                    mov cl, 21
+:007184DE 5A                      pop edx
+:007184DF E8761AD0FF              call 00419F5A
+:007184E4 3BC3                    cmp eax, ebx
+:007184E6 7F02                    jg 007184EA
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007184D8(C)
+|
+:007184E8 8BFB                    mov edi, ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007184E6(C)
+|
+:007184EA 83C8FF                  or eax, FFFFFFFF
+:007184ED 3BF8                    cmp edi, eax
+:007184EF 7529                    jne 0071851A
+:007184F1 83BE5C63680017          cmp dword ptr [esi+0068635C], 00000017
+:007184F8 7502                    jne 007184FC
+:007184FA 8BFB                    mov edi, ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007184F8(C)
+|
+:007184FC 3BF8                    cmp edi, eax
+:007184FE 751A                    jne 0071851A
+:00718500 83BE5C63680019          cmp dword ptr [esi+0068635C], 00000019
+:00718507 7502                    jne 0071850B
+:00718509 8BFB                    mov edi, ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718507(C)
+|
+:0071850B 3BF8                    cmp edi, eax
+:0071850D 750B                    jne 0071851A
+:0071850F 83BE5C6368001A          cmp dword ptr [esi+0068635C], 0000001A
+:00718516 7502                    jne 0071851A
+:00718518 8BFB                    mov edi, ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007184EF(C), :007184FE(C), :0071850D(C), :00718516(C)
+|
+:0071851A 837D1400                cmp dword ptr [ebp+14], 00000000
+:0071851E 7402                    je 00718522
+:00718520 8BFB                    mov edi, ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071851E(C)
+|
+:00718522 837D100F                cmp dword ptr [ebp+10], 0000000F
+:00718526 7503                    jne 0071852B
+:00718528 8D7B04                  lea edi, dword ptr [ebx+04]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718526(C)
+|
+:0071852B 3BF8                    cmp edi, eax
+:0071852D 743C                    je 0071856B
+:0071852F FF7518                  push [ebp+18]
+:00718532 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:00718535 8BD7                    mov edx, edi
+:00718537 FF7510                  push [ebp+10]
+:0071853A E89EEAD0FF              call 00426FDD
+:0071853F 83F8FF                  cmp eax, FFFFFFFF
+:00718542 7516                    jne 0071855A
+:00718544 6A02                    push 00000002
+:00718546 EB68                    jmp 007185B0 //               JUMP #3
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007185E3(U)
+|
+:00718548 90                      nop
+:00718549 90                      nop
+:0071854A 90                      nop
+:0071854B 90                      nop
+:0071854C 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:0071854F 57                      push edi
+:00718550 D1FF                    sar edi, 1
+:00718552 57                      push edi
+:00718553 E8DAE5D0FF              call 00426B32
+:00718558 EB11                    jmp 0071856B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718542(C)
+|
+:0071855A 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:0071855D 8BD0                    mov edx, eax
+:0071855F E84AEBD0FF              call 004270AE
+:00718564 808E8562680002          or byte ptr [esi+00686285], 02
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071852D(C), :00718558(U)
+|
+:0071856B 80BEBC62680002          cmp byte ptr [esi+006862BC], 02
+:00718572 741D                    je 00718591
+:00718574 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:00718577 E810EDD0FF              call 0042728C
+:0071857C EB13                    jmp 00718591
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007184C2(C)
+|
+:0071857E 80BE3D63680007          cmp byte ptr [esi+0068633D], 07
+:00718585 740A                    je 00718591
+:00718587 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:0071858A 8BD7                    mov edx, edi
+:0071858C E81DEBD0FF              call 004270AE
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00718572(C), :0071857C(U), :00718585(C)
+|
+:00718591 8B4DFC                  mov ecx, dword ptr [ebp-04]
+:00718594 E847E6D0FF              call 00426BE0
+:00718599 5F                      pop edi
+:0071859A 5E                      pop esi
+:0071859B 5B                      pop ebx
+:0071859C C9                      leave
+:0071859D C21800                  ret 0018
+
+
+                    3.
+                    * Referenced by a (U)nconditional or (C)onditional Jump at 
+Address:
+|:00718546(U)
+|
+:007185B0 8B55F8                  mov edx, dword ptr [ebp-08]
+:007185B3 837D147B                cmp dword ptr [ebp+14], 0000007B
+:007185B7 7504                    jne 007185BD
+:007185B9 6A00                    push 00000000
+:007185BB EB03                    jmp 007185C0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007185B7(C)
+|
+:007185BD FF7514                  push [ebp+14]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007185BB(U)
+|
+:007185C0 90                      nop
+:007185C1 90                      nop
+:007185C2 90                      nop
+:007185C3 90                      nop
+:007185C4 90                      nop
+:007185C5 89F8                    mov eax, edi
+:007185C7 E93EFEFFFF              jmp 0071840A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007185C7(U)
+|
+:0071840A 52                      push edx
+:0071840B 90                      nop
+:0071840C 90                      nop
+:0071840D 90                      nop
+:0071840E 90                      nop
+:0071840F 90                      nop
+:00718410 53                      push ebx
+:00718411 6A03                    push 00000003
+:00718413 99                      cdq
+:00718414 5B                      pop ebx
+:00718415 F7FB                    idiv ebx
+:00718417 5B                      pop ebx
+
+:00718418 0FB615C0706000          movzx edx, byte ptr [006070C0]
+mov edx, dword ptr [ebp + 8] ; guid
+and edx, 3 ; оставляем только нижние 2 бита в них сложность
+=========
+:00718418 8B5508                  mov edx, dword ptr [ebp+08]
+:0071841B 83E203                  and edx, 00000003
+=========
+:0071841F 6BD214                  imul edx, 00000014
+:00718422 42                      inc edx
+:00718423 42                      inc edx
+:00718424 42                      inc edx
+:00718425 01D0                    add eax, edx
+:00718427 83F83F                  cmp eax, 0000003F
+:0071842A 7E04                    jle 00718430
+:0071842C 6A3F                    push 0000003F
+:0071842E 58                      pop eax
+:0071842F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071842A(C)
+|
+:00718430 5A                      pop edx
+:00718431 E996010000              jmp 007185CC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718431(U)
+|
+:007185CC 89C7                    mov edi, eax
+:007185CE 90                      nop
+:007185CF 90                      nop
+:007185D0 83A684626800C0          and dword ptr [esi+00686284], FFFFFFC0
+:007185D7 90                      nop
+:007185D8 90                      nop
+:007185D9 90                      nop
+:007185DA 09BE84626800            or dword ptr [esi+00686284], edi
+:007185E0 90                      nop
+:007185E1 90                      nop
+:007185E2 90                      nop
+:007185E3 E960FFFFFF              jmp 00718548
+
+
+
+
+
+Итак, начинаю писать мозгоёбный фикс.
+1. выделить байт вещи под хранение флага и записать туда значение если вещь 
+сделана по новым правилам
+
+6й байт резервирую
+
+;0068610Ch + 174h + 6h + esi
+; 00686286h + esi
+406 строка
+
+chek
+:007185D0 808E8662680001          or byte ptr [esi+00686286], 01
+
+2. при записи вещи, проверять на этот флаг и если он есть, то в количество пишем 
+1
+at: E51F0
+
+; в edx - указатель на вещь в памяти
+; в esi - указатель на вещь в сейве
+
+.text:00454DB9                 cmp     dword ptr [edx+168h], 0
+.text:00454DC0                 jnz     short loc_454DCD
+.text:00454DC2                 mov     ax, [edx+0C4h]
+.text:00454DC9                 mov     [esi+0Dh], ax
+.text:00454DCD
+.text:00454DCD loc_454DCD:                             ; CODE XREF: 
+sub_454CBF+101j
+ ;вставить между
+cmp byte [edx + 6], 1
+jnz @F
+mov   word ptr  [esi+0Dh], 666d ; флаг необычным числом чтоб возможный мусор не 
+влиял
+@@:
+
+.text:00454DCD                 pop     esi
+.text:00454DCE                 retn
+
+chek
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00454DB9(U)
+|
+:007185F0 83BA6801000000          cmp dword ptr [edx+00000168], 00000000
+:007185F7 750B                    jne 00718604
+:007185F9 668B82C4000000          mov ax, word ptr [edx+000000C4]
+:00718600 6689460D                mov word ptr [esi+0D], ax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007185F7(C)
+|
+:00718609 807A0601                cmp byte ptr [edx+06], 01
+:00718610 7506                    jne 00718618
+:00718612 66C7460D9A02            mov [esi+0D], 029A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718610(C)
+|
+:0071861A 5E                      pop esi
+:0071861B C3                      ret
+
+3. при воссоздании вещи проверяем количество и если равно 1, то отправляем по 
+новому алгоритму
+
+; dword ptr [ebp+10h] quality
+
+.text:0042792D                 call    sub_4272CE
+
+0042792D cmp word ptr [ebp+10h], 666d
+jz @newAlgoritm
+
+@oldAlgoritm:
+call    sub_4272CE
+jmp @return
+
+@newAlgoritm:
+call @newAlgoritm ; 392 строка, вот та копия
+
+@return:
+jmp 00427932h 
+
+chek
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042792D(U)
+|
+:00718624 66817D109A02            cmp word ptr [ebp+10], 029A
+:0071862C 7412                    je 00718640
+:0071862E E89BECD0FF              call 004272CE
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718646(U)
+|
+:00718633 E9FAF2D0FF              jmp 00427932
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071862C(C)
+|
+:00718640 E8FBFDFFFF              call 00718440
+:00718646 EBEB                    jmp 00718633
+
+
+=================
+
+Фикс морфа при переходе между сложностями
+.text:00427519                 call    Rand
+and al, 0FCh ; обнуляем младшие 2 бита
+or al, byte ptr [006070С0] ; шифруем сложность
+; возвращаемся
+.text:0042751E                 mov     edx, [ebp+var_4]
+
+           chek:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00427519(U)
+|
+:00718650 E8E618D0FF              call 00419F3B
+:00718655 90                      nop
+:00718656 90                      nop
+:00718657 90                      nop
+:00718658 90                      nop
+:00718659 24FC                    and al, FC
+:0071865B 0A05C0706000            or al, byte ptr [006070C0]
+:00718661 90                      nop
+:00718662 90                      nop
+:00718663 E9B6EED0FF              jmp 0042751E
+
+659 строка
+
+=================================
+=================================
+
+переселение Пинки с его псами на 6й уровень мультиДума:
+
+в большом зале, нарисованном через дун файл, помещен пинки и его собаки числом 
+штук 12
+важно чтобы ниодна из его писн не оказалась вне зала, иначе ненароком активирует 
+весь пак, что может очень не входить в план игрока. всетаки это убербосс.
+поддержку его и псин на 6м уровне мультидума я сделаю сам. знаю как.
+данные в данных босса тоже изменю.
+тебе надо сделать:
+дун файл на 6м уровне (мульти, дум) и поместить туда boss_ID#556 и его 12 собак 
+рядом mnstr_ID#206
+
+============================================================
+
+Продолжаем фикс синьки
+
+Новая функция. Для преобразования qlvl в qlvl для маг шмотки (((MLVL / 3) + 
+(DIFF * 20)) + 3):
+@QlvlForMagicItem:
+; ecx входной qlvl
+mov eax, ecx
+push edx
+movzx edx, byte ptr [006070C0h]
+imul edx, 14h
+push ebx
+push 3
+cdq
+pop ebx
+idiv ebx
+pop ebx
+; now EAX = QLVL / 3, and EDX = diff * 20
+add eax, edx
+pop edx
+add eax, 3
+cmp eax, 3Fh
+jle @F
+push 3Fh
+pop eax
+@@
+; eax вычисленный qlvl
+retn
+
+
+================================================================
+void DropValidMonsterItem (int itemOnMapIndex, int baseItemIndex, int 
+guidOrQuestUniqIndex, int levelParam, int chanceInProcent, int IsGoodMagicItem, 
+int allowDup, int a8) // e5040
+
+@DropValidMonsterItem: 
+; так как принимаем дохрена всего надо организовать приём через стек
+push    ebp
+mov     ebp, esp
+; нужно 4 аргумента
+push ecx; один аргумент на стеке
+push edi
+push esi
+push ebx
+
+mov edi, ecx ; эти регистры часто затираются, а мне они нужны постоянно
+mov esi, edx
+
+imul ecx, 372d
+add ecx, 006862E0h
+mov ebx, ecx ; в ebx адрес MagicLevel бросаемой вещи
+
+mov ecx, dword ptr [ebp + 0Ch]; levelParam
+call @QlvlForMagicItem ; см функциию выше
+mov dword ptr [ebp - 4], eax ; сохраняем на стек
+
+@loop: ; устроили бесконечный цикл<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+; пробуем кинуть немагическую шмотку
+push dword ptr [ebp + 28d]
+push dword ptr [ebp + 24d]
+push dword ptr [ebp + 20d]
+push dword ptr [ebp + 16d]
+push dword ptr [ebp + 12d]
+push dword ptr [ebp + 8d]
+mov ecx, edi
+mov edx, esi
+call 004272CE
+
+cmp byte ptr [ebx], 1 ; ML_1_MAGIC
+jnz @return ; шмотка немагическая, всё заибись>>>>>
+
+; пробуем кинуть магическую (либо белую) вещь
+push dword ptr [ebp + 28d]
+push dword ptr [ebp + 24d]
+push dword ptr [ebp + 20d]
+push dword ptr [ebp + 16d]
+push dword ptr [ebp - 4] ; новый qlvl
+push dword ptr [ebp + 8d]
+mov ecx, edi
+mov edx, esi
+call 004272CE
+
+cmp byte ptr [ebx], 1 ; ML_1_MAGIC
+jz @return ; шмотка магическая, всё заибись>>>>>>>>>
+
+cmp byte ptr [ebx], 0 ; ML_0_USUAL
+jz @return ; шмотка белая, всё заибись>>>>>>>>>>>>>
+
+; Двойной облом, меняем seed
+
+call 00419F3B ; rng
+mov dword ptr [ebp + 8d], eax
+
+jmp @loop >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+@return:<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+pop ebx
+pop esi
+pop edi
+leave ; автоматом уберёт переменные на стеке
+retn    18h ; == 6*4 т.е. шесть аргументов на стеке освобождаем
+
+===============================================================
+
+.text:00427524                 call    sub_4272CE
+00427524 call @DropValidMonsterItem ; см выше
+
+При этом чанк с заменой qlvl который выше вызова функции убираем, 
+восстанавливаем как было
+
+                    chekk:
+* Referenced by a CALL at Address:
+|:00427524   
+|
+:00718440 55                      push ebp
+:00718441 89E5                    mov ebp, esp
+:00718443 51                      push ecx
+:00718444 57                      push edi
+:00718445 56                      push esi
+:00718446 53                      push ebx
+:00718447 89CF                    mov edi, ecx
+:00718449 89D6                    mov esi, edx
+:0071844B 69C974010000            imul ecx, 00000174
+:00718451 81C1E0626800            add ecx, 006862E0
+:00718457 89CB                    mov ebx, ecx
+:00718459 90                      nop
+:0071845A 90                      nop
+:0071845B 90                      nop
+:0071845C 8B4D0C                  mov ecx, dword ptr [ebp+0C]
+:0071845F E802000000              call 00718466
+:00718464 EB3A                    jmp 007184A0
+
+* Referenced by a CALL at Address:
+|:0071845F   
+|
+:00718466 89C8                    mov eax, ecx
+:00718468 52                      push edx // store EDX
+:00718469 53                      push ebx // ebx in
+:0071846A 6A03                    push 00000003
+:0071846C 99                      cdq
+:0071846D 5B                      pop ebx // ebx = 3
+:0071846E F7FB                    idiv ebx // eax / 3
+:00718470 5B                      pop ebx / ebx out
+:00718471 0FB615C0706000          movzx edx, byte ptr [006070C0] // edx = diff 
+(0 / 1 / 2)
+:00718478 6BD214                  imul edx, 00000014 // diff * 20
+:0071847B 01D0                    add eax, edx // EAX = ( mlvl / 3 ) + ( diff * 
+20 )
+:0071847D 90                      nop
+:0071847E 90                      nop
+:0071847F 90                      nop
+:00718480 5A                      pop edx // restore EDX
+:00718481 40                      inc eax
+:00718482 40                      inc eax
+:00718483 40                      inc eax // EAX = eax + 3
+:00718484 90                      nop
+:00718485 90                      nop
+:00718486 83F83F                  cmp eax, 0000003F
+:00718489 7E03                    jle 0071848E
+:0071848B 6A3F                    push 0000003F
+:0071848D 58                      pop eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718489(C)
+|
+:0071848E C3                      ret
+:0071848F 90                      nop
+:00718490 90                      nop
+:00718491 90                      nop
+:00718492 90                      nop
+:00718493 90                      nop
+:00718494 90                      nop
+:00718495 90                      nop
+:00718496 90                      nop
+:00718497 90                      nop
+:00718498 90                      nop
+:00718499 90                      nop
+:0071849A 90                      nop
+:0071849B 90                      nop
+:0071849C 90                      nop
+:0071849D 90                      nop
+:0071849E 90                      nop
+:0071849F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00718464(U)
+|
+:007184A0 8945FC                  mov dword ptr [ebp-04], eax
+:007184A3 90                      nop
+:007184A4 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0071850A(U)
+|
+:007184A5 FF751C                  push [ebp+1C]
+:007184A8 FF7518                  push [ebp+18]
+:007184AB FF7514                  push [ebp+14]
+:007184AE FF7510                  push [ebp+10]
+:007184B1 FF750C                  push [ebp+0C]
+:007184B4 FF7508                  push [ebp+08]
+:007184B7 89F9                    mov ecx, edi
+:007184B9 89F2                    mov edx, esi
+:007184BB 90                      nop
+:007184BC 90                      nop
+:007184BD 90                      nop
+:007184BE 90                      nop
+:007184BF E80AEED0FF              call 004272CE
+:007184C4 90                      nop
+:007184C5 90                      nop
+:007184C6 803B01                  cmp byte ptr [ebx], 01
+:007184C9 7545                    jne 00718510
+:007184CB 90                      nop
+:007184CC 90                      nop
+:007184CD 90                      nop
+:007184CE 90                      nop
+:007184CF 90                      nop
+:007184D0 FF751C                  push [ebp+1C]
+:007184D3 FF7518                  push [ebp+18]
+:007184D6 FF7514                  push [ebp+14]
+:007184D9 FF7510                  push [ebp+10]
+:007184DC FF75FC                  push [ebp-04]
+:007184DF FF7508                  push [ebp+08]
+:007184E2 89F9                    mov ecx, edi
+:007184E4 89F2                    mov edx, esi
+:007184E6 90                      nop
+:007184E7 90                      nop
+:007184E8 90                      nop
+:007184E9 90                      nop
+:007184EA E8DFEDD0FF              call 004272CE
+:007184EF 90                      nop
+:007184F0 90                      nop
+:007184F1 803B01                  cmp byte ptr [ebx], 01
+:007184F4 741A                    je 00718510
+:007184F6 90                      nop
+:007184F7 90                      nop
+:007184F8 90                      nop
+:007184F9 90                      nop
+:007184FA 803B00                  cmp byte ptr [ebx], 00
+:007184FD 7411                    je 00718510
+:007184FF 90                      nop
+:00718500 E8361AD0FF              call 00419F3B
+:00718505 894508                  mov dword ptr [ebp+08], eax
+:00718508 90                      nop
+:00718509 90                      nop
+:0071850A EB99                    jmp 007184A5
+:0071850C 90                      nop
+:0071850D 90                      nop
+:0071850E 90                      nop
+:0071850F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007184C9(C), :007184F4(C), :007184FD(C)
+|
+:00718510 5B                      pop ebx
+:00718511 5E                      pop esi
+:00718512 5F                      pop edi
+:00718513 C9                      leave
+:00718514 C21800                  ret 0018
+
+
+
+
+
+
+
+
+

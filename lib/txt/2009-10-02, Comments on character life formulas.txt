@@ -1,0 +1,98 @@
+
+
+
+:004240EC A114AE6E00              mov eax, dword ptr [006EAE14]
+:004240F1 03C6                    add eax, esi
+:004240F3 8A9060010000            mov dl, byte ptr [eax+00000160]		dl = class
+:004240F9 80FA05                  cmp dl, 05
+:004240FC 8B4DF8                  mov ecx, dword ptr [ebp-08]			ecx = VIT_items ?
+:004240FF 7507                    jne 00424108
+:00424101 8BF9                    mov edi, ecx					(glad): edi = ecx
+:00424103 D1E1                    shl ecx, 1					ecx*2
+:00424105 EB24                    jmp 0042412B
+:00424107 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004240FF(C)
+|
+:00424108 84D2                    test dl, dl
+:0042410A 7509                    jne 00424115
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042411D(C)
+|
+:0042410C 03C9                    add ecx, ecx					
+:0042410E 8BF9                    mov edi, ecx
+:00424110 C1FF02                  sar edi, 02
+:00424113 EB16                    jmp 0042412B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042410A(C)
+|
+:00424115 80FA01                  cmp dl, 01
+:00424118 740A                    je 00424124
+:0042411A 80FA03                  cmp dl, 03
+:0042411D 7DED                    jge 0042410C
+:0042411F EB0E                    jmp 0042412F
+:00424121 90                      nop
+:00424122 90                      nop
+:00424123 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00424118(C)
+|
+:00424124 8B4DF8                  mov ecx, dword ptr [ebp-08]
+:00424127 8BF9                    mov edi, ecx
+:00424129 D1FF                    sar edi, 1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00424105(U), :00424113(U)
+|
+:0042412B 03CF                    add ecx, edi			{pal: ecx = [ebp-08]*2,5}, {glad: ecx = [ebp-08]*3}
+:0042412D EB03                    jmp 00424132
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042411F(U)
+|
+:0042412F 8B4DF8                  mov ecx, dword ptr [ebp-08]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042412D(U)
+|
+:00424132 C1E106                  shl ecx, 06
+:00424135 014DD8                  add dword ptr [ebp-28], ecx		add bonus life from VIT_items to base life?
+:00424138 8B4DD0                  mov ecx, dword ptr [ebp-30]
+
+
+
+
+
+
+
+:0042416D 8B8890010000            mov ecx, dword ptr [eax+00000190]		ecx = base life
+:00424173 034DD8                  add ecx, dword ptr [ebp-28]			
+:00424176 898898010000            mov dword ptr [eax+00000198], ecx		cur life + bonus
+:0042417C A114AE6E00              mov eax, dword ptr [006EAE14]
+:00424181 03C6                    add eax, esi
+:00424183 8B8894010000            mov ecx, dword ptr [eax+00000194]		ecx = max baseLife
+:00424189 034DD8                  add ecx, dword ptr [ebp-28]
+:0042418C 89889C010000            mov dword ptr [eax+0000019C], ecx		maxCurLife = ecx
+:00424192 A114AE6E00              mov eax, dword ptr [006EAE14]
+:00424197 8D0C30                  lea ecx, dword ptr [eax+esi]
+:0042419A 8D8198010000            lea eax, dword ptr [ecx+00000198]		eax = cur life
+:004241A0 8B899C010000            mov ecx, dword ptr [ecx+0000019C]		ecx = maxCurLife
+:004241A6 3908                    cmp dword ptr [eax], ecx				
+:004241A8 7E02                    jle 004241AC
+:004241AA 8908                    mov dword ptr [eax], ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004241A8(C)
+|
+:004241AC 8B4DE0                  mov ecx, dword ptr [ebp-20]
+:004241AF 3B0DE8AD6E00            cmp ecx, dword ptr [006EADE8]
+:004241B5 7519                    jne 004241D0
+:004241B7 A114AE6E00              mov eax, dword ptr [006EAE14]
+:004241BC F7843098010000C0FFFFFF  test dword ptr [eax+esi+00000198], FFFFFFC0
+:004241C7 7F07                    jg 004241D0
+:004241C9 33D2                    xor edx, edx
+:004241CB E8DCA70300              call 0045E9AC

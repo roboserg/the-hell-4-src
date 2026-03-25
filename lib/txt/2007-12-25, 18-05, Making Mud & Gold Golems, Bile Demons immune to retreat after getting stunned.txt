@@ -1,0 +1,157 @@
+Mud Golems without hit recovery retreat >>>>>>>>>>>>>>>
+
+
+Adjusting Hidden-AI for non-fleeing Mudders and Bile Demons:>>>>>>>>>>>
+:004408E3 83660C00                and dword ptr [esi+0C], 00000000
+:004408E7 C6460802                mov [esi+08], 02		Set to Running
+into:
+:004408E3 E8159A0100              call free space NDAD
+:004408E8 7503                    jne 004408ED
+:004408EA 90                      nop
+
+At free space: >>>>>>>>
+8B86DC000000            mov eax, dword ptr [esi+000000DC]
+8B00                    mov eax, dword ptr [eax]
+83F835                  cmp eax, 000000035		mud golem 71h
+740F                    je, test eax
+83F834                  cmp eax, 000000034		bile demon 34h
+740A                    je, test eax
+83660C00                and dword ptr [esi+0C], 00000000
+C6460802                mov [esi+08], 02
+33C0                    xor eax, eax
+85C0                    test eax, eax
+C3                      ret
+
+------------------------------------------------------------------------------------------------------------
+Step 2: optimizing the code and adding support for Gold Golem (they have boss pack on dlvl 22 that uses hidden attack type)
+
+Correcting the CALL:
+:004408E3 E8159A0100              call 0045A2FD
+
+into >>>
+
+:004408E3 E8B29A0100              call 0045A39A
+
+---
+
+Relocating the called function (extra space was needed for golems) and including check on golems:
+* Referenced by a CALL at Address:
+|:004408E3   
+|
+:0045A2FD 8B86DC000000            mov eax, dword ptr [esi+000000DC]
+:0045A303 8B00                    mov eax, dword ptr [eax]
+:0045A305 83F871                  cmp eax, 00000071
+:0045A308 740F                    je 0045A319
+:0045A30A 83F834                  cmp eax, 00000034
+:0045A30D 740A                    je 0045A319
+:0045A30F 83660C00                and dword ptr [esi+0C], 00000000
+:0045A313 C6460802                mov [esi+08], 02
+:0045A317 33C0                    xor eax, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045A308(C), :0045A30D(C)
+|
+:0045A319 85C0                    test eax, eax
+:0045A31B C3                      ret
+
+into >>>
+
+* Referenced by a CALL at Address:
+|:004408E3   
+|
+:0045A39A 8B86DC000000            mov eax, dword ptr [esi+000000DC]
+:0045A3A0 8B00                    mov eax, dword ptr [eax]
+:0045A3A2 83F834                  cmp eax, 00000034
+:0045A3A5 7416                    je 0045A3BD
+:0045A3A7 83F871                  cmp eax, 00000071
+:0045A3AA 7411                    je 0045A3BD
+:0045A3AC 3D7D000000              cmp eax, 0000007D
+:0045A3B1 740A                    je 0045A3BD
+:0045A3B3 83660C00                and dword ptr [esi+0C], 00000000
+:0045A3B7 C6460802                mov [esi+08], 02
+:0045A3BB 33C0                    xor eax, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0045A3A5(C), :0045A3AA(C), :0045A3B1(C)
+|
+:0045A3BD 85C0                    test eax, eax
+:0045A3BF C3                      ret
+
+
+
+------END-------
+
+
+
+The Rest is from TheDark: >>
+
+Using 'MonsterAnimations' routine to use Idle animation when asked for Second animation:
+
+File Offset 0005070C
+
+:0045130C 837DFC48                cmp dword ptr [ebp-04], 00000048	Nest Rat
+wordt
+:0045130C 837DFC35                cmp dword ptr [ebp-04], 00000035	Ghost Warrior
+
+
+SecondAnimation Flag:
+
+000AC370 A000 0000 1405 0000 9025 4B00 0100 0000 .........%K.....
+wordt
+000AC370 A000 0000 1405 0000 9025 4B00 0000 0000 .........%K.....
+
+Attacktype and Subtype:
+
+000AC3D0 1800 0000 0001 0000 0487 060F 2300 0000 ............#...
+wordt
+000AC3D0 0F00 0000 0001 0000 0287 060F 2300 0000 ............#...
+
+Special Sound trigger (appears to be needed):
+
+000AC380 7025 4B00 0000 0000 0100 0000 7878 4A00 p%K.........xxJ.
+wordt
+000AC380 7025 4B00 0100 0000 0100 0000 7878 4A00 p%K.........xxJ.
+
+Second Animation Frameset:
+
+000AC3A0 1800 0000 0000 0000 0100 0000 0000 0000 ................
+wordt
+000AC3A0 1800 0000 0800 0000 0100 0000 0000 0000 ................
+
+Setting Attacktype for The Cursed Captain:
+
+000AF450 1805 193C 2300 0B00 0000 0000 0000 0000 ...<#...........
+wordt
+000AF450 0F03 193C 2300 0B00 0000 0000 0000 0000 ...<#...........
+
+
+Golem-bosses can now have the Drake attack.
+
+
+ 15 Titan  Mithril Golem  2-Skeleton-5
+
+Setting Attacktype for Titan to 24-Viper-5:
+
+000AF470 0205 213C 3000 0B00 0000 0000 0000 0000 ..!<0...........
+wordt
+000AF470 1805 213C 3000 0B00 0000 0000 0000 0000 ..!<0...........
+
+
+ 60 Anvil  Iron Golem     2-Skeleton-4
+
+Setting Attacktype for Anvil to 24-Viper-4:
+
+000AFA10 0204 2338 3000 0B00 0000 0000 0000 0000 ..#80...........
+wordt
+000AFA10 1804 2338 3000 0B00 0000 0000 0000 0000 ..#80...........
+
+
+ 63 Magnat Copper Golem   2-Skeleton-3
+
+Setting Attacktype for Magnat to 24-Viper-3:
+
+000AFA70 0203 2530 3000 0B00 0000 0000 0000 0000 ..%00...........
+wordt
+000AFA70 1803 2530 3000 0B00 0000 0000 0000 0000 ..%00...........
+
+

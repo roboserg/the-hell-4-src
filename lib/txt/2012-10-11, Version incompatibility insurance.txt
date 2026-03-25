@@ -1,0 +1,47 @@
+.text:0044B14F                 mov     [ebp+Buffer11Dwords], edi ; 44d
+.text:0044B152                 lea     eax, [ebp+var_18]
+.text:0044B155                 mov     [ebp+var_4C], offset GameClientName ; "The Hell Retail"
+.text:0044B15C                 push    4
+.text:0044B15E                 mov     [ebp+var_48], offset aInternalVersio ; "internal version unknown"
+.text:0044B165                 pop     edi
+.text:0044B166                 mov     [ebp+var_44], 4852544Ch
+.text:0044B16D                 push    12              ; Size
+.text:0044B16F                 push    ebx             ; Val
+.text:0044B170                 push    eax             ; Dst
+.text:0044B171                 mov     [ebp+var_40], 34d
+
+mov     [ebp+Dst], 60d
+mov     [ebp+var_A4], offset aDiabloRetail ; "Diablo Retail"
+mov     [ebp+var_A0], offset aInternalVersio ; "internal version unknown"
+mov     [ebp+var_9C], 4452544Ch
+mov     [ebp+var_98], 42d
+[09.10.2012 17:38:20] Ярик: Сверху тх, снизу д1 109
+[09.10.2012 17:38:38 | Изменены 17:38:45] Ярик: или 107, смотря какую ты мне кинул
+[09.10.2012 17:43:07] Mordor: 09
+[09.10.2012 17:43:41] Ярик: Отличия:
+44d -> 60d
+4852544Ch -> 4452544Ch
+34d -> 42d
+[09.10.2012 17:44:10] Ярик: я уверен что как раз тут где то и кроется секрет нестыковки версий
+[09.10.2012 17:44:15] Ярик: Всего 3 байта отличия
+[09.10.2012 17:44:29] Ярик: Попробуй менять, и конектиться к кому то
+[09.10.2012 17:45:01 | Изменены 17:45:02] Ярик: Может и не тут собака зарыта, но проверить стоит
+
+=====================
+= thats the way!!!!!! // 3 parameters
+=====================
+
+.text:0044B139                 push    60 // :0044B139 6A3C                    push 0000003C
+
+.text:0044B171                 mov     [ebp+var_40], 42 // :0044B171 C745C02A000000          mov [ebp-40], 0000002A
+
+.text:0044B166                 mov     [ebp+var_44], 'DRTL' // :0044B166 C745BC4C545244          mov [ebp-44], 4452544C
+
+Это ты скопипиздил с 1.09
+[0:58:34] Ярик: В оригинале хф было так
+
+44 // :0044B139 6A2C                    push 0000002C
+
+34 // :0044B171 C745C022000000          mov [ebp-40], 00000022
+
+'HRTL' // :0044B166 C745BC4C545248          mov [ebp-44], 4852544C

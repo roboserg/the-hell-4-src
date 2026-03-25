@@ -1,0 +1,27 @@
+now Rnd[Dmg/64] + 1:
+
+:0045BC20 A114AE6E00              mov eax, dword ptr [006EAE14]
+:0045BC25 F684304055000002        test byte ptr [eax+esi+00005540], 02
+:0045BC2D 7475                    je 0045BCA4
+:0045BC2F 8BD7                    mov edx, edi
+:0045BC31 B107                    mov cl, 07
+:0045BC33 C1FA06                  sar edx, 06
+:0045BC36 E81FE3FBFF              call 00419F5A
+:0045BC3B E970CF2A00              jmp 00708BB0
+:0045BC40 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708BB9(U)
+|
+:0045BC41 01843198010000          add dword ptr [ecx+esi+00000198], eax
+
+
+	and:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045BC3B(U)
+|
+:00708BB0 83C001                  add eax, 00000001
+:00708BB3 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:00708BB9 E98330D5FF              jmp 0045BC41
+:00708BBE 90                      nop
+:00708BBF 90                      nop

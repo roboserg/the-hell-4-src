@@ -1,0 +1,169 @@
+These are the shrines you can find in Hellfire. Sometimes only the quote is given (if you touch a Goat's Shrine or a Couldron).
+
+Abandoned Shrine	V
+Quote: "The hands of men are guided by fate."
+Effect: Dexterity is raised by two points.
+
+Creepy Shrine		V
+Quote: "Strength is bolstered by heavenly faith."
+Effect: Strength is raised by two points.
+
+Cryptic Shrine		V
+Quote: "Arcane power brings destruction."
+Effect: Nova erupts from shrine, mana orb is refilled.
+
+Divine Shrine		V
+Quote: "Drink and be refreshed."
+Effect: Fills both orbs, gives two potions of full rejuvenation.
+
+Eerie Shrine		V
+Quote: "Knowledge and wisdom come at the cost of self."
+Effect: Mana goes up, life goes down.
+
+Eldritch Shrine		V
+Quote: "Crimson and azure become as the sun."
+Effect: All potions turn into potions of rejuvenation.
+
+Enchanted Shrine	Vx
+Quote: "Magic is not what it seems to be."
+Effect: One spell loses two levels, all others gain one level.
+
+Fascinating Shrine
+Quote: "Intensity comes at the cost of wisdom."
+Effect: Mana goes down, Firebolt spell improved.
+
+Glimmering Shrine	V
+Quote: "Mysteries are revealed in the light of reason."
+Effect: Identifies entire inventory.
+
+Gloomy Shrine		V
+Quote: "Those who defend seldom attack."
+Effect: All armor gain +2 armor class, all weapons gain -1 to maximum damage.
+
+Glowing Shrine		V
+Quote: "Knowledge is power."
+Effect: +5 to magic, -5% experience.
+
+Hidden Shrine		V
+Quote: " New strength flows from destruction."
+Effect: One item loses 10 durability, all others gain 10 durability.
+
+Holy Shrine		V
+Quote: "Wherever you go, there you are."
+Effect: The shrine casts the Phasing spell.
+
+Magical Shrine		V
+Quote: "While the spirit is vigilant, the body thrives."
+Effect: The shrine casts the Mana Shield spell.
+
+Mendicant's Shrine	V
+Quote: "Give and you shall receive."
+Effect: Takes half your gold and converts it to experience.
+
+Murphy's Shrine		V
+Quote: "That which can break will."
+Effect: 1 in 3 chance of damage to an item worn. Otherwise takes away 1/3 of your gold.
+
+Mysterious Shrine	V
+Quote: "Some grow weaker as one grows strong."
+Effect: Two stats lose a point, one other gains two point.
+
+Oily Shrine		V
+Quote: "That which does not kill you..."
+Effect: +2 to primary stats:
+    Monk = +1 to strength and dexterity.
+    Warrior = +2 to strength.
+    Rogue = +1 dexterity and magic.
+    Sorcerer = +2 magic.
+    Bard = +1 dexterity and magic.
+    Barbarian = +2 to vitality.
+
+Ornate Shrine		V
+Quote: "Salvation comes at the cost of wisdom."
+Effect: Mana goes down, one spell gains two levels.
+
+Quiet Shrine		V
+Quote: "The essence of life flows from within."
+Effect: Vitality is raised by two points.
+
+Religious Shrine		V
+Quote: "Time cannot deminish the power of steel."
+Effect: All items are repaired.
+
+Sacred Shrine		V
+Quote: "Energy comes at the cost of wisdom."
+Effect: Mana goes down, Charged Bolt spell improved.
+
+Secluded Shrine		V
+Quote: "The way is made clear when viewed from above."
+Effect: Gives full map of current level.
+
+Shimmering Shrine	V
+Quote: "Spiritual energy is restored."
+Effect: Fills the mana orb.
+
+Solar Shrine		V
+Quote: "You feel stronger."
+Effect: +2 to strength.
+Quote: "You feel wiser."
+Effect: +2 to magic.
+Quote: "You feel refreshed."
+Effect: +2 to vitality.
+Quote: "You feel more agile."
+Effect: +2 to dexterity.
+
+Sparkling Shrine		V
+Quote: "Some experience is gained by touch."
+Effect: Player is attacked with an electrical charge and gains (1000 x current level) experience.
+
+Spiritual Shrine		V
+Quote: "Riches are around when least expected."
+Effect: Fills all free spots in inventory with 10-20 gold.
+
+Spooky Shrine		
+Quote: "When avarice fails, patience grows."
+Effect: All players get full life.
+
+Stone Shrine		V
+Quote: "The power of mana refocused renews."
+Effect: All staves are recharged.
+
+Tainted Shrine		V
+Quote: "Those that are last may yet be first."
+Effect: All other players get -1 to one stat and +1 to all other stats.
+
+Thaurmaturgic Shrine	V
+Quote: "Everything that once was open, is now closed."
+Effect: All open chests are closed and reseeded.
+
+Town Shrine		V
+Quote: "There's no place like home."
+Effect: Casts a Town Portal spell.
+
+Weird Shrine		V
+Quote: "The sword of justice is swift and sharp."
+Effect: All weapons gain +1 to maximum damage.
+
+Couldron		
+Quote: Dependant on effect.
+Effect: The effect of a random chosen shrine is given.
+
+Goat Shrine
+Quote: Dependant on effect.
+Effect: The effect of a random chosen shrine is given.
+
+Blood Fountain
+Quote: none
+Effect: Current hitpoints are increased by 1 (reusable until you have 100% hitpoints).
+
+Fountain of Tears
+Quote: none
+Effect: One stat loses 1, another gains +1.
+
+Murky Pool
+Quote: none
+Effect: Casts the infravision spell.
+
+Purifying Spring
+Quote: none
+Effect: Current mana are increased by 1 (reusable until you have 100% mana).

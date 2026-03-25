@@ -1,0 +1,27 @@
+Cowsuit quest has a different scheme:
+1. Bugger off, I don't deal with characters that are below level 15, - multiple speeches on this one
+2. I lost something and I need it back, fetch me this.
+3. What are you doing? Get going!
+3.a find one item, return it to the NPC
+4. WTF are you thinking? It's not what I want.
+4.a find second item, return it
+5. Ah yes, at last some dignity
+5.a gives you reward (unique item)
+5.b changes his appearance, but only after you reload or quit-reenter town
+------------
+To apply different skin to this quest it would take:
+changing cowsuit guy's .CEL animation from original to Tremain's
+adding extra speech content to the game (being done already)
+repointer sounds from speeches to corresponding Tremain's .WAV files
+1. dont know what to do with all these "Moo", "I said Moo" dialogues, but the triggering would sound like..:
+2. when clvl >=15, allow quest and speech "I have had a most disturbing experience....."
+3. "All I can do now is pray for us all"
+4. "Fleshdoom's demise is a great good to the world, yet Shadowfang remains....."
+note: Fleshdoom will drop a proof of his death in SP mode, the item would be taken to Tremain, and would trigger this speech
+Fleshdoom will be found somewhere on level 11 or 12, I would prefer 11, because at this point character would most likely reach level 15 and thus would be able to trigger the quest.
+4.a somewhere on level 20 in Abyss the sword would be found then, lying on the floor (only in SP mode, too, to not overcomplicate things in MP). OR___ some other monster would drop the unequippable Shadowfang (along with its usual drop as a boss), in SP only, too.
+5. amd by taking the cursed blade to Tremain, he'll say " Light be praised! You found the cursed demonblade! Only its destruction can ensure the safety of us all. For your services this day I bestow this mace onto you. Its name is Lightforge and it is the holiest of order's artifacts. As I am the last of this order, I entrust it to you. May the Light guide you"
+5.a saying this, he drops the new unique item: Lightforge (can be discussed what's it gonna be BTW)
+5.b appearance doesn't change, quest is finished
+
+Note: other villagers would have nothing to say about this quest

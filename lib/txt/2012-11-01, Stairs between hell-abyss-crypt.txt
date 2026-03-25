@@ -1,0 +1,750 @@
+
+8 & 9 must yet be coded in...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[21:22:28] Ярик: Хм. Какую бы лесницу сделать
+[21:22:45] Ярик: круг как вход в пандемониум или костяную лестницу?
+[21:28:40] Mordor: костяную
+[21:28:46] Ярик: Ок.
+[21:28:47] Mordor: хортя
+[21:28:49] Mordor: не
+[21:29:06] Mordor: учитывая то что там уже в одном из дунов где в оригинале был диабло, есть звезда...
+[21:29:15] Mordor: то в ее центре пусть и будет проход вниз
+[21:53:44] Ярик: Так
+[21:54:00] Ярик: лестница наверх всегда в одном и том же месте появляется?
+[21:54:04] Ярик: В 16 уровне?
+[21:54:08] Ярик: Или ходит?
+[21:54:22] Mordor: ходит
+[21:54:27] Ярик: Ок
+[21:54:34] Ярик: Значит верное место нашёл
+[21:54:41] Ярик: Походу дун не надо трогать
+[21:54:56] Ярик: Сейчас ещё доразбираю код и сделаем всё в лучшем виде
+[21:55:23] Ярик: Там сделать костяную стену вниз как раз плюнуть
+[21:55:30] Ярик: Просто убрав проверку
+[21:55:44] Ярик: А вот круговую красивую уже надо помудрить
+[21:56:56] Ярик: Не. 3 проверки
+[22:02:12] Ярик: .text:004151FB                 cmp     byte ptr dword_60B1D8, 10h
+.text:00415202                 jz      short loc_415215
+
+.text:0041524E                 cmp     byte ptr dword_60B1D8, 10h
+.text:00415255                 jz      short loc_415268
+
+.text:00415298                 cmp     byte ptr dword_60B1D8, 10h
+.text:0041529F                 jz      short loc_4152B2
+[22:02:37] Ярик: По идее если все 3 места занопить то получим костяную лестницу вниз на 16м
+
+
+1. Лестница вниз в аду
+------------------------------------------------------------------------------------------------
+.text:0041524E                 cmp     byte ptr DungeonLevel, 10h
+.text:00415255                 jz      short loc_415268
+.text:00415257                 push    ebx_one
+
+
+0041524E jmp @newLoc
+>>>
+@newLoc:
+cmp     byte ptr DungeonLevel, 10h ; затёртое
+jzn 00415257
+
+mov     dword_61F334, 49h
+mov     dword_61F338, 4Ah
+
+jmp 415268
+
+2. Лестница наверх в бездне
+---------------------------------------------------------------------
+.text:004125E7 loc_4125E7:                             ; CODE XREF: sub_4124CB+10Cj
+.text:004125E7                 jz      short loc_4125F7
+
+.text:0041266B loc_41266B:                             ; CODE XREF: sub_4124CB+190j
+.text:0041266B                 jz      short loc_41267B
+
+.text:004126FF loc_4126FF:                             ; CODE XREF: sub_4124CB+224j
+.text:004126FF                 jz      short loc_41270F
+[2:47:00] Ярик: занопить или прыжок на следующую строку
+
+---------------------------------------------------------------------
+
+3. лестница в город в бездне
+
+3.1
+;.text:004126DB                 cmp     byte ptr DungeonLevel, 9
+;.text:004126E2                 jnz     loc_412776
+;.text:004126E8                 push    6
+
+004126DB jmp @newLoc
+>>>
+@newLoc:
+cmp     byte ptr DungeonLevel, 9
+jnz @nextCheck
+mov ecx, 0048A448h; PatMap3x3_48A448_CaveDungeonEnterToTown
+jmp 004126E8 ; обратно
+@nextCheck:
+cmp     byte ptr DungeonLevel, 11h;17
+jnz @noTownEnter
+mov ecx, 0048A460h; PatMap3x3_48A460_AbyssDungeonEnterToTown
+jmp 004126E8 ; обратно
+@noTownEnter:
+jmp 412776
+
+3.2
+
+;.text:00412759                 cmp     byte ptr DungeonLevel, 9
+;.text:00412760                 jnz     short loc_412776
+;.text:00412762                 push    6
+
+00412759 jmp @newLoc
+>>>
+@newLoc:
+cmp     byte ptr DungeonLevel, 9
+jnz @nextCheck
+mov ecx, 0048A448h; PatMap3x3_48A448_CaveDungeonEnterToTown
+jmp 00412762 ; обратно
+@nextCheck:
+cmp     byte ptr DungeonLevel, 11h;17
+jnz @noTownEnter
+mov ecx, 0048A460h; PatMap3x3_48A460_AbyssDungeonEnterToTown
+jmp 00412762; обратно
+@noTownEnter:
+jmp 412776
+
+3.3
+Занопить
+.text:0041276A                 mov     ecx, offset PatMap3x3_48A448_CaveDungeonEnterToTown
+----------------------------------------------------------------------------------------------
+4. лестница вниз в бездне
+
+.text:0041262A                 cmp     al, 20
+.text:0041262C                 jz      loc_4126D3
+
+.text:004126AE                 cmp     al, 20
+.text:004126B0                 jz      short loc_4126D3
+
+.text:0041273E                 cmp     al, 20
+.text:00412740                 jz      short loc_412755
+
+Занопить или перепрыгнуть
+
+----------------------------------------------------------------------------------------------
+5. Лестница наверх в склепе
+
+5.1
+.text:0040C1CD                 mov     ecx, offset Pat3Map4x5_48A128_CryptPassageToTown
+.text:0040C1D2                 call    GeneratePatternObject
+.text:0040C1D7                 test    eax, eax
+.text:0040C1D9                 jge     short loc_40C200  40C1DF
+.text:0040C1DB                 xor     ebp, ebp
+.text:0040C1DD                 jmp     short loc_40C200 40C1DF
+
+5.2
+.text:0040C27C                 mov     ecx, offset Pat3Map4x5_48A128_CryptPassageToTown
+.text:0040C281                 call    GeneratePatternObject
+.text:0040C286                 test    eax, eax
+.text:0040C288                 jge     short loc_40C2AF  40C28E
+.text:0040C28A                 xor     ebp, ebp
+.text:0040C28C                 jmp     short loc_40C2AF  40C28E
+
+5.3
+.text:0040C309                 mov     ecx, offset Pat3Map4x5_48A128_CryptPassageToTown
+.text:0040C30E                 call    GeneratePatternObject
+.text:0040C313                 test    eax, eax
+.text:0040C315                 jge     short loc_40C33C  40C31B
+.text:0040C317                 xor     ebp, ebp
+.text:0040C319                 jmp     short loc_40C33C  40C31B
+
+5.3.1
+фикс
+
+.text:0040C30E                 call    GeneratePatternObject
+.text:0040C313                 test    eax, eax
+.text:0040C315                 jge     short loc_40C33C
+.text:0040C317                 xor     ebp, ebp
+.text:0040C319                 jmp     short loc_40C33C
+
+0040C30E jmp @newLoc
+>>>
+@newLoc:
+call    GeneratePatternObject
+test    eax, eax; затёртое
+jge  @F
+xor     ebp, ebp
+@@:
+push    esi ;_zero
+push    edi ;_minus_one
+push    esi ;_zero
+jmp  0040C31E
+
+===================================================================
+
+6. открытие бездны и склепа только при выходе из них
+
+6.1 // вроде ок
+;.text:0045AEF2                 movzx   ecx, byte_60B1D4
+;.text:0045AEF9                 dec     ecx
+;.text:0045AEFA                 dec     ecx
+;.text:0045AEFB                 shl     dl, cl
+
+0045AEF2 jmp @newLoc
+>>>
+@newLoc:
+mov cl, byte ptr [0060B1D8]
+shr cl, 2; поделить на 4. 
+dec ecx
+jmp 0045AEFB
+
+;Получается
+;5  9  13  17  21 dlvl
+;0  1  2    3   4   cl
+; так мы правильно поставим флаги открытия дверей персонажем
+
+
+6.2 // по тесту тоже верно
+; добавление точки входа склепу
+.text:00477D7D                 cmp     byte_6EB51A, 3
+.text:00477D84                 jnz     short loc_477DB0
+.text:00477D86                 mov     edx, ecx
+
+00477D7D jmp @newLoc
+>>>
+@newLoc:
+test    byte ptr [esi+5568h], 10h
+jnz     00477D86
+cmp     byte ptr [esi+1B8h], 20; уровень необходимый для того чтобы вход всегда был открыт. Если такового не будет, то пропустить и потом везде запретим автооткрытие
+jl      477DB0
+jmp 00477D86
+
+6.3
+
+; там так неэкономно место на проверки тратится, что возможно там же поместимся
+004756DA восстановить
+прыгать отсюда 004756E7. то что будет затёрто неважно
+
+004756DA jmp @newLoc
+>>>
+@newLoc:
+call 70A1D0; @getCurPlayerOffset
+mov edi, eax
+
+@abyssCheck
+test    byte ptr [edi+5568h], 8; бездна
+jz     @closedAbyss
+@openedAbyss:
+call 004751C6 ; void FillDMap3OpenedAbyss()
+jmp @cryptCheck
+@closedAbyss:
+call 00475379 ; void FillTownMap1ClosedAbyss()
+
+@cryptCheck:
+test    byte ptr [edi+5568h], 10h; склеп
+jz     @closedCrypt
+@openedCrypt:
+call 00475595 ;void FillDMap1OpenedCrypt()
+jmp @cataCheck
+@closedCrypt:
+call 0047552C ; void FillTownMap2ClosedCrypt()
+
+@cataCheck:
+jmp 475737
+
+===================================================================
+
+
+7. 
+примечания. 
+1) Сейчас вход в катакомбы пещеры и ад открыты, если мы набрали 10 15 или 20 уровни соответственно, но при этом не вышли из них. По моему это сомнительное нововведение хэлфаера. Хорошо бы убрать. Или если тебе нравится, то сделать так же для бездны со склепом, допилив требование уровня в зависимости от сложности - в Д1 было хуже - там приходилось пройти все уровни чтобы попасть на 16й. хотя..... там только ад был нужен. в ТН нужно все.
+Так может и правильно? Начал с начала, топай через все уровни. А не зачищай отдельные локи. Я так в хф кучу бабла наваривал начиная новую игру, проходя квест адской оружейни и продавая офигительный маг шмот в магазе. Сейчас такое невозможно, но всё таки...
+тестить в сингле будет пиздецки тяжело))
+
+
+2) рунная бомба и карта больше не нужны. Фермер тоже или как минимум его квест. Надо сделать невыпадаемыми эти предметы и дезактивировать их действие при падении
+они и сейчас невыпадаемы, спецдропом только
+Ну так снос спецдропа и имел в виду
+зависит от решения по п.1
+
+===================================================================
+
+
+8. 
+
+8.1 функция
+
+@choiseDunEnteriesView:
+; в ecx townTiles
+push esi
+push edi
+push ebx; указатель на нужное значение в таблице байтов
+
+mov esi, ecx; townTiles
+
+call 70A1D0; @getCurPlayerOffset
+mov edi, eax
+
+mov ebx, dword ptr [006070C0]; Difficulty
+imul ebx, 6h
+add ebx, A09900h ; таблица требований уровня
+
+; катакомбы
+@cataCheck:
+inc ebx
+mov al, byte ptr [ebx]
+cmp     byte ptr [edi+1B8h], al ; Compare Two Operands
+jge @caveCheck ; открытие по уровню
+test byte ptr [edi+5568h], 1
+jnz @caveCheck
+
+; закрыть ; изначально открытые
+@closeCatacomb:
+push    140h
+push    14h
+push    30h
+mov     ecx, esi
+pop     edx
+call    sub_475155
+
+
+;пещеры
+@caveCheck:
+inc ebx
+mov al, byte ptr [ebx]
+cmp     byte ptr [edi+1B8h], al ; Compare Two Operands
+jge @hellCheck ; открытие по уровню
+test byte ptr [edi+5568h], 2
+jnz @hellCheck
+
+; закрыть ; изначально открытые
+@closeCave:
+push    14Ch
+push    44h
+push    10h
+mov     ecx, esi
+pop     edx
+call    sub_475155
+mov     ecx, esi
+push    14Bh
+push    46h
+push    10h
+pop     edx
+call    sub_475155
+
+
+;ад
+@hellCheck:
+inc ebx
+mov al, byte ptr [ebx]
+cmp     byte ptr [edi+1B8h], al ; Compare Two Operands
+jge @abyssCheck ; открытие по уровню
+test byte ptr [edi+5568h], 4
+jnz @abyssCheck
+
+; закрыть ; изначально открытые
+@closeHell:
+push edi
+push    24h
+pop     edi
+@loop:
+push    4
+xor     cl, cl
+pop     edx
+call    sub_419F5A
+inc     eax
+mov     edx, edi
+push    eax
+push    4Eh
+mov     ecx, esi
+call    sub_475155
+inc     edi
+cmp     edi, 2Eh
+jl @loop
+pop edi
+
+;бездна
+@abyssCheck:
+inc ebx
+mov al, byte ptr [ebx]
+cmp     byte ptr [edi+1B8h], al ; Compare Two Operands
+jge @openedAbyss ; открытие по уровню
+test byte ptr [edi+5568h], 8
+jnz @openedAbyss
+
+@closedAbyss:
+call 00475379 ; void FillTownMap1ClosedAbyss()
+jmp @cryptCheck
+
+@openedAbyss:
+call 004751C6 ; void FillDMap3OpenedAbyss()
+
+;склеп
+@cryptCheck:
+inc ebx
+mov al, byte ptr [ebx]
+cmp     byte ptr [edi+1B8h], al ; Compare Two Operands
+jge @openedCrypt; открытие по уровню
+test byte ptr [edi+5568h], 10h
+jnz @openedCrypt
+
+@closedCrypt:
+call 0047552C ; void FillTownMap2ClosedCrypt()
+jmp @return
+
+@openedCrypt:
+call 00475595 ;void FillDMap1OpenedCrypt()
+
+@return:
+pop ebx
+pop edi
+pop esi
+retn
+
+
+
+	code:
+* Referenced by a CALL at Address:
+|:00716712   
+|
+:00716600 56                      push esi
+:00716601 57                      push edi
+:00716602 53                      push ebx
+:00716603 89CE                    mov esi, ecx
+:00716605 E8C63BFFFF              call 0070A1D0
+:0071660A 89C7                    mov edi, eax
+:0071660C 8B1DC0706000            mov ebx, dword ptr [006070C0]
+:00716612 6BDB06                  imul ebx, 00000006
+:00716615 81C30099A000            add ebx, 00A09900
+:0071661B 43                      inc ebx
+:0071661C 8A03                    mov al, byte ptr [ebx]
+:0071661E 3887B8010000            cmp byte ptr [edi+000001B8], al
+:00716624 7D1D                    jge 00716643
+:00716626 F6876855000001          test byte ptr [edi+00005568], 01
+:0071662D 7514                    jne 00716643
+:0071662F 6840010000              push 00000140
+:00716634 6A14                    push 00000014
+:00716636 6A30                    push 00000030
+:00716638 89F1                    mov ecx, esi
+:0071663A 5A                      pop edx
+:0071663B E815EBD5FF              call 00475155
+:00716640 90                      nop
+:00716641 90                      nop
+:00716642 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00716624(C), :0071662D(C)
+|
+:00716643 43                      inc ebx
+:00716644 8A03                    mov al, byte ptr [ebx]
+:00716646 3887B8010000            cmp byte ptr [edi+000001B8], al
+:0071664C 7D32                    jge 00716680
+:0071664E F6876855000002          test byte ptr [edi+00005568], 02
+:00716655 7529                    jne 00716680
+:00716657 684C010000              push 0000014C
+:0071665C 6A44                    push 00000044
+:0071665E 6A10                    push 00000010
+:00716660 89F1                    mov ecx, esi
+:00716662 5A                      pop edx
+:00716663 E8EDEAD5FF              call 00475155
+:00716668 89F1                    mov ecx, esi
+:0071666A 684B010000              push 0000014B
+:0071666F 6A46                    push 00000046
+:00716671 6A10                    push 00000010
+:00716673 5A                      pop edx
+:00716674 E8DCEAD5FF              call 00475155
+:00716679 90                      nop
+:0071667A 90                      nop
+:0071667B 90                      nop
+:0071667C 90                      nop
+:0071667D 90                      nop
+:0071667E 90                      nop
+:0071667F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0071664C(C), :00716655(C)
+|
+:00716680 43                      inc ebx
+:00716681 8A03                    mov al, byte ptr [ebx]
+:00716683 3887B8010000            cmp byte ptr [edi+000001B8], al
+:00716689 7D31                    jge 007166BC
+:0071668B F6876855000004          test byte ptr [edi+00005568], 04
+:00716692 7528                    jne 007166BC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007166B3(C)
+|
+:00716694 57                      push edi
+:00716695 6A24                    push 00000024
+:00716697 5F                      pop edi
+:00716698 6A04                    push 00000004
+:0071669A 30C9                    xor cl, cl
+:0071669C 5A                      pop edx
+:0071669D E8B838D0FF              call 00419F5A
+:007166A2 40                      inc eax
+:007166A3 89FA                    mov edx, edi
+:007166A5 50                      push eax
+:007166A6 6A4E                    push 0000004E
+:007166A8 89F1                    mov ecx, esi
+:007166AA E8A6EAD5FF              call 00475155
+:007166AF 47                      inc edi
+:007166B0 83FF2E                  cmp edi, 0000002E
+:007166B3 7CDF                    jl 00716694
+:007166B5 5F                      pop edi
+:007166B6 90                      nop
+:007166B7 90                      nop
+:007166B8 90                      nop
+:007166B9 90                      nop
+:007166BA 90                      nop
+:007166BB 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00716689(C), :00716692(C)
+|
+:007166BC 43                      inc ebx
+:007166BD 8A03                    mov al, byte ptr [ebx]
+:007166BF 3887B8010000            cmp byte ptr [edi+000001B8], al
+:007166C5 7D10                    jge 007166D7
+:007166C7 F6876855000008          test byte ptr [edi+00005568], 08
+:007166CE 7507                    jne 007166D7
+:007166D0 E8A4ECD5FF              call 00475379
+:007166D5 EB05                    jmp 007166DC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007166C5(C), :007166CE(C)
+|
+:007166D7 E8EAEAD5FF              call 004751C6
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007166D5(U)
+|
+:007166DC 90                      nop
+:007166DD 90                      nop
+:007166DE 90                      nop
+:007166DF 90                      nop
+:007166E0 43                      inc ebx
+:007166E1 8A03                    mov al, byte ptr [ebx]
+:007166E3 3887B8010000            cmp byte ptr [edi+000001B8], al
+:007166E9 7D10                    jge 007166FB
+:007166EB F6876855000010          test byte ptr [edi+00005568], 10
+:007166F2 7507                    jne 007166FB
+:007166F4 E833EED5FF              call 0047552C
+:007166F9 EB05                    jmp 00716700
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007166E9(C), :007166F2(C)
+|
+:007166FB E895EED5FF              call 00475595
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007166F9(U)
+|
+:00716700 5B                      pop ebx
+:00716701 5F                      pop edi
+:00716702 5E                      pop esi
+:00716703 C3                      ret
+
+
+
+VV	8.2 вызов
+
+004756E7 
+mov ecx, esi
+call @choiseDunEnteriesView
+jmp 47584F
+
+
+	code:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004756E7(U)
+|
+:00716710 89F1                    mov ecx, esi
+:00716712 E8E9FEFFFF              call 00716600
+:00716717 E933F1D5FF              jmp 0047584F
+:0071671C 90                      nop
+
+===================================================================
+9. расстановка варпов
+
+9.1. функция
+@addDunEnteriesWarps:
+push esi
+push edi
+push ebx; указатель на нужное значение в таблице байтов
+
+call 70A1D0; @getCurPlayerOffset
+mov edi, eax
+
+mov ebx, dword ptr [006070C0]; Difficulty
+imul ebx, 6h
+add ebx, A09900 ; таблица требований уровня
+
+mov ecx, 1
+
+mov esi, 407h ; GM_1031_GOING_TO_DUNGEON
+
+mov     dword ptr [700210], 0
+mov     dword ptr [700214], 0
+mov     dword ptr [700218], 0
+
+; катакомбы
+@cataCheck:
+inc ebx
+mov al, byte ptr [ebx]
+cmp     byte ptr [edi+1B8h], al ; Compare Two Operands
+jge @addWarpToCata; открытие по уровню
+test byte ptr [edi+5568h], 1
+jz @caveCheck
+
+@addWarpToCata:
+mov     dword ptr [700210], 1
+mov     edx, ecx
+shl     edx, 4
+
+mov     dword ptr [edx+700228h], 31h
+mov     dword ptr [edx+70022Ch], 15h
+mov     dword ptr [edx+700230h], esi
+mov     dword ptr [edx+700234h], 5
+
+inc     ecx
+
+;пещеры
+@caveCheck:
+inc ebx
+mov al, byte ptr [ebx]
+cmp     byte ptr [edi+1B8h], al ; Compare Two Operands
+jge @addWarpToCave; открытие по уровню
+test byte ptr [edi+5568h], 2
+jz @hellCheck
+
+@addWarpToCave:
+mov     dword ptr [700214], 1
+mov     edx, ecx
+shl     edx, 4
+
+mov     dword ptr [edx+700228h], 11h
+mov     dword ptr [edx+70022Ch], 45h
+mov     dword ptr [edx+700230h], esi
+mov     dword ptr [edx+700234h], 9
+
+inc     ecx
+
+;ад
+@hellCheck:
+inc ebx
+mov al, byte ptr [ebx]
+cmp     byte ptr [edi+1B8h], al ; Compare Two Operands
+jge @addWarpToHell; открытие по уровню
+test byte ptr [edi+5568h], 4
+jz @abyssCheck
+
+@addWarpToHell:
+mov     dword ptr [700218], 1
+mov     edx, ecx
+shl     edx, 4
+
+mov     dword ptr [edx+700228h], 29h
+mov     dword ptr [edx+70022Ch], 50h
+mov     dword ptr [edx+700230h], esi
+mov     dword ptr [edx+700234h], 0Dh
+
+inc     ecx
+
+;бездна
+@abyssCheck:
+inc ebx
+mov al, byte ptr [ebx]
+cmp     byte ptr [edi+1B8h], al ; Compare Two Operands
+jge @addWarpToAbyss; открытие по уровню
+test byte ptr [edi+5568h], 10h;  08 ???????
+jz @openedCrypt
+
+@addWarpToAbyss:
+mov     edx, ecx
+shl     edx, 4
+
+mov     dword ptr [edx+700228h], 50h
+mov     dword ptr [edx+70022Ch], 3eh
+mov     dword ptr [edx+700230h], esi
+mov     dword ptr [edx+700234h], 11h
+
+inc     ecx
+
+;склеп
+@cryptCheck:
+inc ebx
+mov al, byte ptr [ebx]
+cmp     byte ptr [edi+1B8h], al ; Compare Two Operands
+jge @addWarpToCrypt; открытие по уровню
+test byte ptr [edi+5568h], 10h
+jz @return
+
+@addWarpToCrypt:
+mov     edx, ecx
+shl     edx, 4
+
+mov     dword ptr [edx+700228h], 24h
+mov     dword ptr [edx+70022Ch], 18h
+mov     dword ptr [edx+700230h], esi
+mov     dword ptr [edx+700234h], 15h
+
+inc     ecx
+
+@return:
+mov     dword ptr [700220], ecx
+
+pop ebx
+pop edi
+pop esi
+retn
+
+9.2.
+
+477C8D call @addDunEnteriesWarps
+jmp 477DD9
+
+===================================================================
+10.
+
+1. отключить отображение названия камня мира
+2. отключить передачу предметов через камень (и проследи чтобы это не ебнуло стеш)
+3. отключи появление текста на экране после сбрасывания предмета на этот камень
+4. проверь и отключи генерацию 0 монет золота на камне при создании уровня
+
+
+.text:0040B67B 014                 jnz     short loc_40B693
+[20:13:00] Ярик: На jmp
+[20:13:13] Ярик: так перестанет загружаться вещь на корнерстоун
+[20:15:04] Mordor: готово
+[20:16:20] Ярик: .text:00422572 030                 jnz     short loc_4225A9 ; Jump if Not Zero (ZF=0)э
+[20:16:25] Ярик: Тоже на безусловный
+[20:16:36] Ярик: Отклучает спич при кидании вещи на камень
+[20:20:05] Ярик: .text:00421FC1 010                 jnz     short loc_422008 ; Jump if Not Zero (ZF=0)
+[20:20:07] Ярик: Это тоже
+[20:20:23] Ярик: Уничтожение вещи с корнерстоуна, если она окажется дубликатом
+[20:20:28] Ярик: Отключать так отключать всё
+[20:21:28] Ярик: .text:004228B1 028                 jnz     short loc_4228EB ; Jump if Not Zero (ZF=0)
+[20:21:43] Ярик: Предотвращение спича при кидании другим игроком
+[20:23:07] Ярик: .text:004218E2 018                 jnz     short loc_421929 ; Jump if Not Zero (ZF=0)
+[20:23:31] Ярик: Предотвращение удаления корнерстоун вещи в памяти при поднятии вещи с корнерстоуна
+[20:27:46] Ярик: .text:00421D7E 02C                 jnz     short loc_421DC2 ; Jump if Not Zero (ZF=0)
+[20:27:51] Ярик: То же самое.
+[20:28:33] Ярик: Просто одна отвечает за поднятие при открытом инвентаре, другая при закрытом
+[20:31:45] Mordor: сделал
+[20:32:03] Ярик: .text:004787F4                 jnz     short loc_47880C
+[20:32:12] Ярик: Убирает надпись при наведении на камень
+[20:32:27] Ярик: Как обычно всё на безусловные джампы поправить
+[20:32:47] Ярик: Вроде всё
+[20:32:48] Ярик: С камнем
+[20:33:00] Ярик: Теперь это просто тайл
+[20:33:26] Ярик: Все скрипты отключены, сохраниние, загрузка отключены, показ надписи отключён
+
+422435 jmp 4224E8
+[20:04:30] Ярик: Мимо проходя. Отключение скриптовых событий бросания руны и бомбы всегда, а не только в мп

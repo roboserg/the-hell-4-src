@@ -1,0 +1,8 @@
+This difference file is created by The Interactive Disassembler
+
+debug1920x1200zTHv1108_25x2zzzzzzzz.exe
+00007FDE: 03 07
+00007FE6: 00 01
+00007FEE: FC F8
+00008016: FC F8
+00008050: FC F8

@@ -1,0 +1,46 @@
+Mage's base damage reduced to (CLVL * STR) / 200, while Paladin's base damage remained the same: (CLVL * STR) / 50
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00423DA7(C)
+|
+:00423DAB E98B182E00              jmp 0070563B
+:00423DB0 90                      nop
+:00423DB1 90                      nop
+:00423DB2 90                      nop
+:00423DB3 90                      nop
+:00423DB4 90                      nop
+:00423DB5 90                      nop
+:00423DB6 90                      nop
+:00423DB7 90                      nop
+:00423DB8 90                      nop
+:00423DB9 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070566A(U)
+|
+:00423DBA 3C01                    cmp al, 01
+
+
+Extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00423DAB(U)
+|
+:0070563B A114AE6E00              mov eax, dword ptr [006EAE14]
+:00705640 8D0C30                  lea ecx, dword ptr [eax+esi]
+:00705643 8A843060010000          mov al, byte ptr [eax+esi+00000160]
+:0070564A 3C02                    cmp al, 02
+:0070564C 751C                    jne 0070566A
+:0070564E 0FBE91B8010000          movsx edx, byte ptr [ecx+000001B8]
+:00705655 8B8164010000            mov eax, dword ptr [ecx+00000164]
+:0070565B 68C8000000              push 000000C8
+:00705660 0FAFC2                  imul eax, edx
+:00705663 99                      cdq
+:00705664 5F                      pop edi
+:00705665 E948E9D1FF              jmp 00423FB2
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070564C(C)
+|
+:0070566A E94BE7D1FF              jmp 00423DBA

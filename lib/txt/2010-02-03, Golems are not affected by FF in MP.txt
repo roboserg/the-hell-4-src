@@ -1,0 +1,68 @@
+
+
+Summoned Golems are immune to players' missiles if the later have FF turned off
+In Singleplayer mode, Golems do take damage from player
+
+
+
+=====================
+
+Attempt 1:
+20:24 03.02.2010
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708439(U)
+|
+:0070B800 83FF6D                  cmp edi, 0000006D
+:0070B803 751B                    jne 0070B820
+:0070B805 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:0070B80C 7412                    je 0070B820
+:0070B80E 833D5C53490001          cmp dword ptr [0049535C], 00000001
+:0070B815 7509                    jne 0070B820
+:0070B817 33C0                    xor eax, eax
+:0070B819 5F                      pop edi
+:0070B81A 5E                      pop esi
+:0070B81B 5B                      pop ebx
+:0070B81C C9                      leave
+:0070B81D C21400                  ret 0014
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070B803(C), :0070B80C(C), :0070B815(C)
+|
+:0070B820 E9CD3AD2FF              jmp 0042F2F2
+
+
+========================
+
+Attempt 2:
+21:04 18.03.2010
+this one is for Melee fights
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045B896(U)
+|
+:0070BC60 83385C                  cmp dword ptr [eax], 0000005C
+:0070BC63 0F8432FCD4FF            je 0045B89B
+:0070BC69 83386D                  cmp dword ptr [eax], 0000006D
+:0070BC6C 0F8532FCD4FF            jne 0045B8A4
+:0070BC72 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:0070BC79 7410                    je 0070BC8B
+:0070BC7B 833D5C53490001          cmp dword ptr [0049535C], 00000001
+:0070BC82 7507                    jne 0070BC8B
+:0070BC84 33C0                    xor eax, eax
+:0070BC86 5F                      pop edi
+:0070BC87 5E                      pop esi
+:0070BC88 5B                      pop ebx
+:0070BC89 C9                      leave
+:0070BC8A C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070BC79(C), :0070BC82(C)
+|
+:0070BC8B E914FCD4FF              jmp 0045B8A4
+:0070BC90 90                      nop
+:0070BC91 90                      nop

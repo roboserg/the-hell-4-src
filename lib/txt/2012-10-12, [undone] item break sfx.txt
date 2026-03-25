@@ -1,0 +1,230 @@
+
+ e( S_73_SFX_ITEMS_SHIELFKD  , 73 )\
+ e( S_74_SFX_ITEMS_SWRDFKD  , 74 )\
+ e( S_15_SFX_ITEMS_ARMRFKD  , 15 )\
+e( S_48_SFX_ITEMS_HLMTFKD  , 48 )\
+
+//----- (0045C734) --------------------------------------------------------
+void __fastcall ShieldDur( int playerIndex, int durDecrParam )
+//----- (0045CADF) --------------------------------------------------------
+void __fastcall ArmorDur( int playerIndex, int durDecrParam )
+//----- (0045B626) --------------------------------------------------------
+bool __fastcall WeaponDur( int playerIndex, int durDecrParam )
+
+//----- (004186C4) --------------------------------------------------------
+void __fastcall PlayLocalSound(int sound, int row, int col)
+
+@playCurrentPlayerSound:
+; ecx - индекс звука
+call 70A1D0; @getCurPlayerOffset
+push dword ptr [eax+3Ch] ;col
+mov edx, dword ptr [eax+38h] ;row
+call 004186C4 ; void __fastcall PlayLocalSound(int sound, int row, int col)
+retn
+
+; теперь звук играть предельно просто
+------------------------------------------------------------------
+Ещё одна рутинная функция.
+@playSoundIsSeriosItemFkd:
+;ecx - индекс звука
+;edx - текущая прочность после поломки
+cmp edx, 9
+jz @playSound
+cmp edx, 4
+jnz @return
+@playSound:
+call @playCurrentPlayerSound ; в ecx уже индекс нужного звука
+@return:
+retn
+------------------------------------------------------------------
+Теперь начинаем внедрение
+Щит.
+
+.text:0045C76F                 mov     ecx, [eax+0A48h]
+.text:0045C775                 dec     ecx
+.text:0045C776                 jle     short loc_45C780
+
+0045C76F jmp @newLoc
+>>>>>>>>>>>
+@newLoc:
+mov     ecx, [eax+0A48h]
+dec     ecx ; затёртое
+push ecx
+push edx
+push eax
+mov edx, ecx
+mov ecx, 49h ;S_73_SFX_ITEMS_SHIELFKD
+call @playSoundIsSeriosItemFkd
+pop eax
+pop edx
+pop ecx
+jmp 0045C776
+
+------------------------------------------------------------------------------------------------------------
+
+.text:0045C780                 mov     ecx, [eax+0A4Ch]
+.text:0045C786                 dec     ecx
+.text:0045C787                 jg      short loc_45C7AC
+
+0045C780 jmp @newLoc
+>>>>>>>>>>>
+@newLoc:
+mov     ecx, [eax+0A4Ch]
+dec     ecx ; затёртое
+push ecx
+push edx
+push eax
+mov edx, ecx
+mov ecx, 49h ;S_73_SFX_ITEMS_SHIELFKD
+call @playSoundIsSeriosItemFkd
+pop eax
+pop edx
+pop ecx
+jmp 0045C787
+
+------------------------------------------------------------------------------------------------------------
+
+; также при атаке кулаком при надетом щите тоже коцается щит
+
+.text:0045B787                 mov     ecx, [eax+0BBCh]
+.text:0045B78D                 dec     ecx
+.text:0045B78E                 jle     short loc_45B7CB
+
+0045B787 jmp @newLoc
+>>>>>>>>>>>
+@newLoc:
+mov     ecx, [eax+0BBCh]
+dec     ecx ; затёртое
+push ecx
+push edx
+push eax
+mov edx, ecx
+mov ecx, 49h ;S_73_SFX_ITEMS_SHIELFKD
+call @playSoundIsSeriosItemFkd
+pop eax
+pop edx
+pop ecx
+jmp 0045C787
+
+
+------------------------------------------------------------------------------------------------------------
+
+
+.text:0045B7AB                 mov     ecx, [eax+0A48h]
+.text:0045B7B1                 dec     ecx
+.text:0045B7B2                 jle     short loc_45B7C4
+
+0045B7AB jmp @newLoc
+>>>>>>>>>>>
+@newLoc:
+mov     ecx, [eax+0A48h]
+dec     ecx ; затёртое
+push ecx
+push edx
+push eax
+mov edx, ecx
+mov ecx, 49h ;S_73_SFX_ITEMS_SHIELFKD
+call @playSoundIsSeriosItemFkd
+pop eax
+pop edx
+pop ecx
+jmp 0045B7B2
+
+
+-----------------------------------------------------------------------------------
+оружие. в идеале каждому оружию свой звук, но пока только звук поломки меча есть
+
+
+.text:0045B73C                 mov     ecx, [eax+0A48h]
+.text:0045B742                 dec     ecx
+.text:0045B743                 jle     loc_45B7D2
+
+
+
+0045B73C jmp @newLoc
+>>>>>>>>>>>
+@newLoc:
+mov     ecx, [eax+0A48h]
+dec     ecx ; затёртое
+push ecx
+push edx
+push eax
+mov edx, ecx
+
+;  тут место оставить. потом будут звуки для отдельных классов орижия, будет место на проверки
+
+mov ecx, 4Ah ;S_74_SFX_ITEMS_SWRDFKD
+call @playSoundIsSeriosItemFkd
+pop eax
+pop edx
+pop ecx
+jmp 0045B743
+
+
+------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+.text:0045B763                 mov     ecx, [eax+0BBCh]
+.text:0045B769                 dec     ecx
+.text:0045B76A                 jle     short loc_45B7BD
+
+0045B763 jmp @newLoc
+>>>>>>>>>>>
+@newLoc:
+mov     ecx, [eax+0BBCh]
+dec     ecx ; затёртое
+push ecx
+push edx
+push eax
+mov edx, ecx
+
+;  тут место оставить. потом будут звуки для отдельных классов орижия, будет место на проверки
+
+mov ecx, 4Ah ;S_74_SFX_ITEMS_SWRDFKD
+call @playSoundIsSeriosItemFkd
+pop eax
+pop edx
+pop ecx
+jmp 0045B76A
+
+
+
+---------------------------------------------------------------------------------------------------------
+броня
+
+; в eax 0 или 1 в зависимости от того броню ломаем или шлем. но что есть что хз
+
+.text:0045CB65                 mov     ecx, [esi+0ECh]
+.text:0045CB6B                 lea     edx, [esi+0ECh]
+.text:0045CB71                 dec     ecx
+.text:0045CB72                 jle     loc_45B801
+
+
+0045CB65 jmp @newLoc
+>>>>>>>>>>>
+@newLoc:
+mov     ecx, [esi+0ECh]
+lea     edx, [esi+0ECh]
+dec     ecx ; затёртое
+push ecx
+push edx
+push eax
+mov edx, ecx
+
+test eax, eax
+jz @helm
+@body:
+mov ecx, 0Fh ;S_15_SFX_ITEMS_ARMRFKD
+jmp @playeSound
+@helm:
+mov ecx, 30h ;S_48_SFX_ITEMS_HLMTFKD
+@playeSound:
+call @playSoundIsSeriosItemFkd
+pop eax
+pop edx
+pop ecx
+jmp 0045CB72

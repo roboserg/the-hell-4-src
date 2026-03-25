@@ -1,0 +1,343 @@
+Skullwing is kicked
+Fallen One introduced
+
+IntF 0, subtype 0, AC 1, THC 3%, DLVLs 1-4, Fallen AI, dam 1-10
+
+Bosses at B0800 & B0820 [needs revision] - fixed.
+
+Now they need to be able to retreat like fallen should do.
+
+v1.70eRC9:
+Monster slot 80 no longer supports dual melee attack
+
+:004445FA 83F850                  cmp eax, 00000050
+into
+:004445FA 83F84F                  cmp eax, 0000004F
+-------------------------------
+
+Code modifications are more complex than switching monster slots, so I'll go for relocating monsters instead.
+Fallen One (80) will take Devil Kin's slot (5)
+
+v1.70eRC10:
+Devil Kin boss on DLVL 17h now based on monster slot 50h
+Fallen One bosses on floors 3 and 4 are based on monster slot 5h, minions are ok too
+------------------------------
+
+v1.70eRC11:
+Monster slots 5h and 50h are switched
+--------------------------------
+
+	Adjusting retreat distances:
+:004443DC 46434400                DWORD 00444346	gremlin: 4
+:004443E0 4A434400                DWORD 0044434A	fallen one: 2
+:004443E4 4E434400                DWORD 0044434E
+:004443E8 52434400                DWORD 00444352
+:004443EC 55434400                DWORD 00444355
+:004443F0 55434400                DWORD 00444355
+:004443F4 55434400                DWORD 00444355
+:004443F8 55434400                DWORD 00444355
+:004443FC 46434400                DWORD 00444346	imp: 4
+:00444400 4A434400                DWORD 0044434A	carver: 2
+:00444404 4E434400                DWORD 0044434E
+:00444408 52434400                DWORD 00444352
+into:
+:004443DC 4A434400                DWORD 0044434A	gremlin: 4
+:004443E0 46434400                DWORD 00444346	fallen one: 6
+:004443E4 4E434400                DWORD 0044434E
+:004443E8 52434400                DWORD 00444352
+:004443EC 55434400                DWORD 00444355
+:004443F0 55434400                DWORD 00444355
+:004443F4 55434400                DWORD 00444355
+:004443F8 55434400                DWORD 00444355
+:004443FC 4E434400                DWORD 0044434E	imp: 3
+:00444400 52434400                DWORD 00444352	carver: 2
+:00444404 4E434400                DWORD 0044434E
+:00444408 52434400                DWORD 00444352
+
+	Now:
+Fallen One: 6, Gremlin: 4, Imp: 3, Carver: 2.
+
+v1.70eRC12:
+	Fixing retreat distances:
+:00444346 6A04                    push 00000004
+:00444348 EB0A                    jmp 00444354
+:0044434A 6A02                    push 00000002
+:0044434C EB06                    jmp 00444354
+:0044434E 6A03                    push 00000003
+:00444350 EB02                    jmp 00444354
+:00444352 6A02                    push 00000002
+into:
+:00444346 6A06                    push 00000006
+:00444348 EB0A                    jmp 00444354
+:0044434A 6A04                    push 00000004
+:0044434C EB06                    jmp 00444354
+:0044434E 6A03                    push 00000003
+:00444350 EB02                    jmp 00444354
+:00444352 6A02                    push 00000002
+--------------------------------------------------
+
+Fallen One has advanced warcry life gain system now.
+On Horror mode, they gain (mAC+DLVL)*3 Hit Points from warcry. DLVL 1 skipped (Life gain = mAC)
+This is: 
+9 HP on DLVL 2, 
+12 HP on DLVL 3, 
+15 HP on DLVL 4.
+
+	Old code:
+:00440EF9 80BE90DC690005          cmp byte ptr [esi+0069DC90], 05
+:00440F00 0F84DD000000            je 00440FE3
+:00440F06 90                      nop
+:00440F07 90                      nop
+:00440F08 90                      nop
+:00440F09 90                      nop
+:00440F0A 90                      nop
+:00440F0B 6A1E                    push 0000001E
+:00440F0D B171                    mov cl, 71
+:00440F0F 5A                      pop edx
+:00440F10 E84590FDFF              call 00419F5A
+:00440F15 85C0                    test eax, eax
+:00440F17 0F85C6000000            jne 00440FE3
+:00440F1D F68624DD690008          test byte ptr [esi+0069DD24], 08
+:00440F24 753A                    jne 00440F60
+:00440F26 8B96D0DC6900            mov edx, dword ptr [esi+0069DCD0]
+:00440F2C 8BCF                    mov ecx, edi
+:00440F2E E826010000              call 00441059
+:00440F33 0FB68E52DD6900          movzx ecx, byte ptr [esi+0069DD52]
+:00440F3A 8BBE18DD6900            mov edi, dword ptr [esi+0069DD18]
+:00440F40 8B961CDD6900            mov edx, dword ptr [esi+0069DD1C]
+:00440F46 C1E106                  shl ecx, 06
+:00440F49 90                      nop
+:00440F4A 8D861CDD6900            lea eax, dword ptr [esi+0069DD1C]
+:00440F50 03D1                    add edx, ecx
+:00440F52 8910                    mov dword ptr [eax], edx
+:00440F54 EB0A                    jmp 00440F60
+:00440F56 90                      nop
+:00440F57 90                      nop
+:00440F58 90                      nop
+:00440F59 90                      nop
+:00440F5A 90                      nop
+:00440F5B 90                      nop
+:00440F5C 90                      nop
+:00440F5D 90                      nop
+:00440F5E 90                      nop
+:00440F5F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00440F24(C), :00440F54(U)
+|
+:00440F60 0FB68621DD6900          movzx eax, byte ptr [esi+0069DD21]
+
+
+	New code:
+:00440EF9 80BE90DC690005          cmp byte ptr [esi+0069DC90], 05
+:00440F00 0F84DD000000            je 00440FE3
+:00440F06 90                      nop
+:00440F07 90                      nop
+:00440F08 90                      nop
+:00440F09 90                      nop
+:00440F0A 90                      nop
+:00440F0B 6A1E                    push 0000001E
+:00440F0D B171                    mov cl, 71
+:00440F0F 5A                      pop edx
+:00440F10 E84590FDFF              call 00419F5A
+:00440F15 85C0                    test eax, eax
+:00440F17 0F85C6000000            jne 00440FE3
+:00440F1D F68624DD690008          test byte ptr [esi+0069DD24], 08
+:00440F24 753A                    jne 00440F60
+:00440F26 8B96D0DC6900            mov edx, dword ptr [esi+0069DCD0]
+:00440F2C 8BCF                    mov ecx, edi
+:00440F2E E826010000              call 00441059
+:00440F33 0FB68E52DD6900          movzx ecx, byte ptr [esi+0069DD52]
+:00440F3A 8BBE18DD6900            mov edi, dword ptr [esi+0069DD18]
+:00440F40 8B961CDD6900            mov edx, dword ptr [esi+0069DD1C]
+:00440F46 E925682C00              jmp 00707770
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707794(U)
+|
+:00440F4B C1E106                  shl ecx, 06
+:00440F4E 8D861CDD6900            lea eax, dword ptr [esi+0069DD1C]
+:00440F54 03D1                    add edx, ecx
+:00440F56 8910                    mov dword ptr [eax], edx
+:00440F58 EB06                    jmp 00440F60
+:00440F5A 90                      nop
+:00440F5B 90                      nop
+:00440F5C 90                      nop
+:00440F5D 90                      nop
+:00440F5E 90                      nop
+:00440F5F 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00440F24(C), :00440F58(U)
+|
+:00440F60 0FB68621DD6900          movzx eax, byte ptr [esi+0069DD21]
+
+	Extra:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00440F46(U)
+|
+:00707770 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00707777 731B                    jnb 00707794
+:00707779 0FB68664DD6900          movzx eax, byte ptr [esi+0069DD64]
+:00707780 83F805                  cmp eax, 00000005
+:00707783 750F                    jne 00707794
+:00707785 A1D8B16000              mov eax, dword ptr [0060B1D8]
+:0070778A 83F801                  cmp eax, 00000001
+:0070778D 7405                    je 00707794
+:0070778F 03C8                    add ecx, eax
+:00707791 8D0C49                  lea ecx, dword ptr [ecx+2*ecx]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00707777(C), :00707783(C), :0070778D(C)
+|
+:00707794 E9B297D3FF              jmp 00440F4B
+:00707799 90                      nop
+-------------------------------------------------------------------------------
+Revision 2:
+Previous didn't work because of incorrect pointer to monster slots
+Pointer changed to dword from byte
+
+
+	Fixed additional code:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00440F46(U)
+|
+:00707770 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00707777 731A                    jnb 00707793
+:00707779 8B8664DD6900            mov eax, dword ptr [esi+0069DD64]
+:0070777F 83F805                  cmp eax, 00000005
+:00707782 750F                    jne 00707793
+:00707784 A1D8B16000              mov eax, dword ptr [0060B1D8]
+:00707789 83F801                  cmp eax, 00000001
+:0070778C 7405                    je 00707793
+:0070778E 03C8                    add ecx, eax
+:00707790 8D0C49                  lea ecx, dword ptr [ecx+2*ecx]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00707777(C), :00707782(C), :0070778C(C)
+|
+:00707793 E9B397D3FF              jmp 00440F4B
+:00707798 90                      nop
+
+	STILL DOESN'T WORK..
+-------------------------------------------------------------------------------
+Revision 3:
+This one is working, alhough it does NOT check on Fallen Ones specifically.
+Anyway, there are only Werewolves who use Fallen AI on DLVLs [2-4], and it even makes the latter less annoying on DLVL-3.
+Purgatory and Doom games went well.
+
+	Modified JUMP:
+:00440F46 E912682C00              jmp 0070775D
+
+	Extra corrected:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00440F46(U)
+|
+:0070775D 803DC070600001          cmp byte ptr [006070C0], 01
+:00707764 7333                    jnb 00707799
+:00707766 8B8664DD6900            mov eax, dword ptr [esi+0069DD64]
+:0070776C 83F805                  cmp eax, 00000005
+:0070776F 7500                    jne 00707771
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070776F(C)
+|
+:00707771 803DD8B1600002          cmp byte ptr [0060B1D8], 02
+:00707778 7414                    je 0070778E
+:0070777A 803DD8B1600003          cmp byte ptr [0060B1D8], 03
+:00707781 740F                    je 00707792
+:00707783 803DD8B1600004          cmp byte ptr [0060B1D8], 04
+:0070778A 740A                    je 00707796
+:0070778C EB0B                    jmp 00707799
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707778(C)
+|
+:0070778E 6A09                    push 00000009
+:00707790 EB06                    jmp 00707798
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707781(C)
+|
+:00707792 6A0C                    push 0000000C
+:00707794 EB02                    jmp 00707798
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070778A(C)
+|
+:00707796 6A0F                    push 0000000F
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00707790(U), :00707794(U)
+|
+:00707798 59                      pop ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00707764(C), :0070778C(U)
+|
+:00707799 E9AD97D3FF              jmp 00440F4B
+:0070779E 90                      nop
+:0070779F 90                      nop
+
+
+-------------------------------------------------------------------------------
+Now they need damage/armor/accuracy/life adjusted to be of some challenge after DLVL 1.
+Gotta think about it...
+-------------------------------------------------------------------------------
+OK, hit points can be considered taken care of. Now it's time to get to their stun threshold.
+Should be sorta like:
+only on Horror, on DLVL 1: 4, on DLVL 2: 12, on DLVL 3: 21, on DLVL 4: 30
+
+	Modified:
+:007054CC E9557AD3FF              jmp 0043CF26
+to
+:007054CC E9CF220000              jmp 007077A0
+
+	extra:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007054CC(U)
+|
+:007077A0 83F805                  cmp eax, 00000005
+:007077A3 7405                    je 007077AA
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007077B1(C), :007077CE(U)
+|
+:007077A5 E97C57D3FF              jmp 0043CF26
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007077A3(C)
+|
+:007077AA 833DC070600001          cmp dword ptr [006070C0], 00000001
+:007077B1 73F2                    jnb 007077A5
+:007077B3 803DD8B1600002          cmp byte ptr [0060B1D8], 02
+:007077BA 7414                    je 007077D0
+:007077BC 803DD8B1600003          cmp byte ptr [0060B1D8], 03
+:007077C3 740F                    je 007077D4
+:007077C5 803DD8B1600004          cmp byte ptr [0060B1D8], 04
+:007077CC 740A                    je 007077D8
+:007077CE EBD5                    jmp 007077A5
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007077BA(C)
+|
+:007077D0 6A0C                    push 0000000C
+:007077D2 EB06                    jmp 007077DA
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007077C3(C)
+|
+:007077D4 6A15                    push 00000015
+:007077D6 EB02                    jmp 007077DA
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007077CC(C)
+|
+:007077D8 6A1E                    push 0000001E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007077D2(U), :007077D6(U)
+|
+:007077DA 58                      pop eax
+:007077DB E972DCFFFF              jmp 00705452
+-----------------------------------------------------------------------------

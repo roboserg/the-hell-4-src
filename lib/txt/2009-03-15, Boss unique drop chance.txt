@@ -1,0 +1,62 @@
+:00427506
+
+
+
+
+Attempt 1:
+setting drop chance from bosses to 6% on Horror, 9% on Purgy and 12% on Doom
+
+
+	mod:
+:004274ED E9DE112E00              jmp 007086D0
+:004274F2 90                      nop
+.....
+:0042750D 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708703(U)
+|
+:0042750E 8B8668DD6900            mov eax, dword ptr [esi+0069DD68]
+
+
+	extra:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004274ED(U)
+|
+:007086D0 389E44DD6900            cmp byte ptr [esi+0069DD44], bl
+:007086D6 53                      push ebx
+:007086D7 53                      push ebx
+:007086D8 8B09                    mov ecx, dword ptr [ecx]
+:007086DA FF75F4                  push [ebp-0C]
+:007086DD 890D18576800            mov dword ptr [00685718], ecx
+:007086E3 89B818556800            mov dword ptr [eax+00685518], edi
+:007086E9 7416                    je 00708701
+:007086EB 833DC070600001          cmp dword ptr [006070C0], 00000001
+:007086F2 7414                    je 00708708
+:007086F4 833DC070600002          cmp dword ptr [006070C0], 00000002
+:007086FB 740F                    je 0070870C
+:007086FD 6A05                    push 00000005
+:007086FF EB02                    jmp 00708703
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007086E9(C)
+|
+:00708701 6A01                    push 00000001
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007086FF(U), :0070870A(U), :0070870E(U)
+|
+:00708703 E906EED1FF              jmp 0042750E
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007086F2(C)
+|
+:00708708 6A08                    push 00000008
+:0070870A EBF7                    jmp 00708703
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007086FB(C)
+|
+:0070870C 6A0B                    push 0000000B
+:0070870E EBF3                    jmp 00708703
+:00708710 90                      nop

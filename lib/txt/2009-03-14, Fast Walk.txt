@@ -1,0 +1,7 @@
+Hack Description="Multiplayer FastWalk in Town" Version="v1.01" State=Unknown
+Offset=0x41b6bc Len=0x1 OldData=30 NewData=00	< SP, pretty fucked up code btw
+Offset=0x42e488 Len=0x1 OldData=00 NewData=01	< MP
+--
+
+no changes made there
+current version forces walk in MP, and slider has no effect in SP, depending on HF setting 0_0

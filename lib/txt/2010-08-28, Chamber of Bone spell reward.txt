@@ -1,0 +1,41 @@
+
+
+
+
+ [dev] DesertDragon (18:20:49 28/08/2010)
+нашел место где гидра дается
+
+ [dev] DesertDragon (18:21:41 28/08/2010)
+00450AE6 80 8C 08 09 01 00 00 10 or          byte ptr [eax+ecx+109h],10h  
+00450AEE 09 9C 08 0C 01 00 00 or          dword ptr [eax+ecx+10Ch],ebx  
+00450AF5 8D 84 08 08 01 00 00 lea         eax,[eax+ecx+108h]  
+00450AFC A1 14 AE 6E 00       mov         eax,dword ptr ds006EAE14h]  
+00450B01 80 BC 07 CE 00 00 00 0F cmp         byte ptr [edi+eax+0CEh],0Fh  
+00450B09 7D 1A                jge         00450B25  
+00450B0B 8B 0D E8 AD 6E 00    mov         ecx,dword ptr ds6EADE8h]  
+00450B11 69 C9 C8 55 00 00    imul        ecx,ecx,55C8h  
+00450B17 FE 84 01 CE 00 00 00 inc         byte ptr [ecx+eax+0CEh]
+
+ [dev] DesertDragon (18:22:46 28/08/2010)
+первой из этих команд флаг доступности устанавливается,
+последней увеличивается уровень 
+
+
+cast
+.text:00450A6C                 push    3           // effect 3
+.text:00450A6E                 push    dword ptr [ecx+eax+70h] ; a6
+.text:00450A72                 mov     ecx, [ecx+eax+38h] ; aPlrX
+.text:00450A76                 push    [esp+3Ch+a5]    ; a5
+.text:00450A7A                 push    ebp             ; a4
+.text:00450A7B                 call    CastSpellEffect ; Call Procedure
+
+:00450B17 FE8401CE000000          inc byte ptr [ecx+eax+000000CE] // inc hydra slvl
+
+=================================================================
+
+Paladin: aegis
+Scout: heal
+Mage: mana shield
+Monk: tp
+Assassin: bone spirit
+Gladiator: fury

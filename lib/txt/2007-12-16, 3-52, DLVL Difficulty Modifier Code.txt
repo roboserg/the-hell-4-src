@@ -1,0 +1,15 @@
+:0044EDF1 51                      push ecx					
+:0044EDF2 0FB615D8B16000          movzx edx, byte ptr [0060B1D8]
+:0044EDF9 8B0DC0706000            mov ecx, dword ptr [006070C0]
+:0044EDFF 85C9                    test ecx, ecx
+:0044EE01 7409                    je 0044EE0C
+:0044EE03 D1E2                    shl edx, 1
+:0044EE05 83F901                  cmp ecx, 00000001
+:0044EE08 7402                    je 0044EE0C
+:0044EE0A D1E2                    shl edx, 1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0044EE01(C), :0044EE08(C)
+|
+:0044EE0C 59                      pop ecx
+:0044EE0D C3                      ret					

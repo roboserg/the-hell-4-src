@@ -1,0 +1,101 @@
+Mobs now differ according to difficulty mode and SP/MP:
+
+SP Horror: 6
+MP Horror: 11
+SP Purgatory: 10
+MP Purgatory: 15
+SP Doom: 14
+MP Doom: 19
+
+
+	Old:
+
+:0043BA4F 7502                    jne 0043BA53
+:0043BA51 33C0                    xor eax, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043BA47(C), :0043BA4F(C)
+|
+:0043BA53 3BC3                    cmp eax, ebx
+:0043BA55 7409                    je 0043BA60
+:0043BA57 6A13                    push 00000013					<- 19 minions, always
+:0043BA59 8BCF                    mov ecx, edi
+:0043BA5B E818000000              call 0043BA78
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043B9D3(C), :0043BA55(C)
+|
+:0043BA60 47                      inc edi
+
+============================================================================================
+
+	New:
+
+:0043BA53 E978B72C00              jmp 007071D0
+:0043BA58 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070721B(U)
+|
+:0043BA59 8BCF                    mov ecx, edi
+:0043BA5B E818000000              call 0043BA78
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043B9D3(C), :007071D2(C)
+|
+:0043BA60 47                      inc edi
+
+	Extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043BA53(U)
+|
+:007071D0 3BC3                    cmp eax, ebx
+:007071D2 0F848848D3FF            je 0043BA60
+:007071D8 833DC070600001          cmp dword ptr [006070C0], 00000001
+:007071DF 741A                    je 007071FB
+:007071E1 833DC070600002          cmp dword ptr [006070C0], 00000002
+:007071E8 7422                    je 0070720C
+:007071EA 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:007071F1 7504                    jne 007071F7
+:007071F3 6A06                    push 00000006
+:007071F5 EB24                    jmp 0070721B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007071F1(C)
+|
+:007071F7 6A0B                    push 0000000B
+:007071F9 EB20                    jmp 0070721B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007071DF(C)
+|
+:007071FB 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00707202 7504                    jne 00707208
+:00707204 6A0A                    push 0000000A
+:00707206 EB13                    jmp 0070721B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707202(C)
+|
+:00707208 6A0F                    push 0000000F
+:0070720A EB0F                    jmp 0070721B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007071E8(C)
+|
+:0070720C 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:00707213 7504                    jne 00707219
+:00707215 6A0E                    push 0000000E
+:00707217 EB02                    jmp 0070721B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707213(C)
+|
+:00707219 6A13                    push 00000013
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007071F5(U), :007071F9(U), :00707206(U), :0070720A(U), :00707217(U)
+|
+:0070721B E93948D3FF              jmp 0043BA59
+:00707220 90                      nop

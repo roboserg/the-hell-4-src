@@ -1,0 +1,104 @@
+* Referenced by a CALL at Address:
+|:004091E4   
+|
+:0041CA80 33C0                    xor eax, eax
+:0041CA82 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"Data\th_logo2.CEL"
+                                  |
+:0041CA84 B960074A00              mov ecx, 004A0760
+:0041CA89 C6057444680001          mov byte ptr [00684474], 01
+:0041CA90 C6056C44680001          mov byte ptr [0068446C], 01
+:0041CA97 A37C446800              mov dword ptr [0068447C], eax
+:0041CA9C A364446800              mov dword ptr [00684464], eax
+:0041CAA1 A378446800              mov dword ptr [00684478], eax
+:0041CAA6 A388446800              mov dword ptr [00684488], eax
+:0041CAAB A25C446800              mov byte ptr [0068445C], al
+:0041CAB0 E87AD5FFFF              call 0041A02F
+:0041CAB5 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"Data\BigTGold.CEL"
+                                  |
+:0041CAB7 B94C074A00              mov ecx, 004A074C
+:0041CABC A384446800              mov dword ptr [00684484], eax
+:0041CAC1 E869D5FFFF              call 0041A02F
+:0041CAC6 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"Data\PentSpin.CEL"
+                                  |
+:0041CAC8 B938074A00              mov ecx, 004A0738
+:0041CACD A368446800              mov dword ptr [00684468], eax
+:0041CAD2 E858D5FFFF              call 0041A02F
+:0041CAD7 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"Data\option.CEL"
+                                  |
+:0041CAD9 B928074A00              mov ecx, 004A0728
+:0041CADE A360446800              mov dword ptr [00684460], eax
+:0041CAE3 E847D5FFFF              call 0041A02F
+:0041CAE8 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"Data\optbar.CEL"
+                                  |
+:0041CAEA B918074A00              mov ecx, 004A0718
+:0041CAEF A380446800              mov dword ptr [00684480], eax
+:0041CAF4 E836D5FFFF              call 0041A02F
+:0041CAF9 A358446800              mov dword ptr [00684458], eax
+:0041CAFE C3                      ret
+
+=================================================================================
+
+
+
+* Referenced by a CALL at Address:
+|:0040B1DA   
+|
+:0046C43D 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"Data\TextBox2.CEL"
+                                  |
+:0046C43F B950844B00              mov ecx, 004B8450
+:0046C444 E8E6DBFAFF              call 0041A02F
+:0046C449 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"Data\PentSpn2.CEL"
+                                  |
+:0046C44B B93C844B00              mov ecx, 004B843C
+:0046C450 A3ECFF6E00              mov dword ptr [006EFFEC], eax
+:0046C455 E8D5DBFAFF              call 0041A02F
+:0046C45A 33D2                    xor edx, edx
+
+* Possible StringData Ref from Data Obj ->"Data\TextSlid.CEL"
+                                  |
+:0046C45C B928844B00              mov ecx, 004B8428
+:0046C461 A35CC86F00              mov dword ptr [006FC85C], eax
+:0046C466 E8C4DBFAFF              call 0041A02F
+:0046C46B 33C9                    xor ecx, ecx
+:0046C46D A348C86F00              mov dword ptr [006FC848], eax
+
+* Possible Reference to Dialog: DialogID_0068 
+                                  |
+:0046C472 6A68                    push 00000068
+:0046C474 5A                      pop edx
+:0046C475 E83A050000              call 0046C9B4
+:0046C47A 33C9                    xor ecx, ecx
+:0046C47C 6A01                    push 00000001
+:0046C47E 880DC4EC6F00            mov byte ptr [006FECC4], cl
+:0046C484 58                      pop eax
+:0046C485 880D583F6F00            mov byte ptr [006F3F58], cl
+:0046C48B A3603F6F00              mov dword ptr [006F3F60], eax
+:0046C490 A3F0FF6E00              mov dword ptr [006EFFF0], eax
+:0046C495 890D84A96F00            mov dword ptr [006FA984], ecx
+:0046C49B 890D88A96F00            mov dword ptr [006FA988], ecx
+:0046C4A1 B828EA6E00              mov eax, 006EEA28
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0046C4B3(C)
+|
+:0046C4A6 8308FF                  or dword ptr [eax], FFFFFFFF
+:0046C4A9 0574010000              add eax, 00000174
+:0046C4AE 3DF4FF6E00              cmp eax, 006EFFF4
+:0046C4B3 7CF1                    jl 0046C4A6
+:0046C4B5 830DB0E86E00FF          or dword ptr [006EE8B0], FFFFFFFF
+:0046C4BC 890D64C86F00            mov dword ptr [006FC864], ecx
+:0046C4C2 C3                      ret

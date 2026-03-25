@@ -1,0 +1,13 @@
+eax - extended accumalator reg
+ebx - extended base reg
+ecx - extended counter reg
+edx - extended data reg
+esp - extended stack pointer
+ebp - extended base pointer
+esi  - extended source index
+edi  - extended destination index
+ds - data segment
+cs - code segment
+ss - stack segment
+gs - не помню уже
+eip - extended instruction pointer

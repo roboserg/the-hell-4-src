@@ -1,0 +1,326 @@
+Player GFX load function
+
+It looks like one, at least...
+
+
+
+* Referenced by a CALL at Addresses:
+|:004244E7   , :00449E02   , :00449E39   , :0044B805   , :0044B84C   
+|:00457103   , :00458EC0   , :004592E4   , :00459576   , :00459833   
+|:0045994D   , :004599FD   , :00459AE3   , :00459BC4   , :00459BFE   
+|:00459C38   , :00459F60   , :0045A1BB   
+|
+:00456DFC 55                      push ebp
+:00456DFD 8BEC                    mov ebp, esp
+:00456DFF 81EC20010000            sub esp, 00000120
+:00456E05 53                      push ebx
+:00456E06 56                      push esi
+:00456E07 8BF1                    mov esi, ecx
+:00456E09 57                      push edi
+:00456E0A 83FE04                  cmp esi, 00000004
+:00456E0D 8955F4                  mov dword ptr [ebp-0C], edx
+:00456E10 720D                    jb 00456E1F
+:00456E12 56                      push esi
+
+* Possible StringData Ref from Data Obj ->"LoadPlrGFX: illegal player %d"
+                                  |
+:00456E13 68985F4B00              push 004B5F98
+:00456E18 E848ABFAFF              call 00401965
+:00456E1D 59                      pop ecx
+:00456E1E 59                      pop ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00456E10(C)
+|
+:00456E1F 69F6C8550000            imul esi, 000055C8
+:00456E25 033514AE6E00            add esi, dword ptr [006EAE14]
+:00456E2B 8A8E60010000            mov cl, byte ptr [esi+00000160]		cl = char class
+:00456E31 80F904                  cmp cl, 04						check if bard / asa
+:00456E34 7509                    jne 00456E3F						skip if not
+:00456E36 833DE854680000          cmp dword ptr [006854E8], 00000000		check if special MPQ available
+:00456E3D 740E                    je 00456E4D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00456E34(C)
+|
+:00456E3F 80F905                  cmp cl, 05						check if barb / glad
+:00456E42 7550                    jne 00456E94
+:00456E44 833DEC54680000          cmp dword ptr [006854EC], 00000000		check for special MPQ
+:00456E4B 7547                    jne 00456E94
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00456E3D(C)
+|
+:00456E4D 8B4678                  mov eax, dword ptr [esi+78]			appearance
+:00456E50 8BD0                    mov edx, eax
+:00456E52 83E20F                  and edx, 0000000F
+:00456E55 C1F804                  sar eax, 04
+:00456E58 0FBE9278034900          movsx edx, byte ptr [edx+00490378]
+:00456E5F 0FBE8070034900          movsx eax, byte ptr [eax+00490370]
+:00456E66 52                      push edx
+:00456E67 50                      push eax
+:00456E68 0FBEC1                  movsx eax, cl
+:00456E6B 0FBE8090034900          movsx eax, byte ptr [eax+00490390]
+:00456E72 50                      push eax
+:00456E73 8D45E0                  lea eax, dword ptr [ebp-20]
+
+* Possible StringData Ref from Data Obj ->"%c%c%c"
+                                  |
+:00456E76 68905F4B00              push 004B5F90
+:00456E7B 50                      push eax
+:00456E7C E83F2C0200              call 00479AC0
+:00456E81 0FBE8660010000          movsx eax, byte ptr [esi+00000160]
+:00456E88 83C414                  add esp, 00000014
+:00456E8B 8B0485B0034900          mov eax, dword ptr [4*eax+004903B0]
+:00456E92 EB45                    jmp 00456ED9
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00456E42(C), :00456E4B(C)
+|
+:00456E94 8B4678                  mov eax, dword ptr [esi+78]			continue here, appearance (+78)
+:00456E97 8BD0                    mov edx, eax
+:00456E99 83E20F                  and edx, 0000000F
+:00456E9C C1F804                  sar eax, 04
+:00456E9F 0FBE9278034900          movsx edx, byte ptr [edx+00490378]
+:00456EA6 0FBE8070034900          movsx eax, byte ptr [eax+00490370]
+:00456EAD 52                      push edx
+:00456EAE 50                      push eax
+:00456EAF 0FBEC1                  movsx eax, cl
+:00456EB2 0FBE8088034900          movsx eax, byte ptr [eax+00490388]
+:00456EB9 50                      push eax
+:00456EBA 8D45E0                  lea eax, dword ptr [ebp-20]
+
+* Possible StringData Ref from Data Obj ->"%c%c%c"
+|
+:00456EBD 68905F4B00              push 004B5F90
+:00456EC2 50                      push eax
+:00456EC3 E8F82B0200              call 00479AC0
+:00456EC8 0FBE8660010000          movsx eax, byte ptr [esi+00000160]
+:00456ECF 83C414                  add esp, 00000014
+:00456ED2 8B048598034900          mov eax, dword ptr [4*eax+00490398]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00456E92(U)
+|
+:00456ED9 8B7DF4                  mov edi, dword ptr [ebp-0C]
+:00456EDC 8B5DF4                  mov ebx, dword ptr [ebp-0C]
+:00456EDF 6A01                    push 00000001
+:00456EE1 8945F0                  mov dword ptr [ebp-10], eax
+:00456EE4 A0D4B16000              mov al, byte ptr [0060B1D4]
+:00456EE9 59                      pop ecx
+:00456EEA 894DF8                  mov dword ptr [ebp-08], ecx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:004570B5(C)
+|
+:00456EED 8B55F4                  mov edx, dword ptr [ebp-0C]
+:00456EF0 85CA                    test edx, ecx
+:00456EF2 0F84AF010000            je 004570A7
+:00456EF8 83F908                  cmp ecx, 00000008
+:00456EFB 0F8796000000            ja 00456F97
+:00456F01 7474                    je 00456F77
+:00456F03 49                      dec ecx
+:00456F04 744E                    je 00456F54
+:00456F06 49                      dec ecx
+:00456F07 7428                    je 00456F31
+:00456F09 49                      dec ecx
+:00456F0A 49                      dec ecx
+:00456F0B 0F85AA000000            jne 00456FBB
+:00456F11 84C0                    test al, al
+:00456F13 0F848E010000            je 004570A7
+:00456F19 8BBEA8550000            mov edi, dword ptr [esi+000055A8]
+
+* Possible StringData Ref from Data Obj ->"AT"
+                                  |
+:00456F1F C745FC8C5F4B00          mov [ebp-04], 004B5F8C
+:00456F26 8D9E7C020000            lea ebx, dword ptr [esi+0000027C]
+:00456F2C E930010000              jmp 00457061
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00456F07(C)
+|
+:00456F31 84C0                    test al, al
+
+* Possible StringData Ref from Data Obj ->"AW"
+                                  |
+:00456F33 C745FC885F4B00          mov [ebp-04], 004B5F88
+:00456F3A 7507                    jne 00456F43
+
+* Possible StringData Ref from Data Obj ->"WL"
+                                  |
+:00456F3C C745FC845F4B00          mov [ebp-04], 004B5F84
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00456F3A(C)
+|
+:00456F43 8BBEA4550000            mov edi, dword ptr [esi+000055A4]
+:00456F49 8D9E54020000            lea ebx, dword ptr [esi+00000254]
+:00456F4F E90D010000              jmp 00457061
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00456F04(C)
+|
+:00456F54 84C0                    test al, al
+
+* Possible StringData Ref from Data Obj ->"AS"
+                                  |
+:00456F56 C745FC805F4B00          mov [ebp-04], 004B5F80
+:00456F5D 7507                    jne 00456F66
+
+* Possible StringData Ref from Data Obj ->"ST"
+                                  |
+:00456F5F C745FC7C5F4B00          mov [ebp-04], 004B5F7C
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00456F5D(C)
+|
+:00456F66 8BBEA0550000            mov edi, dword ptr [esi+000055A0]
+:00456F6C 8D9E2C020000            lea ebx, dword ptr [esi+0000022C]
+:00456F72 E9EA000000              jmp 00457061
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00456F01(C)
+|
+:00456F77 84C0                    test al, al
+:00456F79 0F8428010000            je 004570A7
+:00456F7F 8BBEB8550000            mov edi, dword ptr [esi+000055B8]
+
+* Possible StringData Ref from Data Obj ->"HT"
+                                  |
+:00456F85 C745FC785F4B00          mov [ebp-04], 004B5F78
+:00456F8C 8D9E14030000            lea ebx, dword ptr [esi+00000314]
+:00456F92 E9CA000000              jmp 00457061
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00456EFB(C)
+|
+:00456F97 83E910                  sub ecx, 00000010
+:00456F9A 0F84AA000000            je 0045704A
+:00456FA0 83E910                  sub ecx, 00000010
+:00456FA3 0F8488000000            je 00457031
+:00456FA9 83E920                  sub ecx, 00000020
+:00456FAC 7466                    je 00457014
+:00456FAE 83E940                  sub ecx, 00000040
+:00456FB1 7442                    je 00456FF5
+:00456FB3 81E980000000            sub ecx, 00000080
+:00456FB9 7410                    je 00456FCB
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00456F0B(C)
+|
+
+* Possible StringData Ref from Data Obj ->"PLR:2"
+                                  |
+:00456FBB 68705F4B00              push 004B5F70
+:00456FC0 E8A0A9FAFF              call 00401965
+:00456FC5 59                      pop ecx
+:00456FC6 E996000000              jmp 00457061
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00456FB9(C)
+|
+:00456FCB 84C0                    test al, al
+:00456FCD 0F84D4000000            je 004570A7
+:00456FD3 80BE3C01000000          cmp byte ptr [esi+0000013C], 00
+:00456FDA 0F84C7000000            je 004570A7
+:00456FE0 8BBEC0550000            mov edi, dword ptr [esi+000055C0]
+
+* Possible StringData Ref from Data Obj ->"BL"
+                                  |
+:00456FE6 C745FC6C5F4B00          mov [ebp-04], 004B5F6C
+:00456FED 8D9E64030000            lea ebx, dword ptr [esi+00000364]
+:00456FF3 EB6C                    jmp 00457061
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00456FB1(C)
+|
+:00456FF5 F646780F                test [esi+78], 0F						test if appearance = 15 ?
+:00456FF9 0F85A8000000            jne 004570A7							jump if it is
+:00456FFF 8BBEBC550000            mov edi, dword ptr [esi+000055BC]			else EDI = ?
+
+* Possible StringData Ref from Data Obj ->"DT"
+                                  |
+:00457005 C745FC685F4B00          mov [ebp-04], 004B5F68					[ebp-04] = DT
+:0045700C 8D9E3C030000            lea ebx, dword ptr [esi+0000033C]			ebx = ?
+:00457012 EB4D                    jmp 00457061							continue loading...
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00456FAC(C)
+|
+:00457014 84C0                    test al, al
+:00457016 0F848B000000            je 004570A7
+:0045701C 8BBEB4550000            mov edi, dword ptr [esi+000055B4]
+
+* Possible StringData Ref from Data Obj ->"QM"
+                                  |
+:00457022 C745FC645F4B00          mov [ebp-04], 004B5F64
+:00457029 8D9EE8020000            lea ebx, dword ptr [esi+000002E8]
+:0045702F EB30                    jmp 00457061
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00456FA3(C)
+|
+:00457031 84C0                    test al, al
+:00457033 7472                    je 004570A7
+:00457035 8BBEB0550000            mov edi, dword ptr [esi+000055B0]
+
+* Possible StringData Ref from Data Obj ->"FM"
+                                  |
+:0045703B C745FC605F4B00          mov [ebp-04], 004B5F60
+:00457042 8D9EC8020000            lea ebx, dword ptr [esi+000002C8]
+:00457048 EB17                    jmp 00457061
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00456F9A(C)
+|
+:0045704A 84C0                    test al, al
+:0045704C 7459                    je 004570A7
+:0045704E 8BBEAC550000            mov edi, dword ptr [esi+000055AC]
+
+* Possible StringData Ref from Data Obj ->"LM"
+                                  |
+:00457054 C745FC5C5F4B00          mov [ebp-04], 004B5F5C
+:0045705B 8D9EA8020000            lea ebx, dword ptr [esi+000002A8]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00456F2C(U), :00456F4F(U), :00456F72(U), :00456F92(U), :00456FC6(U)
+|:00456FF3(U), :00457012(U), :0045702F(U), :00457048(U)
+|
+:00457061 FF75FC                  push [ebp-04]
+:00457064 8D45E0                  lea eax, dword ptr [ebp-20]
+:00457067 50                      push eax
+:00457068 8D45E0                  lea eax, dword ptr [ebp-20]
+:0045706B 50                      push eax
+:0045706C 8D85E0FEFFFF            lea eax, dword ptr [ebp+FFFFFEE0]
+:00457072 FF75F0                  push [ebp-10]
+
+* Possible StringData Ref from Data Obj ->"PlrGFX\%s\%s\%s%s.CL2"
+                                  |
+:00457075 68445F4B00              push 004B5F44
+:0045707A 50                      push eax
+:0045707B E8402A0200              call 00479AC0
+:00457080 83C418                  add esp, 00000018
+:00457083 8BD7                    mov edx, edi
+:00457085 8D8DE0FEFFFF            lea ecx, dword ptr [ebp+FFFFFEE0]
+:0045708B E8FA2FFCFF              call 0041A08A
+:00457090 8BD3                    mov edx, ebx
+:00457092 8BCF                    mov ecx, edi
+:00457094 E848FDFFFF              call 00456DE1
+:00457099 8B45F8                  mov eax, dword ptr [ebp-08]
+:0045709C 098628020000            or dword ptr [esi+00000228], eax
+:004570A2 A0D4B16000              mov al, byte ptr [0060B1D4]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00456EF2(C), :00456F13(C), :00456F79(C), :00456FCD(C), :00456FDA(C)
+|:00456FF9(C), :00457016(C), :00457033(C), :0045704C(C)
+|
+:004570A7 8B4DF8                  mov ecx, dword ptr [ebp-08]
+:004570AA D1E1                    shl ecx, 1
+:004570AC 81F97F010000            cmp ecx, 0000017F
+:004570B2 894DF8                  mov dword ptr [ebp-08], ecx
+:004570B5 0F8632FEFFFF            jbe 00456EED
+:004570BB 5F                      pop edi
+:004570BC 5E                      pop esi
+:004570BD 5B                      pop ebx
+:004570BE C9                      leave
+:004570BF C3                      ret

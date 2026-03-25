@@ -1,0 +1,11 @@
+﻿1. + (CLVL/2) to AC (character level based)
+2. + X SLVL to X spell
+3. - X SLVL to X spell
+4. KB 2 tiles away
+5. X% damage taken goes to mana
+6. +200% life regeneration
+7. +200% mana regeneration
+8. +X% KB resistance
+9. +X% chance to avoid stun
+10. +100% damage to monsters under Reflect
+11. 

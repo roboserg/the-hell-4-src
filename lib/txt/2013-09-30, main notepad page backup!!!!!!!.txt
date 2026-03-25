@@ -1,0 +1,321 @@
+Оглавление и туду.
+https://titanpad.com/abaddon-dev
+
+Переселение уберов http://titanpad.com/0Wxc77KKP8 *вроде готово*
+=========================================================
+Бонусы сетам http://titanpad.com/8bRTaySMf4 *готов*
+=========================================================
+Фиксы неписей http://titanpad.com/E9x3aPUJB6 *что есть - готово*
+=========================================================
+Всякие фиксы боёвки http://titanpad.com/oGBVshaNWT *ready*
+=========================================================
+Фикс загрузки с активными бафами http://titanpad.com/qNVQndkitV *готов*
+========================================================
+Быстрая установка на пояс и встроенный автокликер http://titanpad.com/OsA6rvEnnv *готов*
+========================================================
+Улучшенные взрывы заклинаний http://titanpad.com/mol6y0jao3
+========================================================
+Человеческое отображение штрафов и за компанию исправление говнокода http://titanpad.com/k0QuURRHfG *готов ?*
+========================================================
+Отображение значения AP http://titanpad.com/OQBlRJWy3c *готово*
+========================================================
+Ловушки:     http://titanpad.com/KFLg8ZeYtb
+========================================================
+Special boss parameters forced: http://titanpad.com/Ccev8CPNFK
+========================================================
+Reflect \test\ dispelling: http://titanpad.com/BUwS51xLVU
+========================================================
+Fixes: http://titanpad.com/yRIJJHK4Px
+========================================================
+new task ( Ravenholm ): http://titanpad.com/UzawVedqGk
+new quest: ( Izual ): http://titanpad.com/uL464tUEu2
+   2я часть:               http://titanpad.com/qM3IOpYkH2
+new quest: ( Lost Treasure ) http://titanpad.com/3n5wa4Q90U
+                     продолжение:   http://titanpad.com/hhcXBTQwQX
+new quest: ( Island )              http://titanpad.com/uGnulgDhRO
+new quest: Fleshdoom          http://titanpad.com/XzdGKPju0q
+Andariel  part 1:                     http://titanpad.com/JsBruijH9g
+Andariel part 2:                      http://titanpad.com/wOJvBfee5s
+=======================================================
+New affix ideas: http://titanpad.com/P9hADyWF7W
+=======================================================
+кулдаун нов http://titanpad.com/6a50QFsipC Готово
+фикс колец огня\молнии+шрайны: http://titanpad.com/hYcLS3vEc4
+=======================================================
+Хеллфаер http://titanpad.com/WP6hDqBkxj
+====================================================
+Кирилица http://titanpad.com/5bmCsnz9rL Не нужно
+Footstep sfx http://titanpad.com/n67x9lAzA5
+==================================================
+Фикс активации http://titanpad.com/58p0rQsYQn
+Таймер воскрешения в мульти:  http://titanpad.com/G1jeA0ISqC
+Ударные брызги http://titanpad.com/72hQ9avJnq
+ноу сэйв в сингле при активных монстрах на карте: http://titanpad.com/EbYMixinrp
+extra info panel[s]: http://titanpad.com/nBYo8wmQMy
+фикс тайллов церкви: http://titanpad.com/WYEZ4e1NuH
+==================================================
+смарт дроп горожанам https://titanpad.com/towners-smart-drop
+убрать целию в мульти https://titanpad.com/disable-multi-celia
+фикс элементальных стрел, и мили,  и плевков https://titanpad.com/elemental-arrows-fix
+надпись о миньенстве https://titanpad.com/minions-info
+специальный дроп боссов https://titanpad.com/boss-special-drop
+масла https://titanpad.com/oils-update
+чемпионы https://titanpad.com/champinions-dev
+лужи кислоты https://titanpad.com/acidpuddles
+смена оружия https://titanpad.com/wpn-swap
+стартовые плюшки магу https://titanpad.com/mag-start
+
+TO DO:
+
+modify damage formula for inferno!!!
+
+I have another idea: create "Duplicate list Database" (like a old Diabloguard) and include it to game and stash file
+Principle would be simple: if you put duplicate item in stash - this is a subject that disappeared (automatic delete)
+most difficult to prepare such a list, but do not have to be all the duplicates only the most well-known like a famous and popular dupe 
+"Scared Amulet of Zodiac" 40 all res 20 all atrb (15 req magic). duplicate those good items ruins the game and it was good to do something about it
+I think this should be a priority objective in "to do list"
+
+- Hitting a monster/player will knock them back according to the direction they are facing; thus, you can technically knock a creature back towards you if it's facing away from you.
+
+из патча diablo v1.07:
+Fixed the Mana Shield bugs that could make a player invulnerable and/or invisible to other players.
+
+Fix the bug that froze Lazarus (and made him invulnerable to arrows and spells) after player had entered his lair, then left (or died), and finally returned.
+
+Fix potential memory corruption bug that occurred when casting town portal
+
+-----------------
+
+- рандомизация аттрибутов при генерации персонажей
+
+- при касте двух стен или колец, работает только одно из них. В плане отпугивания монстров.
+
+- перенести в МП все возможное по квестам. пусть без спецлокаций, но по типу того что с мясом и леориком... было бы хорошо. скромно так, но как замануху на то что есть в сингле
+
+- чемпионы!
+
+- Звук при поднятии эликсира золотого элика
+
+- давать опыт за разговоры с NPC
+
+ - заряды на всех шмотках
+
+New AI ideas:
+- warping monsters melee, as unitology sect leader in awakened
+
+- При русской раскладке. При зажатом шифте пьются только 1 5 8
+
+ГЛЮК - отследить:
+Exception code: C0000005 ACCESS_VIOLATION
+Fault address: 0041A4CC 01:000194CC D:\Gamez\TheHell\TH.exe
+
+Registers:
+EAX:00000001
+EBX:0000005B
+ECX:FFFFEC92
+EDX:0000008D
+ESI:09453B82
+EDI:03E8FED8
+CS:EIP:0023:0041A4CC
+SS:ESP:002B:0018FC08 EBP:00BBF2B0
+DS:002B ES:002B FS:0053 GS:002B
+Flags:00210206
+
+- make other players hear how others burned by burning cross (in MP)
+- попадание в ПвП рейнж: глюк звука (как по себе)
+- Переписать функции сетовых уников. ? Там нашелся свободный байт. Переписать так чтобы не нужна была * в имени и в таблице сетовых свойств был номер набора, а не начало имени. Переводу это очень мешает - очень маловажное занятие!!
+
+- Эффекты огня и молнии для своп атак
+
+- слышна смерть игрока находящегося не рядом
+
+- убрать ограничение фаербласту на нанесение сплеш урона только при успешной проверке на линию зрения
+
+- проверить сцепленность манакоста стен и колец
+
+-Оранжевый текст вместо золотого для убербоссов (моё предложение)
+
+-непрерывность между этажами мш, фури и т.п. (на размышления, надо или нет...)
+
+- косяк взрыва фаерболов.
+- (в нижайший приоритет) запрет выпадения белого дропа с боссов (che za?) слепое пятно в суффиксах низкоуровневых. его можно починить // poka net s etim problem
+
+- лужи магмы от магма демонов после смерти и после попадания сгустком магмы
+- с молниевыми демонами - аналогично
+- players must be invulnerable to attacks from other players if in player friendly mode (antiPK),
+- убиваешь убера
+возвращаешься после продажи чaсти лута из города
+слышно как открывается дверь его и он говорит приветственную речь,
+
+- просмотреть скрипты и привести их в порядок (для перевода, для выдирания данных, для создания дунов и т.п.)
+- Horaz todo:
+7. give randomize (acc to class, diff)
+ защита от многократного юзания дублей эликов
+
+- Ещё при заходе на 17й только квест активируется
+[15:39:34] Ярик: А можно зайти сзади со склепа
+- когда ты 29 лвл, книга пишет что ограничение 32, но ее можно прочесть;
+
+- сделать защиту от потери предмета на курсоре при переходах;
+
+Mordor: в квестовых локах нет на данный момент:
+- падальщиков
++ летающих демонов (большиx)
+- оверлордов
+- псов
+- балрогов
+- пауков
+- мумий
+- некроморфов
+- крыс
+
+- boss names missing: Q, Y,
+- monster names missing: J, K, X,
+- item names missing: U, X, Y, Z
+- teach some monsters to add fire\lightning effect to their melee damage;
+- do something about effects of Fountain of tears;
+- new affixes: series of spellcasting speed boosters, KB/stun resist percentage affixes, etc.;
+- make magma demons leave burning puddles after death, same with lightning demons (static fields);
+- create dynamic TRN coloring for characters (perhaps, even item-dependant);
+- add prepared ambeint sounds to levels;
+- add two winged skeleton bosses to CoB (horror only);
+- make some sort of background laughter play continuously on certain quest locations (like here at 2:50 >> http://www.youtube.com/watch?v=zjMKUPIwuSY );
+- Some monsters fail to play secondary attack sound (Litedemons, magmademons, etc.). This somehow depends on dlvl (I think..);
+- [unsure] Split functions that spawn monsters in sarcophagi/urns/pods/barrels and spawn them by other monsters; 
+- [important] Laz goes back into his invulnerable state in MP if a player goes to town and returns;
+- [will have to wait, too complex] Increase sprite amounts from 125 to 2000;
+- Check if Hellfire still produces bugs (gamecrash) if blocked by other characters;
+- [gotta check] The 127 (or something) items limit - only 127 items can be at one time on the floor;
+- Shooters try to walk around objects that do not block missiles (followers);
+- Certain wall formations in the caves and abyss can cause screen draw problems which are harmless. This is caused by spots on the level map that do not contain graphics, usually seen as stalagmites. Images in them will "ripple.";
+
+ Идейки из Д2:
+- генерация белянки с большей рандомностью параметров
+- эффект +Х% золото файнд
+- эффект +Х% мэджик файнд
+- скилл чарджа для воинов
+- чармы
+- новый спелл физики без отброса
+
+Из фолаута
+- перки
+
+
+
+
+Заклинания:
+1. Фаерболт. Пересмотреть скорость. Сейчас для ловушек явно сломана скорость
+Проверяем игрок ли это. Если нет, ставим скорость 26
+если игрок, то если это ловушка то ставим скорость 16// никогда не выполняется
+если не ловушка то ставим скорость slvl+10 c капом в 30
+
+2. Фрагмент огня (огненной стены и огненного кольца)
+Неверный рассчет повреждения в результате которого происходит выход за границу массива. Небольшой в -1 при использовании алтарями и потенциально очень большой до 200 при использовании монстрами.
+
+3. Скорость фаербласта игрока.
+Очень странная формула speed = spell.Damage + 10 c капом в 40. Поскольку дамаг изначально более 90 скорость сразу упирается в кап. И там странно висит в воздухе присваивание eax - slvl. Скорее всего предполагалось slvl + 10 с капом в 40, но напутолось.
+
+4. CastFlashBack рассчет дамага у монстров. Полнейший хаос.
+Возможно неадекватное поведение. У алтарей так же. 
+
+5. Флеш эффект 11-12 долбит по 3м клеткам по 2 раза ???
+___2___
+__2_1__
+_2_1_1_
+__1_1__
+___1___
+
+6. Проверить новы. Возможно слепое пятно, когда во время каста одним игроком новы соответствующие заклинания другого игрока становятся бесплатными
+
+7. Манакост болл лайтинга совпадает с манакостом фаербласта - bug?
+
+8. CastHealing непонятки с первым циклом. С восстановлением маны та же тема
+
+9. CastFury - дуршлак. 3 косяка, см в код тх2. ActFury убрать нафиг лишние обрывки и сделать слышным звук только для кастера
+
+10. Апок может долбить по голему 3го игрока ???))
+
+11. Идиотсткое условие дамага(исправлено) у кислотных луж появляющихся после плевков
+Время жизни лужи тоже рассчитывается по идиотски
+
+12. Неверное определение clvl параметра у 0го игрока и вообще бредовый рассчет дамага у стены молний - // еще не исправлено?
+
+13. CastSpecialArrowSpell устаревшая формула рассчета скорости
+
+============================================
+
+Выведенное в процессе кооперативной игры:
+
+Todo
+1 ) в квесте слепых сделать босса чтобы он и дропал амулет
+2 ) уберу больше дропа раза в два на хорор мп
+3 ) мили оружием атака элементалем по смежным тайлам
+4 ) переделать форснутые вещи из бочек и сундуков ??????? (сейчас падают только банки жизни/маны и тонны реликтов таун портала. Надо переделать)
+5 ) применить резист к стану после отброса 
+6 ) запрет генерации посохов с высокой рек ловкостью и магией
+7 ) сделать всплывающие окошки (как у уников) при наведении на спелл иконки, и на пункты в меню персонажа
+8 ) сделать крестики красные при левелАпе правее и меньше (чтобы они не закрывали тек.статы)
+9 ) weapon switch
+10 ) сделать возможность рерола товара у горожан
+11 ) сделать отброс в направлении удара. Для мвп_мили это уже сделано. Для пвм_мили это сделать просто по анологии. Для немили же надо придумать, как отслеживать направление удара
+12) исправить багу с мульти лазарусом. Когда после активации его и возвращения из города он неактивен, пока с ним не поговоришь
+13 ) меньше дропа золота, больше количество
+14 ) расширить зону падения карты для квеста ледяного
+15 ) позволять мульти игрокам входить по шорткатам, если они уже были в этой сессии на том этаже
+16 ) позволить модить синьку
+17 ) починить пропадение недопустимых для ношения на поясе вещей 1х1 при покупке с неполным поясом и полным инвентарем
+18 ) не дропать квестовый предмет, если дропать некуда?
+19 ) не активировать гоблина в квесте на 4м этаже. Иначе при сдаче таблички порталом далеко от положения гоблина, становится непонятно, кто именно на тебя повесил ин батл.
+20 ) расширенное отображение автокарты? (белые, синие, уникальные, сетовые вещи, контейнеры, шрайны)
+21 ) подсветка не только сундуков - это для дебилов?)) (для слепых. Котлы тоже нифига не видны. А остальное за компанию)
+22 ) отображение лавы/воды на автокарте
+23 ) настраиваемые из конфига хоткеи
+24 ) отображение хоткея при наведении на заклинание
+25 ) при русской раскладке не пьются банки
+26 ) заряды на всех шмотках (скорее всего будет доступно только на униках)
+27 ) сделать неслышным звук смерти другого игрока, когда он не рядом
+28 ) доделать квест флешдума
+29 ) перенести максимум квестов в мульти в урезанном виде
+30 ) попробовать сделать квестовые локи в мульти. Это будет дико сложно, но может и получиться (после разбора сетевого кода, не раньше)
+32 ) простейший фикс дропа дублей в пределах одной игровой сессии.
+
+===============
+
+План Ярика по тх2 http://titanpad.com/7oAt9dyMvL
+
+
+
+
+
+
+.text:0044E7ED C6 81 00 E6 6D 00 03                    mov     Objects.selectable[ecx], 3
+cmp dword ptr [006DE5C0h + ecx], 74d; BO_74_CAVE_DOOR_MAIN_DIAGONAL
+jz @caveDoor
+cmp dword ptr [006DE5C0h + ecx], 75d; BO_75_CAVE_DOOR_COLLATERAL_DIAGONAL
+jz @caveDoor
+@regularDoor:
+.text:0044E7F4 89 99 FC E5 6D 00                       mov     Objects.notBlockMissile[ecx], ebx
+@caveDoor:
+.text:0044E7FA 5B                                      pop     ebx
+.text:0044E7FB C3                                      retn
+
+ асм:
+ 
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0044E7ED(U)
+|
+:00723B04 C68100E66D0003          mov byte ptr [ecx+006DE600], 03
+:00723B10 83394A                  cmp dword ptr [ecx], 0000004A
+:00723B13 7421                    je 00723B36
+:00723B15 83394B                  cmp dword ptr [ecx], 0000004B
+:00723B18 741C                    je 00723B36
+:00723B30 8999FCE56D00            mov dword ptr [ecx+006DE5FC], ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00723B13(C), :00723B18(C)
+|
+:00723B36 5B                      pop ebx
+:00723B37 C3                      ret
+
+
+

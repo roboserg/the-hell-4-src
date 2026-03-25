@@ -1,0 +1,158 @@
+Defiler drops 2 items + Map in SP
+Defiler drops 3 items + Stone in MP
+Stone quality varies for dificulty mode
+=====================================================
+Crash below fixed in version 1.71d
+
+Warning!
+
+In MP Purgatory killing Defiler gave this crash:
+Exception code: C0000005 ACCESS_VIOLATION
+Fault address:	00427E1A 01:00026E1A D:\Games\TheHell\zTHv1.71cRC9.exe
+
+Registers:
+EAX:0000000C
+EBX:0000006A
+ECX:00707CAE
+EDX:0000006B
+ESI:00009A08
+EDI:00000930
+CS:EIP:001B:00427E1A
+SS:ESP:0023:0012FC8C	EBP:0012FCA0
+DS:0023	ES:0023	FS:003B	GS:0000
+Flags:00210202
+
+Call stack:
+Address	Frame	 Logical addr	Module
+00427E1A	0012FCA0	0001:00026E1A D:\Games\TheHell\zTHv1.71cRC9.exe
+========================================================
+
+	mod:
+:0043D52D 8B86D8000000            mov eax, dword ptr [esi+000000D8]
+:0043D533 3B05E4094B00            cmp eax, dword ptr [004B09E4]
+:0043D539 7533                    jne 0043D56E
+:0043D53B B9DD030000              mov ecx, 000003DD
+:0043D540 E806ADFDFF              call 0041824B
+:0043D545 85C0                    test eax, eax
+:0043D547 7405                    je 0043D54E
+:0043D549 E82AADFDFF              call 00418278
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D547(C)
+|
+:0043D54E 8325A0B56E0000          and dword ptr [006EB5A0], 00000000
+:0043D555 8B5624                  mov edx, dword ptr [esi+24]
+:0043D558 8B4E20                  mov ecx, dword ptr [esi+20]
+:0043D55B 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:0043D562 7505                    jne 0043D569
+:0043D564 E98BA72C00              jmp 00707CF4
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D562(C)
+|
+:0043D569 E922A72C00              jmp 00707C90
+
+
+	extra:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D569(U)
+|
+:00707C90 50                      push eax
+:00707C91 A1C0706000              mov eax, dword ptr [006070C0]
+:00707C96 83F801                  cmp eax, 00000001
+:00707C99 740D                    je 00707CA8
+:00707C9B 83F802                  cmp eax, 00000002
+:00707C9E 7410                    je 00707CB0
+:00707CA0 58                      pop eax
+:00707CA1 E81B000000              call 00707CC1
+:00707CA6 EB0E                    jmp 00707CB6
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707C99(C)
+|
+:00707CA8 58                      pop eax
+:00707CA9 E824000000              call 00707CD2
+:00707CAE EB06                    jmp 00707CB6
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00707C9E(C)
+|
+:00707CB0 58                      pop eax
+:00707CB1 E82D000000              call 00707CE3
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00707CA6(U), :00707CAE(U)
+|
+:00707CB6 E95D59D3FF              jmp 0043D618
+:00707CBB 90                      nop
+:00707CBC 90                      nop
+:00707CBD 90                      nop
+:00707CBE 90                      nop
+:00707CBF 90                      nop
+:00707CC0 90                      nop
+
+* Referenced by a CALL at Address:
+|:00707CA1   
+|
+:00707CC1 8BC2                    mov eax, edx
+:00707CC3 50                      push eax
+:00707CC4 682E010000              push 0000012E
+:00707CC9 8BD1                    mov edx, ecx
+:00707CCB 59                      pop ecx
+:00707CCC E8F600D2FF              call 00427DC7			<- corrected to call 00427DC6
+:00707CD1 C3                      ret
+
+
+
+* Referenced by a CALL at Address:
+|:00707CA9   
+|
+:00707CD2 8BC2                    mov eax, edx
+:00707CD4 50                      push eax
+:00707CD5 682F010000              push 0000012F
+:00707CDA 8BD1                    mov edx, ecx
+:00707CDC 59                      pop ecx
+:00707CDD E8E500D2FF              call 00427DC7			<- corrected to call 00427DC6
+:00707CE2 C3                      ret
+
+
+
+* Referenced by a CALL at Address:
+|:00707CB1   
+|
+:00707CE3 8BC2                    mov eax, edx
+:00707CE5 50                      push eax
+:00707CE6 6830010000              push 00000130			<- dark diamond (base item slot number)
+:00707CEB 8BD1                    mov edx, ecx
+:00707CED 59                      pop ecx
+:00707CEE E8D400D2FF              call 00427DC7			<- corrected to call 00427DC6
+:00707CF3 C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D564(U)
+|
+:00707CF4 E86801D2FF              call 00427E61
+:00707CF9 E92D59D3FF              jmp 0043D62B
+:00707CFE 90                      nop
+:00707CFF 90                      nop
+============
+In SP mode Defiler drops:
+2 items on Horror
+3 items on Purgatory
+5 items on Doom
+
+:00707CF4 E86801D2FF              call 00427E61
+:00707CF9 E92D59D3FF              jmp 0043D62B
+into
+:00707CF4 E86801D2FF              call 00427E61
+:00707CF9 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00707D00 0F841259D3FF            je 0043D618
+:00707D06 833DC070600002          cmp dword ptr [006070C0], 00000002
+:00707D0D 0F84DF58D3FF            je 0043D5F2
+:00707D13 E91359D3FF              jmp 0043D62B
+:00707D18 90                      nop
+:00707D19 90                      nop
+:00707D1A 90                      nop
+:00707D1B 90                      nop

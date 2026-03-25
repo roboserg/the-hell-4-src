@@ -1,0 +1,26 @@
+Golem's damage displayed in Spellbook is now correct:
+
+
+	1:
+:0042EC00 8B4508                  mov eax, dword ptr [ebp+08]
+:0042EC03 E9F8C82D00              jmp 0070B500
+
+
+	2:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0042EC03(U)
+|
+:0070B500 53                      push ebx
+:0070B501 8BDE                    mov ebx, esi
+:0070B503 46                      inc esi
+:0070B504 D1E6                    shl esi, 1
+:0070B506 8932                    mov dword ptr [edx], esi
+:0070B508 8BF3                    mov esi, ebx
+:0070B50A 83C60A                  add esi, 0000000A
+:0070B50D C1E602                  shl esi, 02
+:0070B510 8930                    mov dword ptr [eax], esi
+:0070B512 8BF3                    mov esi, ebx
+:0070B514 5B                      pop ebx
+:0070B515 E96E39D2FF              jmp 0042EE88
+:0070B51A 90                      nop
+:0070B51B 90                      nop

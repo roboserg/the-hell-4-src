@@ -1,0 +1,60 @@
+Hellfire 1.01 :
+
+0048E100 : unique items table
+004A1BC8 : base items table
+004A5888 : objets table
+004ABEF0 : Monster data (128 bytes each)
+004B03F0 : Monsters index table
+004B0880 : unique monsters table (related to quests ?)
+004D03A0 : AMP table (related to level generation)
+004D07B0 : ?? initialized when loading AMP
+004D07D0 : AMP map of the level ? (size 0x28*0x28)
+00575230 : Rand Seed of level[18]
+00575410 : 0x50*0x50 subtiles, used when filling church levels
+0057C9D8 : SOL & 08 (allow transparence)
+00577350 : 1 if there is a DunQuest
+00577354 : bool for church levels : big room in F/1
+00577358 : bool for church levels : big room in F/F
+0057735C : bool for church levels : big room in F/1D
+00577380 : bool for church levels : big room in 1/F
+00577384 : bool for church levels : big room in F/F
+00577388 : bool for church levels : big room in 1D/F
+0057738C : DunQuest adress (rnd6.dun/SKngDO.dun/Banner2.dun)
+0057A018 : 0x28*0x28 table (or 14*14 ?) for hell's levels generation
+0057B638 : curr rand
+0057B658 : nb d'appel ? rand ??
+0057D1E0 : table[0x70*0x70] of monsters numbers (number is index in level's monstre table)
+005895E0 : .DUN map of level (size 0x28*0x28)
+0058CD28 : Copy of dungeon (catacombs)
+00590468 : CEL map of dungeon ??
+005F5BB0 : MIN map of the level. Size 0x70*0x70 DWORDS, but the used area is only 0x50*0x50 (there are some safety borders). So the real map starts at 005F5D70
+  ...601FB0 end of this table.
+006070B8 : .til file address in mem
+006070BC : .min file address in mem
+006070C8 : ((SOL & 70) >> 4) table (wall shape ??)
+0060A9D0 : SOL & 08 ("there is a roof behind the wall" ?)
+0060B1D4 : Area type (0=town/1=church+crypt/.../3=caves+nest/...)
+0060B1D8 : dungeon level on (0, 1-4, 5-8, 9-C, D-10, 11-14, 15-18)
+0060B2E0 : SOL & 01 table (prevent the presence of player/monsters/items)
+0060DAFC : .cel file address in mem
+00612FF8 : 70*70 table of l*s.cel in the level
+006160F8 : SOL & 02 table (block line of sight)
+006168FC : l*s.cel addess in mem
+00616900 : 70 * 70 used when generating levels (upper byte of amp ?)
+0061EB08 : SOL & 04 (block missiles)
+0061F30C : DunQuest address (Blind2/Blood1/Bonestr2/Warlord/Vile1)
+0061F32C : DunQuest adress (Blind1/Blood2/Bonestr1/Warlord2/Banner1/)
+006854F8 : Gendata\Cutgate.CEL adress
+006878D8 : Character class (0 warrior/1 rogue/2 sorcerer)
+00697660 : Data\MedTextS.CEL adress
+00697664 : Data\TextBox.CEL adress
+0069DC80 : number of monsters in the level
+0069DC88 : monsters (size E4)
+006A8EB0 : 0x18 entries of size 0x150 (avaible monsters in the level)
+006AB790 : total size of monsters of level
+006AB798 : number of monsters in the level (again ??)
+006DDFC8 : 01 = SP, 04 = MP (Max number of players)
+006DE5C0 : Objects table , size 0x78 each
+00700220 : nb stairs of lvl
+00700228 : struct stair[]   (X,Y,mvt type,dest)  (402/403 going up/down, 407/408 portal/stair portal, ...)
+00700298 : Level comming from ?

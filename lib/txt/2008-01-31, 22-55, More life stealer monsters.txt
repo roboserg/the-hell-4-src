@@ -1,0 +1,129 @@
+In MP mode Leoric, Werewolves, Blood Legion and Uber Diablo steal life: 100% damage they deal is added to their current life
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043E5A3(C), :0043E5CE(U)
+|
+:0043E5DC E804AFFCFF              call 004094E5
+:0043E5E1 90                      nop
+:0043E5E2 90                      nop
+:0043E5E3 90                      nop
+:0043E5E4 90                      nop
+:0043E5E5 90                      nop
+:0043E5E6 90                      nop
+:0043E5E7 90                      nop
+:0043E5E8 90                      nop
+:0043E5E9 90                      nop
+:0043E5EA 90                      nop
+:0043E5EB 90                      nop
+:0043E5EC 90                      nop
+:0043E5ED 90                      nop
+:0043E5EE 90                      nop
+:0043E5EF 90                      nop
+:0043E5F0 90                      nop
+:0043E5F1 90                      nop
+:0043E5F2 90                      nop
+:0043E5F3 90                      nop
+:0043E5F4 90                      nop
+:0043E5F5 90                      nop
+:0043E5F6 90                      nop
+:0043E5F7 90                      nop
+:0043E5F8 90                      nop
+:0043E5F9 90                      nop
+:0043E5FA 90                      nop
+:0043E5FB 90                      nop
+:0043E5FC 90                      nop
+:0043E5FD 90                      nop
+:0043E5FE 90                      nop
+:0043E5FF A114AE6E00              mov eax, dword ptr [006EAE14]
+
+
+At free space from disabled comman.txt >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+* Referenced by a CALL at Address:
+|:0043E5DC   
+|
+:004094E5 F68725DD690010          test byte ptr [edi+0069DD25], 10
+:004094EC 751A                    jne 00409508
+:004094EE 8B8764DD6900            mov eax, dword ptr [edi+0069DD64]
+:004094F4 833832                  cmp dword ptr [eax], 00000032			< Leoric
+:004094F7 740F                    je 00409508
+:004094F9 833889                  cmp dword ptr [eax], FFFFFF89			< Uber (bugged chek)
+:004094FC 740A                    je 00409508
+:004094FE 833826                  cmp dword ptr [eax], 00000026			< Werewolf
+:00409501 7405                    je 00409508
+:00409503 83381C                  cmp dword ptr [eax], 0000001C			< Blood Legion
+:00409506 750F                    jne 00409517
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004094EC(C), :004094F7(C), :004094FC(C), :00409501(C)
+|
+:00409508 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:0040950F 7406                    je 00409517
+:00409511 019F1CDD6900            add dword ptr [edi+0069DD1C], ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00409506(C), :0040950F(C)
+|
+:00409517 C3                      ret
+
+==========================================================================================
+
+Revision 2:
+19:30 26.12.2009
+Fixed stealing for Uber
+Check made for currentHP overflow
+
+
+
+* Referenced by a CALL at Address:
+|:0043E5DC   
+|
+:0070B550 F68725DD690010          test byte ptr [edi+0069DD25], 10
+:0070B557 753B                    jne 0070B594
+:0070B559 8B8764DD6900            mov eax, dword ptr [edi+0069DD64]
+:0070B55F 833803                  cmp dword ptr [eax], 00000003
+:0070B562 7C30                    jl 0070B594
+:0070B564 833806                  cmp dword ptr [eax], 00000006
+:0070B567 742B                    je 0070B594
+:0070B569 83380F                  cmp dword ptr [eax], 0000000F
+:0070B56C 7426                    je 0070B594
+:0070B56E 83381C                  cmp dword ptr [eax], 0000001C
+:0070B571 7421                    je 0070B594
+:0070B573 833826                  cmp dword ptr [eax], 00000026
+:0070B576 741C                    je 0070B594
+:0070B578 833832                  cmp dword ptr [eax], 00000032
+:0070B57B 7417                    je 0070B594
+:0070B57D 83383A                  cmp dword ptr [eax], 0000003A
+:0070B580 7412                    je 0070B594
+:0070B582 83386E                  cmp dword ptr [eax], 0000006E
+:0070B585 740D                    je 0070B594
+:0070B587 83387E                  cmp dword ptr [eax], 0000007E
+:0070B58A 7408                    je 0070B594
+:0070B58C 813889000000            cmp dword ptr [eax], 00000089
+:0070B592 7529                    jne 0070B5BD
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070B557(C), :0070B562(C), :0070B567(C), :0070B56C(C), :0070B571(C)
+|:0070B576(C), :0070B57B(C), :0070B580(C), :0070B585(C), :0070B58A(C)
+|
+:0070B594 803DC8DF6D0001          cmp byte ptr [006DDFC8], 01
+:0070B59B 7420                    je 0070B5BD
+:0070B59D 019F1CDD6900            add dword ptr [edi+0069DD1C], ebx
+:0070B5A3 8B871CDD6900            mov eax, dword ptr [edi+0069DD1C]
+:0070B5A9 52                      push edx
+:0070B5AA 8B9718DD6900            mov edx, dword ptr [edi+0069DD18]
+:0070B5B0 3BC2                    cmp eax, edx
+:0070B5B2 7608                    jbe 0070B5BC
+:0070B5B4 8BC2                    mov eax, edx
+:0070B5B6 89871CDD6900            mov dword ptr [edi+0069DD1C], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070B5B2(C)
+|
+:0070B5BC 5A                      pop edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070B592(C), :0070B59B(C)
+|
+:0070B5BD C3                      ret
+:0070B5BE 90                      nop
+:0070B5BF 90                      nop

@@ -1,0 +1,122 @@
+Magma AI expansion:
+on dlvls 17-20 firebolt is used instead of magma ball...
+
+
+
+:00441E82 E979ED2C00              jmp 00710C00
+:00441E87 90                      nop
+:00441E88 90                      nop
+:00441E89 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00710C1A(U)
+|
+:00441E8A 5A                      pop edx
+:00441E8B E8F2FCFFFF              call 00441B82
+:00441E90 C3                      ret
+
+
+	extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00441E82(U)
+|
+:00710C00 6A00                    push 00000000
+:00710C02 6A04                    push 00000004
+:00710C04 6A01                    push 00000001
+:00710C06 803DD8B1600011          cmp byte ptr [0060B1D8], 11
+:00710C0D 7C10                    jl 00710C1F
+:00710C0F 803DD8B1600014          cmp byte ptr [0060B1D8], 14
+:00710C16 7F07                    jg 00710C1F
+:00710C18 6A01                    push 00000001
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00710C21(U)
+|
+:00710C1A E96B12D3FF              jmp 00441E8A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00710C0D(C), :00710C16(C)
+|
+:00710C1F 6A15                    push 00000015
+:00710C21 EBF7                    jmp 00710C1A
+:00710C23 90                      nop
+:00710C24 90                      nop
+
+====================================================================
+	14:36 13.01.2012
+Magma AI expansion, revision 2:
+on DLVLs 17-20 Fireblasts are cast instead of magma balls
+and damage differs for difficulty modes:
+Horror: 50, Purgatory: 140, Doom: 230;
+Note: damage is splashed, so there's a good chance for +100% splash damage!
+
+
+	code:
+
+:00441E82 E979ED2C00              jmp 00710C00
+:00441E87 90                      nop
+:00441E88 90                      nop
+:00441E89 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00710C2F(U)
+|
+:00441E8A 5A                      pop edx
+:00441E8B E8F2FCFFFF              call 00441B82
+:00441E90 C3                      ret
+
+
+
+	extra:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00441E82(U)
+|
+:00710C00 803DD8B1600011          cmp byte ptr [0060B1D8], 11
+:00710C07 7C3D                    jl 00710C46
+:00710C09 803DD8B1600014          cmp byte ptr [0060B1D8], 14
+:00710C10 7F34                    jg 00710C46
+:00710C12 833DC070600001          cmp dword ptr [006070C0], 00000001
+:00710C19 7419                    je 00710C34
+:00710C1B 833DC070600002          cmp dword ptr [006070C0], 00000002
+:00710C22 7419                    je 00710C3D
+:00710C24 6A00                    push 00000000
+:00710C26 6832000000              push 00000032
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00710C3B(U), :00710C44(U)
+|
+:00710C2B 6A01                    push 00000001
+:00710C2D 6A06                    push 00000006
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00710C4E(U)
+|
+:00710C2F E95612D3FF              jmp 00441E8A
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00710C19(C)
+|
+:00710C34 6A00                    push 00000000
+:00710C36 688C000000              push 0000008C
+:00710C3B EBEE                    jmp 00710C2B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00710C22(C)
+|
+:00710C3D 6A00                    push 00000000
+:00710C3F 68E6000000              push 000000E6
+:00710C44 EBE5                    jmp 00710C2B
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00710C07(C), :00710C10(C)
+|
+:00710C46 6A00                    push 00000000
+:00710C48 6A04                    push 00000004
+:00710C4A 6A01                    push 00000001
+:00710C4C 6A15                    push 00000015
+:00710C4E EBDF                    jmp 00710C2F
+:00710C50 90                      nop
+:00710C51 90                      nop
+:00710C52 90                      nop

@@ -1,0 +1,96 @@
+Reapers no longer have KB, instead they do extra damage when swinging their scythes backwards: additional attack on frame 13 with -10 points to min & max Damage and with -9% penalty to ToHit
+
+
+Modded:
+
+:0043E06C E989650000              jmp 004445FA
+:0043E071 90                      nop
+:0043E072 90                      nop
+:0043E073 90                      nop
+:0043E074 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043E065(C), :0044461C(U)
+|
+:0043E075 83BEECDC69000D          cmp dword ptr [esi+0069DCEC], 0000000D
+:0043E07C 752E                    jne 0043E0AC
+:0043E07E 0FB6864EDD6900          movzx eax, byte ptr [esi+0069DD4E]
+:0043E085 8B96D4DC6900            mov edx, dword ptr [esi+0069DCD4]
+:0043E08B 50                      push eax
+:0043E08C 8BCF                    mov ecx, edi
+:0043E08E 0FB6864DDD6900          movzx eax, byte ptr [esi+0069DD4D]
+:0043E095 50                      push eax
+:0043E096 0FB6864CDD6900          movzx eax, byte ptr [esi+0069DD4C]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00705298(U)
+|
+:0043E09D 50                      push eax
+:0043E09E E849000000              call 0043E0EC
+:0043E0A3 33D2                    xor edx, edx
+:0043E0A5 8BCF                    mov ecx, edi
+:0043E0A7 E844A3FDFF              call 004183F0
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043E06A(C), :0043E07C(C), :00444621(U), :0070529D(U)
+|
+:0043E0AC 80BE20DD690018          cmp byte ptr [esi+0069DD20], 18
+
+
+Extra 1:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043E06C(U)
+|
+:004445FA 83F850                  cmp eax, 00000050
+:004445FD 761D                    jbe 0044461C
+:004445FF 83F857                  cmp eax, 00000057
+:00444602 7422                    je 00444626
+:00444604 83F86E                  cmp eax, 0000006E
+:00444607 7413                    je 0044461C
+:00444609 83F878                  cmp eax, 00000078
+:0044460C 740E                    je 0044461C
+:0044460E 3D88000000              cmp eax, 00000088
+:00444613 7411                    je 00444626
+:00444615 3D89000000              cmp eax, 00000089
+:0044461A 7505                    jne 00444621
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:004445FD(C), :00444607(C), :0044460C(C)
+|
+:0044461C E9549AFFFF              jmp 0043E075
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0044461A(C)
+|
+:00444621 E9869AFFFF              jmp 0043E0AC
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00444602(C), :00444613(C)
+|
+:00444626 E93C0C2C00              jmp 00705267
+
+
+Extra 2:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00444626(U)
+|
+:00705267 83BEECDC69000D          cmp dword ptr [esi+0069DCEC], 0000000D
+:0070526E 752D                    jne 0070529D
+:00705270 0FB6864EDD6900          movzx eax, byte ptr [esi+0069DD4E]
+:00705277 83E80A                  sub eax, 0000000A
+:0070527A 8B96D4DC6900            mov edx, dword ptr [esi+0069DCD4]
+:00705280 50                      push eax
+:00705281 8BCF                    mov ecx, edi
+:00705283 0FB6864DDD6900          movzx eax, byte ptr [esi+0069DD4D]
+:0070528A 83E80A                  sub eax, 0000000A
+:0070528D 50                      push eax
+:0070528E 0FB6864CDD6900          movzx eax, byte ptr [esi+0069DD4C]
+:00705295 83E809                  sub eax, 00000009
+:00705298 E9008ED3FF              jmp 0043E09D
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070526E(C)
+|
+:0070529D E90A8ED3FF              jmp 0043E0AC

@@ -1,0 +1,113 @@
+'Detect traps' effect changed into '+100% Fury duration'
+
+Modification to Rage routine follows...
+
+	Original:
+:00434D64 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:00434D6A 0FBE9431B8010000        movsx edx, byte ptr [ecx+esi+000001B8]
+:00434D72 EB03                    jmp 00434D77
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00434D62(C)
+|
+:00434D74 6A01                    push 00000001
+:00434D76 5A                      pop edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00434D72(U)
+|
+:00434D77 8B88887A6900            mov ecx, dword ptr [eax+00697A88]
+:00434D7D 6A01                    push 00000001
+:00434D7F 8D0C89                  lea ecx, dword ptr [ecx+4*ecx]
+:00434D82 8D8C4A00030000          lea ecx, dword ptr [edx+2*ecx+00000300]
+:00434D89 5A                      pop edx
+:00434D8A 8988C87A6900            mov dword ptr [eax+00697AC8], ecx
+
+	> > > > >
+
+	Modified:
+:00434D64 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:00434D6A 0FBE9431B8010000        movsx edx, byte ptr [ecx+esi+000001B8]
+:00434D72 EB03                    jmp 00434D77
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00434D62(C)
+|
+:00434D74 6A01                    push 00000001
+:00434D76 5A                      pop edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00434D72(U)
+|
+:00434D77 E906142D00              jmp 00706182
+:00434D7C 90                      nop
+:00434D7D 90                      nop
+:00434D7E 90                      nop
+:00434D7F 90                      nop
+:00434D80 90                      nop
+:00434D81 90                      nop
+:00434D82 90                      nop
+:00434D83 90                      nop
+:00434D84 90                      nop
+:00434D85 90                      nop
+:00434D86 90                      nop
+:00434D87 90                      nop
+:00434D88 90                      nop
+:00434D89 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007061C1(U)
+|
+:00434D8A 8988C87A6900            mov dword ptr [eax+00697AC8], ecx
+
+	Extra:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00434D77(U)
+|
+:00706182 8B0D14AE6E00            mov ecx, dword ptr [006EAE14]
+:00706188 90                      nop
+:00706189 90                      nop
+:0070618A 90                      nop
+:0070618B 90                      nop
+:0070618C 90                      nop
+:0070618D 90                      nop
+:0070618E 90                      nop
+:0070618F 90                      nop
+:00706190 F6814155000010          test byte ptr [ecx+00005541], 10
+:00706197 7415                    je 007061AE
+:00706199 8B88887A6900            mov ecx, dword ptr [eax+00697A88]
+:0070619F 6A01                    push 00000001
+:007061A1 8D0C89                  lea ecx, dword ptr [ecx+4*ecx]
+:007061A4 8D8C4AE8030000          lea ecx, dword ptr [edx+2*ecx+000003E8]
+:007061AB 5A                      pop edx
+:007061AC EB13                    jmp 007061C1
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706197(C)
+|
+:007061AE 8B88887A6900            mov ecx, dword ptr [eax+00697A88]
+:007061B4 6A01                    push 00000001
+:007061B6 8D0C89                  lea ecx, dword ptr [ecx+4*ecx]
+:007061B9 8D8C4A58020000          lea ecx, dword ptr [edx+2*ecx+00000258]
+:007061C0 5A                      pop edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007061AC(U)
+|
+:007061C1 E9C4EBD2FF              jmp 00434D8A
+_________________________________________________________________
+
+Note: Probably jump should have been made straight from 434D64 because it might get overwritten or something. Keep an eye on it for bug-reports. Needs extensive fieldtesting.
+
+
+=================================================================
+17:53 07.04.2011
+Small fix to prevent host player's effect taking effect on others:
+
+
+
+:00706182 50                      push eax
+:00706183 E848400000              call 0070A1D0
+:00706188 F6804155000010          test byte ptr [eax+00005541], 10
+:0070618F 58                      pop eax
+:00706190 741C                    je 007061AE

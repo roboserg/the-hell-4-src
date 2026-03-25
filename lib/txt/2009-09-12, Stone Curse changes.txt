@@ -1,0 +1,42 @@
+SC changes:
+now monsters are invulnerable to damage for the duration of this spell
+
+PvM Melee:
+
+:0045B90F E90CE22A00              jmp 00709B20
+:0045B914 90                      nop
+:0045B915 90                      nop
+:0045B916 90                      nop
+:0045B917 90                      nop
+:0045B918 90                      nop
+:0045B919 90                      nop
+:0045B91A 90                      nop
+:0045B91B 90                      nop
+:0045B91C 90                      nop
+:0045B91D 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00709B2A(C)
+|
+:0045B91E 0FB68652DD6900          movzx eax, byte ptr [esi+0069DD52]
+
+
+	ex:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0045B90F(U)
+|
+:00709B20 83BE8CDC69000F          cmp dword ptr [esi+0069DC8C], 0000000F
+:00709B27 8945E8                  mov dword ptr [ebp-18], eax
+:00709B2A 0F85EE1DD5FF            jne 0045B91E
+:00709B30 E9781DD5FF              jmp 0045B8AD
+:00709B35 90                      nop
+
+
+
+
+PvM Missile:
+
+:0042F424 7504                    		jne 0042F42A
+:0042F426 8365F000                		and dword ptr [ebp-10], 00000000			Always hit
+	into:
+:0042F424 0F84A1010000                    	je 0042F5CB					Never hit

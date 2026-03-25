@@ -1,0 +1,68 @@
+Character screen now displays precise ToHit info
+Now it takes CLVL into account
+
+	New code:
+
+:00405D7B E950123000              jmp 00706FD0
+:00405D80 90                      nop
+:00405D81 90                      nop
+:00405D82 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706FE1(U)
+|
+:00405D83 8D44081E                lea eax, dword ptr [eax+ecx+1E]
+:00405D87 50                      push eax
+:00405D88 8D45B0                  lea eax, dword ptr [ebp-50]
+
+
+
+	Extra code:
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00405D7B(U)
+|
+:00706FD0 51                      push ecx
+:00706FD1 0FBE88B8010000          movsx ecx, byte ptr [eax+000001B8]
+:00706FD8 8B8074010000            mov eax, dword ptr [eax+00000174]
+:00706FDE 03C1                    add eax, ecx
+:00706FE0 59                      pop ecx
+:00706FE1 E99DEDCFFF              jmp 00405D83
+:00706FE6 90                      nop
+:00706FE7 90                      nop
+:00706FE8 90                      nop
+:00706FE9 90                      nop
+:00706FEA 90                      nop
+:00706FEB 90                      nop
+:00706FEC 90                      nop
+:00706FED 90                      nop
+:00706FEE 90                      nop
+:00706FEF 90                      nop
+
+
+
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+
+	Old:
+
+:00405D7B 8B8074010000            mov eax, dword ptr [eax+00000174]
+:00405D81 90                      nop
+:00405D82 90                      nop
+:00405D83 8D44081E                lea eax, dword ptr [eax+ecx+1E]
+:00405D87 50                      push eax
+:00405D88 8D45B0                  lea eax, dword ptr [ebp-50]
+
+
+>>>>>>>>>>>
+
+
+push ecx
+movsx ecx, byte ptr [eax+000001B8]
+mov eax, dword ptr [eax+00000174]
+add eax, ecx
+pop ecx
+lea eax, dword ptr [eax+ecx+1E]
+push eax
+lea eax, dword ptr [ebp-50]
+
+___________________________________________

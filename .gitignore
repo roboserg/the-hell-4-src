@@ -1,0 +1,10 @@
+Debug
+thehell2.vcxproj.user
+thehell2.vNext.vcxproj.user
+personal.props
+.vs
+.idea
+cmake-build-*/
+Cheats/
+Release/
+/src/thehell3.rc

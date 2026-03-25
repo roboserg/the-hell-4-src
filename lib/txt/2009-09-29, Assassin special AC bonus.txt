@@ -1,0 +1,11 @@
+Assassin receives additional CLVL/2 bonus to AC when wearing Plate class armors:
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708297(C)
+|
+:0070A140 80B86001000004          cmp byte ptr [eax+00000160], 04
+:0070A147 0F8517A3D1FF            jne 00424464
+:0070A14D 0FBE90B8010000          movsx edx, byte ptr [eax+000001B8]
+:0070A154 C1FA01                  sar edx, 01
+:0070A157 E902A3D1FF              jmp 0042445E

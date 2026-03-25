@@ -1,0 +1,212 @@
+
+	Previous code:
+:0046C0EC 69C9C8550000            imul ecx, 000055C8
+:0046C0F2 A114AE6E00              mov eax, dword ptr [006EAE14]
+:0046C0F7 895D18                  mov dword ptr [ebp+18], ebx
+:0046C0FA 03C1                    add eax, ecx
+:0046C0FC 83FA06                  cmp edx, 00000006
+:0046C0FF 8B4870                  mov ecx, dword ptr [eax+70]
+:0046C102 894DF8                  mov dword ptr [ebp-08], ecx
+:0046C105 7405                    je 0046C10C
+:0046C107 83FA28                  cmp edx, 00000028
+:0046C10A 7509                    jne 0046C115
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0046C105(C)
+|
+:0046C10C 8B80DC010000            mov eax, dword ptr [eax+000001DC]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0046C0EA(U)
+|
+:0046C112 8945F8                  mov dword ptr [ebp-08], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0046C0DC(C), :0046C10A(C)
+|
+:0046C115 6BD238                  imul edx, 00000038
+
+
+	Mod:
+:0046C0FC 8B4870                  mov ecx, dword ptr [eax+70]
+:0046C0FF 894DF8                  mov dword ptr [ebp-08], ecx
+:0046C102 E9B9A22900              jmp 007063C0
+:0046C107 83FA28                  cmp edx, 00000028
+:0046C10A 7509                    jne 0046C115
+:0046C10C 8B80DC010000            mov eax, dword ptr [eax+000001DC]
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0046C0EA(U)
+|
+:0046C112 8945F8                  mov dword ptr [ebp-08], eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0046C0DC(C), :0046C10A(C), :0070643C(U)
+|
+:0046C115 6BD238                  imul edx, 00000038
+
+	Extra:
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0046C102(U)
+|
+:007063C0 83FA06                  cmp edx, 00000006
+:007063C3 741B                    je 007063E0
+:007063C5 83FA28                  cmp edx, 00000028
+:007063C8 7412                    je 007063DC
+:007063CA 83FA13                  cmp edx, 00000013
+:007063CD 7411                    je 007063E0
+:007063CF 83FA11                  cmp edx, 00000011
+:007063D2 7408                    je 007063DC
+:007063D4 EB66                    jmp 0070643C
+:007063D6 90                      nop
+:007063D7 90                      nop
+:007063D8 90                      nop
+:007063D9 90                      nop
+:007063DA 90                      nop
+:007063DB 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007063C8(C), :007063D2(C)
+|
+:007063DC 6A46                    push 00000046
+:007063DE EB02                    jmp 007063E2
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007063C3(C), :007063CD(C)
+|
+:007063E0 6A05                    push 00000005
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007063DE(U)
+|
+:007063E2 8B80DC010000            mov eax, dword ptr [eax+000001DC]
+:007063E8 8945F8                  mov dword ptr [ebp-08], eax
+:007063EB 8B75FC                  mov esi, dword ptr [ebp-04]
+:007063EE 5F                      pop edi
+:007063EF A148D06900              mov eax, dword ptr [0069D048]
+:007063F4 85C0                    test eax, eax
+:007063F6 7E44                    jle 0070643C
+:007063F8 53                      push ebx
+:007063F9 8BD8                    mov ebx, eax
+:007063FB B968766900              mov ecx, 00697668
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00706439(C)
+|
+:00706400 8B01                    mov eax, dword ptr [ecx]
+:00706402 69C0B0000000            imul eax, 000000B0
+:00706408 39B8587A6900            cmp dword ptr [eax+00697A58], edi
+:0070640E 7525                    jne 00706435
+:00706410 83FF11                  cmp edi, 00000011
+:00706413 740D                    je 00706422
+:00706415 83FF02                  cmp edi, 00000002
+:00706418 7408                    je 00706422
+:0070641A 39B0CC7A6900            cmp dword ptr [eax+00697ACC], esi
+:00706420 7513                    jne 00706435
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00706413(C), :00706418(C)
+|
+:00706422 52                      push edx
+:00706423 6A0F                    push 0000000F
+:00706425 5A                      pop edx
+:00706426 3990C87A6900            cmp dword ptr [eax+00697AC8], edx
+:0070642C 7E06                    jle 00706434
+:0070642E 8990C87A6900            mov dword ptr [eax+00697AC8], edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070642C(C)
+|
+:00706434 5A                      pop edx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0070640E(C), :00706420(C)
+|
+:00706435 83C104                  add ecx, 00000004
+:00706438 4B                      dec ebx
+:00706439 75C5                    jne 00706400
+:0070643B 5B                      pop ebx
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:007063D4(U), :007063F6(C)
+|
+:0070643C E9D45CD6FF              jmp 0046C115
+
+
+
+
+===============================================================================================================
+===============================================================================================================
+
+TD53 code:
+
+Casting Fire Wall, Lightning Wall, Sanctuary or Guardian will terminate all previous instances of those spells. Walls from different casters can coexist.
+
+Modifying SpellCast routine:
+
+file offset 0006B4FC
+
+:0046C0FC 83FA06                  cmp edx, 00000006
+:0046C0FF 8B4870                  mov ecx, dword ptr [eax+70]
+:0046C102 894DF8                  mov dword ptr [ebp-08], ecx
+:0046C105 7405                    je 0046C10C
+:0046C107 83FA28                  cmp edx, 00000028
+:0046C10A 7509                    jne 0046C115
+:0046C10C 8B80DC010000            mov eax, dword ptr [eax+000001DC]
+changed into
+:0046C0FC 8B4870                  mov ecx, dword ptr [eax+70]
+:0046C0FF 894DF8                  mov dword ptr [ebp-08], ecx
+:0046C102 E99469FEFF              jmp 00452A9B
+
+
+
+file offset 00051E9B
+
+:00452A9B 83FA06                  cmp edx, 00000006	Fire Wall
+:00452A9E 741B                    je 00452ABB
+:00452AA0 83FA28                  cmp edx, 00000028	Lightning Wall
+:00452AA3 7412                    je 00452AB7
+:00452AA5 83FA0D                  cmp edx, 0000000D	Guardian
+:00452AA8 7409                    je 00452AB3
+:00452AAA 83FA20                  cmp edx, 00000020	Sanctuary
+:00452AAD 7568                    jne 00452B17
+:00452AAF 6A11                    push 00000011		Sanctuary flame spell effect
+:00452AB1 EB16                    jmp 00452AC9
+:00452AB3 6A02                    push 00000002		Guardian spell effect
+:00452AB5 EB12                    jmp 00452AC9
+:00452AB7 6A46                    push 00000046		Lightning Wall patch spell effect
+:00452AB9 EB02                    jmp 00452ABD
+:00452ABB 6A05                    push 00000005		Fire Wall patch spell effect
+:00452ABD 8B80DC010000            mov eax, dword ptr [eax+000001DC]
+:00452AC3 8945F8                  mov dword ptr [ebp-08], eax
+:00452AC6 8B75FC                  mov esi, dword ptr [ebp-04]
+:00452AC9 5F                      pop edi
+:00452ACA A148D06900              mov eax, dword ptr [0069D048]		<- active spell effect ?
+:00452ACF 85C0                    test eax, eax				<- test if spell effect is active?
+:00452AD1 7E44                    jle 00452B17
+:00452AD3 53                      push ebx
+:00452AD4 8BD8                    mov ebx, eax
+:00452AD6 B968766900              mov ecx, 00697668			<- ECX = base character pointer ???
+:00452ADB 8B01                    mov eax, dword ptr [ecx]
+:00452ADD 69C0B0000000            imul eax, 000000B0
+:00452AE3 39B8587A6900            cmp dword ptr [eax+00697A58], edi
+:00452AE9 7525                    jne 00452B10
+:00452AEB 83FF11                  cmp edi, 00000011
+:00452AEE 740D                    je 00452AFD
+:00452AF0 83FF02                  cmp edi, 00000002
+:00452AF3 7408                    je 00452AFD
+:00452AF5 39B0CC7A6900            cmp dword ptr [eax+00697ACC], esi
+:00452AFB 7513                    jne 00452B10
+:00452AFD 52                      push edx
+:00452AFE 6A0F                    push 0000000F		smallest time needed for Guardian to finish animation
+:00452B00 5A                      pop edx
+:00452B01 3990C87A6900            cmp dword ptr [eax+00697AC8], edx
+:00452B07 7E06                    jle 00452B0F
+:00452B09 8990C87A6900            mov dword ptr [eax+00697AC8], edx
+:00452B0F 5A                      pop edx
+:00452B10 83C104                  add ecx, 00000004
+:00452B13 4B                      dec ebx
+:00452B14 75C5                    jne 00452ADB
+:00452B16 5B                      pop ebx
+:00452B17 E9F9950100              jmp 0046C115			<- continue code
+:00452B1C 90                      nop

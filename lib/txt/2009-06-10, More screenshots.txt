@@ -1,0 +1,113 @@
+100 -> 10000
+
+
+1
+:00403608 81EC28280000            sub esp, 00002828
+
+
+
+2
+:00403613 E9B8593000              jmp 00708FD0
+
+
+
+
+3
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00403613(U)
+|
+:00708FD0 6810270000              push 00002710
+:00708FD5 8D85D8D7FFFF            lea eax, dword ptr [ebp+FFFFD7D8]
+:00708FDB 53                      push ebx
+:00708FDC 8BF9                    mov edi, ecx
+:00708FDE 50                      push eax
+:00708FDF E8EC0CD7FF              call 00479CD0
+:00708FE4 83C40C                  add esp, 0000000C
+:00708FE7 8D85E8FEFFFF            lea eax, dword ptr [ebp+FFFFFEE8]
+:00708FED 50                      push eax
+:00708FEE 68D0934800              push 004893D0
+:00708FF3 E8280ED7FF              call 00479E20
+:00708FF8 8BF0                    mov esi, eax
+:00708FFA 59                      pop ecx
+:00708FFB 83FEFF                  cmp esi, FFFFFFFF
+:00708FFE 59                      pop ecx
+:00708FFF 0F849E000000            je 007090A3
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0070909D(C)
+|
+:00709005 0FBE8502FFFFFF          movsx eax, byte ptr [ebp+FFFFFF02]
+:0070900C 50                      push eax
+:0070900D E8EE10D7FF              call 0047A100
+:00709012 85C0                    test eax, eax
+:00709014 59                      pop ecx
+:00709015 0F8471000000            je 0070908C
+:0070901B 0FBE8503FFFFFF          movsx eax, byte ptr [ebp+FFFFFF03]
+:00709022 50                      push eax
+:00709023 E8D810D7FF              call 0047A100
+:00709028 85C0                    test eax, eax
+:0070902A 59                      pop ecx
+:0070902B 745F                    je 0070908C
+:0070902D 0FBE8504FFFFFF          movsx eax, byte ptr [ebp+FFFFFF04]
+:00709034 50                      push eax
+:00709035 E8C610D7FF              call 0047A100
+:0070903A 85C0                    test eax, eax
+:0070903C 59                      pop ecx
+:0070903D 744D                    je 0070908C
+:0070903F 0FBE8505FFFFFF          movsx eax, byte ptr [ebp+FFFFFF05]
+:00709046 50                      push eax
+:00709047 E8B410D7FF              call 0047A100
+:0070904C 85C0                    test eax, eax
+:0070904E 59                      pop ecx
+:0070904F 743B                    je 0070908C
+:00709051 0FBE8D05FFFFFF          movsx ecx, byte ptr [ebp+FFFFFF05]
+:00709058 0FBE8502FFFFFF          movsx eax, byte ptr [ebp+FFFFFF02]
+:0070905F 69C0E8030000            imul eax, 000003E8
+:00709065 03C8                    add ecx, eax
+:00709067 0FBE8503FFFFFF          movsx eax, byte ptr [ebp+FFFFFF03]
+:0070906E 6BC064                  imul eax, 00000064
+:00709071 03C8                    add ecx, eax
+:00709073 0FBE8504FFFFFF          movsx eax, byte ptr [ebp+FFFFFF04]
+:0070907A 8D0480                  lea eax, dword ptr [eax+4*eax]
+:0070907D 8D8445D8D7FFFF          lea eax, dword ptr [ebp+2*eax-00002828]
+:00709084 C68408B02FFFFF01        mov byte ptr [eax+ecx-0000D050], 01
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:00709015(C), :0070902B(C), :0070903D(C), :0070904F(C)
+|
+:0070908C 8D85E8FEFFFF            lea eax, dword ptr [ebp+FFFFFEE8]
+:00709092 50                      push eax
+:00709093 56                      push esi
+:00709094 E8B70ED7FF              call 00479F50
+:00709099 59                      pop ecx
+:0070909A 85C0                    test eax, eax
+:0070909C 59                      pop ecx
+:0070909D 0F8462FFFFFF            je 00709005
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:00708FFF(C)
+|
+:007090A3 33C0                    xor eax, eax
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007090B4(C)
+|
+:007090A5 389C05D8D7FFFF          cmp byte ptr [ebp+eax-00002828], bl
+:007090AC 7410                    je 007090BE
+:007090AE 40                      inc eax
+:007090AF 3D10270000              cmp eax, 00002710
+:007090B4 7CEF                    jl 007090A5
+:007090B6 83C8FF                  or eax, FFFFFFFF
+:007090B9 5F                      pop edi
+:007090BA 5E                      pop esi
+:007090BB 5B                      pop ebx
+:007090BC C9                      leave
+:007090BD C3                      ret
+
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:007090AC(C)
+|
+:007090BE 50                      push eax
+:007090BF E9E5A5CFFF              jmp 004036A9

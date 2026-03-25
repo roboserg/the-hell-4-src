@@ -1,0 +1,146 @@
+Free Space (55) made at the obsolete Hork Demon's Amulet Drop Code:
+________________________________
+WAS (1.56L_96)
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043D500(C), :0043D50E(C)
+|
+:0043D52D 8B86D8000000            mov eax, dword ptr [esi+000000D8]
+:0043D533 3B05E4094B00            cmp eax, dword ptr [004B09E4]
+:0043D539 752A                    jne 0043D565
+:0043D53B B9DD030000              mov ecx, 000003DD
+:0043D540 E806ADFDFF              call 0041824B
+:0043D545 85C0                    test eax, eax
+:0043D547 7405                    je 0043D54E
+:0043D549 E82AADFDFF              call 00418278
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D547(C)
+|
+:0043D54E 8325A0B56E0000          and dword ptr [006EB5A0], 00000000
+:0043D555 8B5624                  mov edx, dword ptr [esi+24]
+:0043D558 8B4E20                  mov ecx, dword ptr [esi+20]
+:0043D55B E801A9FEFF              call 00427E61
+:0043D560 E9EC000000              jmp 0043D651
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D539(C)									> only addressed from 43d539, it's previous check, should be repointered to the next after Hork check, skipping him completely
+|
+:0043D565 3B05C4094B00            cmp eax, dword ptr [004B09C4]		check for Hork Demon boss slot ???
+:0043D56B EB2F                    jmp 0043D59C
+:0043D56D 33DB                    xor ebx, ebx
+:0043D56F 381DD4535700            cmp byte ptr [005753D4], bl			check for Theo Quest
+:0043D575 7410                    je 0043D587
+:0043D577 8B5624                  mov edx, dword ptr [esi+24]
+:0043D57A 8B4E20                  mov ecx, dword ptr [esi+20]
+:0043D57D E8FBA8FEFF              call 00427E7D				create the amulet ??
+:0043D582 E9CA000000              jmp 0043D651
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D575(C)
+|
+:0043D587 8B5624                  mov edx, dword ptr [esi+24]
+:0043D58A 8B4E20                  mov ecx, dword ptr [esi+20]
+:0043D58D 6A01                    push 00000001
+:0043D58F 53                      push ebx
+:0043D590 6A0D                    push 0000000D
+:0043D592 E845E3FEFF              call 0042B8DC
+:0043D597 E9B5000000              jmp 0043D651
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D56B(U)
+|
+:0043D59C 8B86DC000000            mov eax, dword ptr [esi+000000DC]
+
+
++ BECOMES >>>>>>>>>>>>>>>>>>
+
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043D500(C), :0043D50E(C)
+|
+:0043D52D 8B86D8000000            mov eax, dword ptr [esi+000000D8]
+:0043D533 3B05E4094B00            cmp eax, dword ptr [004B09E4]
+:0043D539 752A                    jne 0043D565						repointer to 43d59c, skipping Hork's checker
+:0043D53B B9DD030000              mov ecx, 000003DD
+:0043D540 E806ADFDFF              call 0041824B
+:0043D545 85C0                    test eax, eax
+:0043D547 7405                    je 0043D54E
+:0043D549 E82AADFDFF              call 00418278
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D547(C)
+|
+:0043D54E 8325A0B56E0000          and dword ptr [006EB5A0], 00000000
+:0043D555 8B5624                  mov edx, dword ptr [esi+24]
+:0043D558 8B4E20                  mov ecx, dword ptr [esi+20]
+:0043D55B E801A9FEFF              call 00427E61
+:0043D560 E9EC000000              jmp 0043D651
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D539(C)
+|
+:0043D565 3B05C4094B00            cmp eax, dword ptr [004B09C4]			nop from here til 43d59c
+:0043D56B EB2F                    jmp 0043D59C
+:0043D56D 33DB                    xor ebx, ebx
+:0043D56F 381DD4535700            cmp byte ptr [005753D4], bl
+:0043D575 7410                    je 0043D587
+:0043D577 8B5624                  mov edx, dword ptr [esi+24]
+:0043D57A 8B4E20                  mov ecx, dword ptr [esi+20]
+:0043D57D E8FBA8FEFF              call 00427E7D
+:0043D582 E9CA000000              jmp 0043D651
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D575(C)
+|
+:0043D587 8B5624                  mov edx, dword ptr [esi+24]
+:0043D58A 8B4E20                  mov ecx, dword ptr [esi+20]
+:0043D58D 6A01                    push 00000001
+:0043D58F 53                      push ebx
+:0043D590 6A0D                    push 0000000D
+:0043D592 E845E3FEFF              call 0042B8DC
+:0043D597 E9B5000000              jmp 0043D651
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D56B(U)
+|
+:0043D59C 8B86DC000000            mov eax, dword ptr [esi+000000DC]			< other stuff.. should be kept for now, and check later if needed.......
+
+
+INTO:
+NOW (1.56L_97)
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Addresses:
+|:0043D500(C), :0043D50E(C)
+|
+:0043D52D 8B86D8000000            mov eax, dword ptr [esi+000000D8]
+:0043D533 3B05E4094B00            cmp eax, dword ptr [004B09E4]
+:0043D539 7561                    jne 0043D59C
+:0043D53B B9DD030000              mov ecx, 000003DD
+:0043D540 E806ADFDFF              call 0041824B
+:0043D545 85C0                    test eax, eax
+:0043D547 7405                    je 0043D54E
+:0043D549 E82AADFDFF              call 00418278
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D547(C)
+|
+:0043D54E 8325A0B56E0000          and dword ptr [006EB5A0], 00000000
+:0043D555 8B5624                  mov edx, dword ptr [esi+24]
+:0043D558 8B4E20                  mov ecx, dword ptr [esi+20]
+:0043D55B E801A9FEFF              call 00427E61
+:0043D560 E9EC000000              jmp 0043D651
+:0043D565 90                      nop
+.......... to ..........
+:0043D59B 90                      nop
+
+* Referenced by a (U)nconditional or (C)onditional Jump at Address:
+|:0043D539(C)
+|
+:0043D59C 8B86DC000000            mov eax, dword ptr [esi+000000DC]
+
+======================
+======================
+======================
+
+Now I have free space: from 43d565 to 43d59b (55 bytes)
